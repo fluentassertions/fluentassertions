@@ -111,16 +111,54 @@ namespace FluentAssertions
                 return new AndConstraint<ObjectAssertions>(this);
             }
 
+            /// <summary>
+            /// Asserts that the object is assignable to a variable of type <typeparamref name="T"/>.
+            /// </summary>
+            /// <typeparam name="T">The type to which the object should be assignable.</typeparam>
+            /// <returns>An <see cref="AndConstraint"/> which can be use to chain assertions.</returns>
             public AndConstraint<ObjectAssertions> BeAssignableTo<T>()
             {
                 return BeAssignableTo<T>(string.Empty);
             }
 
+            /// <summary>
+            /// Asserts that the object is assignable to a variable of type <typeparamref name="T"/>.
+            /// </summary>
+            /// <typeparam name="T">The type to which the object should be assignable.</typeparam>
+            /// <param name="reason">The reason why the object should be assignable to the type.</param>
+            /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
+            /// <returns>An <see cref="AndConstraint"/> which can be use to chain assertions.</returns>
             public AndConstraint<ObjectAssertions> BeAssignableTo<T>(string reason, params object[] reasonParameters)
             {
                 AssertThat(() => typeof(T).IsAssignableFrom(actualValue.GetType()),
-                           "Expected to be assignable to <{0}>{2}, but <{1}> does not implement <{0}>", typeof (T),
+                           "Expected to be assignable to <{0}>{2}, but <{1}> does not implement <{0}>", typeof(T),
                            actualValue.GetType(), reason, reasonParameters);
+
+                return new AndConstraint<ObjectAssertions>(this);
+            }
+
+            /// <summary>
+            /// Asserts that the <paramref name="predicate"/> is statisfied.
+            /// </summary>
+            /// <param name="predicate">The predicate which must be satisfied by the object.</param>
+            /// <returns>An <see cref="AndConstraint"/> which can be use to chain assertions.</returns>
+            public AndConstraint<ObjectAssertions> Satisfy(Predicate<object> predicate)
+            {
+                return Satisfy(predicate, string.Empty);
+            }
+
+            /// <summary>
+            /// Asserts that the <paramref name="predicate" /> is satisfied.
+            /// </summary>
+            /// <param name="predicate">The predicate which must be statisfied by the object.</param>
+            /// <param name="reason">The reason why the predicate should be satisfied.</param>
+            /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
+            /// <returns>An <see cref="AndConstraint"/> which can be use to chain assertions.</returns>
+            public AndConstraint<ObjectAssertions> Satisfy(Predicate<object> predicate, string reason, params object[] reasonParameters)
+            {
+                AssertThat(() => predicate(actualValue),
+                           "Expected to satisfy predicate{2}, but predicate not satisfied by {1}",
+                           predicate, actualValue, reason, reasonParameters);
 
                 return new AndConstraint<ObjectAssertions>(this);
             }

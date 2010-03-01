@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -7,7 +8,7 @@ namespace FluentAssertions
 {
     public static partial class CustomAssertionExtensions
     {
-        //[DebuggerNonUserCode]
+        [DebuggerNonUserCode]
         public abstract class Assertions
         {
             /// <summary>
@@ -132,10 +133,8 @@ namespace FluentAssertions
                 {
                     return string.Join(", ", enumerable.Cast<object>().Select(o => o.ToString()).ToArray());
                 }
-                else
-                {
-                    return expected;
-                }
+                
+                return expected;
             }
 
             private static string SanitizeReason(string reason, object[] reasonParameters)
@@ -148,11 +147,9 @@ namespace FluentAssertions
                     }
 
                     return " " + string.Format(reason, reasonParameters);
-                } 
-                else
-                {
-                    return "";    
                 }
+                
+                return "";
             }
         }
     }
