@@ -15,7 +15,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_object_to_be_equal_to_non_equal_object()
         {
             var someObject = new ClassWithCustomEqualMethod(1);
@@ -44,7 +44,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_object_not_to_be_equal_to_equal_object()
         {
             var someObject = new ClassWithCustomEqualMethod(1);
@@ -72,7 +72,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_object_to_be_the_same_as_a_different_object()
         {
             var someObject = new ClassWithCustomEqualMethod(1);
@@ -100,7 +100,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_object_to_not_be_the_same_as_the_same_object()
         {
             var someObject = new ClassWithCustomEqualMethod(1);
@@ -127,7 +127,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_non_null_object_to_be_null()
         {
             var someObject = new object();
@@ -152,7 +152,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_null_object_not_to_be_null()
         {
             object someObject = null;
@@ -177,7 +177,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_object_type_to_be_equal_to_a_different_type()
         {
             var someObject = new object();
@@ -193,6 +193,39 @@ namespace FluentAssertions.specs
                 .Exception<AssertFailedException>().And
                 .WithMessage(
                 "Expected type <System.Exception> because we want to test the failure message, but found <System.Object>.");
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_object_assignable_to_for_same_type()
+        {
+            var someObject = new DummyImplementingClass();
+            someObject.Should().BeAssignableTo<DummyImplementingClass>();
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_object_assignable_to_base_type()
+        {
+            var someObject = new DummyImplementingClass();
+            someObject.Should().BeAssignableTo<DummyBaseClass>();
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_object_assignable_to_implemented_interface_type()
+        {
+            var someObject = new DummyImplementingClass();
+            someObject.Should().BeAssignableTo<IDisposable>();
+        }
+
+        [TestMethod]
+        public void Should_fail_with_descriptive_message_when_asserting_object_assignable_to_not_implemented_type()
+        {
+            var someObject = new DummyImplementingClass();
+
+            someObject.ShouldThrow(x => x.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message"))
+                .Exception<AssertFailedException>()
+                .And.WithMessage(string.Format(
+                "Expected to be assignable to <{1}> because we want to test the failure message, but <{0}> does not implement <{1}>",
+                typeof (DummyImplementingClass), typeof (DateTime)));
         }
 
         [TestMethod]
@@ -234,9 +267,9 @@ namespace FluentAssertions.specs
                     return false;
                 if (ReferenceEquals(this, obj))
                     return true;
-                if (obj.GetType() != typeof (ClassWithCustomEqualMethod))
+                if (obj.GetType() != typeof(ClassWithCustomEqualMethod))
                     return false;
-                return Equals((ClassWithCustomEqualMethod) obj);
+                return Equals((ClassWithCustomEqualMethod)obj);
             }
 
             public override int GetHashCode()
@@ -268,5 +301,15 @@ namespace FluentAssertions.specs
         }
 
         #endregion
+
+        private class DummyBaseClass { }
+
+        private class DummyImplementingClass : DummyBaseClass, IDisposable
+        {
+            public void Dispose()
+            {
+                // Ignore
+            }
+        }
     }
 }

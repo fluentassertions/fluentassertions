@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions
@@ -106,6 +107,20 @@ namespace FluentAssertions
             {
                 AssertThat(() => Assert.IsInstanceOfType(actualValue, typeof(T)),
                            "Expected type <{0}>{2}, but found <{1}>.", typeof(T), actualValue.GetType(), reason, reasonParameters);
+
+                return new AndConstraint<ObjectAssertions>(this);
+            }
+
+            public AndConstraint<ObjectAssertions> BeAssignableTo<T>()
+            {
+                return BeAssignableTo<T>(string.Empty);
+            }
+
+            public AndConstraint<ObjectAssertions> BeAssignableTo<T>(string reason, params object[] reasonParameters)
+            {
+                AssertThat(() => typeof(T).IsAssignableFrom(actualValue.GetType()),
+                           "Expected to be assignable to <{0}>{2}, but <{1}> does not implement <{0}>", typeof (T),
+                           actualValue.GetType(), reason, reasonParameters);
 
                 return new AndConstraint<ObjectAssertions>(this);
             }
