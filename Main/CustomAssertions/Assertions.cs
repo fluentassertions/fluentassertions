@@ -9,8 +9,38 @@ namespace FluentAssertions
     public static partial class CustomAssertionExtensions
     {
         [DebuggerNonUserCode]
-        public abstract class Assertions
+        public abstract class Assertions<TSubject, TAssertions>
+            where TAssertions : Assertions<TSubject, TAssertions>
         {
+            protected TSubject ActualValue;
+
+            /// <summary>
+            /// Asserts that the <paramref name="predicate"/> is statisfied.
+            /// </summary>
+            /// <param name="predicate">The predicate which must be satisfied by the <typeparamref name="TSubject"/>.</param>
+            /// <returns>An <see cref="AndConstraint"/> which can be use to chain assertions.</returns>
+            public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<object> predicate)
+            {
+                return Satisfy(predicate, string.Empty);
+            }
+
+            /// <summary>
+            /// Asserts that the <paramref name="predicate" /> is satisfied.
+            /// </summary>
+            /// <param name="predicate">The predicate which must be statisfied by the <typeparamref name="TSubject"/>.</param>
+            /// <param name="reason">The reason why the predicate should be satisfied.</param>
+            /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
+            /// <returns>An <see cref="AndConstraint"/> which can be use to chain assertions.</returns>
+            public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<object> predicate, string reason,
+                params object[] reasonParameters)
+            {
+                AssertThat(() => predicate(ActualValue),
+                           "Expected to satisfy predicate{2}, but predicate not satisfied by {1}",
+                           predicate, ActualValue, reason, reasonParameters);
+
+                return new AndConstraint<Assertions<TSubject, TAssertions>>(this);
+            }
+
             /// <summary>
             /// Asserts that the supplied <paramref name="condition"/> is met.
             /// Throws an <see cref="AssertFailedException"/> when the condition is not met.
@@ -133,7 +163,7 @@ namespace FluentAssertions
                 {
                     return string.Join(", ", enumerable.Cast<object>().Select(o => o.ToString()).ToArray());
                 }
-                
+
                 return expected;
             }
 
@@ -148,7 +178,7 @@ namespace FluentAssertions
 
                     return " " + string.Format(reason, reasonParameters);
                 }
-                
+
                 return "";
             }
         }

@@ -9,16 +9,14 @@ namespace FluentAssertions
         #region Nested type: StringAssertions
 
         [DebuggerNonUserCode]
-        public class StringAssertions : Assertions
+        public class StringAssertions : Assertions<string, StringAssertions>
         {
-            private readonly string actualValue;
-
             /// <summary>
             /// Initializes a new instance of the <see cref="T:System.Object"/> class.
             /// </summary>
             internal StringAssertions(string value)
             {
-                actualValue = value;
+                ActualValue = value;
             }
 
             public AndConstraint<StringAssertions> Equal(string expected)
@@ -28,8 +26,8 @@ namespace FluentAssertions
 
             public AndConstraint<StringAssertions> Equal(string expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => (actualValue == expected),
-                           "Expected <{0}>{2}, but found <{1}>.", expected, actualValue, reason, reasonParameters);
+                AssertThat(() => (ActualValue == expected),
+                           "Expected <{0}>{2}, but found <{1}>.", expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
             }
@@ -47,8 +45,8 @@ namespace FluentAssertions
             /// </summary>
             public AndConstraint<StringAssertions> BeEquivalentTo(string expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => (String.Compare(actualValue, expected, true, CultureInfo.CurrentCulture) == 0),
-                           "Expected string equivalent to <{0}>{2}, but found <{1}>.", expected, actualValue, reason, reasonParameters);
+                AssertThat(() => (String.Compare(ActualValue, expected, true, CultureInfo.CurrentCulture) == 0),
+                           "Expected string equivalent to <{0}>{2}, but found <{1}>.", expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
             }
@@ -60,8 +58,8 @@ namespace FluentAssertions
 
             public AndConstraint<StringAssertions> NotEqual(string expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => (actualValue != expected),
-                           "Did not expect <{0}>{2}.", expected, actualValue, reason, reasonParameters);
+                AssertThat(() => (ActualValue != expected),
+                           "Did not expect <{0}>{2}.", expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
             }
@@ -73,8 +71,8 @@ namespace FluentAssertions
 
             public AndConstraint<StringAssertions> StartWith(string expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => actualValue.StartsWith(expected),
-                           "Expected string starting with <{0}>{2}, but found <{1}>.", expected, actualValue, reason, reasonParameters);
+                AssertThat(() => ActualValue.StartsWith(expected),
+                           "Expected string starting with <{0}>{2}, but found <{1}>.", expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
             }
@@ -87,8 +85,8 @@ namespace FluentAssertions
             public AndConstraint<StringAssertions> StartWithEquivalent(string expected, string reason,
                                                                        params object[] reasonParameters)
             {
-                AssertThat(() => actualValue.StartsWith(expected, StringComparison.CurrentCultureIgnoreCase),
-                           "Expected string starting with equivalent of <{0}>{2}, but found <{1}>.", expected, actualValue, reason,
+                AssertThat(() => ActualValue.StartsWith(expected, StringComparison.CurrentCultureIgnoreCase),
+                           "Expected string starting with equivalent of <{0}>{2}, but found <{1}>.", expected, ActualValue, reason,
                            reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
@@ -101,8 +99,8 @@ namespace FluentAssertions
 
             public AndConstraint<StringAssertions> EndWith(string expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => actualValue.EndsWith(expected),
-                           "Expected string ending with <{0}>{2}, but found <{1}>.", expected, actualValue, reason, reasonParameters);
+                AssertThat(() => ActualValue.EndsWith(expected),
+                           "Expected string ending with <{0}>{2}, but found <{1}>.", expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
             }
@@ -115,8 +113,8 @@ namespace FluentAssertions
             public AndConstraint<StringAssertions> EndWithEquivalent(string expected, string reason,
                                                                      params object[] reasonParameters)
             {
-                AssertThat(() => actualValue.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase),
-                           "Expected string ending with equivalent of <{0}>{2}, but found <{1}>.", expected, actualValue, reason,
+                AssertThat(() => ActualValue.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase),
+                           "Expected string ending with equivalent of <{0}>{2}, but found <{1}>.", expected, ActualValue, reason,
                            reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
@@ -129,8 +127,8 @@ namespace FluentAssertions
 
             public AndConstraint<StringAssertions> Contain(string expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => actualValue.Contains(expected),
-                           "Expected string containing <{0}>{2}, but found <{1}>.", expected, actualValue, reason,
+                AssertThat(() => ActualValue.Contains(expected),
+                           "Expected string containing <{0}>{2}, but found <{1}>.", expected, ActualValue, reason,
                            reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
@@ -143,8 +141,8 @@ namespace FluentAssertions
 
             public AndConstraint<StringAssertions> BeEmpty(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => (actualValue.Length == 0),
-                           "Expected empty string{2}, but found <{1}>.", null, actualValue, reason,
+                AssertThat(() => (ActualValue.Length == 0),
+                           "Expected empty string{2}, but found <{1}>.", null, ActualValue, reason,
                            reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
@@ -157,8 +155,8 @@ namespace FluentAssertions
 
             public AndConstraint<StringAssertions> NotBeEmpty(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => (actualValue.Length > 0),
-                           "Did not expect empty string{2}.", null, actualValue, reason, reasonParameters);
+                AssertThat(() => (ActualValue.Length > 0),
+                           "Did not expect empty string{2}.", null, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
             }
@@ -170,8 +168,8 @@ namespace FluentAssertions
 
             public AndConstraint<StringAssertions> HaveLength(int expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => (actualValue.Length == expected),
-                           "Expected string with length <{0}>{2}, but found string <{1}>.", expected, actualValue, reason, reasonParameters);
+                AssertThat(() => (ActualValue.Length == expected),
+                           "Expected string with length <{0}>{2}, but found string <{1}>.", expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
             }

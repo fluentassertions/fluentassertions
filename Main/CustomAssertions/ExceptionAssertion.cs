@@ -6,7 +6,7 @@ namespace FluentAssertions
     public static partial class CustomAssertionExtensions
     {
         [DebuggerNonUserCode]
-        public class ExceptionAssertions<T> : Assertions
+        public class ExceptionAssertions<T> : Assertions<Exception, ExceptionAssertions<T>>
         {
             private readonly Exception exception;
 
@@ -35,7 +35,7 @@ namespace FluentAssertions
 
                 AssertThat(exception is TException,
                            "Expected exception <{0}>{2}, but found <{1}>.",
-                           typeof (TException), exception.GetType(), reason, reasonParameters);
+                           typeof(TException), exception.GetType(), reason, reasonParameters);
 
                 return new AndConstraint<ExceptionAssertions<T>>(this);
             }
@@ -74,9 +74,9 @@ namespace FluentAssertions
                            "Expected inner exception <{0}>{2}, but the thrown exception has no inner exception.",
                            typeof(TInnerException), null, reason, reasonParameters);
 
-                AssertThat((exception.InnerException.GetType() == typeof (TInnerException)),
+                AssertThat((exception.InnerException.GetType() == typeof(TInnerException)),
                            "Expected inner exception <{0}>{2}, but found <{1}>.",
-                           typeof (TInnerException),
+                           typeof(TInnerException),
                            exception.InnerException.GetType(),
                            reason, reasonParameters);
 

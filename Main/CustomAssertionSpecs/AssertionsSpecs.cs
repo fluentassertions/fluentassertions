@@ -25,7 +25,28 @@ namespace FluentAssertions.specs
                 .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
         }
 
-        internal class AssertionsTestSubClass : CustomAssertionExtensions.Assertions
+        [TestMethod]
+        public void Should_succeed_when_asserting_object_satisfies_predicate_which_is_satisfied()
+        {
+            var someObject = new object();
+
+            someObject.Should().Satisfy(o => (o != null));
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_object_satisfies_predicate_which_is_not_statisfied()
+        {
+            var someObject = new object();
+            var assertions = someObject.Should();
+
+            assertions.ShouldThrow(x => x.Satisfy(y => (y == null), "because we want to test the failure {0}", "message"))
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
+                "Expected to satisfy predicate because we want to test the failure message, " +
+                "but predicate not satisfied by System.Object");
+        }
+
+        internal class AssertionsTestSubClass : CustomAssertionExtensions.Assertions<object,AssertionsTestSubClass>
         {
             public void AssertFail(string reason, params object[] reasonParameters)
             {
@@ -34,5 +55,3 @@ namespace FluentAssertions.specs
         }
     }
 }
-
-

@@ -229,27 +229,6 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_object_satisfies_predicate_which_is_satisfied()
-        {
-            var someObject = new object();
-
-            someObject.Should().Satisfy(o => (o is object));
-        }
-
-        [TestMethod]
-        public void Should_fail_when_asserting_object_satisfies_predicate_which_is_not_statisfied()
-        {
-            var someObject = new object();
-            var assertions = someObject.Should();
-
-            assertions.ShouldThrow(x => x.Satisfy(y => (y == null), "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
-                .And.WithMessage(
-                "Expected to satisfy predicate because we want to test the failure message, " +
-                "but predicate not satisfied by System.Object");
-        }
-
-        [TestMethod]
         public void Should_support_chaining_constraints_with_and()
         {
             var someObject = new Exception();
@@ -273,7 +252,7 @@ namespace FluentAssertions.specs
 
             private int Key { get; set; }
 
-            public bool Equals(ClassWithCustomEqualMethod other)
+            private bool Equals(ClassWithCustomEqualMethod other)
             {
                 if (ReferenceEquals(null, other))
                     return false;
