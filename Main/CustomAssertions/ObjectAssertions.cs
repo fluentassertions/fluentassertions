@@ -112,7 +112,7 @@ namespace FluentAssertions
             /// Asserts that the object is assignable to a variable of type <typeparamref name="T"/>.
             /// </summary>
             /// <typeparam name="T">The type to which the object should be assignable.</typeparam>
-            /// <returns>An <see cref="AndConstraint"/> which can be use to chain assertions.</returns>
+            /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
             public AndConstraint<ObjectAssertions> BeAssignableTo<T>()
             {
                 return BeAssignableTo<T>(string.Empty);
@@ -124,7 +124,7 @@ namespace FluentAssertions
             /// <typeparam name="T">The type to which the object should be assignable.</typeparam>
             /// <param name="reason">The reason why the object should be assignable to the type.</param>
             /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
-            /// <returns>An <see cref="AndConstraint"/> which can be use to chain assertions.</returns>
+            /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
             public AndConstraint<ObjectAssertions> BeAssignableTo<T>(string reason, params object[] reasonParameters)
             {
                 AssertThat(() => typeof(T).IsAssignableFrom(ActualValue.GetType()),

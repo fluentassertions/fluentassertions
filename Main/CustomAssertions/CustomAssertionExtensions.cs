@@ -15,6 +15,11 @@ namespace FluentAssertions
             return new ExceptionAssertions<T>(actualValue, action);
         }
 
+        public static ExceptionAssertions ShouldThrow(this Action action)
+        {
+            return new ExceptionAssertions(action);
+        }
+
         public static ObjectAssertions Should(this object actualValue)
         {
             return new ObjectAssertions(actualValue);

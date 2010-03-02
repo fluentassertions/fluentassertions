@@ -17,6 +17,14 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
+        public void When_action_throws_expected_exception_it_should_not_do_anything()
+        {
+            var act = new Action(() => { throw new InvalidOperationException("Some exception"); });
+
+            act.ShouldThrow().Exception<InvalidOperationException>();
+        }
+
+        [TestMethod]
         public void When_subject_throws_expected_exception_with_an_expected_message_it_should_not_do_anything()
         {
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
@@ -26,7 +34,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void When_subject_throws_expected_exception_but_with_unexpected_message_it_should_throw()
         {
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();

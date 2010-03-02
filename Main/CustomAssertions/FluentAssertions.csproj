@@ -60,7 +60,7 @@
     <Compile Include="CollectionAssertions.cs" />
     <Compile Include="CustomAssertionExtensions.cs" />
     <Compile Include="DateTimeAssertions.cs" />
-    <Compile Include="ExceptionAssertion.cs" />
+    <Compile Include="ExceptionAssertions.cs" />
     <Compile Include="NumericAssertions.cs" />
     <Compile Include="ObjectAssertions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
