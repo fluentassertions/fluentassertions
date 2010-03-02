@@ -11,9 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 	EndProjectSection
 EndProject
+Project("{00000000-0000-0000-0000-000000000000}") = "FluentAssertions.Silverlight3", "FluentAssertions.Silverlight3\FluentAssertions.Silverlight3.csproj", "{135391A1-B669-423F-8D8C-04B60DCFB8B1}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs05.codeplex.com/
 		SccLocalPath0 = .
@@ -23,6 +25,9 @@ Global
 		SccProjectUniqueName2 = CustomAssertionSpecs\\FluentAssertions.Specs.csproj
 		SccProjectName2 = CustomAssertionSpecs
 		SccLocalPath2 = CustomAssertionSpecs
+		SccProjectUniqueName3 = FluentAssertions.Silverlight3\\FluentAssertions.Silverlight3.csproj
+		SccProjectName3 = FluentAssertions.Silverlight3
+		SccLocalPath3 = FluentAssertions.Silverlight3
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = FluentAssertions.vsmdi
@@ -40,6 +45,10 @@ Global
 		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

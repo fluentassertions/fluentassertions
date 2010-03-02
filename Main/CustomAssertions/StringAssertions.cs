@@ -45,7 +45,7 @@ namespace FluentAssertions
             /// </summary>
             public AndConstraint<StringAssertions> BeEquivalentTo(string expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => (String.Compare(ActualValue, expected, true, CultureInfo.CurrentCulture) == 0),
+                AssertThat(() => (String.Compare(ActualValue, expected, StringComparison.CurrentCultureIgnoreCase) == 0),
                            "Expected string equivalent to <{0}>{2}, but found <{1}>.", expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<StringAssertions>(this);
