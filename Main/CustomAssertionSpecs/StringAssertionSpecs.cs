@@ -23,8 +23,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.Equal("DEF", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected <DEF> because we want to test the failure message, but found <ABC>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected <DEF> because we want to test the failure message, but found <ABC>.");
         }
 
         [TestMethod]
@@ -45,8 +45,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.NotEqual("ABC", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Did not expect <ABC> because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Did not expect <ABC> because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -67,8 +67,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.StartWith("BC", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected string starting with <BC> because we want to test the failure message, but found <ABC>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected string starting with <BC> because we want to test the failure message, but found <ABC>.");
         }
 
         [TestMethod]
@@ -89,8 +89,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.EndWith("AB", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected string ending with <AB> because we want to test the failure message, but found <ABC>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected string ending with <AB> because we want to test the failure message, but found <ABC>.");
         }
 
         [TestMethod]
@@ -111,8 +111,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.StartWithEquivalent("bc", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Expected string starting with equivalent of <bc> because we want to test the failure message, but found <ABC>.");
         }
 
@@ -134,8 +134,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.EndWithEquivalent("ab", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Expected string ending with equivalent of <ab> because we want to test the failure message, but found <ABC>.");
         }
 
@@ -157,8 +157,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABCDEF".Should();
             assertions.ShouldThrow(x => x.Contain("XYZ", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected string containing <XYZ> because we want to test the failure message, but found <ABCDEF>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected string containing <XYZ> because we want to test the failure message, but found <ABCDEF>.");
         }
 
         [TestMethod]
@@ -179,8 +179,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.BeEquivalentTo("def", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected string equivalent to <def> because we want to test the failure message, but found <ABC>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected string equivalent to <def> because we want to test the failure message, but found <ABC>.");
         }
 
         [TestMethod]
@@ -201,8 +201,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected empty string because we want to test the failure message, but found <ABC>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected empty string because we want to test the failure message, but found <ABC>.");
         }
 
         [TestMethod]
@@ -223,8 +223,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "".Should();
             assertions.ShouldThrow(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Did not expect empty string because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Did not expect empty string because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -245,8 +245,8 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Expected string with length <1> because we want to test the failure message, but found string <ABC>.");
         }
 

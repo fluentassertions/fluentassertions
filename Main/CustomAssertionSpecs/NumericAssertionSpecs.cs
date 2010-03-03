@@ -26,8 +26,8 @@ namespace FluentAssertions.specs
         {
             var assertions = (-1).Should();
             assertions.ShouldThrow(x => x.BePositive("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected positive value because we want to test the failure message, but found <-1>");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected positive value because we want to test the failure message, but found <-1>");
         }
 
         [TestMethod]
@@ -48,8 +48,8 @@ namespace FluentAssertions.specs
         {
             var assertions = (1).Should();
             assertions.ShouldThrow(x => x.BeNegative("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected negative value because we want to test the failure message, but found <1>");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected negative value because we want to test the failure message, but found <1>");
         }
 
         [TestMethod]
@@ -70,8 +70,8 @@ namespace FluentAssertions.specs
         {
             var assertions = 1.Should();
             assertions.ShouldThrow(x => x.Equal(2, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(@"Expected <2> because we want to test the failure message, but found <1>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage(@"Expected <2> because we want to test the failure message, but found <1>.");
         }
 
         [TestMethod]
@@ -92,8 +92,8 @@ namespace FluentAssertions.specs
         {
             var assertions = 1.Should();
             assertions.ShouldThrow(x => x.NotEqual(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(@"Did not expect <1> because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage(@"Did not expect <1> because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -121,8 +121,8 @@ namespace FluentAssertions.specs
         {
             var assertions = 2.Should();
             assertions.ShouldThrow(x => x.BeGreaterThan(3, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(@"Expected a value greater than <3> because we want to test the failure message, but found <2>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage(@"Expected a value greater than <3> because we want to test the failure message, but found <2>.");
         }
 
         [TestMethod]
@@ -149,8 +149,8 @@ namespace FluentAssertions.specs
         {
             var assertions = 2.Should();
             assertions.ShouldThrow(x => x.BeGreaterOrEqualTo(3, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(@"Expected a value greater or equal to <3> because we want to test the failure message, but found <2>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage(@"Expected a value greater or equal to <3> because we want to test the failure message, but found <2>.");
         }
 
         [TestMethod]
@@ -178,8 +178,8 @@ namespace FluentAssertions.specs
         {
             var assertions = 2.Should();
             assertions.ShouldThrow(x => x.BeLessThan(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(@"Expected a value less than <1> because we want to test the failure message, but found <2>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage(@"Expected a value less than <1> because we want to test the failure message, but found <2>.");
         }
 
         [TestMethod]
@@ -206,8 +206,8 @@ namespace FluentAssertions.specs
         {
             var assertions = 2.Should();
             assertions.ShouldThrow(x => x.BeLessOrEqualTo(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(@"Expected a value less or equal to <1> because we want to test the failure message, but found <2>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage(@"Expected a value less or equal to <1> because we want to test the failure message, but found <2>.");
         }
 
         [TestMethod]

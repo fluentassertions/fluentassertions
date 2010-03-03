@@ -26,8 +26,8 @@ namespace FluentAssertions.specs
             bool? nullableBoolean = null;
             var assertions = nullableBoolean.Should();
             assertions.ShouldThrow(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected a value because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected a value because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -51,8 +51,8 @@ namespace FluentAssertions.specs
             bool? nullableBoolean = true;
             var assertions = nullableBoolean.Should();
             assertions.ShouldThrow(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Did not expect a value because we want to test the failure message, but found <True>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Did not expect a value because we want to test the failure message, but found <True>.");
         }
 
         [TestMethod]

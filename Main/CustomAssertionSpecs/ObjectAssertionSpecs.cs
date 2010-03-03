@@ -30,8 +30,8 @@ namespace FluentAssertions.specs
             var nonEqualObject = new ClassWithCustomEqualMethod(2);
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.Equal(nonEqualObject, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Expected <ClassWithCustomEqualMethod(2)> because we want to test the failure message, but found <ClassWithCustomEqualMethod(1)>.");
         }
 
@@ -59,8 +59,8 @@ namespace FluentAssertions.specs
             var equalObject = new ClassWithCustomEqualMethod(1);
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.NotEqual(equalObject, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Did not expect <ClassWithCustomEqualMethod(1)> because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Did not expect <ClassWithCustomEqualMethod(1)> because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -87,8 +87,8 @@ namespace FluentAssertions.specs
             var notSameObject = new ClassWithCustomEqualMethod(1);
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.BeSameAs(notSameObject, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected the exact same objects because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected the exact same objects because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -115,8 +115,8 @@ namespace FluentAssertions.specs
             ClassWithCustomEqualMethod sameObject = someObject;
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.NotBeSameAs(sameObject, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected different objects because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected different objects because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -140,8 +140,8 @@ namespace FluentAssertions.specs
             var someObject = new object();
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.BeNull("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected <null> because we want to test the failure message, but found <System.Object>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected <null> because we want to test the failure message, but found <System.Object>.");
         }
 
         [TestMethod]
@@ -165,8 +165,8 @@ namespace FluentAssertions.specs
             object someObject = null;
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected non-null value because we want to test the failure message, but found <null>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected non-null value because we want to test the failure message, but found <null>.");
         }
 
         [TestMethod]
@@ -190,8 +190,8 @@ namespace FluentAssertions.specs
             var someObject = new object();
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.BeOfType<Exception>("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Expected type <System.Exception> because we want to test the failure message, but found <System.Object>.");
         }
 

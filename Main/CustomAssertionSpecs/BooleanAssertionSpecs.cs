@@ -23,8 +23,8 @@ namespace FluentAssertions.specs
         {
             var assertions = false.Should();
             assertions.ShouldThrow(x => x.BeTrue("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected <True> because we want to test the failure message, but found <False>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected <True> because we want to test the failure message, but found <False>.");
         }
 
         [TestMethod]
@@ -45,8 +45,8 @@ namespace FluentAssertions.specs
         {
             var assertions = true.Should();
             assertions.ShouldThrow(x => x.BeFalse("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected <False> because we want to test the failure message, but found <True>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected <False> because we want to test the failure message, but found <True>.");
         }
 
         [TestMethod]
@@ -67,8 +67,8 @@ namespace FluentAssertions.specs
         {
             var assertions = false.Should();
             assertions.ShouldThrow(x => x.Equal(true, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected <True> because we want to test the failure message, but found <False>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected <True> because we want to test the failure message, but found <False>.");
         }
     }
 }

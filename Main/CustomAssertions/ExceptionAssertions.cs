@@ -6,61 +6,25 @@ namespace FluentAssertions
     public static partial class CustomAssertionExtensions
     {
         [DebuggerNonUserCode]
-        public class ExceptionAssertions : Assertions<Exception, ExceptionAssertions>
+        public class ExceptionAssertions<TException> : Assertions<Exception, ExceptionAssertions<TException>>
+            where TException : Exception
         {
-            protected Exception exception;
-
-            protected ExceptionAssertions()
-            { }
-
-            internal ExceptionAssertions(Action action)
+            internal ExceptionAssertions(TException exception)
             {
-                try
-                {
-                    action();
-                }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                }
+                ValueOf = exception;
             }
 
             /// <summary>
-            /// Asserts that an exception is thrown of type <typeparamref name="TException"/>.
+            /// Gets the exception object of the exception thrown.
             /// </summary>
-            /// <typeparam name="TException">The expected type of the exception.</typeparam>
-            /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<ExceptionAssertions> Exception<TException>()
-            {
-                return Exception<TException>(null, null);
-            }
-
-            /// <summary>
-            /// Asserts that an exception is thrown of type <typeparamref name="TException"/>.
-            /// </summary>
-            /// <typeparam name="TException">The expected type of the exception.</typeparam>
-            /// <param name="reason">The reason why the exception should be of type <typeparamref name="TException"/>.</param>
-            /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
-            /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<ExceptionAssertions> Exception<TException>(string reason,
-                                                                               params object[] reasonParameters)
-            {
-                AssertThat(exception != null, "Expected exception <{0}>{2}, but no exception was thrown.",
-                           typeof(TException), null, reason, reasonParameters);
-
-                AssertThat(exception is TException,
-                           "Expected exception <{0}>{2}, but found <{1}>.",
-                           typeof(TException), exception.GetType(), reason, reasonParameters);
-
-                return new AndConstraint<ExceptionAssertions>(this);
-            }
+            public TException ValueOf { get; private set; }
 
             /// <summary>
             /// Asserts that the thrown exception has a message matching the <paramref name="expectedMessage"/>.
             /// </summary>
             /// <param name="expectedMessage">The expected message of the exception.</param>
             /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<ExceptionAssertions> WithMessage(string expectedMessage)
+            public AndConstraint<ExceptionAssertions<TException>> WithMessage(string expectedMessage)
             {
                 return WithMessage(expectedMessage, null, null);
             }
@@ -74,18 +38,18 @@ namespace FluentAssertions
             /// </param>
             /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
             /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<ExceptionAssertions> WithMessage(string expectedMessage, string reason,
+            public AndConstraint<ExceptionAssertions<TException>> WithMessage(string expectedMessage, string reason,
                                                                      params object[] reasonParameters)
             {
-                AssertThat((exception != null),
+                AssertThat((ValueOf != null),
                            "Expected exception with message <{0}>{2}, but no exception was thrown.",
                            expectedMessage, null, reason, reasonParameters);
 
-                AssertThat(exception.Message == expectedMessage,
+                AssertThat(ValueOf.Message == expectedMessage,
                            "Expected exception with message <{0}>{2}, but found <{1}>.",
-                           expectedMessage, exception.Message, reason);
+                           expectedMessage, ValueOf.Message, reason);
 
-                return new AndConstraint<ExceptionAssertions>(this);
+                return new AndConstraint<ExceptionAssertions<TException>>(this);
             }
 
             /// <summary>
@@ -93,7 +57,7 @@ namespace FluentAssertions
             /// </summary>
             /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
             /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<ExceptionAssertions> WithInnerException<TInnerException>()
+            public AndConstraint<ExceptionAssertions<TException>> WithInnerException<TInnerException>()
             {
                 return WithInnerException<TInnerException>(null, null);
             }
@@ -105,23 +69,23 @@ namespace FluentAssertions
             /// <param name="reason">The reason why the inner exception should be of the supplied type.</param>
             /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
             /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<ExceptionAssertions> WithInnerException<TInnerException>(string reason,
+            public AndConstraint<ExceptionAssertions<TException>> WithInnerException<TInnerException>(string reason,
                                                                                              params object[] reasonParameters)
             {
-                AssertThat(exception != null, "Expected inner exception <{0}>{2}, but no exception was thrown.",
+                AssertThat(ValueOf != null, "Expected inner exception <{0}>{2}, but no exception was thrown.",
                            typeof(TInnerException), null, reason, reasonParameters);
 
-                AssertThat(exception.InnerException != null,
+                AssertThat(ValueOf.InnerException != null,
                            "Expected inner exception <{0}>{2}, but the thrown exception has no inner exception.",
                            typeof(TInnerException), null, reason, reasonParameters);
 
-                AssertThat((exception.InnerException.GetType() == typeof(TInnerException)),
+                AssertThat((ValueOf.InnerException.GetType() == typeof(TInnerException)),
                            "Expected inner exception <{0}>{2}, but found <{1}>.",
                            typeof(TInnerException),
-                           exception.InnerException.GetType(),
+                           ValueOf.InnerException.GetType(),
                            reason, reasonParameters);
 
-                return new AndConstraint<ExceptionAssertions>(this);
+                return new AndConstraint<ExceptionAssertions<TException>>(this);
             }
 
             /// <summary>
@@ -129,7 +93,7 @@ namespace FluentAssertions
             /// </summary>
             /// <param name="expectedInnerMessage">The expected message of the inner exception.</param>
             /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<ExceptionAssertions> WithInnerMessage(string expectedInnerMessage)
+            public AndConstraint<ExceptionAssertions<TException>> WithInnerMessage(string expectedInnerMessage)
             {
                 return WithInnerMessage(expectedInnerMessage, null, null);
             }
@@ -143,39 +107,23 @@ namespace FluentAssertions
             /// </param>
             /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
             /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<ExceptionAssertions> WithInnerMessage(string expectedInnerMessage, string reason,
+            public AndConstraint<ExceptionAssertions<TException>> WithInnerMessage(string expectedInnerMessage, string reason,
                                                                           params object[] reasonParameters)
             {
-                AssertThat(exception != null, "Expected exception{2}, but no exception was thrown.",
+                AssertThat(ValueOf != null, "Expected exception{2}, but no exception was thrown.",
                            null, null, reason, reasonParameters);
 
-                AssertThat(exception.InnerException != null,
+                AssertThat(ValueOf.InnerException != null,
                            "Expected exception{2}, but the thrown exception has no inner exception.",
                            null, null, reason, reasonParameters);
 
-                AssertThat((exception.InnerException.Message == expectedInnerMessage),
+                AssertThat((ValueOf.InnerException.Message == expectedInnerMessage),
                            "Expected inner exception with message <{0}>{2}, but found <{1}>.",
                            expectedInnerMessage,
-                           exception.InnerException.Message,
+                           ValueOf.InnerException.Message,
                            reason, reasonParameters);
 
-                return new AndConstraint<ExceptionAssertions>(this);
-            }
-        }
-
-        [DebuggerNonUserCode]
-        public class ExceptionAssertions<T> : ExceptionAssertions
-        {
-            internal ExceptionAssertions(T value, Action<T> action)
-            {
-                try
-                {
-                    action(value);
-                }
-                catch (Exception ex)
-                {
-                    exception = ex;
-                }
+                return new AndConstraint<ExceptionAssertions<TException>>(this);
             }
         }
     }

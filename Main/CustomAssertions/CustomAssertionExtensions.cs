@@ -10,14 +10,14 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static partial class CustomAssertionExtensions
     {
-        public static ExceptionAssertions<T> ShouldThrow<T>(this T actualValue, Action<T> action)
+        public static ThrowAssertions<T> ShouldThrow<T>(this T actualValue, Action<T> action)
         {
-            return new ExceptionAssertions<T>(actualValue, action);
+            return new ThrowAssertions<T>(actualValue, action);
         }
 
-        public static ExceptionAssertions ShouldThrow(this Action action)
+        public static ThrowAssertions<Action> ShouldThrow(this Action action)
         {
-            return new ExceptionAssertions(action);
+            return new ThrowAssertions<Action>(action);
         }
 
         public static ObjectAssertions Should(this object actualValue)

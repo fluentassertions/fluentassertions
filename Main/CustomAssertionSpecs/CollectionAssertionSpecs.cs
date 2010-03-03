@@ -29,8 +29,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new[] { 1, 2, 3 };
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.HaveCount(4, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected <4> items because we want to test the failure message, but found <3>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected <4> items because we want to test the failure message, but found <3>.");
         }
 
         [TestMethod]
@@ -54,8 +54,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new[] { 1, 2, 3 };
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected no items because we want to test the failure message, but found <3>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected no items because we want to test the failure message, but found <3>.");
         }
 
         [TestMethod]
@@ -79,8 +79,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new int[0];
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected one or more items because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected one or more items because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -114,8 +114,8 @@ namespace FluentAssertions.specs
             IEnumerable collection2 = new[] { 3, 1, 2 };
             var assertions = collection1.Should();
             assertions.ShouldThrow(x => x.Equal(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected collections to be equal because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected collections to be equal because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -143,8 +143,8 @@ namespace FluentAssertions.specs
             IEnumerable collection2 = new[] { 1, 2, 3 };
             var assertions = collection1.Should();
             assertions.ShouldThrow(x => x.NotEqual(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Did not expect collections to be equal because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Did not expect collections to be equal because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -178,8 +178,8 @@ namespace FluentAssertions.specs
             IEnumerable collection2 = new[] { 1, 2 };
             var assertions = collection1.Should();
             assertions.ShouldThrow(x => x.BeEquivalentTo(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected collections to be equivalent because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected collections to be equivalent because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -206,8 +206,8 @@ namespace FluentAssertions.specs
             IEnumerable collection2 = new[] { 3, 1, 2 };
             var assertions = collection1.Should();
             assertions.ShouldThrow(x => x.NotBeEquivalentTo(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Did not expect collections to be equivalent because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Did not expect collections to be equivalent because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -234,8 +234,8 @@ namespace FluentAssertions.specs
             IEnumerable collection2 = new[] { 1, 2, 4, 5 };
             var assertions = collection1.Should();
             assertions.ShouldThrow(x => x.BeSubsetOf(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Expected current collection to be a subset of the supplied collection because we want to test the failure message.");
         }
 
@@ -263,8 +263,8 @@ namespace FluentAssertions.specs
             IEnumerable collection2 = new[] { 1, 2, 3 };
             var assertions = collection1.Should();
             assertions.ShouldThrow(x => x.NotBeSubsetOf(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Did not expect current collection to be a subset of the supplied collection because we want to test the failure message.");
         }
 
@@ -306,8 +306,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new[] { 1, 2, 3 };
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.Contain(4, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected current collection to contain <4> because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected current collection to contain <4> because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -316,8 +316,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new[] { 1, 2, 3 };
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.Contain(new[] { 4, 5}, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected current collection to contain <4, 5> because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected current collection to contain <4, 5> because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -341,8 +341,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new[] { 1, 2, 3 };
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.NotContain(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Did not expect current collection to contain <1> because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Did not expect current collection to contain <1> because we want to test the failure message.");
         }
 
         #endregion
@@ -380,8 +380,8 @@ namespace FluentAssertions.specs
             var assertions = actual.Should();
             
             assertions.ShouldThrow(x => x.ContainInOrder(expected, "because of {0}", "the test"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Expected current collection to contain <3, 1> in that order because of the test.");
         }
 
@@ -408,8 +408,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new[] { new object(), null };
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.NotContainNulls("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Did not expect current collection to contain null values because we want to test the failure message.");
         }
 
@@ -436,8 +436,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new List<object> { 1, "2" };
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.OnlyContainItemsOfType<string>("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage(
+                .Exception<AssertFailedException>()
+                .And.WithMessage(
                 "Expected only <System.String> items in current collection because we want to test the failure message.");
         }
 
@@ -463,8 +463,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new[] { 1, 2, 3, 3 };
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.OnlyHaveUniqueItems("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected only unique items in current collection because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected only unique items in current collection because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -488,8 +488,8 @@ namespace FluentAssertions.specs
             IEnumerable collection = new[] { 1, 2, 3 };
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.HaveElementAt(1, 3, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected <3> at the supplied index because we want to test the failure message, but found <2>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected <3> at the supplied index because we want to test the failure message, but found <2>.");
         }
 
         [TestMethod]
@@ -539,8 +539,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             extensions
                 .ShouldThrow(e => e.HaveSameCount(secondCollection))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected collection to have <2> items, but found <3>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected collection to have <2> items, but found <3>.");
         }        
         
         [TestMethod]
@@ -559,8 +559,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             extensions
                 .ShouldThrow(e => e.HaveSameCount(secondCollection, "we want to test the {0}", "reason"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
         }
 
         #endregion

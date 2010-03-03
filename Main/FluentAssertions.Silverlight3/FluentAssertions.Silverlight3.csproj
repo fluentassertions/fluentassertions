@@ -103,6 +103,9 @@
     <Compile Include="..\CustomAssertions\StringAssertions.cs">
       <Link>StringAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\CustomAssertions\ThrowAssertions.cs">
+      <Link>ThrowAssertions.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

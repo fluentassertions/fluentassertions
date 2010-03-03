@@ -26,8 +26,8 @@ namespace FluentAssertions.specs
             int? nullableInteger = null;
             var assertions = nullableInteger.Should();
             assertions.ShouldThrow(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected a value because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected a value because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -51,8 +51,8 @@ namespace FluentAssertions.specs
             int? nullableInteger = 1;
             var assertions = nullableInteger.Should();
             assertions.ShouldThrow(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Did not expect a value because we want to test the failure message.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Did not expect a value because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -87,8 +87,8 @@ namespace FluentAssertions.specs
             int? nullableIntegerB = 2;
             var assertions = nullableIntegerA.Should();
             assertions.ShouldThrow(x => x.Equal(nullableIntegerB, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>().And
-                .WithMessage("Expected value <2> because we want to test the failure message, but found <1>.");
+                .Exception<AssertFailedException>()
+                .And.WithMessage("Expected value <2> because we want to test the failure message, but found <1>.");
         }
 
         [TestMethod]
