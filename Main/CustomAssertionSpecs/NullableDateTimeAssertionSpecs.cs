@@ -15,29 +15,26 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_nullable_datetime_value_without_a_value_to_have_a_value()
         {
             DateTime? nullableDateTime = null;
-            nullableDateTime.Should()
-                .HaveValue();
+            nullableDateTime.Should().HaveValue();
         }
 
         [TestMethod]
         public void Should_succeed_when_asserting_nullable_datetime_value_without_a_value_to_be_null()
         {
             DateTime? nullableDateTime = null;
-            nullableDateTime.Should()
-                .NotHaveValue();
+            nullableDateTime.Should().NotHaveValue();
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_nullable_datetime_value_with_a_value_to_be_null()
         {
             DateTime? nullableDateTime = DateTime.Today;
-            nullableDateTime.Should()
-                .NotHaveValue();
+            nullableDateTime.Should().NotHaveValue();
         }
 
         [TestMethod]
@@ -57,7 +54,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_nullable_numeric_value_equals_a_different_value()
         {
             DateTime? nullableDateTimeA = DateTime.Today;

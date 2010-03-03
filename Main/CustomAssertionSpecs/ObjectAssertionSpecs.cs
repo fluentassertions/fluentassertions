@@ -15,7 +15,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_object_to_be_equal_to_non_equal_object()
         {
             var someObject = new ClassWithCustomEqualMethod(1);
@@ -30,7 +30,7 @@ namespace FluentAssertions.specs
             var nonEqualObject = new ClassWithCustomEqualMethod(2);
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.Equal(nonEqualObject, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(
                 "Expected <ClassWithCustomEqualMethod(2)> because we want to test the failure message, but found <ClassWithCustomEqualMethod(1)>.");
         }
@@ -44,7 +44,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_object_not_to_be_equal_to_equal_object()
         {
             var someObject = new ClassWithCustomEqualMethod(1);
@@ -59,7 +59,7 @@ namespace FluentAssertions.specs
             var equalObject = new ClassWithCustomEqualMethod(1);
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.NotEqual(equalObject, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Did not expect <ClassWithCustomEqualMethod(1)> because we want to test the failure message.");
         }
 
@@ -72,7 +72,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_object_to_be_the_same_as_a_different_object()
         {
             var someObject = new ClassWithCustomEqualMethod(1);
@@ -87,7 +87,7 @@ namespace FluentAssertions.specs
             var notSameObject = new ClassWithCustomEqualMethod(1);
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.BeSameAs(notSameObject, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected the exact same objects because we want to test the failure message.");
         }
 
@@ -100,7 +100,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_object_to_not_be_the_same_as_the_same_object()
         {
             var someObject = new ClassWithCustomEqualMethod(1);
@@ -115,7 +115,7 @@ namespace FluentAssertions.specs
             ClassWithCustomEqualMethod sameObject = someObject;
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.NotBeSameAs(sameObject, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected different objects because we want to test the failure message.");
         }
 
@@ -127,7 +127,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_non_null_object_to_be_null()
         {
             var someObject = new object();
@@ -140,7 +140,7 @@ namespace FluentAssertions.specs
             var someObject = new object();
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.BeNull("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected <null> because we want to test the failure message, but found <System.Object>.");
         }
 
@@ -152,7 +152,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_null_object_not_to_be_null()
         {
             object someObject = null;
@@ -165,7 +165,7 @@ namespace FluentAssertions.specs
             object someObject = null;
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected non-null value because we want to test the failure message, but found <null>.");
         }
 
@@ -177,7 +177,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_object_type_to_be_equal_to_a_different_type()
         {
             var someObject = new object();
@@ -190,7 +190,7 @@ namespace FluentAssertions.specs
             var someObject = new object();
             var assertions = someObject.Should();
             assertions.ShouldThrow(x => x.BeOfType<Exception>("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(
                 "Expected type <System.Exception> because we want to test the failure message, but found <System.Object>.");
         }
@@ -222,7 +222,7 @@ namespace FluentAssertions.specs
             var someObject = new DummyImplementingClass();
 
             someObject.ShouldThrow(x => x.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(string.Format(
                 "Expected to be assignable to <{1}> because we want to test the failure message, but <{0}> does not implement <{1}>",
                 typeof(DummyImplementingClass), typeof(DateTime)));

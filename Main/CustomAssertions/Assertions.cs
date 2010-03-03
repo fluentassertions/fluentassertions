@@ -106,7 +106,7 @@ namespace FluentAssertions
                 {
                     action.Invoke();
                 }
-                catch (AssertFailedException)
+                catch (SpecificationMismatchException)
                 {
                     conditionIsMet = false;
                 }
@@ -146,7 +146,7 @@ namespace FluentAssertions
             {
                 if (!condition)
                 {
-                    throw new AssertFailedException(string.Format(
+                    throw new SpecificationMismatchException(string.Format(
                                                         failureMessage,
                                                         Expand(expected), Expand(actual),
                                                         SanitizeReason(reason, reasonParameters)));
@@ -181,6 +181,14 @@ namespace FluentAssertions
 
                 return "";
             }
+        }
+    }
+
+    public class SpecificationMismatchException : Exception
+    {
+        public SpecificationMismatchException(string message) : base(message)
+        {
+            
         }
     }
 }

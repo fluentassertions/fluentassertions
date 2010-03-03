@@ -18,7 +18,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void When_subject_throws_expected_exception_but_with_unexpected_message_it_should_throw()
         {
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
@@ -39,7 +39,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("ShouldThrow() did not detect the wrong exception message");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected exception with message <expected message>, but found <unexpected message>.");
@@ -59,7 +59,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("An exception should have been thrown");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected exception <System.Exception> because IFoo.Do should do that, but no exception was thrown.");
@@ -80,7 +80,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("ShouldThrow() dit not detect the wrong exception type");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected exception <System.InvalidOperationException>, but found <System.ArgumentException>.");
@@ -102,7 +102,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("ShouldThrow() dit not detect the wrong exception type");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected exception <System.InvalidOperationException> because IFoo.Do should throw that one, but found <System.ArgumentException>.");
@@ -133,7 +133,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected inner exception <System.ArgumentException>, but found <System.NullReferenceException>.");
@@ -155,7 +155,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected inner exception <System.ArgumentException> because IFoo.Do should do just that, but found <System.NullReferenceException>.");
@@ -176,7 +176,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected inner exception <System.InvalidOperationException>, but the thrown exception has no inner exception.");
@@ -198,7 +198,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected inner exception <System.InvalidOperationException> because IFoo.Do should do that, but the thrown exception has no inner exception.");
@@ -228,7 +228,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected inner exception with message <expected message>, but found <unexpected message>.");
@@ -248,7 +248,7 @@ namespace FluentAssertions.specs
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }
-            catch (AssertFailedException ex)
+            catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
                     "Expected inner exception with message <expected message> because IFoo.Do should do just that, but found <unexpected message>.");

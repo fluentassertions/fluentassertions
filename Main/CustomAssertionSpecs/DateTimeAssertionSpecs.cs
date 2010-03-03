@@ -25,7 +25,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_value_is_equal_to_the_different_value()
         {
             Today.Should().Equal(Tomorrow);
@@ -36,7 +36,7 @@ namespace FluentAssertions.specs
         {
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.Equal(Tomorrow, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(string.Format(
                                  "Expected <{0}> because we want to test the failure message, but found <{1}>.", Tomorrow, Today));
         }
@@ -48,7 +48,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_is_before_earlier_datetime()
         {
             Today.Should().BeBefore(Yesterday);
@@ -59,7 +59,7 @@ namespace FluentAssertions.specs
         {
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.BeBefore(Yesterday, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(string.Format(
                                  "Expected a date/time before <{0}> because we want to test the failure message, but found <{1}>.",
                                  Yesterday, Today));
@@ -78,7 +78,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_is_on_or_before_earlier_datetime()
         {
             Today.Should().BeOnOrBefore(Yesterday);
@@ -89,7 +89,7 @@ namespace FluentAssertions.specs
         {
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.BeOnOrBefore(Yesterday, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(string.Format(
                                  "Expected a date/time on or before <{0}> because we want to test the failure message, but found <{1}>.",
                                  Yesterday, Today));
@@ -102,7 +102,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_is_after_later_datetime()
         {
             Today.Should().BeAfter(Tomorrow);
@@ -113,7 +113,7 @@ namespace FluentAssertions.specs
         {
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.BeAfter(Tomorrow, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(string.Format(
                                  "Expected a date/time after <{0}> because we want to test the failure message, but found <{1}>.",
                                  Tomorrow, Today));
@@ -132,7 +132,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_is_on_or_after_later_datetime()
         {
             Today.Should().BeOnOrAfter(Tomorrow);
@@ -143,7 +143,7 @@ namespace FluentAssertions.specs
         {
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.BeOnOrAfter(Tomorrow, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(string.Format(
                                  "Expected a date/time on or after <{0}> because we want to test the failure message, but found <{1}>.",
                                  Tomorrow, Today));
@@ -156,7 +156,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_has_a_year_with_a_different_value()
         {
             new DateTime(2009, 12, 31).Should().HaveYear(2008);
@@ -167,7 +167,7 @@ namespace FluentAssertions.specs
         {
             var assertions = new DateTime(2009, 12, 31).Should();
             assertions.ShouldThrow(x => x.HaveYear(2008, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected year <2008> because we want to test the failure message, but found <2009>.");
         }
 
@@ -178,7 +178,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_has_a_month_with_a_different_value()
         {
             new DateTime(2009, 12, 31).Should().HaveMonth(11);
@@ -189,7 +189,7 @@ namespace FluentAssertions.specs
         {
             var assertions = new DateTime(2009, 12, 31).Should();
             assertions.ShouldThrow(x => x.HaveMonth(11, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected month <11> because we want to test the failure message, but found <12>.");
         }
 
@@ -200,7 +200,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_has_a_day_with_a_different_value()
         {
             new DateTime(2009, 12, 31).Should().HaveDay(30);
@@ -211,7 +211,7 @@ namespace FluentAssertions.specs
         {
             var assertions = new DateTime(2009, 12, 31).Should();
             assertions.ShouldThrow(x => x.HaveDay(30, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected day <30> because we want to test the failure message, but found <31>.");
         }
 
@@ -222,7 +222,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_has_an_hour_with_different_value()
         {
             new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveHour(22);
@@ -233,7 +233,7 @@ namespace FluentAssertions.specs
         {
             var assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.ShouldThrow(x => x.HaveHour(22, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected hour <22> because we want to test the failure message, but found <23>.");
         }
 
@@ -244,7 +244,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_has_minutes_with_different_value()
         {
             new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveMinute(58);
@@ -255,7 +255,7 @@ namespace FluentAssertions.specs
         {
             var assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.ShouldThrow(x => x.HaveMinute(58, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected minute <58> because we want to test the failure message, but found <59>.");
         }
 
@@ -266,7 +266,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_datetime_has_seconds_with_different_value()
         {
             new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveSecond(1);
@@ -277,7 +277,7 @@ namespace FluentAssertions.specs
         {
             var assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.ShouldThrow(x => x.HaveSecond(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected second <1> because we want to test the failure message, but found <0>.");
         }
 

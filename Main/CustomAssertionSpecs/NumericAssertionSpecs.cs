@@ -15,7 +15,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_negative_value_to_be_positive()
         {
             (-1).Should().BePositive();
@@ -26,7 +26,7 @@ namespace FluentAssertions.specs
         {
             var assertions = (-1).Should();
             assertions.ShouldThrow(x => x.BePositive("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected positive value because we want to test the failure message, but found <-1>");
         }
 
@@ -37,7 +37,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_positive_value_to_be_negative()
         {
             1.Should().BeNegative();
@@ -48,7 +48,7 @@ namespace FluentAssertions.specs
         {
             var assertions = (1).Should();
             assertions.ShouldThrow(x => x.BeNegative("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected negative value because we want to test the failure message, but found <1>");
         }
 
@@ -59,7 +59,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_equal_to_different_value()
         {
             1.Should().Equal(2);
@@ -70,7 +70,7 @@ namespace FluentAssertions.specs
         {
             var assertions = 1.Should();
             assertions.ShouldThrow(x => x.Equal(2, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(@"Expected <2> because we want to test the failure message, but found <1>.");
         }
 
@@ -81,7 +81,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_not_equal_to_the_same_value()
         {
             1.Should().NotEqual(1);
@@ -92,7 +92,7 @@ namespace FluentAssertions.specs
         {
             var assertions = 1.Should();
             assertions.ShouldThrow(x => x.NotEqual(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(@"Did not expect <1> because we want to test the failure message.");
         }
 
@@ -103,14 +103,14 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_greater_than_greater_value()
         {
             2.Should().BeGreaterThan(3);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_greater_than_same_value()
         {
             2.Should().BeGreaterThan(2);
@@ -121,7 +121,7 @@ namespace FluentAssertions.specs
         {
             var assertions = 2.Should();
             assertions.ShouldThrow(x => x.BeGreaterThan(3, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(@"Expected a value greater than <3> because we want to test the failure message, but found <2>.");
         }
 
@@ -138,7 +138,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_greater_or_equal_to_greater_value()
         {
             2.Should().BeGreaterOrEqualTo(3);
@@ -149,7 +149,7 @@ namespace FluentAssertions.specs
         {
             var assertions = 2.Should();
             assertions.ShouldThrow(x => x.BeGreaterOrEqualTo(3, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(@"Expected a value greater or equal to <3> because we want to test the failure message, but found <2>.");
         }
 
@@ -160,14 +160,14 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_less_than_smaller_value()
         {
             2.Should().BeLessThan(1);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_less_than_same_value()
         {
             2.Should().BeLessThan(2);
@@ -178,7 +178,7 @@ namespace FluentAssertions.specs
         {
             var assertions = 2.Should();
             assertions.ShouldThrow(x => x.BeLessThan(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(@"Expected a value less than <1> because we want to test the failure message, but found <2>.");
         }
 
@@ -195,7 +195,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_less_or_equal_to_smaller_value()
         {
             2.Should().BeLessOrEqualTo(1);
@@ -206,7 +206,7 @@ namespace FluentAssertions.specs
         {
             var assertions = 2.Should();
             assertions.ShouldThrow(x => x.BeLessOrEqualTo(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(@"Expected a value less or equal to <1> because we want to test the failure message, but found <2>.");
         }
 

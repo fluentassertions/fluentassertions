@@ -12,7 +12,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_to_be_equal_to_different_value()
         {
             "ABC".Should().Equal("DEF");
@@ -23,7 +23,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.Equal("DEF", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected <DEF> because we want to test the failure message, but found <ABC>.");
         }
 
@@ -34,7 +34,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_is_not_equal_to_the_same_value()
         {
             "ABC".Should().NotEqual("ABC");
@@ -45,7 +45,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.NotEqual("ABC", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Did not expect <ABC> because we want to test the failure message.");
         }
 
@@ -56,7 +56,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_starts_with_a_different_value()
         {
             "ABC".Should().StartWith("BC");
@@ -67,7 +67,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.StartWith("BC", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected string starting with <BC> because we want to test the failure message, but found <ABC>.");
         }
 
@@ -78,7 +78,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_ends_with_a_different_value()
         {
             "ABC".Should().EndWith("AB");
@@ -89,7 +89,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.EndWith("AB", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected string ending with <AB> because we want to test the failure message, but found <ABC>.");
         }
 
@@ -100,7 +100,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_starts_with_a_non_equivalent_value()
         {
             "ABC".Should().StartWithEquivalent("bc");
@@ -111,7 +111,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.StartWithEquivalent("bc", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(
                 "Expected string starting with equivalent of <bc> because we want to test the failure message, but found <ABC>.");
         }
@@ -123,7 +123,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_ends_with_a_non_equivalent_value()
         {
             "ABC".Should().EndWithEquivalent("ab");
@@ -134,7 +134,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.EndWithEquivalent("ab", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(
                 "Expected string ending with equivalent of <ab> because we want to test the failure message, but found <ABC>.");
         }
@@ -146,7 +146,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_contains_a_value_that_is_not_part_of_the_string()
         {
             "ABCDEF".Should().Contain("XYZ");
@@ -157,7 +157,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABCDEF".Should();
             assertions.ShouldThrow(x => x.Contain("XYZ", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected string containing <XYZ> because we want to test the failure message, but found <ABCDEF>.");
         }
 
@@ -168,7 +168,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_to_be_equivalent_to_different_value()
         {
             "ABC".Should().BeEquivalentTo("def");
@@ -179,7 +179,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.BeEquivalentTo("def", "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected string equivalent to <def> because we want to test the failure message, but found <ABC>.");
         }
 
@@ -190,7 +190,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_non_empty_string_to_be_empty()
         {
             "ABC".Should().BeEmpty();
@@ -201,7 +201,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected empty string because we want to test the failure message, but found <ABC>.");
         }
 
@@ -212,7 +212,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_empty_string_to_be_filled()
         {
             "".Should().NotBeEmpty();
@@ -223,7 +223,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "".Should();
             assertions.ShouldThrow(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Did not expect empty string because we want to test the failure message.");
         }
 
@@ -234,7 +234,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_length_to_be_equal_to_different_value()
         {
             "ABC".Should().HaveLength(1);
@@ -245,7 +245,7 @@ namespace FluentAssertions.specs
         {
             var assertions = "ABC".Should();
             assertions.ShouldThrow(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage(
                 "Expected string with length <1> because we want to test the failure message, but found string <ABC>.");
         }

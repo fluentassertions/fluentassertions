@@ -13,7 +13,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_have_a_value()
         {
             int? nullableInteger = null;
@@ -26,7 +26,7 @@ namespace FluentAssertions.specs
             int? nullableInteger = null;
             var assertions = nullableInteger.Should();
             assertions.ShouldThrow(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -38,7 +38,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
         {
             int? nullableInteger = 1;
@@ -51,7 +51,7 @@ namespace FluentAssertions.specs
             int? nullableInteger = 1;
             var assertions = nullableInteger.Should();
             assertions.ShouldThrow(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Did not expect a value because we want to test the failure message.");
         }
 
@@ -72,7 +72,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_nullable_numeric_value_equals_a_different_value()
         {
             int? nullableIntegerA = 1;
@@ -87,7 +87,7 @@ namespace FluentAssertions.specs
             int? nullableIntegerB = 2;
             var assertions = nullableIntegerA.Should();
             assertions.ShouldThrow(x => x.Equal(nullableIntegerB, "because we want to test the failure {0}", "message"))
-                .Exception<AssertFailedException>()
+                .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected value <2> because we want to test the failure message, but found <1>.");
         }
 
