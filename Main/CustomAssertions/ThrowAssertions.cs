@@ -2,7 +2,7 @@
 
 namespace FluentAssertions
 {
-    public static partial class CustomAssertionExtensions
+    public static partial class FluentAssertionExtensions
     {
         public class ThrowAssertions<T> : Assertions<Exception, ThrowAssertions<T>>
         {
@@ -53,10 +53,10 @@ namespace FluentAssertions
             public AndConstraint<ExceptionAssertions<TException>> Exception<TException>(string reason, params object[] reasonParameters)
                 where TException : Exception
             {
-                AssertThat(exception != null, "Expected exception <{0}>{2}, but no exception was thrown.",
+                VerifyThat(exception != null, "Expected exception <{0}>{2}, but no exception was thrown.",
                            typeof(TException), null, reason, reasonParameters);
 
-                AssertThat(exception is TException,
+                VerifyThat(exception is TException,
                            "Expected exception <{0}>{2}, but found <{1}>.",
                            typeof(TException), exception.GetType(), reason, reasonParameters);
 

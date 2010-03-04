@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace FluentAssertions
 {
-    public static partial class CustomAssertionExtensions
+    public static partial class FluentAssertionExtensions
     {
         [DebuggerNonUserCode]
         public class ExceptionAssertions<TException> : Assertions<Exception, ExceptionAssertions<TException>>
@@ -41,11 +41,11 @@ namespace FluentAssertions
             public AndConstraint<ExceptionAssertions<TException>> WithMessage(string expectedMessage, string reason,
                                                                      params object[] reasonParameters)
             {
-                AssertThat((ValueOf != null),
+                VerifyThat((ValueOf != null),
                            "Expected exception with message <{0}>{2}, but no exception was thrown.",
                            expectedMessage, null, reason, reasonParameters);
 
-                AssertThat(ValueOf.Message == expectedMessage,
+                VerifyThat(ValueOf.Message == expectedMessage,
                            "Expected exception with message <{0}>{2}, but found <{1}>.",
                            expectedMessage, ValueOf.Message, reason);
 
@@ -72,14 +72,14 @@ namespace FluentAssertions
             public AndConstraint<ExceptionAssertions<TException>> WithInnerException<TInnerException>(string reason,
                                                                                              params object[] reasonParameters)
             {
-                AssertThat(ValueOf != null, "Expected inner exception <{0}>{2}, but no exception was thrown.",
+                VerifyThat(ValueOf != null, "Expected inner exception <{0}>{2}, but no exception was thrown.",
                            typeof(TInnerException), null, reason, reasonParameters);
 
-                AssertThat(ValueOf.InnerException != null,
+                VerifyThat(ValueOf.InnerException != null,
                            "Expected inner exception <{0}>{2}, but the thrown exception has no inner exception.",
                            typeof(TInnerException), null, reason, reasonParameters);
 
-                AssertThat((ValueOf.InnerException.GetType() == typeof(TInnerException)),
+                VerifyThat((ValueOf.InnerException.GetType() == typeof(TInnerException)),
                            "Expected inner exception <{0}>{2}, but found <{1}>.",
                            typeof(TInnerException),
                            ValueOf.InnerException.GetType(),
@@ -110,14 +110,14 @@ namespace FluentAssertions
             public AndConstraint<ExceptionAssertions<TException>> WithInnerMessage(string expectedInnerMessage, string reason,
                                                                           params object[] reasonParameters)
             {
-                AssertThat(ValueOf != null, "Expected exception{2}, but no exception was thrown.",
+                VerifyThat(ValueOf != null, "Expected exception{2}, but no exception was thrown.",
                            null, null, reason, reasonParameters);
 
-                AssertThat(ValueOf.InnerException != null,
+                VerifyThat(ValueOf.InnerException != null,
                            "Expected exception{2}, but the thrown exception has no inner exception.",
                            null, null, reason, reasonParameters);
 
-                AssertThat((ValueOf.InnerException.Message == expectedInnerMessage),
+                VerifyThat((ValueOf.InnerException.Message == expectedInnerMessage),
                            "Expected inner exception with message <{0}>{2}, but found <{1}>.",
                            expectedInnerMessage,
                            ValueOf.InnerException.Message,

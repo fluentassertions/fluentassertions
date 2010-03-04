@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace FluentAssertions
 {
-    public static partial class CustomAssertionExtensions
+    public static partial class FluentAssertionExtensions
     {
         #region Nested type: NullableNumericAssertions
 
@@ -23,7 +23,7 @@ namespace FluentAssertions
 
             public AndConstraint<NullableNumericAssertions<T>> HaveValue(string reason, params object[] reasonParameters)
             {
-                AssertThat(ActualValue.HasValue, "Expected a value{2}.", null, ActualValue, reason, reasonParameters);
+                VerifyThat(ActualValue.HasValue, "Expected a value{2}.", null, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<NullableNumericAssertions<T>>(this);
             }
@@ -35,7 +35,7 @@ namespace FluentAssertions
 
             public AndConstraint<NullableNumericAssertions<T>> NotHaveValue(string reason, params object[] reasonParameters)
             {
-                AssertThat(!ActualValue.HasValue, "Did not expect a value{2}.", null, ActualValue, reason, reasonParameters);
+                VerifyThat(!ActualValue.HasValue, "Did not expect a value{2}.", null, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<NullableNumericAssertions<T>>(this);
             }
@@ -47,7 +47,7 @@ namespace FluentAssertions
 
             public AndConstraint<NumericAssertions<T>> Equal(T? expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Equals(expected), "Expected value <{0}>{2}, but found <{1}>.",
+                VerifyThat(() => ActualValue.Equals(expected), "Expected value <{0}>{2}, but found <{1}>.",
                            expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<NumericAssertions<T>>(this);
@@ -83,7 +83,7 @@ namespace FluentAssertions
 
             public AndConstraint<NumericAssertions<T>> BePositive(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Value.CompareTo(0) > 0,
+                VerifyThat(() => ActualValue.Value.CompareTo(0) > 0,
                            "Expected {0}{2}, but found <{1}>", "positive value", ActualValue.Value, reason, reasonParameters);
 
                 return new AndConstraint<NumericAssertions<T>>(this);
@@ -96,7 +96,7 @@ namespace FluentAssertions
 
             public AndConstraint<NumericAssertions<T>> BeNegative(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Value.CompareTo(0) < 0,
+                VerifyThat(() => ActualValue.Value.CompareTo(0) < 0,
                            "Expected {0}{2}, but found <{1}>", "negative value", ActualValue.Value, reason, reasonParameters);
 
                 return new AndConstraint<NumericAssertions<T>>(this);
@@ -109,7 +109,7 @@ namespace FluentAssertions
 
             public AndConstraint<NumericAssertions<T>> Equal(T expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Value.CompareTo(expected) == 0,
+                VerifyThat(() => ActualValue.Value.CompareTo(expected) == 0,
                            "Expected <{0}>{2}, but found <{1}>.", expected, ActualValue.Value, reason, reasonParameters);
 
                 return new AndConstraint<NumericAssertions<T>>(this);
@@ -122,7 +122,7 @@ namespace FluentAssertions
 
             public AndConstraint<NumericAssertions<T>> NotEqual(T expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Value.CompareTo(expected) != 0,
+                VerifyThat(() => ActualValue.Value.CompareTo(expected) != 0,
                            "Did not expect <{0}>{2}.", expected, ActualValue.Value, reason, reasonParameters);
 
                 return new AndConstraint<NumericAssertions<T>>(this);
@@ -135,7 +135,7 @@ namespace FluentAssertions
 
             public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Value.CompareTo(expected) < 0,
+                VerifyThat(() => ActualValue.Value.CompareTo(expected) < 0,
                            "Expected a value less than <{0}>{2}, but found <{1}>.", expected, ActualValue.Value, reason, reasonParameters);
 
                 return new AndConstraint<NumericAssertions<T>>(this);
@@ -148,7 +148,7 @@ namespace FluentAssertions
 
             public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Value.CompareTo(expected) <= 0,
+                VerifyThat(() => ActualValue.Value.CompareTo(expected) <= 0,
                            "Expected a value less or equal to <{0}>{2}, but found <{1}>.", expected, ActualValue.Value, reason,
                            reasonParameters);
 
@@ -162,7 +162,7 @@ namespace FluentAssertions
 
             public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Value.CompareTo(expected) > 0,
+                VerifyThat(() => ActualValue.Value.CompareTo(expected) > 0,
                            "Expected a value greater than <{0}>{2}, but found <{1}>.", expected, ActualValue.Value, reason,
                            reasonParameters);
 
@@ -177,7 +177,7 @@ namespace FluentAssertions
             public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T expected, string reason,
                                                                           params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Value.CompareTo(expected) >= 0,
+                VerifyThat(() => ActualValue.Value.CompareTo(expected) >= 0,
                            "Expected a value greater or equal to <{0}>{2}, but found <{1}>.", expected, ActualValue.Value, reason,
                            reasonParameters);
 

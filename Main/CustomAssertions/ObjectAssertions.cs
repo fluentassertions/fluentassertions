@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions
 {
-    public static partial class CustomAssertionExtensions
+    public static partial class FluentAssertionExtensions
     {
         [DebuggerNonUserCode]
         public class ObjectAssertions : Assertions<object, ObjectAssertions>
@@ -20,7 +20,7 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> Equal(object expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => Assert.AreEqual(expected, ActualValue),
+                VerifyThat(() => Assert.AreEqual(expected, ActualValue),
                            "Expected <{0}>{2}, but found <{1}>.", expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<ObjectAssertions>(this);
@@ -33,8 +33,10 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> NotEqual(object expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => Assert.AreNotEqual(expected, ActualValue),
-                           "Did not expect <{0}>{2}.", expected, ActualValue, reason, reasonParameters);
+                if (ActualValue.Equals(expected))
+                {
+                    FailWith("Did not expect objects <{0}> and <{1}> to be equal{2}.", expected, ActualValue, reason, reasonParameters);
+                }
 
                 return new AndConstraint<ObjectAssertions>(this);
             }
@@ -46,7 +48,7 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => Assert.AreSame(expected, ActualValue),
+                VerifyThat(() => Assert.AreSame(expected, ActualValue),
                            "Expected the exact same objects{2}.", expected, ActualValue, reason,
                            reasonParameters);
 
@@ -60,7 +62,7 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> NotBeSameAs(object expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => Assert.AreNotSame(expected, ActualValue),
+                VerifyThat(() => Assert.AreNotSame(expected, ActualValue),
                            "Expected different objects{2}.", expected, ActualValue, reason,
                            reasonParameters);
 
@@ -74,7 +76,7 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> BeNull(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => (ActualValue == null),
+                VerifyThat(() => (ActualValue == null),
                            "Expected <null>{2}, but found <{1}>.", null, ActualValue, reason,
                            reasonParameters);
 
@@ -88,7 +90,7 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> NotBeNull(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => (ActualValue != null),
+                VerifyThat(() => (ActualValue != null),
                            "Expected non-null value{2}, but found <null>.", null, ActualValue, reason,
                            reasonParameters);
 
@@ -102,7 +104,7 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> BeOfType<T>(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => Assert.IsInstanceOfType(ActualValue, typeof(T)),
+                VerifyThat(() => Assert.IsInstanceOfType(ActualValue, typeof(T)),
                            "Expected type <{0}>{2}, but found <{1}>.", typeof(T), ActualValue.GetType(), reason, reasonParameters);
 
                 return new AndConstraint<ObjectAssertions>(this);
@@ -127,7 +129,7 @@ namespace FluentAssertions
             /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
             public AndConstraint<ObjectAssertions> BeAssignableTo<T>(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => typeof(T).IsAssignableFrom(ActualValue.GetType()),
+                VerifyThat(() => typeof(T).IsAssignableFrom(ActualValue.GetType()),
                            "Expected to be assignable to <{0}>{2}, but <{1}> does not implement <{0}>", typeof(T),
                            ActualValue.GetType(), reason, reasonParameters);
 

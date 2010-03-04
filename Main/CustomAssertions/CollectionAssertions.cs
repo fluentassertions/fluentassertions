@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -6,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions
 {
-    public static partial class CustomAssertionExtensions
+    public static partial class FluentAssertionExtensions
     {
         [DebuggerNonUserCode]
         public class CollectionAssertions : Assertions<ICollection, CollectionAssertions>
@@ -28,7 +29,7 @@ namespace FluentAssertions
 
             public AndConstraint<CollectionAssertions> HaveCount(int expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Count == expected, "Expected <{0}> items{2}, but found <{1}>.",
+                VerifyThat(() => ActualValue.Count == expected, "Expected <{0}> items{2}, but found <{1}>.",
                            expected, ActualValue.Count, reason, reasonParameters);
 
                 return new AndConstraint<CollectionAssertions>(this);
@@ -45,7 +46,7 @@ namespace FluentAssertions
 
             public AndConstraint<CollectionAssertions> BeEmpty(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Count == 0, "Expected no items{2}, but found <{1}>.",
+                VerifyThat(() => ActualValue.Count == 0, "Expected no items{2}, but found <{1}>.",
                            null, ActualValue.Count, reason, reasonParameters);
 
                 return new AndConstraint<CollectionAssertions>(this);
@@ -58,7 +59,7 @@ namespace FluentAssertions
 
             public AndConstraint<CollectionAssertions> NotBeEmpty(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Count > 0, "Expected one or more items{2}.",
+                VerifyThat(() => ActualValue.Count > 0, "Expected one or more items{2}.",
                            null, ActualValue.Count, reason, reasonParameters);
 
                 return new AndConstraint<CollectionAssertions>(this);
@@ -77,7 +78,7 @@ namespace FluentAssertions
                                                                      params object[] reasonParameters)
             {
                 var actual = actualIEnumerable.ElementAt(index);
-                AssertThat(() => Assert.AreEqual(expected, actual),
+                VerifyThat(() => Assert.AreEqual(expected, actual),
                            "Expected <{0}> at the supplied index{2}, but found <{1}>.",
                            expected, actual, reason, reasonParameters);
 
@@ -95,7 +96,7 @@ namespace FluentAssertions
 
             public AndConstraint<CollectionAssertions> OnlyHaveUniqueItems(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => CollectionAssert.AllItemsAreUnique(ActualValue),
+                VerifyThat(() => CollectionAssert.AllItemsAreUnique(ActualValue),
                            "Expected only unique items in current collection{2}.",
                            null, null, reason, reasonParameters);
 
@@ -104,18 +105,26 @@ namespace FluentAssertions
 
             #endregion
 
-            #region OnlyContainItemsOfType
+            #region ContainItemsAssignableTo
 
-            public AndConstraint<CollectionAssertions> OnlyContainItemsOfType<T>()
+            public AndConstraint<CollectionAssertions> ContainItemsAssignableTo<T>()
             {
-                return OnlyContainItemsOfType<T>(string.Empty);
+                return ContainItemsAssignableTo<T>(string.Empty);
             }
 
-            public AndConstraint<CollectionAssertions> OnlyContainItemsOfType<T>(string reason, params object[] reasonParameters)
+            public AndConstraint<CollectionAssertions> ContainItemsAssignableTo<T>(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => CollectionAssert.AllItemsAreInstancesOfType(ActualValue, typeof(T)),
-                           "Expected only <{0}> items in current collection{2}.",
-                           typeof(T), null, reason, reasonParameters);
+                int index = 0;
+                foreach (var item in ActualValue)
+                {
+                    if (!typeof(T).IsAssignableFrom(item.GetType()))
+                    {
+                        FailWith("Expected only <{0}> items in collection{2}, but item <" + item + "> at index " + index + " is of type <{1}>.",
+                               typeof(T), item.GetType(), reason, reasonParameters);    
+                    }
+                    
+                    ++index;
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
@@ -131,7 +140,7 @@ namespace FluentAssertions
 
             public AndConstraint<CollectionAssertions> NotContainNulls(string reason, params object[] reasonParameters)
             {
-                AssertThat(() => CollectionAssert.AllItemsAreNotNull(ActualValue, reason, reasonParameters),
+                VerifyThat(() => CollectionAssert.AllItemsAreNotNull(ActualValue, reason, reasonParameters),
                            "Did not expect current collection to contain null values because we want to test the failure message.",
                            null, null, reason, reasonParameters);
 
@@ -166,10 +175,17 @@ namespace FluentAssertions
             /// </summary>
             public AndConstraint<CollectionAssertions> Equal(IEnumerable expected, string reason, params object[] reasonParameters)
             {
-                var collection = expected.Cast<object>().ToList();
+                var expectedItems = expected.Cast<object>().ToArray();
+                var actualItems = ActualValue.Cast<object>().ToArray();
 
-                AssertThat(() => CollectionAssert.AreEqual(collection, ActualValue), "Expected collections to be equal{2}.",
-                           null, null, reason, reasonParameters);
+                for (int index = 0; index < expectedItems.Length; index++)
+                {
+                    if (!actualItems[index].Equals(expectedItems[index]))
+                    {
+                        FailWith("Expected collection <{1}> to be equal to <{0}>{2}, but it differs at index " + index, 
+                            expected, ActualValue, reason, reasonParameters);
+                    }
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
@@ -190,10 +206,12 @@ namespace FluentAssertions
             public AndConstraint<CollectionAssertions> NotEqual(IEnumerable expected, string reason,
                                                                 params object[] reasonParameters)
             {
-                var collection = expected.Cast<object>().ToList();
+                var actualitems = ActualValue.Cast<object>().ToList();
 
-                AssertThat(() => CollectionAssert.AreNotEqual(collection, ActualValue),
-                           "Did not expect collections to be equal{2}.", null, null, reason, reasonParameters);
+                if (actualitems.SequenceEqual(expected.Cast<object>()))
+                {
+                    FailWith("Did not expect collections <{0}> and <{1}> to be equal{2}.", expected, ActualValue, reason, reasonParameters);
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
@@ -229,7 +247,7 @@ namespace FluentAssertions
             {
                 var collection = expected.Cast<object>().ToList();
 
-                AssertThat(() => CollectionAssert.AreEquivalent(collection, ActualValue),
+                VerifyThat(() => CollectionAssert.AreEquivalent(collection, ActualValue),
                            "Expected collections to be equivalent{2}.", null, null, reason, reasonParameters);
 
                 return new AndConstraint<CollectionAssertions>(this);
@@ -253,7 +271,7 @@ namespace FluentAssertions
             {
                 var collection = expected.Cast<object>().ToList();
 
-                AssertThat(() => CollectionAssert.AreNotEquivalent(collection, ActualValue),
+                VerifyThat(() => CollectionAssert.AreNotEquivalent(collection, ActualValue),
                            "Did not expect collections to be equivalent{2}.", null, null, reason, reasonParameters);
 
                 return new AndConstraint<CollectionAssertions>(this);
@@ -290,7 +308,7 @@ namespace FluentAssertions
             {
                 var expectedCollection = expected.Cast<object>().ToList();
 
-                AssertThat(() => CollectionAssert.IsSubsetOf(expectedCollection, ActualValue),
+                VerifyThat(() => CollectionAssert.IsSubsetOf(expectedCollection, ActualValue),
                            "Expected current collection to contain <{0}>{2}.", expectedCollection, null, reason, reasonParameters);
 
                 return new AndConstraint<CollectionAssertions>(this);
@@ -303,7 +321,7 @@ namespace FluentAssertions
 
             public AndConstraint<CollectionAssertions> NotContain(object unexpected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => CollectionAssert.DoesNotContain(ActualValue, unexpected),
+                VerifyThat(() => CollectionAssert.DoesNotContain(ActualValue, unexpected),
                            "Did not expect current collection to contain <{0}>{2}.", unexpected, null, reason, reasonParameters);
 
                 return new AndConstraint<CollectionAssertions>(this);
@@ -333,7 +351,7 @@ namespace FluentAssertions
 
                 var expectedCollection = expected.Cast<object>().ToList();
 
-                AssertThat(() => CollectionAssert.AreEqual(expectedCollection, intersection),
+                VerifyThat(() => CollectionAssert.AreEqual(expectedCollection, intersection),
                            "Expected current collection to contain <{0}> in that order{2}.", expected, null, reason, reasonParameters);
 
                 return new AndConstraint<CollectionAssertions>(this);
@@ -353,7 +371,7 @@ namespace FluentAssertions
             {
                 var collection = expected.Cast<object>().ToList();
 
-                AssertThat(() => CollectionAssert.IsSubsetOf(ActualValue, collection),
+                VerifyThat(() => CollectionAssert.IsSubsetOf(ActualValue, collection),
                            "Expected current collection to be a subset of the supplied collection{2}.",
                            null, null, reason, reasonParameters);
 
@@ -370,7 +388,7 @@ namespace FluentAssertions
             {
                 var collection = expected.Cast<object>().ToList();
 
-                AssertThat(() => CollectionAssert.IsNotSubsetOf(ActualValue, collection),
+                VerifyThat(() => CollectionAssert.IsNotSubsetOf(ActualValue, collection),
                            "Did not expect current collection to be a subset of the supplied collection{2}.",
                            null, null, reason, reasonParameters);
 
@@ -395,7 +413,7 @@ namespace FluentAssertions
                 int actualCount = ActualValue.Count;
                 int expectedCount = otherCollection.Cast<object>().Count();
 
-                AssertThat(() => actualCount == expectedCount,
+                VerifyThat(() => actualCount == expectedCount,
                            "Expected collection to have <{0}> items{2}, but found <{1}>.",
                            expectedCount, actualCount, reason, reasonParameters);
 

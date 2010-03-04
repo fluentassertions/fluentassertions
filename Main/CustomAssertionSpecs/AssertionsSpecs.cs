@@ -47,11 +47,11 @@ namespace FluentAssertions.specs
                              "but predicate not satisfied by System.Object");
         }
 
-        internal class AssertionsTestSubClass : CustomAssertionExtensions.Assertions<object,AssertionsTestSubClass>
+        internal class AssertionsTestSubClass : FluentAssertionExtensions.Assertions<object,AssertionsTestSubClass>
         {
             public void AssertFail(string reason, params object[] reasonParameters)
             {
-                AssertThat(false, "Expected it to fail{2}", null, null, reason, reasonParameters);
+                VerifyThat(false, "Expected it to fail{2}", null, null, reason, reasonParameters);
             }
         }
     }

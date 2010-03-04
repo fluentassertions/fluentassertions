@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CustomAssertionExtensions")]
+[assembly: AssemblyTitle("FluentAssertionExtensions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("St. CBR")]
-[assembly: AssemblyProduct("CustomAssertionExtensions")]
+[assembly: AssemblyProduct("FluentAssertionExtensions")]
 [assembly: AssemblyCopyright("Copyright © St. CBR 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

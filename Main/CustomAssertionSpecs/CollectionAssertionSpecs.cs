@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -99,23 +100,46 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_is_equal_to_a_different_collection()
+        public void When_two_collections_are_not_equal_it_should_throw_with_a_clear_explanation()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 3, 1, 2 };
-            collection1.Should().Equal(collection2);
-        }
+            IEnumerable collection2 = new[] { 1, 2, 5 };
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().Equal(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection <1, 2, 3> to be equal to <1, 2, 5>, but it differs at index 2");
+        }
+        
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_is_equal_to_a_different_collection()
+        public void When_two_collections_are_not_equal_it_should_throw_using_the_reason()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 3, 1, 2 };
-            var assertions = collection1.Should();
-            assertions.ShouldThrow(x => x.Equal(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected collections to be equal because we want to test the failure message.");
+            IEnumerable collection2 = new[] { 1, 2, 5 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection <1, 2, 3> to be equal to <1, 2, 5> because we want to test the failure message," + 
+                " but it differs at index 2");
         }
 
         [TestMethod]
@@ -128,23 +152,45 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_is_not_equal_to_the_same_collection()
+        public void When_two_equal_collections_are_not_expected_to_be_equal_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new[] { 1, 2, 3 };
             IEnumerable collection2 = new[] { 1, 2, 3 };
-            collection1.Should().NotEqual(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().NotEqual(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_is_not_equal_to_the_same_collection()
+        public void When_two_equal_collections_are_not_expected_to_be_equal_it_should_report_a_clear_explanation()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new[] { 1, 2, 3 };
             IEnumerable collection2 = new[] { 1, 2, 3 };
-            var assertions = collection1.Should();
-            assertions.ShouldThrow(x => x.NotEqual(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Did not expect collections to be equal because we want to test the failure message.");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().NotEqual(collection2, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -417,7 +463,7 @@ namespace FluentAssertions.specs
         public void Should_succeed_when_asserting_collection_with_all_items_of_same_type_only_contains_item_of_one_type()
         {
             IEnumerable collection = new[] { "1", "2", "3" };
-            collection.Should().OnlyContainItemsOfType<string>();
+            collection.Should().ContainItemsAssignableTo<string>();
         }
 
         [TestMethod]
@@ -425,20 +471,50 @@ namespace FluentAssertions.specs
         public void Should_fail_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type()
         {
             IEnumerable collection = new List<object> { 1, "2" };
-            collection.Should().OnlyContainItemsOfType<string>();
+            collection.Should().ContainItemsAssignableTo<string>();
         }
 
         [TestMethod]
-        public void
-            Should_fail_with_descriptive_message_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type
-            ()
+        public void When_a_collection_contains_anything_other_than_strings_it_should_throw_and_report_details()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new List<object> { 1, "2" };
-            var assertions = collection.Should();
-            assertions.ShouldThrow(x => x.OnlyContainItemsOfType<string>("because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainItemsAssignableTo<string>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected only <System.String> items in collection, but item <1> at index 0 is of type <System.Int32>.");
+        }       
+
+        [TestMethod]
+        public void When_a_collection_contains_anything_other_than_strings_it_should_use_the_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new List<object> { 1, "2" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainItemsAssignableTo<string>(
+                "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>()
                 .And.WithMessage(
-                "Expected only <System.String> items in current collection because we want to test the failure message.");
+                "Expected only <System.String> items in collection because we want to test the failure message" + 
+                ", but item <1> at index 0 is of type <System.Int32>.");
         }
 
         [TestMethod]

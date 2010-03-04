@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions
 {
-    public static partial class CustomAssertionExtensions
+    public static partial class FluentAssertionExtensions
     {
         [DebuggerNonUserCode]
         public abstract class Assertions<TSubject, TAssertions>
@@ -34,7 +34,7 @@ namespace FluentAssertions
             public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<object> predicate, string reason,
                 params object[] reasonParameters)
             {
-                AssertThat(() => predicate(ActualValue),
+                VerifyThat(() => predicate(ActualValue),
                            "Expected to satisfy predicate{2}, but predicate not satisfied by {1}",
                            predicate, ActualValue, reason, reasonParameters);
 
@@ -61,17 +61,17 @@ namespace FluentAssertions
             /// <param name="reasonParameters">Optional parameters for the <paramref name="reason"/></param>
             /// <example>
             /// <code>
-            /// AssertThat(() => value == 0,
+            /// VerifyThat(() => value == 0,
             ///     "Expected value to be &lt;{0}&gt;{2}, but found &lt;{1}&gt;",
             ///     expected,
             ///     reason,
             ///     reasonParameters);
             /// </code>
             /// </example>
-            protected void AssertThat(Func<bool> condition, string failureMessage, object expected, object actual, string reason,
+            protected void VerifyThat(Func<bool> condition, string failureMessage, object expected, object actual, string reason,
                                       params object[] reasonParameters)
             {
-                AssertThat(condition.Invoke(), failureMessage, expected, actual, reason, reasonParameters);
+                VerifyThat(condition.Invoke(), failureMessage, expected, actual, reason, reasonParameters);
             }
 
             /// <summary>
@@ -92,13 +92,13 @@ namespace FluentAssertions
             /// <param name="reasonParameters">Optional parameters for the <paramref name="reason"/></param>
             /// <example>
             /// <code>
-            /// AssertThat(() => value == 0,
+            /// VerifyThat(() => value == 0,
             ///     "Expected value to be positive{2}, but found &lt;{1}&gt;",
             ///     reason,
             ///     reasonParameters);
             /// </code>
             /// </example>
-            protected void AssertThat(Action action, string failureMessage, object expected, object actual, string reason,
+            protected void VerifyThat(Action action, string failureMessage, object expected, object actual, string reason,
                                       params object[] reasonParameters)
             {
                 bool conditionIsMet = true;
@@ -111,7 +111,7 @@ namespace FluentAssertions
                     conditionIsMet = false;
                 }
 
-                AssertThat(conditionIsMet, failureMessage, expected, actual, reason, reasonParameters);
+                VerifyThat(conditionIsMet, failureMessage, expected, actual, reason, reasonParameters);
             }
 
             /// <summary>
@@ -134,23 +134,47 @@ namespace FluentAssertions
             /// <param name="reasonParameters">Optional parameters for the <paramref name="reason"/></param>
             /// <example>
             /// <code>
-            /// AssertThat(() => value == 0,
+            /// VerifyThat(() => value == 0,
             ///     "Expected value to be &lt;{0}&gt;{2}, but found &lt;{1}&gt;",
             ///     expected,
             ///     reason,
             ///     reasonParameters);
             /// </code>
             /// </example>
-            protected void AssertThat(bool condition, string failureMessage, object expected, object actual, string reason,
+            protected void VerifyThat(bool condition, string failureMessage, object expected, object actual, string reason,
                                       params object[] reasonParameters)
             {
                 if (!condition)
                 {
-                    throw new SpecificationMismatchException(string.Format(
-                                                        failureMessage,
-                                                        Expand(expected), Expand(actual),
-                                                        SanitizeReason(reason, reasonParameters)));
+                    FailWith(failureMessage, expected, actual, reason, reasonParameters);
                 }
+            }
+
+            /// <summary>
+            /// Asserts that the supplied <paramref name="condition"/> is <c>true</c>.
+            /// Throws an <see cref="AssertFailedException"/> when the condition is <c>false</c>.
+            /// </summary>
+            /// <param name="condition">The condition to assert</param>
+            /// <param name="failureMessage">
+            /// The message that will be used in the <see cref="AssertFailedException"/>. This should describe what
+            /// was expected and why. This message should contain the following 3 placeholders:<br />
+            /// <list type="bullet">
+            /// <item>{0} = expected value</item>
+            /// <item>{1} = actual value</item>
+            /// <item>{2} = the reason for the expectation</item>
+            /// </list>
+            /// </param>
+            /// <param name="expected">The expected value</param>
+            /// <param name="actual">The actual value</param>
+            /// <param name="reason">Should describe the reason for the expectation</param>
+            /// <param name="reasonParameters">Optional parameters for the <paramref name="reason"/></param>
+            /// <example>            
+            protected void FailWith(string failureMessage, object expected, object actual, string reason, object[] reasonParameters)
+            {
+                throw new SpecificationMismatchException(string.Format(
+                    failureMessage,
+                    Expand(expected), Expand(actual),
+                    SanitizeReason(reason, reasonParameters)));
             }
 
             /// <summary>

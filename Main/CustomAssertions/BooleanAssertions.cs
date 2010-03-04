@@ -2,7 +2,7 @@
 
 namespace FluentAssertions
 {
-    public static partial class CustomAssertionExtensions
+    public static partial class FluentAssertionExtensions
     {
         #region Nested type: BooleanAssertions
 
@@ -26,7 +26,7 @@ namespace FluentAssertions
 
             public AndConstraint<BooleanAssertions> BeFalse(string reason, params object[] reasonParameters)
             {
-                AssertThat(!ActualValue.Value, "Expected <{0}>{2}, but found <{1}>.", false, ActualValue, reason, reasonParameters);
+                VerifyThat(!ActualValue.Value, "Expected <{0}>{2}, but found <{1}>.", false, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<BooleanAssertions>(this);
             }
@@ -38,7 +38,7 @@ namespace FluentAssertions
 
             public AndConstraint<BooleanAssertions> BeTrue(string reason, params object[] reasonParameters)
             {
-                AssertThat(ActualValue.Value, "Expected <{0}>{2}, but found <{1}>.", true, ActualValue, reason, reasonParameters);
+                VerifyThat(ActualValue.Value, "Expected <{0}>{2}, but found <{1}>.", true, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<BooleanAssertions>(this);
             }
@@ -50,7 +50,7 @@ namespace FluentAssertions
 
             public AndConstraint<BooleanAssertions> Equal(bool expected, string reason, params object[] reasonParameters)
             {
-                AssertThat(() => ActualValue.Value.Equals(expected), "Expected <{0}>{2}, but found <{1}>.", expected, ActualValue,
+                VerifyThat(() => ActualValue.Value.Equals(expected), "Expected <{0}>{2}, but found <{1}>.", expected, ActualValue,
                            reason, reasonParameters);
 
                 return new AndConstraint<BooleanAssertions>(this);
@@ -76,7 +76,7 @@ namespace FluentAssertions
 
             public AndConstraint<NullableBooleanAssertions> HaveValue(string reason, params object[] reasonParameters)
             {
-                AssertThat(ActualValue.HasValue, "Expected a value{2}.", null, ActualValue, reason, reasonParameters);
+                VerifyThat(ActualValue.HasValue, "Expected a value{2}.", null, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<NullableBooleanAssertions>(this);
             }
@@ -88,7 +88,7 @@ namespace FluentAssertions
 
             public AndConstraint<NullableBooleanAssertions> NotHaveValue(string reason, params object[] reasonParameters)
             {
-                AssertThat(!ActualValue.HasValue, "Did not expect a value{2}, but found <{1}>.", null, ActualValue, reason,
+                VerifyThat(!ActualValue.HasValue, "Did not expect a value{2}, but found <{1}>.", null, ActualValue, reason,
                            reasonParameters);
 
                 return new AndConstraint<NullableBooleanAssertions>(this);
