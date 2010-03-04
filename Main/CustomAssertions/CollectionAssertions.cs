@@ -245,6 +245,16 @@ namespace FluentAssertions
             public AndConstraint<CollectionAssertions> BeEquivalentTo(IEnumerable expected, string reason,
                                                                       params object[] reasonParameters)
             {
+                if (expected == null)
+                {
+                    throw new NullReferenceException("Cannot verify equivalence against a <null> collection.");
+                }
+
+                if (expected.Cast<object>().Count() == 0)
+                {
+                    throw new ArgumentException("Cannot verify equivalence against an empty collection.");
+                }
+
                 var collection = expected.Cast<object>().ToList();
 
                 VerifyThat(() => CollectionAssert.AreEquivalent(collection, ActualValue),
@@ -306,23 +316,38 @@ namespace FluentAssertions
             /// </summary>
             public AndConstraint<CollectionAssertions> Contain(IEnumerable expected, string reason, params object[] reasonParameters)
             {
-                var expectedCollection = expected.Cast<object>().ToList();
+                if (expected == null)
+                {
+                    throw new NullReferenceException("Connect verify containment against a <null> collection");
+                }
 
-                VerifyThat(() => CollectionAssert.IsSubsetOf(expectedCollection, ActualValue),
-                           "Expected current collection to contain <{0}>{2}.", expectedCollection, null, reason, reasonParameters);
+                if (expected.Cast<object>().Count() == 0)
+                {
+                    throw new ArgumentException("Connect verify containment against an empty collection");
+                }
+                
+                var missingItems = expected.Cast<object>().Except(ActualValue.Cast<object>());
+                if (missingItems.Count() > 0)
+                {
+                    FailWith("Expected collection <{1}> to contain <{0}>{2}, but could not find <" + Expand(missingItems) + ">.",
+                        expected, ActualValue, reason, reasonParameters);
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
 
-            public AndConstraint<CollectionAssertions> NotContain(object expected)
+            public AndConstraint<CollectionAssertions> NotContain(object unexpected)
             {
-                return NotContain(expected, string.Empty);
+                return NotContain(unexpected, string.Empty);
             }
 
             public AndConstraint<CollectionAssertions> NotContain(object unexpected, string reason, params object[] reasonParameters)
             {
-                VerifyThat(() => CollectionAssert.DoesNotContain(ActualValue, unexpected),
-                           "Did not expect current collection to contain <{0}>{2}.", unexpected, null, reason, reasonParameters);
+                if (ActualValue.Cast<object>().Contains(unexpected))
+                {
+                    FailWith("Collection <{1}> should not contain <{0}>{2}, but found it anyhow.",
+                        unexpected, ActualValue, reason, reasonParameters);
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
@@ -346,15 +371,42 @@ namespace FluentAssertions
             /// </summary>
             public AndConstraint<CollectionAssertions> ContainInOrder(IEnumerable expected, string reason, params object[] reasonParameters)
             {
+                if (expected == null)
+                {
+                    throw new NullReferenceException("Cannot verify ordered containment against a <null> collection.");
+                }
+                
+                var expectedItems = expected.Cast<object>().ToList();
+                var missingItems = expectedItems.Except(ActualValue.Cast<object>());
+                if (missingItems.Count() > 0)
+                {
+                    FailWith(
+                        "Expected items <{0}> in ordered collection <{1}>{2}, but <" + Expand(missingItems) +
+                            "> did not appear.",
+                        expected, ActualValue, reason, reasonParameters);
+                }
+
                 // Remove anything that is not in the expected collection
-                var intersection = ActualValue.Cast<object>().Intersect(expected.Cast<object>()).ToList();
+                var actualMatchingItems = ActualValue.Cast<object>().Intersect(expectedItems).ToList();
 
-                var expectedCollection = expected.Cast<object>().ToList();
-
-                VerifyThat(() => CollectionAssert.AreEqual(expectedCollection, intersection),
-                           "Expected current collection to contain <{0}> in that order{2}.", expected, null, reason, reasonParameters);
+                if (!expectedItems.SequenceEqual(actualMatchingItems))
+                {
+                    FailWith("Expected items <{0}> in ordered collection <{1}>{2}, but the order did not match.",
+                        expected, ActualValue, reason, reasonParameters);
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
+            }
+
+            private static object Expand(object val)
+            {
+                var enumerable = val as IEnumerable;
+                if ((enumerable != null) && !(val is string))
+                {
+                    return string.Join(", ", enumerable.Cast<object>().Select(o => o.ToString()).ToArray());
+                }
+
+                return val;
             }
 
             #endregion
@@ -369,11 +421,30 @@ namespace FluentAssertions
             public AndConstraint<CollectionAssertions> BeSubsetOf(IEnumerable expected, string reason,
                                                                   params object[] reasonParameters)
             {
-                var collection = expected.Cast<object>().ToList();
+                if (expected == null)
+                {
+                    throw new NullReferenceException("Cannot verify a subset against a <null> collection.");
+                }
+                
+                if (ActualValue.Count == 0)
+                {
+                    FailWith("Expected collection to be a subset of <{0}>{2}, but the subset is empty.",
+                        expected, null, reason, reasonParameters);
+                }
+                else
+                {
+                    var expectedItems = expected.Cast<object>();
+                    var actualItems = ActualValue.Cast<object>();
 
-                VerifyThat(() => CollectionAssert.IsSubsetOf(ActualValue, collection),
-                           "Expected current collection to be a subset of the supplied collection{2}.",
-                           null, null, reason, reasonParameters);
+                    var excessItems = actualItems.Except(expectedItems);
+
+                    if (excessItems.Count() > 0)
+                    {
+                        FailWith(
+                            "Expected collection to be a subset of <{0}>{2}, but items <{1}> are not part of the superset.",
+                            expected, excessItems, reason, reasonParameters);
+                    }
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
@@ -386,11 +457,14 @@ namespace FluentAssertions
             public AndConstraint<CollectionAssertions> NotBeSubsetOf(IEnumerable expected, string reason,
                                                                      params object[] reasonParameters)
             {
-                var collection = expected.Cast<object>().ToList();
+                var expectedItems = expected.Cast<object>();
+                var actualItems = ActualValue.Cast<object>();
 
-                VerifyThat(() => CollectionAssert.IsNotSubsetOf(ActualValue, collection),
-                           "Did not expect current collection to be a subset of the supplied collection{2}.",
-                           null, null, reason, reasonParameters);
+                if (expectedItems.Contains(actualItems))
+                {
+                    FailWith("Expected collection <{1}> not to be a subset of <1, 2, 3>{2}, but it is anyhow.",
+                               expectedItems, actualItems, reason, reasonParameters);
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }

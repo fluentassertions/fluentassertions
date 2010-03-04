@@ -209,25 +209,69 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_is_equivalent_to_a_different_collection()
+        public void When_collections_are_not_equivalent_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new[] { 1, 2, 3 };
             IEnumerable collection2 = new[] { 1, 2 };
-            collection1.Should().BeEquivalentTo(collection2);
-        }
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().BeEquivalentTo(collection2, "we treat {0} alike", "all");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection <1, 2, 3> to contain the same items as <1, 2> in any order because we treat all alike," + 
+                "but did not find <3>.");
+        }        
+        
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_is_equivalent_to_a_different_collection()
+        public void When_testing_for_equivalence_against_empty_collection_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2 };
-            var assertions = collection1.Should();
-            assertions.ShouldThrow(x => x.BeEquivalentTo(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected collections to be equivalent because we want to test the failure message.");
-        }
+            IEnumerable collection2 = new int[0];
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().BeEquivalentTo(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<ArgumentException>().And.WithMessage(
+                "Cannot verify equivalence against an empty collection.");
+        }
+        
+        [TestMethod]
+        public void When_testing_for_equivalence_against_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+            IEnumerable collection2 = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().BeEquivalentTo(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+                "Cannot verify equivalence against a <null> collection.");
+        }
+        
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_not_equivalent_to_a_different_collection()
         {
@@ -257,61 +301,118 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_is_subset_of_a_superset_collection()
+        public void When_collection_is_subset_of_a_specified_collection_it_should_not_throw()
         {
-            IEnumerable collection1 = new[] { 1, 2 };
-            IEnumerable collection2 = new[] { 1, 2, 3 };
-            collection1.Should().BeSubsetOf(collection2);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable subset = new[] { 1, 2 };
+            IEnumerable superset = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subset.Should().BeSubsetOf(superset);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_is_subset_of_a_different_collection()
+        public void When_collection_is_not_a_subset_of_another_it_should_throw_with_the_reason()
         {
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2, 4, 5 };
-            collection1.Should().BeSubsetOf(collection2);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable subset = new[] { 1, 2, 3, 6 };
+            IEnumerable superset = new[] { 1, 2, 4, 5 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subset.Should().BeSubsetOf(superset, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection to be a subset of <1, 2, 4, 5> because we want to test the failure message, " +
+                "but items <3, 6> are not part of the superset.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_is_subset_of_a_different_collection()
+        public void When_an_empty_collection_is_tested_against_a_superset_it_should_throw_with_a_clear_explanation()
         {
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2, 4, 5 };
-            var assertions = collection1.Should();
-            assertions.ShouldThrow(x => x.BeSubsetOf(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage(
-                "Expected current collection to be a subset of the supplied collection because we want to test the failure message.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable subset = new int[0];
+            IEnumerable superset = new[] { 1, 2, 4, 5 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subset.Should().BeSubsetOf(superset);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection to be a subset of <1, 2, 4, 5>, but the subset is empty.");
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_is_not_subset_of_different_collection()
+        public void When_a_subset_is_tested_against_a_null_superset_it_should_throw_with_a_clear_explanation()
         {
-            IEnumerable collection1 = new[] { 1, 2, 4 };
-            IEnumerable collection2 = new[] { 1, 2, 3 };
-            collection1.Should().NotBeSubsetOf(collection2);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable subset = new[] { 1, 2, 3};
+            IEnumerable superset = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subset.Should().BeSubsetOf(superset);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+                "Cannot verify a subset against a <null> collection.");
+        }
+        
+        [TestMethod]
+        public void When_a_set_is_expected_to_be_not_a_subset_and_it_isnt_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable otherSet = new[] { 1, 2, 4 };
+            IEnumerable superSet = new[] { 1, 2, 3 };
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            otherSet.Should().NotBeSubsetOf(superSet);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_collection_is_not_subset_of_a_superset_collection()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new[] { 1, 2 };
             IEnumerable collection2 = new[] { 1, 2, 3 };
-            collection1.Should().NotBeSubsetOf(collection2);
-        }
 
-        [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_is_not_subset_of_a_superset_collection()
-        {
-            IEnumerable collection1 = new[] { 1, 2 };
-            IEnumerable collection2 = new[] { 1, 2, 3 };
-            var assertions = collection1.Should();
-            assertions.ShouldThrow(x => x.NotBeSubsetOf(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage(
-                "Did not expect current collection to be a subset of the supplied collection because we want to test the failure message.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().NotBeSubsetOf(collection2, "because I'm {0}", "mistaken");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection <1, 2> not to be a subset of <1, 2, 3> because I'm mistaken, but it is anyhow.");
         }
 
         #region (Not)Contain
@@ -331,54 +432,90 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_contains_an_item_that_is_not_in_the_collection()
+        public void When_a_collection_does_not_contain_single_item_it_should_throw_with_clear_explanation()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3 };
-            collection.Should().Contain(4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(4, "because {0}", "we do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection <1, 2, 3> to contain <4> because we do, but could not find <4>.");
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_contains_multiple_items_that_are_not_in_the_collection()
+        public void When_a_collection_does_not_contain_another_collection_it_should_throw_with_clear_explanation()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3 };
-            collection.Should().Contain(new[] { 4, 5 }) ;
-        }        
-       
-        [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_contains_an_item_that_is_not_in_the_collection()
-        {
-            IEnumerable collection = new[] { 1, 2, 3 };
-            var assertions = collection.Should();
-            assertions.ShouldThrow(x => x.Contain(4, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected current collection to contain <4> because we want to test the failure message.");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(new[]{ 3, 4, 5}, "because {0}", "we do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection <1, 2, 3> to contain <3, 4, 5> because we do, but could not find <4, 5>.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_contains_multiple_items_that_are_not_in_the_collection()
+        public void When_the_contents_of_a_collection_are_checked_against_null_it_should_throw_clear_explanation()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3 };
-            var assertions = collection.Should();
-            assertions.ShouldThrow(x => x.Contain(new[] { 4, 5}, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected current collection to contain <4, 5> because we want to test the failure message.");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+                "Connect verify containment against a <null> collection");
         }
 
+        [TestMethod]
+        public void When_the_contents_of_a_collection_are_checked_against_an_empty_collection_it_should_throw_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(new int[0]);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<ArgumentException>().And.WithMessage(
+                "Connect verify containment against an empty collection");
+        }
+        
         [TestMethod]
         public void Should_succeed_when_asserting_collection_does_not_contain_an_item_that_is_not_in_the_collection()
         {
             IEnumerable collection = new[] { 1, 2, 3 };
             collection.Should().NotContain(4);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_does_not_contain_an_item_from_the_collection()
-        {
-            IEnumerable collection = new[] { 1, 2, 3 };
-            collection.Should().NotContain(1);
         }
 
         [TestMethod]
@@ -391,44 +528,89 @@ namespace FluentAssertions.specs
                 .And.WithMessage("Did not expect current collection to contain <1> because we want to test the failure message.");
         }
 
+        [TestMethod]
+        public void When_collection_contains_an_unexpected_item_it_should_throw_wih_a_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContain(1, "because we {0} like it", "don't");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Collection <1, 2, 3> should not contain <1> because we don't like it, but found it anyhow.");
+        }        
+        
         #endregion
 
         #region ContainInOrder
         
         [TestMethod]
-        public void Should_succeed_asserting_collection_when_collection_contains_multiples_item_in_same_order()
+        public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             collection.Should().ContainInOrder(new[] { 1, 3 });
         }        
-        
+       
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_asserting_collection_when_collection_contains_multiple_items_in_different_order()
+        public void When_two_collections_contain_the_same_items_but_in_different_order_it_should_throw_with_a_clear_explanation()
         {
-            IEnumerable collection = new[] { 1, 2, 3 };
-            collection.Should().ContainInOrder(new[] { 3, 1 });
-        }
-        
-        [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_asserting_collection_when_collection_does_not_contain_an_element()
-        {
-            IEnumerable collection = new[] { 1, 2, 3 };
-            collection.Should().ContainInOrder(new[] { 4 });
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(new[] {3, 1}, "because we said so");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected items <3, 1> in ordered collection <1, 2, 3> " + 
+                "because we said so, but the order did not match.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_collection_contains_multiple_items_in_different_order()
+        public void When_a_collection_does_not_contain_an_ordered_item_it_should_throw_with_a_clear_explanation()
         {
-            IEnumerable actual = new[] { 1, 2, 3 };
-            IEnumerable expected = new[] { 3, 1 };
-            var assertions = actual.Should();
-            
-            assertions.ShouldThrow(x => x.ContainInOrder(expected, "because of {0}", "the test"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage(
-                "Expected current collection to contain <3, 1> in that order because of the test.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(new[] { 4, 1 }, "we failed");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected items <4, 1> in ordered collection <1, 2, 3> " +
+                "because we failed, but <4> did not appear.");
+        }
+
+        [TestMethod]
+        public void When_passing_in_null_while_checking_for_ordered_containment_it_should_throw_with_a_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+                "Cannot verify ordered containment against a <null> collection.");
         }
 
         #endregion

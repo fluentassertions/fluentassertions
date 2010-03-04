@@ -88,14 +88,14 @@
     <Compile Include="..\CustomAssertions\CollectionAssertions.cs">
       <Link>CollectionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\CustomAssertionExtensions.cs">
-      <Link>CustomAssertionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\CustomAssertions\DateTimeAssertions.cs">
       <Link>DateTimeAssertions.cs</Link>
     </Compile>
     <Compile Include="..\CustomAssertions\ExceptionAssertions.cs">
       <Link>ExceptionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\CustomAssertions\FluentAssertionExtensions.cs">
+      <Link>FluentAssertionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\CustomAssertions\NumericAssertions.cs">
       <Link>NumericAssertions.cs</Link>
