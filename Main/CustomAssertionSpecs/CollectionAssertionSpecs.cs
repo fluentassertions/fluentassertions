@@ -275,29 +275,37 @@ namespace FluentAssertions.specs
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_not_equivalent_to_a_different_collection()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new[] { 1, 2, 3 };
             IEnumerable collection2 = new[] { 3, 1 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             collection1.Should().NotBeEquivalentTo(collection2);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_is_not_equivalent_to_an_equivalent_collection()
+        public void When_collections_are_unexpectingly_equivalent_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new[] { 1, 2, 3 };
             IEnumerable collection2 = new[] { 3, 1, 2 };
-            collection1.Should().NotBeEquivalentTo(collection2);
-        }
 
-        [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_is_not_equivalent_to_an_equivalent_collection()
-        {
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 3, 1, 2 };
-            var assertions = collection1.Should();
-            assertions.ShouldThrow(x => x.NotBeEquivalentTo(collection2, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Did not expect collections to be equivalent because we want to test the failure message.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection <1, 2, 3> not be equivalent with collection <3, 1, 2>.");
         }
 
         [TestMethod]
@@ -616,29 +624,37 @@ namespace FluentAssertions.specs
         #endregion
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_without_nulls_does_not_contain_nulls()
+        public void When_collection_does_not_contain_nulls_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             collection.Should().NotContainNulls();
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_with_nulls_does_not_contain_nulls()
+        public void When_collection_contains_nulls_that_are_unexpected_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { new object(), null };
-            collection.Should().NotContainNulls();
-        }
 
-        [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_with_nulls_does_not_contain_nulls()
-        {
-            IEnumerable collection = new[] { new object(), null };
-            var assertions = collection.Should();
-            assertions.ShouldThrow(x => x.NotContainNulls("because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage(
-                "Did not expect current collection to contain null values because we want to test the failure message.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected no <null> in collection because they are evil, but found one at index 1");
         }
 
         [TestMethod]
@@ -726,29 +742,60 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_element_at_index_is_the_same_element()
+        public void When_collection_has_expected_element_at_specific_index_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             collection.Should().HaveElementAt(1, 2);
+
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_element_at_index_is_a_different_element()
+        public void When_collection_does_not_have_the_expected_element_at_specific_index_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3 };
-            collection.Should().HaveElementAt(1, 3);
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveElementAt(1, 3, "we put it {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected <3> at index 1 because we put it there, but found <2>.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_element_at_index_is_a_different_element()
+        public void When_collection_does_not_have_an_element_at_the_specific_index_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3 };
-            var assertions = collection.Should();
-            assertions.ShouldThrow(x => x.HaveElementAt(1, 3, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected <3> at the supplied index because we want to test the failure message, but found <2>.");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveElementAt(4, 3, "we put it {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected <3> at index 4 because we put it there, but found no element.");
         }
+
 
         [TestMethod]
         public void Should_support_chaining_constraints_with_and()

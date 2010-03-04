@@ -77,10 +77,19 @@ namespace FluentAssertions
             public AndConstraint<CollectionAssertions> HaveElementAt(int index, object expected, string reason,
                                                                      params object[] reasonParameters)
             {
-                var actual = actualIEnumerable.ElementAt(index);
-                VerifyThat(() => Assert.AreEqual(expected, actual),
-                           "Expected <{0}> at the supplied index{2}, but found <{1}>.",
-                           expected, actual, reason, reasonParameters);
+                if (index < ActualValue.Count)
+                {
+                    var actual = actualIEnumerable.ElementAt(index);
+
+                    VerifyThat(actual.Equals(expected),
+                        "Expected <{0}> at index " + index + "{2}, but found <{1}>.",
+                        expected, actual, reason, reasonParameters);
+                } 
+                else
+                {
+                    FailWith("Expected <{0}> at index " + index + "{2}, but found no element.",
+                        expected, null, reason, reasonParameters);    
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
@@ -140,9 +149,14 @@ namespace FluentAssertions
 
             public AndConstraint<CollectionAssertions> NotContainNulls(string reason, params object[] reasonParameters)
             {
-                VerifyThat(() => CollectionAssert.AllItemsAreNotNull(ActualValue, reason, reasonParameters),
-                           "Did not expect current collection to contain null values because we want to test the failure message.",
-                           null, null, reason, reasonParameters);
+                var values = ActualValue.Cast<object>().ToArray();
+                for (int index = 0; index < values.Length; index++)
+                {
+                    if (ReferenceEquals(values[index], null))
+                    {
+                        FailWith("Expected no <null> in collection{2}, but found one at index {1}", null, index, reason, reasonParameters);
+                    }
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
@@ -279,12 +293,18 @@ namespace FluentAssertions
             public AndConstraint<CollectionAssertions> NotBeEquivalentTo(IEnumerable expected, string reason,
                                                                          params object[] reasonParameters)
             {
-                var collection = expected.Cast<object>().ToList();
-
-                VerifyThat(() => CollectionAssert.AreNotEquivalent(collection, ActualValue),
-                           "Did not expect collections to be equivalent{2}.", null, null, reason, reasonParameters);
+                if (AreEquivalent(expected.Cast<object>(), ActualValue.Cast<object>()))
+                {
+                    FailWith("Expected collection <{1}> not be equivalent with collection <{0}>.", expected, ActualValue, reason, reasonParameters);
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
+            }
+
+            private static bool AreEquivalent(IEnumerable<object> expectedItems, IEnumerable<object> actualItems)
+            {
+                return (expectedItems.Intersect(actualItems).Count() == expectedItems.Count()) && 
+                    (expectedItems.Count() == actualItems.Count());
             }
 
             #endregion
