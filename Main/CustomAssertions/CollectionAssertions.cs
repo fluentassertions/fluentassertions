@@ -9,7 +9,6 @@ namespace FluentAssertions
 {
     public static partial class FluentAssertionExtensions
     {
-        [DebuggerNonUserCode]
         public class CollectionAssertions : Assertions<ICollection, CollectionAssertions>
         {
             private readonly IEnumerable<object> actualIEnumerable;
@@ -105,9 +104,12 @@ namespace FluentAssertions
 
             public AndConstraint<CollectionAssertions> OnlyHaveUniqueItems(string reason, params object[] reasonParameters)
             {
-                VerifyThat(() => CollectionAssert.AllItemsAreUnique(ActualValue),
-                           "Expected only unique items in current collection{2}.",
-                           null, null, reason, reasonParameters);
+                var groupWithMultipleItems = ActualValue.Cast<object>().GroupBy(o => o).FirstOrDefault(g => g.Count() > 1);
+                if (groupWithMultipleItems != null)
+                {
+                    FailWith("Expected only unique items{2}, but item <{1}> was found multiple times.", 
+                        null, groupWithMultipleItems.Key, reason, reasonParameters);
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
@@ -269,10 +271,15 @@ namespace FluentAssertions
                     throw new ArgumentException("Cannot verify equivalence against an empty collection.");
                 }
 
-                var collection = expected.Cast<object>().ToList();
-
-                VerifyThat(() => CollectionAssert.AreEquivalent(collection, ActualValue),
-                           "Expected collections to be equivalent{2}.", null, null, reason, reasonParameters);
+                var expectedItems = expected.Cast<object>().ToList();
+                var actualItems = ActualValue.Cast<object>().ToList();
+                
+                if (!AreEquivalent(expectedItems, actualItems))
+                {
+                    FailWith(
+                        "Expected collection <{1}> to contain the same items as <{0}> in any order{2}.", 
+                        expectedItems, actualItems, reason, reasonParameters);
+                }
 
                 return new AndConstraint<CollectionAssertions>(this);
             }
@@ -480,9 +487,9 @@ namespace FluentAssertions
                 var expectedItems = expected.Cast<object>();
                 var actualItems = ActualValue.Cast<object>();
 
-                if (expectedItems.Contains(actualItems))
+                if (actualItems.Intersect(expectedItems).Count() == actualItems.Count())
                 {
-                    FailWith("Expected collection <{1}> not to be a subset of <1, 2, 3>{2}, but it is anyhow.",
+                    FailWith("Expected collection <{1}> not to be a subset of <{0}>{2}, but it is anyhow.",
                                expectedItems, actualItems, reason, reasonParameters);
                 }
 

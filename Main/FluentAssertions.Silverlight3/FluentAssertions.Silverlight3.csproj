@@ -109,6 +109,9 @@
     <Compile Include="..\CustomAssertions\ThrowAssertions.cs">
       <Link>ThrowAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

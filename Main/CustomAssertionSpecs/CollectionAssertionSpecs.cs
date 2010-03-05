@@ -226,8 +226,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
-                "Expected collection <1, 2, 3> to contain the same items as <1, 2> in any order because we treat all alike," + 
-                "but did not find <3>.");
+                "Expected collection <1, 2, 3> to contain the same items as <1, 2> in any order because we treat all alike.");
         }        
         
         [TestMethod]
@@ -525,19 +524,9 @@ namespace FluentAssertions.specs
             IEnumerable collection = new[] { 1, 2, 3 };
             collection.Should().NotContain(4);
         }
-
+        
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_does_not_contain_an_item_from_the_collection()
-        {
-            IEnumerable collection = new[] { 1, 2, 3 };
-            var assertions = collection.Should();
-            assertions.ShouldThrow(x => x.NotContain(1, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Did not expect current collection to contain <1> because we want to test the failure message.");
-        }
-
-        [TestMethod]
-        public void When_collection_contains_an_unexpected_item_it_should_throw_wih_a_clear_explanation()
+        public void When_collection_contains_an_unexpected_item_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -723,23 +712,25 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
-        public void Should_fail_when_asserting_collection_with_duplicate_items_contains_only_unique_items()
+        public void When_a_collection_contains_duplicate_items_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3, 3 };
-            collection.Should().OnlyHaveUniqueItems();
-        }
 
-        [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_with_duplicate_items_contains_only_unique_items
-            ()
-        {
-            IEnumerable collection = new[] { 1, 2, 3, 3 };
-            var assertions = collection.Should();
-            assertions.ShouldThrow(x => x.OnlyHaveUniqueItems("because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected only unique items in current collection because we want to test the failure message.");
-        }
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected only unique items because we don't like duplicates, but item <3> was found multiple times.");
+        }       
+
 
         [TestMethod]
         public void When_collection_has_expected_element_at_specific_index_it_should_not_throw()
