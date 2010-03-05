@@ -18,7 +18,7 @@ namespace FluentAssertions
             /// </summary>
             /// <param name="predicate">The predicate which must be satisfied by the <typeparamref name="TSubject"/>.</param>
             /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<object> predicate)
+            public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<TSubject> predicate)
             {
                 return Satisfy(predicate, string.Empty);
             }
@@ -30,7 +30,7 @@ namespace FluentAssertions
             /// <param name="reason">The reason why the predicate should be satisfied.</param>
             /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
             /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-            public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<object> predicate, string reason,
+            public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<TSubject> predicate, string reason,
                 params object[] reasonParameters)
             {
                 VerifyThat(() => predicate(ActualValue),
