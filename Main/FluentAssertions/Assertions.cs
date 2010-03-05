@@ -167,8 +167,7 @@ namespace FluentAssertions
             /// <param name="expected">The expected value</param>
             /// <param name="actual">The actual value</param>
             /// <param name="reason">Should describe the reason for the expectation</param>
-            /// <param name="reasonParameters">Optional parameters for the <paramref name="reason"/></param>
-            /// <example>            
+            /// <param name="reasonParameters">Optional parameters for the <paramref name="reason"/></param>      
             protected void FailWith(string failureMessage, object expected, object actual, string reason, object[] reasonParameters)
             {
                 throw new SpecificationMismatchException(string.Format(

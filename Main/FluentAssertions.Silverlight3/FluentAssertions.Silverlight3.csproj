@@ -76,37 +76,37 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\CustomAssertions\AndConstraint.cs">
+    <Compile Include="..\FluentAssertions\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\Assertions.cs">
+    <Compile Include="..\FluentAssertions\Assertions.cs">
       <Link>Assertions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\BooleanAssertions.cs">
+    <Compile Include="..\FluentAssertions\BooleanAssertions.cs">
       <Link>BooleanAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\CollectionAssertions.cs">
+    <Compile Include="..\FluentAssertions\CollectionAssertions.cs">
       <Link>CollectionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\DateTimeAssertions.cs">
+    <Compile Include="..\FluentAssertions\DateTimeAssertions.cs">
       <Link>DateTimeAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\ExceptionAssertions.cs">
+    <Compile Include="..\FluentAssertions\ExceptionAssertions.cs">
       <Link>ExceptionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\FluentAssertionExtensions.cs">
+    <Compile Include="..\FluentAssertions\FluentAssertionExtensions.cs">
       <Link>FluentAssertionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\NumericAssertions.cs">
+    <Compile Include="..\FluentAssertions\NumericAssertions.cs">
       <Link>NumericAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\ObjectAssertions.cs">
+    <Compile Include="..\FluentAssertions\ObjectAssertions.cs">
       <Link>ObjectAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\StringAssertions.cs">
+    <Compile Include="..\FluentAssertions\StringAssertions.cs">
       <Link>StringAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\CustomAssertions\ThrowAssertions.cs">
+    <Compile Include="..\FluentAssertions\ThrowAssertions.cs">
       <Link>ThrowAssertions.cs</Link>
     </Compile>
     <Compile Include="..\SolutionInfo.cs">
