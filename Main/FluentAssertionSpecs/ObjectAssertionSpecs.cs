@@ -7,53 +7,80 @@ namespace FluentAssertions.specs
     public class ObjectAssertionSpecs
     {
         [TestMethod]
-        public void Should_succeed_when_asserting_object_to_be_equal_to_an_equal_object()
+        public void When_two_equal_object_are_expected_to_be_equal_it_should_not_throw()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new ClassWithCustomEqualMethod(1);
             var equalObject = new ClassWithCustomEqualMethod(1);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
             someObject.Should().Equal(equalObject);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_when_asserting_object_to_be_equal_to_non_equal_object()
+        public void When_two_different_objects_are_expected_to_be_equal_it_should_throw_with_a_clear_explanation()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new ClassWithCustomEqualMethod(1);
             var nonEqualObject = new ClassWithCustomEqualMethod(2);
-            someObject.Should().Equal(nonEqualObject);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().Equal(nonEqualObject);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>()
+                .And.WithMessage("Expected <ClassWithCustomEqualMethod(2)>, but found <ClassWithCustomEqualMethod(1)>.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_object_to_be_equal_to_non_equal_object()
+        public void When_two_different_objects_are_expected_to_be_equal_it_should_throw_and_use_the_reason()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new ClassWithCustomEqualMethod(1);
             var nonEqualObject = new ClassWithCustomEqualMethod(2);
-            var assertions = someObject.Should();
-            assertions.ShouldThrow(x => x.Equal(nonEqualObject, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().Equal(nonEqualObject,"because it should use the {0}","reason");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>()
                 .And.WithMessage(
-                "Expected <ClassWithCustomEqualMethod(2)> because we want to test the failure message, but found <ClassWithCustomEqualMethod(1)>.");
+                    "Expected <ClassWithCustomEqualMethod(2)> because it should use the reason, but found <ClassWithCustomEqualMethod(1)>.");
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_object_not_to_be_equal_to_non_equal_object()
+        public void When_non_equal_objects_are_expected_to_be_not_equal_it_should_not_throw()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new ClassWithCustomEqualMethod(1);
             var nonEqualObject = new ClassWithCustomEqualMethod(2);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
             someObject.Should().NotEqual(nonEqualObject);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_when_asserting_object_not_to_be_equal_to_equal_object()
-        {
-            var someObject = new ClassWithCustomEqualMethod(1);
-            var equalObject = new ClassWithCustomEqualMethod(1);
-            someObject.Should().NotEqual(equalObject);
-        }
-
-        [TestMethod]
-        public void When_two_equal_objects_are_not_expected_to_be_equal_it_should_throw_with_a_clear_explanation()
+        public void When_two_equal_objects_are_expected_not_to_be_equal_it_should_throw_with_a_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -64,7 +91,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => 
+            Action act = () =>
                 someObject.Should().NotEqual(equalObject);
 
             //-----------------------------------------------------------------------------------------------------------
@@ -73,8 +100,9 @@ namespace FluentAssertions.specs
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
                 "Did not expect objects <ClassWithCustomEqualMethod(1)> and <ClassWithCustomEqualMethod(1)> to be equal.");
         }
+
         [TestMethod]
-        public void When_two_equal_objects_are_not_expected_to_be_equal_it_should_throw_and_use_the_reason()
+        public void When_two_equal_objects_are_expected_not_to_be_equal_it_should_throw_and_use_the_reason()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -85,71 +113,108 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => 
+            Action act = () =>
                 someObject.Should().NotEqual(equalObject, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
-                "Did not expect objects <ClassWithCustomEqualMethod(1)> and <ClassWithCustomEqualMethod(1)> to be equal "+ 
+                "Did not expect objects <ClassWithCustomEqualMethod(1)> and <ClassWithCustomEqualMethod(1)> to be equal " +
                 "because we want to test the failure message.");
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_object_to_be_the_same_as_the_same_object()
+        public void When_same_objects_are_expected_to_be_the_same_it_should_not_throw()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new ClassWithCustomEqualMethod(1);
             var sameObject = someObject;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             someObject.Should().BeSameAs(sameObject);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_when_asserting_object_to_be_the_same_as_a_different_object()
+        public void When_two_different_objects_are_expected_to_be_the_same_it_should_throw_with_a_clear_explanation()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new ClassWithCustomEqualMethod(1);
-            var notSameObject = new ClassWithCustomEqualMethod(1);
-            someObject.Should().BeSameAs(notSameObject);
+            var someOtherObject = new ClassWithCustomEqualMethod(2);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().BeSameAs(someOtherObject);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>()
+                .And.WithMessage("Expected the exact same objects.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_object_to_be_the_same_as_a_different_object()
+        public void When_two_different_objects_are_expected_to_be_the_same_it_should_throw_and_use_the_reason()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new ClassWithCustomEqualMethod(1);
-            var notSameObject = new ClassWithCustomEqualMethod(1);
-            var assertions = someObject.Should();
-            assertions.ShouldThrow(x => x.BeSameAs(notSameObject, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected the exact same objects because we want to test the failure message.");
+            var someOtherObject = new ClassWithCustomEqualMethod(2);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().BeSameAs(someOtherObject, "the are {0} {1}", "not", "the same");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>()
+                .And.WithMessage("Expected the exact same objects because the are not the same.");
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_object_to_not_be_the_same_as_a_different_object()
+        public void When_two_different_objects_are_expected_not_to_be_the_same_it_should_not_throw()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new ClassWithCustomEqualMethod(1);
             var notSameObject = new ClassWithCustomEqualMethod(1);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
             someObject.Should().NotBeSameAs(notSameObject);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_when_asserting_object_to_not_be_the_same_as_the_same_object()
+        public void When_two_equal_object_are_expected_not_to_be_the_same_it_should_throw()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new ClassWithCustomEqualMethod(1);
             ClassWithCustomEqualMethod sameObject = someObject;
-            someObject.Should().NotBeSameAs(sameObject);
-        }
 
-        [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_object_to_not_be_the_same_as_the_same_object()
-        {
-            var someObject = new ClassWithCustomEqualMethod(1);
-            ClassWithCustomEqualMethod sameObject = someObject;
-            var assertions = someObject.Should();
-            assertions.ShouldThrow(x => x.NotBeSameAs(sameObject, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected different objects because we want to test the failure message.");
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().NotBeSameAs(sameObject, "they are {0} {1}", "the", "same");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And
+                .WithMessage("Expected different objects because they are the same.");
         }
 
         [TestMethod]
@@ -210,11 +275,23 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_when_asserting_object_type_to_be_equal_to_a_different_type()
+        public void When_object_type_is_different_than_expectd_type_it_should_throw()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new object();
-            someObject.Should().BeOfType<Exception>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().BeOfType<int>("because they are {0} {1}", "of different", "type");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected type <System.Int32> because they are of different type, but found <System.Object>.");
         }
 
         [TestMethod]

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions
 {
@@ -20,7 +19,7 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> Equal(object expected, string reason, params object[] reasonParameters)
             {
-                VerifyThat(() => Assert.AreEqual(expected, ActualValue),
+                VerifyThat(() => ActualValue.Equals(expected),
                            "Expected <{0}>{2}, but found <{1}>.", expected, ActualValue, reason, reasonParameters);
 
                 return new AndConstraint<ObjectAssertions>(this);
@@ -48,7 +47,7 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason, params object[] reasonParameters)
             {
-                VerifyThat(() => Assert.AreSame(expected, ActualValue),
+                VerifyThat(() => ReferenceEquals(ActualValue, expected),
                            "Expected the exact same objects{2}.", expected, ActualValue, reason,
                            reasonParameters);
 
@@ -62,9 +61,10 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> NotBeSameAs(object expected, string reason, params object[] reasonParameters)
             {
-                VerifyThat(() => Assert.AreNotSame(expected, ActualValue),
-                           "Expected different objects{2}.", expected, ActualValue, reason,
-                           reasonParameters);
+                if (ReferenceEquals(ActualValue, expected))
+                {
+                    FailWith("Expected different objects{2}.", expected, ActualValue, reason, reasonParameters);
+                }
 
                 return new AndConstraint<ObjectAssertions>(this);
             }
@@ -104,8 +104,9 @@ namespace FluentAssertions
 
             public AndConstraint<ObjectAssertions> BeOfType<T>(string reason, params object[] reasonParameters)
             {
-                VerifyThat(() => Assert.IsInstanceOfType(ActualValue, typeof(T)),
-                           "Expected type <{0}>{2}, but found <{1}>.", typeof(T), ActualValue.GetType(), reason, reasonParameters);
+                VerifyThat(() => typeof(T).IsAssignableFrom(ActualValue.GetType()),
+                           "Expected type <{0}>{2}, but found <{1}>.", typeof(T), ActualValue.GetType(), reason,
+                           reasonParameters);
 
                 return new AndConstraint<ObjectAssertions>(this);
             }
