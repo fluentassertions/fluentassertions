@@ -47,7 +47,7 @@ namespace FluentAssertions.specs
                              "but predicate not satisfied by System.Object");
         }
 
-        internal class AssertionsTestSubClass : FluentAssertionExtensions.Assertions<object,AssertionsTestSubClass>
+        internal class AssertionsTestSubClass : Assertions<object,AssertionsTestSubClass>
         {
             public void AssertFail(string reason, params object[] reasonParameters)
             {

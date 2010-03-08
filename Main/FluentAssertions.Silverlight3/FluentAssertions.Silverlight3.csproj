@@ -93,11 +93,23 @@
     <Compile Include="..\FluentAssertions\FluentAssertionExtensions.cs">
       <Link>FluentAssertionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions\NullableBooleanAssertions.cs">
+      <Link>NullableBooleanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\NullableDateTimeAssertions.cs">
+      <Link>NullableDateTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\NullableNumericAssertions.cs">
+      <Link>NullableNumericAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions\NumericAssertions.cs">
       <Link>NumericAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions\ObjectAssertions.cs">
       <Link>ObjectAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\SpecificationMismatchException.cs">
+      <Link>SpecificationMismatchException.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions\StringAssertions.cs">
       <Link>StringAssertions.cs</Link>

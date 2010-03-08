@@ -8,7 +8,7 @@ namespace FluentAssertions
     /// Contains extension methods for custom assertions in unit tests.
     /// </summary>
     [DebuggerNonUserCode]
-    public static partial class FluentAssertionExtensions
+    public static  class FluentAssertionExtensions
     {
         public static ThrowAssertions<T> ShouldThrow<T>(this T actualValue, Action<T> action)
         {

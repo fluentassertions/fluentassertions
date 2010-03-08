@@ -63,9 +63,13 @@
     <Compile Include="FluentAssertionExtensions.cs" />
     <Compile Include="DateTimeAssertions.cs" />
     <Compile Include="ExceptionAssertions.cs" />
+    <Compile Include="NullableBooleanAssertions.cs" />
+    <Compile Include="NullableDateTimeAssertions.cs" />
+    <Compile Include="NullableNumericAssertions.cs" />
     <Compile Include="NumericAssertions.cs" />
     <Compile Include="ObjectAssertions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecificationMismatchException.cs" />
     <Compile Include="StringAssertions.cs" />
     <Compile Include="ThrowAssertions.cs" />
   </ItemGroup>
