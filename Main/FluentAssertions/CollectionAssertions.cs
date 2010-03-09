@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace FluentAssertions
 {
-    public class CollectionAssertions : Assertions<ICollection, CollectionAssertions>
+    public class CollectionAssertions : Assertions<IEnumerable, CollectionAssertions>
     {
         internal CollectionAssertions(IEnumerable collection)
         {
             if (collection != null)
             {
-                ActualValue = collection.Cast<object>().ToList();
+                ActualValue = collection;
             }
         }
 
@@ -24,8 +24,9 @@ namespace FluentAssertions
 
         public AndConstraint<CollectionAssertions> HaveCount(int expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => ActualValue.Count == expected, "Expected {0} items{2}, but found {1}.",
-                expected, ActualValue.Count, reason, reasonParameters);
+            IEnumerable<object> enumerable = ActualValue.Cast<object>();
+            VerifyThat(() => enumerable.Count() == expected, "Expected {0} items{2}, but found {1}.",
+                expected, enumerable.Count(), reason, reasonParameters);
 
             return new AndConstraint<CollectionAssertions>(this);
         }
@@ -41,8 +42,10 @@ namespace FluentAssertions
 
         public AndConstraint<CollectionAssertions> BeEmpty(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => ActualValue.Count == 0, "Expected no items{2}, but found {1}.",
-                null, ActualValue.Count, reason, reasonParameters);
+            IEnumerable<object> enumerable = ActualValue.Cast<object>();
+            
+            VerifyThat(() => enumerable.Count() == 0, "Expected no items{2}, but found {1}.",
+                null, enumerable.Count(), reason, reasonParameters);
 
             return new AndConstraint<CollectionAssertions>(this);
         }
@@ -54,8 +57,10 @@ namespace FluentAssertions
 
         public AndConstraint<CollectionAssertions> NotBeEmpty(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => ActualValue.Count > 0, "Expected one or more items{2}.",
-                null, ActualValue.Count, reason, reasonParameters);
+            IEnumerable<object> enumerable = ActualValue.Cast<object>();
+
+            VerifyThat(() => enumerable.Count() > 0, "Expected one or more items{2}.",
+                null, enumerable.Count(), reason, reasonParameters);
 
             return new AndConstraint<CollectionAssertions>(this);
         }
@@ -72,7 +77,9 @@ namespace FluentAssertions
         public AndConstraint<CollectionAssertions> HaveElementAt(int index, object expected, string reason,
             params object[] reasonParameters)
         {
-            if (index < ActualValue.Count)
+            IEnumerable<object> enumerable = ActualValue.Cast<object>();
+
+            if (index < enumerable.Count())
             {
                 var actual = ActualValue.Cast<object>().ElementAt(index);
 
@@ -437,8 +444,10 @@ namespace FluentAssertions
             {
                 throw new NullReferenceException("Cannot verify a subset against a <null> collection.");
             }
+
+            IEnumerable<object> enumerable = ActualValue.Cast<object>();
                 
-            if (ActualValue.Count == 0)
+            if (enumerable.Count() == 0)
             {
                 FailWith("Expected collection to be a subset of {0}{2}, but the subset is empty.",
                     expected, null, reason, reasonParameters);
@@ -496,7 +505,9 @@ namespace FluentAssertions
         /// </summary>
         public AndConstraint<CollectionAssertions> HaveSameCount(IEnumerable otherCollection, string reason, params object[] reasonParameters)
         {
-            int actualCount = ActualValue.Count;
+            IEnumerable<object> enumerable = ActualValue.Cast<object>();
+
+            int actualCount = enumerable.Count();
             int expectedCount = otherCollection.Cast<object>().Count();
 
             VerifyThat(() => actualCount == expectedCount,

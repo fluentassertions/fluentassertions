@@ -23,6 +23,20 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
+        public void When_a_custom_enumerable_implementation_is_expected_not_to_be_null_and_it_is_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var enumerable = new CustomEnumerable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            enumerable.Should().NotBeNull();
+        }
+
+        [TestMethod]
         public void When_collection_is_expected_to_be_null_and_it_isnt_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -915,6 +929,17 @@ namespace FluentAssertions.specs
                 .ShouldThrow(e => e.HaveSameCount(secondCollection, "we want to test the {0}", "reason"))
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
+        }
+    }
+
+    internal class CustomEnumerable : IEnumerable
+    {
+        public IEnumerator GetEnumerator()
+        {
+            foreach (string s in new[]{"a", "b", "c"})
+            {
+                yield return s;
+            }
         }
     }
 }
