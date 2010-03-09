@@ -169,22 +169,34 @@ namespace FluentAssertions
         {
             throw new SpecificationMismatchException(String.Format(
                 failureMessage,
-                Expand(expected), Expand(actual),
+                Format(expected), Format(actual),
                 SanitizeReason(reason, reasonParameters)));
         }
 
         /// <summary>
         /// If the value is a collection, returns it as a comma-separated string.
         /// </summary>
-        private static object Expand(object expected)
+        protected object Format(object value)
         {
-            var enumerable = expected as IEnumerable;
-            if ((enumerable != null) && !(expected is string))
+            if (value is string)
             {
-                return String.Join(", ", enumerable.Cast<object>().Select(o => o.ToString()).ToArray());
+                return "\"" + value.ToString().Replace("\"", "\\\"") + "\"";
             }
 
-            return expected;
+            if (value is IEnumerable)
+            {
+                var enumerable = ((IEnumerable) value).Cast<object>();
+                if (enumerable.Count() > 0)
+                {
+                    return "<" + string.Join(", ", enumerable.Select(o => o.ToString()).ToArray()) + ">";
+                } 
+                else
+                {
+                    return "<empty collection>";
+                }
+            } 
+
+            return "<" + value + ">";
         }
 
         private static string SanitizeReason(string reason, object[] reasonParameters)

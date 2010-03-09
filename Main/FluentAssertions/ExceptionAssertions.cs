@@ -40,11 +40,11 @@ namespace FluentAssertions
             params object[] reasonParameters)
         {
             VerifyThat((ValueOf != null),
-                "Expected exception with message <{0}>{2}, but no exception was thrown.",
+                "Expected exception with message {0}{2}, but no exception was thrown.",
                 expectedMessage, null, reason, reasonParameters);
 
             VerifyThat(ValueOf.Message == expectedMessage,
-                "Expected exception with message <{0}>{2}, but found <{1}>.",
+                "Expected exception with message {0}{2}, but found {1}.",
                 expectedMessage, ValueOf.Message, reason);
 
             return new AndConstraint<ExceptionAssertions<TException>>(this);
@@ -70,15 +70,15 @@ namespace FluentAssertions
         public AndConstraint<ExceptionAssertions<TException>> WithInnerException<TInnerException>(string reason,
             params object[] reasonParameters)
         {
-            VerifyThat(ValueOf != null, "Expected inner exception <{0}>{2}, but no exception was thrown.",
+            VerifyThat(ValueOf != null, "Expected inner exception {0}{2}, but no exception was thrown.",
                 typeof(TInnerException), null, reason, reasonParameters);
 
             VerifyThat(ValueOf.InnerException != null,
-                "Expected inner exception <{0}>{2}, but the thrown exception has no inner exception.",
+                "Expected inner exception {0}{2}, but the thrown exception has no inner exception.",
                 typeof(TInnerException), null, reason, reasonParameters);
 
             VerifyThat((ValueOf.InnerException.GetType() == typeof(TInnerException)),
-                "Expected inner exception <{0}>{2}, but found <{1}>.",
+                "Expected inner exception {0}{2}, but found {1}.",
                 typeof(TInnerException),
                 ValueOf.InnerException.GetType(),
                 reason, reasonParameters);
@@ -116,7 +116,7 @@ namespace FluentAssertions
                 null, null, reason, reasonParameters);
 
             VerifyThat((ValueOf.InnerException.Message == expectedInnerMessage),
-                "Expected inner exception with message <{0}>{2}, but found <{1}>.",
+                "Expected inner exception with message {0}{2}, but found {1}.",
                 expectedInnerMessage,
                 ValueOf.InnerException.Message,
                 reason, reasonParameters);

@@ -19,7 +19,7 @@ namespace FluentAssertions
         public AndConstraint<ObjectAssertions> Equal(object expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => ActualValue.Equals(expected),
-                "Expected <{0}>{2}, but found <{1}>.", expected, ActualValue, reason, reasonParameters);
+                "Expected {0}{2}, but found {1}.", expected, ActualValue, reason, reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -33,7 +33,7 @@ namespace FluentAssertions
         {
             if (ActualValue.Equals(expected))
             {
-                FailWith("Did not expect objects <{0}> and <{1}> to be equal{2}.", expected, ActualValue, reason, reasonParameters);
+                FailWith("Did not expect objects {0} and {1} to be equal{2}.", expected, ActualValue, reason, reasonParameters);
             }
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -76,7 +76,7 @@ namespace FluentAssertions
         public AndConstraint<ObjectAssertions> BeNull(string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue == null),
-                "Expected <null>{2}, but found <{1}>.", null, ActualValue, reason,
+                "Expected <null>{2}, but found {1}.", null, ActualValue, reason,
                 reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -104,7 +104,7 @@ namespace FluentAssertions
         public AndConstraint<ObjectAssertions> BeOfType<T>(string reason, params object[] reasonParameters)
         {
             VerifyThat(() => typeof(T).IsAssignableFrom(ActualValue.GetType()),
-                "Expected type <{0}>{2}, but found <{1}>.", typeof(T), ActualValue.GetType(), reason,
+                "Expected type {0}{2}, but found {1}.", typeof(T), ActualValue.GetType(), reason,
                 reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -130,7 +130,7 @@ namespace FluentAssertions
         public AndConstraint<ObjectAssertions> BeAssignableTo<T>(string reason, params object[] reasonParameters)
         {
             VerifyThat(() => typeof(T).IsAssignableFrom(ActualValue.GetType()),
-                "Expected to be assignable to <{0}>{2}, but <{1}> does not implement <{0}>", typeof(T),
+                "Expected to be assignable to {0}{2}, but {1} does not implement {0}", typeof(T),
                 ActualValue.GetType(), reason, reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);

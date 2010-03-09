@@ -7,12 +7,12 @@ namespace FluentAssertions
 {
     public class CollectionAssertions : Assertions<ICollection, CollectionAssertions>
     {
-        private readonly IEnumerable<object> actualIEnumerable;
-
         internal CollectionAssertions(IEnumerable collection)
         {
-            actualIEnumerable = collection.Cast<object>();
-            ActualValue = actualIEnumerable.ToList();
+            if (collection != null)
+            {
+                ActualValue = collection.Cast<object>().ToList();
+            }
         }
 
         #region HaveCount
@@ -24,7 +24,7 @@ namespace FluentAssertions
 
         public AndConstraint<CollectionAssertions> HaveCount(int expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => ActualValue.Count == expected, "Expected <{0}> items{2}, but found <{1}>.",
+            VerifyThat(() => ActualValue.Count == expected, "Expected {0} items{2}, but found {1}.",
                 expected, ActualValue.Count, reason, reasonParameters);
 
             return new AndConstraint<CollectionAssertions>(this);
@@ -41,7 +41,7 @@ namespace FluentAssertions
 
         public AndConstraint<CollectionAssertions> BeEmpty(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => ActualValue.Count == 0, "Expected no items{2}, but found <{1}>.",
+            VerifyThat(() => ActualValue.Count == 0, "Expected no items{2}, but found {1}.",
                 null, ActualValue.Count, reason, reasonParameters);
 
             return new AndConstraint<CollectionAssertions>(this);
@@ -74,15 +74,15 @@ namespace FluentAssertions
         {
             if (index < ActualValue.Count)
             {
-                var actual = actualIEnumerable.ElementAt(index);
+                var actual = ActualValue.Cast<object>().ElementAt(index);
 
                 VerifyThat(actual.Equals(expected),
-                    "Expected <{0}> at index " + index + "{2}, but found <{1}>.",
+                    "Expected {0} at index " + index + "{2}, but found {1}.",
                     expected, actual, reason, reasonParameters);
             } 
             else
             {
-                FailWith("Expected <{0}> at index " + index + "{2}, but found no element.",
+                FailWith("Expected {0} at index " + index + "{2}, but found no element.",
                     expected, null, reason, reasonParameters);    
             }
 
@@ -103,7 +103,7 @@ namespace FluentAssertions
             var groupWithMultipleItems = ActualValue.Cast<object>().GroupBy(o => o).FirstOrDefault(g => g.Count() > 1);
             if (groupWithMultipleItems != null)
             {
-                FailWith("Expected only unique items{2}, but item <{1}> was found multiple times.", 
+                FailWith("Expected only unique items{2}, but item {1} was found multiple times.", 
                     null, groupWithMultipleItems.Key, reason, reasonParameters);
             }
 
@@ -126,7 +126,7 @@ namespace FluentAssertions
             {
                 if (!typeof(T).IsAssignableFrom(item.GetType()))
                 {
-                    FailWith("Expected only <{0}> items in collection{2}, but item <" + item + "> at index " + index + " is of type <{1}>.",
+                    FailWith("Expected only {0} items in collection{2}, but item <" + item + "> at index " + index + " is of type {1}.",
                         typeof(T), item.GetType(), reason, reasonParameters);    
                 }
                     
@@ -152,7 +152,7 @@ namespace FluentAssertions
             {
                 if (ReferenceEquals(values[index], null))
                 {
-                    FailWith("Expected no <null> in collection{2}, but found one at index {1}", null, index, reason, reasonParameters);
+                    FailWith("Expected no <null> in collection{2}, but found one at index {1}.", null, index, reason, reasonParameters);
                 }
             }
 
@@ -194,7 +194,7 @@ namespace FluentAssertions
             {
                 if (!actualItems[index].Equals(expectedItems[index]))
                 {
-                    FailWith("Expected collection <{1}> to be equal to <{0}>{2}, but it differs at index " + index, 
+                    FailWith("Expected collection {1} to be equal to {0}{2}, but it differs at index " + index, 
                         expected, ActualValue, reason, reasonParameters);
                 }
             }
@@ -222,7 +222,7 @@ namespace FluentAssertions
 
             if (actualitems.SequenceEqual(expected.Cast<object>()))
             {
-                FailWith("Did not expect collections <{0}> and <{1}> to be equal{2}.", expected, ActualValue, reason, reasonParameters);
+                FailWith("Did not expect collections {0} and {1} to be equal{2}.", expected, ActualValue, reason, reasonParameters);
             }
 
             return new AndConstraint<CollectionAssertions>(this);
@@ -273,7 +273,7 @@ namespace FluentAssertions
             if (!AreEquivalent(expectedItems, actualItems))
             {
                 FailWith(
-                    "Expected collection <{1}> to contain the same items as <{0}> in any order{2}.", 
+                    "Expected collection {1} to contain the same items as {0} in any order{2}.", 
                     expectedItems, actualItems, reason, reasonParameters);
             }
 
@@ -298,7 +298,7 @@ namespace FluentAssertions
         {
             if (AreEquivalent(expected.Cast<object>(), ActualValue.Cast<object>()))
             {
-                FailWith("Expected collection <{1}> not be equivalent with collection <{0}>.", expected, ActualValue, reason, reasonParameters);
+                FailWith("Expected collection {1} not be equivalent with collection {0}.", expected, ActualValue, reason, reasonParameters);
             }
 
             return new AndConstraint<CollectionAssertions>(this);
@@ -352,7 +352,7 @@ namespace FluentAssertions
             var missingItems = expected.Cast<object>().Except(ActualValue.Cast<object>());
             if (missingItems.Count() > 0)
             {
-                FailWith("Expected collection <{1}> to contain <{0}>{2}, but could not find <" + Expand(missingItems) + ">.",
+                FailWith("Expected collection {1} to contain {0}{2}, but could not find " + Format(missingItems) + ".",
                     expected, ActualValue, reason, reasonParameters);
             }
 
@@ -368,7 +368,7 @@ namespace FluentAssertions
         {
             if (ActualValue.Cast<object>().Contains(unexpected))
             {
-                FailWith("Collection <{1}> should not contain <{0}>{2}, but found it anyhow.",
+                FailWith("Collection {1} should not contain {0}{2}, but found it anyhow.",
                     unexpected, ActualValue, reason, reasonParameters);
             }
 
@@ -404,8 +404,8 @@ namespace FluentAssertions
             if (missingItems.Count() > 0)
             {
                 FailWith(
-                    "Expected items <{0}> in ordered collection <{1}>{2}, but <" + Expand(missingItems) +
-                        "> did not appear.",
+                    "Expected items {0} in ordered collection {1}{2}, but " + Format(missingItems) +
+                        " did not appear.",
                     expected, ActualValue, reason, reasonParameters);
             }
 
@@ -414,22 +414,11 @@ namespace FluentAssertions
 
             if (!expectedItems.SequenceEqual(actualMatchingItems))
             {
-                FailWith("Expected items <{0}> in ordered collection <{1}>{2}, but the order did not match.",
+                FailWith("Expected items {0} in ordered collection {1}{2}, but the order did not match.",
                     expected, ActualValue, reason, reasonParameters);
             }
 
             return new AndConstraint<CollectionAssertions>(this);
-        }
-
-        private static object Expand(object val)
-        {
-            var enumerable = val as IEnumerable;
-            if ((enumerable != null) && !(val is string))
-            {
-                return String.Join(", ", enumerable.Cast<object>().Select(o => o.ToString()).ToArray());
-            }
-
-            return val;
         }
 
         #endregion
@@ -451,7 +440,7 @@ namespace FluentAssertions
                 
             if (ActualValue.Count == 0)
             {
-                FailWith("Expected collection to be a subset of <{0}>{2}, but the subset is empty.",
+                FailWith("Expected collection to be a subset of {0}{2}, but the subset is empty.",
                     expected, null, reason, reasonParameters);
             }
             else
@@ -464,7 +453,7 @@ namespace FluentAssertions
                 if (excessItems.Count() > 0)
                 {
                     FailWith(
-                        "Expected collection to be a subset of <{0}>{2}, but items <{1}> are not part of the superset.",
+                        "Expected collection to be a subset of {0}{2}, but items {1} are not part of the superset.",
                         expected, excessItems, reason, reasonParameters);
                 }
             }
@@ -485,7 +474,7 @@ namespace FluentAssertions
 
             if (actualItems.Intersect(expectedItems).Count() == actualItems.Count())
             {
-                FailWith("Expected collection <{1}> not to be a subset of <{0}>{2}, but it is anyhow.",
+                FailWith("Expected collection {1} not to be a subset of {0}{2}, but it is anyhow.",
                     expectedItems, actualItems, reason, reasonParameters);
             }
 
@@ -511,8 +500,50 @@ namespace FluentAssertions
             int expectedCount = otherCollection.Cast<object>().Count();
 
             VerifyThat(() => actualCount == expectedCount,
-                "Expected collection to have <{0}> items{2}, but found <{1}>.",
+                "Expected collection to have {0} items{2}, but found {1}.",
                 expectedCount, actualCount, reason, reasonParameters);
+
+            return new AndConstraint<CollectionAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current collection has not been initialized yet with an actual collection.
+        /// </summary>
+        public AndConstraint<CollectionAssertions> BeNull()
+        {
+            return BeNull("");
+        }
+
+        /// <summary>
+        /// Asserts that the current collection has not been initialized yet with an actual collection.
+        /// </summary>
+        public AndConstraint<CollectionAssertions> BeNull(string reason, params object[] reasonParameters)
+        {
+            if (!ReferenceEquals(ActualValue, null))
+            {
+                FailWith("Expected collection to be <null>{2}, but found {1}.", null, ActualValue, reason, reasonParameters);  
+            }
+
+            return new AndConstraint<CollectionAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current collection has been initialized with an actual collection.
+        /// </summary>
+        public AndConstraint<CollectionAssertions> NotBeNull()
+        {
+            return NotBeNull("");
+        }
+
+        /// <summary>
+        /// Asserts that the current collection has been initialized with an actual collection.
+        /// </summary>
+        public AndConstraint<CollectionAssertions> NotBeNull(string reason, params object[] reasonParameters)
+        {
+            if (ReferenceEquals(ActualValue, null))
+            {
+                FailWith("Expected collection not to be <null>{2}.", null, ActualValue, reason, reasonParameters);
+            }
 
             return new AndConstraint<CollectionAssertions>(this);
         }

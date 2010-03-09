@@ -9,6 +9,74 @@ namespace FluentAssertions.specs
     public class CollectionAssertionSpecs
     {
         [TestMethod]
+        public void When_collection_is_expected_to_be_null_and_it_is_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> someCollection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someCollection.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void When_collection_is_expected_to_be_null_and_it_isnt_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> someCollection = new string[0];
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someCollection.Should().BeNull("because {0} is valid", "null");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection to be <null> because null is valid, but found <empty collection>.");
+        }
+
+        [TestMethod]
+        public void When_collection_is_not_expected_to_be_null_and_it_isnt_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> someCollection = new string[0];
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someCollection.Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void When_collection_is_not_expected_to_be_null_and_it_is_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> someCollection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someCollection.Should().NotBeNull("because {0} should not", "someCollection");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection not to be <null> because someCollection should not.");
+        }
+
+        [TestMethod]
         public void Should_succeed_when_asserting_collection_has_a_count_that_equals_the_number_of_items()
         {
             IEnumerable collection = new[] { 1, 2, 3 };
@@ -422,8 +490,6 @@ namespace FluentAssertions.specs
                 "Expected collection <1, 2> not to be a subset of <1, 2, 3> because I'm mistaken, but it is anyhow.");
         }
 
-        #region (Not)Contain
-
         [TestMethod]
         public void Should_succeed_when_asserting_collection_contains_an_item_from_the_collection()
         {
@@ -543,12 +609,8 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
                 "Collection <1, 2, 3> should not contain <1> because we don't like it, but found it anyhow.");
-        }        
-        
-        #endregion
+        }
 
-        #region ContainInOrder
-        
         [TestMethod]
         public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_not_throw()
         {
@@ -610,8 +672,6 @@ namespace FluentAssertions.specs
                 "Cannot verify ordered containment against a <null> collection.");
         }
 
-        #endregion
-
         [TestMethod]
         public void When_collection_does_not_contain_nulls_it_should_not_throw()
         {
@@ -643,7 +703,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
-                "Expected no <null> in collection because they are evil, but found one at index 1");
+                "Expected no <null> in collection because they are evil, but found one at index <1>.");
         }
 
         [TestMethod]
@@ -800,8 +860,6 @@ namespace FluentAssertions.specs
                 .NotContain(4);
         }
 
-        #region HaveSameCount
-
         [TestMethod]
         public void When_both_collections_have_the_same_number_elements_it_should_succeed()
         {
@@ -858,8 +916,5 @@ namespace FluentAssertions.specs
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
         }
-
-        #endregion
-
     }
 }

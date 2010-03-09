@@ -24,7 +24,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> Equal(DateTime expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value == expected),
-                "Expected <{0}>{2}, but found <{1}>.",
+                "Expected {0}{2}, but found {1}.",
                 expected, ActualValue.Value, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -38,7 +38,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> BeBefore(DateTime expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.CompareTo(expected) < 0),
-                "Expected a date/time before <{0}>{2}, but found <{1}>.",
+                "Expected a date/time before {0}{2}, but found {1}.",
                 expected, ActualValue.Value, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -52,7 +52,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> BeOnOrBefore(DateTime expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.CompareTo(expected) <= 0),
-                "Expected a date/time on or before <{0}>{2}, but found <{1}>.",
+                "Expected a date/time on or before {0}{2}, but found {1}.",
                 expected, ActualValue.Value, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -66,7 +66,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> BeAfter(DateTime expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.CompareTo(expected) > 0),
-                "Expected a date/time after <{0}>{2}, but found <{1}>.",
+                "Expected a date/time after {0}{2}, but found {1}.",
                 expected, ActualValue.Value, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -80,7 +80,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> BeOnOrAfter(DateTime expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.CompareTo(expected) >= 0),
-                "Expected a date/time on or after <{0}>{2}, but found <{1}>.",
+                "Expected a date/time on or after {0}{2}, but found {1}.",
                 expected, ActualValue.Value, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -94,7 +94,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> HaveYear(int expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.Year == expected),
-                "Expected year <{0}>{2}, but found <{1}>.",
+                "Expected year {0}{2}, but found {1}.",
                 expected, ActualValue.Value.Year, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -108,7 +108,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> HaveMonth(int expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.Month == expected),
-                "Expected month <{0}>{2}, but found <{1}>.",
+                "Expected month {0}{2}, but found {1}.",
                 expected, ActualValue.Value.Month, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -122,7 +122,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> HaveDay(int expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.Day == expected),
-                "Expected day <{0}>{2}, but found <{1}>.",
+                "Expected day {0}{2}, but found {1}.",
                 expected, ActualValue.Value.Day, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -136,7 +136,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> HaveHour(int expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.Hour == expected),
-                "Expected hour <{0}>{2}, but found <{1}>.",
+                "Expected hour {0}{2}, but found {1}.",
                 expected, ActualValue.Value.Hour, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -150,7 +150,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> HaveMinute(int expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.Minute == expected),
-                "Expected minute <{0}>{2}, but found <{1}>.",
+                "Expected minute {0}{2}, but found {1}.",
                 expected, ActualValue.Value.Minute, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);
@@ -164,7 +164,7 @@ namespace FluentAssertions
         public AndConstraint<DateTimeAssertions> HaveSecond(int expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value.Second == expected),
-                "Expected second <{0}>{2}, but found <{1}>.",
+                "Expected second {0}{2}, but found {1}.",
                 expected, ActualValue.Value.Second, reason, reasonParameters);
 
             return new AndConstraint<DateTimeAssertions>(this);

@@ -43,7 +43,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> Equal(T? expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => ActualValue.Equals(expected), "Expected value <{0}>{2}, but found <{1}>.",
+            VerifyThat(() => ActualValue.Equals(expected), "Expected value {0}{2}, but found {1}.",
                 expected, ActualValue, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);

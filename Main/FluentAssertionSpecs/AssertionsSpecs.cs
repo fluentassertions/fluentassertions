@@ -44,7 +44,7 @@ namespace FluentAssertions.specs
             assertions.ShouldThrow(x => x.Satisfy(y => (y == null), "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected to satisfy predicate because we want to test the failure message, " +
-                             "but predicate not satisfied by System.Object");
+                             "but predicate not satisfied by <System.Object>");
         }
 
         internal class AssertionsTestSubClass : Assertions<object,AssertionsTestSubClass>
