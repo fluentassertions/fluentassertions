@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace FluentAssertions
 {
-    [DebuggerNonUserCode]
     public abstract class Assertions<TSubject, TAssertions>
         where TAssertions : Assertions<TSubject, TAssertions>
     {
@@ -178,6 +177,11 @@ namespace FluentAssertions
         /// </summary>
         protected object Format(object value)
         {
+            if (ReferenceEquals(value, null))
+            {
+                return "<null>";
+            }
+
             if (value is string)
             {
                 return "\"" + value.ToString().Replace("\"", "\\\"") + "\"";

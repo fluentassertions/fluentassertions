@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.specs
 {
@@ -203,6 +205,26 @@ namespace FluentAssertions.specs
             assertions.ShouldThrow(x => x.BeEmpty("because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected empty string because we want to test the failure message, but found \"ABC\".");
+        }
+
+        [TestMethod]
+        public void When_checking_for_an_empty_string_and_it_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string nullString = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => nullString.Should().BeEmpty("because strings should never be {0}", "null");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected empty string because strings should never be null, but found <null>.");
         }
 
         [TestMethod]

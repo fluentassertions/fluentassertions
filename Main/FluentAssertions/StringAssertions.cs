@@ -3,7 +3,6 @@ using System.Diagnostics;
 
 namespace FluentAssertions
 {
-    [DebuggerNonUserCode]
     public class StringAssertions : Assertions<string, StringAssertions>
     {
         /// <summary>
@@ -136,7 +135,7 @@ namespace FluentAssertions
 
         public AndConstraint<StringAssertions> BeEmpty(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => (ActualValue.Length == 0),
+            VerifyThat(() => ((ActualValue != null) && (ActualValue.Length == 0)),
                 "Expected empty string{2}, but found {1}.", null, ActualValue, reason,
                 reasonParameters);
 
