@@ -8,6 +8,8 @@ namespace FluentAssertions.specs
     [TestClass]
     public class CollectionAssertionSpecs
     {
+        #region Be Null
+
         [TestMethod]
         public void When_collection_is_expected_to_be_null_and_it_is_it_should_not_throw()
         {
@@ -90,6 +92,10 @@ namespace FluentAssertions.specs
                 "Expected collection not to be <null> because someCollection should not.");
         }
 
+        #endregion
+
+        #region Have Count
+
         [TestMethod]
         public void Should_succeed_when_asserting_collection_has_a_count_that_equals_the_number_of_items()
         {
@@ -115,6 +121,10 @@ namespace FluentAssertions.specs
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected <4> items because we want to test the failure message, but found <3>.");
         }
+
+        #endregion
+
+        #region Be Empty
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_without_items_is_empty()
@@ -165,6 +175,10 @@ namespace FluentAssertions.specs
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected one or more items because we want to test the failure message.");
         }
+
+        #endregion
+
+        #region Be Equal
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_collection()
@@ -274,6 +288,10 @@ namespace FluentAssertions.specs
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
                 "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal because we want to test the failure message.");
         }
+
+        #endregion
+
+        #region Be Equivalent To
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_equivalent_to_an_equivalent_collection()
@@ -388,6 +406,10 @@ namespace FluentAssertions.specs
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
                 "Expected collection <1, 2, 3> not be equivalent with collection <3, 1, 2>.");
         }
+
+        #endregion
+
+        #region Be Subset Of
 
         [TestMethod]
         public void When_collection_is_subset_of_a_specified_collection_it_should_not_throw()
@@ -504,6 +526,10 @@ namespace FluentAssertions.specs
                 "Expected collection <1, 2> not to be a subset of <1, 2, 3> because I'm mistaken, but it is anyhow.");
         }
 
+        #endregion
+
+        #region Contain
+
         [TestMethod]
         public void Should_succeed_when_asserting_collection_contains_an_item_from_the_collection()
         {
@@ -597,7 +623,7 @@ namespace FluentAssertions.specs
             act.ShouldThrow().Exception<ArgumentException>().And.WithMessage(
                 "Connect verify containment against an empty collection");
         }
-        
+
         [TestMethod]
         public void Should_succeed_when_asserting_collection_does_not_contain_an_item_that_is_not_in_the_collection()
         {
@@ -624,6 +650,44 @@ namespace FluentAssertions.specs
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
                 "Collection <1, 2, 3> should not contain <1> because we don't like it, but found it anyhow.");
         }
+
+        [TestMethod]
+        public void When_a_collection_of_strings_contains_the_expected_string_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var strings = new[] {"string1", "string2", "string3"};
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            strings.Should().Contain("string2");
+        }
+
+        [TestMethod]
+        public void When_a_collection_of_strings_does_not_contain_the_expected_string_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var strings = new[] { "string1", "string2", "string3" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => strings.Should().Contain("string4", "because {0} is required", "4");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected collection <string1, string2, string3> to contain \"string4\" because 4 is required.");
+        }
+
+        #endregion
+
+        #region Contain In Order
 
         [TestMethod]
         public void When_two_collections_contain_the_same_items_in_the_same_order_it_should_not_throw()
@@ -686,6 +750,10 @@ namespace FluentAssertions.specs
                 "Cannot verify ordered containment against a <null> collection.");
         }
 
+        #endregion
+
+        #region Not Contain Nulls
+
         [TestMethod]
         public void When_collection_does_not_contain_nulls_it_should_not_throw()
         {
@@ -719,6 +787,10 @@ namespace FluentAssertions.specs
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
                 "Expected no <null> in collection because they are evil, but found one at index <1>.");
         }
+
+        #endregion
+
+        #region Contain Items Assignable To
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_with_all_items_of_same_type_only_contains_item_of_one_type()
@@ -778,6 +850,10 @@ namespace FluentAssertions.specs
                 ", but item <1> at index 0 is of type <System.Int32>.");
         }
 
+        #endregion
+
+        #region Only Have Unique Items
+
         [TestMethod]
         public void Should_succeed_when_asserting_collection_with_unique_items_contains_only_unique_items()
         {
@@ -803,8 +879,11 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
                 "Expected only unique items because we don't like duplicates, but item <3> was found multiple times.");
-        }       
+        }
 
+        #endregion
+
+        #region Have Element At
 
         [TestMethod]
         public void When_collection_has_expected_element_at_specific_index_it_should_not_throw()
@@ -861,6 +940,9 @@ namespace FluentAssertions.specs
                 "Expected <3> at index 4 because we put it there, but found no element.");
         }
 
+        #endregion
+
+        #region Miscellaneous
 
         [TestMethod]
         public void Should_support_chaining_constraints_with_and()
@@ -873,6 +955,10 @@ namespace FluentAssertions.specs
                 .And
                 .NotContain(4);
         }
+
+        #endregion
+
+        #region Have Same Count
 
         [TestMethod]
         public void When_both_collections_have_the_same_number_elements_it_should_succeed()
@@ -930,6 +1016,8 @@ namespace FluentAssertions.specs
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
         }
+
+        #endregion
     }
 
     internal class CustomEnumerable : IEnumerable
