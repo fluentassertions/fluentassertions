@@ -44,7 +44,7 @@ namespace FluentAssertions
                 expectedMessage, null, reason, reasonParameters);
 
             VerifyThat(ValueOf.Message == expectedMessage,
-                "Expected exception with message {0}{2}, but found {1}.",
+                "Expected exception with message \n{0}{2}, but found \n{1}.",
                 expectedMessage, ValueOf.Message, reason);
 
             return new AndConstraint<ExceptionAssertions<TException>>(this);
@@ -116,7 +116,7 @@ namespace FluentAssertions
                 null, null, reason, reasonParameters);
 
             VerifyThat((ValueOf.InnerException.Message == expectedInnerMessage),
-                "Expected inner exception with message {0}{2}, but found {1}.",
+                "Expected inner exception with message \n{0}{2}, but found \n{1}.",
                 expectedInnerMessage,
                 ValueOf.InnerException.Message,
                 reason, reasonParameters);

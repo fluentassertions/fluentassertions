@@ -42,7 +42,7 @@ namespace FluentAssertions.specs
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected exception with message \"expected message\", but found \"unexpected message\".");
+                    "Expected exception with message \n\"expected message\", but found \n\"unexpected message\".");
             }
         }
 
@@ -231,7 +231,7 @@ namespace FluentAssertions.specs
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected inner exception with message \"expected message\", but found \"unexpected message\".");
+                    "Expected inner exception with message \n\"expected message\", but found \n\"unexpected message\".");
             }
         }
 
@@ -251,7 +251,7 @@ namespace FluentAssertions.specs
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected inner exception with message \"expected message\" because IFoo.Do should do just that, but found \"unexpected message\".");
+                    "Expected inner exception with message \n\"expected message\" because IFoo.Do should do just that, but found \n\"unexpected message\".");
             }
         }
 
