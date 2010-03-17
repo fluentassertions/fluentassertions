@@ -37,7 +37,7 @@ namespace FluentAssertions.specs
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.Be(Tomorrow, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage(string.Format(
+                .WithMessage(string.Format(
                                  "Expected <{0}> because we want to test the failure message, but found <{1}>.", Tomorrow, Today));
         }
 
@@ -60,7 +60,7 @@ namespace FluentAssertions.specs
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.BeBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage(string.Format(
+                .WithMessage(string.Format(
                                  "Expected a date/time before <{0}> because we want to test the failure message, but found <{1}>.",
                                  Yesterday, Today));
         }
@@ -90,7 +90,7 @@ namespace FluentAssertions.specs
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.BeOnOrBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage(string.Format(
+                .WithMessage(string.Format(
                                  "Expected a date/time on or before <{0}> because we want to test the failure message, but found <{1}>.",
                                  Yesterday, Today));
         }
@@ -114,7 +114,7 @@ namespace FluentAssertions.specs
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.BeAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage(string.Format(
+                .WithMessage(string.Format(
                                  "Expected a date/time after <{0}> because we want to test the failure message, but found <{1}>.",
                                  Tomorrow, Today));
         }
@@ -144,7 +144,7 @@ namespace FluentAssertions.specs
             var assertions = Today.Should();
             assertions.ShouldThrow(x => x.BeOnOrAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage(string.Format(
+                .WithMessage(string.Format(
                                  "Expected a date/time on or after <{0}> because we want to test the failure message, but found <{1}>.",
                                  Tomorrow, Today));
         }
@@ -168,7 +168,7 @@ namespace FluentAssertions.specs
             var assertions = new DateTime(2009, 12, 31).Should();
             assertions.ShouldThrow(x => x.HaveYear(2008, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected year <2008> because we want to test the failure message, but found <2009>.");
+                .WithMessage("Expected year <2008> because we want to test the failure message, but found <2009>.");
         }
 
         [TestMethod]
@@ -190,7 +190,7 @@ namespace FluentAssertions.specs
             var assertions = new DateTime(2009, 12, 31).Should();
             assertions.ShouldThrow(x => x.HaveMonth(11, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected month <11> because we want to test the failure message, but found <12>.");
+                .WithMessage("Expected month <11> because we want to test the failure message, but found <12>.");
         }
 
         [TestMethod]
@@ -212,7 +212,7 @@ namespace FluentAssertions.specs
             var assertions = new DateTime(2009, 12, 31).Should();
             assertions.ShouldThrow(x => x.HaveDay(30, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected day <30> because we want to test the failure message, but found <31>.");
+                .WithMessage("Expected day <30> because we want to test the failure message, but found <31>.");
         }
 
         [TestMethod]
@@ -234,7 +234,7 @@ namespace FluentAssertions.specs
             var assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.ShouldThrow(x => x.HaveHour(22, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected hour <22> because we want to test the failure message, but found <23>.");
+                .WithMessage("Expected hour <22> because we want to test the failure message, but found <23>.");
         }
 
         [TestMethod]
@@ -256,7 +256,7 @@ namespace FluentAssertions.specs
             var assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.ShouldThrow(x => x.HaveMinute(58, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected minute <58> because we want to test the failure message, but found <59>.");
+                .WithMessage("Expected minute <58> because we want to test the failure message, but found <59>.");
         }
 
         [TestMethod]
@@ -278,7 +278,7 @@ namespace FluentAssertions.specs
             var assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.ShouldThrow(x => x.HaveSecond(1, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected second <1> because we want to test the failure message, but found <0>.");
+                .WithMessage("Expected second <1> because we want to test the failure message, but found <0>.");
         }
 
         [TestMethod]

@@ -13,7 +13,7 @@ namespace FluentAssertions.specs
             assertions
                 .ShouldThrow(x => x.AssertFail("because {0} should always fail.", typeof(AssertionsTestSubClass).Name))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
+                .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
         }        
         
         [TestMethod]
@@ -24,7 +24,7 @@ namespace FluentAssertions.specs
             assertions
                 .ShouldThrow(x => x.AssertFail("{0} should always fail.", typeof(AssertionsTestSubClass).Name))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
+                .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace FluentAssertions.specs
 
             assertions.ShouldThrow(x => x.Satisfy(y => (y == null), "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected to satisfy predicate because we want to test the failure message, " +
+                .WithMessage("Expected to satisfy predicate because we want to test the failure message, " +
                              "but predicate not satisfied by <System.Object>");
         }
 

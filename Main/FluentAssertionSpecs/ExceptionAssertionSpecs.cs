@@ -14,7 +14,7 @@ namespace FluentAssertions.specs
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
             testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException("some message"));
 
-            testSubject.ShouldThrow(x => x.Do()).Exception<InvalidOperationException>().And.WithMessage("some message");
+            testSubject.ShouldThrow(x => x.Do()).Exception<InvalidOperationException>().WithMessage("some message");
         }
 
         [TestMethod]
@@ -24,7 +24,7 @@ namespace FluentAssertions.specs
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
             testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException("unexpected message"));
 
-            testSubject.ShouldThrow(x => x.Do()).Exception<InvalidOperationException>().And.WithMessage("expected message");
+            testSubject.ShouldThrow(x => x.Do()).Exception<InvalidOperationException>().WithMessage("expected message");
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace FluentAssertions.specs
                 //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
                     .ShouldThrow(x => x.Do())
-                    .Exception<InvalidOperationException>().And
+                    .Exception<InvalidOperationException>()
                     .WithMessage("message2");
 
                 Assert.Fail("This point should not be reached");
@@ -129,7 +129,7 @@ namespace FluentAssertions.specs
             testSubject.Stub(x => x.Do()).Throw(new Exception("", new ArgumentException()));
 
             testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
-                .And.WithInnerException<ArgumentException>();
+                .WithInnerException<ArgumentException>();
         }
 
         [TestMethod]
@@ -142,7 +142,7 @@ namespace FluentAssertions.specs
                 testSubject.Stub(x => x.Do()).Throw(new Exception("", new NullReferenceException()));
 
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
-                    .And.WithInnerException<ArgumentException>();
+                    .WithInnerException<ArgumentException>();
 
                 Assert.Fail("This point should not be reached");
             }
@@ -164,7 +164,7 @@ namespace FluentAssertions.specs
                 testSubject.Stub(x => x.Do()).Throw(new Exception("", new NullReferenceException()));
 
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
-                    .And.WithInnerException<ArgumentException>("because {0} should do just that", "IFoo.Do");
+                    .WithInnerException<ArgumentException>("because {0} should do just that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
             }
@@ -185,7 +185,7 @@ namespace FluentAssertions.specs
                 testSubject.Stub(x => x.Do()).Throw(new Exception(""));
 
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
-                    .And.WithInnerException<InvalidOperationException>();
+                    .WithInnerException<InvalidOperationException>();
 
                 Assert.Fail("This point should not be reached");
             }
@@ -207,7 +207,7 @@ namespace FluentAssertions.specs
                 testSubject.Stub(x => x.Do()).Throw(new Exception(""));
 
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
-                    .And.WithInnerException<InvalidOperationException>("because {0} should do that", "IFoo.Do");
+                    .WithInnerException<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
             }
@@ -225,7 +225,7 @@ namespace FluentAssertions.specs
             testSubject.Stub(x => x.Do()).Throw(new Exception("", new InvalidOperationException("expected message")));
 
             testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
-                .And.WithInnerMessage("expected message");
+                .WithInnerMessage("expected message");
         }
 
         [TestMethod]
@@ -237,7 +237,7 @@ namespace FluentAssertions.specs
                 testSubject.Stub(x => x.Do()).Throw(new Exception("", new InvalidOperationException("unexpected message")));
 
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
-                    .And.WithInnerMessage("expected message");
+                    .WithInnerMessage("expected message");
 
                 Assert.Fail("This point should not be reached");
             }
@@ -257,7 +257,7 @@ namespace FluentAssertions.specs
                 testSubject.Stub(x => x.Do()).Throw(new Exception("", new InvalidOperationException("unexpected message")));
 
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
-                    .And.WithInnerMessage("expected message", "because {0} should do just that", "IFoo.Do");
+                    .WithInnerMessage("expected message", "because {0} should do just that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
             }
@@ -278,7 +278,7 @@ namespace FluentAssertions.specs
             Action act = target.Do;
 
             act.ShouldThrow().Exception<ArgumentException>()
-                .And.ValueOf.ParamName.Should().Be(SomeParamNameValue);
+                .ValueOf.ParamName.Should().Be(SomeParamNameValue);
         }
 
         [TestMethod]
@@ -291,9 +291,9 @@ namespace FluentAssertions.specs
             testSubject
                 .ShouldThrow(x => x.Do())
                 .Exception<InvalidOperationException>()
-                .And.WithInnerMessage("inner message")
-                .And.WithInnerException<ArgumentException>()
-                .And.WithInnerMessage("inner message");
+                .WithInnerMessage("inner message")
+                .WithInnerException<ArgumentException>()
+                .WithInnerMessage("inner message");
         }
     }
 

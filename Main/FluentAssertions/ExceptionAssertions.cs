@@ -22,7 +22,7 @@ namespace FluentAssertions
         /// </summary>
         /// <param name="expectedMessage">The expected message of the exception.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public AndConstraint<ExceptionAssertions<TException>> WithMessage(string expectedMessage)
+        public ExceptionAssertions<TException> WithMessage(string expectedMessage)
         {
             return WithMessage(expectedMessage, null, null);
         }
@@ -36,7 +36,7 @@ namespace FluentAssertions
         /// </param>
         /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public virtual AndConstraint<ExceptionAssertions<TException>> WithMessage(string expectedMessage, string reason,
+        public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string reason,
             params object[] reasonParameters)
         {
             VerifyThat((ValueOf != null),
@@ -53,7 +53,7 @@ namespace FluentAssertions
                     expectedMessage, message, reason, reasonParameters);
             }
 
-            return new AndConstraint<ExceptionAssertions<TException>>(this);
+            return this;
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace FluentAssertions
         /// </summary>
         /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public AndConstraint<ExceptionAssertions<TException>> WithInnerException<TInnerException>()
+        public ExceptionAssertions<TException> WithInnerException<TInnerException>()
         {
             return WithInnerException<TInnerException>(null, null);
         }
@@ -73,7 +73,7 @@ namespace FluentAssertions
         /// <param name="reason">The reason why the inner exception should be of the supplied type.</param>
         /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public virtual AndConstraint<ExceptionAssertions<TException>> WithInnerException<TInnerException>(string reason,
+        public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string reason,
             params object[] reasonParameters)
         {
             VerifyThat(ValueOf != null, "Expected inner {0}{2}, but no exception was thrown.",
@@ -89,7 +89,7 @@ namespace FluentAssertions
                 ValueOf.InnerException.GetType(),
                 reason, reasonParameters);
 
-            return new AndConstraint<ExceptionAssertions<TException>>(this);
+            return this;
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace FluentAssertions
         /// </summary>
         /// <param name="expectedInnerMessage">The expected message of the inner exception.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public AndConstraint<ExceptionAssertions<TException>> WithInnerMessage(string expectedInnerMessage)
+        public ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage)
         {
             return WithInnerMessage(expectedInnerMessage, null, null);
         }
@@ -111,7 +111,7 @@ namespace FluentAssertions
         /// </param>
         /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public virtual AndConstraint<ExceptionAssertions<TException>> WithInnerMessage(string expectedInnerMessage, string reason,
+        public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string reason,
             params object[] reasonParameters)
         {
             VerifyThat(ValueOf != null, "Expected exception{2}, but no exception was thrown.",
@@ -133,7 +133,7 @@ namespace FluentAssertions
                     reason, reasonParameters);
             }
 
-            return new AndConstraint<ExceptionAssertions<TException>>(this);
+            return this;
         }
     }
 }

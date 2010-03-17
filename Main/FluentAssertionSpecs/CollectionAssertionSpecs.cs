@@ -54,7 +54,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection to be <null> because null is valid, but found <empty collection>.");
         }
 
@@ -88,7 +88,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection not to be <null> because someCollection should not.");
         }
 
@@ -119,7 +119,7 @@ namespace FluentAssertions.specs
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.HaveCount(4, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected <4> items because we want to test the failure message, but found <3>.");
+                .WithMessage("Expected <4> items because we want to test the failure message, but found <3>.");
         }
 
         #endregion
@@ -148,7 +148,7 @@ namespace FluentAssertions.specs
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.BeEmpty("because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected no items because we want to test the failure message, but found <3>.");
+                .WithMessage("Expected no items because we want to test the failure message, but found <3>.");
         }
 
         [TestMethod]
@@ -173,7 +173,7 @@ namespace FluentAssertions.specs
             var assertions = collection.Should();
             assertions.ShouldThrow(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected one or more items because we want to test the failure message.");
+                .WithMessage("Expected one or more items because we want to test the failure message.");
         }
 
         #endregion
@@ -212,7 +212,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> to be equal to <1, 2, 5>, but it differs at index 2");
         }
         
@@ -233,7 +233,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> to be equal to <1, 2, 5> because we want to test the failure message," + 
                 " but it differs at index 2");
         }
@@ -264,7 +264,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal.");
         }
 
@@ -285,7 +285,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal because we want to test the failure message.");
         }
 
@@ -325,7 +325,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> to contain the same items as <1, 2> in any order because we treat all alike.");
         }        
         
@@ -346,7 +346,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<ArgumentException>().And.WithMessage(
+            act.ShouldThrow().Exception<ArgumentException>().WithMessage(
                 "Cannot verify equivalence against an empty collection.");
         }
         
@@ -367,7 +367,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
                 "Cannot verify equivalence against a <null> collection.");
         }
         
@@ -403,7 +403,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> not be equivalent with collection <3, 1, 2>.");
         }
 
@@ -443,7 +443,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection to be a subset of <1, 2, 4, 5> because we want to test the failure message, " +
                 "but items <3, 6> are not part of the superset.");
         }
@@ -465,7 +465,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection to be a subset of <1, 2, 4, 5>, but the subset is empty.");
         }
 
@@ -486,7 +486,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
                 "Cannot verify a subset against a <null> collection.");
         }
         
@@ -522,7 +522,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2> not to be a subset of <1, 2, 3> because I'm mistaken, but it is anyhow.");
         }
 
@@ -560,7 +560,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> to contain <4> because we do, but could not find <4>.");
         }
 
@@ -580,7 +580,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> to contain <3, 4, 5> because we do, but could not find <4, 5>.");
         }
 
@@ -600,7 +600,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
                 "Connect verify containment against a <null> collection");
         }
 
@@ -620,7 +620,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<ArgumentException>().And.WithMessage(
+            act.ShouldThrow().Exception<ArgumentException>().WithMessage(
                 "Connect verify containment against an empty collection");
         }
 
@@ -647,7 +647,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Collection <1, 2, 3> should not contain <1> because we don't like it, but found it anyhow.");
         }
 
@@ -681,7 +681,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected collection <string1, string2, string3> to contain \"string4\" because 4 is required.");
         }
 
@@ -714,7 +714,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected items <3, 1> in ordered collection <1, 2, 3> " + 
                 "because we said so, but the order did not match.");
         }
@@ -730,7 +730,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected items <4, 1> in ordered collection <1, 2, 3> " +
                 "because we failed, but <4> did not appear.");
         }
@@ -746,7 +746,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
                 "Cannot verify ordered containment against a <null> collection.");
         }
 
@@ -784,7 +784,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected no <null> in collection because they are evil, but found one at index <1>.");
         }
 
@@ -823,7 +823,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected only <System.String> items in collection, but item <1> at index 0 is of type <System.Int32>.");
         }       
 
@@ -845,7 +845,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>()
-                .And.WithMessage(
+                .WithMessage(
                 "Expected only <System.String> items in collection because we want to test the failure message" + 
                 ", but item <1> at index 0 is of type <System.Int32>.");
         }
@@ -877,7 +877,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected only unique items because we don't like duplicates, but item <3> was found multiple times.");
         }
 
@@ -916,7 +916,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected <3> at index 1 because we put it there, but found <2>.");
         }
 
@@ -936,7 +936,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
-            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected <3> at index 4 because we put it there, but found no element.");
         }
 
@@ -994,7 +994,7 @@ namespace FluentAssertions.specs
             extensions
                 .ShouldThrow(e => e.HaveSameCount(secondCollection))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected collection to have <2> items, but found <3>.");
+                .WithMessage("Expected collection to have <2> items, but found <3>.");
         }        
         
         [TestMethod]
@@ -1014,7 +1014,7 @@ namespace FluentAssertions.specs
             extensions
                 .ShouldThrow(e => e.HaveSameCount(secondCollection, "we want to test the {0}", "reason"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
+                .WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
         }
 
         #endregion

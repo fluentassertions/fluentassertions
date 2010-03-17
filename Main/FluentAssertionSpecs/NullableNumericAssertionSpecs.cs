@@ -27,7 +27,7 @@ namespace FluentAssertions.specs
             var assertions = nullableInteger.Should();
             assertions.ShouldThrow(x => x.HaveValue("because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected a value because we want to test the failure message.");
+                .WithMessage("Expected a value because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace FluentAssertions.specs
             var assertions = nullableInteger.Should();
             assertions.ShouldThrow(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Did not expect a value because we want to test the failure message.");
+                .WithMessage("Did not expect a value because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace FluentAssertions.specs
             var assertions = nullableIntegerA.Should();
             assertions.ShouldThrow(x => x.Be(nullableIntegerB, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected value <2> because we want to test the failure message, but found <1>.");
+                .WithMessage("Expected value <2> because we want to test the failure message, but found <1>.");
         }
 
         [TestMethod]

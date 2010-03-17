@@ -35,7 +35,7 @@ namespace FluentAssertions
         /// </summary>
         /// <typeparam name="TException">The expected type of the exception.</typeparam>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public AndConstraint<ExceptionAssertions<TException>> Exception<TException>()
+        public ExceptionAssertions<TException> Exception<TException>()
             where TException : Exception
         {
             return Exception<TException>(String.Empty);
@@ -48,7 +48,7 @@ namespace FluentAssertions
         /// <param name="reason">The reason why the exception should be of type <typeparamref name="TException"/>.</param>
         /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public AndConstraint<ExceptionAssertions<TException>> Exception<TException>(string reason, params object[] reasonParameters)
+        public ExceptionAssertions<TException> Exception<TException>(string reason, params object[] reasonParameters)
             where TException : Exception
         {
             VerifyThat(exception != null, "Expected {0}{2}, but no exception was thrown.",
@@ -58,8 +58,7 @@ namespace FluentAssertions
                 "Expected {0}{2}, but found {1}.",
                 typeof(TException), exception.GetType(), reason, reasonParameters);
 
-            return
-                new AndConstraint<ExceptionAssertions<TException>>(new ExceptionAssertions<TException>(exception as TException));
+            return new ExceptionAssertions<TException>(exception as TException);
         }
     }
 }
