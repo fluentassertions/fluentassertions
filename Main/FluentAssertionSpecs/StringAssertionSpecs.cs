@@ -425,50 +425,131 @@ namespace FluentAssertions.specs
         }
 
         #endregion
-        
+
+        #region Contain
+
         [TestMethod]
-        public void Should_succeed_when_asserting_string_contains_a_value_that_is_part_of_the_string()
+        public void When_string_contains_the_expected_string_it_should_not_throw()
         {
             "ABCDEF".Should().Contain("BCD");
         }
         
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_when_asserting_string_contains_a_value_that_is_not_part_of_the_string()
+        public void When_string_does_not_contain_an_expected_string_it_should_throw()
         {
-            "ABCDEF".Should().Contain("XYZ");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABCDEF".Should().Contain("XYZ", "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
+        }
+        
+        [TestMethod]
+        public void When_containment_is_asserted_against_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABCDEF".Should().Contain(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+                "Cannot check containment against <null>.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_string_contains_a_value_that_is_not_part_of_the_string()
+        public void When_containment_is_asserted_against_an_empty_string_it_should_throw()
         {
-            var assertions = "ABCDEF".Should();
-            assertions.ShouldThrow(x => x.Contain("XYZ", "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected string containing \"XYZ\" because we want to test the failure message, but found \"ABCDEF\".");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABCDEF".Should().Contain("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<ArgumentException>().And.WithMessage(
+                "Cannot check containment against an empty string.");
         }
 
+        #endregion
+
+        #region Be Equivalent To
+
         [TestMethod]
-        public void Should_succeed_when_asserting_string_to_be_equivalent_to_the_same_value()
+        public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
         {
             "ABC".Should().BeEquivalentTo("abc");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_when_asserting_string_to_be_equivalent_to_different_value()
+        public void When_strings_differ_other_than_by_case_it_should_throw()
         {
-            "ABC".Should().BeEquivalentTo("def");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ADC".Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected \"abc\" because we will test 1 + 2, but \"ADC\" differs near 'D' (index 1).");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_string_to_be_equivalent_to_different_value()
+        public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_throw()
         {
-            var assertions = "ABC".Should();
-            assertions.ShouldThrow(x => x.BeEquivalentTo("def", "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage("Expected string equivalent to \"def\" because we want to test the failure message, but found \"ABC\".");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABCDEF".Should().BeEquivalentTo(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected string to be <null>, but found \"ABCDEF\".");
         }
+
+        [TestMethod]
+        public void When_non_empty_string_is_expected_to_be_equivalent_to_empty_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().BeEquivalentTo("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected \"\", but \"ABC\" is too long.");
+        }
+
+        [TestMethod]
+        public void When_string_is_equivalent_but_too_short_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "AB".Should().BeEquivalentTo("ABCD");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected \"ABCD\", but \"AB\" is too short.");
+        }
+
+        #endregion
 
         [TestMethod]
         public void Should_succeed_when_asserting_empty_string_to_be_empty()
@@ -554,7 +635,7 @@ namespace FluentAssertions.specs
             assertions.ShouldThrow(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage(
-                "Expected string with length <1> because we want to test the failure message, but found string \"ABC\".");
+                "Expected string with length <1> because we want to test the failure message, but found string \"ABC\" with length <3>.");
         }
 
         [TestMethod]

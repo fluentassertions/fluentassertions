@@ -20,28 +20,8 @@ namespace FluentAssertions
 
         public virtual AndConstraint<StringAssertions> Equal(string expected, string reason, params object[] reasonParameters)
         {
-            if ((expected == null) && (ActualValue != null))
-            {
-                FailWith("Expected string to be {0}, but found {1}.", expected, ActualValue, reason, reasonParameters);
-            }
-
-            if (ActualValue == null)
-            {
-                FailWith("Expected {0}{2}, but found {1}.",
-                    expected, ActualValue, reason, reasonParameters);
-            }
-
-            if (ActualValue.Length < expected.Length)
-            {
-                FailWith("Expected {0}{2}, but {1} is too short.",
-                    expected, ActualValue, reason, reasonParameters);
-            }
-            
-            if (ActualValue.Length > expected.Length)
-            {
-                FailWith("Expected {0}{2}, but {1} is too long.",
-                    expected, ActualValue, reason, reasonParameters);
-            }
+            VerifyStringsAgainstNulls(expected, reason, reasonParameters);
+            VerifyStringLengthEquality(expected, reason, reasonParameters);
 
             for (int index = 0; index < ActualValue.Length; index++)
             {
@@ -68,10 +48,48 @@ namespace FluentAssertions
         /// </summary>
         public virtual AndConstraint<StringAssertions> BeEquivalentTo(string expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => (String.Compare(ActualValue, expected, StringComparison.CurrentCultureIgnoreCase) == 0),
-                "Expected string equivalent to {0}{2}, but found {1}.", expected, ActualValue, reason, reasonParameters);
+            VerifyStringsAgainstNulls(expected, reason, reasonParameters);
+            VerifyStringLengthEquality(expected, reason, reasonParameters);
+
+            for (int index = 0; index < ActualValue.Length; index++)
+            {
+                if (char.ToLower(ActualValue[index]) != char.ToLower(expected[index]))
+                {
+                    FailWith("Expected {0}{2}, but {1} differs near '" + ActualValue[index] + "' (index " + index + ").",
+                        expected, ActualValue, reason, reasonParameters);
+                }
+            }
 
             return new AndConstraint<StringAssertions>(this);
+        }
+
+        private void VerifyStringsAgainstNulls(string expected, string reason, object[] reasonParameters)
+        {
+            if ((expected == null) && (ActualValue != null))
+            {
+                FailWith("Expected string to be {0}, but found {1}.", expected, ActualValue, reason, reasonParameters);
+            }
+
+            if (ActualValue == null)
+            {
+                FailWith("Expected {0}{2}, but found {1}.",
+                    expected, ActualValue, reason, reasonParameters);
+            }
+        }
+
+        private void VerifyStringLengthEquality(string expected, string reason, object[] reasonParameters)
+        {
+            if (ActualValue.Length < expected.Length)
+            {
+                FailWith("Expected {0}{2}, but {1} is too short.",
+                    expected, ActualValue, reason, reasonParameters);
+            }
+            
+            if (ActualValue.Length > expected.Length)
+            {
+                FailWith("Expected {0}{2}, but {1} is too long.",
+                    expected, ActualValue, reason, reasonParameters);
+            }
         }
 
         public AndConstraint<StringAssertions> NotEqual(string expected)
@@ -190,8 +208,18 @@ namespace FluentAssertions
 
         public virtual AndConstraint<StringAssertions> Contain(string expected, string reason, params object[] reasonParameters)
         {
+            if (expected == null)
+            {
+                throw new NullReferenceException("Cannot check containment against <null>.");
+            }
+            
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot check containment against an empty string.");
+            }
+
             VerifyThat(() => ActualValue.Contains(expected),
-                "Expected string containing {0}{2}, but found {1}.", expected, ActualValue, reason,
+                "Expected string {1} to contain {0}{2}.", expected, ActualValue, reason,
                 reasonParameters);
 
             return new AndConstraint<StringAssertions>(this);
@@ -232,7 +260,8 @@ namespace FluentAssertions
         public virtual AndConstraint<StringAssertions> HaveLength(int expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Length == expected),
-                "Expected string with length {0}{2}, but found string {1}.", expected, ActualValue, reason, reasonParameters);
+                "Expected string with length {0}{2}, but found string {1} with length <" + ActualValue.Length + ">.", 
+                expected, ActualValue, reason, reasonParameters);
 
             return new AndConstraint<StringAssertions>(this);
         }
