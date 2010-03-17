@@ -43,9 +43,15 @@ namespace FluentAssertions
                 "Expected exception with message {0}{2}, but no exception was thrown.",
                 expectedMessage, null, reason, reasonParameters);
 
-            VerifyThat(ValueOf.Message == expectedMessage,
-                "Expected exception with message \n{0}{2}, but found \n{1}.",
-                expectedMessage, ValueOf.Message, reason);
+            string message = ValueOf.Message;
+            int index = message.IndexOfFirstMismatch(expectedMessage);
+            
+            if (index != -1)
+            {
+                FailWith(
+                    "Expected exception with message {0}{2}, but {1} differs near '" + message[index] + "' (index " + index + ").",
+                    expectedMessage, message, reason, reasonParameters);
+            }
 
             return new AndConstraint<ExceptionAssertions<TException>>(this);
         }
@@ -70,15 +76,15 @@ namespace FluentAssertions
         public virtual AndConstraint<ExceptionAssertions<TException>> WithInnerException<TInnerException>(string reason,
             params object[] reasonParameters)
         {
-            VerifyThat(ValueOf != null, "Expected inner exception {0}{2}, but no exception was thrown.",
+            VerifyThat(ValueOf != null, "Expected inner {0}{2}, but no exception was thrown.",
                 typeof(TInnerException), null, reason, reasonParameters);
 
             VerifyThat(ValueOf.InnerException != null,
-                "Expected inner exception {0}{2}, but the thrown exception has no inner exception.",
+                "Expected inner {0}{2}, but the thrown exception has no inner exception.",
                 typeof(TInnerException), null, reason, reasonParameters);
 
             VerifyThat((ValueOf.InnerException.GetType() == typeof(TInnerException)),
-                "Expected inner exception {0}{2}, but found {1}.",
+                "Expected inner {0}{2}, but found {1}.",
                 typeof(TInnerException),
                 ValueOf.InnerException.GetType(),
                 reason, reasonParameters);
@@ -115,11 +121,17 @@ namespace FluentAssertions
                 "Expected exception{2}, but the thrown exception has no inner exception.",
                 null, null, reason, reasonParameters);
 
-            VerifyThat((ValueOf.InnerException.Message == expectedInnerMessage),
-                "Expected inner exception with message \n{0}{2}, but found \n{1}.",
-                expectedInnerMessage,
-                ValueOf.InnerException.Message,
-                reason, reasonParameters);
+            string innerMessage = ValueOf.InnerException.Message;
+
+            int index = innerMessage.IndexOfFirstMismatch(expectedInnerMessage);
+            if (index != -1)
+            {
+                FailWith(
+                    "Expected inner exception with message {0}{2}, but {1} differs near '" + innerMessage[index] + "' (index " + index + ").",
+                    expectedInnerMessage,
+                    innerMessage,
+                    reason, reasonParameters);
+            }
 
             return new AndConstraint<ExceptionAssertions<TException>>(this);
         }

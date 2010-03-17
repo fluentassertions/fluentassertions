@@ -23,13 +23,12 @@ namespace FluentAssertions
             VerifyStringsAgainstNulls(expected, reason, reasonParameters);
             VerifyStringLengthEquality(expected, reason, reasonParameters);
 
-            for (int index = 0; index < ActualValue.Length; index++)
+            int indexOfMismatch = ActualValue.IndexOfFirstMismatch(expected);
+
+            if (indexOfMismatch != -1)
             {
-                if (ActualValue[index] != expected[index])
-                {
-                    FailWith("Expected {0}{2}, but {1} differs near '" + ActualValue[index] + "' (index " + index + ").", 
-                        expected, ActualValue, reason, reasonParameters);
-                }
+                FailWith("Expected {0}{2}, but {1} differs near '" + ActualValue[indexOfMismatch] + "' (index " + indexOfMismatch + ").", 
+                    expected, ActualValue, reason, reasonParameters);
             }
 
             return new AndConstraint<StringAssertions>(this);

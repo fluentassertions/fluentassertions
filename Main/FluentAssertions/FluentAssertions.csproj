@@ -60,6 +60,7 @@
     <Compile Include="Assertions.cs" />
     <Compile Include="BooleanAssertions.cs" />
     <Compile Include="CollectionAssertions.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FluentAssertionExtensions.cs" />
     <Compile Include="DateTimeAssertions.cs" />
     <Compile Include="ExceptionAssertions.cs" />

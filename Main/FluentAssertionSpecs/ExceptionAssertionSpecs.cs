@@ -30,19 +30,32 @@ namespace FluentAssertions.specs
         [TestMethod]
         public void When_subject_throws_some_exception_with_unexpected_message_it_should_throw_with_clear_description()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo subjectThatThrows = MockRepository.GenerateStub<IFoo>();
+            subjectThatThrows.Stub(x => x.Do()).Throw(new InvalidOperationException("message1"));
+
             try
             {
-                IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-                testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException("unexpected message"));
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                subjectThatThrows
+                    .ShouldThrow(x => x.Do())
+                    .Exception<InvalidOperationException>().And
+                    .WithMessage("message2");
 
-                testSubject.ShouldThrow(x => x.Do()).Exception<InvalidOperationException>().And.WithMessage("expected message");
-
-                Assert.Fail("ShouldThrow() did not detect the wrong exception message");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
-                    "Expected exception with message \n\"expected message\", but found \n\"unexpected message\".");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                Assert.AreEqual(
+                    "Expected exception with message \"message2\", but \"message1\" differs near '1' (index 7).",
+                    ex.Message);
             }
         }
 
@@ -57,12 +70,12 @@ namespace FluentAssertions.specs
 
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>("because {0} should do that", "IFoo.Do");
 
-                Assert.Fail("An exception should have been thrown");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected exception <System.Exception> because IFoo.Do should do that, but no exception was thrown.");
+                    "Expected <System.Exception> because IFoo.Do should do that, but no exception was thrown.");
             }
         }
 
@@ -78,12 +91,12 @@ namespace FluentAssertions.specs
                     .ShouldThrow(x => x.Do())
                     .Exception<InvalidOperationException>();
 
-                Assert.Fail("ShouldThrow() dit not detect the wrong exception type");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected exception <System.InvalidOperationException>, but found <System.ArgumentException>.");
+                    "Expected <System.InvalidOperationException>, but found <System.ArgumentException>.");
             }
         }
 
@@ -100,12 +113,12 @@ namespace FluentAssertions.specs
                     .ShouldThrow(x => x.Do())
                     .Exception<InvalidOperationException>("because {0} should throw that one", "IFoo.Do");
 
-                Assert.Fail("ShouldThrow() dit not detect the wrong exception type");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected exception <System.InvalidOperationException> because IFoo.Do should throw that one, but found <System.ArgumentException>.");
+                    "Expected <System.InvalidOperationException> because IFoo.Do should throw that one, but found <System.ArgumentException>.");
             }
         }
 
@@ -131,12 +144,12 @@ namespace FluentAssertions.specs
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
                     .And.WithInnerException<ArgumentException>();
 
-                Assert.Fail("ShouldThrow() dit not throw");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected inner exception <System.ArgumentException>, but found <System.NullReferenceException>.");
+                    "Expected inner <System.ArgumentException>, but found <System.NullReferenceException>.");
             }
         }
 
@@ -153,12 +166,12 @@ namespace FluentAssertions.specs
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
                     .And.WithInnerException<ArgumentException>("because {0} should do just that", "IFoo.Do");
 
-                Assert.Fail("ShouldThrow() dit not throw");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected inner exception <System.ArgumentException> because IFoo.Do should do just that, but found <System.NullReferenceException>.");
+                    "Expected inner <System.ArgumentException> because IFoo.Do should do just that, but found <System.NullReferenceException>.");
             }
         }
 
@@ -174,12 +187,12 @@ namespace FluentAssertions.specs
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
                     .And.WithInnerException<InvalidOperationException>();
 
-                Assert.Fail("ShouldThrow() dit not throw");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected inner exception <System.InvalidOperationException>, but the thrown exception has no inner exception.");
+                    "Expected inner <System.InvalidOperationException>, but the thrown exception has no inner exception.");
             }
         }
 
@@ -196,12 +209,12 @@ namespace FluentAssertions.specs
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
                     .And.WithInnerException<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
-                Assert.Fail("ShouldThrow() dit not throw");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected inner exception <System.InvalidOperationException> because IFoo.Do should do that, but the thrown exception has no inner exception.");
+                    "Expected inner <System.InvalidOperationException> because IFoo.Do should do that, but the thrown exception has no inner exception.");
             }
         }
 
@@ -226,12 +239,12 @@ namespace FluentAssertions.specs
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
                     .And.WithInnerMessage("expected message");
 
-                Assert.Fail("ShouldThrow() dit not throw");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected inner exception with message \n\"expected message\", but found \n\"unexpected message\".");
+                    "Expected inner exception with message \"expected message\", but \"unexpected message\" differs near 'u' (index 0).");
             }
         }
 
@@ -246,12 +259,12 @@ namespace FluentAssertions.specs
                 testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
                     .And.WithInnerMessage("expected message", "because {0} should do just that", "IFoo.Do");
 
-                Assert.Fail("ShouldThrow() dit not throw");
+                Assert.Fail("This point should not be reached");
             }
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Equal(
-                    "Expected inner exception with message \n\"expected message\" because IFoo.Do should do just that, but found \n\"unexpected message\".");
+                    "Expected inner exception with message \"expected message\" because IFoo.Do should do just that, but \"unexpected message\" differs near 'u' (index 0).");
             }
         }
 
