@@ -315,58 +315,123 @@ namespace FluentAssertions.specs
 
         #endregion
 
+        #region Start With Equivalent
+
         [TestMethod]
-        public void Should_succeed_when_asserting_string_starts_with_an_equivalent_value()
+        public void When_start_of_string_differs_by_case_only_it_should_not_throw()
         {
             "ABC".Should().StartWithEquivalent("Ab");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_when_asserting_string_starts_with_a_non_equivalent_value()
+        public void When_start_of_string_does_not_meet_equivalent_it_should_throw()
         {
-            "ABC".Should().StartWithEquivalent("bc");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().StartWithEquivalent("bc", "because it should start");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected string \"ABC\" to start with equivalent of \"bc\" because it should start.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_string_starts_with_a_non_equivalent_value()
+        public void When_start_of_string_is_compared_with_equivalent_of_null_it_should_throw()
         {
-            var assertions = "ABC".Should();
-            assertions.ShouldThrow(x => x.StartWithEquivalent("bc", "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage(
-                "Expected string starting with equivalent of \"bc\" because we want to test the failure message, but found \"ABC\".");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().StartWithEquivalent(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+                "Cannot compare string start equivalence with <null>.");
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_string_ends_with_an_equivalent_value()
+        public void When_start_of_string_is_compared_with_equivalent_of_empty_string_it_should_throw()
         {
-            "ABC".Should().EndWithEquivalent("bc");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().StartWithEquivalent("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<ArgumentException>().And.WithMessage(
+                "Cannot compare string start equivalence with empty string.");
+        }
+        
+        #endregion
+
+        #region End With Equivalent
+
+
+        [TestMethod]
+        public void When_end_of_string_differs_by_case_only_it_should_not_throw()
+        {
+            "ABC".Should().EndWithEquivalent("bC");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
-        public void Should_fail_when_asserting_string_ends_with_a_non_equivalent_value()
+        public void When_end_of_string_does_not_meet_equivalent_it_should_throw()
         {
-            "ABC".Should().EndWithEquivalent("ab");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().EndWithEquivalent("ab", "because it should end");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().And.WithMessage(
+                "Expected string \"ABC\" to end with equivalent of \"ab\" because it should end.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_string_ends_with_a_non_equivalent_value()
+        public void When_end_of_string_is_compared_with_equivalent_of_null_it_should_throw()
         {
-            var assertions = "ABC".Should();
-            assertions.ShouldThrow(x => x.EndWithEquivalent("ab", "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .And.WithMessage(
-                "Expected string ending with equivalent of \"ab\" because we want to test the failure message, but found \"ABC\".");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().EndWithEquivalent(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().And.WithMessage(
+                "Cannot compare string end equivalence with <null>.");
         }
 
+        [TestMethod]
+        public void When_end_of_string_is_compared_with_equivalent_of_empty_string_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().EndWithEquivalent("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<ArgumentException>().And.WithMessage(
+                "Cannot compare string end equivalence with empty string.");
+        }
+
+        #endregion
+        
         [TestMethod]
         public void Should_succeed_when_asserting_string_contains_a_value_that_is_part_of_the_string()
         {
             "ABCDEF".Should().Contain("BCD");
         }
-
+        
         [TestMethod]
         [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_string_contains_a_value_that_is_not_part_of_the_string()

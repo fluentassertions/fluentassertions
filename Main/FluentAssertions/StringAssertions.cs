@@ -118,8 +118,18 @@ namespace FluentAssertions
         public virtual AndConstraint<StringAssertions> StartWithEquivalent(string expected, string reason,
             params object[] reasonParameters)
         {
+            if (expected == null)
+            {
+                throw new NullReferenceException("Cannot compare string start equivalence with <null>.");
+            }
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot compare string start equivalence with empty string.");
+            }
+
             VerifyThat(() => ActualValue.StartsWith(expected, StringComparison.CurrentCultureIgnoreCase),
-                "Expected string starting with equivalent of {0}{2}, but found {1}.", expected, ActualValue, reason,
+                "Expected string {1} to start with equivalent of {0}{2}.", expected, ActualValue, reason,
                 reasonParameters);
 
             return new AndConstraint<StringAssertions>(this);
@@ -156,8 +166,18 @@ namespace FluentAssertions
         public virtual AndConstraint<StringAssertions> EndWithEquivalent(string expected, string reason,
             params object[] reasonParameters)
         {
+            if (expected == null)
+            {
+                throw new NullReferenceException("Cannot compare string end equivalence with <null>.");
+            }
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot compare string end equivalence with empty string.");
+            }
+
             VerifyThat(() => ActualValue.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase),
-                "Expected string ending with equivalent of {0}{2}, but found {1}.", expected, ActualValue, reason,
+                "Expected string {1} to end with equivalent of {0}{2}.", expected, ActualValue, reason,
                 reasonParameters);
 
             return new AndConstraint<StringAssertions>(this);
