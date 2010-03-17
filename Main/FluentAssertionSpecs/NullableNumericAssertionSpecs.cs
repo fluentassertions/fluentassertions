@@ -60,7 +60,7 @@ namespace FluentAssertions.specs
         {
             int? nullableIntegerA = 1;
             int? nullableIntegerB = 1;
-            nullableIntegerA.Should().Equal(nullableIntegerB);
+            nullableIntegerA.Should().Be(nullableIntegerB);
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace FluentAssertions.specs
         {
             int? nullableIntegerA = null;
             int? nullableIntegerB = null;
-            nullableIntegerA.Should().Equal(nullableIntegerB);
+            nullableIntegerA.Should().Be(nullableIntegerB);
         }
 
         [TestMethod]
@@ -77,7 +77,7 @@ namespace FluentAssertions.specs
         {
             int? nullableIntegerA = 1;
             int? nullableIntegerB = 2;
-            nullableIntegerA.Should().Equal(nullableIntegerB);
+            nullableIntegerA.Should().Be(nullableIntegerB);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace FluentAssertions.specs
             int? nullableIntegerA = 1;
             int? nullableIntegerB = 2;
             var assertions = nullableIntegerA.Should();
-            assertions.ShouldThrow(x => x.Equal(nullableIntegerB, "because we want to test the failure {0}", "message"))
+            assertions.ShouldThrow(x => x.Be(nullableIntegerB, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage("Expected value <2> because we want to test the failure message, but found <1>.");
         }

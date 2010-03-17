@@ -55,21 +55,21 @@ namespace FluentAssertions.specs
         [TestMethod]
         public void Should_succeed_when_asserting_value_to_be_equal_to_same_value()
         {
-            1.Should().Equal(1);
+            1.Should().Be(1);
         }
 
         [TestMethod]
         [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_equal_to_different_value()
         {
-            1.Should().Equal(2);
+            1.Should().Be(2);
         }
 
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_value_to_be_equal_to_different_value()
         {
             var assertions = 1.Should();
-            assertions.ShouldThrow(x => x.Equal(2, "because we want to test the failure {0}", "message"))
+            assertions.ShouldThrow(x => x.Be(2, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage(@"Expected <2> because we want to test the failure message, but found <1>.");
         }
@@ -77,21 +77,21 @@ namespace FluentAssertions.specs
         [TestMethod]
         public void Should_succeed_when_asserting_value_to_be_not_equal_to_different_value()
         {
-            1.Should().NotEqual(2);
+            1.Should().NotBe(2);
         }
 
         [TestMethod]
         [ExpectedException(typeof (SpecificationMismatchException))]
         public void Should_fail_when_asserting_value_to_be_not_equal_to_the_same_value()
         {
-            1.Should().NotEqual(1);
+            1.Should().NotBe(1);
         }
 
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_value_to_be_not_equal_to_the_same_value()
         {
             var assertions = 1.Should();
-            assertions.ShouldThrow(x => x.NotEqual(1, "because we want to test the failure {0}", "message"))
+            assertions.ShouldThrow(x => x.NotBe(1, "because we want to test the failure {0}", "message"))
                 .Exception<SpecificationMismatchException>()
                 .And.WithMessage(@"Did not expect <1> because we want to test the failure message.");
         }

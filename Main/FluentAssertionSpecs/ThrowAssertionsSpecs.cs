@@ -37,7 +37,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected <System.Exception>, but no exception was thrown.");
             }
         }
@@ -55,7 +55,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected <System.Exception>, but no exception was thrown.");
             }
         }

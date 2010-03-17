@@ -18,7 +18,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
-            someObject.Should().Equal(equalObject);
+            someObject.Should().Be(equalObject);
         }
 
         [TestMethod]
@@ -33,7 +33,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () => someObject.Should().Equal(nonEqualObject);
+            Action act = () => someObject.Should().Be(nonEqualObject);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -54,7 +54,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () => someObject.Should().Equal(nonEqualObject,"because it should use the {0}","reason");
+            Action act = () => someObject.Should().Be(nonEqualObject,"because it should use the {0}","reason");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -76,7 +76,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
-            someObject.Should().NotEqual(nonEqualObject);
+            someObject.Should().NotBe(nonEqualObject);
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                someObject.Should().NotEqual(equalObject);
+                someObject.Should().NotBe(equalObject);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -114,7 +114,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                someObject.Should().NotEqual(equalObject, "because we want to test the failure {0}", "message");
+                someObject.Should().NotBe(equalObject, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

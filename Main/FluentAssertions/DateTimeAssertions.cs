@@ -16,12 +16,12 @@ namespace FluentAssertions
             ActualValue = value;
         }
 
-        public AndConstraint<DateTimeAssertions> Equal(DateTime expected)
+        public AndConstraint<DateTimeAssertions> Be(DateTime expected)
         {
-            return Equal(expected, String.Empty);
+            return Be(expected, String.Empty);
         }
 
-        public AndConstraint<DateTimeAssertions> Equal(DateTime expected, string reason, params object[] reasonParameters)
+        public AndConstraint<DateTimeAssertions> Be(DateTime expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue.Value == expected),
                 "Expected {0}{2}, but found {1}.",

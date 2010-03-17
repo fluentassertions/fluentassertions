@@ -13,12 +13,12 @@ namespace FluentAssertions
             ActualValue = value;
         }
 
-        public AndConstraint<StringAssertions> Equal(string expected)
+        public AndConstraint<StringAssertions> Be(string expected)
         {
-            return Equal(expected, String.Empty);
+            return Be(expected, String.Empty);
         }
 
-        public virtual AndConstraint<StringAssertions> Equal(string expected, string reason, params object[] reasonParameters)
+        public virtual AndConstraint<StringAssertions> Be(string expected, string reason, params object[] reasonParameters)
         {
             VerifyStringsAgainstNulls(expected, reason, reasonParameters);
             VerifyStringLengthEquality(expected, reason, reasonParameters);
@@ -91,12 +91,12 @@ namespace FluentAssertions
             }
         }
 
-        public AndConstraint<StringAssertions> NotEqual(string expected)
+        public AndConstraint<StringAssertions> NotBe(string expected)
         {
-            return NotEqual(expected, String.Empty);
+            return NotBe(expected, String.Empty);
         }
 
-        public virtual AndConstraint<StringAssertions> NotEqual(string expected, string reason, params object[] reasonParameters)
+        public virtual AndConstraint<StringAssertions> NotBe(string expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => (ActualValue != expected),
                 "Expected string not to be equal to {0}{2}.", expected, ActualValue, reason, reasonParameters);

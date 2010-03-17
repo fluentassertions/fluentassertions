@@ -74,7 +74,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected <System.Exception> because IFoo.Do should do that, but no exception was thrown.");
             }
         }
@@ -95,7 +95,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected <System.InvalidOperationException>, but found <System.ArgumentException>.");
             }
         }
@@ -117,7 +117,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected <System.InvalidOperationException> because IFoo.Do should throw that one, but found <System.ArgumentException>.");
             }
         }
@@ -148,7 +148,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected inner <System.ArgumentException>, but found <System.NullReferenceException>.");
             }
         }
@@ -170,7 +170,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected inner <System.ArgumentException> because IFoo.Do should do just that, but found <System.NullReferenceException>.");
             }
         }
@@ -191,7 +191,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected inner <System.InvalidOperationException>, but the thrown exception has no inner exception.");
             }
         }
@@ -213,7 +213,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected inner <System.InvalidOperationException> because IFoo.Do should do that, but the thrown exception has no inner exception.");
             }
         }
@@ -243,7 +243,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected inner exception with message \"expected message\", but \"unexpected message\" differs near 'u' (index 0).");
             }
         }
@@ -263,7 +263,7 @@ namespace FluentAssertions.specs
             }
             catch (SpecificationMismatchException ex)
             {
-                ex.Message.Should().Equal(
+                ex.Message.Should().Be(
                     "Expected inner exception with message \"expected message\" because IFoo.Do should do just that, but \"unexpected message\" differs near 'u' (index 0).");
             }
         }
@@ -278,7 +278,7 @@ namespace FluentAssertions.specs
             Action act = target.Do;
 
             act.ShouldThrow().Exception<ArgumentException>()
-                .And.ValueOf.ParamName.Should().Equal(SomeParamNameValue);
+                .And.ValueOf.ParamName.Should().Be(SomeParamNameValue);
         }
 
         [TestMethod]

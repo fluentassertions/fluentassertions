@@ -33,12 +33,12 @@ namespace FluentAssertions
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }
 
-        public AndConstraint<DateTimeAssertions> Equal(DateTime? expected)
+        public AndConstraint<DateTimeAssertions> Be(DateTime? expected)
         {
-            return Equal(expected, "Expected expected {0}. Actual: {1}", expected, ActualValue);
+            return Be(expected, "Expected expected {0}. Actual: {1}", expected, ActualValue);
         }
 
-        public AndConstraint<DateTimeAssertions> Equal(DateTime? expected, string reason, params object[] reasonParameters)
+        public AndConstraint<DateTimeAssertions> Be(DateTime? expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(ActualValue == expected, "Expected {0}, but found {1}{2}", expected, ActualValue, reason, reasonParameters);
             return new AndConstraint<DateTimeAssertions>(this);

@@ -36,12 +36,12 @@ namespace FluentAssertions
             return new AndConstraint<NullableNumericAssertions<T>>(this);
         }
 
-        public AndConstraint<NumericAssertions<T>> Equal(T? expected)
+        public AndConstraint<NumericAssertions<T>> Be(T? expected)
         {
-            return Equal(expected, "Expected expected: {0}. Actual: {1}", expected, ActualValue);
+            return Be(expected, "Expected expected: {0}. Actual: {1}", expected, ActualValue);
         }
 
-        public AndConstraint<NumericAssertions<T>> Equal(T? expected, string reason, params object[] reasonParameters)
+        public AndConstraint<NumericAssertions<T>> Be(T? expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => ActualValue.Equals(expected), "Expected value {0}{2}, but found {1}.",
                 expected, ActualValue, reason, reasonParameters);

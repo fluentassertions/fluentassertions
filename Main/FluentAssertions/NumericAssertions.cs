@@ -47,12 +47,12 @@ namespace FluentAssertions
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
-        public AndConstraint<NumericAssertions<T>> Equal(T expected)
+        public AndConstraint<NumericAssertions<T>> Be(T expected)
         {
-            return Equal(expected, String.Empty);
+            return Be(expected, String.Empty);
         }
 
-        public AndConstraint<NumericAssertions<T>> Equal(T expected, string reason, params object[] reasonParameters)
+        public AndConstraint<NumericAssertions<T>> Be(T expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => ActualValue.Value.CompareTo(expected) == 0,
                 "Expected {0}{2}, but found {1}.", expected, ActualValue.Value, reason, reasonParameters);
@@ -60,12 +60,12 @@ namespace FluentAssertions
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
-        public AndConstraint<NumericAssertions<T>> NotEqual(T expected)
+        public AndConstraint<NumericAssertions<T>> NotBe(T expected)
         {
-            return NotEqual(expected, String.Empty);
+            return NotBe(expected, String.Empty);
         }
 
-        public AndConstraint<NumericAssertions<T>> NotEqual(T expected, string reason, params object[] reasonParameters)
+        public AndConstraint<NumericAssertions<T>> NotBe(T expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => ActualValue.Value.CompareTo(expected) != 0,
                 "Did not expect {0}{2}.", expected, ActualValue.Value, reason, reasonParameters);

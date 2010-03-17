@@ -90,6 +90,9 @@
     <Compile Include="..\FluentAssertions\ExceptionAssertions.cs">
       <Link>ExceptionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions\ExtensionMethods.cs">
+      <Link>ExtensionMethods.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions\FluentAssertionExtensions.cs">
       <Link>FluentAssertionExtensions.cs</Link>
     </Compile>

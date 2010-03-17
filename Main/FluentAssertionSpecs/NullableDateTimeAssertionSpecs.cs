@@ -42,7 +42,7 @@ namespace FluentAssertions.specs
         {
             DateTime? nullableDateTimeA = DateTime.Today;
             DateTime? nullableDateTimeB = DateTime.Today;
-            nullableDateTimeA.Should().Equal(nullableDateTimeB);
+            nullableDateTimeA.Should().Be(nullableDateTimeB);
         }
 
         [TestMethod]
@@ -50,7 +50,7 @@ namespace FluentAssertions.specs
         {
             DateTime? nullableDateTimeA = null;
             DateTime? nullableDateTimeB = null;
-            nullableDateTimeA.Should().Equal(nullableDateTimeB);
+            nullableDateTimeA.Should().Be(nullableDateTimeB);
         }
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace FluentAssertions.specs
         {
             DateTime? nullableDateTimeA = DateTime.Today;
             DateTime? nullableDateTimeB = DateTime.Today.AddDays(2);
-            nullableDateTimeA.Should().Equal(nullableDateTimeB);
+            nullableDateTimeA.Should().Be(nullableDateTimeB);
         }
 
         [TestMethod]

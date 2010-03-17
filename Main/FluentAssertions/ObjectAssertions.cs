@@ -11,12 +11,12 @@ namespace FluentAssertions
             ActualValue = value;
         }
 
-        public AndConstraint<ObjectAssertions> Equal(object expected)
+        public AndConstraint<ObjectAssertions> Be(object expected)
         {
-            return Equal(expected, String.Empty);
+            return Be(expected, String.Empty);
         }
 
-        public AndConstraint<ObjectAssertions> Equal(object expected, string reason, params object[] reasonParameters)
+        public AndConstraint<ObjectAssertions> Be(object expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => ActualValue.Equals(expected),
                 "Expected {0}{2}, but found {1}.", expected, ActualValue, reason, reasonParameters);
@@ -24,12 +24,12 @@ namespace FluentAssertions
             return new AndConstraint<ObjectAssertions>(this);
         }
 
-        public AndConstraint<ObjectAssertions> NotEqual(object expected)
+        public AndConstraint<ObjectAssertions> NotBe(object expected)
         {
-            return NotEqual(expected, String.Empty);
+            return NotBe(expected, String.Empty);
         }
 
-        public AndConstraint<ObjectAssertions> NotEqual(object expected, string reason, params object[] reasonParameters)
+        public AndConstraint<ObjectAssertions> NotBe(object expected, string reason, params object[] reasonParameters)
         {
             if (ActualValue.Equals(expected))
             {
