@@ -15,6 +15,16 @@ namespace FluentAssertions
             }
         }
 
+        public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected)
+        {
+            return Contain(new[] { expected }, string.Empty);
+        }
+
+        public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected, string reason, params object[] reasonParameters)
+        {
+            return Contain(new[] { expected }, reason, reasonParameters);
+        }
+        
         /// <summary>
         /// Asserts that the collection contains at least one item that matches the predicate.
         /// </summary>
