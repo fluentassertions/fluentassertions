@@ -16,9 +16,9 @@ namespace FluentAssertions
         /// </summary>
         /// <param name="predicate">The predicate which must be satisfied by the <typeparamref name="TSubject"/>.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<TSubject> predicate)
+        public AndConstraint<Assertions<TSubject, TAssertions>> Match(Expression<Func<TSubject, bool>> predicate)
         {
-            return Satisfy(predicate, String.Empty);
+            return Match(predicate, String.Empty);
         }
 
         /// <summary>
@@ -28,12 +28,17 @@ namespace FluentAssertions
         /// <param name="reason">The reason why the predicate should be satisfied.</param>
         /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<TSubject> predicate, string reason,
+        public AndConstraint<Assertions<TSubject, TAssertions>> Match(Expression<Func<TSubject, bool>> predicate, string reason,
             params object[] reasonParameters)
         {
-            VerifyThat(() => predicate(Subject),
-                "Expected to satisfy predicate{2}, but predicate not satisfied by {1}",
-                predicate, Subject, reason, reasonParameters);
+            if (predicate == null)
+            {
+                throw new NullReferenceException("Cannot match an object against a <null> predicate.");
+            }
+
+            VerifyThat(() => predicate.Compile()(Subject),
+                "Expected {1} to match {0}{2}.",
+                predicate.Body, Subject, reason, reasonParameters);
 
             return new AndConstraint<Assertions<TSubject, TAssertions>>(this);
         }

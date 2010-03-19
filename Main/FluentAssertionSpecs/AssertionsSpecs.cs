@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.specs
 {
@@ -28,23 +30,57 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_object_satisfies_predicate_which_is_satisfied()
+        public void When_object_satisfies_predicate_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var someObject = new object();
 
-            someObject.Should().Satisfy(o => (o != null));
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Should().Match(o => (o != null));
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_object_satisfies_predicate_which_is_not_statisfied()
+        public void When_object_does_not_match_the_predicate_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var someObject = new object();
-            var assertions = someObject.Should();
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().Match(o => o == null, "it is not initialized yet");
 
-            assertions.ShouldThrow(x => x.Satisfy(y => (y == null), "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
-                .WithMessage("Expected to satisfy predicate because we want to test the failure message, " +
-                             "but predicate not satisfied by <System.Object>");
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+                "Expected <System.Object> to match (o = null) because it is not initialized yet.");
+        }
+
+        [TestMethod]
+        public void When_object_is_matched_against_a_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new object();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().Match(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+                "Cannot match an object against a <null> predicate.");
         }
 
         internal class AssertionsTestSubClass : Assertions<object,AssertionsTestSubClass>
