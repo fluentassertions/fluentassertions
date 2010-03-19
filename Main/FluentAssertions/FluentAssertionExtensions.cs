@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace FluentAssertions
@@ -35,9 +36,14 @@ namespace FluentAssertions
             return new NullableBooleanAssertions(actualValue);
         }
 
-        public static CollectionAssertions Should(this IEnumerable actualValue)
+        public static NonGenericCollectionAssertions Should(this IEnumerable actualValue)
         {
-            return new CollectionAssertions(actualValue);
+            return new NonGenericCollectionAssertions(actualValue);
+        }
+
+        public static GenericCollectionAssertions<T> Should<T>(this IEnumerable<T> actualValue)
+        {
+            return new GenericCollectionAssertions<T>(actualValue);
         }
 
         public static DateTimeAssertions Should(this DateTime actualValue)

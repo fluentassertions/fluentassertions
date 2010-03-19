@@ -49,6 +49,8 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>1574</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -95,6 +97,12 @@
     </Compile>
     <Compile Include="..\FluentAssertions\FluentAssertionExtensions.cs">
       <Link>FluentAssertionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\GenericCollectionAssertions.cs">
+      <Link>GenericCollectionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\NonGenericCollectionAssertions.cs">
+      <Link>NonGenericCollectionAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions\NullableBooleanAssertions.cs">
       <Link>NullableBooleanAssertions.cs</Link>

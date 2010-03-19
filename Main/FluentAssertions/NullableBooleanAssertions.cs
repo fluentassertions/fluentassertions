@@ -18,7 +18,7 @@ namespace FluentAssertions
 
         public AndConstraint<NullableBooleanAssertions> HaveValue(string reason, params object[] reasonParameters)
         {
-            VerifyThat(ActualValue.HasValue, "Expected a value{2}.", null, ActualValue, reason, reasonParameters);
+            VerifyThat(Subject.HasValue, "Expected a value{2}.", null, Subject, reason, reasonParameters);
 
             return new AndConstraint<NullableBooleanAssertions>(this);
         }
@@ -30,7 +30,7 @@ namespace FluentAssertions
 
         public AndConstraint<NullableBooleanAssertions> NotHaveValue(string reason, params object[] reasonParameters)
         {
-            VerifyThat(!ActualValue.HasValue, "Did not expect a value{2}, but found {1}.", null, ActualValue, reason,
+            VerifyThat(!Subject.HasValue, "Did not expect a value{2}, but found {1}.", null, Subject, reason,
                 reasonParameters);
 
             return new AndConstraint<NullableBooleanAssertions>(this);

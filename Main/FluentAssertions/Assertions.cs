@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace FluentAssertions
 {
     public abstract class Assertions<TSubject, TAssertions>
         where TAssertions : Assertions<TSubject, TAssertions>
     {
-        protected TSubject ActualValue;
+        protected TSubject Subject;
 
         /// <summary>
         /// Asserts that the <paramref name="predicate"/> is statisfied.
@@ -30,9 +31,9 @@ namespace FluentAssertions
         public AndConstraint<Assertions<TSubject, TAssertions>> Satisfy(Predicate<TSubject> predicate, string reason,
             params object[] reasonParameters)
         {
-            VerifyThat(() => predicate(ActualValue),
+            VerifyThat(() => predicate(Subject),
                 "Expected to satisfy predicate{2}, but predicate not satisfied by {1}",
-                predicate, ActualValue, reason, reasonParameters);
+                predicate, Subject, reason, reasonParameters);
 
             return new AndConstraint<Assertions<TSubject, TAssertions>>(this);
         }
@@ -185,6 +186,11 @@ namespace FluentAssertions
             if (value is string)
             {
                 return "\"" + value.ToString().Replace("\"", "\\\"") + "\"";
+            }
+
+            if (value is Expression)
+            {
+                return value.ToString();
             }
 
             if (value is IEnumerable)

@@ -18,29 +18,29 @@ namespace FluentAssertions
 
         public AndConstraint<NullableDateTimeAssertions> HaveValue(string reason, params object[] reasonParameters)
         {
-            VerifyThat(ActualValue.HasValue, "Expected variable to have a value. Actual: null", null, ActualValue, reason, reasonParameters);
+            VerifyThat(Subject.HasValue, "Expected variable to have a value. Actual: null", null, Subject, reason, reasonParameters);
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }
 
         public AndConstraint<NullableDateTimeAssertions> NotHaveValue()
         {
-            return NotHaveValue("Did not expect variable to have a value. Actual: {0}", ActualValue);
+            return NotHaveValue("Did not expect variable to have a value. Actual: {0}", Subject);
         }
 
         public AndConstraint<NullableDateTimeAssertions> NotHaveValue(string reason, params object[] reasonParameters)
         {
-            VerifyThat(!ActualValue.HasValue, "Did not expect variable to have a value, but found {1}", null, ActualValue, reason, reasonParameters);
+            VerifyThat(!Subject.HasValue, "Did not expect variable to have a value, but found {1}", null, Subject, reason, reasonParameters);
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }
 
         public AndConstraint<DateTimeAssertions> Be(DateTime? expected)
         {
-            return Be(expected, "Expected expected {0}. Actual: {1}", expected, ActualValue);
+            return Be(expected, "Expected expected {0}. Actual: {1}", expected, Subject);
         }
 
         public AndConstraint<DateTimeAssertions> Be(DateTime? expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(ActualValue == expected, "Expected {0}, but found {1}{2}", expected, ActualValue, reason, reasonParameters);
+            VerifyThat(Subject == expected, "Expected {0}, but found {1}{2}", expected, Subject, reason, reasonParameters);
             return new AndConstraint<DateTimeAssertions>(this);
         }
     }

@@ -26,7 +26,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\FluentAssertions.xml</DocumentationFile>
-    <NoWarn>1591; 1572; 1573</NoWarn>
+    <NoWarn>1591; 1572; 1573; 1574</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -60,6 +61,8 @@
     <Compile Include="Assertions.cs" />
     <Compile Include="BooleanAssertions.cs" />
     <Compile Include="CollectionAssertions.cs" />
+    <Compile Include="GenericCollectionAssertions.cs" />
+    <Compile Include="NonGenericCollectionAssertions.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FluentAssertionExtensions.cs" />
     <Compile Include="DateTimeAssertions.cs" />

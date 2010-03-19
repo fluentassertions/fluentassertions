@@ -585,26 +585,6 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_the_contents_of_a_collection_are_checked_against_null_it_should_throw_clear_explanation()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 2, 3 };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().Contain(null);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
-                "Connect verify containment against a <null> collection");
-        }
-
-        [TestMethod]
         public void When_the_contents_of_a_collection_are_checked_against_an_empty_collection_it_should_throw_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -623,6 +603,78 @@ namespace FluentAssertions.specs
             act.ShouldThrow().Exception<ArgumentException>().WithMessage(
                 "Connect verify containment against an empty collection");
         }
+
+        [TestMethod]
+        public void When_collection_does_not_contain_an_expected_item_matching_a_predicate_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(item => item > 3, "at least {0} item should be larger than 3", 1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+                "Collection <1, 2, 3> should have an item matching (item > 3) because at least 1 item should be larger than 3.");
+        }
+        
+        [TestMethod]
+        public void When_collection_does_contain_an_expected_item_matching_a_predicate_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().Contain(item => item == 2);
+        }
+        
+        [TestMethod]
+        public void When_a_collection_of_strings_contains_the_expected_string_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var strings = new[] { "string1", "string2", "string3" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            strings.Should().Contain("string2");
+        }
+
+        [TestMethod]
+        public void When_a_collection_of_strings_does_not_contain_the_expected_string_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var strings = new[] { "string1", "string2", "string3" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => strings.Should().Contain("string4", "because {0} is required", "4");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+                "Expected collection <string1, string2, string3> to contain \"string4\" because 4 is required.");
+        }
+
+        #endregion
+
+        #region Not Contain
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_does_not_contain_an_item_that_is_not_in_the_collection()
@@ -652,37 +704,37 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_a_collection_of_strings_contains_the_expected_string_it_should_not_throw()
+        public void When_collection_does_contain_an_unexpected_item_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var strings = new[] {"string1", "string2", "string3"};
+            IEnumerable<int> collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContain(item => item == 2, "because {0}s are evil", 2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+                "Collection <1, 2, 3> should not have any items matching (item = 2) because 2s are evil.");
+        }
+
+        [TestMethod]
+        public void When_collection_does_not_contain_an_unexpected_item_matching_a_predicate_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            strings.Should().Contain("string2");
-        }
-
-        [TestMethod]
-        public void When_a_collection_of_strings_does_not_contain_the_expected_string_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var strings = new[] { "string1", "string2", "string3" };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => strings.Should().Contain("string4", "because {0} is required", "4");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
-                "Expected collection <string1, string2, string3> to contain \"string4\" because 4 is required.");
+            collection.Should().NotContain(item => item == 4);
         }
 
         #endregion
@@ -952,8 +1004,7 @@ namespace FluentAssertions.specs
                 .HaveCount(3)
                 .And
                 .HaveElementAt(1, 2)
-                .And
-                .NotContain(4);
+                .And.NotContain(4);
         }
 
         #endregion
