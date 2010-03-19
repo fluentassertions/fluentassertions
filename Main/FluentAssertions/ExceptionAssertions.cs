@@ -9,13 +9,19 @@ namespace FluentAssertions
     {
         protected internal ExceptionAssertions(TException exception)
         {
-            ValueOf = exception;
+            ActualValue = exception;
         }
 
         /// <summary>
         /// Gets the exception object of the exception thrown.
         /// </summary>
-        public TException ValueOf { get; private set; }
+        public TException And 
+        { 
+            get
+            {
+                return (TException) ActualValue; 
+            }
+        }
 
         /// <summary>
         /// Asserts that the thrown exception has a message matching the <paramref name="expectedMessage"/>.
@@ -39,11 +45,11 @@ namespace FluentAssertions
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string reason,
             params object[] reasonParameters)
         {
-            VerifyThat((ValueOf != null),
+            VerifyThat((ActualValue != null),
                 "Expected exception with message {0}{2}, but no exception was thrown.",
                 expectedMessage, null, reason, reasonParameters);
 
-            string message = ValueOf.Message;
+            string message = ActualValue.Message;
             int index = message.IndexOfFirstMismatch(expectedMessage);
             
             if (index != -1)
@@ -76,17 +82,17 @@ namespace FluentAssertions
         public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string reason,
             params object[] reasonParameters)
         {
-            VerifyThat(ValueOf != null, "Expected inner {0}{2}, but no exception was thrown.",
+            VerifyThat(ActualValue != null, "Expected inner {0}{2}, but no exception was thrown.",
                 typeof(TInnerException), null, reason, reasonParameters);
 
-            VerifyThat(ValueOf.InnerException != null,
+            VerifyThat(ActualValue.InnerException != null,
                 "Expected inner {0}{2}, but the thrown exception has no inner exception.",
                 typeof(TInnerException), null, reason, reasonParameters);
 
-            VerifyThat((ValueOf.InnerException.GetType() == typeof(TInnerException)),
+            VerifyThat((ActualValue.InnerException.GetType() == typeof(TInnerException)),
                 "Expected inner {0}{2}, but found {1}.",
                 typeof(TInnerException),
-                ValueOf.InnerException.GetType(),
+                ActualValue.InnerException.GetType(),
                 reason, reasonParameters);
 
             return this;
@@ -114,14 +120,14 @@ namespace FluentAssertions
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string reason,
             params object[] reasonParameters)
         {
-            VerifyThat(ValueOf != null, "Expected exception{2}, but no exception was thrown.",
+            VerifyThat(ActualValue != null, "Expected exception{2}, but no exception was thrown.",
                 null, null, reason, reasonParameters);
 
-            VerifyThat(ValueOf.InnerException != null,
+            VerifyThat(ActualValue.InnerException != null,
                 "Expected exception{2}, but the thrown exception has no inner exception.",
                 null, null, reason, reasonParameters);
 
-            string innerMessage = ValueOf.InnerException.Message;
+            string innerMessage = ActualValue.InnerException.Message;
 
             int index = innerMessage.IndexOfFirstMismatch(expectedInnerMessage);
             if (index != -1)

@@ -271,14 +271,24 @@ namespace FluentAssertions.specs
         [TestMethod]
         public void When_getting_value_of_property_of_thrown_exception_it_should_return_value_of_property()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------            
             const string SomeParamNameValue = "param";
             var target = MockRepository.GenerateStub<IFoo>();
             target.Stub(t => t.Do()).Throw(new ArgumentException("message", SomeParamNameValue));
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
             Action act = target.Do;
 
-            act.ShouldThrow().Exception<ArgumentException>()
-                .ValueOf.ParamName.Should().Be(SomeParamNameValue);
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow()
+                .Exception<ArgumentException>()
+                .And.ParamName.Should().Be(SomeParamNameValue);
         }
 
         [TestMethod]
