@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions
+﻿using System;
+
+namespace FluentAssertions
 {
     internal static class ExtensionMethods
     {
@@ -13,6 +15,13 @@
             }
 
             return -1;
+        }
+
+        public static string Mismatch(this string value, int index)
+        {
+            int length = Math.Min(value.Length - index, 3);
+
+            return string.Format("'{0}' (index {1})", value.Substring(index, length), index);
         }
     }
 }

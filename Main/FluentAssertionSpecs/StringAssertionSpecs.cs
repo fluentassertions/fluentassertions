@@ -34,7 +34,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
-                "Expected \"ABC\" because we do, but \"ADC\" differs near 'D' (index 1).");
+                "Expected \"ABC\" because we do, but \"ADC\" differs near 'DC' (index 1).");
         }
 
         [TestMethod]
@@ -501,7 +501,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
-                "Expected \"abc\" because we will test 1 + 2, but \"ADC\" differs near 'D' (index 1).");
+                "Expected \"abc\" because we will test 1 + 2, but \"ADC\" differs near 'DC' (index 1).");
         }
 
         [TestMethod]

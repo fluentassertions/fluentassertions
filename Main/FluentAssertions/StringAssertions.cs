@@ -27,7 +27,7 @@ namespace FluentAssertions
 
             if (indexOfMismatch != -1)
             {
-                FailWith("Expected {0}{2}, but {1} differs near '" + Subject[indexOfMismatch] + "' (index " + indexOfMismatch + ").", 
+                FailWith("Expected {0}{2}, but {1} differs near " + Subject.Mismatch(indexOfMismatch) + ".", 
                     expected, Subject, reason, reasonParameters);
             }
 
@@ -54,7 +54,7 @@ namespace FluentAssertions
             {
                 if (char.ToLower(Subject[index]) != char.ToLower(expected[index]))
                 {
-                    FailWith("Expected {0}{2}, but {1} differs near '" + Subject[index] + "' (index " + index + ").",
+                    FailWith("Expected {0}{2}, but {1} differs near " + Subject.Mismatch(index) + ".",
                         expected, Subject, reason, reasonParameters);
                 }
             }

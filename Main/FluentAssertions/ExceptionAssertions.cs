@@ -55,7 +55,7 @@ namespace FluentAssertions
             if (index != -1)
             {
                 FailWith(
-                    "Expected exception with message {0}{2}, but {1} differs near '" + message[index] + "' (index " + index + ").",
+                    "Expected exception with message {0}{2}, but {1} differs near " + message.Mismatch(index) + ".",
                     expectedMessage, message, reason, reasonParameters);
             }
 
@@ -133,7 +133,7 @@ namespace FluentAssertions
             if (index != -1)
             {
                 FailWith(
-                    "Expected inner exception with message {0}{2}, but {1} differs near '" + innerMessage[index] + "' (index " + index + ").",
+                    "Expected inner exception with message {0}{2}, but {1} differs near " + innerMessage.Mismatch(index) + ".",
                     expectedInnerMessage,
                     innerMessage,
                     reason, reasonParameters);

@@ -244,7 +244,7 @@ namespace FluentAssertions.specs
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected inner exception with message \"expected message\", but \"unexpected message\" differs near 'u' (index 0).");
+                    "Expected inner exception with message \"expected message\", but \"unexpected message\" differs near 'une' (index 0).");
             }
         }
 
@@ -264,7 +264,7 @@ namespace FluentAssertions.specs
             catch (SpecificationMismatchException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected inner exception with message \"expected message\" because IFoo.Do should do just that, but \"unexpected message\" differs near 'u' (index 0).");
+                    "Expected inner exception with message \"expected message\" because IFoo.Do should do just that, but \"unexpected message\" differs near 'une' (index 0).");
             }
         }
 
