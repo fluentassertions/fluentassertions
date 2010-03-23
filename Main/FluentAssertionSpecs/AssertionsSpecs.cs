@@ -2,7 +2,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FluentAssertions.specs
+namespace FluentAssertions.Specs
 {
     [TestClass]
     public class AssertionsSpecs
@@ -42,6 +42,25 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             someObject.Should().Match(o => (o != null));
         }
+        
+        [TestMethod]
+        public void When_typed_object_satisfies_predicate_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new SomeDto
+            {
+                Name = "Dennis Doomen",
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Should().Match<SomeDto>(o => o.Age > 0);
+        }
 
         [TestMethod]
         public void When_object_does_not_match_the_predicate_it_should_throw()
@@ -61,6 +80,31 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
                 "Expected <System.Object> to match (o = null) because it is not initialized yet.");
+        }        
+        
+        [TestMethod]
+        public void When_a_typed_object_does_not_match_the_predicate_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new SomeDto
+            {
+                Name = "Dennis Doomen",
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20)
+            };
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().Match<SomeDto>(d => d.Name.Length == 0, "it is not initialized yet");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+                "Expected <FluentAssertions.Specs.SomeDto> to match (d.Name.Length = 0) because it is not initialized yet.");
         }
 
         [TestMethod]
@@ -90,5 +134,14 @@ namespace FluentAssertions.specs
                 VerifyThat(false, "Expected it to fail{2}", null, null, reason, reasonParameters);
             }
         }
+    }
+
+    internal class SomeDto
+    {
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+        public DateTime Birthdate { get; set; }
     }
 }

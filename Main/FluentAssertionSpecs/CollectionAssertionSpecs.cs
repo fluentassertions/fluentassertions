@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FluentAssertions.specs
+namespace FluentAssertions.Specs
 {
     [TestClass]
     public class CollectionAssertionSpecs
@@ -561,7 +561,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
-                "Expected collection <1, 2, 3> to contain <4> because we do, but could not find <4>.");
+                "Expected collection <1, 2, 3> to contain <4> because we do.");
         }
 
         [TestMethod]

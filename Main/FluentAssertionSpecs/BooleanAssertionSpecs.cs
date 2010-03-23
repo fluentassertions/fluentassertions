@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FluentAssertions.specs
+namespace FluentAssertions.Specs
 {
     [TestClass]
     public class BooleanAssertionSpecs

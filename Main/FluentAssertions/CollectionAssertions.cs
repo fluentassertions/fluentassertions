@@ -248,7 +248,8 @@ namespace FluentAssertions
                 throw new NullReferenceException("Connect verify containment against a <null> collection");
             }
 
-            if (expected.Cast<object>().Count() == 0)
+            IEnumerable<object> expectedObjects = expected.Cast<object>();
+            if (expectedObjects.Count() == 0)
             {
                 throw new ArgumentException("Connect verify containment against an empty collection");
             }
@@ -262,11 +263,20 @@ namespace FluentAssertions
             }
             else
             {
-                var missingItems = expected.Cast<object>().Except(Subject.Cast<object>());
+                var missingItems = expectedObjects.Except(Subject.Cast<object>());
                 if (missingItems.Count() > 0)
                 {
-                    FailWith("Expected collection {1} to contain {0}{2}, but could not find " + Format(missingItems) +".",
-                        expected, Subject, reason, reasonParameters);
+                    if (expectedObjects.Count() > 1)
+                    {
+                        FailWith(
+                            "Expected collection {1} to contain {0}{2}, but could not find " + Format(missingItems) + ".",
+                            expected, Subject, reason, reasonParameters);
+                    } 
+                    else
+                    {
+                        FailWith(
+                            "Expected collection {1} to contain {0}{2}.", expectedObjects.Single(), Subject, reason, reasonParameters);
+                    }
                 }
             }
 

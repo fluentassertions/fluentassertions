@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 
-namespace FluentAssertions.specs
+namespace FluentAssertions.Specs
 {
     [TestClass]
     public class ExceptionAssertionSpecs
