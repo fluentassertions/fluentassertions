@@ -50,8 +50,15 @@ namespace FluentAssertions
                 expectedMessage, null, reason, reasonParameters);
 
             string message = Subject.Message;
+
+            if (string.IsNullOrEmpty(message))
+            {
+                FailWith(
+                    "Expected exception with message {0}{2}, but message was empty.",
+                    expectedMessage, null, reason, reasonParameters);
+            }
+
             int index = message.IndexOfFirstMismatch(expectedMessage);
-            
             if (index != -1)
             {
                 FailWith(

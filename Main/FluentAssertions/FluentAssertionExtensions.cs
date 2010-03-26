@@ -100,5 +100,11 @@ namespace FluentAssertions
         {
             return new StringAssertions(actualValue);
         }
+
+        public static PropertyAssertions<T> ShouldHave<T>(this T subject)
+        {
+            return new PropertyAssertions<T>(subject);
+        }
+
     }
 }

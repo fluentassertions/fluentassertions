@@ -119,6 +119,9 @@
     <Compile Include="..\FluentAssertions\ObjectAssertions.cs">
       <Link>ObjectAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions\PropertyAssertions.cs">
+      <Link>PropertyAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions\SpecificationMismatchException.cs">
       <Link>SpecificationMismatchException.cs</Link>
     </Compile>

@@ -73,6 +73,7 @@
     <Compile Include="NumericAssertions.cs" />
     <Compile Include="ObjectAssertions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyAssertions.cs" />
     <Compile Include="SpecificationMismatchException.cs" />
     <Compile Include="StringAssertions.cs" />
     <Compile Include="ThrowAssertions.cs" />

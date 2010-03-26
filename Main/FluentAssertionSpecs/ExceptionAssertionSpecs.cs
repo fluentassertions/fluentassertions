@@ -58,6 +58,38 @@ namespace FluentAssertions.Specs
                     ex.Message);
             }
         }
+        
+        [TestMethod]
+        public void When_subject_throws_some_exception_without_a_required_message_it_should_throw_with_clear_description()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo subjectThatThrows = MockRepository.GenerateStub<IFoo>();
+            subjectThatThrows.Stub(x => x.Do()).Throw(new InvalidOperationException(""));
+
+            try
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                subjectThatThrows
+                    .ShouldThrow(x => x.Do())
+                    .Exception<InvalidOperationException>()
+                    .WithMessage("message2");
+
+                Assert.Fail("This point should not be reached");
+            }
+            catch (SpecificationMismatchException ex)
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                Assert.AreEqual(
+                    "Expected exception with message \"message2\", but message was empty.",
+                    ex.Message);
+            }
+        }
 
         [TestMethod]
         public void
