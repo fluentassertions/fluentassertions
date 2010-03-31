@@ -33,7 +33,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dto.ShouldHave().AllProperties.EqualTo(customer);
+            dto.ShouldHave().AllProperties().EqualTo(customer);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dto.ShouldHave().AllProperties.EqualTo(customer, "because {0} are the same", "they");
+            Action act = () => dto.ShouldHave().AllProperties().EqualTo(customer, "because {0} are the same", "they");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -85,13 +85,214 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dto.ShouldHave().AllProperties.EqualTo(customer);
+            dto.ShouldHave().AllProperties().EqualTo(customer);
         }
 
-        // TODO: subject has more properties than other object
-        // TODO: subject has less properties than other object
-        // TODO: only specified property values
-        // TODO: all but specified property values
+        [TestMethod]
+        public void When_subject_has_a_property_not_available_in_expected_object_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDtoWithExtraneousProperty()
+            {
+                City = "Rijswijk"
+            };
+
+            var customer = new Customer();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dto.ShouldHave().AllProperties().EqualTo(customer);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+                "Subject has property City that is not available in comparee.");
+        }
+        
+        [TestMethod]
+        public void When_subjects_properties_are_compared_to_null_object_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDto();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dto.ShouldHave().AllProperties().EqualTo(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+                "Cannot compare subject's properties with a <null> object.");
+        }
+        
+        [TestMethod]
+        public void When_subject_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            CustomerDto dto = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dto.ShouldHave().AllProperties().EqualTo(new CustomerDto());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+                "Cannot compare the properties of a <null> object");
+        }
+
+        [TestMethod]
+        public void When_subject_has_a_specific_property_which_value_is_similar_to_another_object_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDto
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John"
+            };
+
+            var customer = new Customer
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "Dennis"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assrrt
+            //-----------------------------------------------------------------------------------------------------------
+            dto.ShouldHave().Properties(d => d.Age, d => d.Birthdate).EqualTo(customer);
+        }
+
+        [TestMethod]
+        public void When_subject_has_a_specific_property_which_value_is_not_similar_to_another_object_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDto
+            {
+                Name = "John"
+            };
+
+            var customer = new Customer
+            {
+                Name = "Dennis"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dto.ShouldHave().Properties(d => d.Name).EqualTo(customer);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+                "Expected property Name to have value \"Dennis\", but found \"John\".");
+        }
+
+        [TestMethod]
+        public void When_property_is_compared_but_a_nonproperty_is_specified_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDto();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dto.ShouldHave().Properties(d => d.GetType()).EqualTo(dto);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<ArgumentException>().WithMessage(
+                "Cannot use <d.GetType()> when a property expression is expected.");
+        }
+
+        [TestMethod]
+        public void When_subject_property_lambda_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDto();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dto.ShouldHave().Properties(null).EqualTo(dto);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+                "Expected a property expression, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_all_properties_but_one_match_and_that_is_expected_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDto
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John"
+            };
+
+            var customer = new Customer
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "Dennis"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dto.ShouldHave().AllPropertiesBut(d => d.Name).EqualTo(customer);
+        }        
+        
+        [TestMethod]
+        public void When_comparing_objects_by_their_properties_and_no_properties_have_been_specified_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDto();
+            var customer = new Customer();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dto.ShouldHave().EqualTo(customer);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow().Exception<InvalidOperationException>().WithMessage(
+                "Please specify some properties to include in the comparison.");
+        }
     }
 
     internal class CustomerDto
@@ -106,6 +307,14 @@ namespace FluentAssertions.specs
         public string Name { get; set; }
         public string Age { get; set; }
         public string Birthdate { get; set; }
+    }
+    
+    internal class CustomerDtoWithExtraneousProperty
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public DateTime Birthdate { get; set; }
+        public string City { get; set; }
     }
 
     internal class Customer

@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
-                "Expected <System.Object> to match (o = null) because it is not initialized yet.");
+                "Expected <System.Object> to match (o == null) because it is not initialized yet.");
         }        
         
         [TestMethod]
@@ -104,7 +104,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
-                "Expected <FluentAssertions.Specs.SomeDto> to match (d.Name.Length = 0) because it is not initialized yet.");
+                "Expected <FluentAssertions.Specs.SomeDto> to match (d.Name.Length == 0) because it is not initialized yet.");
         }
 
         [TestMethod]

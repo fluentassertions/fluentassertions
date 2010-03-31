@@ -720,7 +720,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
-                "Collection <1, 2, 3> should not have any items matching (item = 2) because 2s are evil.");
+                "Collection <1, 2, 3> should not have any items matching (item == 2) because 2s are evil.");
         }
 
         [TestMethod]

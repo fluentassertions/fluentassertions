@@ -119,24 +119,6 @@ namespace FluentAssertions
             }
         }
 
-        /// <summary>
-        /// Asserts that the supplied <paramref name="condition"/> is <c>true</c>.
-        /// </summary>
-        /// <param name="condition">The condition to assert</param>
-        /// <param name="failureMessage">
-        /// The message that will be used in the <see cref="SpecificationMismatchException"/>. This should describe what
-        /// was expected and why. This message should contain the following 3 placeholders:<br />
-        /// <list type="bullet">
-        /// <item>{0} = expected value</item>
-        /// <item>{1} = actual value</item>
-        /// <item>{2} = the reason for the expectation</item>
-        /// </list>
-        /// </param>
-        /// <param name="expected">The expected value</param>
-        /// <param name="actual">The actual value</param>
-        /// <param name="reason">Should describe the reason for the expectation</param>
-        /// <param name="reasonParameters">Optional parameters for the <paramref name="reason"/></param>  
-        /// <exception cref="SpecificationMismatchException">when the condition is <c>false</c></exception> 
         protected void FailWith(string failureMessage, object expected, object actual, string reason, object[] reasonParameters)
         {
             throw new SpecificationMismatchException(String.Format(
@@ -226,8 +208,6 @@ namespace FluentAssertions
         /// Asserts that the <paramref name="predicate" /> is satisfied.
         /// </summary>
         /// <param name="predicate">The predicate which must be statisfied by the <typeparamref name="TSubject"/>.</param>
-        /// <param name="reason">The reason why the predicate should be satisfied.</param>
-        /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
         public AndConstraint<Assertions<TSubject, TAssertions>> Match<T>(Expression<Func<T, bool>> predicate)
             where T : TSubject
