@@ -25,8 +25,8 @@ namespace FluentAssertions.Specs
         {
             bool? nullableBoolean = null;
             var assertions = nullableBoolean.Should();
-            assertions.ShouldThrow(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
+            assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
+                .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -50,8 +50,8 @@ namespace FluentAssertions.Specs
         {
             bool? nullableBoolean = true;
             var assertions = nullableBoolean.Should();
-            assertions.ShouldThrow(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
+            assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
+                .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found <True>.");
         }
 

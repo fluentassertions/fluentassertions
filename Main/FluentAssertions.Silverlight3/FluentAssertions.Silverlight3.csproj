@@ -82,6 +82,9 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions\ActionAssertions.cs">
+      <Link>ActionAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
@@ -109,6 +112,9 @@
     <Compile Include="..\FluentAssertions\GenericCollectionAssertions.cs">
       <Link>GenericCollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions\InvokingAssertions.cs">
+      <Link>InvokingAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions\NonGenericCollectionAssertions.cs">
       <Link>NonGenericCollectionAssertions.cs</Link>
     </Compile>
@@ -135,9 +141,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions\StringAssertions.cs">
       <Link>StringAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions\ThrowAssertions.cs">
-      <Link>ThrowAssertions.cs</Link>
     </Compile>
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>

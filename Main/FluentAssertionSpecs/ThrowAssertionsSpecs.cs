@@ -13,7 +13,7 @@ namespace FluentAssertions.Specs
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
             testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException());
 
-            testSubject.ShouldThrow(x => x.Do()).Exception<InvalidOperationException>();
+            testSubject.Invoking(x => x.Do()).ShouldThrow<InvalidOperationException>();
         }
 
         [TestMethod]
@@ -21,7 +21,7 @@ namespace FluentAssertions.Specs
         {
             var act = new Action(() => { throw new InvalidOperationException("Some exception"); });
 
-            act.ShouldThrow().Exception<InvalidOperationException>();
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace FluentAssertions.Specs
             {
                 IFoo testSubject = MockRepository.GenerateStub<IFoo>();
 
-                testSubject.ShouldThrow(x => x.Do()).Exception<Exception>();
+                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>();
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }
@@ -49,7 +49,7 @@ namespace FluentAssertions.Specs
             {
                 var act = new Action(() => { });
 
-                act.ShouldThrow().Exception<Exception>();
+                act.ShouldThrow<Exception>();
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }

@@ -60,7 +60,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected property Age to have value <37> because they are the same, but found <36>.");
         }
         
@@ -109,7 +109,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Subject has property City that is not available in comparee.");
         }
         
@@ -129,7 +129,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+            act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare subject's properties with a <null> object.");
         }
         
@@ -149,7 +149,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+            act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare the properties of a <null> object");
         }
 
@@ -203,7 +203,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected property Name to have value \"Dennis\", but found \"John\".");
         }
 
@@ -223,7 +223,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<ArgumentException>().WithMessage(
+            act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot use <d.GetType()> when a property expression is expected.");
         }
 
@@ -243,7 +243,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+            act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Expected a property expression, but found <null>.");
         }
 
@@ -290,7 +290,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<InvalidOperationException>().WithMessage(
+            act.ShouldThrow<InvalidOperationException>().WithMessage(
                 "Please specify some properties to include in the comparison.");
         }
     }

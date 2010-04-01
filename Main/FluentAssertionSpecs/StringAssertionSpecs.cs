@@ -33,7 +33,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"ABC\" because we do, but \"ADC\" differs near 'DC' (index 1).");
         }
 
@@ -48,7 +48,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"AB\", but \"ABC\" is too long.");
         }        
         
@@ -63,7 +63,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"ABC\", but \"AB\" is too short.");
         }
 
@@ -78,7 +78,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string to be <null>, but found \"AB\".");
         }
         
@@ -93,7 +93,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string to be <null> because we like null, but found \"AB\".");
         }
         
@@ -109,7 +109,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"ABC\", but found <null>.");
         }
 
@@ -134,7 +134,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string not to be equal to \"ABC\" because we don't like ABC.");
         }
 
@@ -158,7 +158,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string not to be equal to \"\".");
         }
         
@@ -183,7 +183,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string not to be equal to <null>.");
         }
         
@@ -199,7 +199,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string not to be <null> because we don't like null.");
         }
 
@@ -224,7 +224,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string \"ABC\" to start with \"BC\" because it should start.");
         }
 
@@ -239,7 +239,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+            act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare start of string with <null>.");
         }
         
@@ -254,7 +254,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<ArgumentException>().WithMessage(
+            act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot compare start of string with empty string.");
         }
 
@@ -279,7 +279,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string \"ABC\" to end with \"AB\" because it should.");
         }
         
@@ -294,7 +294,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+            act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare string end with <null>.");
         }
         
@@ -309,7 +309,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<ArgumentException>().WithMessage(
+            act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot compare string end with empty string.");
         }
 
@@ -334,7 +334,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string \"ABC\" to start with equivalent of \"bc\" because it should start.");
         }
 
@@ -349,7 +349,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+            act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare string start equivalence with <null>.");
         }
 
@@ -364,7 +364,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<ArgumentException>().WithMessage(
+            act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot compare string start equivalence with empty string.");
         }
         
@@ -390,7 +390,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string \"ABC\" to end with equivalent of \"ab\" because it should end.");
         }
 
@@ -405,7 +405,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+            act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare string end equivalence with <null>.");
         }
 
@@ -420,7 +420,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<ArgumentException>().WithMessage(
+            act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot compare string end equivalence with empty string.");
         }
 
@@ -445,7 +445,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
         }
         
@@ -460,7 +460,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+            act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot check containment against <null>.");
         }
 
@@ -475,7 +475,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<ArgumentException>().WithMessage(
+            act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot check containment against an empty string.");
         }
 
@@ -500,7 +500,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"abc\" because we will test 1 + 2, but \"ADC\" differs near 'DC' (index 1).");
         }
 
@@ -515,7 +515,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string to be <null>, but found \"ABCDEF\".");
         }
 
@@ -530,7 +530,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"\", but \"ABC\" is too long.");
         }
 
@@ -545,7 +545,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"ABCD\", but \"AB\" is too short.");
         }
 
@@ -568,8 +568,8 @@ namespace FluentAssertions.Specs
         public void Should_fail_with_descriptive_message_when_asserting_non_empty_string_to_be_empty()
         {
             var assertions = "ABC".Should();
-            assertions.ShouldThrow(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
+            assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
+                .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage("Expected empty string because we want to test the failure message, but found \"ABC\".");
         }
 
@@ -589,7 +589,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected empty string because strings should never be null, but found <null>.");
         }
 
@@ -610,8 +610,8 @@ namespace FluentAssertions.Specs
         public void Should_fail_with_descriptive_message_when_asserting_empty_string_to_be_filled()
         {
             var assertions = "".Should();
-            assertions.ShouldThrow(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
+            assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
+                .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage("Did not expect empty string because we want to test the failure message.");
         }
 
@@ -632,8 +632,8 @@ namespace FluentAssertions.Specs
         public void Should_fail_with_descriptive_message_when_asserting_string_length_to_be_equal_to_different_value()
         {
             var assertions = "ABC".Should();
-            assertions.ShouldThrow(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
-                .Exception<SpecificationMismatchException>()
+            assertions.Invoking(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
+                .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage(
                 "Expected string with length <1> because we want to test the failure message, but found string \"ABC\" with length <3>.");
         }

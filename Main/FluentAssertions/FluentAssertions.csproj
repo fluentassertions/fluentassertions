@@ -78,6 +78,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
     <Compile Include="Assertions.cs" />
     <Compile Include="BooleanAssertions.cs" />
@@ -97,7 +98,7 @@
     <Compile Include="PropertyAssertions.cs" />
     <Compile Include="SpecificationMismatchException.cs" />
     <Compile Include="StringAssertions.cs" />
-    <Compile Include="ThrowAssertions.cs" />
+    <Compile Include="InvokingAssertions.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

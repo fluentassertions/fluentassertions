@@ -14,7 +14,7 @@ namespace FluentAssertions.Specs
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
             testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException("some message"));
 
-            testSubject.ShouldThrow(x => x.Do()).Exception<InvalidOperationException>().WithMessage("some message");
+            testSubject.Invoking(x => x.Do()).ShouldThrow<InvalidOperationException>().WithMessage("some message");
         }
 
         [TestMethod]
@@ -24,7 +24,7 @@ namespace FluentAssertions.Specs
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
             testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException("unexpected message"));
 
-            testSubject.ShouldThrow(x => x.Do()).Exception<InvalidOperationException>().WithMessage("expected message");
+            testSubject.Invoking(x => x.Do()).ShouldThrow<InvalidOperationException>().WithMessage("expected message");
         }
 
         [TestMethod]
@@ -42,8 +42,8 @@ namespace FluentAssertions.Specs
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
-                    .ShouldThrow(x => x.Do())
-                    .Exception<InvalidOperationException>()
+                    .Invoking(x => x.Do())
+                    .ShouldThrow<InvalidOperationException>()
                     .WithMessage("message2");
 
                 Assert.Fail("This point should not be reached");
@@ -74,8 +74,8 @@ namespace FluentAssertions.Specs
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
                 subjectThatThrows
-                    .ShouldThrow(x => x.Do())
-                    .Exception<InvalidOperationException>()
+                    .Invoking(x => x.Do())
+                    .ShouldThrow<InvalidOperationException>()
                     .WithMessage("message2");
 
                 Assert.Fail("This point should not be reached");
@@ -100,7 +100,7 @@ namespace FluentAssertions.Specs
             {
                 IFoo testSubject = MockRepository.GenerateStub<IFoo>();
 
-                testSubject.ShouldThrow(x => x.Do()).Exception<Exception>("because {0} should do that", "IFoo.Do");
+                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>("because {0} should do that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
             }
@@ -120,8 +120,8 @@ namespace FluentAssertions.Specs
             try
             {
                 testSubject
-                    .ShouldThrow(x => x.Do())
-                    .Exception<InvalidOperationException>();
+                    .Invoking(x => x.Do())
+                    .ShouldThrow<InvalidOperationException>();
 
                 Assert.Fail("This point should not be reached");
             }
@@ -142,8 +142,8 @@ namespace FluentAssertions.Specs
             try
             {
                 testSubject
-                    .ShouldThrow(x => x.Do())
-                    .Exception<InvalidOperationException>("because {0} should throw that one", "IFoo.Do");
+                    .Invoking(x => x.Do())
+                    .ShouldThrow<InvalidOperationException>("because {0} should throw that one", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
             }
@@ -160,7 +160,7 @@ namespace FluentAssertions.Specs
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
             testSubject.Stub(x => x.Do()).Throw(new Exception("", new ArgumentException()));
 
-            testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
+            testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                 .WithInnerException<ArgumentException>();
         }
 
@@ -173,7 +173,7 @@ namespace FluentAssertions.Specs
                 IFoo testSubject = MockRepository.GenerateStub<IFoo>();
                 testSubject.Stub(x => x.Do()).Throw(new Exception("", new NullReferenceException()));
 
-                testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
+                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerException<ArgumentException>();
 
                 Assert.Fail("This point should not be reached");
@@ -195,7 +195,7 @@ namespace FluentAssertions.Specs
                 IFoo testSubject = MockRepository.GenerateStub<IFoo>();
                 testSubject.Stub(x => x.Do()).Throw(new Exception("", new NullReferenceException()));
 
-                testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
+                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerException<ArgumentException>("because {0} should do just that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
@@ -216,7 +216,7 @@ namespace FluentAssertions.Specs
                 IFoo testSubject = MockRepository.GenerateStub<IFoo>();
                 testSubject.Stub(x => x.Do()).Throw(new Exception(""));
 
-                testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
+                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerException<InvalidOperationException>();
 
                 Assert.Fail("This point should not be reached");
@@ -238,7 +238,7 @@ namespace FluentAssertions.Specs
                 IFoo testSubject = MockRepository.GenerateStub<IFoo>();
                 testSubject.Stub(x => x.Do()).Throw(new Exception(""));
 
-                testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
+                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerException<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
@@ -256,7 +256,7 @@ namespace FluentAssertions.Specs
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
             testSubject.Stub(x => x.Do()).Throw(new Exception("", new InvalidOperationException("expected message")));
 
-            testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
+            testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                 .WithInnerMessage("expected message");
         }
 
@@ -268,7 +268,7 @@ namespace FluentAssertions.Specs
                 IFoo testSubject = MockRepository.GenerateStub<IFoo>();
                 testSubject.Stub(x => x.Do()).Throw(new Exception("", new InvalidOperationException("unexpected message")));
 
-                testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
+                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerMessage("expected message");
 
                 Assert.Fail("This point should not be reached");
@@ -288,7 +288,7 @@ namespace FluentAssertions.Specs
                 IFoo testSubject = MockRepository.GenerateStub<IFoo>();
                 testSubject.Stub(x => x.Do()).Throw(new Exception("", new InvalidOperationException("unexpected message")));
 
-                testSubject.ShouldThrow(x => x.Do()).Exception<Exception>()
+                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerMessage("expected message", "because {0} should do just that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
@@ -318,9 +318,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
-            act.ShouldThrow()
-                .Exception<ArgumentException>()
-                .And.ParamName.Should().Be(SomeParamNameValue);
+            act.ShouldThrow<ArgumentException>().And.ParamName.Should().Be(SomeParamNameValue);
         }
 
         [TestMethod]
@@ -331,8 +329,8 @@ namespace FluentAssertions.Specs
                 new InvalidOperationException("message", new ArgumentException("inner message")));
 
             testSubject
-                .ShouldThrow(x => x.Do())
-                .Exception<InvalidOperationException>()
+                .Invoking(x => x.Do())
+                .ShouldThrow<InvalidOperationException>()
                 .WithInnerMessage("inner message")
                 .WithInnerException<ArgumentException>()
                 .WithInnerMessage("inner message");

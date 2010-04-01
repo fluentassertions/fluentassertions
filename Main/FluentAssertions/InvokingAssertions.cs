@@ -2,23 +2,11 @@
 
 namespace FluentAssertions
 {
-    public class ThrowAssertions<T> : Assertions<Exception, ThrowAssertions<T>>
+    public class InvokingAssertions<T> : Assertions<Exception, InvokingAssertions<T>>
     {
         protected Exception exception;
 
-        internal ThrowAssertions(Action action)
-        {
-            try
-            {
-                action();
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-            }
-        }
-
-        internal ThrowAssertions(T value, Action<T> action)
+        protected internal InvokingAssertions(T value, Action<T> action)
         {
             try
             {
@@ -35,10 +23,10 @@ namespace FluentAssertions
         /// </summary>
         /// <typeparam name="TException">The expected type of the exception.</typeparam>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public ExceptionAssertions<TException> Exception<TException>()
+        public ExceptionAssertions<TException> ShouldThrow<TException>()
             where TException : Exception
         {
-            return Exception<TException>(String.Empty);
+            return ShouldThrow<TException>(String.Empty);
         }
 
         /// <summary>
@@ -48,7 +36,7 @@ namespace FluentAssertions
         /// <param name="reason">The reason why the exception should be of type <typeparamref name="TException"/>.</param>
         /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
         /// <returns>An <see cref="AndConstraint"/> which can be used to chain assertions.</returns>
-        public ExceptionAssertions<TException> Exception<TException>(string reason, params object[] reasonParameters)
+        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason, params object[] reasonParameters)
             where TException : Exception
         {
             VerifyThat(exception != null, "Expected {0}{2}, but no exception was thrown.",

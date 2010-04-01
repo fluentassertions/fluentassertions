@@ -11,14 +11,21 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static  class FluentAssertionExtensions
     {
-        public static ThrowAssertions<T> ShouldThrow<T>(this T actualValue, Action<T> action)
+        public static InvokingAssertions<T> Invoking<T>(this T subject, Action<T> action)
         {
-            return new ThrowAssertions<T>(actualValue, action);
+            return new InvokingAssertions<T>(subject, action);
         }
 
-        public static ThrowAssertions<Action> ShouldThrow(this Action action)
+        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action) 
+            where TException : Exception
         {
-            return new ThrowAssertions<Action>(action);
+            return ShouldThrow<TException>(action, string.Empty);
+        }
+
+        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason, params object[] reasonParameters) 
+            where TException : Exception
+        {
+            return new ActionAssertions<TException>(action, reason, reasonParameters).ExceptionAssertions;
         }
 
         public static ObjectAssertions Should(this object actualValue)

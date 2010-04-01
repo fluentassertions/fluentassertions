@@ -13,8 +13,8 @@ namespace FluentAssertions.Specs
             var assertions = new AssertionsTestSubClass();
 
             assertions
-                .ShouldThrow(x => x.AssertFail("because {0} should always fail.", typeof(AssertionsTestSubClass).Name))
-                .Exception<SpecificationMismatchException>()
+                .Invoking(x => x.AssertFail("because {0} should always fail.", typeof(AssertionsTestSubClass).Name))
+                .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
         }        
         
@@ -24,8 +24,8 @@ namespace FluentAssertions.Specs
             var assertions = new AssertionsTestSubClass();
 
             assertions
-                .ShouldThrow(x => x.AssertFail("{0} should always fail.", typeof(AssertionsTestSubClass).Name))
-                .Exception<SpecificationMismatchException>()
+                .Invoking(x => x.AssertFail("{0} should always fail.", typeof(AssertionsTestSubClass).Name))
+                .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
         }
 
@@ -78,7 +78,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected <System.Object> to match (o == null) because it is not initialized yet.");
         }        
         
@@ -103,7 +103,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected <FluentAssertions.Specs.SomeDto> to match (d.Name.Length == 0) because it is not initialized yet.");
         }
 
@@ -123,7 +123,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow().Exception<NullReferenceException>().WithMessage(
+            act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot match an object against a <null> predicate.");
         }
 
