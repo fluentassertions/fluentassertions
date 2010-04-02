@@ -98,7 +98,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someObject.Should().Match<SomeDto>(d => d.Name.Length == 0, "it is not initialized yet");
+            Action act = () => someObject.Should().Match((SomeDto d) => d.Name.Length == 0, "it is not initialized yet");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

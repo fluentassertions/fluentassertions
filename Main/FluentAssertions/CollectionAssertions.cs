@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace FluentAssertions
 {
@@ -23,6 +24,29 @@ namespace FluentAssertions
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
+        public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate)
+        {
+            return HaveCount(countPredicate, String.Empty);
+        }
+
+        public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string reason, params object[] reasonParameters)
+        {
+            if (countPredicate == null)
+            {
+                throw new NullReferenceException("Cannot compare collection count against a <null> predicate.");
+            }
+
+            Func<int, bool> compiledPredicate = countPredicate.Compile();
+            int actualCount = Subject.Cast<object>().Count();
+
+            if (!compiledPredicate(actualCount))
+            {
+                FailWith("Expected collection {0} to have a count " + countPredicate.Body + "{2}, but count is {1}.", Subject, actualCount, reason, reasonParameters);    
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions) this);
+        }
+        
         public AndConstraint<TAssertions> BeEmpty()
         {
             return BeEmpty(String.Empty);
