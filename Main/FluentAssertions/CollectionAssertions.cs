@@ -24,11 +24,17 @@ namespace FluentAssertions
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
+        /// <summary>
+        /// Asserts that the number of items in the collection matches a condition stated by a predicate.
+        /// </summary>
         public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate)
         {
             return HaveCount(countPredicate, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the number of items in the collection matches a condition stated by a predicate.
+        /// </summary>
         public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string reason, params object[] reasonParameters)
         {
             if (countPredicate == null)
