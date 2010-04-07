@@ -1,14 +1,27 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions
 {
     public abstract class AssertionsBase<TSubject>
     {
         protected TSubject Subject;
+        
+        private List<IFormatter> formatters = new List<IFormatter>
+        {
+            new NullFormatter(),
+            new TimeSpanFormatter(),
+            new StringFormatter(),
+            new ExpressionFormatter(),
+            new EnumerableFormatter(),
+            new DefaultFormatter()
+        };
 
         /// <summary>
         /// Asserts that the supplied <paramref name="condition"/> is met.
@@ -119,48 +132,27 @@ namespace FluentAssertions
             }
         }
 
-        protected void FailWith(string failureMessage, object expected, object actual, string reason, object[] reasonParameters)
+        protected void FailWith(string format, object expected, object actual, string reason, object[] reasonParameters, params object[] args)
         {
-            throw new SpecificationMismatchException(String.Format(
-                failureMessage,
-                Format(expected), Format(actual),
-                SanitizeReason(reason, reasonParameters)));
+            List<string> values = new List<string>
+            {
+                Format(expected),
+                Format(actual),
+                SanitizeReason(reason, reasonParameters),
+            };
+
+            values.AddRange(args.Select(Format));
+
+            throw new SpecificationMismatchException(string.Format(format, values.ToArray()));
         }
 
         /// <summary>
         /// If the value is a collection, returns it as a comma-separated string.
         /// </summary>
-        protected object Format(object value)
+        protected string Format(object value)
         {
-            if (ReferenceEquals(value, null))
-            {
-                return "<null>";
-            }
-
-            if (value is string)
-            {
-                return "\"" + value.ToString().Replace("\"", "\\\"") + "\"";
-            }
-
-            if (value is Expression)
-            {
-                return value.ToString();
-            }
-
-            if (value is IEnumerable)
-            {
-                var enumerable = ((IEnumerable) value).Cast<object>();
-                if (enumerable.Count() > 0)
-                {
-                    return "<" + string.Join(", ", enumerable.Select(o => o.ToString()).ToArray()) + ">";
-                } 
-                else
-                {
-                    return "<empty collection>";
-                }
-            } 
-
-            return "<" + value + ">";
+            var formatter = formatters.First(f => f.CanHandle(value));
+            return formatter.ToString(value);
         }
 
         private static string SanitizeReason(string reason, object[] reasonParameters)

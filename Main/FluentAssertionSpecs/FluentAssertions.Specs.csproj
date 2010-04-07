@@ -84,6 +84,7 @@
     <Compile Include="PropertyMatchingSpecs.cs" />
     <Compile Include="StringAssertionSpecs.cs" />
     <Compile Include="ThrowAssertionsSpecs.cs" />
+    <Compile Include="TimeSpanFormatterSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FluentAssertions\FluentAssertions.csproj">

@@ -109,6 +109,27 @@
     <Compile Include="..\FluentAssertions\FluentAssertionExtensions.cs">
       <Link>FluentAssertionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions\Formatting\DefaultFormatter.cs">
+      <Link>Formatting\DefaultFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\Formatting\EnumerableFormatter.cs">
+      <Link>Formatting\EnumerableFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\Formatting\ExpressionFormatter.cs">
+      <Link>Formatting\ExpressionFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\Formatting\IFormatter.cs">
+      <Link>Formatting\IFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\Formatting\NullFormatter.cs">
+      <Link>Formatting\NullFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\Formatting\StringFormatter.cs">
+      <Link>Formatting\StringFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\Formatting\TimeSpanFormatter.cs">
+      <Link>Formatting\TimeSpanFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions\GenericCollectionAssertions.cs">
       <Link>GenericCollectionAssertions.cs</Link>
     </Compile>

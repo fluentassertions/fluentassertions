@@ -169,5 +169,44 @@ namespace FluentAssertions
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
+
+        public TimeSpanAssertions BeMoreThan(TimeSpan timeSpan)
+        {
+            return new TimeSpanAssertions(this, Subject, DateTimeComparison.MoreThan, timeSpan);
+        }
+    }
+
+    public class TimeSpanAssertions : AssertionsBase<TimeSpan>
+    {
+        private readonly DateTimeAssertions parentAssertions;
+        private readonly DateTime? subject;
+        private readonly DateTimeComparison @operator;
+        private readonly TimeSpan timeSpan;
+
+        public TimeSpanAssertions(DateTimeAssertions parentAssertions, DateTime? subject, DateTimeComparison @operator, TimeSpan timeSpan)
+        {
+            this.parentAssertions = parentAssertions;
+            this.subject = subject;
+            this.@operator = @operator;
+            this.timeSpan = timeSpan;
+        }
+
+        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason, params object[] reasonParameters)
+        {
+            if (@operator == DateTimeComparison.MoreThan)
+            {
+                if (target.Subtract(subject.Value) <= timeSpan)
+                {
+                    FailWith("Expected {1} to be more than {3} before {0}{2}.", target, subject, reason, reasonParameters, timeSpan);
+                }
+            }
+
+            return new AndConstraint<DateTimeAssertions>(parentAssertions);
+        }
+    }
+
+    public enum DateTimeComparison
+    {
+        MoreThan
     }
 }

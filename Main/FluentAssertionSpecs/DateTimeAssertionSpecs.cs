@@ -289,5 +289,30 @@ namespace FluentAssertions.Specs
                 .And
                 .HaveDay(31);
         }
+
+        #region Timespan Comparison
+
+        [TestMethod]
+        public void When_date_is_not_more_than_one_day_before_another_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = new DateTime(2009, 10, 2);
+            DateTime subject = target.AddDays(-1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeMoreThan(TimeSpan.FromDays(1)).Before(target, "we like {0}", "that");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected date <2009-10-01> to be more than 1d before <2009-10-01> because we like that.");
+        }
+
+        #endregion
     }
 }

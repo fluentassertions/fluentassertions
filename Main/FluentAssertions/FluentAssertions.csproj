@@ -83,6 +83,13 @@
     <Compile Include="Assertions.cs" />
     <Compile Include="BooleanAssertions.cs" />
     <Compile Include="CollectionAssertions.cs" />
+    <Compile Include="Formatting\DefaultFormatter.cs" />
+    <Compile Include="Formatting\EnumerableFormatter.cs" />
+    <Compile Include="Formatting\ExpressionFormatter.cs" />
+    <Compile Include="Formatting\IFormatter.cs" />
+    <Compile Include="Formatting\NullFormatter.cs" />
+    <Compile Include="Formatting\StringFormatter.cs" />
+    <Compile Include="Formatting\TimeSpanFormatter.cs" />
     <Compile Include="GenericCollectionAssertions.cs" />
     <Compile Include="NonGenericCollectionAssertions.cs" />
     <Compile Include="ExtensionMethods.cs" />
