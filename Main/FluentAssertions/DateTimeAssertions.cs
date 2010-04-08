@@ -169,44 +169,36 @@ namespace FluentAssertions
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
-
+        
+        /// <summary>
+        /// The amount of time that a <see cref="DateTime"/> should exceed compared to another <see cref="DateTime"/>.
+        /// </summary>
         public TimeSpanAssertions BeMoreThan(TimeSpan timeSpan)
         {
-            return new TimeSpanAssertions(this, Subject, DateTimeComparison.MoreThan, timeSpan);
+            return new TimeSpanAssertions(this, Subject, TimeSpanCondition.MoreThan, timeSpan);
+        }
+
+        /// <summary>
+        /// The amount of time that a <see cref="DateTime"/> should be equal or exceed compared to another <see cref="DateTime"/>.
+        /// </summary>
+        public TimeSpanAssertions BeAtLeast(TimeSpan timeSpan)
+        {
+            return new TimeSpanAssertions(this, Subject, TimeSpanCondition.AtLeast, timeSpan);
+        }
+
+        /// <summary>
+        /// The amount of time that a <see cref="DateTime"/> should differ exactly compared to another <see cref="DateTime"/>.
+        /// </summary>
+        public TimeSpanAssertions BeExactly(TimeSpan timeSpan)
+        {
+            return new TimeSpanAssertions(this, Subject, TimeSpanCondition.Exactly, timeSpan);
         }
     }
 
-    public class TimeSpanAssertions : AssertionsBase<TimeSpan>
+    public enum TimeSpanCondition
     {
-        private readonly DateTimeAssertions parentAssertions;
-        private readonly DateTime? subject;
-        private readonly DateTimeComparison @operator;
-        private readonly TimeSpan timeSpan;
-
-        public TimeSpanAssertions(DateTimeAssertions parentAssertions, DateTime? subject, DateTimeComparison @operator, TimeSpan timeSpan)
-        {
-            this.parentAssertions = parentAssertions;
-            this.subject = subject;
-            this.@operator = @operator;
-            this.timeSpan = timeSpan;
-        }
-
-        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason, params object[] reasonParameters)
-        {
-            if (@operator == DateTimeComparison.MoreThan)
-            {
-                if (target.Subtract(subject.Value) <= timeSpan)
-                {
-                    FailWith("Expected {1} to be more than {3} before {0}{2}.", target, subject, reason, reasonParameters, timeSpan);
-                }
-            }
-
-            return new AndConstraint<DateTimeAssertions>(parentAssertions);
-        }
-    }
-
-    public enum DateTimeComparison
-    {
-        MoreThan
+        MoreThan,
+        AtLeast,
+        Exactly
     }
 }

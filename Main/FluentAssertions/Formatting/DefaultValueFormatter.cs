@@ -1,6 +1,6 @@
 ﻿namespace FluentAssertions.Formatting
 {
-    internal class DefaultFormatter : IFormatter
+    internal class DefaultValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value)
         {

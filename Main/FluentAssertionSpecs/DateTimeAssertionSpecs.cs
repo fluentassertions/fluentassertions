@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
@@ -38,7 +39,8 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.Be(Tomorrow, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage(string.Format(
-                                 "Expected <{0}> because we want to test the failure message, but found <{1}>.", Tomorrow, Today));
+                    "Expected <{0}> because we want to test the failure message, but found <{1}>.",
+                    Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
         }
 
         [TestMethod]
@@ -61,8 +63,8 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.BeBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage(string.Format(
-                                 "Expected a date/time before <{0}> because we want to test the failure message, but found <{1}>.",
-                                 Yesterday, Today));
+                    "Expected a date/time before <{0}> because we want to test the failure message, but found <{1}>.",
+                    Yesterday.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
         }
 
         [TestMethod]
@@ -91,8 +93,8 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.BeOnOrBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage(string.Format(
-                                 "Expected a date/time on or before <{0}> because we want to test the failure message, but found <{1}>.",
-                                 Yesterday, Today));
+                    "Expected a date/time on or before <{0}> because we want to test the failure message, but found <{1}>.",
+                    Yesterday.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
         }
 
         [TestMethod]
@@ -115,8 +117,8 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.BeAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage(string.Format(
-                                 "Expected a date/time after <{0}> because we want to test the failure message, but found <{1}>.",
-                                 Tomorrow, Today));
+                    "Expected a date/time after <{0}> because we want to test the failure message, but found <{1}>.",
+                    Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
         }
 
         [TestMethod]
@@ -145,8 +147,8 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.BeOnOrAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage(string.Format(
-                                 "Expected a date/time on or after <{0}> because we want to test the failure message, but found <{1}>.",
-                                 Tomorrow, Today));
+                    "Expected a date/time on or after <{0}> because we want to test the failure message, but found <{1}>.",
+                    Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
         }
 
         [TestMethod]
@@ -293,7 +295,7 @@ namespace FluentAssertions.Specs
         #region Timespan Comparison
 
         [TestMethod]
-        public void When_date_is_not_more_than_one_day_before_another_it_should_throw()
+        public void When_date_is_not_more_than_the_required_one_day_before_another_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -310,7 +312,94 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
-                "Expected date <2009-10-01> to be more than 1d before <2009-10-01> because we like that.");
+                "Expected <2009-10-01> to be more than 1d before <2009-10-02> because we like that, but it differs 1d.");
+        }
+
+        [TestMethod]
+        public void When_date_is_more_than_the_required_one_day_before_another_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = new DateTime(2009, 10, 2);
+            DateTime subject = target.AddHours(-25);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().BeMoreThan(TimeSpan.FromDays(1)).Before(target);
+        }
+
+        [TestMethod]
+        public void When_date_is_not_at_least_one_day_before_another_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = new DateTime(2009, 10, 2);
+            DateTime subject = target.AddHours(-23);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeAtLeast(TimeSpan.FromDays(1)).Before(target, "we like {0}", "that");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected date and/or time <2009-10-01 01:00:00> to be at least 1d before <2009-10-02> because we like that, but it differs 23h00.");
+        }
+
+        [TestMethod]
+        public void When_date_is_at_least_one_day_before_another_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = new DateTime(2009, 10, 2);
+            DateTime subject = target.AddHours(-24);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().BeAtLeast(TimeSpan.FromDays(1)).Before(target);
+        }
+
+        [TestMethod]
+        public void When_time_is_not_at_exactly_20_minutes_before_another_time_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = DateTime.Parse("0001/1/1 12:55");
+            DateTime subject = DateTime.Parse("0001/1/1 12:36");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeExactly(TimeSpan.FromMinutes(20)).Before(target, "{0} minutes is enough", 20);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected date and/or time <12:36:00> to be exactly 0h20 before <12:55:00> because 20 minutes is enough, but it differs 0h19.");
+        }
+
+        [TestMethod]
+        public void When_time_is_exactly_90_seconds_before_another_time_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = DateTime.Parse("0001/1/1 12:55:00");
+            DateTime subject = DateTime.Parse("0001/1/1 12:54:30");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().BeExactly(TimeSpan.FromSeconds(90)).Before(target);
         }
 
         #endregion

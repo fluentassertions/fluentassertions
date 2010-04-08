@@ -3,7 +3,7 @@ using System.Text;
 
 namespace FluentAssertions.Formatting
 {
-    public interface IFormatter
+    public interface IValueFormatter
     {
         bool CanHandle(object value);
         string ToString(object value);

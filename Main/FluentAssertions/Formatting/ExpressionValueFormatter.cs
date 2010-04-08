@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace FluentAssertions.Formatting
 {
-    internal class ExpressionFormatter : IFormatter
+    internal class ExpressionValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value)
         {

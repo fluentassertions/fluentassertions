@@ -109,26 +109,29 @@
     <Compile Include="..\FluentAssertions\FluentAssertionExtensions.cs">
       <Link>FluentAssertionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions\Formatting\DefaultFormatter.cs">
-      <Link>Formatting\DefaultFormatter.cs</Link>
+    <Compile Include="..\FluentAssertions\Formatting\DateTimeValueFormatter.cs">
+      <Link>Formatting\DateTimeValueFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions\Formatting\EnumerableFormatter.cs">
-      <Link>Formatting\EnumerableFormatter.cs</Link>
+    <Compile Include="..\FluentAssertions\Formatting\DefaultValueFormatter.cs">
+      <Link>Formatting\DefaultValueFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions\Formatting\ExpressionFormatter.cs">
-      <Link>Formatting\ExpressionFormatter.cs</Link>
+    <Compile Include="..\FluentAssertions\Formatting\EnumerableValueFormatter.cs">
+      <Link>Formatting\EnumerableValueFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions\Formatting\IFormatter.cs">
-      <Link>Formatting\IFormatter.cs</Link>
+    <Compile Include="..\FluentAssertions\Formatting\ExpressionValueFormatter.cs">
+      <Link>Formatting\ExpressionValueFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions\Formatting\NullFormatter.cs">
-      <Link>Formatting\NullFormatter.cs</Link>
+    <Compile Include="..\FluentAssertions\Formatting\IValueFormatter.cs">
+      <Link>Formatting\IValueFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions\Formatting\StringFormatter.cs">
-      <Link>Formatting\StringFormatter.cs</Link>
+    <Compile Include="..\FluentAssertions\Formatting\NullValueFormatter.cs">
+      <Link>Formatting\NullValueFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions\Formatting\TimeSpanFormatter.cs">
-      <Link>Formatting\TimeSpanFormatter.cs</Link>
+    <Compile Include="..\FluentAssertions\Formatting\StringValueFormatter.cs">
+      <Link>Formatting\StringValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\Formatting\TimeSpanValueFormatter.cs">
+      <Link>Formatting\TimeSpanValueFormatter.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions\GenericCollectionAssertions.cs">
       <Link>GenericCollectionAssertions.cs</Link>
@@ -162,6 +165,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions\StringAssertions.cs">
       <Link>StringAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\TimeSpanAssertions.cs">
+      <Link>TimeSpanAssertions.cs</Link>
     </Compile>
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>

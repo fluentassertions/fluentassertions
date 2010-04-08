@@ -13,14 +13,15 @@ namespace FluentAssertions
     {
         protected TSubject Subject;
         
-        private List<IFormatter> formatters = new List<IFormatter>
+        private List<IValueFormatter> formatters = new List<IValueFormatter>
         {
-            new NullFormatter(),
-            new TimeSpanFormatter(),
-            new StringFormatter(),
-            new ExpressionFormatter(),
-            new EnumerableFormatter(),
-            new DefaultFormatter()
+            new NullValueFormatter(),
+            new DateTimeValueFormatter(),
+            new TimeSpanValueFormatter(),
+            new StringValueFormatter(),
+            new ExpressionValueFormatter(),
+            new EnumerableValueFormatter(),
+            new DefaultValueFormatter()
         };
 
         /// <summary>

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FluentAssertions.Formatting
 {
-    internal class EnumerableFormatter : IFormatter
+    internal class EnumerableValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value)
         {
