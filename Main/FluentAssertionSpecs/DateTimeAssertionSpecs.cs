@@ -312,7 +312,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
-                "Expected <2009-10-01> to be more than 1d before <2009-10-02> because we like that, but it differs 1d.");
+                "Expected date and/or time <2009-10-01> to be more than 1d before <2009-10-02> because we like that, but it differs 1d.");
         }
 
         [TestMethod]
@@ -348,7 +348,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
-                "Expected date and/or time <2009-10-01 01:00:00> to be at least 1d before <2009-10-02> because we like that, but it differs 23h00.");
+                "Expected date and/or time <2009-10-01 01:00:00> to be at least 1d before <2009-10-02> because we like that, but it differs 23h.");
         }
 
         [TestMethod]
@@ -384,7 +384,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
-                "Expected date and/or time <12:36:00> to be exactly 0h20 before <12:55:00> because 20 minutes is enough, but it differs 0h19.");
+                "Expected date and/or time <12:36:00> to be exactly 20m before <12:55:00> because 20 minutes is enough, but it differs 19m.");
         }
 
         [TestMethod]
@@ -394,7 +394,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTime target = DateTime.Parse("0001/1/1 12:55:00");
-            DateTime subject = DateTime.Parse("0001/1/1 12:54:30");
+            DateTime subject = DateTime.Parse("0001/1/1 12:53:30");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
