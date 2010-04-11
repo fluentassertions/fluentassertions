@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace FluentAssertions
 {
+    /// <summary>
+    /// Provides methods for asserting that two <see cref="DateTime"/> objects differ in certain ways.
+    /// </summary>
     public class TimeSpanAssertions : AssertionsBase<TimeSpan>
     {
         #region Private Definitions
@@ -16,12 +19,14 @@ namespace FluentAssertions
         {
             { TimeSpanCondition.MoreThan, new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than") },
             { TimeSpanCondition.AtLeast, new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least") },
-            { TimeSpanCondition.Exactly, new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly") }    
+            { TimeSpanCondition.Exactly, new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly") },
+            { TimeSpanCondition.Within, new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within") },  
+            { TimeSpanCondition.LessThan, new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than") }    
         };
 
         #endregion
 
-        public TimeSpanAssertions(DateTimeAssertions parentAssertions, DateTime? subject, TimeSpanCondition condition, TimeSpan timeSpan)
+        protected internal TimeSpanAssertions(DateTimeAssertions parentAssertions, DateTime? subject, TimeSpanCondition condition, TimeSpan timeSpan)
         {
             this.parentAssertions = parentAssertions;
             this.subject = subject;
@@ -31,16 +36,29 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that a <see cref="DateTime"/> occurs the specified amount of time before the <param name="target"/> <see cref="DateTime"/>.
+        /// Asserts that a <see cref="DateTime"/> occurs a specified amount of time before another <see cref="DateTime"/>.
         /// </summary>
+        /// <param name="target">
+        /// The <see cref="DateTime"/> to compare the subject with.
+        /// </param>
         public AndConstraint<DateTimeAssertions> Before(DateTime target)
         {
             return Before(target, string.Empty);
         }
 
         /// <summary>
-        /// Asserts that a <see cref="DateTime"/> occurs the specified amount of time before the <param name="target"/> <see cref="DateTime"/>.
+        /// Asserts that a <see cref="DateTime"/> occurs a specified amount of time before another <see cref="DateTime"/>.
         /// </summary>
+        /// <param name="target">
+        /// The <see cref="DateTime"/> to compare the subject with.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
         public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason, params object[] reasonParameters)
         {
             var actual = target.Subtract(subject.Value);
@@ -54,6 +72,46 @@ namespace FluentAssertions
             return new AndConstraint<DateTimeAssertions>(parentAssertions);
         }
 
+        /// <summary>
+        /// Asserts that a <see cref="DateTime"/> occurs a specified amount of time after another <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="DateTime"/> to compare the subject with.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> After(DateTime target)
+        {
+            return After(target, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that a <see cref="DateTime"/> occurs a specified amount of time after another <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="DateTime"/> to compare the subject with.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason, params object[] reasonParameters)
+        {
+            var actual = subject.Value.Subtract(target);
+
+            if (!predicate.IsMatchedBy(actual, timeSpan))
+            {
+                FailWith("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} after {0}{2}, but it differs {4}.", target, subject,
+                    reason, reasonParameters, timeSpan, actual);
+            }
+
+            return new AndConstraint<DateTimeAssertions>(parentAssertions);
+        }
+
+        /// <summary>
+        /// Provides the logic and the display text for a <see cref="TimeSpanCondition"/>.
+        /// </summary>
         private class TimeSpanPredicate
         {
             private readonly Func<TimeSpan, TimeSpan, bool> lambda;
@@ -76,5 +134,4 @@ namespace FluentAssertions
             }
         }
     }
-
 }

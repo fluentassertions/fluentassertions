@@ -402,6 +402,93 @@ namespace FluentAssertions.Specs
             subject.Should().BeExactly(TimeSpan.FromSeconds(90)).Before(target);
         }
 
+        [TestMethod]
+        public void When_date_is_not_within_50_hours_before_another_date_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = new DateTime(2010, 4, 10, 12, 0, 0);
+            DateTime subject = target.AddHours(-50).AddSeconds(-1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeWithin(TimeSpan.FromHours(50)).Before(target, "{0} hours is enough", 50);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected date and/or time <2010-04-08 09:59:59> to be within 2d and 2h before <2010-04-10 12:00:00> because 50 hours is enough, but it differs 2d, 2h and 1s.");
+        }
+
+        [TestMethod]
+        public void When_date_is_exactly_within_1d_before_another_date_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = new DateTime(2010, 4, 10);
+            DateTime subject = target.AddDays(-1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().BeWithin(TimeSpan.FromHours(24)).Before(target);
+        }
+
+        [TestMethod]
+        public void When_date_is_within_1d_before_another_date_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = new DateTime(2010, 4, 10);
+            DateTime subject = target.AddHours(-23);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().BeWithin(TimeSpan.FromHours(24)).Before(target);
+        }
+
+        [TestMethod]
+        public void When_time_is_not_less_than_30s_after_another_time_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = new DateTime(1, 1, 1, 12, 0, 30);
+            DateTime subject = target.AddSeconds(30);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeLessThan(TimeSpan.FromSeconds(30)).After(target, "{0}s is the max", 30);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected date and/or time <12:01:00> to be less than 30s after <12:00:30> because 30s is the max, but it differs 30s.");
+        }
+
+        [TestMethod]
+        public void When_time_is_less_than_30s_after_another_time_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime target = new DateTime(1, 1, 1, 12, 0, 30);
+            DateTime subject = target.AddSeconds(20);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.Should().BeLessThan(TimeSpan.FromSeconds(30)).After(target);
+        }
+
         #endregion
     }
 }

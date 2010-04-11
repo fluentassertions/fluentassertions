@@ -193,12 +193,30 @@ namespace FluentAssertions
         {
             return new TimeSpanAssertions(this, Subject, TimeSpanCondition.Exactly, timeSpan);
         }
+
+        /// <summary>
+        /// The maximum amount of time that a <see cref="DateTime"/> should differ compared to another <see cref="DateTime"/>.
+        /// </summary>
+        public TimeSpanAssertions BeWithin(TimeSpan timeSpan)
+        {
+            return new TimeSpanAssertions(this, Subject, TimeSpanCondition.Within, timeSpan);
+        }
+
+        /// <summary>
+        /// The amount of time that a <see cref="DateTime"/> should be within another <see cref="DateTime"/>.
+        /// </summary>
+        public TimeSpanAssertions BeLessThan(TimeSpan timeSpan)
+        {
+            return new TimeSpanAssertions(this, Subject, TimeSpanCondition.LessThan, timeSpan);
+        }
     }
 
     public enum TimeSpanCondition
     {
         MoreThan,
         AtLeast,
-        Exactly
+        Exactly,
+        Within,
+        LessThan
     }
 }
