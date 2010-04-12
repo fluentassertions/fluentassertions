@@ -40,12 +40,12 @@ namespace FluentAssertions
             return new AndConstraint<BooleanAssertions>(this);
         }
 
-        public AndConstraint<BooleanAssertions> Equal(bool expected)
+        public AndConstraint<BooleanAssertions> Be(bool expected)
         {
-            return Equal(expected, String.Empty);
+            return Be(expected, String.Empty);
         }
 
-        public AndConstraint<BooleanAssertions> Equal(bool expected, string reason, params object[] reasonParameters)
+        public AndConstraint<BooleanAssertions> Be(bool expected, string reason, params object[] reasonParameters)
         {
             VerifyThat(() => Subject.Value.Equals(expected), "Expected {0}{2}, but found {1}.", expected, Subject,
                 reason, reasonParameters);
