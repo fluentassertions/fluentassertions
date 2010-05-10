@@ -81,6 +81,7 @@
     <Compile Include="ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
     <Compile Include="Assertions.cs" />
+    <Compile Include="AssertionsBase.cs" />
     <Compile Include="BooleanAssertions.cs" />
     <Compile Include="CollectionAssertions.cs" />
     <Compile Include="Formatting\DateTimeValueFormatter.cs" />

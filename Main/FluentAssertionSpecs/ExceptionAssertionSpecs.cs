@@ -335,6 +335,33 @@ namespace FluentAssertions.Specs
                 .WithInnerException<ArgumentException>()
                 .WithInnerMessage("inner message");
         }
+
+        [TestMethod]
+        public void When_a_yielding_enumerable_throws_an_expected_exception_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Func<IEnumerable<char>> act = () => MethodThatUsesYield("aaa!aaa");
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.Enumerating().ShouldThrow<Exception>();
+        }
+        
+        private static IEnumerable<char> MethodThatUsesYield(string bar)
+        {
+            foreach (var character in bar)
+            {
+                if (character.Equals('!'))
+                {
+                    throw new Exception("No exclamation marks allowed.");
+                }
+
+                yield return char.ToUpper(character);
+            }
+        }
     }
 
     public class SomeTestClass

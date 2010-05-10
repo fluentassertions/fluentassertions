@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FluentAssertions
 {
@@ -28,7 +25,6 @@ namespace FluentAssertions
             VerifyThat(exception is TException,
                 "Expected {0}{2}, but found {1}.",
                 typeof(TException), exception.GetType(), reason, reasonParameters);
-
         }
 
         public ExceptionAssertions<TException> ExceptionAssertions

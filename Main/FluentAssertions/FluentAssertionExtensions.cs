@@ -28,6 +28,23 @@ namespace FluentAssertions
             return new ActionAssertions<TException>(action, reason, reasonParameters).ExceptionAssertions;
         }
 
+        /// <summary>
+        /// Forces enumerating a collection. Should be used to assert that a method that uses the 
+        /// <c>yield</c> keyword throws a particular exception.
+        /// </summary>
+        public static Action Enumerating(this Func<IEnumerable> enumerable)
+        {
+            return () => ForceEnumeraton(enumerable);
+        }
+
+        private static void ForceEnumeraton(Func<IEnumerable> enumerable)
+        {
+            foreach (var item in enumerable())
+            {
+                // Do nothing
+            }
+        }
+
         public static ObjectAssertions Should(this object actualValue)
         {
             return new ObjectAssertions(actualValue);
