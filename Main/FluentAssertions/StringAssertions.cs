@@ -290,5 +290,58 @@ namespace FluentAssertions
 
             return new AndConstraint<StringAssertions>(this);       
         }
+
+        /// <summary>
+        /// Ensures that a string is neither <c>null</c> or empty.
+        /// </summary>
+        public AndConstraint<StringAssertions> NotBeNullOrEmpty()
+        {
+            return NotBeNullOrEmpty(string.Empty);
+        }
+
+        /// <summary>
+        /// Ensures that a string is neither <c>null</c> or empty.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public virtual AndConstraint<StringAssertions> NotBeNullOrEmpty(string reason, params object[] reasonParameters)
+        {
+            VerifyThat(() => !string.IsNullOrEmpty(Subject), 
+                "Expected string not to be <null> or empty{2}, but found {1}.", null, Subject, reason, reasonParameters);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Ensures that a string is neither <c>null</c> or empty.
+        /// </summary>
+        public AndConstraint<StringAssertions> BeNullOrEmpty()
+        {
+            return BeNullOrEmpty(string.Empty);
+        }
+
+        /// <summary>
+        /// Ensures that a string is either <c>null</c> or empty.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public virtual AndConstraint<StringAssertions> BeNullOrEmpty(string reason, params object[] reasonParameters)
+        {
+            VerifyThat(() => string.IsNullOrEmpty(Subject),
+                "Expected string to be <null> or empty{2}, but found {1}.", null, Subject, reason, reasonParameters);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
     }
 }

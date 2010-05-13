@@ -110,9 +110,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions\FluentAssertions.csproj">
-      <Project>{B41571A3-A982-40E1-8308-7B70F5DE9CA2}</Project>
-      <Name>FluentAssertions</Name>
+    <ProjectReference Include="..\FluentAssertions.Net40\FluentAssertions.VS2010.csproj">
+      <Project>{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}</Project>
+      <Name>FluentAssertions.VS2010</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
