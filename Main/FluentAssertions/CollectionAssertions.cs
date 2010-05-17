@@ -335,7 +335,8 @@ namespace FluentAssertions
             }
 
             var expectedItems = expected.Cast<object>().ToList();
-            var missingItems = expectedItems.Except(Subject.Cast<object>());
+            var actualItems = Subject.Cast<object>();
+            var missingItems = expectedItems.Except(actualItems);
             if (missingItems.Count() > 0)
             {
                 FailWith(
@@ -344,8 +345,7 @@ namespace FluentAssertions
                     expected, Subject, reason, reasonParameters);
             }
 
-            // Remove anything that is not in the expected collection
-            var actualMatchingItems = Subject.Cast<object>().Intersect(expectedItems).ToList();
+            var actualMatchingItems = RemoveItemsThatWereNotExpected(actualItems, expectedItems);
 
             if (!expectedItems.SequenceEqual(actualMatchingItems))
             {
@@ -354,6 +354,11 @@ namespace FluentAssertions
             }
 
             return new AndConstraint<TAssertions>((TAssertions) this);
+        }
+
+        private static IEnumerable<object> RemoveItemsThatWereNotExpected(IEnumerable<object> actualItems, IEnumerable<object> expectedItems)
+        {
+            return actualItems.Where(item => expectedItems.Any(expected => expected.Equals(item))).ToArray();
         }
 
         public AndConstraint<TAssertions> BeSubsetOf(IEnumerable expected)
