@@ -258,6 +258,22 @@ namespace FluentAssertions.Specs
                 "Cannot compare start of string with empty string.");
         }
 
+        [TestMethod]
+        public void When_string_start_is_compared_and_actual_value_is_null_then_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+            Action act = () => someString.Should().StartWith("ABC");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected string <null> to start with \"ABC\".");
+        }
+
         #endregion
 
         #region End With
@@ -311,6 +327,22 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot compare string end with empty string.");
+        }
+
+        [TestMethod]
+        public void When_string_ending_is_compared_and_actual_value_is_null_then_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+            Action act = () => someString.Should().EndWith("ABC");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected string <null> to end with \"ABC\".");
         }
 
         #endregion
@@ -367,12 +399,27 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot compare string start equivalence with empty string.");
         }
+
+        [TestMethod]
+        public void When_string_start_is_compared_with_equivalent_and_actual_value_is_null_then_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+            Action act = () => someString.Should().StartWithEquivalent("AbC");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected string <null> to start with equivalent of \"AbC\".");
+        }
         
         #endregion
 
         #region End With Equivalent
-
-
+        
         [TestMethod]
         public void When_end_of_string_differs_by_case_only_it_should_not_throw()
         {
@@ -422,6 +469,22 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot compare string end equivalence with empty string.");
+        }
+
+        [TestMethod]
+        public void When_string_ending_is_compared_with_equivalent_and_actual_value_is_null_then_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+            Action act = () => someString.Should().EndWithEquivalent("abC");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected string <null> to end with equivalent of \"abC\".");
         }
 
         #endregion
@@ -477,6 +540,22 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot check containment against an empty string.");
+        }
+
+        [TestMethod]
+        public void When_string_containment_is_asserted_and_actual_value_is_null_then_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+            Action act = () => someString.Should().Contain("XYZ", "that is {0}", "required");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                 "Expected string <null> to contain \"XYZ\" because that is required.");
         }
 
         #endregion
@@ -547,6 +626,22 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"ABCD\", but \"AB\" is too short.");
+        }
+
+        [TestMethod]
+        public void When_string_equivalence_is_asserted_and_actual_value_is_null_then_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+            Action act = () => someString.Should().BeEquivalentTo("abc", "we will test {0} + {1}", 1, 2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                  "Expected \"abc\" because we will test 1 + 2, but found <null>.");
         }
 
         #endregion
