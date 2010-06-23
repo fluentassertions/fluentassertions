@@ -8,7 +8,7 @@ namespace FluentAssertions
         {
             for (int index = 0; index < value.Length; index++)
             {
-                if (value[index] != expected[index])
+                if ((index >= expected.Length) || (value[index] != expected[index]))
                 {
                     return index;
                 }

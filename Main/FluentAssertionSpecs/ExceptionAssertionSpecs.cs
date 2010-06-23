@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
+using Rhino.Mocks.Constraints;
 
 namespace FluentAssertions.Specs
 {
@@ -87,6 +88,38 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 Assert.AreEqual(
                     "Expected exception with message \"message2\", but message was empty.",
+                    ex.Message);
+            }
+        }
+
+        [TestMethod]
+        public void When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo subjectThatThrows = MockRepository.GenerateStub<IFoo>();
+            subjectThatThrows.Stub(x => x.Do(Arg<string>.Is.Anything)).Throw(new ArgumentNullException("someParam", "message2"));
+
+            try
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                subjectThatThrows
+                    .Invoking(x => x.Do("something"))
+                    .ShouldThrow<ArgumentNullException>()
+                    .WithMessage("message2");
+
+                Assert.Fail("This point should not be reached");
+            }
+            catch (SpecificationMismatchException ex)
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                Assert.AreEqual(
+                    "Expected exception with message \"message2\", but \"message2\r\nParameter name: someParam\" differs near '\r\nP' (index 8).",
                     ex.Message);
             }
         }
@@ -379,5 +412,7 @@ namespace FluentAssertions.Specs
     public interface IFoo
     {
         void Do();
+
+        void Do(string someParam);
     }
 }
