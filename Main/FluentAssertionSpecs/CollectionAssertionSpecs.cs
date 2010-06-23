@@ -128,7 +128,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new[] {1, 2, 3};
+            var collection = new[] { 1, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -142,7 +142,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new[] {1, 2, 3};
+            var collection = new[] { 1, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -155,14 +155,14 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> to have a count (c >= 4) because a minimum of 4 is required, but count is <3>.");
         }
-        
+
         [TestMethod]
         public void When_collection_count_is_matched_against_a_null_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new[] {1, 2, 3};
+            var collection = new[] { 1, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -174,6 +174,46 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare collection count against a <null> predicate.");
+        }
+
+        [TestMethod]
+        public void When_collection_count_is_matched_and_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveCount(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected <1> items because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_collection_count_is_matched_against_a_predicate_and_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -213,7 +253,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_collection_without_items_is_not_empty()
         {
             IEnumerable collection = new int[0];
@@ -228,6 +268,50 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
                 .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage("Expected one or more items because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collection_to_be_empty_but_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().BeEmpty("because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection to be empty because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        #endregion
+
+        #region Not Be Empty
+
+        [TestMethod]
+        public void When_asserting_collection_to_be_not_empty_but_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotBeEmpty("because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection not to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -269,7 +353,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> to be equal to <1, 2, 5>, but it differs at index 2");
         }
-        
+
         [TestMethod]
         public void When_two_collections_are_not_equal_it_should_throw_using_the_reason()
         {
@@ -288,8 +372,49 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
-                "Expected collection <1, 2, 3> to be equal to <1, 2, 5> because we want to test the failure message," + 
+                "Expected collection <1, 2, 3> to be equal to <1, 2, 5> because we want to test the failure message," +
                 " but it differs at index 2");
+        }
+
+        [TestMethod]
+        public void When_asserting_collections_to_be_equal_but_subject_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collections to be equal because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collections_to_be_equal_but_expected_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable collection1 = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Equal(collection1, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentNullException>().WithMessage("Cannot compare collection with <null>.\r\nParameter name: expected");
         }
 
         [TestMethod]
@@ -343,6 +468,47 @@ namespace FluentAssertions.Specs
                 "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal because we want to test the failure message.");
         }
 
+        [TestMethod]
+        public void When_asserting_collections_not_to_be_equal_subject_but_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotEqual(collection1, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collections not to be equal because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collections_not_to_be_equal_but_expected_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable collection1 = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotEqual(collection1, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentNullException>().WithMessage("Cannot compare collection with <null>.\r\nParameter name: expected");
+        }
+
         #endregion
 
         #region Be Equivalent To
@@ -381,8 +547,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> to contain the same items as <1, 2> in any order because we treat all alike.");
-        }        
-        
+        }
+
         [TestMethod]
         public void When_testing_for_equivalence_against_empty_collection_it_should_throw()
         {
@@ -403,7 +569,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot verify equivalence against an empty collection.");
         }
-        
+
         [TestMethod]
         public void When_testing_for_equivalence_against_null_collection_it_should_throw()
         {
@@ -424,7 +590,28 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot verify equivalence against a <null> collection.");
         }
-        
+
+        [TestMethod]
+        public void When_asserting_collections_to_be_equivalent_but_subject_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().BeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collections to be equivalent because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_not_equivalent_to_a_different_collection()
         {
@@ -459,6 +646,69 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected collection <1, 2, 3> not be equivalent with collection <3, 1, 2>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collections_not_to_be_equivalent_but_subject_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotBeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collections not to be equivalent because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collections_not_to_be_equivalent_against_empty_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+            IEnumerable collection2 = new int[0];
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>().WithMessage(
+                "Cannot verify inequivalence against an empty collection.");
+        }
+
+        [TestMethod]
+        public void When_testing_collections_not_to_be_equivalent_against_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+            IEnumerable collection2 = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().NotBeEquivalentTo(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<NullReferenceException>().WithMessage(
+                "Cannot verify inequivalence against a <null> collection.");
         }
 
         #endregion
@@ -529,7 +779,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subset = new[] { 1, 2, 3};
+            IEnumerable subset = new[] { 1, 2, 3 };
             IEnumerable superset = null;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -543,7 +793,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot verify a subset against a <null> collection.");
         }
-        
+
         [TestMethod]
         public void When_a_set_is_expected_to_be_not_a_subset_and_it_isnt_it_should_not_throw()
         {
@@ -552,7 +802,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable otherSet = new[] { 1, 2, 4 };
             IEnumerable superSet = new[] { 1, 2, 3 };
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -580,6 +830,27 @@ namespace FluentAssertions.Specs
                 "Expected collection <1, 2> not to be a subset of <1, 2, 3> because I'm mistaken, but it is anyhow.");
         }
 
+        [TestMethod]
+        public void When_asserting_collection_to_be_subset_against_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().BeSubsetOf(collection1, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection to be a subset of <1, 2, 3> because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
         #endregion
 
         #region Contain
@@ -590,12 +861,12 @@ namespace FluentAssertions.Specs
             IEnumerable collection = new[] { 1, 2, 3 };
             collection.Should().Contain(1);
         }
-        
+
         [TestMethod]
         public void Should_succeed_when_asserting_collection_contains_multiple_items_from_the_collection_in_any_order()
         {
             IEnumerable collection = new[] { 1, 2, 3 };
-            collection.Should().Contain(new[] {2, 1});
+            collection.Should().Contain(new[] { 2, 1 });
         }
 
         [TestMethod]
@@ -629,7 +900,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().Contain(new[]{ 3, 4, 5}, "because {0}", "we do");
+            Action act = () => collection.Should().Contain(new[] { 3, 4, 5 }, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -677,7 +948,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Collection <1, 2, 3> should have an item matching (item > 3) because at least 1 item should be larger than 3.");
         }
-        
+
         [TestMethod]
         public void When_collection_does_contain_an_expected_item_matching_a_predicate_it_should_not_throw()
         {
@@ -691,7 +962,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             collection.Should().Contain(item => item == 2);
         }
-        
+
         [TestMethod]
         public void When_a_collection_of_strings_contains_the_expected_string_it_should_not_throw()
         {
@@ -726,6 +997,26 @@ namespace FluentAssertions.Specs
                 "Expected collection <string1, string2, string3> to contain \"string4\" because 4 is required.");
         }
 
+        [TestMethod]
+        public void When_asserting_collection_contains_some_values_but_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string[] strings = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => strings.Should().Contain("string4", "because we're checking how it reacts to a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection to contain \"string4\", but found <null>.");
+        }
+
         #endregion
 
         #region Not Contain
@@ -736,7 +1027,7 @@ namespace FluentAssertions.Specs
             IEnumerable collection = new[] { 1, 2, 3 };
             collection.Should().NotContain(4);
         }
-        
+
         [TestMethod]
         public void When_collection_contains_an_unexpected_item_it_should_throw()
         {
@@ -791,6 +1082,27 @@ namespace FluentAssertions.Specs
             collection.Should().NotContain(item => item == 4);
         }
 
+        [TestMethod]
+        public void When_asserting_collection_does_not_contain_item_against_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should()
+                .NotContain(1, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection not to contain element <1> because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
         #endregion
 
         #region Contain In Order
@@ -807,8 +1119,8 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             collection.Should().ContainInOrder(new[] { 1, 3 });
-        }        
-        
+        }
+
         [TestMethod]
         public void When_two_collections_contain_the_same_duplicate_items_in_the_same_order_it_should_not_throw()
         {
@@ -821,8 +1133,8 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             collection.Should().ContainInOrder(new[] { 1, 2, 1, 2, 12, 2, 2 });
-        }  
-        
+        }
+
         [TestMethod]
         public void When_a_collection_does_not_contain_a_range_twice_it_should_throw()
         {
@@ -841,21 +1153,21 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected items <1, 2, 1, 1, 2> in ordered collection <1, 2, 1, 3, 12, 2, 2>, but the order did not match.");
-        }        
-       
+        }
+
         [TestMethod]
         public void When_two_collections_contain_the_same_items_but_in_different_order_it_should_throw_with_a_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(new[] {3, 1}, "because we said so");
+            Action act = () => new[] { 1, 2, 3 }.Should().ContainInOrder(new[] { 3, 1 }, "because we said so");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
-                "Expected items <3, 1> in ordered collection <1, 2, 3> " + 
+                "Expected items <3, 1> in ordered collection <1, 2, 3> " +
                 "because we said so, but the order did not match.");
         }
 
@@ -888,6 +1200,27 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot verify ordered containment against a <null> collection.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collection_contains_some_values_in_order_but_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string[] strings = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => strings.Should().ContainInOrder("string4", "because we're checking how it reacts to a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection to contain \"string4\" in order, but found <null>.");
         }
 
         #endregion
@@ -928,6 +1261,26 @@ namespace FluentAssertions.Specs
                 "Expected no <null> in collection because they are evil, but found one at index <1>.");
         }
 
+        [TestMethod]
+        public void When_asserting_collection_to_not_contain_nulls_but_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContainNulls("because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection to not contain nulls because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
         #endregion
 
         #region Contain Items Assignable To
@@ -940,7 +1293,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
+        [ExpectedException(typeof(SpecificationMismatchException))]
         public void Should_fail_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type()
         {
             IEnumerable collection = new List<object> { 1, "2" };
@@ -965,7 +1318,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected only <System.String> items in collection, but item <1> at index 0 is of type <System.Int32>.");
-        }       
+        }
 
         [TestMethod]
         public void When_a_collection_contains_anything_other_than_strings_it_should_use_the_reason()
@@ -986,8 +1339,29 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>()
                 .WithMessage(
-                "Expected only <System.String> items in collection because we want to test the failure message" + 
+                "Expected only <System.String> items in collection because we want to test the failure message" +
                 ", but item <1> at index 0 is of type <System.Int32>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collection_contains_item_assignable_to_against_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should()
+                .ContainItemsAssignableTo<string>("because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection to contain element assignable to type <System.String> because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -1021,6 +1395,26 @@ namespace FluentAssertions.Specs
                 "Expected only unique items because we don't like duplicates, but item <3> was found multiple times.");
         }
 
+        [TestMethod]
+        public void When_asserting_collection_to_only_have_unique_items_but_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().OnlyHaveUniqueItems("because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection to only have unique items because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
         #endregion
 
         #region Have Element At
@@ -1047,7 +1441,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 3 };
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -1078,6 +1472,27 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------            
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected <3> at index 4 because we put it there, but found no element.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collection_has_element_at_specific_index_against_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveElementAt(1, 1,
+                                                  "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection to have element at index <1> because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -1134,8 +1549,8 @@ namespace FluentAssertions.Specs
                 .Invoking(e => e.HaveSameCount(secondCollection))
                 .ShouldThrow<SpecificationMismatchException>()
                 .WithMessage("Expected collection to have <2> items, but found <3>.");
-        }        
-        
+        }
+
         [TestMethod]
         public void When_comparing_item_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
         {
@@ -1156,6 +1571,49 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
         }
 
+        [TestMethod]
+        public void When_asserting_collections_to_have_same_count_against_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveSameCount(collection1,
+                                                  "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection to have the same count as <1, 2, 3> because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collections_to_have_same_count_against_an_other_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable otherCollection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().HaveSameCount(otherCollection);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<NullReferenceException>().WithMessage(
+                "Cannot verify count against a <null> collection.");
+        }
+
         #endregion
     }
 
@@ -1163,7 +1621,7 @@ namespace FluentAssertions.Specs
     {
         public IEnumerator GetEnumerator()
         {
-            foreach (string s in new[]{"a", "b", "c"})
+            foreach (string s in new[] { "a", "b", "c" })
             {
                 yield return s;
             }

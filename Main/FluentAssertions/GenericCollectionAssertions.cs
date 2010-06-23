@@ -22,6 +22,9 @@ namespace FluentAssertions
 
         public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected, string reason, params object[] reasonParameters)
         {
+            VerifySubjectCollectionAgainstNull("Expected collection to contain {0}, but found {1}", expected, reason,
+                                               reasonParameters);
+
             if (!Subject.Contains(expected))
             {
                 FailWith("Expected collection {1} to contain {0}{2}.", expected, Subject, reason, reasonParameters);
