@@ -20,6 +20,8 @@ namespace FluentAssertions
         public virtual AndConstraint<StringAssertions> Be(string expected, string reason, params object[] reasonParameters)
         {
             VerifyStringsAgainstNulls(expected, reason, reasonParameters);
+            VerifyExpectedStringOnlyDiffersOnTrailingSpaces(expected, reason, reasonParameters);
+            VerifyActualStringOnlyDiffersOnTrailingSpaces(expected, reason, reasonParameters);
             VerifyStringLengthEquality(expected, reason, reasonParameters);
 
             int indexOfMismatch = Subject.IndexOfFirstMismatch(expected);
@@ -31,6 +33,24 @@ namespace FluentAssertions
             }
 
             return new AndConstraint<StringAssertions>(this);
+        }
+
+        private void VerifyExpectedStringOnlyDiffersOnTrailingSpaces(string expected, string reason, params object[] reasonParameters)
+        {
+            if ((expected.Length > Subject.Length) && (expected.TrimEnd() == Subject))
+            {
+                FailWith("Expected {0}{2}, but the expected string has trailing spaces compared to the actual string.",
+                         expected, Subject, reason, reasonParameters);
+            }
+        }
+
+        private void VerifyActualStringOnlyDiffersOnTrailingSpaces(string expected, string reason, params object[] reasonParameters)
+        {
+            if ((Subject.Length > expected.Length) && (Subject.TrimEnd() == expected))
+            {
+                FailWith("Expected {0}{2}, but the actual string has trailing spaces compared to the expected string.",
+                         expected, Subject, reason, reasonParameters);
+            }
         }
 
         /// <summary>

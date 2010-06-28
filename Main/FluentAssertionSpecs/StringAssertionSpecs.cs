@@ -44,14 +44,14 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => "ABC".Should().Be("AB");
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"AB\", but \"ABC\" is too long.");
-        }        
-        
+        }
+
         [TestMethod]
         public void When_the_expected_string_is_longer_than_the_actual_string_it_should_throw()
         {
@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => "AB".Should().Be("ABC");
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string to be <null>, but found \"AB\".");
         }
-        
+
         [TestMethod]
         public void When_string_is_expected_to_be_null_it_should_throw()
         {
@@ -96,7 +96,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string to be <null> because we like null, but found \"AB\".");
         }
-        
+
         [TestMethod]
         public void When_the_expected_string_is_null_then_it_should_throw()
         {
@@ -105,12 +105,42 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             string someString = null;
             Action act = () => someString.Should().Be("ABC");
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected \"ABC\", but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_the_expected_string_is_the_same_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().Be("ABC ", "because I say {0}", "so");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected \"ABC \" because I say so, but the expected string has trailing spaces compared to the actual string.");
+        }
+
+        [TestMethod]
+        public void When_the_actual_string_is_the_same_as_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC ".Should().Be("ABC", "because I say {0}", "so");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected \"ABC\" because I say so, but the actual string has trailing spaces compared to the expected string.");
         }
 
         #endregion
@@ -146,7 +176,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             "ABC".Should().NotBe("");
         }
-        
+
         [TestMethod]
         public void When_empty_string_is_not_supposed_to_be_equal_to_empty_it_should_throw()
         {
@@ -161,7 +191,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string not to be equal to \"\".");
         }
-        
+
         [TestMethod]
         public void When_valid_string_is_not_supposed_to_be_null_it_should_not_throw()
         {
@@ -170,7 +200,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             "ABC".Should().NotBe(null);
         }
-        
+
         [TestMethod]
         public void When_null_string_is_not_supposed_to_be_equal_to_null_it_should_throw()
         {
@@ -186,7 +216,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string not to be equal to <null>.");
         }
-        
+
         [TestMethod]
         public void When_null_string_is_not_supposed_to_be_null_it_should_throw()
         {
@@ -242,7 +272,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare start of string with <null>.");
         }
-        
+
         [TestMethod]
         public void When_string_start_is_compared_with_empty_string_it_should_throw()
         {
@@ -298,7 +328,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string \"ABC\" to end with \"AB\" because it should.");
         }
-        
+
         [TestMethod]
         public void When_string_ending_is_compared_with_null_it_should_throw()
         {
@@ -313,7 +343,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare string end with <null>.");
         }
-        
+
         [TestMethod]
         public void When_string_ending_is_compared_with_empty_string_it_should_throw()
         {
@@ -415,11 +445,11 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string <null> to start with equivalent of \"AbC\".");
         }
-        
+
         #endregion
 
         #region End With Equivalent
-        
+
         [TestMethod]
         public void When_end_of_string_differs_by_case_only_it_should_not_throw()
         {
@@ -496,7 +526,7 @@ namespace FluentAssertions.Specs
         {
             "ABCDEF".Should().Contain("BCD");
         }
-        
+
         [TestMethod]
         public void When_string_does_not_contain_an_expected_string_it_should_throw()
         {
@@ -511,7 +541,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
         }
-        
+
         [TestMethod]
         public void When_containment_is_asserted_against_null_it_should_throw()
         {
@@ -755,8 +785,8 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             str.Should().NotBeNullOrEmpty();
-        }        
-        
+        }
+
         [TestMethod]
         public void When_an_empty_string_is_not_expected_to_be_null_or_empty_it_should_throw()
         {
@@ -775,8 +805,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected string not to be <null> or empty because a valid string is expected for str, but found \"\".");
-        } 
-        
+        }
+
         [TestMethod]
         public void When_a_null_string_is_not_expected_to_be_null_or_empty_it_should_throw()
         {
@@ -810,7 +840,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             str.Should().BeNullOrEmpty();
         }
-        
+
         [TestMethod]
         public void When_an_empty_string_is_expected_to_be_null_or_empty_it_should_not_throw()
         {
