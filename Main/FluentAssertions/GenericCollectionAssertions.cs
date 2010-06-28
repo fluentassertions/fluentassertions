@@ -46,6 +46,9 @@ namespace FluentAssertions
         /// </summary>
         public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonParameters)
         {
+            VerifySubjectCollectionAgainstNull("Expected collection to contain {0}{2}, but found {1}", predicate.Body, reason,
+                                               reasonParameters);
+
             if (!Subject.Any(item => predicate.Compile()(item)))
             {
                 FailWith("Collection {1} should have an item matching {0}{2}.", predicate.Body, Subject, reason, reasonParameters);
@@ -67,6 +70,9 @@ namespace FluentAssertions
         /// </summary>
         public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonParameters)
         {
+            VerifySubjectCollectionAgainstNull("Expected collection not to contain {0}{2}, but found {1}", predicate.Body, reason,
+                                               reasonParameters);
+
             if (Subject.Any(item => predicate.Compile()(item)))
             {
                 FailWith("Collection {1} should not have any items matching {0}{2}.", predicate.Body, Subject, reason, reasonParameters);
