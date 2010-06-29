@@ -674,6 +674,36 @@ namespace FluentAssertions.Specs
                   "Expected \"abc\" because we will test 1 + 2, but found <null>.");
         }
 
+        [TestMethod]
+        public void When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().BeEquivalentTo("abc ", "because I say {0}", "so");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected \"abc \" because I say so, but the expected string has trailing spaces compared to the actual string.");
+        }
+
+        [TestMethod]
+        public void When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC ".Should().BeEquivalentTo("abc", "because I say {0}", "so");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected \"abc\" because I say so, but the actual string has trailing spaces compared to the expected string.");
+        }
+
         #endregion
 
         [TestMethod]
