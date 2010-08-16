@@ -304,6 +304,9 @@ namespace FluentAssertions
 
         private static bool AreEquivalent(IEnumerable<object> expectedItems, IEnumerable<object> actualItems)
         {
+            expectedItems = expectedItems.Distinct();
+            actualItems = actualItems.Distinct();
+
             return (expectedItems.Intersect(actualItems).Count() == expectedItems.Count()) &&
                 (expectedItems.Count() == actualItems.Count());
         }
