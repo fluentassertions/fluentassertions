@@ -33,7 +33,7 @@ namespace FluentAssertions
         {
             if (Subject.Equals(expected))
             {
-                FailWith("Did not expect objects {0} and {1} to be equal{2}.", expected, Subject, reason, reasonParameters);
+                FailWith("Did not expect object to be equal to {0}{2}.", expected, null, reason, reasonParameters);
             }
 
             return new AndConstraint<ObjectAssertions>(this);
