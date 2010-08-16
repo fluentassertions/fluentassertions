@@ -55,7 +55,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
-                "Expected collection to be <null> because null is valid, but found <empty collection>.");
+                "Expected collection to be <null> because null is valid, but found <empty>.");
         }
 
         [TestMethod]
@@ -416,6 +416,27 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentNullException>().WithMessage("Cannot compare collection with <null>.\r\nParameter name: expected");
         }
+        
+        [TestMethod]
+        public void When_an_empty_collection_is_compared_for_equality_to_a_non_empty_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection1 = new int[0];
+            var collection2 = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().Equal(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected collection <empty> to be equal to <1, 2, 3>, but it differs at index 0");
+        }
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_not_equal_to_a_different_collection()
@@ -467,6 +488,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal because we want to test the failure message.");
         }
+
 
         [TestMethod]
         public void When_asserting_collections_not_to_be_equal_subject_but_collection_is_null_it_should_throw()

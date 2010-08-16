@@ -19,7 +19,7 @@ namespace FluentAssertions.Formatting
             }
             else
             {
-                return "<empty collection>";
+                return "<empty>";
             }
         }
     }

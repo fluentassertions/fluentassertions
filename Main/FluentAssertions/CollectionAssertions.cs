@@ -177,7 +177,7 @@ namespace FluentAssertions
 
             for (int index = 0; index < expectedItems.Length; index++)
             {
-                if (!actualItems[index].Equals(expectedItems[index]))
+                if ((actualItems.Length <= index ) || !actualItems[index].Equals(expectedItems[index]))
                 {
                     FailWith("Expected collection {1} to be equal to {0}{2}, but it differs at index " + index,
                         expected, Subject, reason, reasonParameters);
