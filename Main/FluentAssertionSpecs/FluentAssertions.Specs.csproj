@@ -82,6 +82,7 @@
     <Compile Include="NullableNumericAssertionSpecs.cs" />
     <Compile Include="NumericAssertionSpecs.cs" />
     <Compile Include="ObjectAssertionSpecs.cs" />
+    <Compile Include="ObjectCastingSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyMatchingSpecs.cs" />
     <Compile Include="StringAssertionSpecs.cs" />

@@ -34,10 +34,10 @@ namespace FluentAssertions
         /// </summary>
         public static Action Enumerating(this Func<IEnumerable> enumerable)
         {
-            return () => ForceEnumeraton(enumerable);
+            return () => ForceEnumeration(enumerable);
         }
 
-        private static void ForceEnumeraton(Func<IEnumerable> enumerable)
+        private static void ForceEnumeration(Func<IEnumerable> enumerable)
         {
             foreach (var item in enumerable())
             {
@@ -130,5 +130,16 @@ namespace FluentAssertions
             return new PropertyAssertions<T>(subject);
         }
 
+        /// <summary>
+        /// Casts the specified object to the type specified through <typeparamref name="TTo"/>.
+        /// </summary>
+        /// <remarks>
+        /// Has been introduced to allow casting objects without breaking the fluent API.
+        /// </remarks>
+        /// <typeparam name="TTo"></typeparam>
+        public static TTo As<TTo>(this object subject)
+        {
+            return (TTo) subject;
+        }
     }
 }
