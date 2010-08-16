@@ -1,3 +1,5 @@
+using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
@@ -46,13 +48,24 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
+        public void When_nullable_value_with_unexpected_value_is_found_it_should_throw_with_message()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             int? nullableInteger = 1;
-            var assertions = nullableInteger.Should();
-            assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => nullableInteger.Should().NotHaveValue("it was {0} expected", "not");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
                 .ShouldThrow<SpecificationMismatchException>()
-                .WithMessage("Did not expect a value because we want to test the failure message.");
+                .WithMessage("Did not expect a value because it was not expected, but found <1>.");
         }
 
         [TestMethod]

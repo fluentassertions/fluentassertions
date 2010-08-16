@@ -31,7 +31,7 @@ namespace FluentAssertions
 
         public AndConstraint<NullableNumericAssertions<T>> NotHaveValue(string reason, params object[] reasonParameters)
         {
-            VerifyThat(!Subject.HasValue, "Did not expect a value{2}.", null, Subject, reason, reasonParameters);
+            VerifyThat(!Subject.HasValue, "Did not expect a value{2}, but found {1}.", null, Subject, reason, reasonParameters);
 
             return new AndConstraint<NullableNumericAssertions<T>>(this);
         }

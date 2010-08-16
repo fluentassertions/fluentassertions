@@ -98,7 +98,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
-                "Did not expect objects <ClassWithCustomEqualMethod(1)> and <ClassWithCustomEqualMethod(1)> to be equal.");
+                "Did not expect object to be equal to <ClassWithCustomEqualMethod(1)>.");
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
-                "Did not expect objects <ClassWithCustomEqualMethod(1)> and <ClassWithCustomEqualMethod(1)> to be equal " +
+                "Did not expect object to be equal to <ClassWithCustomEqualMethod(1)> " +
                 "because we want to test the failure message.");
         }
 
