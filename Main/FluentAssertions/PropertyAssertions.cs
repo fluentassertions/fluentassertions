@@ -177,6 +177,11 @@ namespace FluentAssertions
                     return true;
                 }
 
+                if (ReferenceEquals(expectedValue, null))
+                {
+                    return false;
+                }
+
                 if (Convert.ChangeType(subjectValue, expectedValue.GetType(), CultureInfo.CurrentCulture).Equals(expectedValue))
                 {
                     return true;

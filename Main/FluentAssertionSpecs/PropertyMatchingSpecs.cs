@@ -63,6 +63,35 @@ namespace FluentAssertions.specs
             act.ShouldThrow<SpecificationMismatchException>().WithMessage(
                 "Expected property Age to have value <37> because they are the same, but found <36>.");
         }
+
+        [TestMethod]
+        public void When_subject_has_a_valid_property_that_is_compared_with_a_null_property_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new Customer
+            {
+                Name = "Dennis"
+            };
+
+            var customer = new Customer
+            {
+                Name = null
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dto.ShouldHave().AllProperties().EqualTo(customer);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Expected property Name to have value <null>, but found \"Dennis\".");
+        }       
+
         
         [TestMethod]
         public void When_two_objects_have_the_same_properties_with_convertable_values_it_should_not_throw()
