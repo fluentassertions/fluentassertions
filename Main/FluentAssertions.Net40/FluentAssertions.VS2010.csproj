@@ -103,9 +103,6 @@
     <Compile Include="..\FluentAssertions\GenericCollectionAssertions.cs">
       <Link>GenericCollectionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions\InvokingAssertions.cs">
-      <Link>InvokingAssertions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions\NonGenericCollectionAssertions.cs">
       <Link>NonGenericCollectionAssertions.cs</Link>
     </Compile>

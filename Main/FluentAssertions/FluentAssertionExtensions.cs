@@ -11,9 +11,9 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static  class FluentAssertionExtensions
     {
-        public static InvokingAssertions<T> Invoking<T>(this T subject, Action<T> action)
+        public static Action Invoking<T>(this T subject, Action<T> action)
         {
-            return new InvokingAssertions<T>(subject, action);
+            return () => action(subject);
         }
 
         public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action) 
