@@ -9,7 +9,7 @@ namespace FluentAssertions
     /// Contains extension methods for custom assertions in unit tests.
     /// </summary>
     [DebuggerNonUserCode]
-    public static class FluentAssertionExtensions
+    public static class AssertionExtensions
     {
         /// <summary>
         /// Invokes the specified action on an subject so that you can chain it with any of the ShouldThrow or ShouldNotThrow 

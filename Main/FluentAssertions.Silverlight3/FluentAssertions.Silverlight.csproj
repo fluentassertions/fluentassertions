@@ -88,6 +88,9 @@
     <Compile Include="..\FluentAssertions\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions\AssertionExtensions.cs">
+      <Link>AssertionExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions\Assertions.cs">
       <Link>Assertions.cs</Link>
     </Compile>
@@ -108,9 +111,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions\ExtensionMethods.cs">
       <Link>ExtensionMethods.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions\FluentAssertionExtensions.cs">
-      <Link>FluentAssertionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions\Formatting\DateTimeValueFormatter.cs">
       <Link>Formatting\DateTimeValueFormatter.cs</Link>
