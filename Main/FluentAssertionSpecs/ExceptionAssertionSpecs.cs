@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Rhino.Mocks.Constraints;
 
 namespace FluentAssertions.Specs
 {
@@ -394,6 +393,81 @@ namespace FluentAssertions.Specs
 
                 yield return char.ToUpper(character);
             }
+        }
+
+        [TestMethod]
+        public void When_a_specific_exception_should_not_be_thrown_but_it_was_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var foo = MockRepository.GenerateStub<IFoo>();
+            foo.Stub(x => x.Do()).Throw(new ArgumentException("An exception was forced"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => foo.Invoking(f => f.Do()).ShouldNotThrow<ArgumentException>("we passed valid arguments");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Did not except <System.ArgumentException> because we passed valid arguments, " + 
+                "but found one with message \"An exception was forced\".");
+        }
+
+        [TestMethod]
+        public void When_a_specific_exception_should_not_be_thrown_but_another_was_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var foo = MockRepository.GenerateStub<IFoo>();
+            foo.Stub(x => x.Do()).Throw(new ArgumentException());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            foo.Invoking(f => f.Do()).ShouldNotThrow<InvalidOperationException>();
+        }
+        
+        [TestMethod]
+        public void When_no_exception_should_be_thrown_but_it_was_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var foo = MockRepository.GenerateStub<IFoo>();
+            foo.Stub(x => x.Do()).Throw(new ArgumentException("An exception was forced"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => foo.Invoking(f => f.Do()).ShouldNotThrow("we passed valid arguments");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<SpecificationMismatchException>().WithMessage(
+                "Did not except any exception because we passed valid arguments, " +
+                "but found a <System.ArgumentException> with message \"An exception was forced\".");
+        }
+        
+        [TestMethod]
+        public void When_no_exception_should_be_thrown_and_none_was_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var foo = MockRepository.GenerateStub<IFoo>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            foo.Invoking(f => f.Do()).ShouldNotThrow();
         }
     }
 

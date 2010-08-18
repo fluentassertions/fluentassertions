@@ -2,13 +2,12 @@
 
 namespace FluentAssertions
 {
-    public class ActionAssertions<TException> : Assertions<Action, ActionAssertions<TException>> where TException : Exception
+    public class ActionAssertions : Assertions<Action, ActionAssertions> 
     {
-        private Exception exception;
-
-        public ActionAssertions(Action action, string reason, object[] reasonParameters)
+        public ExceptionAssertions<TException> AssertItThrows<TException>(Action action, string reason, object[] reasonParameters)
+            where TException : Exception
         {
-            exception = null;
+            Exception exception = null;
 
             try
             {
@@ -25,13 +24,41 @@ namespace FluentAssertions
             VerifyThat(exception is TException,
                 "Expected {0}{2}, but found {1}.",
                 typeof(TException), exception.GetType(), reason, reasonParameters);
+
+            return new ExceptionAssertions<TException>((TException)exception);            
         }
 
-        public ExceptionAssertions<TException> ExceptionAssertions
+        public void AssertItDoesNotThrow<TException>(Action action, string reason, object[] reasonParameters)
         {
-            get
+            Exception exception = null;
+
+            try
             {
-                return new ExceptionAssertions<TException>((TException) exception);            
+                action();
+            }
+            catch (Exception actualException)
+            {
+                exception = actualException;
+            }
+
+            if (exception != null)
+            {
+                VerifyThat(!(exception is TException),
+                    "Did not except {0}{2}, but found one with message {1}.",
+                    typeof (TException), exception.Message, reason, reasonParameters);
+            }
+        }
+
+        public void AssertItDoesNotThrowAny(Action action, string reason, object[] reasonParameters)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception exception)
+            {
+                FailWith("Did not except any exception{2}, but found a {0} with message {1}.",
+                    exception.GetType(), exception.Message, reason, reasonParameters);
             }
         }
     }

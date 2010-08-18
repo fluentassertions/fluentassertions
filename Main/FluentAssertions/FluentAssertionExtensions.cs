@@ -9,23 +9,104 @@ namespace FluentAssertions
     /// Contains extension methods for custom assertions in unit tests.
     /// </summary>
     [DebuggerNonUserCode]
-    public static  class FluentAssertionExtensions
+    public static class FluentAssertionExtensions
     {
+        /// <summary>
+        /// Invokes the specified action on an subject so that you can chain it with any of the ShouldThrow or ShouldNotThrow 
+        /// overloads.
+        /// </summary>
         public static Action Invoking<T>(this T subject, Action<T> action)
         {
             return () => action(subject);
         }
 
+        /// <summary>
+        /// Verifies that the <paramref name="action"/> throws an exception.
+        /// </summary>
+        /// <typeparam name="TException">
+        /// The type of the exception it should throw.
+        /// </typeparam>
+        /// <returns>
+        /// Returns an object that allows asserting additional members of the thrown exception.
+        /// </returns>
         public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action) 
             where TException : Exception
         {
             return ShouldThrow<TException>(action, string.Empty);
         }
 
+        /// <summary>
+        /// Verifies that the <paramref name="action"/> throws an exception.
+        /// </summary>
+        /// <typeparam name="TException">
+        /// The type of the exception it should throw.
+        /// </typeparam>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        /// <returns>
+        /// Returns an object that allows asserting additional members of the thrown exception.
+        /// </returns>
         public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason, params object[] reasonParameters) 
             where TException : Exception
         {
-            return new ActionAssertions<TException>(action, reason, reasonParameters).ExceptionAssertions;
+            return new ActionAssertions().AssertItThrows<TException>(action, reason, reasonParameters);
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="action"/> does not throw a particular exception.
+        /// </summary>
+        /// <typeparam name="TException">
+        /// The type of the exception it should not throw. Any other exceptions are ignored and will satisfy the assertion.
+        /// </typeparam>
+        public static void ShouldNotThrow<TException>(this Action action)
+        {
+            ShouldNotThrow<TException>(action, string.Empty);
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="action"/> does not throw a particular exception.
+        /// </summary>
+        /// <typeparam name="TException">
+        /// The type of the exception it should not throw. Any other exceptions are ignored and will satisfy the assertion.
+        /// </typeparam>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public static void ShouldNotThrow<TException>(this Action action, string reason, params object[] reasonParameters)
+        {
+            new ActionAssertions().AssertItDoesNotThrow<TException>(action, reason, reasonParameters);
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="action"/> does not throw any exception at all.
+        /// </summary>
+        public static void ShouldNotThrow(this Action action)
+        {
+            ShouldNotThrow(action, string.Empty);
+        }
+
+        /// <summary>
+        /// Verifies that the <paramref name="action"/> does not throw any exception at all.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public static void ShouldNotThrow(this Action action, string reason, params object[] reasonParameters)
+        {
+            new ActionAssertions().AssertItDoesNotThrowAny(action, reason, reasonParameters);
         }
 
         /// <summary>
