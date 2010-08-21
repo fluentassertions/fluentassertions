@@ -58,9 +58,6 @@
     <Compile Include="..\FluentAssertions\Assertions.cs">
       <Link>Assertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions\AssertionsBase.cs">
-      <Link>AssertionsBase.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions\BooleanAssertions.cs">
       <Link>BooleanAssertions.cs</Link>
     </Compile>
@@ -129,6 +126,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions\TimeSpanAssertions.cs">
       <Link>TimeSpanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions\Verification.cs">
+      <Link>Verification.cs</Link>
     </Compile>
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>

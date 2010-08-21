@@ -6,7 +6,7 @@ namespace FluentAssertions
     /// <summary>
     /// Provides methods for asserting that two <see cref="DateTime"/> objects differ in certain ways.
     /// </summary>
-    public class TimeSpanAssertions : AssertionsBase<TimeSpan>
+    public class TimeSpanAssertions : Assertions<TimeSpan, TimeSpanAssertions>
     {
         #region Private Definitions
 
@@ -65,7 +65,7 @@ namespace FluentAssertions
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
-                FailWith("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} before {0}{2}, but it differs {4}.", target, subject,
+                Verification.Fail("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} before {0}{2}, but it differs {4}.", target, subject,
                     reason, reasonParameters, timeSpan, actual);
             }
             
@@ -102,7 +102,7 @@ namespace FluentAssertions
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
-                FailWith("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} after {0}{2}, but it differs {4}.", target, subject,
+                Verification.Fail("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} after {0}{2}, but it differs {4}.", target, subject,
                     reason, reasonParameters, timeSpan, actual);
             }
 

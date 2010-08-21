@@ -19,7 +19,7 @@ namespace FluentAssertions
 
         public AndConstraint<NullableNumericAssertions<T>> HaveValue(string reason, params object[] reasonParameters)
         {
-            VerifyThat(Subject.HasValue, "Expected a value{2}.", null, Subject, reason, reasonParameters);
+            Verification.Verify(Subject.HasValue, "Expected a value{2}.", null, Subject, reason, reasonParameters);
 
             return new AndConstraint<NullableNumericAssertions<T>>(this);
         }
@@ -31,7 +31,7 @@ namespace FluentAssertions
 
         public AndConstraint<NullableNumericAssertions<T>> NotHaveValue(string reason, params object[] reasonParameters)
         {
-            VerifyThat(!Subject.HasValue, "Did not expect a value{2}, but found {1}.", null, Subject, reason, reasonParameters);
+            Verification.Verify(!Subject.HasValue, "Did not expect a value{2}, but found {1}.", null, Subject, reason, reasonParameters);
 
             return new AndConstraint<NullableNumericAssertions<T>>(this);
         }
@@ -43,7 +43,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> Be(T? expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Equals(expected), "Expected value {0}{2}, but found {1}.",
+            Verification.Verify(() => Subject.Equals(expected), "Expected value {0}{2}, but found {1}.",
                 expected, Subject, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);

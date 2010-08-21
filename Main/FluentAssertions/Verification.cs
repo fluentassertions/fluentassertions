@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,11 +6,9 @@ using FluentAssertions.Formatting;
 
 namespace FluentAssertions
 {
-    public abstract class AssertionsBase<TSubject>
+    public static class Verification
     {
-        protected TSubject Subject;
-
-        private readonly List<IValueFormatter> formatters = new List<IValueFormatter>
+        private static readonly List<IValueFormatter> formatters = new List<IValueFormatter>
         {
             new NullValueFormatter(),
             new DateTimeValueFormatter(),
@@ -40,7 +38,7 @@ namespace FluentAssertions
         /// <param name = "reasonParameters">Optional parameters for the <paramref name = "reason" /></param>
         /// <example>
         ///   <code>
-        ///     VerifyThat(() => value == 0,
+        ///     Verification.Verify(() => value == 0,
         ///     "Expected value to be &lt;{0}&gt;{2}, but found &lt;{1}&gt;",
         ///     expected,
         ///     reason,
@@ -48,10 +46,10 @@ namespace FluentAssertions
         ///   </code>
         /// </example>
         /// <exception cref = "SpecificationMismatchException">when an  exception is thrown.</exception>
-        protected void VerifyThat(Func<bool> condition, string failureMessage, object expected, object actual, string reason,
+        public static void Verify(Func<bool> condition, string failureMessage, object expected, object actual, string reason,
             params object[] reasonParameters)
         {
-            VerifyThat(condition.Invoke(), failureMessage, expected, actual, reason, reasonParameters);
+            Verify(condition.Invoke(), failureMessage, expected, actual, reason, reasonParameters);
         }
 
         /// <summary>
@@ -71,14 +69,14 @@ namespace FluentAssertions
         /// <param name = "reasonParameters">Optional parameters for the <paramref name = "reason" /></param>
         /// <example>
         ///   <code>
-        ///     VerifyThat(() => value == 0,
+        ///     Verification.Verify(() => value == 0,
         ///     "Expected value to be positive{2}, but found &lt;{1}&gt;",
         ///     reason,
         ///     reasonParameters);
         ///   </code>
         /// </example>
         /// <exception cref = "SpecificationMismatchException">when an  exception is thrown.</exception>
-        protected void VerifyThat(Action action, string failureMessage, object expected, object actual, string reason,
+        public static void Verify(Action action, string failureMessage, object expected, object actual, string reason,
             params object[] reasonParameters)
         {
             bool conditionIsMet = true;
@@ -91,7 +89,7 @@ namespace FluentAssertions
                 conditionIsMet = false;
             }
 
-            VerifyThat(conditionIsMet, failureMessage, expected, actual, reason, reasonParameters);
+            Verify(conditionIsMet, failureMessage, expected, actual, reason, reasonParameters);
         }
 
         /// <summary>
@@ -113,7 +111,7 @@ namespace FluentAssertions
         /// <param name = "reasonParameters">Optional parameters for the <paramref name = "reason" /></param>
         /// <example>
         ///   <code>
-        ///     VerifyThat(() => value == 0,
+        ///     Verification.Verify(() => value == 0,
         ///     "Expected value to be &lt;{0}&gt;{2}, but found &lt;{1}&gt;",
         ///     expected,
         ///     reason,
@@ -121,26 +119,26 @@ namespace FluentAssertions
         ///   </code>
         /// </example>
         /// <exception cref = "SpecificationMismatchException">when the condition is <c>false</c>.</exception>
-        protected void VerifyThat(bool condition, string failureMessage, object expected, object actual, string reason,
+        public static void Verify(bool condition, string failureMessage, object expected, object actual, string reason,
             params object[] reasonParameters)
         {
             if (!condition)
             {
-                FailWith(failureMessage, expected, actual, reason, reasonParameters);
+                Fail(failureMessage, expected, actual, reason, reasonParameters);
             }
         }
 
-        protected void FailWith(string format, object expected, object actual, string reason, object[] reasonParameters,
+        public static void Fail(string format, object expected, object actual, string reason, object[] reasonParameters,
             params object[] args)
         {
             var values = new List<string>
             {
-                Format(expected),
-                Format(actual),
+                ToString(expected),
+                ToString(actual),
                 SanitizeReason(reason, reasonParameters),
             };
 
-            values.AddRange(args.Select(Format));
+            values.AddRange(args.Select(ToString));
 
             throw new SpecificationMismatchException(string.Format(format, values.ToArray()));
         }
@@ -148,7 +146,7 @@ namespace FluentAssertions
         /// <summary>
         ///   If the value is a collection, returns it as a comma-separated string.
         /// </summary>
-        protected string Format(object value)
+        public static string ToString(object value)
         {
             var formatter = formatters.First(f => f.CanHandle(value));
             return formatter.ToString(value);

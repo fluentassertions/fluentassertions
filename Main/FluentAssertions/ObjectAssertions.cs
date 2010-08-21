@@ -18,7 +18,7 @@ namespace FluentAssertions
 
         public AndConstraint<ObjectAssertions> Be(object expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Equals(expected),
+            Verification.Verify(() => Subject.Equals(expected),
                 "Expected {0}{2}, but found {1}.", expected, Subject, reason, reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -33,7 +33,7 @@ namespace FluentAssertions
         {
             if (Subject.Equals(expected))
             {
-                FailWith("Did not expect object to be equal to {0}{2}.", expected, null, reason, reasonParameters);
+                Verification.Fail("Did not expect object to be equal to {0}{2}.", expected, null, reason, reasonParameters);
             }
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -46,7 +46,7 @@ namespace FluentAssertions
 
         public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => ReferenceEquals(Subject, expected),
+            Verification.Verify(() => ReferenceEquals(Subject, expected),
                 "Expected the exact same objects{2}.", expected, Subject, reason,
                 reasonParameters);
 
@@ -62,7 +62,7 @@ namespace FluentAssertions
         {
             if (ReferenceEquals(Subject, expected))
             {
-                FailWith("Expected different objects{2}.", expected, Subject, reason, reasonParameters);
+                Verification.Fail("Expected different objects{2}.", expected, Subject, reason, reasonParameters);
             }
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -75,7 +75,7 @@ namespace FluentAssertions
 
         public AndConstraint<ObjectAssertions> BeNull(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => (Subject == null),
+            Verification.Verify(() => (Subject == null),
                 "Expected <null>{2}, but found {1}.", null, Subject, reason,
                 reasonParameters);
 
@@ -89,7 +89,7 @@ namespace FluentAssertions
 
         public AndConstraint<ObjectAssertions> NotBeNull(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => (Subject != null),
+            Verification.Verify(() => (Subject != null),
                 "Expected non-null value{2}, but found <null>.", null, Subject, reason,
                 reasonParameters);
 
@@ -103,7 +103,7 @@ namespace FluentAssertions
 
         public AndConstraint<ObjectAssertions> BeOfType<T>(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => typeof(T).IsAssignableFrom(Subject.GetType()),
+            Verification.Verify(() => typeof(T).IsAssignableFrom(Subject.GetType()),
                 "Expected type {0}{2}, but found {1}.", typeof(T), Subject.GetType(), reason,
                 reasonParameters);
 
@@ -129,7 +129,7 @@ namespace FluentAssertions
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public AndConstraint<ObjectAssertions> BeAssignableTo<T>(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => typeof(T).IsAssignableFrom(Subject.GetType()),
+            Verification.Verify(() => typeof(T).IsAssignableFrom(Subject.GetType()),
                 "Expected to be assignable to {0}{2}, but {1} does not implement {0}", typeof(T),
                 Subject.GetType(), reason, reasonParameters);
 

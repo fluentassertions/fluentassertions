@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace FluentAssertions
 {
-    public class PropertyAssertions<T> : AssertionsBase<T>
+    public class PropertyAssertions<T> : Assertions<T, PropertyAssertions<T>>
     {
         private readonly List<PropertyInfo> selectedPropertyInfos = new List<PropertyInfo>();
 
@@ -144,7 +144,7 @@ namespace FluentAssertions
 
                 if (!AreEqualOrConvertable(subjectValue, expectedValue))
                 {
-                    FailWith("Expected property " + propertyInfo.Name + " to have value {0}{2}, but found {1}.",
+                    Verification.Fail("Expected property " + propertyInfo.Name + " to have value {0}{2}, but found {1}.",
                         expectedValue, subjectValue, reason, reasonParameters);
                 } 
             }
@@ -157,7 +157,7 @@ namespace FluentAssertions
             PropertyInfo compareeProperty = compareeProperties.SingleOrDefault(pi => pi.Name == propertyName);
             if (compareeProperty == null)
             {
-                FailWith("Subject has property " + propertyName + " that is not available in comparee.", null, null, reason, reasonParameters);    
+                Verification.Fail("Subject has property " + propertyName + " that is not available in comparee.", null, null, reason, reasonParameters);    
             }
 
             return compareeProperty.GetValue(comparee, null);

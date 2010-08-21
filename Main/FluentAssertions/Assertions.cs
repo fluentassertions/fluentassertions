@@ -3,9 +3,14 @@ using System.Linq.Expressions;
 
 namespace FluentAssertions
 {
-    public abstract class Assertions<TSubject, TAssertions> : AssertionsBase<TSubject>
+    public abstract class Assertions<TSubject, TAssertions>
         where TAssertions : Assertions<TSubject, TAssertions>
     {
+        protected TSubject Subject
+        {
+            get; set;
+        }
+
         /// <summary>
         ///   Asserts that the <paramref name = "predicate" /> is statisfied.
         /// </summary>
@@ -56,7 +61,7 @@ namespace FluentAssertions
                 throw new NullReferenceException("Cannot match an object against a <null> predicate.");
             }
 
-            VerifyThat(() => predicate.Compile()((T) Subject),
+            Verification.Verify(() => predicate.Compile()((T) Subject),
                 "Expected {1} to match {0}{2}.",
                 predicate.Body, Subject, reason, reasonParameters);
 

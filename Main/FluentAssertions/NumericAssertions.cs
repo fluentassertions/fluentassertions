@@ -28,7 +28,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> BePositive(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Value.CompareTo(0) > 0,
+            Verification.Verify(() => Subject.Value.CompareTo(0) > 0,
                 "Expected positive value{2}, but found {1}", null, Subject.Value, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -41,7 +41,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> BeNegative(string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Value.CompareTo(0) < 0,
+            Verification.Verify(() => Subject.Value.CompareTo(0) < 0,
                 "Expected negative value{2}, but found {1}", null, Subject.Value, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -54,7 +54,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> Be(T expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Value.CompareTo(expected) == 0,
+            Verification.Verify(() => Subject.Value.CompareTo(expected) == 0,
                 "Expected {0}{2}, but found {1}.", expected, Subject.Value, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -67,7 +67,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> NotBe(T expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Value.CompareTo(expected) != 0,
+            Verification.Verify(() => Subject.Value.CompareTo(expected) != 0,
                 "Did not expect {0}{2}.", expected, Subject.Value, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -80,7 +80,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Value.CompareTo(expected) < 0,
+            Verification.Verify(() => Subject.Value.CompareTo(expected) < 0,
                 "Expected a value less than {0}{2}, but found {1}.", expected, Subject.Value, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -93,7 +93,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Value.CompareTo(expected) <= 0,
+            Verification.Verify(() => Subject.Value.CompareTo(expected) <= 0,
                 "Expected a value less or equal to {0}{2}, but found {1}.", expected, Subject.Value, reason,
                 reasonParameters);
 
@@ -107,7 +107,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Value.CompareTo(expected) > 0,
+            Verification.Verify(() => Subject.Value.CompareTo(expected) > 0,
                 "Expected a value greater than {0}{2}, but found {1}.", expected, Subject.Value, reason,
                 reasonParameters);
 
@@ -122,7 +122,7 @@ namespace FluentAssertions
         public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T expected, string reason,
             params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Value.CompareTo(expected) >= 0,
+            Verification.Verify(() => Subject.Value.CompareTo(expected) >= 0,
                 "Expected a value greater or equal to {0}{2}, but found {1}.", expected, Subject.Value, reason,
                 reasonParameters);
 

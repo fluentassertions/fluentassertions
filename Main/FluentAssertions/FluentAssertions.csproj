@@ -127,7 +127,6 @@
     <Compile Include="ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
     <Compile Include="Assertions.cs" />
-    <Compile Include="AssertionsBase.cs" />
     <Compile Include="BooleanAssertions.cs" />
     <Compile Include="CollectionAssertions.cs" />
     <Compile Include="Formatting\DateTimeValueFormatter.cs" />
@@ -156,6 +155,7 @@
     <Compile Include="PropertyAssertions.cs" />
     <Compile Include="StringAssertions.cs" />
     <Compile Include="TimeSpanAssertions.cs" />
+    <Compile Include="Verification.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

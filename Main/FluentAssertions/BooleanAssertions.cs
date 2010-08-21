@@ -23,7 +23,7 @@ namespace FluentAssertions
 
         public AndConstraint<BooleanAssertions> BeFalse(string reason, params object[] reasonParameters)
         {
-            VerifyThat(!Subject.Value, "Expected {0}{2}, but found {1}.", false, Subject, reason, reasonParameters);
+            Verification.Verify(!Subject.Value, "Expected {0}{2}, but found {1}.", false, Subject, reason, reasonParameters);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -35,7 +35,7 @@ namespace FluentAssertions
 
         public AndConstraint<BooleanAssertions> BeTrue(string reason, params object[] reasonParameters)
         {
-            VerifyThat(Subject.Value, "Expected {0}{2}, but found {1}.", true, Subject, reason, reasonParameters);
+            Verification.Verify(Subject.Value, "Expected {0}{2}, but found {1}.", true, Subject, reason, reasonParameters);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -47,7 +47,7 @@ namespace FluentAssertions
 
         public AndConstraint<BooleanAssertions> Be(bool expected, string reason, params object[] reasonParameters)
         {
-            VerifyThat(() => Subject.Value.Equals(expected), "Expected {0}{2}, but found {1}.", expected, Subject,
+            Verification.Verify(() => Subject.Value.Equals(expected), "Expected {0}{2}, but found {1}.", expected, Subject,
                 reason, reasonParameters);
 
             return new AndConstraint<BooleanAssertions>(this);
