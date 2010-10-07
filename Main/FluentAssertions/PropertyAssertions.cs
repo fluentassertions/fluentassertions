@@ -9,7 +9,9 @@ namespace FluentAssertions
 {
     public class PropertyAssertions<T> : Assertions<T, PropertyAssertions<T>>
     {
-        private readonly List<PropertyInfo> selectedPropertyInfos = new List<PropertyInfo>();
+        private const BindingFlags PublicPropertiesFlag = BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.NonPublic;
+        private readonly List<PropertyInfo> selectedSubjectProperties = new List<PropertyInfo>();
+        private bool onlyShared = false;
 
         internal protected PropertyAssertions(T subject)
         {
@@ -26,9 +28,19 @@ namespace FluentAssertions
         /// </summary>
         public PropertyAssertions<T> AllProperties()
         {
-            selectedPropertyInfos.AddRange(typeof (T).GetProperties(BindingFlags.Public | BindingFlags.Instance));
+            selectedSubjectProperties.AddRange(typeof (T).GetProperties(PublicPropertiesFlag));
 
             return this;
+        }
+
+        /// <summary>
+        /// Includes all properties of <typeparamref name="T"/> when comparing the subject with another object using <see cref="EqualTo(object)"/>, 
+        /// except those that the other object does not have.
+        /// </summary>
+        public PropertyAssertions<T> SharedProperties()
+        {
+            onlyShared = true;
+            return AllProperties();
         }
 
         /// <summary>
@@ -37,11 +49,15 @@ namespace FluentAssertions
         /// </summary>
         public PropertyAssertions<T> AllPropertiesBut(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
         {
-            AllProperties();
+            return AllProperties().But(propertyExpression, propertyExpressions); ;
+        }
 
+        public PropertyAssertions<T> But(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
+        {
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                selectedPropertyInfos.Remove(GetPropertyInfo(expression));
+                PropertyInfo propertyToRemove = GetPropertyInfo(expression);
+                selectedSubjectProperties.Remove(selectedSubjectProperties.Single(p => p.Name == propertyToRemove.Name));
             }
 
             return this;
@@ -55,7 +71,7 @@ namespace FluentAssertions
         {
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                selectedPropertyInfos.Add(GetPropertyInfo(expression));
+                selectedSubjectProperties.Add(GetPropertyInfo(expression));
             }
 
             return this;
@@ -132,35 +148,46 @@ namespace FluentAssertions
                 throw new NullReferenceException("Cannot compare subject's properties with a <null> object.");
             }
 
-            if (selectedPropertyInfos.Count == 0)
+            if (selectedSubjectProperties.Count == 0)
             {
                 throw new InvalidOperationException("Please specify some properties to include in the comparison.");
             }
 
-            foreach (var propertyInfo in selectedPropertyInfos)
+            CompareProperties(comparee, reason, reasonParameters);
+        }
+
+        private void CompareProperties(object comparee, string reason, object[] reasonParameters)
+        {
+            foreach (var propertyInfo in selectedSubjectProperties)
             {
                 object subjectValue = propertyInfo.GetValue(Subject, null);
-                object expectedValue = GetPropertyValueFrom(comparee, propertyInfo.Name, reason, reasonParameters);
 
-                if (!AreEqualOrConvertable(subjectValue, expectedValue))
+                PropertyInfo compareeProperty = FindPropertyFrom(comparee, propertyInfo.Name, reason, reasonParameters);
+                if (compareeProperty != null)
                 {
-                    Verification.Fail("Expected property " + propertyInfo.Name + " to have value {0}{2}, but found {1}.",
-                        expectedValue, subjectValue, reason, reasonParameters);
-                } 
+                    object expectedValue = compareeProperty.GetValue(comparee, null);
+
+                    if (!AreEqualOrConvertable(subjectValue, expectedValue))
+                    {
+                        Verification.Fail(
+                            "Expected property " + propertyInfo.Name + " to have value {0}{2}, but found {1}.",
+                            expectedValue, subjectValue, reason, reasonParameters);
+                    }
+                }
             }
         }
 
-        private object GetPropertyValueFrom(object comparee, string propertyName, string reason, object[] reasonParameters)
+        private PropertyInfo FindPropertyFrom(object comparee, string propertyName, string reason, object[] reasonParameters)
         {
-            PropertyInfo[] compareeProperties = comparee.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo compareeProperty = 
+                comparee.GetType().GetProperties(PublicPropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
 
-            PropertyInfo compareeProperty = compareeProperties.SingleOrDefault(pi => pi.Name == propertyName);
-            if (compareeProperty == null)
+            if (!onlyShared && (compareeProperty == null))
             {
                 Verification.Fail("Subject has property " + propertyName + " that is not available in comparee.", null, null, reason, reasonParameters);    
             }
 
-            return compareeProperty.GetValue(comparee, null);
+            return compareeProperty;
         }
 
         private static bool AreEqualOrConvertable(object subjectValue, object expectedValue)

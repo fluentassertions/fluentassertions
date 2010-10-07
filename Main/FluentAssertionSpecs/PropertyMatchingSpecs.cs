@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -300,7 +297,41 @@ namespace FluentAssertions.specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             dto.ShouldHave().AllPropertiesBut(d => d.Name).EqualTo(customer);
-        }        
+        }
+
+        [TestMethod]
+        public void When_comparing_objects_by_their_shared_properties_and_all_match_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDto
+            {
+                Version = 2,
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John"
+            };
+
+            var customer = new Customer
+            {
+                Id =1,
+                Version = 2,
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => customer.ShouldHave().SharedProperties().EqualTo(dto);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
         
         [TestMethod]
         public void When_comparing_objects_by_their_properties_and_no_properties_have_been_specified_it_should_throw()
@@ -324,8 +355,22 @@ namespace FluentAssertions.specs
         }
     }
 
+    internal class Customer : Entity
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public DateTime Birthdate { get; set; }
+        public long Id { get; set; }
+    }
+
+    internal class Entity
+    {
+        internal long Version { get; set; }
+    }
+
     internal class CustomerDto
     {
+        public long Version { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
         public DateTime Birthdate { get; set; }
@@ -344,13 +389,5 @@ namespace FluentAssertions.specs
         public int Age { get; set; }
         public DateTime Birthdate { get; set; }
         public string City { get; set; }
-    }
-
-    internal class Customer
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public DateTime Birthdate { get; set; }
-        public long Id { get; set; }
     }
 }
