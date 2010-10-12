@@ -331,6 +331,37 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        } 
+        
+        [TestMethod]
+        public void When_comparing_objects_it_should_ignore_private_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dto = new CustomerDtoWithPrivateProperty
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John",
+            };
+
+            var customer = new Customer
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dto.ShouldHave().AllProperties().EqualTo(customer);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
         
         [TestMethod]
@@ -363,7 +394,7 @@ namespace FluentAssertions.specs
         public long Id { get; set; }
     }
 
-    internal class Entity
+    public class Entity
     {
         internal long Version { get; set; }
     }
@@ -389,5 +420,13 @@ namespace FluentAssertions.specs
         public int Age { get; set; }
         public DateTime Birthdate { get; set; }
         public string City { get; set; }
+    }
+
+    internal class CustomerDtoWithPrivateProperty
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public DateTime Birthdate { get; set; }
+        private bool IsValid { get; set; }
     }
 }

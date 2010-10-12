@@ -9,7 +9,7 @@ namespace FluentAssertions
 {
     public class PropertyAssertions<T> : Assertions<T, PropertyAssertions<T>>
     {
-        private const BindingFlags PublicPropertiesFlag = BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.NonPublic;
+        private const BindingFlags InstancePropertiesFlag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
         private readonly List<PropertyInfo> selectedSubjectProperties = new List<PropertyInfo>();
         private bool onlyShared = false;
 
@@ -28,7 +28,13 @@ namespace FluentAssertions
         /// </summary>
         public PropertyAssertions<T> AllProperties()
         {
-            selectedSubjectProperties.AddRange(typeof (T).GetProperties(PublicPropertiesFlag));
+            foreach (var propertyInfo in typeof(T).GetProperties(InstancePropertiesFlag))
+            {
+                if (!propertyInfo.GetGetMethod(true).IsPrivate)
+                {
+                    selectedSubjectProperties.Add(propertyInfo);
+                }
+            }
 
             return this;
         }
@@ -180,7 +186,7 @@ namespace FluentAssertions
         private PropertyInfo FindPropertyFrom(object comparee, string propertyName, string reason, object[] reasonParameters)
         {
             PropertyInfo compareeProperty = 
-                comparee.GetType().GetProperties(PublicPropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
+                comparee.GetType().GetProperties(InstancePropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
 
             if (!onlyShared && (compareeProperty == null))
             {
