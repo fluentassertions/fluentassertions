@@ -6,7 +6,7 @@ namespace FluentAssertions
     public abstract class Assertions<TSubject, TAssertions>
         where TAssertions : Assertions<TSubject, TAssertions>
     {
-        protected TSubject Subject
+        public TSubject Subject
         {
             get; set;
         }
