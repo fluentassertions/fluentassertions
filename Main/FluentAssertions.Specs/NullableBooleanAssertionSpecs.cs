@@ -13,7 +13,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
+        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_nullable_boolean_value_without_a_value_to_have_a_value()
         {
             bool? nullableBoolean = null;
@@ -26,7 +26,7 @@ namespace FluentAssertions.Specs
             bool? nullableBoolean = null;
             var assertions = nullableBoolean.Should();
             assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
@@ -38,7 +38,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (SpecificationMismatchException))]
+        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_nullable_boolean_value_with_a_value_to_be_null()
         {
             bool? nullableBoolean = true;
@@ -51,7 +51,7 @@ namespace FluentAssertions.Specs
             bool? nullableBoolean = true;
             var assertions = nullableBoolean.Should();
             assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found <True>.");
         }
 

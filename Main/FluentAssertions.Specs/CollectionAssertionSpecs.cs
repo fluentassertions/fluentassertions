@@ -54,7 +54,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to be <null> because null is valid, but found <empty>.");
         }
 
@@ -88,7 +88,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection not to be <null> because someCollection should not.");
         }
 
@@ -104,7 +104,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
         {
             IEnumerable collection = new[] { 1, 2, 3 };
@@ -118,7 +118,7 @@ namespace FluentAssertions.Specs
             IEnumerable collection = new[] { 1, 2, 3 };
             var assertions = collection.Should();
             assertions.Invoking(x => x.HaveCount(4, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected <4> items because we want to test the failure message, but found <3>.");
         }
 
@@ -152,7 +152,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <1, 2, 3> to have a count (c >= 4) because a minimum of 4 is required, but count is <3>.");
         }
 
@@ -192,7 +192,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected <1> items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -212,7 +212,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -228,7 +228,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_collection_with_items_is_empty()
         {
             IEnumerable collection = new[] { 1, 2, 3 };
@@ -241,7 +241,7 @@ namespace FluentAssertions.Specs
             IEnumerable collection = new[] { 1, 2, 3 };
             var assertions = collection.Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected no items because we want to test the failure message, but found <3>.");
         }
 
@@ -253,7 +253,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_collection_without_items_is_not_empty()
         {
             IEnumerable collection = new int[0];
@@ -266,7 +266,7 @@ namespace FluentAssertions.Specs
             IEnumerable collection = new int[0];
             var assertions = collection.Should();
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected one or more items because we want to test the failure message.");
         }
 
@@ -286,7 +286,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -310,7 +310,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection not to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -350,7 +350,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <1, 2, 3> to be equal to <1, 2, 5>, but it differs at index 2");
         }
 
@@ -371,7 +371,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <1, 2, 3> to be equal to <1, 2, 5> because we want to test the failure message," +
                 " but it differs at index 2");
         }
@@ -393,7 +393,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collections to be equal because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -434,7 +434,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <empty> to be equal to <1, 2, 3>, but it differs at index 0");
         }
 
@@ -464,7 +464,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal.");
         }
 
@@ -485,7 +485,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal because we want to test the failure message.");
         }
 
@@ -507,7 +507,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collections not to be equal because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -582,7 +582,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <1, 2, 3> to contain the same items as <1, 2> in any order because we treat all alike.");
         }
 
@@ -645,7 +645,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collections to be equivalent because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -681,7 +681,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <1, 2, 3> not be equivalent with collection <3, 1, 2>.");
         }
 
@@ -702,7 +702,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collections not to be equivalent because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -784,7 +784,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to be a subset of <1, 2, 4, 5> because we want to test the failure message, " +
                 "but items <3, 6> are not part of the superset.");
         }
@@ -806,7 +806,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to be a subset of <1, 2, 4, 5>, but the subset is empty.");
         }
 
@@ -863,7 +863,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <1, 2> not to be a subset of <1, 2, 3> because I'm mistaken, but it is anyhow.");
         }
 
@@ -884,7 +884,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to be a subset of <1, 2, 3> because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -922,7 +922,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <1, 2, 3> to contain <4> because we do.");
         }
 
@@ -942,7 +942,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <1, 2, 3> to contain <3, 4, 5> because we do, but could not find <4, 5>.");
         }
 
@@ -982,7 +982,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Collection <1, 2, 3> should have an item matching (item > 3) because at least 1 item should be larger than 3.");
         }
 
@@ -1030,7 +1030,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <string1, string2, string3> to contain \"string4\" because 4 is required.");
         }
 
@@ -1050,7 +1050,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to contain \"string4\", but found <null>.");
         }
 
@@ -1081,7 +1081,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Collection <1, 2, 3> should not contain <1> because we don't like it, but found it anyhow.");
         }
 
@@ -1101,7 +1101,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Collection <1, 2, 3> should not have any items matching (item == 2) because 2s are evil.");
         }
 
@@ -1136,7 +1136,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection not to contain element <1> because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -1188,7 +1188,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected items <1, 2, 1, 1, 2> in ordered collection <1, 2, 1, 3, 12, 2, 2>, but the order did not match.");
         }
 
@@ -1203,7 +1203,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected items <3, 1> in ordered collection <1, 2, 3> " +
                 "because we said so, but the order did not match.");
         }
@@ -1219,7 +1219,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected items <4, 1> in ordered collection <1, 2, 3> " +
                 "because we failed, but <4> did not appear.");
         }
@@ -1256,7 +1256,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to contain \"string4\" in order, but found <null>.");
         }
 
@@ -1294,7 +1294,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected no <null> in collection because they are evil, but found one at index <1>.");
         }
 
@@ -1314,7 +1314,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to not contain nulls because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -1330,7 +1330,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type()
         {
             IEnumerable collection = new List<object> { 1, "2" };
@@ -1353,7 +1353,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected only <System.String> items in collection, but item <1> at index 0 is of type <System.Int32>.");
         }
 
@@ -1374,7 +1374,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>()
+            act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                 "Expected only <System.String> items in collection because we want to test the failure message" +
                 ", but item <1> at index 0 is of type <System.Int32>.");
@@ -1397,7 +1397,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to contain element assignable to type <System.String> because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -1428,7 +1428,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected only unique items because we don't like duplicates, but item <3> was found multiple times.");
         }
 
@@ -1448,7 +1448,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to only have unique items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -1487,7 +1487,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected <3> at index 1 because we put it there, but found <2>.");
         }
 
@@ -1507,7 +1507,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected <3> at index 4 because we put it there, but found no element.");
         }
 
@@ -1528,7 +1528,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to have element at index <1> because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -1584,7 +1584,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             extensions
                 .Invoking(e => e.HaveSameCount(secondCollection))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected collection to have <2> items, but found <3>.");
         }
 
@@ -1604,7 +1604,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             extensions
                 .Invoking(e => e.HaveSameCount(secondCollection, "we want to test the {0}", "reason"))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
         }
 
@@ -1626,7 +1626,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to have the same count as <1, 2, 3> because we want to test the behaviour with a null subject, but found <null>.");
         }
 

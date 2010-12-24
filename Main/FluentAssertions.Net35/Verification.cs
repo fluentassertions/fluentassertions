@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using FluentAssertions.Formatting;
+using FluentAssertions.Frameworks;
 
 namespace FluentAssertions
 {
@@ -53,46 +54,6 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        ///   Asserts that the supplied <paramref name = "action" /> does not throw any <see cref = "Exception" />.
-        /// </summary>
-        /// <param name = "action">The <see cref = "Action" /> to perform</param>
-        /// <param name = "failureMessage">
-        ///   The message that will be used in the <see cref = "SpecificationMismatchException" />. This should describe what
-        ///   was expected and why. This message can contain the following placeholder:<br />
-        ///   <list type = "bullet">
-        ///     <item>{2} = the reason for the expectation</item>
-        ///   </list>
-        /// </param>
-        /// <param name = "expected">The expected value, or <c>null</c> if there is no explicit expected value</param>
-        /// <param name = "actual">The actual value, or <c>null</c> if there is no explicit actual value</param>
-        /// <param name = "reason">Should describe the reason for the expectation</param>
-        /// <param name = "reasonParameters">Optional parameters for the <paramref name = "reason" /></param>
-        /// <example>
-        ///   <code>
-        ///     Verification.Verify(() => value == 0,
-        ///     "Expected value to be positive{2}, but found &lt;{1}&gt;",
-        ///     reason,
-        ///     reasonParameters);
-        ///   </code>
-        /// </example>
-        /// <exception cref = "SpecificationMismatchException">when an  exception is thrown.</exception>
-        public static void Verify(Action action, string failureMessage, object expected, object actual, string reason,
-            params object[] reasonParameters)
-        {
-            bool conditionIsMet = true;
-            try
-            {
-                action.Invoke();
-            }
-            catch (SpecificationMismatchException)
-            {
-                conditionIsMet = false;
-            }
-
-            Verify(conditionIsMet, failureMessage, expected, actual, reason, reasonParameters);
-        }
-
-        /// <summary>
         ///   Asserts that the supplied <paramref name = "condition" /> is <c>true</c>.
         /// </summary>
         /// <param name = "condition">The condition to assert</param>
@@ -140,7 +101,7 @@ namespace FluentAssertions
 
             values.AddRange(args.Select(ToString));
 
-            throw new SpecificationMismatchException(string.Format(format, values.ToArray()));
+            AssertionHelper.Throw(string.Format(format, values.ToArray()));
         }
 
         /// <summary>

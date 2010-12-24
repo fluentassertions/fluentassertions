@@ -18,7 +18,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void When_subject_throws_expected_exception_but_with_unexpected_message_it_should_throw()
         {
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
@@ -48,7 +48,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
@@ -80,7 +80,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
@@ -112,7 +112,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
@@ -136,7 +136,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected <System.Exception> because IFoo.Do should do that, but no exception was thrown.");
@@ -157,7 +157,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected <System.InvalidOperationException>, but found <System.ArgumentException>.");
@@ -179,7 +179,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected <System.InvalidOperationException> because IFoo.Do should throw that one, but found <System.ArgumentException>.");
@@ -210,7 +210,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected inner <System.ArgumentException>, but found <System.NullReferenceException>.");
@@ -232,7 +232,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected inner <System.ArgumentException> because IFoo.Do should do just that, but found <System.NullReferenceException>.");
@@ -253,7 +253,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected inner <System.InvalidOperationException>, but the thrown exception has no inner exception.");
@@ -275,7 +275,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected inner <System.InvalidOperationException> because IFoo.Do should do that, but the thrown exception has no inner exception.");
@@ -305,7 +305,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected inner exception with message \"expected message\", but \"unexpected message\" differs near 'une' (index 0).");
@@ -325,7 +325,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected inner exception with message \"expected message\" because IFoo.Do should do just that, but \"unexpected message\" differs near 'une' (index 0).");
@@ -413,7 +413,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<SpecificationMismatchException>().WithMessage(
+                .ShouldThrow<AssertFailedException>().WithMessage(
                 "Did not except <System.ArgumentException> because we passed valid arguments, " + 
                 "but found one with message \"An exception was forced\".");
         }
@@ -451,7 +451,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<SpecificationMismatchException>().WithMessage(
+                .ShouldThrow<AssertFailedException>().WithMessage(
                 "Did not except any exception because we passed valid arguments, " +
                 "but found a <System.ArgumentException> with message \"An exception was forced\".");
         }

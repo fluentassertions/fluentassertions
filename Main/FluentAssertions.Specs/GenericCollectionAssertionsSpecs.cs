@@ -23,7 +23,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
         }
 
@@ -43,7 +43,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection not to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
         }
     }

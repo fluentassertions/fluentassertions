@@ -35,7 +35,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected <System.Exception>, but no exception was thrown.");
@@ -53,7 +53,7 @@ namespace FluentAssertions.Specs
 
                 Assert.Fail("ShouldThrow() dit not throw");
             }
-            catch (SpecificationMismatchException ex)
+            catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
                     "Expected <System.Exception>, but no exception was thrown.");

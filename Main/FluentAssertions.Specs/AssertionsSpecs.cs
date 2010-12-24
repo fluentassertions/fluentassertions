@@ -14,7 +14,7 @@ namespace FluentAssertions.Specs
 
             assertions
                 .Invoking(x => x.AssertFail("because {0} should always fail.", typeof(AssertionsTestSubClass).Name))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
         }        
         
@@ -25,7 +25,7 @@ namespace FluentAssertions.Specs
 
             assertions
                 .Invoking(x => x.AssertFail("{0} should always fail.", typeof(AssertionsTestSubClass).Name))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
         }
 
@@ -78,7 +78,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected <System.Object> to match (o == null) because it is not initialized yet.");
         }        
         
@@ -103,7 +103,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<SpecificationMismatchException>().WithMessage(
+            act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected <FluentAssertions.Specs.SomeDto> to match (d.Name.Length == 0) because it is not initialized yet.");
         }
 

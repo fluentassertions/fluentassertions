@@ -12,7 +12,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_boolean_value_false_is_true()
         {
             false.Should().BeTrue();
@@ -23,7 +23,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = false.Should();
             assertions.Invoking(x => x.BeTrue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected <True> because we want to test the failure message, but found <False>.");
         }
 
@@ -34,7 +34,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_boolean_value_true_is_false()
         {
             true.Should().BeFalse();
@@ -45,7 +45,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = true.Should();
             assertions.Invoking(x => x.BeFalse("because we want to test the failure {0}", "message"))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected <False> because we want to test the failure message, but found <True>.");
         }
 
@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SpecificationMismatchException))]
+        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_boolean_value_to_be_equal_to_a_different_value()
         {
             false.Should().Be(true);
@@ -67,7 +67,7 @@ namespace FluentAssertions.Specs
         {
             var assertions = false.Should();
             assertions.Invoking(x => x.Be(true, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<SpecificationMismatchException>()
+                .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected <True> because we want to test the failure message, but found <False>.");
         }
     }
