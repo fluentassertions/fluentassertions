@@ -86,6 +86,12 @@
     <Compile Include="Assertions.cs" />
     <Compile Include="BooleanAssertions.cs" />
     <Compile Include="CollectionAssertions.cs" />
+    <Compile Include="EventMonitoring\EventMonitoringExtensions.cs" />
+    <Compile Include="EventMonitoring\EventRecorder.cs" />
+    <Compile Include="EventMonitoring\EventHandlerFactory.cs" />
+    <Compile Include="EventMonitoring\IEventRecorder.cs" />
+    <Compile Include="EventMonitoring\QueryHelpers.cs" />
+    <Compile Include="EventMonitoring\RecordedEvent.cs" />
     <Compile Include="Formatting\DateTimeValueFormatter.cs" />
     <Compile Include="Formatting\DefaultValueFormatter.cs" />
     <Compile Include="Formatting\EnumerableValueFormatter.cs" />
