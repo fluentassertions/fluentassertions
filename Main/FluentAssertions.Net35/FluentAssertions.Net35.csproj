@@ -87,7 +87,7 @@
     <Compile Include="BooleanAssertions.cs" />
     <Compile Include="CollectionAssertions.cs" />
     <Compile Include="Common\BaseDictionary.cs" />
-    <Compile Include="Common\ReflectionExtensions.cs" />
+    <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\WeakKeyComparer.cs" />
     <Compile Include="Common\WeakKeyReference.cs" />
     <Compile Include="Common\WeakNullReference.cs" />

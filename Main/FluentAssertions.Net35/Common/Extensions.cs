@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Common
 {
-    internal static class ReflectionExtensions
+    internal static class Extensions
     {
         public static PropertyInfo GetPropertyInfo<T>(this Expression<Func<T, object>> expression)
         {
@@ -47,6 +47,21 @@ namespace FluentAssertions.Common
             }
 
             return null;
+        }
+
+        public static bool IsEqualTo(this object actual, object expected)
+        {
+            if (ReferenceEquals(actual, null) && ReferenceEquals(expected, null))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(actual, null))
+            {
+                return false;
+            }
+
+            return actual.Equals(expected);
         }
     }
 }

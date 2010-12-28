@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions
 {
     [DebuggerNonUserCode]
@@ -11,30 +13,54 @@ namespace FluentAssertions
             Subject = value;
         }
 
+        /// <summary>
+        /// Verifies that the value of an object equals another object when using it's <see cref="object.Equals(object)"/> method.
+        /// </summary>
         public AndConstraint<ObjectAssertions> Be(object expected)
         {
             return Be(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Verifies that an object equals another object using it's <see cref="object.Equals(object)"/> method.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
         public AndConstraint<ObjectAssertions> Be(object expected, string reason, params object[] reasonParameters)
         {
-            Verification.Verify(() => Subject.Equals(expected),
+            Verification.Verify(Subject.IsEqualTo(expected),
                 "Expected {0}{2}, but found {1}.", expected, Subject, reason, reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
 
+        /// <summary>
+        /// Verifies that an object does not equal another object using it's <see cref="object.Equals(object)"/> method.
+        /// </summary>
         public AndConstraint<ObjectAssertions> NotBe(object expected)
         {
             return NotBe(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Verifies that an object does not equal another object using it's <see cref="object.Equals(object)"/> method.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
         public AndConstraint<ObjectAssertions> NotBe(object expected, string reason, params object[] reasonParameters)
         {
-            if (Subject.Equals(expected))
-            {
-                Verification.Fail("Did not expect object to be equal to {0}{2}.", expected, null, reason, reasonParameters);
-            }
+            Verification.Verify(!Subject.IsEqualTo(expected),
+                "Did not expect object to be equal to {0}{2}.", expected, null, reason, reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -75,7 +101,7 @@ namespace FluentAssertions
 
         public AndConstraint<ObjectAssertions> BeNull(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(() => (Subject == null),
+            Verification.Verify(ReferenceEquals(Subject, null),
                 "Expected <null>{2}, but found {1}.", null, Subject, reason,
                 reasonParameters);
 
@@ -89,7 +115,7 @@ namespace FluentAssertions
 
         public AndConstraint<ObjectAssertions> NotBeNull(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(() => (Subject != null),
+            Verification.Verify(!ReferenceEquals(Subject, null),
                 "Expected non-null value{2}, but found <null>.", null, Subject, reason,
                 reasonParameters);
 
