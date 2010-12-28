@@ -220,7 +220,7 @@ namespace FluentAssertions
         /// <typeparam name="TTo"></typeparam>
         public static TTo As<TTo>(this object subject)
         {
-            return (TTo) subject;
+            return subject is TTo ? (TTo) subject : default(TTo);
         }
     }
 }
