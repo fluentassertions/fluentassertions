@@ -17,7 +17,7 @@ namespace FluentAssertions
 
         public AndConstraint<TAssertions> HaveCount(int expected, string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected {0} items{2}, but found {1}", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected {0} items{2}, but found {1}.", expected, reason,
                                                reasonParameters);
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -45,7 +45,7 @@ namespace FluentAssertions
                 throw new NullReferenceException("Cannot compare collection count against a <null> predicate.");
             }
 
-            VerifySubjectCollectionAgainstNull("Expected {0} items{2}, but found {1}", countPredicate.Body, reason,
+            VerifySubjectCollectionAgainstNull("Expected {0} items{2}, but found {1}.", countPredicate.Body, reason,
                                                reasonParameters);
 
             Func<int, bool> compiledPredicate = countPredicate.Compile();
@@ -67,7 +67,7 @@ namespace FluentAssertions
 
         public AndConstraint<TAssertions> BeEmpty(string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection to be empty{2}, but found {1}", "", reason,
+            VerifySubjectCollectionAgainstNull("Expected collection to be empty{2}, but found {1}.", "", reason,
                                                reasonParameters);
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -85,7 +85,7 @@ namespace FluentAssertions
 
         public AndConstraint<TAssertions> NotBeEmpty(string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection not to be empty{2}, but found {1}", "", reason,
+            VerifySubjectCollectionAgainstNull("Expected collection not to be empty{2}, but found {1}.", "", reason,
                                                reasonParameters);
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -103,7 +103,7 @@ namespace FluentAssertions
 
         public AndConstraint<TAssertions> OnlyHaveUniqueItems(string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection to only have unique items{2}, but found {1}", "", reason,
+            VerifySubjectCollectionAgainstNull("Expected collection to only have unique items{2}, but found {1}.", "", reason,
                                                reasonParameters);
 
             var groupWithMultipleItems = Subject.Cast<object>().GroupBy(o => o).FirstOrDefault(g => g.Count() > 1);
@@ -123,7 +123,7 @@ namespace FluentAssertions
 
         public AndConstraint<TAssertions> NotContainNulls(string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection to not contain nulls{2}, but found {1}", "", reason,
+            VerifySubjectCollectionAgainstNull("Expected collection to not contain nulls{2}, but found {1}.", "", reason,
                                                reasonParameters);
 
             var values = Subject.Cast<object>().ToArray();
@@ -164,7 +164,7 @@ namespace FluentAssertions
         public AndConstraint<TAssertions> Equal(IEnumerable expected, string reason,
             params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collections to be equal{2}, but found {1}", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected collections to be equal{2}, but found {1}.", expected, reason,
                                                reasonParameters);
 
             if (expected == null)
@@ -179,7 +179,7 @@ namespace FluentAssertions
             {
                 if ((actualItems.Length <= index ) || !actualItems[index].Equals(expectedItems[index]))
                 {
-                    Verification.Fail("Expected collection {1} to be equal to {0}{2}, but it differs at index " + index,
+                    Verification.Fail("Expected collection {1} to be equal to {0}{2}, but it differs at index " + index + ".",
                         expected, Subject, reason, reasonParameters);
                 }
             }
@@ -203,7 +203,7 @@ namespace FluentAssertions
         public AndConstraint<TAssertions> NotEqual(IEnumerable expected, string reason,
             params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collections not to be equal{2}, but found {1}", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected collections not to be equal{2}, but found {1}.", expected, reason,
                                                reasonParameters);
 
             if (expected == null)
@@ -257,7 +257,7 @@ namespace FluentAssertions
                 throw new ArgumentException("Cannot verify equivalence against an empty collection.");
             }
 
-            VerifySubjectCollectionAgainstNull("Expected collections to be equivalent{2}, but found {1}", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected collections to be equivalent{2}, but found {1}.", expected, reason,
                                                reasonParameters);
 
             var expectedItems = expected.Cast<object>().ToList();
@@ -290,7 +290,7 @@ namespace FluentAssertions
                 throw new ArgumentException("Cannot verify inequivalence against an empty collection.");
             }
 
-            VerifySubjectCollectionAgainstNull("Expected collections not to be equivalent{2}, but found {1}", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected collections not to be equivalent{2}, but found {1}.", expected, reason,
                                                reasonParameters);
 
             if (AreEquivalent(expected.Cast<object>(), Subject.Cast<object>()))
@@ -338,7 +338,7 @@ namespace FluentAssertions
                 throw new ArgumentException("Connect verify containment against an empty collection");
             }
 
-            VerifySubjectCollectionAgainstNull("Expected collection to contain {0}, but found {1}", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected collection to contain {0}, but found {1}.", expected, reason,
                                                reasonParameters);
 
             if (expected is string)
@@ -391,7 +391,7 @@ namespace FluentAssertions
                 throw new NullReferenceException("Cannot verify ordered containment against a <null> collection.");
             }
 
-            VerifySubjectCollectionAgainstNull("Expected collection to contain {0} in order, but found {1}", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected collection to contain {0} in order, but found {1}.", expected, reason,
                                                reasonParameters);
 
             var expectedItems = expected.Cast<object>().ToList();
@@ -434,7 +434,7 @@ namespace FluentAssertions
                 throw new NullReferenceException("Cannot verify a subset against a <null> collection.");
             }
 
-            VerifySubjectCollectionAgainstNull("Expected collection to be a subset of {0}{2}, but found {1}", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected collection to be a subset of {0}{2}, but found {1}.", expected, reason,
                                                reasonParameters);
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -470,7 +470,7 @@ namespace FluentAssertions
         public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable expected, string reason,
             params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection not to be a subset of {0}{2}, but found {1}",
+            VerifySubjectCollectionAgainstNull("Expected collection not to be a subset of {0}{2}, but found {1}.",
                                                expected, reason, reasonParameters);
 
             var expectedItems = expected.Cast<object>();
@@ -504,7 +504,7 @@ namespace FluentAssertions
                 throw new NullReferenceException("Cannot verify count against a <null> collection.");
             }
 
-            VerifySubjectCollectionAgainstNull("Expected collection to have the same count as {0}{2}, but found {1}", otherCollection, reason,
+            VerifySubjectCollectionAgainstNull("Expected collection to have the same count as {0}{2}, but found {1}.", otherCollection, reason,
                                                reasonParameters);
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -570,7 +570,7 @@ namespace FluentAssertions
         public AndConstraint<TAssertions> HaveElementAt(int index, object expected, string reason,
             params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection to have element at index {0}{2}, but found {1}",
+            VerifySubjectCollectionAgainstNull("Expected collection to have element at index {0}{2}, but found {1}.",
                                                index, reason, reasonParameters);
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -600,7 +600,7 @@ namespace FluentAssertions
         public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string reason,
             params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection to contain element assignable to type {0}{2}, but found {1}",
+            VerifySubjectCollectionAgainstNull("Expected collection to contain element assignable to type {0}{2}, but found {1}.",
                                                typeof(T), reason, reasonParameters);
 
             int index = 0;
@@ -637,7 +637,7 @@ namespace FluentAssertions
         public AndConstraint<TAssertions> NotContain(object unexpected, string reason,
             params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection not to contain element {0}{2}, but found {1}",
+            VerifySubjectCollectionAgainstNull("Expected collection not to contain element {0}{2}, but found {1}.",
                                                unexpected, reason, reasonParameters);
 
             if (Subject.Cast<object>().Contains(unexpected))

@@ -58,6 +58,13 @@ namespace FluentAssertions
                     expectedMessage, null, reason, reasonParameters);
             }
 
+            if (message.Length < expectedMessage.Length)
+            {
+                Verification.Fail(
+                    "Expected exception with message {0}{2}, but {1} is too short.",
+                    expectedMessage, message, reason, reasonParameters);
+            }
+
             int index = message.IndexOfFirstMismatch(expectedMessage);
             if (index != -1)
             {

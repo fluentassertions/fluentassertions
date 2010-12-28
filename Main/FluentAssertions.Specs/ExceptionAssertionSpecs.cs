@@ -18,13 +18,34 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void When_subject_throws_expected_exception_but_with_unexpected_message_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-            testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException("unexpected message"));
+            testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException("some"));
 
-            testSubject.Invoking(x => x.Do()).ShouldThrow<InvalidOperationException>().WithMessage("expected message");
+            try
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                testSubject
+                    .Invoking(x => x.Do())
+                    .ShouldThrow<InvalidOperationException>()
+                    .WithMessage("some message");
+
+                Assert.Fail("This point should not be reached");
+            }
+            catch (AssertFailedException ex)
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                ex.Message.Should().Be(
+                    "Expected exception with message \"some message\", but \"some\" is too short.");
+            }
         }
 
         [TestMethod]
@@ -60,7 +81,7 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        public void When_subject_throws_some_exception_without_a_required_message_it_should_throw_with_clear_description()
+        public void When_subject_throws_some_exception_with_an_empty_exception_it_should_throw_with_clear_description()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

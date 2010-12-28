@@ -351,7 +351,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <1, 2, 3> to be equal to <1, 2, 5>, but it differs at index 2");
+                "Expected collection <1, 2, 3> to be equal to <1, 2, 5>, but it differs at index 2.");
         }
 
         [TestMethod]
@@ -373,7 +373,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection <1, 2, 3> to be equal to <1, 2, 5> because we want to test the failure message," +
-                " but it differs at index 2");
+                " but it differs at index 2.");
         }
 
         [TestMethod]
@@ -435,7 +435,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <empty> to be equal to <1, 2, 3>, but it differs at index 0");
+                "Expected collection <empty> to be equal to <1, 2, 3>, but it differs at index 0.");
         }
 
         [TestMethod]
