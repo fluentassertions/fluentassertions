@@ -100,7 +100,7 @@ namespace FluentAssertions.specs
             //----------------------------------------------------------------------------------------------------------
             var subject = new EventRaisingClass();
             subject.MonitorEvents();
-            subject.RaiseEvent();
+            subject.RaiseEventWithoutSender();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -113,14 +113,184 @@ namespace FluentAssertions.specs
             act.ShouldNotThrow();
         }
 
-        public class EventRaisingClass : INotifyPropertyChanged
+        [TestMethod]
+        public void When_the_event_sender_is_not_the_expected_object_it_should_throw()
         {
-            public void RaiseEvent()
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithoutSender();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldRaise("PropertyChanged").WithSender(subject);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected sender <" + subject + ">, but found <null>.");
+        }
+        
+        [TestMethod]
+        public void When_the_event_sender_is_the_expected_object_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithSender();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldRaise("PropertyChanged").WithSender(subject);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_the_event_parameters_dont_match_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithoutSender();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject
+                .ShouldRaise("PropertyChanged")
+                .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "SomeProperty");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected at least one event with arguments matching (args.PropertyName == \"SomeProperty\"), but found none.");
+        }
+
+        [TestMethod]
+        public void When_the_event_parameter_is_of_a_different_type_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject
+                .ShouldRaise("PropertyChanged")
+                .WithArgs<UnhandledExceptionEventArgs>(args => args.IsTerminating);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<ArgumentException>()
+                .WithMessage("No argument of event PropertyChanged is of type <System.UnhandledExceptionEventArgs>.");
+        }
+        
+        [TestMethod]
+        public void When_the_event_parameters_do_match_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject
+                .ShouldRaise("PropertyChanged")
+                .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "SomeProperty");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_property_changed_event_for_a_specific_property_was_not_raised_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty, "the property was changed");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected object <" + subject + "> to raise event \"PropertyChanged\" because the property was changed, but it did not.");
+        }
+        
+        [TestMethod]
+        public void When_a_property_changed_event_was_raised_for_the_right_property_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+            subject.RaiseEventWithSenderAndPropertyName("SomeOtherProperty");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        internal class EventRaisingClass : INotifyPropertyChanged
+        {
+            public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+            public void RaiseEventWithoutSender()
+            {
+                PropertyChanged(null, new PropertyChangedEventArgs(""));
+            }
+            
+            public void RaiseEventWithSender()
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(""));
             }
-            
-            public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+            public void RaiseEventWithSenderAndPropertyName(string propertyName)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+            public string SomeProperty { get; set; }
         }
     }
 }

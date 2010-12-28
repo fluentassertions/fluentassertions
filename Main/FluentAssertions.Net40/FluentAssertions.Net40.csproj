@@ -66,8 +66,44 @@
     <Compile Include="..\FluentAssertions.Net35\CollectionAssertions.cs">
       <Link>CollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\BaseDictionary.cs">
+      <Link>Common\BaseDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\ReflectionExtensions.cs">
+      <Link>Common\ReflectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\WeakDictionary.cs">
+      <Link>Common\WeakDictionary.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\WeakKeyComparer.cs">
+      <Link>Common\WeakKeyComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\WeakKeyReference.cs">
+      <Link>Common\WeakKeyReference.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\WeakNullReference.cs">
+      <Link>Common\WeakNullReference.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\WeakReference.cs">
+      <Link>Common\WeakReference.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\DateTimeAssertions.cs">
       <Link>DateTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventHandlerFactory.cs">
+      <Link>EventMonitoring\EventHandlerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventMonitoringExtensions.cs">
+      <Link>EventMonitoring\EventMonitoringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventRecorder.cs">
+      <Link>EventMonitoring\EventRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\IEventRecorder.cs">
+      <Link>EventMonitoring\IEventRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\RecordedEvent.cs">
+      <Link>EventMonitoring\RecordedEvent.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\ExceptionAssertions.cs">
       <Link>ExceptionAssertions.cs</Link>

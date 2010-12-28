@@ -6,19 +6,9 @@ namespace FluentAssertions.EventMonitoring
     /// <summary>
     ///   Records activity for a single event.
     /// </summary>
-    internal class EventRecorder : IEventRecorder
+    public class EventRecorder : IEventRecorder
     {
         private readonly IList<RecordedEvent> raisedEvents = new List<RecordedEvent>();
-
-        /// <summary>
-        ///   The object events are recorded from
-        /// </summary>
-        public object EventObject { get; private set; }
-
-        /// <summary>
-        ///   The name of the event that's recorded
-        /// </summary>
-        public string EventName { get; private set; }
 
         /// <summary>
         /// </summary>
@@ -29,6 +19,16 @@ namespace FluentAssertions.EventMonitoring
             EventObject = eventRaiser;
             EventName = eventName;
         }
+
+        /// <summary>
+        ///   The object events are recorded from
+        /// </summary>
+        public object EventObject { get; private set; }
+
+        /// <summary>
+        ///   The name of the event that's recorded
+        /// </summary>
+        public string EventName { get; private set; }
 
         /// <summary>
         ///   Enumerate raised events

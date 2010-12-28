@@ -5,6 +5,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions
 {
     public class PropertyAssertions<T> : Assertions<T, PropertyAssertions<T>>
@@ -62,7 +64,7 @@ namespace FluentAssertions
         {
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                PropertyInfo propertyToRemove = GetPropertyInfo(expression);
+                PropertyInfo propertyToRemove = expression.GetPropertyInfo();
                 selectedSubjectProperties.Remove(selectedSubjectProperties.Single(p => p.Name == propertyToRemove.Name));
             }
 
@@ -77,53 +79,10 @@ namespace FluentAssertions
         {
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                selectedSubjectProperties.Add(GetPropertyInfo(expression));
+                selectedSubjectProperties.Add(expression.GetPropertyInfo());
             }
 
             return this;
-        }
-
-        private static PropertyInfo GetPropertyInfo(Expression<Func<T, object>> expression)
-        {
-            if (ReferenceEquals(expression, null))
-            {
-                throw new NullReferenceException("Expected a property expression, but found <null>.");
-            }
-
-            PropertyInfo propertyInfo = AttemptToGetPropertyInfoFromCastExpression(expression);
-            if (propertyInfo == null)
-            {
-                propertyInfo = AttemptToGetPropertyInfoFromPropertyExpression(expression);
-            }
-
-            if (propertyInfo == null)
-            {
-                throw new ArgumentException("Cannot use <" + expression.Body + "> when a property expression is expected.");
-            }
-
-            return propertyInfo;
-        }
-
-        private static PropertyInfo AttemptToGetPropertyInfoFromPropertyExpression(Expression<Func<T, object>> expression)
-        {
-            MemberExpression memberExpression = expression.Body as MemberExpression;
-            if (memberExpression != null)
-            {
-                return (PropertyInfo) memberExpression.Member;
-            }
-                
-            return null;
-        }
-
-        private static PropertyInfo AttemptToGetPropertyInfoFromCastExpression(Expression<Func<T, object>> expression)
-        {
-            UnaryExpression castExpression = expression.Body as UnaryExpression;
-            if (castExpression != null)
-            {
-                return (PropertyInfo) ((MemberExpression) castExpression.Operand).Member;
-            }
-
-            return null;
         }
 
         /// <summary>

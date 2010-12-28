@@ -138,7 +138,7 @@ namespace FluentAssertions.EventMonitoring
         {
             if (!TypeIsDelegate(d))
             {
-                throw new ApplicationException("Type is not a Delegate!");
+                throw new ArgumentException("Type is not a Delegate!");
             }
 
             var invoke = d.GetMethod("Invoke");
