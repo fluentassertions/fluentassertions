@@ -65,11 +65,24 @@ namespace FluentAssertions
             return new AndConstraint<ObjectAssertions>(this);
         }
 
+        /// <summary>
+        /// Verifies that an object reference refers to the exact same object as another object reference.
+        /// </summary>
         public AndConstraint<ObjectAssertions> BeSameAs(object expected)
         {
             return BeSameAs(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Verifies that an object reference refers to the exact same object as another object reference.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
         public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason, params object[] reasonParameters)
         {
             Verification.Verify(() => ReferenceEquals(Subject, expected),
@@ -79,11 +92,24 @@ namespace FluentAssertions
             return new AndConstraint<ObjectAssertions>(this);
         }
 
+        /// <summary>
+        /// Verifies that an object reference refers to a different object than another object reference refers to.
+        /// </summary>
         public AndConstraint<ObjectAssertions> NotBeSameAs(object expected)
         {
             return NotBeSameAs(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Verifies that an object reference refers to a different object than another object reference refers to.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
         public AndConstraint<ObjectAssertions> NotBeSameAs(object expected, string reason, params object[] reasonParameters)
         {
             if (ReferenceEquals(Subject, expected))
