@@ -4,16 +4,19 @@ using System.Diagnostics;
 namespace FluentAssertions
 {
     [DebuggerNonUserCode]
-    public class BooleanAssertions : Assertions<bool?, BooleanAssertions>
+    public class BooleanAssertions
     {
-        protected BooleanAssertions(bool? value)
+        protected internal BooleanAssertions(bool? value)
         {
             Subject = value;
         }
 
-        internal BooleanAssertions(bool value)
+        /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public bool? Subject
         {
-            Subject = value;
+            get; private set;
         }
 
         public AndConstraint<BooleanAssertions> BeFalse()

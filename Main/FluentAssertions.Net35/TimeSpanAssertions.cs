@@ -6,7 +6,7 @@ namespace FluentAssertions
     /// <summary>
     /// Provides methods for asserting that two <see cref="DateTime"/> objects differ in certain ways.
     /// </summary>
-    public class TimeSpanAssertions : Assertions<TimeSpan, TimeSpanAssertions>
+    public class TimeSpanAssertions
     {
         #region Private Definitions
 

@@ -4,17 +4,17 @@ using System.Diagnostics;
 namespace FluentAssertions
 {
     [DebuggerNonUserCode]
-    public class DateTimeAssertions : Assertions<DateTime?, DateTimeAssertions>
+    public class DateTimeAssertions
     {
-        protected DateTimeAssertions(DateTime? value)
+        protected internal DateTimeAssertions(DateTime? value)
         {
             Subject = value;
         }
 
-        internal DateTimeAssertions(DateTime value)
-        {
-            Subject = value;
-        }
+        /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public DateTime? Subject { get; private set; }
 
         public AndConstraint<DateTimeAssertions> Be(DateTime expected)
         {

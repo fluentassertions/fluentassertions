@@ -1,8 +1,11 @@
-﻿namespace FluentAssertions.EventMonitoring
+﻿using System.Diagnostics;
+
+namespace FluentAssertions.EventMonitoring
 {
     /// <summary>
     ///   This class is used to store data about an intercepted event
     /// </summary>
+    [DebuggerNonUserCode]
     public class RecordedEvent
     {
         /// <summary>

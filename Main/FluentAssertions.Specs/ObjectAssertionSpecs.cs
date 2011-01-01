@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
@@ -75,7 +76,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () => someObject.Should().Be(nonEqualObject,"because it should use the {0}","reason");
+            Action act = () => someObject.Should().Be(nonEqualObject, "because it should use the {0}", "reason");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -142,7 +143,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Did not expect object to be equal to <ClassWithCustomEqualMethod(1)> " +
-                "because we want to test the failure message.");
+                    "because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -246,7 +247,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_non_null_object_to_be_null()
         {
             var someObject = new object();
@@ -271,7 +272,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
+        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_null_object_not_to_be_null()
         {
             object someObject = null;
@@ -289,14 +290,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_object_type_to_be_equal_to_the_same_type()
+        public void When_the_object_type_is_exactly_equal_to_the_specified_type_it_should_not_throw()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
             var someObject = new Exception();
-            someObject.Should().BeOfType<Exception>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().BeOfType<Exception>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void When_object_type_is_different_than_expectd_type_it_should_throw()
+        public void When_object_type_is_different_than_expected_type_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -316,14 +329,35 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_object_type_is_a_subclass_of_the_expected_type_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var someObject = new DummyImplementingClass();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().BeOfType<DummyBaseClass>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected type <FluentAssertions.Specs.DummyBaseClass>, but found <FluentAssertions.Specs.DummyImplementingClass>.");
+        }
+
+        [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_object_type_to_be_equal_to_a_different_type()
         {
             var someObject = new object();
             var assertions = someObject.Should();
-            assertions.Invoking(x => x.BeOfType<Exception>("because we want to test the failure {0}", "message"))
+            assertions
+                .Invoking(x => x.BeOfType<Exception>("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                "Expected type <System.Exception> because we want to test the failure message, but found <System.Object>.");
+                    "Expected type <System.Exception> because we want to test the failure message, but found <System.Object>.");
         }
 
         [TestMethod]
@@ -352,11 +386,12 @@ namespace FluentAssertions.Specs
         {
             var someObject = new DummyImplementingClass();
 
-            someObject.Invoking(x => x.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message"))
+            someObject.Invoking(
+                x => x.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                "Expected to be assignable to <{1}> because we want to test the failure message, but <{0}> does not implement <{1}>",
-                typeof(DummyImplementingClass), typeof(DateTime)));
+                    "Expected to be assignable to <{1}> because we want to test the failure message, but <{0}> does not implement <{1}>",
+                    typeof (DummyImplementingClass), typeof (DateTime)));
         }
 
         [TestMethod]
@@ -368,79 +403,87 @@ namespace FluentAssertions.Specs
                 .And
                 .NotBeNull();
         }
+    }
 
-        #region Nested type: ClassWithCustomEqualMethod
-
-        private class ClassWithCustomEqualMethod
+    internal class ClassWithCustomEqualMethod
+    {
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "T:System.Object" /> class.
+        /// </summary>
+        public ClassWithCustomEqualMethod(int key)
         {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="T:System.Object"/> class.
-            /// </summary>
-            public ClassWithCustomEqualMethod(int key)
-            {
-                Key = key;
-            }
-
-            private int Key { get; set; }
-
-            private bool Equals(ClassWithCustomEqualMethod other)
-            {
-                if (ReferenceEquals(null, other))
-                    return false;
-                if (ReferenceEquals(this, other))
-                    return true;
-                return other.Key == Key;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (ReferenceEquals(null, obj))
-                    return false;
-                if (ReferenceEquals(this, obj))
-                    return true;
-                if (obj.GetType() != typeof(ClassWithCustomEqualMethod))
-                    return false;
-                return Equals((ClassWithCustomEqualMethod)obj);
-            }
-
-            public override int GetHashCode()
-            {
-                return Key;
-            }
-
-            public static bool operator ==(ClassWithCustomEqualMethod left, ClassWithCustomEqualMethod right)
-            {
-                return Equals(left, right);
-            }
-
-            public static bool operator !=(ClassWithCustomEqualMethod left, ClassWithCustomEqualMethod right)
-            {
-                return !Equals(left, right);
-            }
-
-            /// <summary>
-            /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
-            /// </summary>
-            /// <returns>
-            /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
-            /// </returns>
-            /// <filterpriority>2</filterpriority>
-            public override string ToString()
-            {
-                return string.Format("ClassWithCustomEqualMethod({0})", Key);
-            }
+            Key = key;
         }
 
-        #endregion
+        private int Key { get; set; }
 
-        private class DummyBaseClass { }
-
-        private class DummyImplementingClass : DummyBaseClass, IDisposable
+        private bool Equals(ClassWithCustomEqualMethod other)
         {
-            public void Dispose()
+            if (ReferenceEquals(null, other))
             {
-                // Ignore
+                return false;
             }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return other.Key == Key;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != typeof (ClassWithCustomEqualMethod))
+            {
+                return false;
+            }
+            return Equals((ClassWithCustomEqualMethod) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Key;
+        }
+
+        public static bool operator ==(ClassWithCustomEqualMethod left, ClassWithCustomEqualMethod right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(ClassWithCustomEqualMethod left, ClassWithCustomEqualMethod right)
+        {
+            return !Equals(left, right);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref = "T:System.String" /> that represents the current <see cref = "T:System.Object" />.
+        /// </summary>
+        /// <returns>
+        ///   A <see cref = "T:System.String" /> that represents the current <see cref = "T:System.Object" />.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            return string.Format("ClassWithCustomEqualMethod({0})", Key);
+        }
+    }
+
+    internal class DummyBaseClass
+    {
+    }
+
+    internal class DummyImplementingClass : DummyBaseClass, IDisposable
+    {
+        public void Dispose()
+        {
+            // Ignore
         }
     }
 }

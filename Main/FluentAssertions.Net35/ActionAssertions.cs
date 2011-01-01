@@ -1,17 +1,26 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace FluentAssertions
 {
-    public class ActionAssertions : Assertions<Action, ActionAssertions> 
+    [DebuggerNonUserCode]
+    public class ActionAssertions
     {
-        public ExceptionAssertions<TException> AssertItThrows<TException>(Action action, string reason, object[] reasonParameters)
+        protected internal ActionAssertions(Action subject)
+        {
+            Subject = subject;
+        }
+
+        public Action Subject { get; private set; }
+
+        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason, object[] reasonParameters)
             where TException : Exception
         {
             Exception exception = null;
 
             try
             {
-                action();
+                Subject();
             }
             catch (Exception actualException)
             {
@@ -28,13 +37,13 @@ namespace FluentAssertions
             return new ExceptionAssertions<TException>((TException)exception);            
         }
 
-        public void AssertItDoesNotThrow<TException>(Action action, string reason, object[] reasonParameters)
+        public void ShouldNotThrow<TException>(string reason, object[] reasonParameters)
         {
             Exception exception = null;
 
             try
             {
-                action();
+                Subject();
             }
             catch (Exception actualException)
             {
@@ -49,11 +58,11 @@ namespace FluentAssertions
             }
         }
 
-        public void AssertItDoesNotThrowAny(Action action, string reason, object[] reasonParameters)
+        public void ShouldNotThrow(string reason, object[] reasonParameters)
         {
             try
             {
-                action();
+                Subject();
             }
             catch (Exception exception)
             {

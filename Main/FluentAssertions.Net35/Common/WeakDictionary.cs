@@ -40,7 +40,7 @@ namespace FluentAssertions.Common
     /// enumerator or those of the Keys and Values collections. Similarly,
     /// CopyTo will copy fewer than Count elements in this situation.
     /// </remarks>
-    public sealed class WeakDictionary<TKey, TValue> : BaseDictionary<TKey, TValue>
+    internal sealed class WeakDictionary<TKey, TValue> : BaseDictionary<TKey, TValue>
         where TKey : class
         where TValue : class
     {

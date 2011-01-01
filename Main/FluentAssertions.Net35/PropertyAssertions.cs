@@ -9,7 +9,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions
 {
-    public class PropertyAssertions<T> : Assertions<T, PropertyAssertions<T>>
+    public class PropertyAssertions<T>
     {
         private const BindingFlags InstancePropertiesFlag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
         private readonly List<PropertyInfo> selectedSubjectProperties = new List<PropertyInfo>();
@@ -24,6 +24,11 @@ namespace FluentAssertions
 
             Subject = subject;
         }
+
+        /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public T Subject { get; private set; }
 
         /// <summary>
         /// Includes all properties of <typeparamref name="T"/> when comparing the subject with another object using <see cref="EqualTo(object)"/>.
@@ -86,7 +91,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that the previously selected properties of <typeparamref name="T"/> have the same value as the equally named
+        /// Asserts that the previously selected properties of <typeparamref name="T"/> have the same value as the equally named
         /// properties of <paramref name="comparee"/>.
         /// </summary>
         /// <remarks>
@@ -99,7 +104,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that the previously selected properties of <typeparamref name="T"/> have the same value as the equally named
+        /// Asserts that the previously selected properties of <typeparamref name="T"/> have the same value as the equally named
         /// properties of <paramref name="comparee"/>.
         /// </summary>
         /// <remarks>

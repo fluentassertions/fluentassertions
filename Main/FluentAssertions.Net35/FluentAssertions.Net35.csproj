@@ -62,6 +62,15 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -83,7 +92,7 @@
     </Compile>
     <Compile Include="ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
-    <Compile Include="Assertions.cs" />
+    <Compile Include="ReferenceTypeAssertions.cs" />
     <Compile Include="BooleanAssertions.cs" />
     <Compile Include="CollectionAssertions.cs" />
     <Compile Include="Common\BaseDictionary.cs" />
@@ -114,7 +123,6 @@
     <Compile Include="Frameworks\XUnitTestFramework.cs" />
     <Compile Include="GenericCollectionAssertions.cs" />
     <Compile Include="NonGenericCollectionAssertions.cs" />
-    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="DateTimeAssertions.cs" />
     <Compile Include="ExceptionAssertions.cs" />
@@ -145,6 +153,11 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

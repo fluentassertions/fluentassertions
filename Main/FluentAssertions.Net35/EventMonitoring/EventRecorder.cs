@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace FluentAssertions.EventMonitoring
 {
     /// <summary>
     ///   Records activity for a single event.
     /// </summary>
+    [DebuggerNonUserCode]
     public class EventRecorder : IEventRecorder
     {
         private readonly IList<RecordedEvent> raisedEvents = new List<RecordedEvent>();

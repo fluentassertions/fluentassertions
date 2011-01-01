@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 
 namespace FluentAssertions
 {
     public class NonGenericCollectionAssertions : CollectionAssertions<IEnumerable, NonGenericCollectionAssertions>
     {
-        internal NonGenericCollectionAssertions(IEnumerable collection)
+        protected internal NonGenericCollectionAssertions(IEnumerable collection)
         {
             if (collection != null)
             {

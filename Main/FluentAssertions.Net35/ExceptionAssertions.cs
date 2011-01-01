@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions
 {
     [DebuggerNonUserCode]
-    public class ExceptionAssertions<TException> : Assertions<Exception, ExceptionAssertions<TException>>
+    public class ExceptionAssertions<TException> : ReferenceTypeAssertions<Exception, ExceptionAssertions<TException>>
         where TException : Exception
     {
         protected internal ExceptionAssertions(TException exception)

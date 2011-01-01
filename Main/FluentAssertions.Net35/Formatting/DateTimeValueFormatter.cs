@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FluentAssertions.Formatting
 {
-    public class DateTimeValueFormatter : IValueFormatter
+    internal class DateTimeValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value)
         {

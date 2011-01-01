@@ -1,16 +1,23 @@
 ﻿using System;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions
 {
-    public class StringAssertions : Assertions<string, StringAssertions>
+    public class StringAssertions
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object"/> class.
         /// </summary>
-        internal StringAssertions(string value)
+        protected internal StringAssertions(string value)
         {
             Subject = value;
         }
+
+        /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public string Subject { get; private set; }
 
         public AndConstraint<StringAssertions> Be(string expected)
         {

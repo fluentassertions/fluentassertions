@@ -14,7 +14,7 @@ namespace FluentAssertions.Common
     /// </remarks>
     [DebuggerDisplay("Count = {Count}")]
     [DebuggerTypeProxy(PREFIX + "DictionaryDebugView`2" + SUFFIX)]
-    public abstract class BaseDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    internal abstract class BaseDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private const string PREFIX = "System.Collections.Generic.Mscorlib_";
         private const string SUFFIX = ",mscorlib,Version=2.0.0.0,Culture=neutral,PublicKeyToken=b77a5c561934e089";

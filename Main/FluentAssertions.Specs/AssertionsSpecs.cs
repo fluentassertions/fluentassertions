@@ -127,7 +127,7 @@ namespace FluentAssertions.Specs
                 "Cannot match an object against a <null> predicate.");
         }
 
-        internal class AssertionsTestSubClass : Assertions<object,AssertionsTestSubClass>
+        internal class AssertionsTestSubClass : ReferenceTypeAssertions<object,AssertionsTestSubClass>
         {
             public void AssertFail(string reason, params object[] reasonParameters)
             {

@@ -12,4 +12,3 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("796bb2ec-18ec-46fe-aa02-5a62902a63fa")]
-[assembly: InternalsVisibleTo("FluentAssertions.Specs")]

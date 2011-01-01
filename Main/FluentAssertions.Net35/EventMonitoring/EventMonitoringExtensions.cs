@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -12,6 +13,7 @@ namespace FluentAssertions.EventMonitoring
     /// <summary>
     ///   Provides extension methods for monitoring and querying events.
     /// </summary>
+    [DebuggerNonUserCode]
     public static class EventMonitoringExtensions
     {
         private static readonly WeakDictionary<object, EventRecorder[]> eventRecordersMap =
@@ -59,7 +61,7 @@ namespace FluentAssertions.EventMonitoring
 
 
         /// <summary>
-        /// Verifies that an object has raised a particular event at least once.
+        /// Asserts that an object has raised a particular event at least once.
         /// </summary>
         /// <param name="eventName">
         /// The name of the event that should have been raised.
@@ -74,7 +76,7 @@ namespace FluentAssertions.EventMonitoring
         }
 
         /// <summary>
-        /// Verifies that an object has raised a particular event at least once.
+        /// Asserts that an object has raised a particular event at least once.
         /// </summary>
         /// <param name="eventName">
         /// The name of the event that should have been raised.
@@ -118,7 +120,7 @@ namespace FluentAssertions.EventMonitoring
         }
 
         /// <summary>
-        /// Verifies that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
+        /// Asserts that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
         /// <remarks>
         /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
@@ -131,7 +133,7 @@ namespace FluentAssertions.EventMonitoring
         }
 
         /// <summary>
-        /// Verifies that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
+        /// Asserts that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -153,7 +155,7 @@ namespace FluentAssertions.EventMonitoring
         }
 
         /// <summary>
-        /// Verifies that all occurences of the event originated from the <param name="expectedSender"/>.
+        /// Asserts that all occurences of the event originated from the <param name="expectedSender"/>.
         /// </summary>
         public static IEventRecorder WithSender(this IEventRecorder eventRecorder, object expectedSender)
         {
@@ -175,7 +177,7 @@ namespace FluentAssertions.EventMonitoring
         }
 
         /// <summary>
-        /// Verifies that at least one occurrence of the event had an <see cref="EventArgs"/> object matching a predicate.
+        /// Asserts that at least one occurrence of the event had an <see cref="EventArgs"/> object matching a predicate.
         /// </summary>
         public static IEventRecorder WithArgs<T>(this IEventRecorder eventRecorder, Expression<Func<T, bool>> predicate) where T : EventArgs
         {

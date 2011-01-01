@@ -6,7 +6,7 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public class NullableBooleanAssertions : BooleanAssertions
     {
-        internal NullableBooleanAssertions(bool? value)
+        protected internal NullableBooleanAssertions(bool? value)
             : base(value)
         {
         }

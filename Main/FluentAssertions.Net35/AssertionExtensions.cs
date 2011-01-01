@@ -21,7 +21,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that the <paramref name="action"/> throws an exception.
+        /// Asserts that the <paramref name="action"/> throws an exception.
         /// </summary>
         /// <typeparam name="TException">
         /// The type of the exception it should throw.
@@ -36,7 +36,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that the <paramref name="action"/> throws an exception.
+        /// Asserts that the <paramref name="action"/> throws an exception.
         /// </summary>
         /// <typeparam name="TException">
         /// The type of the exception it should throw.
@@ -54,11 +54,11 @@ namespace FluentAssertions
         public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason, params object[] reasonParameters) 
             where TException : Exception
         {
-            return new ActionAssertions().AssertItThrows<TException>(action, reason, reasonParameters);
+            return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonParameters);
         }
 
         /// <summary>
-        /// Verifies that the <paramref name="action"/> does not throw a particular exception.
+        /// Asserts that the <paramref name="action"/> does not throw a particular exception.
         /// </summary>
         /// <typeparam name="TException">
         /// The type of the exception it should not throw. Any other exceptions are ignored and will satisfy the assertion.
@@ -69,7 +69,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that the <paramref name="action"/> does not throw a particular exception.
+        /// Asserts that the <paramref name="action"/> does not throw a particular exception.
         /// </summary>
         /// <typeparam name="TException">
         /// The type of the exception it should not throw. Any other exceptions are ignored and will satisfy the assertion.
@@ -83,11 +83,11 @@ namespace FluentAssertions
         /// </param>
         public static void ShouldNotThrow<TException>(this Action action, string reason, params object[] reasonParameters)
         {
-            new ActionAssertions().AssertItDoesNotThrow<TException>(action, reason, reasonParameters);
+            new ActionAssertions(action).ShouldNotThrow<TException>(reason, reasonParameters);
         }
 
         /// <summary>
-        /// Verifies that the <paramref name="action"/> does not throw any exception at all.
+        /// Asserts that the <paramref name="action"/> does not throw any exception at all.
         /// </summary>
         public static void ShouldNotThrow(this Action action)
         {
@@ -95,7 +95,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that the <paramref name="action"/> does not throw any exception at all.
+        /// Asserts that the <paramref name="action"/> does not throw any exception at all.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -106,7 +106,7 @@ namespace FluentAssertions
         /// </param>
         public static void ShouldNotThrow(this Action action, string reason, params object[] reasonParameters)
         {
-            new ActionAssertions().AssertItDoesNotThrowAny(action, reason, reasonParameters);
+            new ActionAssertions(action).ShouldNotThrow(reason, reasonParameters);
         }
 
         /// <summary>
@@ -206,13 +206,16 @@ namespace FluentAssertions
             return new StringAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Asserts that the properties of an object matches those of another object.
+        /// </summary>
         public static PropertyAssertions<T> ShouldHave<T>(this T subject)
         {
             return new PropertyAssertions<T>(subject);
         }
 
         /// <summary>
-        /// Casts the specified object to the type specified through <typeparamref name="TTo"/>.
+        /// Safely casts the specified object to the type specified through <typeparamref name="TTo"/>.
         /// </summary>
         /// <remarks>
         /// Has been introduced to allow casting objects without breaking the fluent API.

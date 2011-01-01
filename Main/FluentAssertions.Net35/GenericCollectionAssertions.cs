@@ -8,7 +8,7 @@ namespace FluentAssertions
 {
     public class GenericCollectionAssertions<T> : CollectionAssertions<IEnumerable<T>, GenericCollectionAssertions<T>>
     {
-        public GenericCollectionAssertions(IEnumerable<T> actualValue)
+        protected internal GenericCollectionAssertions(IEnumerable<T> actualValue)
         {
             if (actualValue != null)
             {

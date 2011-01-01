@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace FluentAssertions
 {
-    public abstract class CollectionAssertions<TSubject, TAssertions> : Assertions<TSubject, TAssertions>
+    public abstract class CollectionAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : CollectionAssertions<TSubject, TAssertions>
         where TSubject : IEnumerable
     {

@@ -4,22 +4,14 @@ using System.Diagnostics;
 namespace FluentAssertions
 {
     [DebuggerNonUserCode]
-    public class NumericAssertions<T> : Assertions<T?, NumericAssertions<T>>
-        where T : struct, IComparable
+    public class NumericAssertions<T> where T : struct, IComparable
     {
-        protected NumericAssertions()
-        {
-        }
-
-        protected NumericAssertions(T? value)
+        protected internal NumericAssertions(T? value)
         {
             Subject = value;
         }
 
-        internal NumericAssertions(T value)
-        {
-            Subject = value;
-        }
+        public T? Subject { get; private set; }
 
         public AndConstraint<NumericAssertions<T>> BePositive()
         {

@@ -7,7 +7,7 @@ namespace FluentAssertions
     public class NullableNumericAssertions<T> : NumericAssertions<T>
         where T : struct, IComparable
     {
-        internal NullableNumericAssertions(T? expected)
+        protected internal NullableNumericAssertions(T? expected)
             : base(expected)
         {
         }

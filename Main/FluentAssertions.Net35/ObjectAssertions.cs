@@ -6,7 +6,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions
 {
     [DebuggerNonUserCode]
-    public class ObjectAssertions : Assertions<object, ObjectAssertions>
+    public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>
     {
         protected internal ObjectAssertions(object value)
         {
@@ -14,7 +14,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that the value of an object equals another object when using it's <see cref="object.Equals(object)"/> method.
+        /// Asserts that the value of an object equals another object when using it's <see cref="object.Equals(object)"/> method.
         /// </summary>
         public AndConstraint<ObjectAssertions> Be(object expected)
         {
@@ -22,7 +22,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that an object equals another object using it's <see cref="object.Equals(object)"/> method.
+        /// Asserts that an object equals another object using it's <see cref="object.Equals(object)"/> method.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -40,7 +40,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that an object does not equal another object using it's <see cref="object.Equals(object)"/> method.
+        /// Asserts that an object does not equal another object using it's <see cref="object.Equals(object)"/> method.
         /// </summary>
         public AndConstraint<ObjectAssertions> NotBe(object expected)
         {
@@ -48,7 +48,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that an object does not equal another object using it's <see cref="object.Equals(object)"/> method.
+        /// Asserts that an object does not equal another object using it's <see cref="object.Equals(object)"/> method.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -66,7 +66,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that an object reference refers to the exact same object as another object reference.
+        /// Asserts that an object reference refers to the exact same object as another object reference.
         /// </summary>
         public AndConstraint<ObjectAssertions> BeSameAs(object expected)
         {
@@ -74,7 +74,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that an object reference refers to the exact same object as another object reference.
+        /// Asserts that an object reference refers to the exact same object as another object reference.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -93,7 +93,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that an object reference refers to a different object than another object reference refers to.
+        /// Asserts that an object reference refers to a different object than another object reference refers to.
         /// </summary>
         public AndConstraint<ObjectAssertions> NotBeSameAs(object expected)
         {
@@ -101,7 +101,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Verifies that an object reference refers to a different object than another object reference refers to.
+        /// Asserts that an object reference refers to a different object than another object reference refers to.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -144,46 +144,6 @@ namespace FluentAssertions
             Verification.Verify(!ReferenceEquals(Subject, null),
                 "Expected non-null value{2}, but found <null>.", null, Subject, reason,
                 reasonParameters);
-
-            return new AndConstraint<ObjectAssertions>(this);
-        }
-
-        public AndConstraint<ObjectAssertions> BeOfType<T>()
-        {
-            return BeOfType<T>(String.Empty);
-        }
-
-        public AndConstraint<ObjectAssertions> BeOfType<T>(string reason, params object[] reasonParameters)
-        {
-            Verification.Verify(() => typeof(T).IsAssignableFrom(Subject.GetType()),
-                "Expected type {0}{2}, but found {1}.", typeof(T), Subject.GetType(), reason,
-                reasonParameters);
-
-            return new AndConstraint<ObjectAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the object is assignable to a variable of type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type to which the object should be assignable.</typeparam>
-        /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
-        public AndConstraint<ObjectAssertions> BeAssignableTo<T>()
-        {
-            return BeAssignableTo<T>(String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the object is assignable to a variable of type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type to which the object should be assignable.</typeparam>
-        /// <param name="reason">The reason why the object should be assignable to the type.</param>
-        /// <param name="reasonParameters">The parameters used when formatting the <paramref name="reason"/>.</param>
-        /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
-        public AndConstraint<ObjectAssertions> BeAssignableTo<T>(string reason, params object[] reasonParameters)
-        {
-            Verification.Verify(() => typeof(T).IsAssignableFrom(Subject.GetType()),
-                "Expected to be assignable to {0}{2}, but {1} does not implement {0}", typeof(T),
-                Subject.GetType(), reason, reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);
         }

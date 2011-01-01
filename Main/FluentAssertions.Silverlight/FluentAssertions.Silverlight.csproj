@@ -74,6 +74,15 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
       <HintPath>..\SharedBinaries\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
@@ -95,9 +104,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions.cs">
-      <Link>Assertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\BooleanAssertions.cs">
       <Link>BooleanAssertions.cs</Link>
@@ -147,9 +153,6 @@
     <Compile Include="..\FluentAssertions.Net35\ExceptionAssertions.cs">
       <Link>ExceptionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\ExtensionMethods.cs">
-      <Link>ExtensionMethods.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\DateTimeValueFormatter.cs">
       <Link>Formatting\DateTimeValueFormatter.cs</Link>
     </Compile>
@@ -197,6 +200,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\PropertyAssertions.cs">
       <Link>PropertyAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\ReferenceTypeAssertions.cs">
+      <Link>ReferenceTypeAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\StringAssertions.cs">
       <Link>StringAssertions.cs</Link>
@@ -246,7 +252,11 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
