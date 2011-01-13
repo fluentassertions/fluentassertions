@@ -20,17 +20,6 @@
       </UnitTestRunConfig>
     </TestTypeSpecific>
     <AgentRule name="LocalMachineDefaultRole">
-      <DataCollectors>
-        <DataCollector uri="datacollector://Microsoft/CodeCoverage/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.CodeCoverage.CoveragePlugIn, Microsoft.VisualStudio.QualityTools.Plugins.CodeCoverage, PublicKeyToken=b03f5f7f11d50a3a">
-          <Configuration>
-            <CodeCoverage keyFile="FluentAssertions.snk" xmlns="">
-              <Regular>
-                <CodeCoverageItem binaryFile="FluentAssertions\bin\Debug\FluentAssertions.dll" pdbFile="FluentAssertions\bin\Debug\FluentAssertions.pdb" instrumentInPlace="true" />
-              </Regular>
-            </CodeCoverage>
-          </Configuration>
-        </DataCollector>
-      </DataCollectors>
     </AgentRule>
   </Execution>
 </TestSettings>
