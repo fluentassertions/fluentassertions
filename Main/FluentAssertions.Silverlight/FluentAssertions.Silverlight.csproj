@@ -135,12 +135,6 @@
     <Compile Include="..\FluentAssertions.Net35\DateTimeAssertions.cs">
       <Link>DateTimeAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventHandlerFactory.cs">
-      <Link>EventMonitoring\EventHandlerFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventMonitoringExtensions.cs">
-      <Link>EventMonitoring\EventMonitoringExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventRecorder.cs">
       <Link>EventMonitoring\EventRecorder.cs</Link>
     </Compile>
@@ -216,6 +210,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="EventMonitoring\EventMonitoringExtensions.cs" />
     <Compile Include="Frameworks\AssertionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecificationMismatchException.cs" />
