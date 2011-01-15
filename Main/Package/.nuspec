@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>FluentAssertions</id>
+    <title>Fluent Assertions - Extension methods for .NET unit tests.</title>
+    <version>1.3.0.1</version> 
+    <authors>Dennis Doomen</authors>
+    <description>A very extensive set of extension methods for .NET 3.5, 4.0 and Silverlight 4.0 that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit test.</description> 
+    <language>en-US</language>
+    <licenseUrl>http://fluentassertions.codeplex.com/license</licenseUrl>    
+    <projectUrl>http://fluentassertions.codeplex.com/</projectUrl>
+    <tags>MSTest xUnit NUnit TDD BDD Fluent Silverlight</tags>
+  </metadata> 
+</package>
