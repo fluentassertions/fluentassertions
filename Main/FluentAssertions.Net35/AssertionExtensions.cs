@@ -170,6 +170,26 @@ namespace FluentAssertions
         {
             return new NullableNumericAssertions<int>(actualValue);
         }
+        
+        public static NumericAssertions<byte> Should(this byte actualValue)
+        {
+            return new NumericAssertions<byte>(actualValue);
+        }
+
+        public static NullableNumericAssertions<byte> Should(this byte? actualValue)
+        {
+            return new NullableNumericAssertions<byte>(actualValue);
+        }
+        
+        public static NumericAssertions<short> Should(this short actualValue)
+        {
+            return new NumericAssertions<short>(actualValue);
+        }
+
+        public static NullableNumericAssertions<short> Should(this short? actualValue)
+        {
+            return new NullableNumericAssertions<short>(actualValue);
+        }
 
         public static NumericAssertions<long> Should(this long actualValue)
         {
