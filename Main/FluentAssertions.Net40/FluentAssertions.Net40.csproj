@@ -78,6 +78,9 @@
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\IntExtensions.cs">
+      <Link>Common\IntExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\WeakDictionary.cs">
       <Link>Common\WeakDictionary.cs</Link>
     </Compile>

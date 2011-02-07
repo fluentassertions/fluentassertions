@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
+    <Compile Include="Common\IntExtensions.cs" />
     <Compile Include="ReferenceTypeAssertions.cs" />
     <Compile Include="BooleanAssertions.cs" />
     <Compile Include="CollectionAssertions.cs" />
