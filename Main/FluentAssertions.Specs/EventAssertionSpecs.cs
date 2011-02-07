@@ -10,6 +10,8 @@ namespace FluentAssertions.specs
     [TestClass]
     public class EventAssertionSpecs
     {
+        #region Should(Not)Raise
+
         [TestMethod]
         public void When_asserting_an_event_raise_and_the_object_is_not_monitored_it_should_throw()
         {
@@ -30,7 +32,28 @@ namespace FluentAssertions.specs
                 "Object <" + subject +
                     "> is not being monitored for events. Use the MonitorEvents() extension method to start monitoring events.");
         }
-        
+
+        [TestMethod]
+        public void When_asserting_that_an_event_was_not_raised_and_the_object_is_not_monitored_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldNotRaise("PropertyChanged");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>().WithMessage(
+                "Object <" + subject +
+                    "> is not being monitored for events. Use the MonitorEvents() extension method to start monitoring events.");
+        }
+
         [TestMethod]
         public void When_monitoring_a_null_object_it_should_throw()
         {
@@ -63,6 +86,27 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldRaise("NonExistingEvent");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>().WithMessage(
+                "Object <" + subject + "> does not expose an event named \"NonExistingEvent\".");
+        }
+
+        [TestMethod]
+        public void When_asserting_that_an_event_was_not_raised_and_it_doesnt_exist_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldNotRaise("NonExistingEvent");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -106,6 +150,48 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldRaise("PropertyChanged");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_unexpected_event_was_raised_it_should_throw_and_use_the_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithoutSender();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldNotRaise("PropertyChanged", "{0} should cause the event to get raised", "Foo()");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected object <" + subject + "> to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
+        }
+
+        [TestMethod]
+        public void When_an_unexpected_event_was_not_raised_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldNotRaise("PropertyChanged");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -228,27 +314,10 @@ namespace FluentAssertions.specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
-        public void When_a_property_changed_event_for_a_specific_property_was_not_raised_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            var subject = new EventRaisingClass();
-            subject.MonitorEvents();
+        #endregion
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty, "the property was changed");
+        #region Should(Not)RaisePropertyChanged events
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object <" + subject + "> to raise event \"PropertyChanged\" because the property was changed, but it did not.");
-        }
-        
         [TestMethod]
         public void When_a_property_changed_event_was_raised_for_the_right_property_it_should_not_throw()
         {
@@ -270,6 +339,73 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+
+
+        [TestMethod]
+        public void When_a_property_changed_event_for_an_unexpected_property_was_raised_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithSenderAndPropertyName("SomeProperty");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldNotRaisePropertyChangeFor(x => x.SomeProperty, "nothing happened");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Did not expect object <" + subject + "> to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
+        }
+
+        [TestMethod]
+        public void When_a_property_changed_event_for_a_specific_property_was_not_raised_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty, "the property was changed");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected object <" + subject + "> to raise event \"PropertyChanged\" because the property was changed, but it did not.");
+        }
+
+        [TestMethod]
+        public void When_a_property_changed_event_for_another_than_the_unexpected_property_was_raised_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithSenderAndPropertyName("SomeOtherProperty");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldNotRaisePropertyChangeFor(x => x.SomeProperty);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        #endregion
 
         internal class EventRaisingClass : INotifyPropertyChanged
         {

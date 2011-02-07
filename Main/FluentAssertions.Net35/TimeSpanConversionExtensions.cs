@@ -1,31 +1,31 @@
 ﻿using System;
 
-namespace FluentAssertions.Common
+namespace FluentAssertions
 {
-    public static class IntExtensions
+    public static class TimeSpanConversionExtensions
     {
         /// <summary>
         /// Returns a <see cref = "TimeSpan" /> for the current number of minutes
         /// </summary>
-        public static TimeSpan Minutes(this int source)
+        public static TimeSpan Minutes(this int minutes)
         {
-            return TimeSpan.FromMinutes(source);
+            return TimeSpan.FromMinutes(minutes);
         }
 
         /// <summary>
         /// Returns a <see cref = "TimeSpan" /> for the current number of hours
         /// </summary>
-        public static TimeSpan Hours(this int source)
+        public static TimeSpan Hours(this int hours)
         {
-            return TimeSpan.FromHours(source);
+            return TimeSpan.FromHours(hours);
         }
 
         /// <summary>
         /// Returns a <see cref = "TimeSpan" /> for the current number of days
         /// </summary>
-        public static TimeSpan Days(this int source)
+        public static TimeSpan Days(this int days)
         {
-            return TimeSpan.FromDays(source);
+            return TimeSpan.FromDays(days);
         }
     }
 }

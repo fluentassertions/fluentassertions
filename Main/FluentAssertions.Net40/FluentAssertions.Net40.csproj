@@ -78,9 +78,6 @@
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\IntExtensions.cs">
-      <Link>Common\IntExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\WeakDictionary.cs">
       <Link>Common\WeakDictionary.cs</Link>
     </Compile>
@@ -191,6 +188,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\TimeSpanAssertions.cs">
       <Link>TimeSpanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\TimeSpanConversionExtensions.cs">
+      <Link>TimeSpanConversionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Verification.cs">
       <Link>Verification.cs</Link>

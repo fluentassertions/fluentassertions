@@ -16,28 +16,39 @@ namespace FluentAssertions.EventMonitoring
     [DebuggerNonUserCode]
     public static class EventMonitoringExtensions
     {
+        private const string PropertyChangedEventName = "PropertyChanged";
+
         private static readonly WeakDictionary<object, EventRecorder[]> eventRecordersMap =
             new WeakDictionary<object, EventRecorder[]>();
 
+#if !SILVERLIGHT
         /// <summary>
         ///   Starts monitoring an object for its events.
         /// </summary>
         /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static IEnumerable<EventRecorder> MonitorEvents(this object eventSource)
         {
+            return MonitorEventsInternal(eventSource);
+        }
+#else
+        /// <summary>
+        ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
+        /// </summary>
+        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+        public static IEnumerable<EventRecorder> MonitorEvents(this INotifyPropertyChanged eventSource)
+        {
+            return MonitorEventsInternal(eventSource);
+        }
+#endif
+
+        private static IEnumerable<EventRecorder> MonitorEventsInternal(object eventSource)
+        {
             if (eventSource == null)
             {
                 throw new NullReferenceException("Cannot monitor the events of a <null> object.");
             }
 
-            var recorders =
-                eventSource.GetType().GetEvents().Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
-
-            if (!recorders.Any())
-            {
-                throw new InvalidOperationException(
-                    string.Format("Object {0} does not expose any events.", eventSource));
-            }
+            EventRecorder[] recorders = BuildRecorders(eventSource);
 
             if (eventRecordersMap.ContainsKey(eventSource))
             {
@@ -46,6 +57,20 @@ namespace FluentAssertions.EventMonitoring
 
             eventRecordersMap.Add(eventSource, recorders);
 
+            return recorders;
+        }
+
+#if !SILVERLIGHT
+        private static EventRecorder[] BuildRecorders(object eventSource)
+        {
+            var recorders =
+                eventSource.GetType().GetEvents().Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
+
+            if (!recorders.Any())
+            {
+                throw new InvalidOperationException(
+                    string.Format("Object {0} does not expose any events.", eventSource));
+            }
             return recorders;
         }
 
@@ -58,8 +83,17 @@ namespace FluentAssertions.EventMonitoring
 
             return eventRecorder;
         }
+#else
+        private static EventRecorder[] BuildRecorders(object eventSource)
+        {
+            var eventRecorder = new EventRecorder(eventSource, PropertyChangedEventName);
 
+            ((INotifyPropertyChanged)eventSource).PropertyChanged += (sender, args) => eventRecorder.RecordEvent(sender, args);
+            return new[] {eventRecorder};
+        }
+#endif
 
+#if !SILVERLIGHT
         /// <summary>
         /// Asserts that an object has raised a particular event at least once.
         /// </summary>
@@ -95,6 +129,52 @@ namespace FluentAssertions.EventMonitoring
         public static EventRecorder ShouldRaise(
             this object eventSource, string eventName, string reason, params object[] reasonParameters)
         {
+            EventRecorder eventRecorder = GetEventRecorder(eventSource, eventName);
+
+            if (!eventRecorder.Any())
+            {
+                Verification.Fail("Expected object {1} to raise event {0}{2}, but it did not.", eventName, eventSource,
+                    reason, reasonParameters);
+            }
+
+            return eventRecorder;
+        }
+
+        /// <summary>
+        /// Asserts that an object has not raised a particular event.
+        /// </summary>
+        /// <param name="eventName">
+        /// The name of the event that should not be raised.
+        /// </param>
+        /// <remarks>
+        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// subscribe for the events of the object.
+        /// </remarks>
+        public static void ShouldNotRaise(this object eventSource, string eventName)
+        {
+            ShouldNotRaise(eventSource, eventName, "");
+        }
+
+        /// <summary>
+        /// Asserts that an object has not raised a particular event.
+        /// </summary>
+        /// <param name="eventName">
+        /// The name of the event that should not be raised.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        /// <remarks>
+        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// subscribe for the events of the object.
+        /// </remarks>
+        public static void ShouldNotRaise(
+            this object eventSource, string eventName, string reason, params object[] reasonParameters)
+        {
             if (!eventRecordersMap.ContainsKey(eventSource))
             {
                 throw new InvalidOperationException(
@@ -110,15 +190,14 @@ namespace FluentAssertions.EventMonitoring
                     "Object <{0}> does not expose an event named \"{1}\".", eventSource, eventName));
             }
 
-            if (!eventRecorder.Any())
+            if (eventRecorder.Any())
             {
-                Verification.Fail("Expected object {1} to raise event {0}{2}, but it did not.", eventName, eventSource,
+                Verification.Fail("Expected object {1} to not raise event {0}{2}, but it did.", eventName, eventSource,
                     reason, reasonParameters);
             }
-
-            return eventRecorder;
         }
-
+#endif
+        
         /// <summary>
         /// Asserts that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
@@ -150,8 +229,83 @@ namespace FluentAssertions.EventMonitoring
             this T eventSource, Expression<Func<T, object>> propertyExpression,
             string reason, params object[] reasonParameters)
         {
-            return ShouldRaise(eventSource, "PropertyChanged", reason, reasonParameters).WithArgs<PropertyChangedEventArgs>(
+            EventRecorder eventRecorder = GetEventRecorder(eventSource, PropertyChangedEventName);
+
+            if (!eventRecorder.Any())
+            {
+                Verification.Fail("Expected object {1} to raise event {0}{2}, but it did not.", PropertyChangedEventName, eventSource,
+                    reason, reasonParameters);
+            }
+
+            return eventRecorder.WithArgs<PropertyChangedEventArgs>(
                     args => args.PropertyName == propertyExpression.GetPropertyInfo().Name);
+        }
+        
+        /// <summary>
+        /// Asserts that an object has not raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
+        /// </summary>
+        /// <remarks>
+        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// subscribe for the events of the object.
+        /// </remarks>
+        public static void ShouldNotRaisePropertyChangeFor<T>(
+            this T eventSource, Expression<Func<T, object>> propertyExpression)
+        {
+            ShouldNotRaisePropertyChangeFor(eventSource, propertyExpression, "");
+        }
+
+        /// <summary>
+        /// Asserts that an object has not raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        /// <remarks>
+        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// subscribe for the events of the object.
+        /// </remarks>
+        public static void ShouldNotRaisePropertyChangeFor<T>(
+            this T eventSource, Expression<Func<T, object>> propertyExpression,
+            string reason, params object[] reasonParameters)
+        {
+            EventRecorder eventRecorder = GetEventRecorder(eventSource, PropertyChangedEventName);
+
+            string propertyName = propertyExpression.GetPropertyInfo().Name;
+
+            if (eventRecorder.Any(@event => GetAffectedPropertyName(@event) == propertyName))
+            {
+                Verification.Fail("Did not expect object {1} to raise the \"PropertyChanged\" event for property {0}{2}, but it did.", 
+                    propertyName, eventSource,
+                    reason, reasonParameters);
+            }
+        }
+
+        private static EventRecorder GetEventRecorder<T>(T eventSource, string eventName)
+        {
+            if (!eventRecordersMap.ContainsKey(eventSource))
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        "Object <{0}> is not being monitored for events. Use the MonitorEvents() extension method to start monitoring events.",
+                        eventSource));
+            }
+
+            EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
+            if (eventRecorder == null)
+            {
+                throw new InvalidOperationException(string.Format(
+                    "Object <{0}> does not expose an event named \"{1}\".", eventSource, eventName));
+            }
+            return eventRecorder;
+        }
+
+        private static string GetAffectedPropertyName(RecordedEvent @event)
+        {
+            return @event.Parameters.OfType<PropertyChangedEventArgs>().Single().PropertyName;
         }
 
         /// <summary>
