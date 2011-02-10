@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 using FluentAssertions.Common;
 
@@ -153,6 +154,44 @@ namespace FluentAssertions
                     expectedInnerMessage,
                     innerMessage,
                     reason, reasonParameters);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Asserts that the exception matches a particular condition.
+        /// </summary>
+        /// <param name="exceptionExpression">
+        /// The condition that the exception must match.
+        /// </param>
+        public ExceptionAssertions<TException> With(Expression<Func<TException, bool>> exceptionExpression)
+        {
+            return With(exceptionExpression, "");
+        }
+
+        /// <summary>
+        /// Asserts that the exception matches a particular condition.
+        /// </summary>
+        /// <param name="exceptionExpression">
+        /// The condition that the exception must match.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public ExceptionAssertions<TException> With(Expression<Func<TException, bool>> exceptionExpression, string reason,
+            params object[] reasonParameters)
+        {
+            Func<TException, bool> condition = exceptionExpression.Compile();
+            if (!condition((TException)Subject))
+            {
+                Verification.Fail(
+                    "Expected exception with {0}{2}, but the condition was not met.", 
+                    exceptionExpression.Body, null, reason, reasonParameters);
             }
 
             return this;

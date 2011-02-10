@@ -8,6 +8,8 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class ExceptionAssertionSpecs
     {
+        #region Outer Exceptions
+
         [TestMethod]
         public void When_subject_throws_expected_exception_with_an_expected_message_it_should_not_do_anything()
         {
@@ -81,7 +83,7 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        public void When_subject_throws_some_exception_with_an_empty_exception_it_should_throw_with_clear_description()
+        public void When_subject_throws_some_exception_with_an_empty_message_it_should_throw_with_clear_description()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -119,7 +121,9 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IFoo subjectThatThrows = MockRepository.GenerateStub<IFoo>();
-            subjectThatThrows.Stub(x => x.Do(Arg<string>.Is.Anything)).Throw(new ArgumentNullException("someParam", "message2"));
+            subjectThatThrows
+                .Stub(x => x.Do(Arg<string>.Is.Anything))
+                .Throw(new ArgumentNullException("someParam", "message2"));
 
             try
             {
@@ -206,6 +210,10 @@ namespace FluentAssertions.Specs
                     "Expected <System.InvalidOperationException> because IFoo.Do should throw that one, but found <System.ArgumentException>.");
             }
         }
+
+        #endregion
+
+        #region Inner Exceptions
 
         [TestMethod]
         public void When_subject_throws_an_exception_with_the_expected_innerexception_it_should_not_do_anything()
@@ -353,6 +361,10 @@ namespace FluentAssertions.Specs
             }
         }
 
+        #endregion
+
+        #region Miscellaneous
+
         [TestMethod]
         public void When_getting_value_of_property_of_thrown_exception_it_should_return_value_of_property()
         {
@@ -415,6 +427,85 @@ namespace FluentAssertions.Specs
                 yield return char.ToUpper(character);
             }
         }
+
+        [TestMethod]
+        public void When_custom_condition_is_not_met_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => { throw new ArgumentException(""); };
+
+            try
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                act
+                    .ShouldThrow<ArgumentException>("")
+                    .With(e => e.Message.Length > 0, "an exception must have a message");
+
+                Assert.Fail("This point should not be reached");
+            }
+            catch (AssertFailedException exc)
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                exc.Message.Should().Be(
+                    "Expected exception with (e.Message.Length > 0) because an exception must have a message, but the condition was not met.");
+            }
+        }
+        
+        [TestMethod]
+        public void When_a_2nd_condition_is_not_met_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => { throw new ArgumentException("Fail"); };
+
+            try
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                act
+                    .ShouldThrow<ArgumentException>("")
+                    .With(e => e.Message.Length > 0)
+                    .With(e => e.Message == "Error");
+
+                Assert.Fail("This point should not be reached");
+            }
+            catch (AssertFailedException exc)
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                exc.Message.Should().Be(
+                    "Expected exception with (e.Message == \"Error\"), but the condition was not met.");
+            }
+        }
+
+        [TestMethod]
+        public void When_custom_condition_is_met_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => { throw new ArgumentException(""); };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<ArgumentException>()
+                .With(e => e.Message.Length == 0);
+        }
+
+        #endregion
+
+        #region Not Throw
 
         [TestMethod]
         public void When_a_specific_exception_should_not_be_thrown_but_it_was_it_should_throw()
@@ -492,6 +583,8 @@ namespace FluentAssertions.Specs
         }
     }
 
+    #endregion
+    
     public class SomeTestClass
     {
         internal const string ExceptionMessage = "someMessage";
