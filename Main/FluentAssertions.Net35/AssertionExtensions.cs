@@ -226,6 +226,16 @@ namespace FluentAssertions
             return new StringAssertions(actualValue);
         }
 
+        public static SimpleTimeSpanAssertions Should(this TimeSpan actualValue)
+        {
+            return new SimpleTimeSpanAssertions(actualValue);
+        }
+
+        public static NullableSimpleTimeSpanAssertions Should(this TimeSpan? actualValue)
+        {
+            return new NullableSimpleTimeSpanAssertions(actualValue);
+        }
+        
         /// <summary>
         /// Asserts that the properties of an object matches those of another object.
         /// </summary>

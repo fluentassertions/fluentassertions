@@ -13,22 +13,39 @@ namespace FluentAssertions.Formatting
 
         public string ToString(object value)
         {
-            var timeSpan = (TimeSpan) value;
-            var fragments = new List<string>();
+            var timeSpan = (TimeSpan)value;
 
-            AddDaysIfNotZero(timeSpan, fragments);
-            AddHoursIfNotZero(timeSpan, fragments);
-            AddMinutesIfNotZero(timeSpan, fragments);
-            AddSecondsIfNotZero(timeSpan, fragments);
+            IEnumerable<string> fragments = GetNonZeroFragments(timeSpan);
 
-            if (fragments.Count == 1)
+            if (!fragments.Any())
             {
-                return fragments.Single();
+                return "default";
+            }
+
+            string sign = (timeSpan.TotalMilliseconds >= 0) ? "" : "-";
+
+            if (fragments.Count() == 1)
+            {
+                return sign + fragments.Single();
             }
             else
             {
-                return JoinUsingWritingStyle(fragments);
+                return sign + JoinUsingWritingStyle(fragments);
             }
+        }
+
+        private static IEnumerable<string> GetNonZeroFragments(TimeSpan timeSpan)
+        {
+            TimeSpan absoluteTimespan = timeSpan.Duration();
+            
+            var fragments = new List<string>();
+
+            AddDaysIfNotZero(absoluteTimespan, fragments);
+            AddHoursIfNotZero(absoluteTimespan, fragments);
+            AddMinutesIfNotZero(absoluteTimespan, fragments);
+            AddSecondsIfNotZero(absoluteTimespan, fragments);
+            
+            return fragments;
         }
 
         private static void AddSecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
@@ -70,9 +87,14 @@ namespace FluentAssertions.Formatting
             }
         }
 
-        private static string JoinUsingWritingStyle(ICollection<string> fragments)
+        private static string JoinUsingWritingStyle(IEnumerable<string> fragments)
         {
-            return string.Join(", ", fragments.Take(fragments.Count - 1).ToArray()) + " and " + fragments.Last();
+            return string.Join(", ", AllButLastFragment(fragments)) + " and " + fragments.Last();
+        }
+
+        private static string[] AllButLastFragment(IEnumerable<string> fragments)
+        {
+            return fragments.Take(fragments.Count() - 1).ToArray();
         }
     }
 }
