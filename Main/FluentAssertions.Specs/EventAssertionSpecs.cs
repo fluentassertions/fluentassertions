@@ -29,8 +29,8 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <" + subject +
-                    "> is not being monitored for events. Use the MonitorEvents() extension method to start monitoring events.");
+                "Object <" + subject + "> is not being monitored for events or has already been garbage collected. "+ 
+                "Use the MonitorEvents() extension method to start monitoring events.");
         }
 
         [TestMethod]
@@ -50,8 +50,8 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <" + subject +
-                    "> is not being monitored for events. Use the MonitorEvents() extension method to start monitoring events.");
+                "Object <" + subject + "> is not being monitored for events or has already been garbage collected. " +
+                "Use the MonitorEvents() extension method to start monitoring events.");
         }
 
         [TestMethod]
@@ -91,7 +91,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <" + subject + "> does not expose an event named \"NonExistingEvent\".");
+                "Type <" + subject.GetType().Name + "> does not expose an event named \"NonExistingEvent\".");
         }
 
         [TestMethod]
@@ -112,7 +112,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <" + subject + "> does not expose an event named \"NonExistingEvent\".");
+                "Type <" + subject.GetType().Name + "> does not expose an event named \"NonExistingEvent\".");
         }
 
         [TestMethod]

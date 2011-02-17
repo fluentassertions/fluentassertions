@@ -111,26 +111,8 @@
     <Compile Include="..\FluentAssertions.Net35\CollectionAssertions.cs">
       <Link>CollectionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\BaseDictionary.cs">
-      <Link>Common\BaseDictionary.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\WeakDictionary.cs">
-      <Link>Common\WeakDictionary.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\WeakKeyComparer.cs">
-      <Link>Common\WeakKeyComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\WeakKeyReference.cs">
-      <Link>Common\WeakKeyReference.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\WeakNullReference.cs">
-      <Link>Common\WeakNullReference.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\WeakReference.cs">
-      <Link>Common\WeakReference.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\DateTimeAssertions.cs">
       <Link>DateTimeAssertions.cs</Link>
@@ -140,6 +122,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventRecorder.cs">
       <Link>EventMonitoring\EventRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventRecordersMap.cs">
+      <Link>EventMonitoring\EventRecordersMap.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoring\IEventRecorder.cs">
       <Link>EventMonitoring\IEventRecorder.cs</Link>

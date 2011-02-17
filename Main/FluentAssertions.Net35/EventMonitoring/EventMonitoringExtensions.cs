@@ -18,8 +18,7 @@ namespace FluentAssertions.EventMonitoring
     {
         private const string PropertyChangedEventName = "PropertyChanged";
 
-        private static readonly WeakDictionary<object, EventRecorder[]> eventRecordersMap =
-            new WeakDictionary<object, EventRecorder[]>();
+        private static readonly EventRecordersMap eventRecordersMap = new EventRecordersMap();
 
 #if !SILVERLIGHT
         /// <summary>
@@ -28,7 +27,7 @@ namespace FluentAssertions.EventMonitoring
         /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static IEnumerable<EventRecorder> MonitorEvents(this object eventSource)
         {
-            return MonitorEventsInternal(eventSource);
+            return MonitorEventsRaisedBy(eventSource);
         }
 #else
         /// <summary>
@@ -37,11 +36,11 @@ namespace FluentAssertions.EventMonitoring
         /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static IEnumerable<EventRecorder> MonitorEvents(this INotifyPropertyChanged eventSource)
         {
-            return MonitorEventsInternal(eventSource);
+            return MonitorEventsRaisedBy(eventSource);
         }
 #endif
 
-        private static IEnumerable<EventRecorder> MonitorEventsInternal(object eventSource)
+        private static IEnumerable<EventRecorder> MonitorEventsRaisedBy(object eventSource)
         {
             if (eventSource == null)
             {
@@ -49,11 +48,6 @@ namespace FluentAssertions.EventMonitoring
             }
 
             EventRecorder[] recorders = BuildRecorders(eventSource);
-
-            if (eventRecordersMap.ContainsKey(eventSource))
-            {
-                eventRecordersMap.Remove(eventSource);
-            }
 
             eventRecordersMap.Add(eventSource, recorders);
 
@@ -69,8 +63,9 @@ namespace FluentAssertions.EventMonitoring
             if (!recorders.Any())
             {
                 throw new InvalidOperationException(
-                    string.Format("Object {0} does not expose any events.", eventSource));
+                    string.Format("Type {0} does not expose any events.", eventSource.GetType().Name));
             }
+            
             return recorders;
         }
 
@@ -129,7 +124,7 @@ namespace FluentAssertions.EventMonitoring
         public static EventRecorder ShouldRaise(
             this object eventSource, string eventName, string reason, params object[] reasonParameters)
         {
-            EventRecorder eventRecorder = GetEventRecorder(eventSource, eventName);
+            EventRecorder eventRecorder = GetRecorderForEvent(eventSource, eventName);
 
             if (!eventRecorder.Any())
             {
@@ -175,19 +170,11 @@ namespace FluentAssertions.EventMonitoring
         public static void ShouldNotRaise(
             this object eventSource, string eventName, string reason, params object[] reasonParameters)
         {
-            if (!eventRecordersMap.ContainsKey(eventSource))
-            {
-                throw new InvalidOperationException(
-                    string.Format(
-                        "Object <{0}> is not being monitored for events. Use the MonitorEvents() extension method to start monitoring events.",
-                        eventSource));
-            }
-
             EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
             if (eventRecorder == null)
             {
                 throw new InvalidOperationException(string.Format(
-                    "Object <{0}> does not expose an event named \"{1}\".", eventSource, eventName));
+                    "Type <{0}> does not expose an event named \"{1}\".", eventSource.GetType().Name, eventName));
             }
 
             if (eventRecorder.Any())
@@ -196,6 +183,7 @@ namespace FluentAssertions.EventMonitoring
                     reason, reasonParameters);
             }
         }
+
 #endif
         
         /// <summary>
@@ -229,7 +217,7 @@ namespace FluentAssertions.EventMonitoring
             this T eventSource, Expression<Func<T, object>> propertyExpression,
             string reason, params object[] reasonParameters)
         {
-            EventRecorder eventRecorder = GetEventRecorder(eventSource, PropertyChangedEventName);
+            EventRecorder eventRecorder = GetRecorderForEvent(eventSource, PropertyChangedEventName);
 
             if (!eventRecorder.Any())
             {
@@ -272,7 +260,7 @@ namespace FluentAssertions.EventMonitoring
             this T eventSource, Expression<Func<T, object>> propertyExpression,
             string reason, params object[] reasonParameters)
         {
-            EventRecorder eventRecorder = GetEventRecorder(eventSource, PropertyChangedEventName);
+            EventRecorder eventRecorder = GetRecorderForEvent(eventSource, PropertyChangedEventName);
 
             string propertyName = propertyExpression.GetPropertyInfo().Name;
 
@@ -284,22 +272,15 @@ namespace FluentAssertions.EventMonitoring
             }
         }
 
-        private static EventRecorder GetEventRecorder<T>(T eventSource, string eventName)
+        private static EventRecorder GetRecorderForEvent<T>(T eventSource, string eventName)
         {
-            if (!eventRecordersMap.ContainsKey(eventSource))
-            {
-                throw new InvalidOperationException(
-                    string.Format(
-                        "Object <{0}> is not being monitored for events. Use the MonitorEvents() extension method to start monitoring events.",
-                        eventSource));
-            }
-
             EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
             if (eventRecorder == null)
             {
                 throw new InvalidOperationException(string.Format(
-                    "Object <{0}> does not expose an event named \"{1}\".", eventSource, eventName));
+                    "Type <{0}> does not expose an event named \"{1}\".", eventSource.GetType().Name, eventName));
             }
+
             return eventRecorder;
         }
 
