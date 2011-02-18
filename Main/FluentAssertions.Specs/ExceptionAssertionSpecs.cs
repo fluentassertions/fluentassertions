@@ -443,7 +443,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 act
                     .ShouldThrow<ArgumentException>("")
-                    .With(e => e.Message.Length > 0, "an exception must have a message");
+                    .Where(e => e.Message.Length > 0, "an exception must have a message");
 
                 Assert.Fail("This point should not be reached");
             }
@@ -453,7 +453,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 exc.Message.Should().Be(
-                    "Expected exception with (e.Message.Length > 0) because an exception must have a message, but the condition was not met.");
+                    "Expected exception where (e.Message.Length > 0) because an exception must have a message, but the condition was not met.");
             }
         }
         
@@ -472,8 +472,8 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 act
                     .ShouldThrow<ArgumentException>("")
-                    .With(e => e.Message.Length > 0)
-                    .With(e => e.Message == "Error");
+                    .Where(e => e.Message.Length > 0)
+                    .Where(e => e.Message == "Error");
 
                 Assert.Fail("This point should not be reached");
             }
@@ -483,7 +483,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 exc.Message.Should().Be(
-                    "Expected exception with (e.Message == \"Error\"), but the condition was not met.");
+                    "Expected exception where (e.Message == \"Error\"), but the condition was not met.");
             }
         }
 
@@ -500,7 +500,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<ArgumentException>()
-                .With(e => e.Message.Length == 0);
+                .Where(e => e.Message.Length == 0);
         }
 
         #endregion

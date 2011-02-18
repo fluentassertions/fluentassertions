@@ -7,6 +7,14 @@ namespace FluentAssertions
         /// <summary>
         /// Returns a <see cref = "TimeSpan" /> based on a number of seconds.
         /// </summary>
+        public static TimeSpan Milliseconds(this int milliseconds)
+        {
+            return TimeSpan.FromMilliseconds(milliseconds);
+        }
+
+        /// <summary>
+        /// Returns a <see cref = "TimeSpan" /> based on a number of seconds.
+        /// </summary>
         public static TimeSpan Seconds(this int seconds)
         {
             return TimeSpan.FromSeconds(seconds);

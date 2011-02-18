@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
+    <Compile Include="ExecutionTimeAssertions.cs" />
     <Compile Include="NullableSimpleTimeSpanAssertions.cs" />
     <Compile Include="SimpleTimeSpanAssertions.cs" />
     <Compile Include="TimeSpanConversionExtensions.cs" />

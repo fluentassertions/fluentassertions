@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace FluentAssertions
 {
@@ -19,6 +20,34 @@ namespace FluentAssertions
         {
             return () => action(subject);
         }
+
+#if !SILVERLIGHT
+        /// <summary>
+        /// Provides methods for asserting the execution time of a method or property.
+        /// </summary>
+        /// <param name="subject">The object that exposes the method or property.</param>
+        /// <param name="action">A reference to the method or property to measure the execution time of.</param>
+        /// <returns>
+        /// Returns an object for asserting that the execution time matches certain conditions.
+        /// </returns>
+        public static MemberExecutionTimeAssertions<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action)
+        {
+            return new MemberExecutionTimeAssertions<T>(subject, action);
+        }
+
+        /// <summary>
+        /// Provides methods for asserting the execution time of a method or property.
+        /// </summary>
+        /// <param name="subject">The object that exposes the method or property.</param>
+        /// <param name="action">A reference to the method or property to measure the execution time of.</param>
+        /// <returns>
+        /// Returns an object for asserting that the execution time matches certain conditions.
+        /// </returns>
+        public static ExecutionTimeAssertions ExecutionTime(this Action action)
+        {
+            return new ExecutionTimeAssertions(action);
+        }
+#endif
 
         /// <summary>
         /// Asserts that the <paramref name="action"/> throws an exception.

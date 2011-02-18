@@ -165,9 +165,9 @@ namespace FluentAssertions
         /// <param name="exceptionExpression">
         /// The condition that the exception must match.
         /// </param>
-        public ExceptionAssertions<TException> With(Expression<Func<TException, bool>> exceptionExpression)
+        public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression)
         {
-            return With(exceptionExpression, "");
+            return Where(exceptionExpression, "");
         }
 
         /// <summary>
@@ -183,14 +183,14 @@ namespace FluentAssertions
         /// <param name="reasonParameters">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public ExceptionAssertions<TException> With(Expression<Func<TException, bool>> exceptionExpression, string reason,
+        public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression, string reason,
             params object[] reasonParameters)
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
             if (!condition((TException)Subject))
             {
                 Verification.Fail(
-                    "Expected exception with {0}{2}, but the condition was not met.", 
+                    "Expected exception where {0}{2}, but the condition was not met.", 
                     exceptionExpression.Body, null, reason, reasonParameters);
             }
 

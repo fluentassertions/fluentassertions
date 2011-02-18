@@ -86,6 +86,7 @@
     <Compile Include="DateTimeFormatterSpecs.cs" />
     <Compile Include="EventAssertionSpecs.cs" />
     <Compile Include="ExceptionAssertionSpecs.cs" />
+    <Compile Include="ExecutionTimeAssertionsSpecs.cs" />
     <Compile Include="GenericCollectionAssertionsSpecs.cs" />
     <Compile Include="NullableBooleanAssertionSpecs.cs" />
     <Compile Include="NullableDateTimeAssertionSpecs.cs" />
