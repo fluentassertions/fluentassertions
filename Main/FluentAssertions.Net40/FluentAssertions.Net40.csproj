@@ -99,6 +99,9 @@
     <Compile Include="..\FluentAssertions.Net35\ExceptionAssertions.cs">
       <Link>ExceptionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\ExecutionTimeAssertions.cs">
+      <Link>ExecutionTimeAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\DateTimeValueFormatter.cs">
       <Link>Formatting\DateTimeValueFormatter.cs</Link>
     </Compile>
