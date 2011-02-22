@@ -190,64 +190,64 @@ namespace FluentAssertions
             return new NullableDateTimeAssertions(actualValue);
         }
 
-        public static NumericAssertions<int> Should(this int actualValue)
+        public static IntegralAssertions<int> Should(this int actualValue)
         {
-            return new NumericAssertions<int>(actualValue);
+            return new IntegralAssertions<int>(actualValue);
         }
 
-        public static NullableNumericAssertions<int> Should(this int? actualValue)
+        public static NullableIntegralAssertions<int> Should(this int? actualValue)
         {
-            return new NullableNumericAssertions<int>(actualValue);
-        }
-        
-        public static NumericAssertions<byte> Should(this byte actualValue)
-        {
-            return new NumericAssertions<byte>(actualValue);
+            return new NullableIntegralAssertions<int>(actualValue);
         }
 
-        public static NullableNumericAssertions<byte> Should(this byte? actualValue)
+        public static IntegralAssertions<byte> Should(this byte actualValue)
         {
-            return new NullableNumericAssertions<byte>(actualValue);
-        }
-        
-        public static NumericAssertions<short> Should(this short actualValue)
-        {
-            return new NumericAssertions<short>(actualValue);
+            return new IntegralAssertions<byte>(actualValue);
         }
 
-        public static NullableNumericAssertions<short> Should(this short? actualValue)
+        public static NullableIntegralAssertions<byte> Should(this byte? actualValue)
         {
-            return new NullableNumericAssertions<short>(actualValue);
+            return new NullableIntegralAssertions<byte>(actualValue);
         }
 
-        public static NumericAssertions<long> Should(this long actualValue)
+        public static IntegralAssertions<short> Should(this short actualValue)
         {
-            return new NumericAssertions<long>(actualValue);
+            return new IntegralAssertions<short>(actualValue);
         }
 
-        public static NullableNumericAssertions<long> Should(this long? actualValue)
+        public static NullableIntegralAssertions<short> Should(this short? actualValue)
         {
-            return new NullableNumericAssertions<long>(actualValue);
+            return new NullableIntegralAssertions<short>(actualValue);
         }
 
-        public static NumericAssertions<float> Should(this float actualValue)
+        public static IntegralAssertions<long> Should(this long actualValue)
         {
-            return new NumericAssertions<float>(actualValue);
+            return new IntegralAssertions<long>(actualValue);
         }
 
-        public static NullableNumericAssertions<float> Should(this float? actualValue)
+        public static NullableIntegralAssertions<long> Should(this long? actualValue)
         {
-            return new NullableNumericAssertions<float>(actualValue);
+            return new NullableIntegralAssertions<long>(actualValue);
         }
 
-        public static NumericAssertions<double> Should(this double actualValue)
+        public static FloatAssertions Should(this float actualValue)
         {
-            return new NumericAssertions<double>(actualValue);
+            return new FloatAssertions(actualValue);
         }
 
-        public static NullableNumericAssertions<double> Should(this double? actualValue)
+        public static NullableFloatingPointAssertions<float> Should(this float? actualValue)
         {
-            return new NullableNumericAssertions<double>(actualValue);
+            return new NullableFloatingPointAssertions<float>(actualValue);
+        }
+
+        public static DoubleAssertions Should(this double actualValue)
+        {
+            return new DoubleAssertions(actualValue);
+        }
+
+        public static NullableFloatingPointAssertions<double> Should(this double? actualValue)
+        {
+            return new NullableFloatingPointAssertions<double>(actualValue);
         }
 
         public static StringAssertions Should(this string actualValue)

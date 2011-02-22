@@ -10,6 +10,8 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class NumericAssertionSpecs
     {
+        #region Positive / Negative
+
         [TestMethod]
         public void Should_succeed_when_asserting_positive_value_to_be_positive()
         {
@@ -54,6 +56,10 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected negative value because we want to test the failure message, but found <1>");
         }
 
+        #endregion
+
+        #region Be / NotBe
+
         [TestMethod]
         public void Should_succeed_when_asserting_value_to_be_equal_to_same_value()
         {
@@ -97,6 +103,10 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(@"Did not expect <1> because we want to test the failure message.");
         }
+
+        #endregion
+
+        #region Greater Than (Or Equal To)
 
         [TestMethod]
         public void Should_succeed_when_asserting_value_to_be_greater_than_smaller_value()
@@ -155,6 +165,10 @@ namespace FluentAssertions.Specs
                 .WithMessage(@"Expected a value greater or equal to <3> because we want to test the failure message, but found <2>.");
         }
 
+        #endregion
+
+        #region Less Than (Or Equal To)
+
         [TestMethod]
         public void Should_succeed_when_asserting_value_to_be_less_than_greater_value()
         {
@@ -212,16 +226,9 @@ namespace FluentAssertions.Specs
                 .WithMessage(@"Expected a value less or equal to <1> because we want to test the failure message, but found <2>.");
         }
 
-        [TestMethod]
-        public void Should_suppor_chaining_constraints_with_and()
-        {
-            2.Should()
-                .BePositive()
-                .And
-                .BeGreaterThan(1)
-                .And
-                .BeLessThan(3);
-        }
+        #endregion
+
+        #region Bytes
 
         [TestMethod]
         public void When_asserting_a_byte_value_it_should_treat_is_any_numeric_value()
@@ -259,6 +266,65 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        #endregion
+
+        [TestMethod]
+        public void When_float_is_not_approximating_a_range_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            float value = 3.1415927F;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => value.Should().BeApproximately(3.14F, 0.001F, "rockets will crash otherwise");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            float difference = Math.Abs(value - 3.14F);
+            
+            act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
+                "Expected value <{0}> to approximate <{1}> +/- <{2}> because rockets will crash otherwise, but it differed by <{3}>.",
+                value, 3.14F, 0.001F, difference));
+        }        
+        
+        [TestMethod]
+        public void When_double_is_not_approximating_a_range_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            double value = 3.1415927F;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => value.Should().BeApproximately(3.14, 0.001, "rockets will crash otherwise");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            double difference = Math.Abs(value - 3.14);
+            
+            act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
+                "Expected value <{0}> to approximate <{1}> +/- <{2}> because rockets will crash otherwise, but it differed by <{3}>.",
+                value, 3.14, 0.001, difference));
+        }
+
+        [TestMethod]
+        public void Should_support_chaining_constraints_with_and()
+        {
+            2.Should()
+                .BePositive()
+                .And
+                .BeGreaterThan(1)
+                .And
+                .BeLessThan(3);
         }
     }
 }

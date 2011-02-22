@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace FluentAssertions
 {
     [DebuggerNonUserCode]
-    public class NullableNumericAssertions<T> : NumericAssertions<T>
+    public abstract class NullableNumericAssertions<T> : NumericAssertions<T>
         where T : struct, IComparable
     {
         protected internal NullableNumericAssertions(T? expected)
@@ -36,17 +36,5 @@ namespace FluentAssertions
             return new AndConstraint<NullableNumericAssertions<T>>(this);
         }
 
-        public AndConstraint<NumericAssertions<T>> Be(T? expected)
-        {
-            return Be(expected, "Expected expected: {0}. Actual: {1}", expected, Subject);
-        }
-
-        public AndConstraint<NumericAssertions<T>> Be(T? expected, string reason, params object[] reasonParameters)
-        {
-            Verification.Verify(() => Subject.Equals(expected), "Expected value {0}{2}, but found {1}.",
-                expected, Subject, reason, reasonParameters);
-
-            return new AndConstraint<NumericAssertions<T>>(this);
-        }
     }
 }
