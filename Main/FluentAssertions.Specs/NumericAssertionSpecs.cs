@@ -291,7 +291,26 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
                 "Expected value <{0}> to approximate <{1}> +/- <{2}> because rockets will crash otherwise, but it differed by <{3}>.",
                 value, 3.14F, 0.001F, difference));
-        }        
+        }
+
+        [TestMethod]
+        public void When_float_is_indeed_approximating_a_value_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            float value = 3.1415927F;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => value.Should().BeApproximately(3.14F, 0.1F);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
         
         [TestMethod]
         public void When_double_is_not_approximating_a_range_it_should_throw()
@@ -314,6 +333,26 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
                 "Expected value <{0}> to approximate <{1}> +/- <{2}> because rockets will crash otherwise, but it differed by <{3}>.",
                 value, 3.14, 0.001, difference));
+        }
+
+
+        [TestMethod]
+        public void When_double_is_indeed_approximating_a_value_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            double value = 3.1415927;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => value.Should().BeApproximately(3.14, 0.1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]

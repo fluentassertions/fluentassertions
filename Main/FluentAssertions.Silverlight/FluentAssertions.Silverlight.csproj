@@ -117,9 +117,6 @@
     <Compile Include="..\FluentAssertions.Net35\DateTimeAssertions.cs">
       <Link>DateTimeAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\DoubleAssertions.cs">
-      <Link>DoubleAssertions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventMonitoringExtensions.cs">
       <Link>EventMonitoring\EventMonitoringExtensions.cs</Link>
     </Compile>
@@ -138,8 +135,8 @@
     <Compile Include="..\FluentAssertions.Net35\ExceptionAssertions.cs">
       <Link>ExceptionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\FloatAssertions.cs">
-      <Link>FloatAssertions.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\FloatingPointExtensions.cs">
+      <Link>FloatingPointExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\DateTimeValueFormatter.cs">
       <Link>Formatting\DateTimeValueFormatter.cs</Link>
@@ -180,14 +177,8 @@
     <Compile Include="..\FluentAssertions.Net35\NullableDateTimeAssertions.cs">
       <Link>NullableDateTimeAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NullableFloatingPointAssertions.cs">
-      <Link>NullableFloatingPointAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NullableIntegralAssertions.cs">
-      <Link>NullableIntegralAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NullableNumericAssertions.cs">
-      <Link>NullableNumericAssertions.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\NullableNumericExtensions.cs">
+      <Link>NullableNumericExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\NullableSimpleTimeSpanAssertions.cs">
       <Link>NullableSimpleTimeSpanAssertions.cs</Link>

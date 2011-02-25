@@ -195,9 +195,9 @@ namespace FluentAssertions
             return new IntegralAssertions<int>(actualValue);
         }
 
-        public static NullableIntegralAssertions<int> Should(this int? actualValue)
+        public static IntegralAssertions<int?> Should(this int? actualValue)
         {
-            return new NullableIntegralAssertions<int>(actualValue);
+            return new IntegralAssertions<int?>(actualValue);
         }
 
         public static IntegralAssertions<byte> Should(this byte actualValue)
@@ -205,9 +205,9 @@ namespace FluentAssertions
             return new IntegralAssertions<byte>(actualValue);
         }
 
-        public static NullableIntegralAssertions<byte> Should(this byte? actualValue)
+        public static IntegralAssertions<byte?> Should(this byte? actualValue)
         {
-            return new NullableIntegralAssertions<byte>(actualValue);
+            return new IntegralAssertions<byte?>(actualValue);
         }
 
         public static IntegralAssertions<short> Should(this short actualValue)
@@ -215,9 +215,9 @@ namespace FluentAssertions
             return new IntegralAssertions<short>(actualValue);
         }
 
-        public static NullableIntegralAssertions<short> Should(this short? actualValue)
+        public static IntegralAssertions<short?> Should(this short? actualValue)
         {
-            return new NullableIntegralAssertions<short>(actualValue);
+            return new IntegralAssertions<short?>(actualValue);
         }
 
         public static IntegralAssertions<long> Should(this long actualValue)
@@ -225,29 +225,29 @@ namespace FluentAssertions
             return new IntegralAssertions<long>(actualValue);
         }
 
-        public static NullableIntegralAssertions<long> Should(this long? actualValue)
+        public static IntegralAssertions<long?> Should(this long? actualValue)
         {
-            return new NullableIntegralAssertions<long>(actualValue);
+            return new IntegralAssertions<long?>(actualValue);
         }
 
-        public static FloatAssertions Should(this float actualValue)
+        public static NumericAssertions<float> Should(this float actualValue)
         {
-            return new FloatAssertions(actualValue);
+            return new NumericAssertions<float>(actualValue);
         }
 
-        public static NullableFloatingPointAssertions<float> Should(this float? actualValue)
+        public static NumericAssertions<float?> Should(this float? actualValue)
         {
-            return new NullableFloatingPointAssertions<float>(actualValue);
+            return new NumericAssertions<float?>(actualValue);
         }
 
-        public static DoubleAssertions Should(this double actualValue)
+        public static NumericAssertions<double> Should(this double actualValue)
         {
-            return new DoubleAssertions(actualValue);
+            return new NumericAssertions<double>(actualValue);
         }
 
-        public static NullableFloatingPointAssertions<double> Should(this double? actualValue)
+        public static NumericAssertions<double?> Should(this double? actualValue)
         {
-            return new NullableFloatingPointAssertions<double>(actualValue);
+            return new NumericAssertions<double?>(actualValue);
         }
 
         public static StringAssertions Should(this string actualValue)
