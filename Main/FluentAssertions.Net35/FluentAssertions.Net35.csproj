@@ -136,6 +136,7 @@
     <Compile Include="PropertyAssertions.cs" />
     <Compile Include="StringAssertions.cs" />
     <Compile Include="TimeSpanAssertions.cs" />
+    <Compile Include="Execute.cs" />
     <Compile Include="Verification.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -18,7 +18,7 @@ namespace FluentAssertions
 
         public AndConstraint<NullableDateTimeAssertions> HaveValue(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(Subject.HasValue, "Expected variable to have a value. Actual: null", null, Subject, reason, reasonParameters);
+            Execute.Verify(Subject.HasValue, "Expected variable to have a value. Actual: null", null, Subject, reason, reasonParameters);
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }
 
@@ -29,7 +29,7 @@ namespace FluentAssertions
 
         public AndConstraint<NullableDateTimeAssertions> NotHaveValue(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(!Subject.HasValue, "Did not expect variable to have a value, but found {1}", null, Subject, reason, reasonParameters);
+            Execute.Verify(!Subject.HasValue, "Did not expect variable to have a value, but found {1}", null, Subject, reason, reasonParameters);
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }
 
@@ -40,7 +40,7 @@ namespace FluentAssertions
 
         public AndConstraint<DateTimeAssertions> Be(DateTime? expected, string reason, params object[] reasonParameters)
         {
-            Verification.Verify(Subject == expected, "Expected {0}, but found {1}{2}", expected, Subject, reason, reasonParameters);
+            Execute.Verify(Subject == expected, "Expected {0}, but found {1}{2}", expected, Subject, reason, reasonParameters);
             return new AndConstraint<DateTimeAssertions>(this);
         }
     }

@@ -135,6 +135,9 @@
     <Compile Include="..\FluentAssertions.Net35\ExceptionAssertions.cs">
       <Link>ExceptionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Execute.cs">
+      <Link>Execute.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\FloatingPointExtensions.cs">
       <Link>FloatingPointExtensions.cs</Link>
     </Compile>

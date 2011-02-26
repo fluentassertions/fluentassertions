@@ -47,7 +47,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> BePositive(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(() => Subject.CompareTo(0) > 0,
+            Execute.Verify(() => Subject.CompareTo(0) > 0,
                 "Expected positive value{2}, but found {1}", null, Subject, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -60,7 +60,7 @@ namespace FluentAssertions
 
         public AndConstraint<NumericAssertions<T>> BeNegative(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(() => Subject.CompareTo(0) < 0,
+            Execute.Verify(() => Subject.CompareTo(0) < 0,
                 "Expected negative value{2}, but found {1}", null, Subject, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -74,7 +74,7 @@ namespace FluentAssertions
         public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string reason,
             params object[] reasonParameters)
         {
-            Verification.Verify(() => Subject.CompareTo(expected) < 0,
+            Execute.Verify(() => Subject.CompareTo(expected) < 0,
                 "Expected a value less than {0}{2}, but found {1}.", expected, Subject, reason, reasonParameters);
 
             return new AndConstraint<NumericAssertions<T>>(this);
@@ -88,7 +88,7 @@ namespace FluentAssertions
         public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected, string reason,
             params object[] reasonParameters)
         {
-            Verification.Verify(() => Subject.CompareTo(expected) <= 0,
+            Execute.Verify(() => Subject.CompareTo(expected) <= 0,
                 "Expected a value less or equal to {0}{2}, but found {1}.", expected, Subject, reason,
                 reasonParameters);
 
@@ -103,7 +103,7 @@ namespace FluentAssertions
         public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected, string reason,
             params object[] reasonParameters)
         {
-            Verification.Verify(() => Subject.CompareTo(expected) > 0,
+            Execute.Verify(() => Subject.CompareTo(expected) > 0,
                 "Expected a value greater than {0}{2}, but found {1}.", expected, Subject, reason,
                 reasonParameters);
 
@@ -118,7 +118,7 @@ namespace FluentAssertions
         public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T expected, string reason,
             params object[] reasonParameters)
         {
-            Verification.Verify(() => Subject.CompareTo(expected) >= 0,
+            Execute.Verify(() => Subject.CompareTo(expected) >= 0,
                 "Expected a value greater or equal to {0}{2}, but found {1}.", expected, Subject, reason,
                 reasonParameters);
 
@@ -137,9 +137,9 @@ namespace FluentAssertions
         /// <param name="maximumValue">
         /// The maximum valid value of the range.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeBetween(T minimumValue, T maximumValue)
+        public AndConstraint<NumericAssertions<T>> BeInRange(T minimumValue, T maximumValue)
         {
-            return BeBetween(minimumValue, maximumValue, "");
+            return BeInRange(minimumValue, maximumValue, "");
         }
 
         /// <summary>
@@ -161,15 +161,14 @@ namespace FluentAssertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeBetween(T minimumValue, T maximumValue, string reason,
+        public AndConstraint<NumericAssertions<T>> BeInRange(T minimumValue, T maximumValue, string reason,
             params object[] reasonArgs)
         {
-            if ((Subject.CompareTo(minimumValue) < 0) || (Subject.CompareTo(maximumValue) > 0))
-            {
-                Verification.Fail(
-                    "Expected value {0} to be between {1} and {3}{2}, but it was not.", 
-                    Subject, minimumValue, reason, reasonArgs, maximumValue);
-            }
+            Execute.Verification
+                .ForCondition((Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected value {1} to be between {2} and {3}{0}, but it was not.",
+                    Subject, minimumValue, maximumValue);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }

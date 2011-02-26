@@ -20,7 +20,7 @@ namespace FluentAssertions
 
         public AndConstraint<TAssertions> BeOfType<T>(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(typeof(T) == Subject.GetType(),
+            Execute.Verify(typeof(T) == Subject.GetType(),
                 "Expected type {0}{2}, but found {1}.", typeof(T), Subject.GetType(), reason,
                 reasonParameters);
 
@@ -46,7 +46,7 @@ namespace FluentAssertions
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> BeAssignableTo<T>(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(() => typeof(T).IsAssignableFrom(Subject.GetType()),
+            Execute.Verify(() => typeof(T).IsAssignableFrom(Subject.GetType()),
                 "Expected to be assignable to {0}{2}, but {1} does not implement {0}", typeof(T),
                 Subject.GetType(), reason, reasonParameters);
 
@@ -103,7 +103,7 @@ namespace FluentAssertions
                 throw new NullReferenceException("Cannot match an object against a <null> predicate.");
             }
 
-            Verification.Verify(() => predicate.Compile()((T) Subject),
+            Execute.Verify(() => predicate.Compile()((T) Subject),
                 "Expected {1} to match {0}{2}.",
                 predicate.Body, Subject, reason, reasonParameters);
 

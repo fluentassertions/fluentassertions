@@ -27,10 +27,10 @@ namespace FluentAssertions
                 exception = actualException;
             }
 
-            Verification.Verify(exception != null, "Expected {0}{2}, but no exception was thrown.",
+            Execute.Verify(exception != null, "Expected {0}{2}, but no exception was thrown.",
                 typeof(TException), null, reason, reasonParameters);
 
-            Verification.Verify(exception is TException,
+            Execute.Verify(exception is TException,
                 "Expected {0}{2}, but found {1}.",
                 typeof(TException), exception.GetType(), reason, reasonParameters);
 
@@ -52,7 +52,7 @@ namespace FluentAssertions
 
             if (exception != null)
             {
-                Verification.Verify(!(exception is TException),
+                Execute.Verify(!(exception is TException),
                     "Did not except {0}{2}, but found one with message {1}.",
                     typeof (TException), exception.Message, reason, reasonParameters);
             }
@@ -66,7 +66,7 @@ namespace FluentAssertions
             }
             catch (Exception exception)
             {
-                Verification.Fail("Did not except any exception{2}, but found a {0} with message {1}.",
+                Execute.Fail("Did not except any exception{2}, but found a {0} with message {1}.",
                     exception.GetType(), exception.Message, reason, reasonParameters);
             }
         }

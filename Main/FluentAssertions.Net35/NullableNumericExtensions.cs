@@ -26,7 +26,7 @@ namespace FluentAssertions
         /// </param>      
         public static AndConstraint<NumericAssertions<T?>> HaveValue<T>(this NumericAssertions<T?> parent, string reason, params object[] reasonArgs) where T: struct
         {
-            Verification.Verify(!ReferenceEquals(parent.Subject, null), "Expected a value{2}.", null, null, reason, reasonArgs);
+            Execute.Verify(!ReferenceEquals(parent.Subject, null), "Expected a value{2}.", null, null, reason, reasonArgs);
 
             return new AndConstraint<NumericAssertions<T?>>(parent);
         }
@@ -51,7 +51,7 @@ namespace FluentAssertions
         /// </param>  
         public static AndConstraint<NumericAssertions<T?>> NotHaveValue<T>(this NumericAssertions<T?> parent, string reason, params object[] reasonArgs) where T : struct
         {
-            Verification.Verify(ReferenceEquals(parent.Subject, null), "Did not expect a value{2}, but found {1}.", null, parent.Subject, reason, reasonArgs);
+            Execute.Verify(ReferenceEquals(parent.Subject, null), "Did not expect a value{2}, but found {1}.", null, parent.Subject, reason, reasonArgs);
 
             return new AndConstraint<NumericAssertions<T?>>(parent);
         }

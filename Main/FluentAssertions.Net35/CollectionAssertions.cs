@@ -21,7 +21,7 @@ namespace FluentAssertions
                                                reasonParameters);
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
-            Verification.Verify(() => enumerable.Count() == expected, "Expected {0} items{2}, but found {1}.",
+            Execute.Verify(() => enumerable.Count() == expected, "Expected {0} items{2}, but found {1}.",
                 expected, enumerable.Count(), reason, reasonParameters);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -54,7 +54,7 @@ namespace FluentAssertions
 
             if (!compiledPredicate(actualCount))
             {
-                Verification.Fail("Expected collection {0} to have a count " + countPredicate.Body + "{2}, but count is {1}.", Subject, actualCount, reason, reasonParameters);
+                Execute.Fail("Expected collection {0} to have a count " + countPredicate.Body + "{2}, but count is {1}.", Subject, actualCount, reason, reasonParameters);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -72,7 +72,7 @@ namespace FluentAssertions
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
 
-            Verification.Verify(() => enumerable.Count() == 0, "Expected no items{2}, but found {1}.",
+            Execute.Verify(() => enumerable.Count() == 0, "Expected no items{2}, but found {1}.",
                 null, enumerable.Count(), reason, reasonParameters);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -90,7 +90,7 @@ namespace FluentAssertions
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
 
-            Verification.Verify(() => enumerable.Count() > 0, "Expected one or more items{2}.",
+            Execute.Verify(() => enumerable.Count() > 0, "Expected one or more items{2}.",
                 null, enumerable.Count(), reason, reasonParameters);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -109,7 +109,7 @@ namespace FluentAssertions
             var groupWithMultipleItems = Subject.Cast<object>().GroupBy(o => o).FirstOrDefault(g => g.Count() > 1);
             if (groupWithMultipleItems != null)
             {
-                Verification.Fail("Expected only unique items{2}, but item {1} was found multiple times.",
+                Execute.Fail("Expected only unique items{2}, but item {1} was found multiple times.",
                     null, groupWithMultipleItems.Key, reason, reasonParameters);
             }
 
@@ -131,7 +131,7 @@ namespace FluentAssertions
             {
                 if (ReferenceEquals(values[index], null))
                 {
-                    Verification.Fail("Expected no <null> in collection{2}, but found one at index {1}.", null, index, reason,
+                    Execute.Fail("Expected no <null> in collection{2}, but found one at index {1}.", null, index, reason,
                         reasonParameters);
                 }
             }
@@ -179,7 +179,7 @@ namespace FluentAssertions
             {
                 if ((actualItems.Length <= index ) || !actualItems[index].Equals(expectedItems[index]))
                 {
-                    Verification.Fail("Expected collection {1} to be equal to {0}{2}, but it differs at index " + index + ".",
+                    Execute.Fail("Expected collection {1} to be equal to {0}{2}, but it differs at index " + index + ".",
                         expected, Subject, reason, reasonParameters);
                 }
             }
@@ -215,7 +215,7 @@ namespace FluentAssertions
 
             if (actualitems.SequenceEqual(expected.Cast<object>()))
             {
-                Verification.Fail("Did not expect collections {0} and {1} to be equal{2}.", expected, Subject, reason,
+                Execute.Fail("Did not expect collections {0} and {1} to be equal{2}.", expected, Subject, reason,
                     reasonParameters);
             }
 
@@ -265,7 +265,7 @@ namespace FluentAssertions
 
             if (!AreEquivalent(expectedItems, actualItems))
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected collection {1} to contain the same items as {0} in any order{2}.",
                     expectedItems, actualItems, reason, reasonParameters);
             }
@@ -295,7 +295,7 @@ namespace FluentAssertions
 
             if (AreEquivalent(expected.Cast<object>(), Subject.Cast<object>()))
             {
-                Verification.Fail("Expected collection {1} not be equivalent with collection {0}.", expected, Subject, reason,
+                Execute.Fail("Expected collection {1} not be equivalent with collection {0}.", expected, Subject, reason,
                     reasonParameters);
             }
 
@@ -345,7 +345,7 @@ namespace FluentAssertions
             {
                 if (!Subject.Cast<object>().Contains(expected))
                 {
-                    Verification.Fail("Expected collection {1} to contain {0}{2}.", expected, Subject, reason, reasonParameters);
+                    Execute.Fail("Expected collection {1} to contain {0}{2}.", expected, Subject, reason, reasonParameters);
                 }
             }
             else
@@ -355,13 +355,13 @@ namespace FluentAssertions
                 {
                     if (expectedObjects.Count() > 1)
                     {
-                        Verification.Fail(
-                            "Expected collection {1} to contain {0}{2}, but could not find " + Verification.ToString(missingItems) + ".",
+                        Execute.Fail(
+                            "Expected collection {1} to contain {0}{2}, but could not find " + Execute.ToString(missingItems) + ".",
                             expected, Subject, reason, reasonParameters);
                     }
                     else
                     {
-                        Verification.Fail(
+                        Execute.Fail(
                             "Expected collection {1} to contain {0}{2}.", expectedObjects.Single(), Subject, reason, reasonParameters);
                     }
                 }
@@ -399,8 +399,8 @@ namespace FluentAssertions
             var missingItems = expectedItems.Except(actualItems);
             if (missingItems.Count() > 0)
             {
-                Verification.Fail(
-                    "Expected items {0} in ordered collection {1}{2}, but " + Verification.ToString(missingItems) +
+                Execute.Fail(
+                    "Expected items {0} in ordered collection {1}{2}, but " + Execute.ToString(missingItems) +
                         " did not appear.",
                     expected, Subject, reason, reasonParameters);
             }
@@ -409,7 +409,7 @@ namespace FluentAssertions
 
             if (!expectedItems.SequenceEqual(actualMatchingItems))
             {
-                Verification.Fail("Expected items {0} in ordered collection {1}{2}, but the order did not match.",
+                Execute.Fail("Expected items {0} in ordered collection {1}{2}, but the order did not match.",
                     expected, Subject, reason, reasonParameters);
             }
 
@@ -441,7 +441,7 @@ namespace FluentAssertions
 
             if (enumerable.Count() == 0)
             {
-                Verification.Fail("Expected collection to be a subset of {0}{2}, but the subset is empty.",
+                Execute.Fail("Expected collection to be a subset of {0}{2}, but the subset is empty.",
                     expected, null, reason, reasonParameters);
             }
             else
@@ -453,7 +453,7 @@ namespace FluentAssertions
 
                 if (excessItems.Count() > 0)
                 {
-                    Verification.Fail(
+                    Execute.Fail(
                         "Expected collection to be a subset of {0}{2}, but items {1} are not part of the superset.",
                         expected, excessItems, reason, reasonParameters);
                 }
@@ -478,7 +478,7 @@ namespace FluentAssertions
 
             if (actualItems.Intersect(expectedItems).Count() == actualItems.Count())
             {
-                Verification.Fail("Expected collection {1} not to be a subset of {0}{2}, but it is anyhow.",
+                Execute.Fail("Expected collection {1} not to be a subset of {0}{2}, but it is anyhow.",
                     expectedItems, actualItems, reason, reasonParameters);
             }
 
@@ -512,7 +512,7 @@ namespace FluentAssertions
             int actualCount = enumerable.Count();
             int expectedCount = otherCollection.Cast<object>().Count();
 
-            Verification.Verify(() => actualCount == expectedCount,
+            Execute.Verify(() => actualCount == expectedCount,
                 "Expected collection to have {0} items{2}, but found {1}.",
                 expectedCount, actualCount, reason, reasonParameters);
 
@@ -534,7 +534,7 @@ namespace FluentAssertions
         {
             if (!ReferenceEquals(Subject, null))
             {
-                Verification.Fail("Expected collection to be <null>{2}, but found {1}.", null, Subject, reason,
+                Execute.Fail("Expected collection to be <null>{2}, but found {1}.", null, Subject, reason,
                     reasonParameters);
             }
 
@@ -556,7 +556,7 @@ namespace FluentAssertions
         {
             if (ReferenceEquals(Subject, null))
             {
-                Verification.Fail("Expected collection not to be <null>{2}.", null, Subject, reason, reasonParameters);
+                Execute.Fail("Expected collection not to be <null>{2}.", null, Subject, reason, reasonParameters);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -579,13 +579,13 @@ namespace FluentAssertions
             {
                 var actual = Subject.Cast<object>().ElementAt(index);
 
-                Verification.Verify(actual.Equals(expected),
+                Execute.Verify(actual.Equals(expected),
                     "Expected {0} at index " + index + "{2}, but found {1}.",
                     expected, actual, reason, reasonParameters);
             }
             else
             {
-                Verification.Fail("Expected {0} at index " + index + "{2}, but found no element.",
+                Execute.Fail("Expected {0} at index " + index + "{2}, but found no element.",
                     expected, null, reason, reasonParameters);
             }
 
@@ -608,7 +608,7 @@ namespace FluentAssertions
             {
                 if (!typeof(T).IsAssignableFrom(item.GetType()))
                 {
-                    Verification.Fail(
+                    Execute.Fail(
                         "Expected only {0} items in collection{2}, but item <" + item + "> at index " + index +
                             " is of type {1}.",
                         typeof(T), item.GetType(), reason, reasonParameters);
@@ -642,7 +642,7 @@ namespace FluentAssertions
 
             if (Subject.Cast<object>().Contains(unexpected))
             {
-                Verification.Fail("Collection {1} should not contain {0}{2}, but found it anyhow.",
+                Execute.Fail("Collection {1} should not contain {0}{2}, but found it anyhow.",
                     unexpected, Subject, reason, reasonParameters);
             }
 
@@ -653,7 +653,7 @@ namespace FluentAssertions
         {
             if (Subject == null)
             {
-                Verification.Fail(formattedMessage, expected, Subject, reason, reasonParameters);
+                Execute.Fail(formattedMessage, expected, Subject, reason, reasonParameters);
             }
         }
     }

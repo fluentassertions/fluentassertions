@@ -46,7 +46,7 @@ namespace FluentAssertions
         {
             if (parent.Subject == null)
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected value <" + parent.Subject + "> to approximate <" + expectedValue + "> +/- {0}{2}, but it was <null>.",
                     precision, null, reason, reasonArgs);
             }
@@ -100,7 +100,7 @@ namespace FluentAssertions
 
             if (actualDifference > precision)
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected value <" + parent.Subject + "> to approximate <" + expectedValue +
                         "> +/- {0}{2}, but it differed by {1}.",
                     precision, actualDifference, reason, reasonArgs);
@@ -151,7 +151,7 @@ namespace FluentAssertions
         {
             if (parent.Subject == null)
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected value <" + parent.Subject + "> to approximate <" + expectedValue + "> +/- {0}{2}, but it was <null>.",
                     precision, null, reason, reasonArgs);
             }
@@ -205,7 +205,7 @@ namespace FluentAssertions
 
             if (actualDifference > precision)
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected value <" + parent.Subject + "> to approximate <" + expectedValue +
                         "> +/- {0}{2}, but it differed by {1}.",
                     precision, actualDifference, reason, reasonArgs);

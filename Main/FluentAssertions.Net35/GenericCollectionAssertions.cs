@@ -41,7 +41,7 @@ namespace FluentAssertions
 
             if (!Subject.Contains(expected))
             {
-                Verification.Fail("Expected collection {1} to contain {0}{2}.", expected, Subject, reason, reasonParameters);
+                Execute.Fail("Expected collection {1} to contain {0}{2}.", expected, Subject, reason, reasonParameters);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -84,7 +84,7 @@ namespace FluentAssertions
 
             if (!Subject.Any(item => predicate.Compile()(item)))
             {
-                Verification.Fail("Collection {1} should have an item matching {0}{2}.", predicate.Body, Subject, reason, reasonParameters);
+                Execute.Fail("Collection {1} should have an item matching {0}{2}.", predicate.Body, Subject, reason, reasonParameters);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -116,7 +116,7 @@ namespace FluentAssertions
             IEnumerable<T> mismatchingItems = Subject.Where(item => !compiledPredicate(item));
             if (mismatchingItems.Count() > 0)
             {
-                Verification.Fail("Expected collection to contain only items matching {0}{2}, but {1} do(es) not match.",
+                Execute.Fail("Expected collection to contain only items matching {0}{2}, but {1} do(es) not match.",
                     predicate.Body, mismatchingItems, reason, reasonParameters);
             }
 
@@ -148,7 +148,7 @@ namespace FluentAssertions
 
             if (Subject.Any(item => predicate.Compile()(item)))
             {
-                Verification.Fail("Collection {1} should not have any items matching {0}{2}.", predicate.Body, Subject, reason, reasonParameters);
+                Execute.Fail("Collection {1} should not have any items matching {0}{2}.", predicate.Body, Subject, reason, reasonParameters);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);

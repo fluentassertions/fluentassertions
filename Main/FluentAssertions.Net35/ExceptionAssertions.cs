@@ -48,7 +48,7 @@ namespace FluentAssertions
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string reason,
             params object[] reasonParameters)
         {
-            Verification.Verify((Subject != null),
+            Execute.Verify((Subject != null),
                 "Expected exception with message {0}{2}, but no exception was thrown.",
                 expectedMessage, null, reason, reasonParameters);
 
@@ -56,14 +56,14 @@ namespace FluentAssertions
 
             if (string.IsNullOrEmpty(message))
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected exception with message {0}{2}, but message was empty.",
                     expectedMessage, null, reason, reasonParameters);
             }
 
             if (message.Length < expectedMessage.Length)
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected exception with message {0}{2}, but {1} is too short.",
                     expectedMessage, message, reason, reasonParameters);
             }
@@ -71,7 +71,7 @@ namespace FluentAssertions
             int index = message.IndexOfFirstMismatch(expectedMessage);
             if (index != -1)
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected exception with message {0}{2}, but {1} differs near " + message.Mismatch(index) + ".",
                     expectedMessage, message, reason, reasonParameters);
             }
@@ -99,14 +99,14 @@ namespace FluentAssertions
         public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string reason,
             params object[] reasonParameters)
         {
-            Verification.Verify(Subject != null, "Expected inner {0}{2}, but no exception was thrown.",
+            Execute.Verify(Subject != null, "Expected inner {0}{2}, but no exception was thrown.",
                 typeof(TInnerException), null, reason, reasonParameters);
 
-            Verification.Verify(Subject.InnerException != null,
+            Execute.Verify(Subject.InnerException != null,
                 "Expected inner {0}{2}, but the thrown exception has no inner exception.",
                 typeof(TInnerException), null, reason, reasonParameters);
 
-            Verification.Verify((Subject.InnerException.GetType() == typeof(TInnerException)),
+            Execute.Verify((Subject.InnerException.GetType() == typeof(TInnerException)),
                 "Expected inner {0}{2}, but found {1}.",
                 typeof(TInnerException),
                 Subject.InnerException.GetType(),
@@ -137,10 +137,10 @@ namespace FluentAssertions
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string reason,
             params object[] reasonParameters)
         {
-            Verification.Verify(Subject != null, "Expected exception{2}, but no exception was thrown.",
+            Execute.Verify(Subject != null, "Expected exception{2}, but no exception was thrown.",
                 null, null, reason, reasonParameters);
 
-            Verification.Verify(Subject.InnerException != null,
+            Execute.Verify(Subject.InnerException != null,
                 "Expected exception{2}, but the thrown exception has no inner exception.",
                 null, null, reason, reasonParameters);
 
@@ -149,7 +149,7 @@ namespace FluentAssertions
             int index = innerMessage.IndexOfFirstMismatch(expectedInnerMessage);
             if (index != -1)
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected inner exception with message {0}{2}, but {1} differs near " + innerMessage.Mismatch(index) + ".",
                     expectedInnerMessage,
                     innerMessage,
@@ -189,7 +189,7 @@ namespace FluentAssertions
             Func<TException, bool> condition = exceptionExpression.Compile();
             if (!condition((TException)Subject))
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected exception where {0}{2}, but the condition was not met.", 
                     exceptionExpression.Body, null, reason, reasonParameters);
             }

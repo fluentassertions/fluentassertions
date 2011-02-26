@@ -18,7 +18,7 @@ namespace FluentAssertions
 
         public AndConstraint<NullableSimpleTimeSpanAssertions> HaveValue(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(Subject.HasValue, "Expected a value{2}.", null, Subject, reason, reasonParameters);
+            Execute.Verify(Subject.HasValue, "Expected a value{2}.", null, Subject, reason, reasonParameters);
 
             return new AndConstraint<NullableSimpleTimeSpanAssertions>(this);
         }
@@ -30,7 +30,7 @@ namespace FluentAssertions
 
         public AndConstraint<NullableSimpleTimeSpanAssertions> NotHaveValue(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(!Subject.HasValue, "Did not expect a value{2}, but found {1}.", null, Subject, reason,
+            Execute.Verify(!Subject.HasValue, "Did not expect a value{2}, but found {1}.", null, Subject, reason,
                 reasonParameters);
 
             return new AndConstraint<NullableSimpleTimeSpanAssertions>(this);

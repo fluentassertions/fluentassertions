@@ -139,7 +139,7 @@ namespace FluentAssertions
 
                     if (!AreEqualOrConvertable(subjectValue, expectedValue))
                     {
-                        Verification.Fail(
+                        Execute.Fail(
                             "Expected property " + propertyInfo.Name + " to have value {0}{2}, but found {1}.",
                             expectedValue, subjectValue, reason, reasonParameters);
                     }
@@ -154,7 +154,7 @@ namespace FluentAssertions
 
             if (!onlyShared && (compareeProperty == null))
             {
-                Verification.Fail("Subject has property " + propertyName + " that is not available in comparee.", null, null, reason, reasonParameters);    
+                Execute.Fail("Subject has property " + propertyName + " that is not available in comparee.", null, null, reason, reasonParameters);    
             }
 
             return compareeProperty;

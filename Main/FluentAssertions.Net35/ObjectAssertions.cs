@@ -33,7 +33,7 @@ namespace FluentAssertions
         /// </param>
         public AndConstraint<ObjectAssertions> Be(object expected, string reason, params object[] reasonParameters)
         {
-            Verification.Verify(Subject.IsEqualTo(expected),
+            Execute.Verify(Subject.IsEqualTo(expected),
                 "Expected {0}{2}, but found {1}.", expected, Subject, reason, reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -59,7 +59,7 @@ namespace FluentAssertions
         /// </param>
         public AndConstraint<ObjectAssertions> NotBe(object expected, string reason, params object[] reasonParameters)
         {
-            Verification.Verify(!Subject.IsEqualTo(expected),
+            Execute.Verify(!Subject.IsEqualTo(expected),
                 "Did not expect object to be equal to {0}{2}.", expected, null, reason, reasonParameters);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -85,7 +85,7 @@ namespace FluentAssertions
         /// </param>
         public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason, params object[] reasonParameters)
         {
-            Verification.Verify(() => ReferenceEquals(Subject, expected),
+            Execute.Verify(() => ReferenceEquals(Subject, expected),
                 "Expected the exact same objects{2}.", expected, Subject, reason,
                 reasonParameters);
 
@@ -114,7 +114,7 @@ namespace FluentAssertions
         {
             if (ReferenceEquals(Subject, expected))
             {
-                Verification.Fail("Expected different objects{2}.", expected, Subject, reason, reasonParameters);
+                Execute.Fail("Expected different objects{2}.", expected, Subject, reason, reasonParameters);
             }
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -127,7 +127,7 @@ namespace FluentAssertions
 
         public AndConstraint<ObjectAssertions> BeNull(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(ReferenceEquals(Subject, null),
+            Execute.Verify(ReferenceEquals(Subject, null),
                 "Expected <null>{2}, but found {1}.", null, Subject, reason,
                 reasonParameters);
 
@@ -141,7 +141,7 @@ namespace FluentAssertions
 
         public AndConstraint<ObjectAssertions> NotBeNull(string reason, params object[] reasonParameters)
         {
-            Verification.Verify(!ReferenceEquals(Subject, null),
+            Execute.Verify(!ReferenceEquals(Subject, null),
                 "Expected non-null value{2}, but found <null>.", null, Subject, reason,
                 reasonParameters);
 

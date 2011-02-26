@@ -41,7 +41,7 @@ namespace FluentAssertions
         {
             if (executionTime > maxDuration)
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Execution of " + ActionDescription + " should not exceed {0}{2}, but it required {1}.",
                     maxDuration, executionTime, reason, reasonParameters);
             }

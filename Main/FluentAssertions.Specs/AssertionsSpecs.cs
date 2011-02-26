@@ -131,7 +131,7 @@ namespace FluentAssertions.Specs
         {
             public void AssertFail(string reason, params object[] reasonParameters)
             {
-                Verification.Verify(false, "Expected it to fail{2}", null, null, reason, reasonParameters);
+                Execute.Verify(false, "Expected it to fail{2}", null, null, reason, reasonParameters);
             }
         }
     }

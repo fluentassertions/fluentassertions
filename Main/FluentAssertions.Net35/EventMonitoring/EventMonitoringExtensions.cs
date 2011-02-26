@@ -128,7 +128,7 @@ namespace FluentAssertions.EventMonitoring
 
             if (!eventRecorder.Any())
             {
-                Verification.Fail("Expected object {1} to raise event {0}{2}, but it did not.", eventName, eventSource,
+                Execute.Fail("Expected object {1} to raise event {0}{2}, but it did not.", eventName, eventSource,
                     reason, reasonParameters);
             }
 
@@ -179,7 +179,7 @@ namespace FluentAssertions.EventMonitoring
 
             if (eventRecorder.Any())
             {
-                Verification.Fail("Expected object {1} to not raise event {0}{2}, but it did.", eventName, eventSource,
+                Execute.Fail("Expected object {1} to not raise event {0}{2}, but it did.", eventName, eventSource,
                     reason, reasonParameters);
             }
         }
@@ -221,7 +221,7 @@ namespace FluentAssertions.EventMonitoring
 
             if (!eventRecorder.Any())
             {
-                Verification.Fail("Expected object {1} to raise event {0}{2}, but it did not.", PropertyChangedEventName, eventSource,
+                Execute.Fail("Expected object {1} to raise event {0}{2}, but it did not.", PropertyChangedEventName, eventSource,
                     reason, reasonParameters);
             }
 
@@ -266,7 +266,7 @@ namespace FluentAssertions.EventMonitoring
 
             if (eventRecorder.Any(@event => GetAffectedPropertyName(@event) == propertyName))
             {
-                Verification.Fail("Did not expect object {1} to raise the \"PropertyChanged\" event for property {0}{2}, but it did.", 
+                Execute.Fail("Did not expect object {1} to raise the \"PropertyChanged\" event for property {0}{2}, but it did.", 
                     propertyName, eventSource,
                     reason, reasonParameters);
             }
@@ -304,7 +304,7 @@ namespace FluentAssertions.EventMonitoring
                 }
 
                 object actualSender = recordedEvent.Parameters.First();
-                Verification.Verify(ReferenceEquals(actualSender, expectedSender),
+                Execute.Verify(ReferenceEquals(actualSender, expectedSender),
                     "Expected sender {0}, but found {1}.", expectedSender, actualSender, "", null);
             }
 
@@ -325,7 +325,7 @@ namespace FluentAssertions.EventMonitoring
 
             if (!eventRecorder.Any(@event => compiledPredicate(@event.Parameters.OfType<T>().Single())))
             {
-                Verification.Fail(
+                Execute.Fail(
                     "Expected at least one event with arguments matching {0}, but found none.", 
                     predicate.Body, null, "", null);
             }
