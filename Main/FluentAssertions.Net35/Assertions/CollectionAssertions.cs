@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     public abstract class CollectionAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : CollectionAssertions<TSubject, TAssertions>

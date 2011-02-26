@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     /// <summary>
     /// Provides methods for asserting that the execution time of an <see cref="Action"/> satifies certain conditions.

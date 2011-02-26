@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 using FluentAssertions.Common;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     [DebuggerNonUserCode]
     public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>

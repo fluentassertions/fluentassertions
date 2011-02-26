@@ -57,26 +57,80 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net35\ActionAssertions.cs">
-      <Link>ActionAssertions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\BooleanAssertions.cs">
-      <Link>BooleanAssertions.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\ActionAssertions.cs">
+      <Link>Assertions\ActionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\CollectionAssertions.cs">
-      <Link>CollectionAssertions.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\BooleanAssertions.cs">
+      <Link>Assertions\BooleanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\CollectionAssertions.cs">
+      <Link>Assertions\CollectionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\DateTimeAssertions.cs">
+      <Link>Assertions\DateTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\ExceptionAssertions.cs">
+      <Link>Assertions\ExceptionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\ExecutionTimeAssertions.cs">
+      <Link>Assertions\ExecutionTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\FloatingPointExtensions.cs">
+      <Link>Assertions\FloatingPointExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\GenericCollectionAssertions.cs">
+      <Link>Assertions\GenericCollectionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\IntegralAssertions.cs">
+      <Link>Assertions\IntegralAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\NonGenericCollectionAssertions.cs">
+      <Link>Assertions\NonGenericCollectionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\NullableBooleanAssertions.cs">
+      <Link>Assertions\NullableBooleanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\NullableDateTimeAssertions.cs">
+      <Link>Assertions\NullableDateTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\NullableNumericExtensions.cs">
+      <Link>Assertions\NullableNumericExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\NullableSimpleTimeSpanAssertions.cs">
+      <Link>Assertions\NullableSimpleTimeSpanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\NumericAssertions.cs">
+      <Link>Assertions\NumericAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\ObjectAssertions.cs">
+      <Link>Assertions\ObjectAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\PropertyAssertions.cs">
+      <Link>Assertions\PropertyAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\ReferenceTypeAssertions.cs">
+      <Link>Assertions\ReferenceTypeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\SimpleTimeSpanAssertions.cs">
+      <Link>Assertions\SimpleTimeSpanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\StringAssertions.cs">
+      <Link>Assertions\StringAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanAssertions.cs">
+      <Link>Assertions\TimeSpanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanConversionExtensions.cs">
+      <Link>Assertions\TimeSpanConversionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\DateTimeAssertions.cs">
-      <Link>DateTimeAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventHandlerFactory.cs">
       <Link>EventMonitoring\EventHandlerFactory.cs</Link>
@@ -96,17 +150,8 @@
     <Compile Include="..\FluentAssertions.Net35\EventMonitoring\RecordedEvent.cs">
       <Link>EventMonitoring\RecordedEvent.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\ExceptionAssertions.cs">
-      <Link>ExceptionAssertions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execute.cs">
       <Link>Execute.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\ExecutionTimeAssertions.cs">
-      <Link>ExecutionTimeAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\FloatingPointExtensions.cs">
-      <Link>FloatingPointExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\DateTimeValueFormatter.cs">
       <Link>Formatting\DateTimeValueFormatter.cs</Link>
@@ -150,51 +195,6 @@
     <Compile Include="..\FluentAssertions.Net35\Frameworks\XUnitTestFramework.cs">
       <Link>Frameworks\XUnitTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\GenericCollectionAssertions.cs">
-      <Link>GenericCollectionAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\IntegralAssertions.cs">
-      <Link>IntegralAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NonGenericCollectionAssertions.cs">
-      <Link>NonGenericCollectionAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NullableBooleanAssertions.cs">
-      <Link>NullableBooleanAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NullableDateTimeAssertions.cs">
-      <Link>NullableDateTimeAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NullableNumericExtensions.cs">
-      <Link>NullableNumericExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NullableSimpleTimeSpanAssertions.cs">
-      <Link>NullableSimpleTimeSpanAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NumericAssertions.cs">
-      <Link>NumericAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\ObjectAssertions.cs">
-      <Link>ObjectAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\PropertyAssertions.cs">
-      <Link>PropertyAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\ReferenceTypeAssertions.cs">
-      <Link>ReferenceTypeAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\SimpleTimeSpanAssertions.cs">
-      <Link>SimpleTimeSpanAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\StringAssertions.cs">
-      <Link>StringAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\TimeSpanAssertions.cs">
-      <Link>TimeSpanAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\TimeSpanConversionExtensions.cs">
-      <Link>TimeSpanConversionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Verification.cs">
       <Link>Verification.cs</Link>
     </Compile>
@@ -208,6 +208,7 @@
       <Link>FluentAssertions.snk</Link>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

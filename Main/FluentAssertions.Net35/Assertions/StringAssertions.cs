@@ -2,7 +2,7 @@
 
 using FluentAssertions.Common;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     public class StringAssertions
     {

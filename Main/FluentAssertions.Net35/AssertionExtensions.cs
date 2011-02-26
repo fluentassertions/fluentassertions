@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
+using FluentAssertions.Assertions;
+
 namespace FluentAssertions
 {
     /// <summary>

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using FluentAssertions.Assertions;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.specs

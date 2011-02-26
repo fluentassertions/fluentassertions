@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     public class NonGenericCollectionAssertions : CollectionAssertions<IEnumerable, NonGenericCollectionAssertions>
     {

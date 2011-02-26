@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     public static class FloatingPointExtensions
     {

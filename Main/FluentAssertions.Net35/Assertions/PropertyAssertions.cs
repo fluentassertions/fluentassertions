@@ -7,7 +7,7 @@ using System.Reflection;
 
 using FluentAssertions.Common;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     public class PropertyAssertions<T>
     {

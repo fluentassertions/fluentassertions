@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions> where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
     {

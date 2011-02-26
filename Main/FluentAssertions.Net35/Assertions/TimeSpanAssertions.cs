@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     /// <summary>
     /// Provides methods for asserting that two <see cref="DateTime"/> objects differ in certain ways.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace FluentAssertions
+namespace FluentAssertions.Assertions
 {
     [DebuggerNonUserCode]
     public class NumericAssertions<T>

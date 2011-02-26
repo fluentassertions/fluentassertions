@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 
+using FluentAssertions.Assertions;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.specs
