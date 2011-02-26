@@ -29,12 +29,13 @@ namespace FluentAssertions
 
         private static bool IsNullable(Type type)
         {
-            return type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Nullable<>).GetGenericTypeDefinition());
+            return type.IsGenericType &&
+                (type.GetGenericTypeDefinition() == typeof (Nullable<>).GetGenericTypeDefinition());
         }
 
         private static T GetValueOrDefault(T value)
         {
-            return (T) typeof(T).GetMethod("GetValueOrDefault", new Type[0]).Invoke(value, null);
+            return (T) typeof (T).GetMethod("GetValueOrDefault", new Type[0]).Invoke(value, null);
         }
 
         public IComparable Subject { get; private set; }
@@ -70,7 +71,8 @@ namespace FluentAssertions
             return BeLessThan(expected, String.Empty);
         }
 
-        public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string reason, params object[] reasonParameters)
+        public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string reason,
+            params object[] reasonParameters)
         {
             Verification.Verify(() => Subject.CompareTo(expected) < 0,
                 "Expected a value less than {0}{2}, but found {1}.", expected, Subject, reason, reasonParameters);
@@ -83,7 +85,8 @@ namespace FluentAssertions
             return BeLessOrEqualTo(expected, String.Empty);
         }
 
-        public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected, string reason, params object[] reasonParameters)
+        public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected, string reason,
+            params object[] reasonParameters)
         {
             Verification.Verify(() => Subject.CompareTo(expected) <= 0,
                 "Expected a value less or equal to {0}{2}, but found {1}.", expected, Subject, reason,
@@ -97,7 +100,8 @@ namespace FluentAssertions
             return BeGreaterThan(expected, String.Empty);
         }
 
-        public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected, string reason, params object[] reasonParameters)
+        public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected, string reason,
+            params object[] reasonParameters)
         {
             Verification.Verify(() => Subject.CompareTo(expected) > 0,
                 "Expected a value greater than {0}{2}, but found {1}.", expected, Subject, reason,
@@ -117,6 +121,55 @@ namespace FluentAssertions
             Verification.Verify(() => Subject.CompareTo(expected) >= 0,
                 "Expected a value greater or equal to {0}{2}, but found {1}.", expected, Subject, reason,
                 reasonParameters);
+
+            return new AndConstraint<NumericAssertions<T>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a value is within a range.
+        /// </summary>
+        /// <remarks>
+        /// Where the range is continuous or incremental depends on the actual type of the value. 
+        /// </remarks>
+        /// <param name="minimumValue">
+        /// The minimum valid value of the range.
+        /// </param>
+        /// <param name="maximumValue">
+        /// The maximum valid value of the range.
+        /// </param>
+        public AndConstraint<NumericAssertions<T>> BeBetween(T minimumValue, T maximumValue)
+        {
+            return BeBetween(minimumValue, maximumValue, "");
+        }
+
+        /// <summary>
+        /// Asserts that a value is within a range.
+        /// </summary>
+        /// <remarks>
+        /// Where the range is continuous or incremental depends on the actual type of the value. 
+        /// </remarks>
+        /// <param name="minimumValue">
+        /// The minimum valid value of the range.
+        /// </param>
+        /// <param name="maximumValue">
+        /// The maximum valid value of the range.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public AndConstraint<NumericAssertions<T>> BeBetween(T minimumValue, T maximumValue, string reason,
+            params object[] reasonArgs)
+        {
+            if ((Subject.CompareTo(minimumValue) < 0) || (Subject.CompareTo(maximumValue) > 0))
+            {
+                Verification.Fail(
+                    "Expected value {0} to be between {1} and {3}{2}, but it was not.", 
+                    Subject, minimumValue, reason, reasonArgs, maximumValue);
+            }
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
