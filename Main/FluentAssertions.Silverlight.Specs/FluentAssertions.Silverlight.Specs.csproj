@@ -76,7 +76,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy-SL">
+      <HintPath>..\SharedBinaries\FakeItEasy-SL.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Silverlight.Testing">
       <HintPath>$(MSBuildExtensionsPath)\..\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Testing\Microsoft.Silverlight.Testing.dll</HintPath>
     </Reference>
@@ -92,6 +101,63 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Specs\AssertionsSpecs.cs">
+      <Link>AssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\BooleanAssertionSpecs.cs">
+      <Link>BooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\CollectionAssertionSpecs.cs">
+      <Link>CollectionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\DateTimeAssertionSpecs.cs">
+      <Link>DateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\DateTimeFormatterSpecs.cs">
+      <Link>DateTimeFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ExceptionAssertionSpecs.cs">
+      <Link>ExceptionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionsSpecs.cs">
+      <Link>GenericCollectionAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
+      <Link>NullableBooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableDateTimeAssertionSpecs.cs">
+      <Link>NullableDateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableNumericAssertionSpecs.cs">
+      <Link>NullableNumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableSimpleTimeSpanAssertionSpecs.cs">
+      <Link>NullableSimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NumericAssertionSpecs.cs">
+      <Link>NumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ObjectAssertionSpecs.cs">
+      <Link>ObjectAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ObjectCastingSpecs.cs">
+      <Link>ObjectCastingSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyMatchingSpecs.cs">
+      <Link>PropertyMatchingSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\SimpleTimeSpanAssertionSpecs.cs">
+      <Link>SimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\StringAssertionSpecs.cs">
+      <Link>StringAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ThrowAssertionsSpecs.cs">
+      <Link>ThrowAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TimeSpanFormatterSpecs.cs">
+      <Link>TimeSpanFormatterSpecs.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -106,6 +172,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>

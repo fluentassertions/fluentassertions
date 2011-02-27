@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using FakeItEasy;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Rhino.Mocks;
 
 namespace FluentAssertions.Specs
 {
@@ -13,8 +15,8 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_subject_throws_expected_exception_with_an_expected_message_it_should_not_do_anything()
         {
-            IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-            testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException("some message"));
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("some message"));
 
             testSubject.Invoking(x => x.Do()).ShouldThrow<InvalidOperationException>().WithMessage("some message");
         }
@@ -25,8 +27,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-            testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException("some"));
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("some"));
 
             try
             {
@@ -56,8 +58,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo subjectThatThrows = MockRepository.GenerateStub<IFoo>();
-            subjectThatThrows.Stub(x => x.Do()).Throw(new InvalidOperationException("message1"));
+            IFoo subjectThatThrows = A.Fake<IFoo>();
+            A.CallTo(() => subjectThatThrows.Do()).Throws(new InvalidOperationException("message1"));
 
             try
             {
@@ -88,8 +90,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo subjectThatThrows = MockRepository.GenerateStub<IFoo>();
-            subjectThatThrows.Stub(x => x.Do()).Throw(new InvalidOperationException(""));
+            IFoo subjectThatThrows = A.Fake<IFoo>();
+            A.CallTo(() => subjectThatThrows.Do()).Throws(new InvalidOperationException(""));
 
             try
             {
@@ -120,10 +122,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo subjectThatThrows = MockRepository.GenerateStub<IFoo>();
-            subjectThatThrows
-                .Stub(x => x.Do(Arg<string>.Is.Anything))
-                .Throw(new ArgumentNullException("someParam", "message2"));
+            IFoo subjectThatThrows = A.Fake<IFoo>();
+            A.CallTo(() => subjectThatThrows.Do(A<string>.Ignored))
+                .Throws(new ArgumentNullException("someParam", "message2"));
 
             try
             {
@@ -155,7 +156,7 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = MockRepository.GenerateStub<IFoo>();
+                IFoo testSubject = A.Fake<IFoo>();
 
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>("because {0} should do that", "IFoo.Do");
 
@@ -171,8 +172,8 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_subject_throws_another_exception_than_expected_it_should_throw_with_clear_description()
         {
-            IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-            testSubject.Stub(x => x.Do()).Throw(new ArgumentException());
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new ArgumentException());
 
             try
             {
@@ -193,8 +194,8 @@ namespace FluentAssertions.Specs
         public void
             When_subject_throws_another_exception_than_expected_it_should_throw_with_clear_description_and_reason()
         {
-            IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-            testSubject.Stub(x => x.Do()).Throw(new ArgumentException());
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new ArgumentException());
 
             try
             {
@@ -218,8 +219,8 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_subject_throws_an_exception_with_the_expected_innerexception_it_should_not_do_anything()
         {
-            IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-            testSubject.Stub(x => x.Do()).Throw(new Exception("", new ArgumentException()));
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new ArgumentException()));
 
             testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                 .WithInnerException<ArgumentException>();
@@ -231,8 +232,8 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-                testSubject.Stub(x => x.Do()).Throw(new Exception("", new NullReferenceException()));
+                IFoo testSubject = A.Fake<IFoo>();
+                A.CallTo(() => testSubject.Do()).Throws(new Exception("", new NullReferenceException()));
 
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerException<ArgumentException>();
@@ -253,8 +254,8 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-                testSubject.Stub(x => x.Do()).Throw(new Exception("", new NullReferenceException()));
+                IFoo testSubject = A.Fake<IFoo>();
+                A.CallTo(() => testSubject.Do()).Throws(new Exception("", new NullReferenceException()));
 
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerException<ArgumentException>("because {0} should do just that", "IFoo.Do");
@@ -274,8 +275,8 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-                testSubject.Stub(x => x.Do()).Throw(new Exception(""));
+                IFoo testSubject = A.Fake<IFoo>();
+                A.CallTo(() => testSubject.Do()).Throws(new Exception(""));
 
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerException<InvalidOperationException>();
@@ -296,8 +297,8 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-                testSubject.Stub(x => x.Do()).Throw(new Exception(""));
+                IFoo testSubject = A.Fake<IFoo>();
+                A.CallTo(() => testSubject.Do()).Throws(new Exception(""));
 
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerException<InvalidOperationException>("because {0} should do that", "IFoo.Do");
@@ -314,8 +315,8 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_subject_throws_inner_exception_with_expected_message_it_should_not_do_anything()
         {
-            IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-            testSubject.Stub(x => x.Do()).Throw(new Exception("", new InvalidOperationException("expected message")));
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("expected message")));
 
             testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                 .WithInnerMessage("expected message");
@@ -326,8 +327,8 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-                testSubject.Stub(x => x.Do()).Throw(new Exception("", new InvalidOperationException("unexpected message")));
+                IFoo testSubject = A.Fake<IFoo>();
+                A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
 
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerMessage("expected message");
@@ -346,8 +347,8 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-                testSubject.Stub(x => x.Do()).Throw(new Exception("", new InvalidOperationException("unexpected message")));
+                IFoo testSubject = A.Fake<IFoo>();
+                A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
 
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerMessage("expected message", "because {0} should do just that", "IFoo.Do");
@@ -372,8 +373,8 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------            
             const string SomeParamNameValue = "param";
-            var target = MockRepository.GenerateStub<IFoo>();
-            target.Stub(t => t.Do()).Throw(new ArgumentException("message", SomeParamNameValue));
+            var target = A.Fake<IFoo>();
+            A.CallTo(() => target.Do()).Throws(new ExceptionWithProperties(SomeParamNameValue));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -383,14 +384,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
-            act.ShouldThrow<ArgumentException>().And.ParamName.Should().Be(SomeParamNameValue);
+            act.ShouldThrow<ExceptionWithProperties>().And.Property.Should().Be(SomeParamNameValue);
         }
 
         [TestMethod]
         public void When_validating_a_subject_against_multiple_conditions_it_should_support_chaining()
         {
-            IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-            testSubject.Stub(x => x.Do()).Throw(
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(
                 new InvalidOperationException("message", new ArgumentException("inner message")));
 
             testSubject
@@ -513,8 +514,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = MockRepository.GenerateStub<IFoo>();
-            foo.Stub(x => x.Do()).Throw(new ArgumentException("An exception was forced"));
+            var foo = A.Fake<IFoo>();
+            A.CallTo(() => foo.Do()).Throws(new ArgumentException("An exception was forced"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -536,8 +537,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = MockRepository.GenerateStub<IFoo>();
-            foo.Stub(x => x.Do()).Throw(new ArgumentException());
+            var foo = A.Fake<IFoo>();
+            A.CallTo(() => foo.Do()).Throws(new ArgumentException());
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -551,8 +552,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = MockRepository.GenerateStub<IFoo>();
-            foo.Stub(x => x.Do()).Throw(new ArgumentException("An exception was forced"));
+            var foo = A.Fake<IFoo>();
+            A.CallTo(() => foo.Do()).Throws(new ArgumentException("An exception was forced"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -574,7 +575,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var foo = MockRepository.GenerateStub<IFoo>();
+            var foo = A.Fake<IFoo>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -602,5 +603,15 @@ namespace FluentAssertions.Specs
         void Do();
 
         void Do(string someParam);
+    }
+
+    internal class ExceptionWithProperties : Exception
+    {
+        public ExceptionWithProperties(string propertyValue)
+        {
+            Property = propertyValue;
+        }
+
+        public string Property { get; set; }
     }
 }

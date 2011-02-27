@@ -1,6 +1,8 @@
 ﻿using System;
+
+using FakeItEasy;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Rhino.Mocks;
 
 namespace FluentAssertions.Specs
 {
@@ -10,8 +12,8 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_subject_throws_expected_exception_it_should_not_do_anything()
         {
-            IFoo testSubject = MockRepository.GenerateStub<IFoo>();
-            testSubject.Stub(x => x.Do()).Throw(new InvalidOperationException());
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException());
 
             testSubject.Invoking(x => x.Do()).ShouldThrow<InvalidOperationException>();
         }
@@ -29,7 +31,7 @@ namespace FluentAssertions.Specs
         {
             try
             {
-                IFoo testSubject = MockRepository.GenerateStub<IFoo>();
+                IFoo testSubject = A.Fake<IFoo>();
 
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>();
 

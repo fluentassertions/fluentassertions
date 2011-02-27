@@ -147,6 +147,15 @@ namespace FluentAssertions
         public static Action Enumerating(this Func<IEnumerable> enumerable)
         {
             return () => ForceEnumeration(enumerable);
+        }        
+        
+        /// <summary>
+        /// Forces enumerating a collection. Should be used to assert that a method that uses the 
+        /// <c>yield</c> keyword throws a particular exception.
+        /// </summary>
+        public static Action Enumerating<T>(this Func<IEnumerable<T>> enumerable)
+        {
+            return () => ForceEnumeration(() => (IEnumerable)enumerable());
         }
 
         private static void ForceEnumeration(Func<IEnumerable> enumerable)
