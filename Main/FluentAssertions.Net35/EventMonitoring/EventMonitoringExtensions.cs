@@ -318,7 +318,7 @@ namespace FluentAssertions.EventMonitoring
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
 
-            if (eventRecorder.First().Parameters.OfType<T>().Count() == 0)
+            if (!eventRecorder.First().Parameters.OfType<T>().Any())
             {
                 throw new ArgumentException("No argument of event " + eventRecorder.EventName + " is of type <" + typeof(T) + ">.");
             }

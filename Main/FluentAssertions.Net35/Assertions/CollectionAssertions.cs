@@ -72,7 +72,7 @@ namespace FluentAssertions.Assertions
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
 
-            Execute.Verify(() => enumerable.Count() == 0, "Expected no items{2}, but found {1}.",
+            Execute.Verify(() => !enumerable.Any(), "Expected no items{2}, but found {1}.",
                 null, enumerable.Count(), reason, reasonParameters);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -90,8 +90,8 @@ namespace FluentAssertions.Assertions
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
 
-            Execute.Verify(() => enumerable.Count() > 0, "Expected one or more items{2}.",
-                null, enumerable.Count(), reason, reasonParameters);
+            Execute.Verify(() => enumerable.Any(), "Expected one or more items{2}.",
+                null, 0, reason, reasonParameters);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -252,7 +252,7 @@ namespace FluentAssertions.Assertions
                 throw new NullReferenceException("Cannot verify equivalence against a <null> collection.");
             }
 
-            if (expected.Cast<object>().Count() == 0)
+            if (!expected.Cast<object>().Any())
             {
                 throw new ArgumentException("Cannot verify equivalence against an empty collection.");
             }
@@ -285,7 +285,7 @@ namespace FluentAssertions.Assertions
                 throw new NullReferenceException("Cannot verify inequivalence against a <null> collection.");
             }
 
-            if (expected.Cast<object>().Count() == 0)
+            if (!expected.Cast<object>().Any())
             {
                 throw new ArgumentException("Cannot verify inequivalence against an empty collection.");
             }
@@ -333,7 +333,7 @@ namespace FluentAssertions.Assertions
             }
 
             IEnumerable<object> expectedObjects = expected.Cast<object>();
-            if (expectedObjects.Count() == 0)
+            if (!expectedObjects.Any())
             {
                 throw new ArgumentException("Connect verify containment against an empty collection");
             }
@@ -351,7 +351,7 @@ namespace FluentAssertions.Assertions
             else
             {
                 var missingItems = expectedObjects.Except(Subject.Cast<object>());
-                if (missingItems.Count() > 0)
+                if (missingItems.Any())
                 {
                     if (expectedObjects.Count() > 1)
                     {
@@ -397,7 +397,7 @@ namespace FluentAssertions.Assertions
             var expectedItems = expected.Cast<object>().ToList();
             var actualItems = Subject.Cast<object>();
             var missingItems = expectedItems.Except(actualItems);
-            if (missingItems.Count() > 0)
+            if (missingItems.Any())
             {
                 Execute.Fail(
                     "Expected items {0} in ordered collection {1}{2}, but " + Execute.ToString(missingItems) +
@@ -439,7 +439,7 @@ namespace FluentAssertions.Assertions
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
 
-            if (enumerable.Count() == 0)
+            if (!enumerable.Any())
             {
                 Execute.Fail("Expected collection to be a subset of {0}{2}, but the subset is empty.",
                     expected, null, reason, reasonParameters);
@@ -451,7 +451,7 @@ namespace FluentAssertions.Assertions
 
                 var excessItems = actualItems.Except(expectedItems);
 
-                if (excessItems.Count() > 0)
+                if (excessItems.Any())
                 {
                     Execute.Fail(
                         "Expected collection to be a subset of {0}{2}, but items {1} are not part of the superset.",

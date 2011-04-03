@@ -13,7 +13,7 @@ namespace FluentAssertions.Formatting
         public string ToString(object value)
         {
             var enumerable = ((IEnumerable)value).Cast<object>();
-            if (enumerable.Count() > 0)
+            if (enumerable.Any())
             {
                 return "<" + string.Join(", ", enumerable.Select(o => o.ToString()).ToArray()) + ">";
             }

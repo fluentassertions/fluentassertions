@@ -114,7 +114,7 @@ namespace FluentAssertions.Assertions
             Func<T, bool> compiledPredicate = predicate.Compile();
             
             IEnumerable<T> mismatchingItems = Subject.Where(item => !compiledPredicate(item));
-            if (mismatchingItems.Count() > 0)
+            if (mismatchingItems.Any())
             {
                 Execute.Fail("Expected collection to contain only items matching {0}{2}, but {1} do(es) not match.",
                     predicate.Body, mismatchingItems, reason, reasonParameters);
