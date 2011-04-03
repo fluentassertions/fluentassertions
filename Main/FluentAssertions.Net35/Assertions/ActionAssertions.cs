@@ -53,7 +53,7 @@ namespace FluentAssertions.Assertions
             if (exception != null)
             {
                 Execute.Verify(!(exception is TException),
-                    "Did not except {0}{2}, but found one with message {1}.",
+                    "Did not expect {0}{2}, but found one with message {1}.",
                     typeof (TException), exception.Message, reason, reasonParameters);
             }
         }
@@ -66,7 +66,7 @@ namespace FluentAssertions.Assertions
             }
             catch (Exception exception)
             {
-                Execute.Fail("Did not except any exception{2}, but found a {0} with message {1}.",
+                Execute.Fail("Did not expect any exception{2}, but found a {0} with message {1}.",
                     exception.GetType(), exception.Message, reason, reasonParameters);
             }
         }

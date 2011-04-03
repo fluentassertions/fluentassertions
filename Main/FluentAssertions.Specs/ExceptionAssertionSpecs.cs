@@ -527,7 +527,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not except <System.ArgumentException> because we passed valid arguments, " + 
+                "Did not expect <System.ArgumentException> because we passed valid arguments, " + 
                 "but found one with message \"An exception was forced\".");
         }
 
@@ -565,7 +565,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not except any exception because we passed valid arguments, " +
+                "Did not expect any exception because we passed valid arguments, " +
                 "but found a <System.ArgumentException> with message \"An exception was forced\".");
         }
         
