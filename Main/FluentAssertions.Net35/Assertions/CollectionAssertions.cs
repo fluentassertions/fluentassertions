@@ -10,11 +10,17 @@ namespace FluentAssertions.Assertions
         where TAssertions : CollectionAssertions<TSubject, TAssertions>
         where TSubject : IEnumerable
     {
+        /// <summary>
+        /// Asserts that the number of items in the collection matches the supplied <paramref name="expected"/> amount.
+        /// </summary>
         public AndConstraint<TAssertions> HaveCount(int expected)
         {
             return HaveCount(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the number of items in the collection matches the supplied <paramref name="expected"/> amount.
+        /// </summary>
         public AndConstraint<TAssertions> HaveCount(int expected, string reason, params object[] reasonParameters)
         {
             VerifySubjectCollectionAgainstNull("Expected {0} items{2}, but found {1}.", expected, reason,
@@ -61,11 +67,17 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that the collection does not contain any items.
+        /// </summary>
         public AndConstraint<TAssertions> BeEmpty()
         {
             return BeEmpty(String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the collection does not contain any items.
+        /// </summary>
         public AndConstraint<TAssertions> BeEmpty(string reason, params object[] reasonParameters)
         {
             VerifySubjectCollectionAgainstNull("Expected collection to be empty{2}, but found {1}.", "", reason,
@@ -79,11 +91,17 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that the collection contains at least 1 item.
+        /// </summary>
         public AndConstraint<TAssertions> NotBeEmpty()
         {
             return NotBeEmpty(String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the collection contains at least 1 item.
+        /// </summary>
         public AndConstraint<TAssertions> NotBeEmpty(string reason, params object[] reasonParameters)
         {
             VerifySubjectCollectionAgainstNull("Expected collection not to be empty{2}, but found {1}.", "", reason,
@@ -97,11 +115,17 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that the collection does not contain any duplicate items.
+        /// </summary>
         public AndConstraint<TAssertions> OnlyHaveUniqueItems()
         {
             return OnlyHaveUniqueItems(String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the collection does not contain any duplicate items.
+        /// </summary>
         public AndConstraint<TAssertions> OnlyHaveUniqueItems(string reason, params object[] reasonParameters)
         {
             VerifySubjectCollectionAgainstNull("Expected collection to only have unique items{2}, but found {1}.", "", reason,
@@ -117,11 +141,17 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that the collection does not contain any <c>null</c> items.
+        /// </summary>
         public AndConstraint<TAssertions> NotContainNulls()
         {
             return NotContainNulls(String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the collection does not contain any <c>null</c> items.
+        /// </summary>
         public AndConstraint<TAssertions> NotContainNulls(string reason, params object[] reasonParameters)
         {
             VerifySubjectCollectionAgainstNull("Expected collection to not contain nulls{2}, but found {1}.", "", reason,
@@ -424,20 +454,26 @@ namespace FluentAssertions.Assertions
             return actualItems.Where(item => expectedItems.Any(expected => expected.Equals(item))).ToArray();
         }
 
-        public AndConstraint<TAssertions> BeSubsetOf(IEnumerable expected)
+        /// <summary>
+        /// Asserts that the collection is a subset of the <paramref name="otherCollection"/>.
+        /// </summary>
+        public AndConstraint<TAssertions> BeSubsetOf(IEnumerable otherCollection)
         {
-            return BeSubsetOf(expected, String.Empty);
+            return BeSubsetOf(otherCollection, String.Empty);
         }
 
-        public AndConstraint<TAssertions> BeSubsetOf(IEnumerable expected, string reason,
+        /// <summary>
+        /// Asserts that the collection is a subset of the <paramref name="otherCollection"/>.
+        /// </summary>
+        public AndConstraint<TAssertions> BeSubsetOf(IEnumerable otherCollection, string reason,
             params object[] reasonParameters)
         {
-            if (expected == null)
+            if (otherCollection == null)
             {
                 throw new NullReferenceException("Cannot verify a subset against a <null> collection.");
             }
 
-            VerifySubjectCollectionAgainstNull("Expected collection to be a subset of {0}{2}, but found {1}.", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected collection to be a subset of {0}{2}, but found {1}.", otherCollection, reason,
                                                reasonParameters);
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -445,11 +481,11 @@ namespace FluentAssertions.Assertions
             if (!enumerable.Any())
             {
                 Execute.Fail("Expected collection to be a subset of {0}{2}, but the subset is empty.",
-                    expected, null, reason, reasonParameters);
+                    otherCollection, null, reason, reasonParameters);
             }
             else
             {
-                var expectedItems = expected.Cast<object>();
+                var expectedItems = otherCollection.Cast<object>();
                 var actualItems = Subject.Cast<object>();
 
                 var excessItems = actualItems.Except(expectedItems);
@@ -458,25 +494,31 @@ namespace FluentAssertions.Assertions
                 {
                     Execute.Fail(
                         "Expected collection to be a subset of {0}{2}, but items {1} are not part of the superset.",
-                        expected, excessItems, reason, reasonParameters);
+                        otherCollection, excessItems, reason, reasonParameters);
                 }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable expected)
+        /// <summary>
+        /// Asserts that the collection is not a subset of the <paramref name="otherCollection"/>.
+        /// </summary>
+        public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable otherCollection)
         {
-            return NotBeSubsetOf(expected, String.Empty);
+            return NotBeSubsetOf(otherCollection, String.Empty);
         }
 
-        public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable expected, string reason,
+        /// <summary>
+        /// Asserts that the collection is not a subset of the <paramref name="otherCollection"/>.
+        /// </summary>
+        public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable otherCollection, string reason,
             params object[] reasonParameters)
         {
             VerifySubjectCollectionAgainstNull("Expected collection not to be a subset of {0}{2}, but found {1}.",
-                                               expected, reason, reasonParameters);
+                                               otherCollection, reason, reasonParameters);
 
-            var expectedItems = expected.Cast<object>();
+            var expectedItems = otherCollection.Cast<object>();
             var actualItems = Subject.Cast<object>();
 
             if (actualItems.Intersect(expectedItems).Count() == actualItems.Count())
@@ -565,12 +607,18 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that the current collection has the supplied <paramref name="element"/> at the supplied <paramref name="index"/>.
+        /// </summary>
         public AndConstraint<TAssertions> HaveElementAt(int index, object element)
         {
             return HaveElementAt(index, element, String.Empty);
         }
 
-        public AndConstraint<TAssertions> HaveElementAt(int index, object expected, string reason,
+        /// <summary>
+        /// Asserts that the current collection has the supplied <paramref name="element"/> at the supplied <paramref name="index"/>.
+        /// </summary>
+        public AndConstraint<TAssertions> HaveElementAt(int index, object element, string reason,
             params object[] reasonParameters)
         {
             VerifySubjectCollectionAgainstNull("Expected collection to have element at index {0}{2}, but found {1}.",
@@ -582,24 +630,30 @@ namespace FluentAssertions.Assertions
             {
                 var actual = Subject.Cast<object>().ElementAt(index);
 
-                Execute.Verify(actual.Equals(expected),
+                Execute.Verify(actual.Equals(element),
                     "Expected {0} at index " + index + "{2}, but found {1}.",
-                    expected, actual, reason, reasonParameters);
+                    element, actual, reason, reasonParameters);
             }
             else
             {
                 Execute.Fail("Expected {0} at index " + index + "{2}, but found no element.",
-                    expected, null, reason, reasonParameters);
+                    element, null, reason, reasonParameters);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that the current collection only contains items that are assignable to the type <typeparamref name="T"/>.
+        /// </summary>
         public AndConstraint<TAssertions> ContainItemsAssignableTo<T>()
         {
             return ContainItemsAssignableTo<T>(String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the current collection only contains items that are assignable to the type <typeparamref name="T"/>.
+        /// </summary>
         public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string reason,
             params object[] reasonParameters)
         {
@@ -632,11 +686,17 @@ namespace FluentAssertions.Assertions
             return NotBeEquivalentTo(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the current collection does not contain the supplied <paramref name="unexpected"/> item.
+        /// </summary>
         public AndConstraint<TAssertions> NotContain(object unexpected)
         {
             return NotContain(unexpected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the current collection does not contain the supplied <paramref name="unexpected"/> item.
+        /// </summary>
         public AndConstraint<TAssertions> NotContain(object unexpected, string reason,
             params object[] reasonParameters)
         {

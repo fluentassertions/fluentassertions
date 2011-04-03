@@ -137,7 +137,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_collection__doesnt_contain_values_according_to_predicate_but_collection_is_null_it_should_throw()
+        public void When_asserting_collection_doesnt_contain_values_according_to_predicate_but_collection_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
