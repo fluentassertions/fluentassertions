@@ -20,9 +20,10 @@ namespace FluentAssertions.Assertions
             VerifySubjectCollectionAgainstNull("Expected {0} items{2}, but found {1}.", expected, reason,
                                                reasonParameters);
 
-            IEnumerable<object> enumerable = Subject.Cast<object>();
-            Execute.Verify(() => enumerable.Count() == expected, "Expected {0} items{2}, but found {1}.",
-                expected, enumerable.Count(), reason, reasonParameters);
+            int actualCount = Subject.Cast<object>().Count();
+
+            Execute.Verify(() => actualCount == expected, "Expected {0} items{2}, but found {1}.",
+                expected, actualCount, reason, reasonParameters);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -307,8 +308,10 @@ namespace FluentAssertions.Assertions
             expectedItems = expectedItems.Distinct();
             actualItems = actualItems.Distinct();
 
-            return (expectedItems.Intersect(actualItems).Count() == expectedItems.Count()) &&
-                (expectedItems.Count() == actualItems.Count());
+            int expectedCount = expectedItems.Count();
+
+            return (expectedItems.Intersect(actualItems).Count() == expectedCount) &&
+                (expectedCount == actualItems.Count());
         }
 
         /// <summary>
