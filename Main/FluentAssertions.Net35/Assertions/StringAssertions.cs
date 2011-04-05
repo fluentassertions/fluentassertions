@@ -26,17 +26,20 @@ namespace FluentAssertions.Assertions
 
         public virtual AndConstraint<StringAssertions> Be(string expected, string reason, params object[] reasonParameters)
         {
-            VerifyStringsAgainstNulls(expected, reason, reasonParameters);
-            VerifyExpectedStringOnlyDiffersOnTrailingSpaces(Subject, expected, reason, reasonParameters);
-            VerifyActualStringOnlyDiffersOnTrailingSpaces(Subject, expected, reason, reasonParameters);
-            VerifyStringLengthEquality(expected, reason, reasonParameters);
-
-            int indexOfMismatch = Subject.IndexOfFirstMismatch(expected);
-
-            if (indexOfMismatch != -1)
+            if ((Subject != null) || (expected != null))
             {
-                Execute.Fail("Expected {0}{2}, but {1} differs near " + Subject.Mismatch(indexOfMismatch) + ".",
-                    expected, Subject, reason, reasonParameters);
+                VerifyStringsAgainstNulls(expected, reason, reasonParameters);
+                VerifyExpectedStringOnlyDiffersOnTrailingSpaces(Subject, expected, reason, reasonParameters);
+                VerifyActualStringOnlyDiffersOnTrailingSpaces(Subject, expected, reason, reasonParameters);
+                VerifyStringLengthEquality(expected, reason, reasonParameters);
+
+                int indexOfMismatch = Subject.IndexOfFirstMismatch(expected);
+
+                if (indexOfMismatch != -1)
+                {
+                    Execute.Fail("Expected {0}{2}, but {1} differs near " + Subject.Mismatch(indexOfMismatch) + ".",
+                        expected, Subject, reason, reasonParameters);
+                }
             }
 
             return new AndConstraint<StringAssertions>(this);
@@ -55,17 +58,20 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public virtual AndConstraint<StringAssertions> BeEquivalentTo(string expected, string reason, params object[] reasonParameters)
         {
-            VerifyStringsAgainstNulls(expected, reason, reasonParameters);
-            VerifyExpectedStringOnlyDiffersOnTrailingSpaces(Subject.ToLower(), expected.ToLower(), reason, reasonParameters);
-            VerifyActualStringOnlyDiffersOnTrailingSpaces(Subject.ToLower(), expected.ToLower(), reason, reasonParameters);
-            VerifyStringLengthEquality(expected, reason, reasonParameters);
-
-            for (int index = 0; index < Subject.Length; index++)
+            if ((Subject != null) || (expected != null))
             {
-                if (char.ToLower(Subject[index]) != char.ToLower(expected[index]))
+                VerifyStringsAgainstNulls(expected, reason, reasonParameters);
+                VerifyExpectedStringOnlyDiffersOnTrailingSpaces(Subject.ToLower(), expected.ToLower(), reason, reasonParameters);
+                VerifyActualStringOnlyDiffersOnTrailingSpaces(Subject.ToLower(), expected.ToLower(), reason, reasonParameters);
+                VerifyStringLengthEquality(expected, reason, reasonParameters);
+
+                for (int index = 0; index < Subject.Length; index++)
                 {
-                    Execute.Fail("Expected {0}{2}, but {1} differs near " + Subject.Mismatch(index) + ".",
-                        expected, Subject, reason, reasonParameters);
+                    if (char.ToLower(Subject[index]) != char.ToLower(expected[index]))
+                    {
+                        Execute.Fail("Expected {0}{2}, but {1} differs near " + Subject.Mismatch(index) + ".",
+                            expected, Subject, reason, reasonParameters);
+                    }
                 }
             }
 

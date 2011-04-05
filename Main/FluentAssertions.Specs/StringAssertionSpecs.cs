@@ -16,6 +16,21 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_both_subject_and_expected_are_null_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            string actualString = null;
+            string expectedString = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            actualString.Should().Be(expectedString);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_string_to_be_equal_to_different_value()
         {
