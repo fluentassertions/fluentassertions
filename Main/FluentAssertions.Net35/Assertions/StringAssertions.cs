@@ -402,5 +402,59 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Ensures that a string is neither <c>null</c> nor empty nor white space
+        /// </summary>
+        public AndConstraint<StringAssertions> NotBeBlank()
+        {
+            return NotBeBlank(string.Empty);
+        }
+
+        /// <summary>
+        /// Ensures that a string is neither <c>null</c> nor empty nor white space
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public AndConstraint<StringAssertions> NotBeBlank(string reason, params object[] reasonParameters)
+        {
+            Execute.Verify(() => !IsBlank(Subject), "Expected non-blank string, but found {1}.", null, Subject, reason, reasonParameters);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Ensures that a string is either <c>null</c> or empty or white space
+        /// </summary>
+        public AndConstraint<StringAssertions> BeBlank()
+        {
+            return BeBlank(string.Empty);
+        }
+
+        /// <summary>
+        /// Ensures that a string is either <c>null</c> or empty or white space
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonParameters">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public AndConstraint<StringAssertions> BeBlank(string reason, params object[] reasonParameters)
+        {
+            Execute.Verify(() => IsBlank(Subject), "Expected blank string, but found {1}.", null, Subject, reason, reasonParameters);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        static bool IsBlank(string str)
+        {
+            return str == null || string.IsNullOrEmpty(str.Trim());
+        }
     }
 }

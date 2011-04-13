@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssertEx.cs" />
     <Compile Include="AssertionsSpecs.cs" />
     <Compile Include="BooleanAssertionSpecs.cs" />
     <Compile Include="CollectionAssertionSpecs.cs" />

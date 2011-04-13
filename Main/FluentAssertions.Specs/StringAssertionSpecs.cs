@@ -919,5 +919,40 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected string to be <null> or empty because it was not initialized yet, but found \"hello\".");
         }
+
+        [TestMethod]
+        public void Should_detect_blank_strings()
+        {
+            ((string)null).Should().BeBlank();
+            "".Should().BeBlank();
+            " ".Should().BeBlank();
+            "\n\r".Should().BeBlank();
+
+            "a".Should().NotBeBlank();
+            " a ".Should().NotBeBlank();
+        }
+
+        [TestMethod]
+        public void Should_throw_when_not_blank()
+        {
+            AssertEx.Throws<AssertFailedException>(() => "abc".Should().BeBlank())
+                .WithMessage("Expected blank string, but found \"abc\".");
+
+            AssertEx.Throws<AssertFailedException>(() => " def  ".Should().BeBlank())
+                .WithMessage("Expected blank string, but found \" def  \".");
+        }
+
+        [TestMethod]
+        public void Should_throw_when_blank()
+        {
+            AssertEx.Throws<AssertFailedException>(() => ((string)null).Should().NotBeBlank())
+                .WithMessage("Expected non-blank string, but found <null>.");
+
+            AssertEx.Throws<AssertFailedException>(() => "".Should().NotBeBlank())
+                .WithMessage("Expected non-blank string, but found \"\".");
+
+            AssertEx.Throws<AssertFailedException>(() => "   ".Should().NotBeBlank())
+                .WithMessage("Expected non-blank string, but found \"   \".");
+        }
     }
 }
