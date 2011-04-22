@@ -283,6 +283,22 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        public AndConstraint<StringAssertions> NotContain(string expectedValue)
+        {
+            return NotContain(expectedValue, null);
+        }
+
+        public virtual AndConstraint<StringAssertions> NotContain(string expectedValue, string reasong, params object[] reasonParamenters)
+        {
+            if (Subject == null)
+                throw new ArgumentNullException("Subject", "Null can not contain anything.");
+
+            if (string.IsNullOrEmpty(expectedValue))
+                throw new ArgumentNullException("expectedValue", "Null and empty strings are considered to be contained in all strings.");
+
+            return AndConstraint.Create(this);
+        }
+
         public AndConstraint<StringAssertions> BeEmpty()
         {
             return BeEmpty(String.Empty);

@@ -722,6 +722,47 @@ namespace FluentAssertions.Specs
         #endregion
 
         [TestMethod]
+        public void Should_now_allow_actual_be_null()
+        {
+            var expectedMessage = "Null can not contain anything." + Environment.NewLine + "Parameter name: Subject";
+
+            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContain(null))
+                .WithMessage(expectedMessage);
+
+            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContain(""))
+                .WithMessage(expectedMessage);
+
+            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContain("any"))
+                .WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void Should_detect_non_substrings()
+        {
+            "".Should().NotContain(" ");
+            "".Should().NotContain("a");
+            " ".Should().NotContain("  ");
+            "a".Should().NotContain("A");
+            "ab".Should().NotContain("ac");
+            "ab".Should().NotContain("cb");
+            "ab".Should().NotContain(" a");
+            "ab".Should().NotContain("a b");
+            "ab".Should().NotContain("b ");
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_any_string_not_contains_null_or_empty()
+        {
+            var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
+                Environment.NewLine + "Parameter name: expectedValue";
+
+            AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContain(null)).WithMessage(expectedMessage);
+            AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContain("")).WithMessage(expectedMessage);
+            AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain(null)).WithMessage(expectedMessage);
+            AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain("")).WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
         public void Should_succeed_when_asserting_empty_string_to_be_empty()
         {
             "".Should().BeEmpty();
