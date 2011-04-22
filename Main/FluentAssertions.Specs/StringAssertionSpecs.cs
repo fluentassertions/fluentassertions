@@ -721,6 +721,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Not contain
         [TestMethod]
         public void Should_now_allow_actual_be_null()
         {
@@ -737,7 +738,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_detect_non_substrings()
+        public void Should_succeed_when_assertings_non_substrings()
         {
             "".Should().NotContain(" ");
             "".Should().NotContain("a");
@@ -751,6 +752,18 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void Should_fail_when_asserting_substrings()
+        {
+            AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContain("a")).WithMessage("Expected string not containing \"a\" but found \"a\"");
+            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain("a")).WithMessage("Expected string not containing \"a\" but found \" a \"");
+            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain(" ")).WithMessage("Expected string not containing \" \" but found \" a \"");
+            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain(" a")).WithMessage("Expected string not containing \" a\" but found \" a \"");
+            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain("a ")).WithMessage("Expected string not containing \"a \" but found \" a \"");
+            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain(" a ")).WithMessage("Expected string not containing \" a \" but found \" a \"");
+            AssertEx.Throws<AssertFailedException>(() => "abcd".Should().NotContain("bc")).WithMessage("Expected string not containing \"bc\" but found \"abcd\"");
+        }
+
+        [TestMethod]
         public void Should_fail_when_asserting_any_string_not_contains_null_or_empty()
         {
             var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
@@ -760,7 +773,8 @@ namespace FluentAssertions.Specs
             AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContain("")).WithMessage(expectedMessage);
             AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain(null)).WithMessage(expectedMessage);
             AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain("")).WithMessage(expectedMessage);
-        }
+        } 
+        #endregion
 
         [TestMethod]
         public void Should_succeed_when_asserting_empty_string_to_be_empty()
