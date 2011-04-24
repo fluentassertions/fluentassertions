@@ -769,6 +769,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        // TODO: Remove this useless test because check would fail anyway
         public void Should_fail_when_asserting_any_string_not_contains_null_or_empty()
         {
             var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
@@ -778,10 +779,11 @@ namespace FluentAssertions.Specs
             AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContain("")).WithMessage(expectedMessage);
             AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain(null)).WithMessage(expectedMessage);
             AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain("")).WithMessage(expectedMessage);
-        } 
+        }
         #endregion
 
         #region Not Contain Equavalent To
+        // TODO: Remove this useless test because check would fail anyway
         [TestMethod]
         public void Should_not_contain_equivalent_of_null_or_empty_in_anything_should_fail()
         {
@@ -824,6 +826,35 @@ namespace FluentAssertions.Specs
         {
             "aB".Should().NotContainEquivalentOf("ac");
             "aAa".Should().NotContainEquivalentOf("aa ");
+        }
+        #endregion
+
+        #region Contain Equivalent Of
+        [TestMethod]
+        public void Should_pass_when_contans_equivalent_of()
+        {
+            "aa".Should().ContainEquivalentOf("A");
+            "aCCa".Should().ContainEquivalentOf("acca");
+        }
+
+        [TestMethod]
+        public void Should_fail_contain_equivalent_of_when_not_contains()
+        {
+            AssertEx.Throws<AssertFailedException>(() => "a".Should().ContainEquivalentOf("aa"))
+                .WithMessage("Expected string containing equivalent of \"aa\" but found \"a\"");
+
+            AssertEx.Throws<AssertFailedException>(() => "aaBBcc".Should().ContainEquivalentOf("aBc"))
+                .WithMessage("Expected string containing equivalent of \"aBc\" but found \"aaBBcc\"");
+        }
+
+        [TestMethod]
+        public void Should_throw_when_null_or_empty_equivalent_is_expected()
+        {
+            var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
+                Environment.NewLine + "Parameter name: expectedValue";
+
+            AssertEx.Throws<ArgumentNullException>(() => "a".Should().ContainEquivalentOf(null)).WithMessage(expectedMessage);
+            AssertEx.Throws<ArgumentNullException>(() => "a".Should().ContainEquivalentOf("")).WithMessage(expectedMessage);
         }
         #endregion
 
