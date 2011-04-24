@@ -755,12 +755,17 @@ namespace FluentAssertions.Specs
         public void Should_fail_when_asserting_substrings()
         {
             AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContain("a")).WithMessage("Expected string not containing \"a\" but found \"a\"");
+            AssertEx.Throws<AssertFailedException>(() => "abcd".Should().NotContain("bc")).WithMessage("Expected string not containing \"bc\" but found \"abcd\"");
+        }
+
+        [TestMethod]
+        public void Should_not_ignore_whitespaces_when_checking_not_contains()
+        {
             AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain("a")).WithMessage("Expected string not containing \"a\" but found \" a \"");
             AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain(" ")).WithMessage("Expected string not containing \" \" but found \" a \"");
             AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain(" a")).WithMessage("Expected string not containing \" a\" but found \" a \"");
             AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain("a ")).WithMessage("Expected string not containing \"a \" but found \" a \"");
             AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain(" a ")).WithMessage("Expected string not containing \" a \" but found \" a \"");
-            AssertEx.Throws<AssertFailedException>(() => "abcd".Should().NotContain("bc")).WithMessage("Expected string not containing \"bc\" but found \"abcd\"");
         }
 
         [TestMethod]
@@ -774,6 +779,52 @@ namespace FluentAssertions.Specs
             AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain(null)).WithMessage(expectedMessage);
             AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain("")).WithMessage(expectedMessage);
         } 
+        #endregion
+
+        #region Not Contain Equavalent To
+        [TestMethod]
+        public void Should_not_contain_equivalent_of_null_or_empty_in_anything_should_fail()
+        {
+            var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
+                Environment.NewLine + "Parameter name: expectedValue";
+
+            AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContainEquivalentOf(null)).WithMessage(expectedMessage);
+            AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContainEquivalentOf("")).WithMessage(expectedMessage);
+            AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContainEquivalentOf(null)).WithMessage(expectedMessage);
+            AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContainEquivalentOf("")).WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void Should_not_allow_null_subject_when_checking_not_contains_equivalent_of()
+        {
+            var expectedMessage = "Null can not contain anything." + Environment.NewLine + "Parameter name: Subject";
+
+            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContainEquivalentOf(null))
+                .WithMessage(expectedMessage);
+
+            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContainEquivalentOf(""))
+                .WithMessage(expectedMessage);
+
+            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContainEquivalentOf("any"))
+                .WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void Should_not_contain_equivalent_of_should_fail_when_contains()
+        {
+            AssertEx.Throws<AssertFailedException>(() => "DaBc".Should().NotContainEquivalentOf("ab"))
+                .WithMessage("Expected string not containing equivalent of \"ab\" but found \"DaBc\"");
+
+            AssertEx.Throws<AssertFailedException>(() => "Hello, world!".Should().NotContainEquivalentOf(", worLD!"))
+                .WithMessage("Expected string not containing equivalent of \", worLD!\" but found \"Hello, world!\"");
+        }
+
+        [TestMethod]
+        public void Should_not_contain_equivalent_of_should_pass_when_not_contains()
+        {
+            "aB".Should().NotContainEquivalentOf("ac");
+            "aAa".Should().NotContainEquivalentOf("aa ");
+        }
         #endregion
 
         [TestMethod]

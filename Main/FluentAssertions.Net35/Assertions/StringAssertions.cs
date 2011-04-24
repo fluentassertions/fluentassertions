@@ -301,6 +301,25 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        public virtual AndConstraint<StringAssertions> NotContainEquivalentOf(string expectedValue)
+        {
+            return NotContainEquivalentOf(expectedValue, null);
+        }
+
+        public virtual AndConstraint<StringAssertions> NotContainEquivalentOf(string expectedValue, string reason, params object[] reasonParamenters)
+        {
+            if (Subject == null)
+                throw new ArgumentNullException("Subject", "Null can not contain anything.");
+
+            if (string.IsNullOrEmpty(expectedValue))
+                throw new ArgumentNullException("expectedValue", "Null and empty strings are considered to be contained in all strings.");
+
+            Execute.Verify(() => Subject.IndexOf(expectedValue, StringComparison.CurrentCultureIgnoreCase) < 0,
+                "Expected string not containing equivalent of {0}{2} but found {1}", expectedValue, Subject, reason, reasonParamenters);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
         public AndConstraint<StringAssertions> BeEmpty()
         {
             return BeEmpty(String.Empty);
