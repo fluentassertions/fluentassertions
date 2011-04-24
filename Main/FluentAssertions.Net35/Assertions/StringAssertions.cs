@@ -261,22 +261,10 @@ namespace FluentAssertions.Assertions
 
         public virtual AndConstraint<StringAssertions> Contain(string expected, string reason, params object[] reasonParameters)
         {
-            if (expected == null)
-            {
-                throw new NullReferenceException("Cannot check containment against <null>.");
-            }
+            if (string.IsNullOrEmpty(expected))
+                throw new ArgumentNullException("expectedValue", "Null and empty strings are considered to be contained in all strings.");
 
-            if (expected.Length == 0)
-            {
-                throw new ArgumentException("Cannot check containment against an empty string.");
-            }
-
-            if (Subject == null)
-            {
-                Execute.Fail("Expected string {1} to contain {0}{2}.", expected, Subject, reason, reasonParameters);
-            }
-
-            Execute.Verify(() => Subject.Contains(expected),
+            Execute.Verify(() => Contains(Subject, expected, StringComparison.Ordinal),
                 "Expected string {1} to contain {0}{2}.", expected, Subject, reason,
                 reasonParameters);
 
@@ -293,7 +281,7 @@ namespace FluentAssertions.Assertions
             if (string.IsNullOrEmpty(expectedValue))
                 throw new ArgumentNullException("expectedValue", "Null and empty strings are considered to be contained in all strings.");
 
-            Execute.Verify(() => Subject.IndexOf(expectedValue, StringComparison.CurrentCultureIgnoreCase) >= 0,
+            Execute.Verify(() => Contains(Subject, expectedValue, StringComparison.CurrentCultureIgnoreCase),
                 "Expected string containing equivalent of {0}{2} but found {1}", expectedValue, Subject, reason, reasonParameters);
 
             return new AndConstraint<StringAssertions>(this);
@@ -306,13 +294,8 @@ namespace FluentAssertions.Assertions
 
         public virtual AndConstraint<StringAssertions> NotContain(string expectedValue, string reason, params object[] reasonParamenters)
         {
-            if (Subject == null)
-                throw new ArgumentNullException("Subject", "Null can not contain anything.");
-
-            if (string.IsNullOrEmpty(expectedValue))
-                throw new ArgumentNullException("expectedValue", "Null and empty strings are considered to be contained in all strings.");
-
-            Execute.Verify(() => !Subject.Contains(expectedValue), "Expected string not containing {0} but found {1}", expectedValue, Subject, reason, reasonParamenters);
+            Execute.Verify(() => !Contains(Subject, expectedValue, StringComparison.Ordinal), "Expected string not containing {0} but found {1}",
+                expectedValue, Subject, reason, reasonParamenters);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -324,16 +307,15 @@ namespace FluentAssertions.Assertions
 
         public virtual AndConstraint<StringAssertions> NotContainEquivalentOf(string expectedValue, string reason, params object[] reasonParamenters)
         {
-            if (Subject == null)
-                throw new ArgumentNullException("Subject", "Null can not contain anything.");
-
-            if (string.IsNullOrEmpty(expectedValue))
-                throw new ArgumentNullException("expectedValue", "Null and empty strings are considered to be contained in all strings.");
-
-            Execute.Verify(() => Subject.IndexOf(expectedValue, StringComparison.CurrentCultureIgnoreCase) < 0,
+            Execute.Verify(() => !Contains(Subject, expectedValue, StringComparison.CurrentCultureIgnoreCase),
                 "Expected string not containing equivalent of {0}{2} but found {1}", expectedValue, Subject, reason, reasonParamenters);
 
             return new AndConstraint<StringAssertions>(this);
+        }
+
+        static bool Contains(string actual, string expected, StringComparison comparison)
+        {
+            return (actual ?? "").IndexOf(expected ?? "", comparison) >= 0;
         }
 
         public AndConstraint<StringAssertions> BeEmpty()

@@ -560,31 +560,11 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_containment_is_asserted_against_null_it_should_throw()
         {
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ABCDEF".Should().Contain(null);
+            var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
+                Environment.NewLine + "Parameter name: expectedValue";
 
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
-                "Cannot check containment against <null>.");
-        }
-
-        [TestMethod]
-        public void When_containment_is_asserted_against_an_empty_string_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ABCDEF".Should().Contain("");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
-                "Cannot check containment against an empty string.");
+            AssertEx.Throws<ArgumentNullException>(() => "a".Should().Contain(null)).WithMessage(expectedMessage);
+            AssertEx.Throws<ArgumentNullException>(() => "a".Should().Contain("")).WithMessage(expectedMessage);
         }
 
         [TestMethod]
@@ -723,24 +703,8 @@ namespace FluentAssertions.Specs
 
         #region Not contain
         [TestMethod]
-        public void Should_now_allow_actual_be_null()
-        {
-            var expectedMessage = "Null can not contain anything." + Environment.NewLine + "Parameter name: Subject";
-
-            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContain(null))
-                .WithMessage(expectedMessage);
-
-            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContain(""))
-                .WithMessage(expectedMessage);
-
-            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContain("any"))
-                .WithMessage(expectedMessage);
-        }
-
-        [TestMethod]
         public void Should_succeed_when_assertings_non_substrings()
         {
-            "".Should().NotContain(" ");
             "".Should().NotContain("a");
             " ".Should().NotContain("  ");
             "a".Should().NotContain("A");
@@ -754,61 +718,36 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_when_asserting_substrings()
         {
-            AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContain("a")).WithMessage("Expected string not containing \"a\" but found \"a\"");
-            AssertEx.Throws<AssertFailedException>(() => "abcd".Should().NotContain("bc")).WithMessage("Expected string not containing \"bc\" but found \"abcd\"");
+            AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContain("a"))
+                .WithMessage("Expected string not containing \"a\" but found \"a\"");
+
+            AssertEx.Throws<AssertFailedException>(() => "abcd".Should().NotContain("bc"))
+                .WithMessage("Expected string not containing \"bc\" but found \"abcd\"");
         }
 
         [TestMethod]
-        public void Should_not_ignore_whitespaces_when_checking_not_contains()
-        {
-            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain("a")).WithMessage("Expected string not containing \"a\" but found \" a \"");
-            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain(" ")).WithMessage("Expected string not containing \" \" but found \" a \"");
-            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain(" a")).WithMessage("Expected string not containing \" a\" but found \" a \"");
-            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain("a ")).WithMessage("Expected string not containing \"a \" but found \" a \"");
-            AssertEx.Throws<AssertFailedException>(() => " a ".Should().NotContain(" a ")).WithMessage("Expected string not containing \" a \" but found \" a \"");
-        }
-
-        [TestMethod]
-        // TODO: Remove this useless test because check would fail anyway
         public void Should_fail_when_asserting_any_string_not_contains_null_or_empty()
         {
-            var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
-                Environment.NewLine + "Parameter name: expectedValue";
+            AssertEx.Throws<AssertFailedException>(() => "abc".Should().NotContain(null))
+                .WithMessage("Expected string not containing <null> but found \"abc\"");
 
-            AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContain(null)).WithMessage(expectedMessage);
-            AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContain("")).WithMessage(expectedMessage);
-            AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain(null)).WithMessage(expectedMessage);
-            AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContain("")).WithMessage(expectedMessage);
+            AssertEx.Throws<AssertFailedException>(() => "def".Should().NotContain(""))
+                .WithMessage("Expected string not containing \"\" but found \"def\"");
         }
         #endregion
 
-        #region Not Contain Equavalent To
-        // TODO: Remove this useless test because check would fail anyway
+        #region Not Contain Equavalent Of
         [TestMethod]
         public void Should_not_contain_equivalent_of_null_or_empty_in_anything_should_fail()
         {
             var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
                 Environment.NewLine + "Parameter name: expectedValue";
 
-            AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContainEquivalentOf(null)).WithMessage(expectedMessage);
-            AssertEx.Throws<ArgumentNullException>(() => "".Should().NotContainEquivalentOf("")).WithMessage(expectedMessage);
-            AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContainEquivalentOf(null)).WithMessage(expectedMessage);
-            AssertEx.Throws<ArgumentNullException>(() => "a".Should().NotContainEquivalentOf("")).WithMessage(expectedMessage);
-        }
+            AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContainEquivalentOf(null))
+                .WithMessage("Expected string not containing equivalent of <null> but found \"a\"");
 
-        [TestMethod]
-        public void Should_not_allow_null_subject_when_checking_not_contains_equivalent_of()
-        {
-            var expectedMessage = "Null can not contain anything." + Environment.NewLine + "Parameter name: Subject";
-
-            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContainEquivalentOf(null))
-                .WithMessage(expectedMessage);
-
-            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContainEquivalentOf(""))
-                .WithMessage(expectedMessage);
-
-            AssertEx.Throws<ArgumentNullException>(() => ((string)null).Should().NotContainEquivalentOf("any"))
-                .WithMessage(expectedMessage);
+            AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContainEquivalentOf(""))
+                .WithMessage("Expected string not containing equivalent of \"\" but found \"a\"");
         }
 
         [TestMethod]
