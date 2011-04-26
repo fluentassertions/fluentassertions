@@ -254,19 +254,46 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string contains another (fragment of a) string.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragement of a) string that the current string should contain.
+        /// </param>
         public AndConstraint<StringAssertions> Contain(string expected)
         {
             return Contain(expected, String.Empty);
         }
 
-        public virtual AndConstraint<StringAssertions> Contain(string expected, string reason, params object[] reasonParameters)
+        /// <summary>
+        /// Asserts that a string contains another (fragment of a) string.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragement of a) string that the current string should contain.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public virtual AndConstraint<StringAssertions> Contain(string expected, string reason, params object[] reasonArgs)
         {
-            if (string.IsNullOrEmpty(expected))
-                throw new ArgumentNullException("expectedValue", "Null and empty strings are considered to be contained in all strings.");
+            if (expected == null)
+            {
+                throw new ArgumentException("Cannot assert string containment against <null>.");
+            }
 
-            Execute.Verify(() => Contains(Subject, expected, StringComparison.Ordinal),
-                "Expected string {1} to contain {0}{2}.", expected, Subject, reason,
-                reasonParameters);
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.");
+            }
+
+            Execute.Verification
+                .ForCondition(Contains(Subject, expected, StringComparison.Ordinal))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected string {1} to contain {2}{0}.", Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -287,15 +314,46 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
-        public AndConstraint<StringAssertions> NotContain(string expectedValue)
+        /// <summary>
+        /// Asserts that a string does not contain another (fragment of a) string.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragement of a) string that the current string should not contain.
+        /// </param>
+        public AndConstraint<StringAssertions> NotContain(string expected)
         {
-            return NotContain(expectedValue, null);
+            return NotContain(expected, null);
         }
 
-        public virtual AndConstraint<StringAssertions> NotContain(string expectedValue, string reason, params object[] reasonParamenters)
+        /// <summary>
+        /// Asserts that a string does not contain another (fragment of a) string.
+        /// </summary>
+        /// <param name="expected">
+        /// The (fragement of a) string that the current string should not contain.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public virtual AndConstraint<StringAssertions> NotContain(string expected, string reason, params object[] reasonArgs)
         {
-            Execute.Verify(() => !Contains(Subject, expectedValue, StringComparison.Ordinal), "Expected string not containing {0} but found {1}",
-                expectedValue, Subject, reason, reasonParamenters);
+            if (expected == null)
+            {
+                throw new ArgumentException("Cannot assert string containment against <null>.");
+            }
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.");
+            }
+
+            Execute.Verification
+                .ForCondition(!Contains(Subject, expected, StringComparison.Ordinal))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect string {1} to contain {2}{0}.", Subject, expected);
 
             return new AndConstraint<StringAssertions>(this);
         }
