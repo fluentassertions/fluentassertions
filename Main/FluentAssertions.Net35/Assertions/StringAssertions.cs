@@ -43,12 +43,7 @@ namespace FluentAssertions.Assertions
         /// </param>
         public virtual AndConstraint<StringAssertions> Be(string expected, string reason, params object[] reasonArgs)
         {
-            var expectation = new StringEqualityAssertion(Subject, expected, reason, reasonArgs)
-            {
-                PredicateDescription = "be",
-            };
-
-            expectation.Assert();
+            new StringEqualityValidator(Subject, expected, reason, reasonArgs).Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -77,13 +72,12 @@ namespace FluentAssertions.Assertions
         public virtual AndConstraint<StringAssertions> BeEquivalentTo(string expected, string reason,
             params object[] reasonArgs)
         {
-            var expectation = new StringEqualityAssertion(Subject, expected, reason, reasonArgs)
+            var expectation = new StringEqualityValidator(Subject, expected, reason, reasonArgs)
             {
-                PredicateDescription = "be equivalent to",
                 CaseSensitive = false
             };
 
-            expectation.Assert();
+            expectation.Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }

@@ -123,8 +123,8 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\StringAssertions.cs">
       <Link>Assertions\StringAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\StringEqualityAssertion.cs">
-      <Link>Assertions\StringEqualityAssertion.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\StringEqualityValidator.cs">
+      <Link>Assertions\StringEqualityValidator.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanAssertions.cs">
       <Link>Assertions\TimeSpanAssertions.cs</Link>
