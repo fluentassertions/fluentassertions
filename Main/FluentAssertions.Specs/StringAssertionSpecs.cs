@@ -25,9 +25,14 @@ namespace FluentAssertions.Specs
             string expectedString = null;
 
             //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => actualString.Should().Be(expectedString);
+
+            //-------------------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
-            actualString.Should().Be(expectedString);
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
@@ -49,7 +54,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"ABC\" because we do, but \"ADC\" differs near 'DC' (index 1).");
+                "Expected string to be \"ABC\" because we do, but \"ADC\" differs near \"DC\" (index 1).");
         }
 
         [TestMethod]
@@ -64,7 +69,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"AB\", but \"ABC\" is too long.");
+                "Expected string to be \"AB\", but \"ABC\" is too long.");
         }
 
         [TestMethod]
@@ -79,7 +84,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"ABC\", but \"AB\" is too short.");
+                "Expected string to be \"ABC\", but \"AB\" is too short.");
         }
 
         [TestMethod]
@@ -125,7 +130,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"ABC\", but found <null>.");
+                "Expected string to be \"ABC\", but found <null>.");
         }
 
         [TestMethod]
@@ -140,7 +145,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"ABC \" because I say so, but the expected string has trailing spaces compared to the actual string.");
+                "Expected string to be \"ABC \" because I say so, but it misses some extra whitespace at the end.");
         }
 
         [TestMethod]
@@ -155,7 +160,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"ABC\" because I say so, but the actual string has trailing spaces compared to the expected string.");
+                "Expected string to be \"ABC\" because I say so, but it has unexpected whitespace at the end.");
         }
 
         #endregion
@@ -180,7 +185,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string not to be equal to \"ABC\" because we don't like ABC.");
+                "Expected string not to be \"ABC\" because we don't like ABC.");
         }
 
         [TestMethod]
@@ -204,7 +209,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string not to be equal to \"\".");
+                "Expected string not to be \"\".");
         }
 
         [TestMethod]
@@ -229,7 +234,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string not to be equal to <null>.");
+                "Expected string not to be <null>.");
         }
 
         [TestMethod]
@@ -627,7 +632,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"abc\" because we will test 1 + 2, but \"ADC\" differs near 'DC' (index 1).");
+                "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but \"ADC\" differs near \"DC\" (index 1).");
         }
 
         [TestMethod]
@@ -642,7 +647,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string to be <null>, but found \"ABCDEF\".");
+                "Expected string to be equivalent to <null>, but found \"ABCDEF\".");
         }
 
         [TestMethod]
@@ -657,7 +662,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"\", but \"ABC\" is too long.");
+                "Expected string to be equivalent to \"\", but \"ABC\" is too long.");
         }
 
         [TestMethod]
@@ -672,7 +677,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"ABCD\", but \"AB\" is too short.");
+                "Expected string to be equivalent to \"ABCD\", but \"AB\" is too short.");
         }
 
         [TestMethod]
@@ -688,7 +693,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                  "Expected \"abc\" because we will test 1 + 2, but found <null>.");
+                  "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
         }
 
         [TestMethod]
@@ -703,7 +708,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"abc \" because I say so, but the expected string has trailing spaces compared to the actual string.");
+                "Expected string to be equivalent to \"abc \" because I say so, but it misses some extra whitespace at the end.");
         }
 
         [TestMethod]
@@ -718,7 +723,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"abc\" because I say so, but the actual string has trailing spaces compared to the expected string.");
+                "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
         }
 
         #endregion
@@ -793,24 +798,21 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_not_contain_equivalent_of_null_or_empty_in_anything_should_fail()
         {
-            var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
-                Environment.NewLine + "Parameter name: expectedValue";
-
             AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContainEquivalentOf(null))
-                .WithMessage("Expected string not containing equivalent of <null> but found \"a\"");
+                .WithMessage("Did not expect string to contain equivalent of <null> but found \"a\"");
 
             AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContainEquivalentOf(""))
-                .WithMessage("Expected string not containing equivalent of \"\" but found \"a\"");
+                .WithMessage("Did not expect string to contain equivalent of \"\" but found \"a\"");
         }
 
         [TestMethod]
         public void Should_not_contain_equivalent_of_should_fail_when_contains()
         {
             AssertEx.Throws<AssertFailedException>(() => "DaBc".Should().NotContainEquivalentOf("ab"))
-                .WithMessage("Expected string not containing equivalent of \"ab\" but found \"DaBc\"");
+                .WithMessage("Did not expect string to contain equivalent of \"ab\" but found \"DaBc\"");
 
             AssertEx.Throws<AssertFailedException>(() => "Hello, world!".Should().NotContainEquivalentOf(", worLD!"))
-                .WithMessage("Expected string not containing equivalent of \", worLD!\" but found \"Hello, world!\"");
+                .WithMessage("Did not expect string to contain equivalent of \", worLD!\" but found \"Hello, world!\"");
         }
 
         [TestMethod]
@@ -835,10 +837,10 @@ namespace FluentAssertions.Specs
         public void Should_fail_contain_equivalent_of_when_not_contains()
         {
             AssertEx.Throws<AssertFailedException>(() => "a".Should().ContainEquivalentOf("aa"))
-                .WithMessage("Expected string containing equivalent of \"aa\" but found \"a\"");
+                .WithMessage("Expected string to contain equivalent of \"aa\" but found \"a\"");
 
             AssertEx.Throws<AssertFailedException>(() => "aaBBcc".Should().ContainEquivalentOf("aBc"))
-                .WithMessage("Expected string containing equivalent of \"aBc\" but found \"aaBBcc\"");
+                .WithMessage("Expected string to contain equivalent of \"aBc\" but found \"aaBBcc\"");
         }
 
         [TestMethod]
@@ -852,6 +854,8 @@ namespace FluentAssertions.Specs
         }
         
         #endregion
+
+        #region (Not) Empty
 
         [TestMethod]
         public void Should_succeed_when_asserting_empty_string_to_be_empty()
@@ -917,6 +921,10 @@ namespace FluentAssertions.Specs
                 .WithMessage("Did not expect empty string because we want to test the failure message.");
         }
 
+        #endregion
+
+        #region Length
+
         [TestMethod]
         public void Should_succeed_when_asserting_string_length_to_be_equal_to_the_same_value()
         {
@@ -940,6 +948,8 @@ namespace FluentAssertions.Specs
                 "Expected string with length <1> because we want to test the failure message, but found string \"ABC\" with length <3>.");
         }
 
+        #endregion
+
         [TestMethod]
         public void When_chaining_multiple_assertions_it_should_assert_all_conditions()
         {
@@ -949,6 +959,8 @@ namespace FluentAssertions.Specs
                 .Contain("EF").And
                 .HaveLength(9);
         }
+
+        #region (Not) Null Or Empty
 
         [TestMethod]
         public void When_a_valid_string_is_expected_to_be_not_null_or_empty_it_should_not_throw()
@@ -1052,6 +1064,10 @@ namespace FluentAssertions.Specs
                 "Expected string to be <null> or empty because it was not initialized yet, but found \"hello\".");
         }
 
+        #endregion
+
+        #region (Not) Blank
+
         [TestMethod]
         public void Should_detect_blank_strings()
         {
@@ -1086,5 +1102,7 @@ namespace FluentAssertions.Specs
             AssertEx.Throws<AssertFailedException>(() => "   ".Should().NotBeBlank())
                 .WithMessage("Expected non-blank string, but found \"   \".");
         }
+
+        #endregion
     }
 }

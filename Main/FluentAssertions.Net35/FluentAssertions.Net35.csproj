@@ -94,6 +94,7 @@
     <Compile Include="AndConstraint.cs" />
     <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
     <Compile Include="Assertions\FloatingPointExtensions.cs" />
+    <Compile Include="Assertions\StringEqualityAssertion.cs" />
     <Compile Include="Common\FluentDateTimeExtensions.cs" />
     <Compile Include="Assertions\IntegralAssertions.cs" />
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />

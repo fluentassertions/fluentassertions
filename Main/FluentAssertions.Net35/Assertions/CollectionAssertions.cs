@@ -192,11 +192,9 @@ namespace FluentAssertions.Assertions
         /// Expects the current collection to contain all the same elements in the same order as the collection identified by 
         /// <param name="expected"/>. Elements are compared using their <see cref="object.Equals(object)"/>.
         /// </summary>
-        public AndConstraint<TAssertions> Equal(IEnumerable expected, string reason,
-            params object[] reasonParameters)
+        public AndConstraint<TAssertions> Equal(IEnumerable expected, string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collections to be equal{2}, but found {1}.", expected, reason,
-                                               reasonParameters);
+            VerifySubjectCollectionAgainstNull("Expected collections to be equal{2}, but found {1}.", expected, reason, reasonParameters);
 
             if (expected == null)
             {
@@ -208,11 +206,10 @@ namespace FluentAssertions.Assertions
 
             for (int index = 0; index < expectedItems.Length; index++)
             {
-                if ((actualItems.Length <= index ) || !actualItems[index].Equals(expectedItems[index]))
-                {
-                    Execute.Fail("Expected collection {1} to be equal to {0}{2}, but it differs at index " + index + ".",
-                        expected, Subject, reason, reasonParameters);
-                }
+                Execute.Verification
+                    .ForCondition((index < actualItems.Length) && actualItems[index].Equals(expectedItems[index]))
+                    .BecauseOf(reason, reasonParameters)
+                    .FailWith("Expected " + Verification.SubjectNameOr("collection") + " to be equal to {1}{0}, but {2} differs at index " + index + ".", expected, Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -714,7 +711,7 @@ namespace FluentAssertions.Assertions
 
         protected void VerifySubjectCollectionAgainstNull(string formattedMessage, object expected, string reason, object[] reasonParameters)
         {
-            if (Subject == null)
+            if (ReferenceEquals(Subject, null))
             {
                 Execute.Fail(formattedMessage, expected, Subject, reason, reasonParameters);
             }

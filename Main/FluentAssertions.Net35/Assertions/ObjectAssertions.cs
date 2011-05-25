@@ -22,19 +22,21 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that an object equals another object using it's <see cref="object.Equals(object)"/> method.
+        /// Asserts that an object equals another object using its <see cref="object.Equals(object)"/> implementation.
         /// </summary>
         /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonParameters">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public AndConstraint<ObjectAssertions> Be(object expected, string reason, params object[] reasonParameters)
+        public AndConstraint<ObjectAssertions> Be(object expected, string reason, params object[] reasonArgs)
         {
-            Execute.Verify(Subject.IsEqualTo(expected),
-                "Expected {0}{2}, but found {1}.", expected, Subject, reason, reasonParameters);
+            Execute.Verification
+                .BecauseOf(reason, reasonArgs)
+                .ForCondition(Subject.IsEqualTo(expected))
+                .FailWith("Expected " + Verification.SubjectNameOr("object")  + " to be {1}{0}, but found {2}.", expected, Subject);
 
             return new AndConstraint<ObjectAssertions>(this);
         }

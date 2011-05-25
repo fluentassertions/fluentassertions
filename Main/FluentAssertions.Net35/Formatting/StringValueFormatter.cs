@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Formatting
+﻿using System;
+
+namespace FluentAssertions.Formatting
 {
     internal class StringValueFormatter : IValueFormatter
     {
@@ -9,7 +11,12 @@
 
         public string ToString(object value)
         {
-            return "\"" + value.ToString().Replace("\"", "\\\"") + "\"";
+            return "\"" + EscapeSpecialCharacters(value.ToString()) + "\"";
+        }
+
+        private string EscapeSpecialCharacters(string str)
+        {
+            return str.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r");
         }
     }
 }

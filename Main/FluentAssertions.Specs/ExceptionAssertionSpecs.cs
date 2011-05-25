@@ -48,7 +48,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
-                    "Expected exception with message \"some message\", but \"some\" is too short.");
+                    "Expected exception with message \r\n\"some message\", but \r\n\"some\" is too short.");
             }
         }
 
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 Assert.AreEqual(
-                    "Expected exception with message \"message2\", but \"message1\" differs near '1' (index 7).",
+                    "Expected exception with message \r\n\"message2\", but \r\n\"message1\" differs near \"1\" (index 7).",
                     ex.Message);
             }
         }
@@ -111,7 +111,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 Assert.AreEqual(
-                    "Expected exception with message \"message2\", but message was empty.",
+                    "Expected exception with message \r\n\"message2\", but message was empty.",
                     ex.Message);
             }
         }
@@ -144,7 +144,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 Assert.AreEqual(
-                    "Expected exception with message \"message2\", but \"message2\r\nParameter name: someParam\" differs near '\r\nP' (index 8).",
+                    "Expected exception with message \r\n\"message2\", but \r\n\"message2\\r\\nParameter name: someParam\" differs near \"\\r\\nP\" (index 8).",
                     ex.Message);
             }
         }
@@ -325,11 +325,17 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_subject_throws_inner_exception_with_unexpected_message_it_should_throw_with_clear_description()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
+
             try
             {
-                IFoo testSubject = A.Fake<IFoo>();
-                A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
-
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
                     .WithInnerMessage("expected message");
 
@@ -337,29 +343,53 @@ namespace FluentAssertions.Specs
             }
             catch (AssertFailedException ex)
             {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
-                    "Expected inner exception with message \"expected message\", but \"unexpected message\" differs near 'une' (index 0).");
+                    "Expected inner exception with message \r\n\"expected message\", but \r\n\"unexpected message\" differs near \"une\" (index 0).");
             }
         }
 
         [TestMethod]
         public void When_subject_throws_inner_exception_with_unexpected_message_it_should_throw_with_clear_description_and_reason()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
             try
             {
-                IFoo testSubject = A.Fake<IFoo>();
-                A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
-
-                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
+                testSubject
+                    .Invoking(x => x.Do())
+                    .ShouldThrow<Exception>()
                     .WithInnerMessage("expected message", "because {0} should do just that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
             }
             catch (AssertFailedException ex)
             {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
-                    "Expected inner exception with message \"expected message\" because IFoo.Do should do just that, but \"unexpected message\" differs near 'une' (index 0).");
+                    "Expected inner exception with message \r\n\"expected message\" because IFoo.Do should do just that, but \r\n\"unexpected message\" differs near \"une\" (index 0).");
             }
+        }
+
+        [TestMethod]
+        public void When_WHEN_it_should_SHOULD()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            
         }
 
         #endregion

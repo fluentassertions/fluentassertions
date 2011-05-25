@@ -49,11 +49,24 @@ namespace FluentAssertions.Common
             return null;
         }
 
+        /// <summary>
+        /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
+        /// string anymore, including the exact casing.
+        /// </summary>
         public static int IndexOfFirstMismatch(this string value, string expected)
+        {
+            return IndexOfFirstMismatch(value, expected, StringComparison.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
+        /// string anymore, accounting for the specified <paramref name="stringComparison"/>.
+        /// </summary>
+        public static int IndexOfFirstMismatch(this string value, string expected, StringComparison stringComparison)
         {
             for (int index = 0; index < value.Length; index++)
             {
-                if ((index >= expected.Length) || (value[index] != expected[index]))
+                if ((index >= expected.Length) || !value[index].ToString().Equals(expected[index].ToString(), stringComparison))
                 {
                     return index;
                 }
@@ -62,11 +75,14 @@ namespace FluentAssertions.Common
             return -1;
         }
 
-        public static string Mismatch(this string value, int index)
+        /// <summary>
+        /// Gets the quoted three characters at the specified index of a string, including the index itself.
+        /// </summary>
+        public static string IndexedSegmentAt(this string value, int index)
         {
             int length = Math.Min(value.Length - index, 3);
 
-            return string.Format("'{0}' (index {1})", value.Substring(index, length), index);
+            return string.Format("{0} (index {1})", Execute.ToString(value.Substring(index, length)), index);
         }
 
         public static bool IsEqualTo(this object actual, object expected)

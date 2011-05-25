@@ -40,7 +40,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected <ClassWithCustomEqualMethod(2)>, but found <ClassWithCustomEqualMethod(1)>.");
+                .WithMessage("Expected object to be <ClassWithCustomEqualMethod(2)>, but found <ClassWithCustomEqualMethod(1)>.");
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected <ClassWithCustomEqualMethod(2)>, but found <null>.");
+                .WithMessage("Expected object to be <ClassWithCustomEqualMethod(2)>, but found <null>.");
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected <ClassWithCustomEqualMethod(2)> because it should use the reason, but found <ClassWithCustomEqualMethod(1)>.");
+                    "Expected object to be <ClassWithCustomEqualMethod(2)> because it should use the reason, but found <ClassWithCustomEqualMethod(1)>.");
         }
 
         [TestMethod]

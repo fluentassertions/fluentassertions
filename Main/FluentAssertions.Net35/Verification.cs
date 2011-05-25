@@ -1,17 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using FluentAssertions.Formatting;
 using FluentAssertions.Frameworks;
 
 namespace FluentAssertions
 {
+    /// <summary>
+    /// Provides a fluent API for verifying an arbitrary condition.
+    /// </summary>
     public class Verification
     {
+        #region Private Definitions
+
         private bool succeeded;
         private string reason;
+        private bool useLineBreaks;
+
+        [ThreadStatic] private static string subjectName;
+
+        #endregion
 
         /// <summary>
         ///   A list of objects responsible for formatting the objects represented by placeholders.
@@ -27,8 +36,32 @@ namespace FluentAssertions
             new DefaultValueFormatter()
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Verification"/> class.
+        /// </summary>
         internal Verification()
         {
+        }
+
+        /// <summary>
+        /// Indicates that every argument passed into <see cref="FailWith"/> is displayed on a separate line.
+        /// </summary>
+        public Verification UsingLineBreaks
+        {
+            get
+            {
+                useLineBreaks = true;
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the name of the subject for the next verification.
+        /// </summary>
+        public static string SubjectName
+        {
+            get { return subjectName; }
+            set { subjectName = value; }
         }
 
         public Verification ForCondition(bool condition)
@@ -53,8 +86,7 @@ namespace FluentAssertions
         {
             if (!string.IsNullOrEmpty(reason))
             {
-                if (!reason.StartsWith("because", StringComparison.CurrentCultureIgnoreCase) 
-                    && !reason.StartsWith("for ", StringComparison.CurrentCultureIgnoreCase))
+                if (!reason.StartsWith("because", StringComparison.CurrentCultureIgnoreCase))
                 {
                     reason = "because " + reason;
                 }
@@ -67,22 +99,41 @@ namespace FluentAssertions
 
         public void FailWith(string failureMessage, params object[] failureArgs)
         {
-            if (!succeeded)
+            try
             {
-                var values = new List<string>(new[] { reason });
-                values.AddRange(failureArgs.Select(ToString));
+                if (!succeeded)
+                {
+                    var values = new List<string>(new[] {reason});
+                    values.AddRange(failureArgs.Select(ToString));
 
-                AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()));
+                    AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()));
+                }
+            }
+            finally
+            {
+                succeeded = false;
             }
         }
 
         /// <summary>
-        ///   If the value is a collection, returns it as a comma-separated string.
+        ///   Returns a human-readable representation of a particular object.
         /// </summary>
-        public static string ToString(object value)
+        public string ToString(object value)
         {
             var formatter = formatters.First(f => f.CanHandle(value));
-            return formatter.ToString(value);
+            string representation = formatter.ToString(value);
+
+            if (useLineBreaks)
+            {
+                representation = Environment.NewLine + representation;
+            }
+
+            return representation;
+        }
+
+        public static string SubjectNameOr(string defaultName)
+        {
+            return string.IsNullOrEmpty(SubjectName) ? defaultName : SubjectName;
         }
     }
 }
