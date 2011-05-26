@@ -112,17 +112,24 @@ namespace FluentAssertions.Assertions
         /// Property values are considered equal if, after converting them to the requested type, calling <see cref="T.Equals(object)"/> 
         /// returns <c>true</c>.
         /// </remarks>
-        public void EqualTo(object comparee, string reason, params object[] reasonParameters)
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public void EqualTo(object comparee, string reason, params object[] reasonArgs)
         {
             if (ReferenceEquals(comparee, null))
             {
                 throw new NullReferenceException("Cannot compare subject's properties with a <null> object.");
             }
-            
-            CompareProperties(comparee, reason, reasonParameters);
+
+            CompareProperties(comparee, reason, reasonArgs);
         }
 
-        private void CompareProperties(object comparee, string reason, object[] reasonArgs)
+        private void CompareProperties(object comparee, string reason, params object[] reasonArgs)
         {
             if (properties.Count == 0)
             {
@@ -135,7 +142,7 @@ namespace FluentAssertions.Assertions
             }
         }
 
-        private void CompareProperty(object comparee, PropertyInfo propertyInfo, string reason, object[] reasonArgs)
+        private void CompareProperty(object comparee, PropertyInfo propertyInfo, string reason, params object[] reasonArgs)
         {
             object actualValue = propertyInfo.GetValue(Subject, null);
             
@@ -144,7 +151,7 @@ namespace FluentAssertions.Assertions
             {
                 object expectedValue = compareeProperty.GetValue(comparee, null);
 
-                actualValue = HarmonizeTypeDifferences(actualValue, expectedValue);
+                actualValue = HarmonizeTypeDifferences(propertyInfo.Name, actualValue, expectedValue, reason, reasonArgs);
 
                 if (!ReferenceEquals(actualValue, expectedValue))
                 {
@@ -159,6 +166,39 @@ namespace FluentAssertions.Assertions
                     }
                 }
             }
+        }
+
+        private PropertyInfo FindPropertyFrom(object comparee, string propertyName)
+        {
+            PropertyInfo compareeProperty = 
+                comparee.GetType().GetProperties(InstancePropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
+
+            if (!onlyShared && (compareeProperty == null))
+            {
+                Execute.Verification.FailWith(
+                    "Subject has property " + propertyName + " that the other object does not have.");    
+            }
+
+            return compareeProperty;
+        }
+
+        private static object HarmonizeTypeDifferences(string propertyName, object subjectValue, object expectedValue, string reason, params object[] reasonArgs)
+        {
+            if (!ReferenceEquals(subjectValue, null) && !ReferenceEquals(expectedValue, null) && (subjectValue.GetType() != expectedValue.GetType()))
+            {
+                try
+                {
+                    subjectValue = Convert.ChangeType(subjectValue, expectedValue.GetType(), CultureInfo.CurrentCulture);
+                }
+                catch (FormatException)
+                {
+                    Execute.Verification
+                        .BecauseOf(reason, reasonArgs)
+                        .FailWith("Expected property " + propertyName + " to be {1}{0}, but {2} is of an incompatible type.", expectedValue, subjectValue);
+                }
+            }
+
+            return subjectValue;
         }
 
         private static void VerifySemanticEquality(object subjectValue, object expectedValue, string reason, object[] reasonArgs)
@@ -176,30 +216,6 @@ namespace FluentAssertions.Assertions
             {
                 subjectValue.Should().Be(expectedValue, reason, reasonArgs);
             }
-        }
-
-        private static object HarmonizeTypeDifferences(object subjectValue, object expectedValue)
-        {
-            if (!ReferenceEquals(subjectValue, null) && !ReferenceEquals(expectedValue, null) && (subjectValue.GetType() != expectedValue.GetType()))
-            {
-                subjectValue = Convert.ChangeType(subjectValue, expectedValue.GetType(), CultureInfo.CurrentCulture);
-            }
-
-            return subjectValue;
-        }
-
-        private PropertyInfo FindPropertyFrom(object comparee, string propertyName)
-        {
-            PropertyInfo compareeProperty = 
-                comparee.GetType().GetProperties(InstancePropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
-
-            if (!onlyShared && (compareeProperty == null))
-            {
-                Execute.Verification.FailWith(
-                    "Subject has property " + propertyName + " that the other object does not have.");    
-            }
-
-            return compareeProperty;
         }
     }
 }
