@@ -96,7 +96,7 @@
     <Compile Include="ObjectAssertionSpecs.cs" />
     <Compile Include="ObjectCastingSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyMatchingSpecs.cs" />
+    <Compile Include="PropertyAssertionSpecs.cs" />
     <Compile Include="SimpleTimeSpanAssertionSpecs.cs" />
     <Compile Include="StringAssertionSpecs.cs" />
     <Compile Include="ThrowAssertionsSpecs.cs" />

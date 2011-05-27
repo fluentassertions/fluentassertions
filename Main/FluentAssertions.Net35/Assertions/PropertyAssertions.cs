@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -10,11 +7,13 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Provides methods for selecting one or properties of an object and comparing them with another object.
+    /// </summary>
     public class PropertyAssertions<T>
     {
         private const BindingFlags InstancePropertiesFlag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
-        private readonly List<PropertyInfo> properties = new List<PropertyInfo>();
-        private bool onlyShared = false;
+        private readonly PropertyEqualityValidator<T> validator;
 
         internal protected PropertyAssertions(T subject)
         {
@@ -23,13 +22,13 @@ namespace FluentAssertions.Assertions
                 throw new NullReferenceException("Cannot compare the properties of a <null> object.");
             }
 
-            Subject = subject;
+            validator = new PropertyEqualityValidator<T>(subject);
         }
 
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public T Subject { get; private set; }
+        public T Subject { get { return validator.Subject; }}
 
         /// <summary>
         /// Includes all properties of <typeparamref name="T"/> when comparing the subject with another object using <see cref="EqualTo(object)"/>.
@@ -40,7 +39,7 @@ namespace FluentAssertions.Assertions
             {
                 if (!propertyInfo.GetGetMethod(true).IsPrivate)
                 {
-                    properties.Add(propertyInfo);
+                    validator.Properties.Add(propertyInfo);
                 }
             }
 
@@ -53,7 +52,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public PropertyAssertions<T> SharedProperties()
         {
-            onlyShared = true;
+            validator.OnlySharedProperties = true;
             return AllProperties();
         }
 
@@ -71,7 +70,7 @@ namespace FluentAssertions.Assertions
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
                 PropertyInfo propertyToRemove = expression.GetPropertyInfo();
-                properties.Remove(properties.Single(p => p.Name == propertyToRemove.Name));
+                validator.Properties.Remove(validator.Properties.Single(p => p.Name == propertyToRemove.Name));
             }
 
             return this;
@@ -85,7 +84,7 @@ namespace FluentAssertions.Assertions
         {
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                properties.Add(expression.GetPropertyInfo());
+                validator.Properties.Add(expression.GetPropertyInfo());
             }
 
             return this;
@@ -93,20 +92,20 @@ namespace FluentAssertions.Assertions
 
         /// <summary>
         /// Asserts that the previously selected properties of <typeparamref name="T"/> have the same value as the equally named
-        /// properties of <paramref name="comparee"/>.
+        /// properties of <paramref name="otherObject"/>.
         /// </summary>
         /// <remarks>
         /// Property values are considered equal if, after converting them to the requested type, calling <see cref="T.Equals(object)"/> 
         /// returns <c>true</c>.
         /// </remarks>
-        public void EqualTo(object comparee)
+        public void EqualTo(object otherObject)
         {
-            EqualTo(comparee, string.Empty);
+            EqualTo(otherObject, string.Empty);
         }
 
         /// <summary>
         /// Asserts that the previously selected properties of <typeparamref name="T"/> have the same value as the equally named
-        /// properties of <paramref name="comparee"/>.
+        /// properties of <paramref name="otherObject"/>.
         /// </summary>
         /// <remarks>
         /// Property values are considered equal if, after converting them to the requested type, calling <see cref="T.Equals(object)"/> 
@@ -119,103 +118,12 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public void EqualTo(object comparee, string reason, params object[] reasonArgs)
+        public void EqualTo(object otherObject, string reason, params object[] reasonArgs)
         {
-            if (ReferenceEquals(comparee, null))
-            {
-                throw new NullReferenceException("Cannot compare subject's properties with a <null> object.");
-            }
-
-            CompareProperties(comparee, reason, reasonArgs);
-        }
-
-        private void CompareProperties(object comparee, string reason, params object[] reasonArgs)
-        {
-            if (properties.Count == 0)
-            {
-                throw new InvalidOperationException("Please specify some properties to include in the comparison.");
-            }
-
-            foreach (var propertyInfo in properties)
-            {
-                CompareProperty(comparee, propertyInfo, reason, reasonArgs);
-            }
-        }
-
-        private void CompareProperty(object comparee, PropertyInfo propertyInfo, string reason, params object[] reasonArgs)
-        {
-            object actualValue = propertyInfo.GetValue(Subject, null);
-            
-            PropertyInfo compareeProperty = FindPropertyFrom(comparee, propertyInfo.Name);
-            if (compareeProperty != null)
-            {
-                object expectedValue = compareeProperty.GetValue(comparee, null);
-
-                actualValue = HarmonizeTypeDifferences(propertyInfo.Name, actualValue, expectedValue, reason, reasonArgs);
-
-                if (!ReferenceEquals(actualValue, expectedValue))
-                {
-                    Verification.SubjectName = "property " + propertyInfo.Name;
-                    try
-                    {
-                        VerifySemanticEquality(actualValue, expectedValue, reason, reasonArgs);
-                    }
-                    finally
-                    {
-                        Verification.SubjectName = null;
-                    }
-                }
-            }
-        }
-
-        private PropertyInfo FindPropertyFrom(object comparee, string propertyName)
-        {
-            PropertyInfo compareeProperty = 
-                comparee.GetType().GetProperties(InstancePropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
-
-            if (!onlyShared && (compareeProperty == null))
-            {
-                Execute.Verification.FailWith(
-                    "Subject has property " + propertyName + " that the other object does not have.");    
-            }
-
-            return compareeProperty;
-        }
-
-        private static object HarmonizeTypeDifferences(string propertyName, object subjectValue, object expectedValue, string reason, params object[] reasonArgs)
-        {
-            if (!ReferenceEquals(subjectValue, null) && !ReferenceEquals(expectedValue, null) && (subjectValue.GetType() != expectedValue.GetType()))
-            {
-                try
-                {
-                    subjectValue = Convert.ChangeType(subjectValue, expectedValue.GetType(), CultureInfo.CurrentCulture);
-                }
-                catch (FormatException)
-                {
-                    Execute.Verification
-                        .BecauseOf(reason, reasonArgs)
-                        .FailWith("Expected property " + propertyName + " to be {1}{0}, but {2} is of an incompatible type.", expectedValue, subjectValue);
-                }
-            }
-
-            return subjectValue;
-        }
-
-        private static void VerifySemanticEquality(object subjectValue, object expectedValue, string reason, object[] reasonArgs)
-        {
-
-            if (subjectValue is string)
-            {
-                ((string)subjectValue).Should().Be((string) expectedValue, reason, reasonArgs);
-            }
-            else if (subjectValue is IEnumerable)
-            {
-                ((IEnumerable)subjectValue).Should().Equal(((IEnumerable)expectedValue), reason, reasonArgs);
-            }
-            else
-            {
-                subjectValue.Should().Be(expectedValue, reason, reasonArgs);
-            }
+            validator.OtherObject = otherObject;
+            validator.Reason = reason;
+            validator.ReasonArgs = reasonArgs;
+            validator.Validate();
         }
     }
 }

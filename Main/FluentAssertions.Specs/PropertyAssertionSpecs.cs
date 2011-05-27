@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.specs
 {
     [TestClass]
-    public class PropertyMatchingSpecs
+    public class PropertyAssertionSpecs
     {
         #region Property Comparison
 

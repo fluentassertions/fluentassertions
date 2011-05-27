@@ -146,8 +146,8 @@
     <Compile Include="..\FluentAssertions.Specs\ObjectCastingSpecs.cs">
       <Link>ObjectCastingSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Specs\PropertyMatchingSpecs.cs">
-      <Link>PropertyMatchingSpecs.cs</Link>
+    <Compile Include="..\FluentAssertions.Specs\PropertyAssertionSpecs.cs">
+      <Link>PropertyAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\SimpleTimeSpanAssertionSpecs.cs">
       <Link>SimpleTimeSpanAssertionSpecs.cs</Link>

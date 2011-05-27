@@ -150,6 +150,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\PropertyAssertions.cs">
       <Link>Assertions\PropertyAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\PropertyEqualityValidator.cs">
+      <Link>Assertions\PropertyEqualityValidator.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\ReferenceTypeAssertions.cs">
       <Link>Assertions\ReferenceTypeAssertions.cs</Link>
     </Compile>
