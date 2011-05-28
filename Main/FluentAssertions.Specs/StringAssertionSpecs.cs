@@ -10,8 +10,11 @@ namespace FluentAssertions.Specs
         #region Equal
 
         [TestMethod]
-        public void Should_succeed_when_asserting_string_to_be_equal_to_the_same_value()
+        public void When_both_values_are_the_same_it_should_not_throw()
         {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
             "ABC".Should().Be("ABC");
         }
 
@@ -30,16 +33,9 @@ namespace FluentAssertions.Specs
             Action act = () => actualString.Should().Be(expectedString);
 
             //-------------------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
-        public void Should_fail_when_asserting_string_to_be_equal_to_different_value()
-        {
-            "ABC".Should().Be("DEF");
         }
 
         [TestMethod]
@@ -161,6 +157,36 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected string to be \"ABC\" because I say so, but it has unexpected whitespace at the end.");
+        }
+
+        [TestMethod]
+        public void When_two_strings_differ_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "1234567890".Should().Be("0987654321");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string to be \r\n\"0987654321\", but \r\n\"1234567890\" differs near \"123\" (index 0).");
+        }
+        
+        [TestMethod]
+        public void When_two_strings_differ_and_one_of_them_is_multiline_it_should_display_both_strings_on_separate_line()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Actt
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "A\r\nB".Should().Be("A\r\nC");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string to be \r\n\"A\\r\\nC\", but \r\n\"A\\r\\nB\" differs near \"B\" (index 3).");
         }
 
         #endregion

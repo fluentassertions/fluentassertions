@@ -13,7 +13,8 @@ namespace FluentAssertions.Assertions
 
         private readonly string subject;
         private readonly string expected;
-        private readonly Verification verification;
+        private Verification verification;
+        private const int HumanReadableLength = 6;
 
         #endregion
         
@@ -38,6 +39,11 @@ namespace FluentAssertions.Assertions
             {
                 ValidateAgainstNulls();
 
+                if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
+                {
+                    verification = verification.UsingLineBreaks;
+                }
+
                 ValidateAgainstSuperfluousWhitespace();
 
                 ValidateAgainstLengthDifferences();
@@ -52,6 +58,11 @@ namespace FluentAssertions.Assertions
             {
                 verification.FailWith(ExpectationDescription + "but found {2}.", expected, subject);
             }
+        }
+
+        private bool IsLongOrMultiline(string value)
+        {
+            return (value.Length > HumanReadableLength) || value.Contains(Environment.NewLine);
         }
 
         private void ValidateAgainstSuperfluousWhitespace()
