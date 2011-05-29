@@ -4,6 +4,7 @@ using System.Linq;
 
 using FluentAssertions.Formatting;
 using FluentAssertions.Frameworks;
+using FluentAssertions.Common;
 
 namespace FluentAssertions
 {
@@ -21,20 +22,6 @@ namespace FluentAssertions
         [ThreadStatic] private static string subjectName;
 
         #endregion
-
-        /// <summary>
-        ///   A list of objects responsible for formatting the objects represented by placeholders.
-        /// </summary>
-        public static readonly List<IValueFormatter> formatters = new List<IValueFormatter>
-        {
-            new NullValueFormatter(),
-            new DateTimeValueFormatter(),
-            new TimeSpanValueFormatter(),
-            new StringValueFormatter(),
-            new ExpressionValueFormatter(),
-            new EnumerableValueFormatter(),
-            new DefaultValueFormatter()
-        };
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Verification"/> class.
@@ -104,9 +91,9 @@ namespace FluentAssertions
                 if (!succeeded)
                 {
                     var values = new List<string>(new[] {reason});
-                    values.AddRange(failureArgs.Select(ToString));
+                    values.AddRange(failureArgs.Select(a => useLineBreaks ? Formatter.ToStringLine(a) : Formatter.ToString(a)));
 
-                    AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()).Replace("}}", "}").Replace("{{", "{"));
+                    AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()).Replace("{{", "{").Replace("}}", "}"));
                 }
             }
             finally
@@ -116,21 +103,8 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        ///   Returns a human-readable representation of a particular object.
+        /// Gets the name or identifier of the current subject, or a default value if the subject is not known.
         /// </summary>
-        public string ToString(object value)
-        {
-            var formatter = formatters.First(f => f.CanHandle(value));
-            string representation = formatter.ToString(value);
-
-            if (useLineBreaks)
-            {
-                representation = Environment.NewLine + representation;
-            }
-
-            return representation;
-        }
-
         public static string SubjectNameOr(string defaultName)
         {
             return string.IsNullOrEmpty(SubjectName) ? defaultName : SubjectName;

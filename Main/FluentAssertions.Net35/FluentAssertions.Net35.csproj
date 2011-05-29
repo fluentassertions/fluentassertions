@@ -115,8 +115,10 @@
     <Compile Include="Formatting\DefaultValueFormatter.cs" />
     <Compile Include="Formatting\EnumerableValueFormatter.cs" />
     <Compile Include="Formatting\ExpressionValueFormatter.cs" />
+    <Compile Include="Formatting\Formatter.cs" />
     <Compile Include="Formatting\IValueFormatter.cs" />
     <Compile Include="Formatting\NullValueFormatter.cs" />
+    <Compile Include="Formatting\NumericValueFormatter.cs" />
     <Compile Include="Formatting\StringValueFormatter.cs" />
     <Compile Include="Formatting\TimeSpanValueFormatter.cs" />
     <Compile Include="Frameworks\AssertionHelper.cs" />

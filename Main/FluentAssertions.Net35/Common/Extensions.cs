@@ -2,6 +2,8 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
+using FluentAssertions.Formatting;
+
 namespace FluentAssertions.Common
 {
     internal static class Extensions
@@ -82,7 +84,7 @@ namespace FluentAssertions.Common
         {
             int length = Math.Min(value.Length - index, 3);
 
-            return string.Format("{0} (index {1})", Execute.ToString(value.Substring(index, length)), index);
+            return string.Format("{0} (index {1})", Formatter.ToString(value.Substring(index, length)), index);
         }
 
         public static bool IsEqualTo(this object actual, object expected)

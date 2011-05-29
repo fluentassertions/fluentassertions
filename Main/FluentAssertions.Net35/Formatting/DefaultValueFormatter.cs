@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Formatting
+﻿using FluentAssertions.Common;
+
+namespace FluentAssertions.Formatting
 {
     internal class DefaultValueFormatter : IValueFormatter
     {

@@ -971,7 +971,7 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                "Expected string with length <1> because we want to test the failure message, but found string \"ABC\" with length <3>.");
+                "Expected string with length 1 because we want to test the failure message, but found string \"ABC\" with length 3.");
         }
 
         #endregion

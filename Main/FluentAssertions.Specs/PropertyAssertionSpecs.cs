@@ -62,7 +62,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Age to be <37> because they are the same, but found <36>.");
+                "Expected property Age to be 37 because they are the same, but found 36.");
         }
 
         [TestMethod]
@@ -308,7 +308,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Type to be <36>, but \"A\" is of an incompatible type.");
+                .WithMessage("Expected property Type to be 36, but \"A\" is of an incompatible type.");
         }
 
         #endregion

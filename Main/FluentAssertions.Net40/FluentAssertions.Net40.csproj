@@ -174,11 +174,17 @@
     <Compile Include="..\FluentAssertions.Net35\Formatting\ExpressionValueFormatter.cs">
       <Link>Formatting\ExpressionValueFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\Formatter.cs">
+      <Link>Formatting\Formatter.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\IValueFormatter.cs">
       <Link>Formatting\IValueFormatter.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\NullValueFormatter.cs">
       <Link>Formatting\NullValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\NumericValueFormatter.cs">
+      <Link>Formatting\NumericValueFormatter.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\StringValueFormatter.cs">
       <Link>Formatting\StringValueFormatter.cs</Link>

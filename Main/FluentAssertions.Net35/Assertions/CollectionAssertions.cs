@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 
 using FluentAssertions.Common;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Assertions
 {
@@ -388,7 +389,8 @@ namespace FluentAssertions.Assertions
                     if (expectedObjects.Count() > 1)
                     {
                         Execute.Fail(
-                            "Expected collection {1} to contain {0}{2}, but could not find " + Execute.ToString(missingItems).Replace("{", "{{").Replace("}", "}}") + ".",
+                            "Expected collection {1} to contain {0}{2}, but could not find " + 
+                            Formatter.ToString(missingItems).Escape() + ".",
                             expected, Subject, reason, reasonParameters);
                     }
                     else
@@ -432,7 +434,7 @@ namespace FluentAssertions.Assertions
             if (missingItems.Any())
             {
                 Execute.Fail(
-                    "Expected items {0} in ordered collection {1}{2}, but " + Execute.ToString(missingItems).Escape() +
+                    "Expected items {0} in ordered collection {1}{2}, but " + Formatter.ToString(missingItems).Escape() +
                         " did not appear.",
                     expected, Subject, reason, reasonParameters);
             }
@@ -665,7 +667,7 @@ namespace FluentAssertions.Assertions
                 if (!typeof(T).IsAssignableFrom(item.GetType()))
                 {
                     Execute.Fail(
-                        "Expected only {0} items in collection{2}, but item <" + item + "> at index " + index +
+                        "Expected only items of type {0} in collection{2}, but item " + item + " at index " + index +
                             " is of type {1}.",
                         typeof(T), item.GetType(), reason, reasonParameters);
                 }

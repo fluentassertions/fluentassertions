@@ -129,7 +129,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected <4> item(s) because we want to test the failure message, but found <3>.");
+                .WithMessage("Expected 4 item(s) because we want to test the failure message, but found 3.");
         }
 
         [TestMethod]
@@ -163,7 +163,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to have a count (c >= 4) because a minimum of 4 is required, but count is <3>.");
+                "Expected collection {1, 2, 3} to have a count (c >= 4) because a minimum of 4 is required, but count is 3.");
         }
 
         [TestMethod]
@@ -203,7 +203,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected <1> item(s) because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected 1 item(s) because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [TestMethod]
@@ -252,7 +252,7 @@ namespace FluentAssertions.Specs
             var assertions = collection.Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected no items because we want to test the failure message, but found <3>.");
+                .WithMessage("Expected no items because we want to test the failure message, but found 3.");
         }
 
         [TestMethod]
@@ -949,7 +949,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to contain <4> because we do.");
+                "Expected collection {1, 2, 3} to contain 4 because we do.");
         }
 
         [TestMethod]
@@ -1020,7 +1020,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection {1, 2, 3} should not contain <1> because we don't like it, but found it anyhow.");
+                "Collection {1, 2, 3} should not contain 1 because we don't like it, but found it anyhow.");
         }
 
         [TestMethod]
@@ -1075,7 +1075,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection not to contain element <1> because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection not to contain element 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -1233,7 +1233,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected no <null> in collection because they are evil, but found one at index <1>.");
+                "Expected no <null> in collection because they are evil, but found one at index 1.");
         }
 
         [TestMethod]
@@ -1300,7 +1300,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected only <System.String> items in collection, but item <1> at index 0 is of type <System.Int32>.");
+                "Expected only items of type <System.String> in collection, but item 1 at index 0 is of type <System.Int32>.");
         }
 
         [TestMethod]
@@ -1326,8 +1326,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected only <System.String> items in collection because we want to test the failure message" +
-                        ", but item <1> at index 0 is of type <System.Int32>.");
+                    "Expected only items of type <System.String> in collection because we want to test the failure message" +
+                        ", but item 1 at index 0 is of type <System.Int32>.");
         }
 
         [TestMethod]
@@ -1379,7 +1379,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected only unique items because we don't like duplicates, but item <3> was found multiple times.");
+                "Expected only unique items because we don't like duplicates, but item 3 was found multiple times.");
         }
 
         [TestMethod]
@@ -1438,7 +1438,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected <3> at index 1 because we put it there, but found <2>.");
+                "Expected 3 at index 1 because we put it there, but found 2.");
         }
 
         [TestMethod]
@@ -1458,7 +1458,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected <3> at index 4 because we put it there, but found no element.");
+                "Expected 3 at index 4 because we put it there, but found no element.");
         }
 
         [TestMethod]
@@ -1479,7 +1479,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to have element at index <1> because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to have element at index 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -1535,7 +1535,7 @@ namespace FluentAssertions.Specs
             extensions
                 .Invoking(e => e.HaveSameCount(secondCollection))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to have <2> item(s), but found <3>.");
+                .WithMessage("Expected collection to have 2 item(s), but found 3.");
         }
 
         [TestMethod]
@@ -1555,7 +1555,7 @@ namespace FluentAssertions.Specs
             extensions
                 .Invoking(e => e.HaveSameCount(secondCollection, "we want to test the {0}", "reason"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to have <2> item(s) because we want to test the reason, but found <3>.");
+                .WithMessage("Expected collection to have 2 item(s) because we want to test the reason, but found 3.");
         }
 
         [TestMethod]

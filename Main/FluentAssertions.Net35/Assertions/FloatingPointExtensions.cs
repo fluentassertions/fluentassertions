@@ -44,12 +44,10 @@ namespace FluentAssertions.Assertions
         public static AndConstraint<NumericAssertions<float?>> BeApproximately(this NumericAssertions<float?> parent, float expectedValue, float precision, string reason,
             params object[] reasonArgs)
         {
-            if (parent.Subject == null)
-            {
-                Execute.Fail(
-                    "Expected value <" + parent.Subject + "> to approximate <" + expectedValue + "> +/- {0}{2}, but it was <null>.",
-                    precision, null, reason, reasonArgs);
-            }
+            Execute.Verification
+                .ForCondition(parent.Subject != null)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected value to approximate {1} +/- {2}{0}, but it was <null>.", expectedValue, precision);
 
             BeApproximately(parent, expectedValue, precision, reason, reasonArgs);
 
@@ -101,8 +99,8 @@ namespace FluentAssertions.Assertions
             if (actualDifference > precision)
             {
                 Execute.Fail(
-                    "Expected value <" + parent.Subject + "> to approximate <" + expectedValue +
-                        "> +/- {0}{2}, but it differed by {1}.",
+                    "Expected value " + parent.Subject + " to approximate " + expectedValue +
+                        " +/- {0}{2}, but it differed by {1}.",
                     precision, actualDifference, reason, reasonArgs);
             }
 
@@ -149,12 +147,10 @@ namespace FluentAssertions.Assertions
         public static AndConstraint<NumericAssertions<double?>> BeApproximately(this NumericAssertions<double?> parent, double expectedValue, double precision, string reason,
             params object[] reasonArgs)
         {
-            if (parent.Subject == null)
-            {
-                Execute.Fail(
-                    "Expected value <" + parent.Subject + "> to approximate <" + expectedValue + "> +/- {0}{2}, but it was <null>.",
-                    precision, null, reason, reasonArgs);
-            }
+            Execute.Verification
+                .ForCondition(parent.Subject != null)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected value to approximate {1} +/- {2}{0}, but it was <null>.", expectedValue, precision);
 
             BeApproximately(parent, expectedValue, precision, reason, reasonArgs);
 
@@ -203,13 +199,11 @@ namespace FluentAssertions.Assertions
         {
             double actualDifference = Math.Abs(expectedValue - (double) parent.Subject);
 
-            if (actualDifference > precision)
-            {
-                Execute.Fail(
-                    "Expected value <" + parent.Subject + "> to approximate <" + expectedValue +
-                        "> +/- {0}{2}, but it differed by {1}.",
-                    precision, actualDifference, reason, reasonArgs);
-            }
+            Execute.Verification
+                .ForCondition(actualDifference <= precision)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected value {1} to approximate {2} +/- {3}{0}, but it differed by {4}.", 
+                    parent.Subject, expectedValue, precision, actualDifference);
 
             return new AndConstraint<NumericAssertions<double>>(parent);
         }

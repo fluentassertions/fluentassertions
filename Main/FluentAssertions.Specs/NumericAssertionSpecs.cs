@@ -33,7 +33,7 @@ namespace FluentAssertions.Specs
             var assertions = (-1).Should();
             assertions.Invoking(x => x.BePositive("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected positive value because we want to test the failure message, but found <-1>");
+                .WithMessage("Expected positive value because we want to test the failure message, but found -1");
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace FluentAssertions.Specs
             var assertions = (1).Should();
             assertions.Invoking(x => x.BeNegative("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected negative value because we want to test the failure message, but found <1>");
+                .WithMessage("Expected negative value because we want to test the failure message, but found 1");
         }
 
         #endregion
@@ -81,7 +81,7 @@ namespace FluentAssertions.Specs
             var assertions = 1.Should();
             assertions.Invoking(x => x.Be(2, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(@"Expected <2> because we want to test the failure message, but found <1>.");
+                .WithMessage(@"Expected 2 because we want to test the failure message, but found 1.");
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace FluentAssertions.Specs
             var assertions = 1.Should();
             assertions.Invoking(x => x.NotBe(1, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(@"Did not expect <1> because we want to test the failure message.");
+                .WithMessage(@"Did not expect 1 because we want to test the failure message.");
         }
 
         #endregion
@@ -136,7 +136,7 @@ namespace FluentAssertions.Specs
             var assertions = 2.Should();
             assertions.Invoking(x => x.BeGreaterThan(3, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(@"Expected a value greater than <3> because we want to test the failure message, but found <2>.");
+                .WithMessage(@"Expected a value greater than 3 because we want to test the failure message, but found 2.");
         }
 
         [TestMethod]
@@ -164,7 +164,7 @@ namespace FluentAssertions.Specs
             var assertions = 2.Should();
             assertions.Invoking(x => x.BeGreaterOrEqualTo(3, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(@"Expected a value greater or equal to <3> because we want to test the failure message, but found <2>.");
+                .WithMessage(@"Expected a value greater or equal to 3 because we want to test the failure message, but found 2.");
         }
 
         #endregion
@@ -197,7 +197,7 @@ namespace FluentAssertions.Specs
             var assertions = 2.Should();
             assertions.Invoking(x => x.BeLessThan(1, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(@"Expected a value less than <1> because we want to test the failure message, but found <2>.");
+                .WithMessage(@"Expected a value less than 1 because we want to test the failure message, but found 2.");
         }
 
         [TestMethod]
@@ -225,7 +225,7 @@ namespace FluentAssertions.Specs
             var assertions = 2.Should();
             assertions.Invoking(x => x.BeLessOrEqualTo(1, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(@"Expected a value less or equal to <1> because we want to test the failure message, but found <2>.");
+                .WithMessage(@"Expected a value less or equal to 1 because we want to test the failure message, but found 2.");
         }
 
         #endregion
@@ -249,7 +249,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value <{0}> to be between <{1}> and <{2}> because that's the valid range, but it was not.", value, 4, 5));
+                "Expected value {0} to be between {1} and {2} because that's the valid range, but it was not.", value, 4, 5));
         }
         
         [TestMethod]
@@ -336,7 +336,7 @@ namespace FluentAssertions.Specs
             float difference = Math.Abs(value - 3.14F);
             
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value <{0}> to approximate <{1}> +/- <{2}> because rockets will crash otherwise, but it differed by <{3}>.",
+                "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}.",
                 value, 3.14F, 0.001F, difference));
         }
 
@@ -376,7 +376,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value <{0}> to approximate <{1}> +/- <{2}>, but it was <null>.", value, 3.14, 0.001));
+                "Expected value to approximate {0} +/- {1}, but it was <null>.", 3.14, 0.001));
         }
         
         [TestMethod]
@@ -398,7 +398,7 @@ namespace FluentAssertions.Specs
             double difference = Math.Abs(value - 3.14);
             
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value <{0}> to approximate <{1}> +/- <{2}> because rockets will crash otherwise, but it differed by <{3}>.",
+                "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}.",
                 value, 3.14, 0.001, difference));
         }
 
@@ -439,7 +439,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value <{0}> to approximate <{1}> +/- <{2}>, but it was <null>.", value, 3.14, 0.001));
+                "Expected value to approximate {0} +/- {1}, but it was <null>.", 3.14, 0.001));
         }
 
         #endregion

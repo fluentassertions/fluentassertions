@@ -170,7 +170,7 @@ namespace FluentAssertions.Specs
             var assertions = new DateTime(2009, 12, 31).Should();
             assertions.Invoking(x => x.HaveYear(2008, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected year <2008> because we want to test the failure message, but found <2009>.");
+                .WithMessage("Expected year 2008 because we want to test the failure message, but found 2009.");
         }
 
         [TestMethod]
@@ -192,7 +192,7 @@ namespace FluentAssertions.Specs
             var assertions = new DateTime(2009, 12, 31).Should();
             assertions.Invoking(x => x.HaveMonth(11, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected month <11> because we want to test the failure message, but found <12>.");
+                .WithMessage("Expected month 11 because we want to test the failure message, but found 12.");
         }
 
         [TestMethod]
@@ -214,7 +214,7 @@ namespace FluentAssertions.Specs
             var assertions = new DateTime(2009, 12, 31).Should();
             assertions.Invoking(x => x.HaveDay(30, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected day <30> because we want to test the failure message, but found <31>.");
+                .WithMessage("Expected day 30 because we want to test the failure message, but found 31.");
         }
 
         [TestMethod]
@@ -236,7 +236,7 @@ namespace FluentAssertions.Specs
             var assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.Invoking(x => x.HaveHour(22, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected hour <22> because we want to test the failure message, but found <23>.");
+                .WithMessage("Expected hour 22 because we want to test the failure message, but found 23.");
         }
 
         [TestMethod]
@@ -258,7 +258,7 @@ namespace FluentAssertions.Specs
             var assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.Invoking(x => x.HaveMinute(58, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected minute <58> because we want to test the failure message, but found <59>.");
+                .WithMessage("Expected minute 58 because we want to test the failure message, but found 59.");
         }
 
         [TestMethod]
@@ -280,7 +280,7 @@ namespace FluentAssertions.Specs
             var assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.Invoking(x => x.HaveSecond(1, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected second <1> because we want to test the failure message, but found <0>.");
+                .WithMessage("Expected second 1 because we want to test the failure message, but found 0.");
         }
 
         [TestMethod]

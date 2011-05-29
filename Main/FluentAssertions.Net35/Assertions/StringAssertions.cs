@@ -383,7 +383,7 @@ namespace FluentAssertions.Assertions
             params object[] reasonParameters)
         {
             Execute.Verify(() => (Subject.Length == expected),
-                "Expected string with length {0}{2}, but found string {1} with length <" + Subject.Length + ">.",
+                "Expected string with length {0}{2}, but found string {1} with length " + Subject.Length + ".",
                 expected, Subject, reason, reasonParameters);
 
             return new AndConstraint<StringAssertions>(this);
