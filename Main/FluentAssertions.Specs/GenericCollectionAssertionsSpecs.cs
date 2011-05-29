@@ -72,7 +72,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {string1, string2, string3} to contain \"string4\" because 4 is required.");
+                "Expected collection {\"string1\", \"string2\", \"string3\"} to contain \"string4\" because 4 is required.");
         }
         
         [TestMethod]
@@ -92,7 +92,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {string1, string2} to contain {string1, string2, string3}, but could not find {string3}.");
+                "Expected collection {\"string1\", \"string2\"} to contain {\"string1\", \"string2\", \"string3\"}, but could not find {\"string3\"}.");
         }
 
         [TestMethod]

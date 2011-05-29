@@ -388,15 +388,15 @@ namespace FluentAssertions.Assertions
                 {
                     if (expectedObjects.Count() > 1)
                     {
-                        Execute.Fail(
-                            "Expected collection {1} to contain {0}{2}, but could not find " + 
-                            Formatter.ToString(missingItems).Escape() + ".",
-                            expected, Subject, reason, reasonParameters);
+                        Execute.Verification
+                            .BecauseOf(reason, reasonParameters)
+                            .FailWith("Expected collection {1} to contain {2}{0}, but could not find {3}.", Subject, expected, missingItems);
                     }
                     else
                     {
-                        Execute.Fail(
-                            "Expected collection {1} to contain {0}{2}.", expectedObjects.Single(), Subject, reason, reasonParameters);
+                        Execute.Verification
+                            .BecauseOf(reason, reasonParameters)
+                            .FailWith("Expected collection {1} to contain {2}{0}.", Subject, expected.Cast<object>().First());
                     }
                 }
             }
