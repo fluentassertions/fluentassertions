@@ -93,7 +93,7 @@ namespace FluentAssertions
                     var values = new List<string>(new[] {reason});
                     values.AddRange(failureArgs.Select(a => useLineBreaks ? Formatter.ToStringLine(a) : Formatter.ToString(a)));
 
-                    AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()).Replace("{{", "{").Replace("}}", "}"));
+                    AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()).Replace("{{{{", "{{").Replace("}}}}", "}}"));
                 }
             }
             finally

@@ -353,27 +353,6 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_collections_are_not_equal_it_should_throw_with_a_clear_explanation()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 1, 2, 5 };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection1.Should().Equal(collection2);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to {1, 2, 5}, but {1, 2, 3} differs at index 2.");
-        }
-
-        [TestMethod]
         public void When_two_collections_are_not_equal_it_should_throw_using_the_reason()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -392,6 +371,27 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to be equal to {1, 2, 5} because we want to test the failure message, but {1, 2, 3} differs at index 2.");
+        }
+
+        [TestMethod]
+        public void When_two_multidimensional_collections_are_not_equal_and_it_should_format_the_collections_properly()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection1 = new [] { new []{1, 2}, new[]{3, 4} };
+            IEnumerable collection2 = new [] { new []{5, 6}, new[]{7, 8} };
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().Equal(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected collection to be equal to {{5, 6}, {7, 8}}, but {{1, 2}, {3, 4}} differs at index 0.");
         }
 
         [TestMethod]
