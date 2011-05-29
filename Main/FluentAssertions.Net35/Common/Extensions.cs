@@ -99,5 +99,14 @@ namespace FluentAssertions.Common
 
             return actual.Equals(expected);
         }
+
+        /// <summary>
+        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
+        /// </summary>
+        public static string Escape(this string value)
+        {
+            return value.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r").Replace("{", "{{").Replace(
+                "}", "}}");
+        }
     }
 }

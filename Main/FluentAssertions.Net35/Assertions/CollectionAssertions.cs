@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Assertions
 {
     public abstract class CollectionAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
@@ -23,12 +25,12 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public AndConstraint<TAssertions> HaveCount(int expected, string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected {0} items{2}, but found {1}.", expected, reason,
+            VerifySubjectCollectionAgainstNull("Expected {0} item(s){2}, but found {1}.", expected, reason,
                                                reasonParameters);
 
             int actualCount = Subject.Cast<object>().Count();
 
-            Execute.Verify(() => actualCount == expected, "Expected {0} items{2}, but found {1}.",
+            Execute.Verify(() => actualCount == expected, "Expected {0} item(s){2}, but found {1}.",
                 expected, actualCount, reason, reasonParameters);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -386,7 +388,7 @@ namespace FluentAssertions.Assertions
                     if (expectedObjects.Count() > 1)
                     {
                         Execute.Fail(
-                            "Expected collection {1} to contain {0}{2}, but could not find " + Execute.ToString(missingItems) + ".",
+                            "Expected collection {1} to contain {0}{2}, but could not find " + Execute.ToString(missingItems).Replace("{", "{{").Replace("}", "}}") + ".",
                             expected, Subject, reason, reasonParameters);
                     }
                     else
@@ -430,7 +432,7 @@ namespace FluentAssertions.Assertions
             if (missingItems.Any())
             {
                 Execute.Fail(
-                    "Expected items {0} in ordered collection {1}{2}, but " + Execute.ToString(missingItems) +
+                    "Expected items {0} in ordered collection {1}{2}, but " + Execute.ToString(missingItems).Escape() +
                         " did not appear.",
                     expected, Subject, reason, reasonParameters);
             }
@@ -555,7 +557,7 @@ namespace FluentAssertions.Assertions
             int expectedCount = otherCollection.Cast<object>().Count();
 
             Execute.Verify(() => actualCount == expectedCount,
-                "Expected collection to have {0} items{2}, but found {1}.",
+                "Expected collection to have {0} item(s){2}, but found {1}.",
                 expectedCount, actualCount, reason, reasonParameters);
 
             return new AndConstraint<TAssertions>((TAssertions)this);

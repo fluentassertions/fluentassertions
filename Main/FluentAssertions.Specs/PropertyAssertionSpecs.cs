@@ -118,7 +118,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Values to be equal to <1, 4>, but <1, 2, 3> differs at index 1.");
+                "Expected property Values to be equal to {1, 4}, but {1, 2, 3} differs at index 1.");
         }       
 
         

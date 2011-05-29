@@ -15,11 +15,11 @@ namespace FluentAssertions.Formatting
             var enumerable = ((IEnumerable)value).Cast<object>();
             if (enumerable.Any())
             {
-                return "<" + string.Join(", ", enumerable.Select(o => o.ToString()).ToArray()) + ">";
+                return "{" + string.Join(", ", enumerable.Select(o => o.ToString()).ToArray()) + "}";
             }
             else
             {
-                return "<empty>";
+                return "{empty}";
             }
         }
     }

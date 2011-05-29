@@ -24,7 +24,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection <1, 2, 3> should have an item matching (item > 3) because at least 1 item should be larger than 3.");
+                "Collection {1, 2, 3} should have an item matching (item > 3) because at least 1 item should be larger than 3.");
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <string1, string2, string3> to contain \"string4\" because 4 is required.");
+                "Expected collection {string1, string2, string3} to contain \"string4\" because 4 is required.");
         }
         
         [TestMethod]
@@ -92,7 +92,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <string1, string2> to contain <string1, string2, string3>, but could not find <string3>.");
+                "Expected collection {string1, string2} to contain {string1, string2, string3}, but could not find {string3}.");
         }
 
         [TestMethod]
@@ -173,7 +173,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to contain only items matching (i <= 10) because 10 is the maximum, but <12, 11> do(es) not match.");
+                "Expected collection to contain only items matching (i <= 10) because 10 is the maximum, but {12, 11} do(es) not match.");
         }
         
         [TestMethod]

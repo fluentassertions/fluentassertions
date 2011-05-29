@@ -56,7 +56,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be <null> because null is valid, but found <empty>.");
+                "Expected collection to be <null> because null is valid, but found {empty}.");
         }
 
         [TestMethod]
@@ -113,14 +113,23 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            Should_fail_with_descriptive_message_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
+        public void When_collection_has_a_count_that_is_different_from_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
-            var assertions = collection.Should();
-            assertions.Invoking(x => x.HaveCount(4, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected <4> items because we want to test the failure message, but found <3>.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>  collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected <4> item(s) because we want to test the failure message, but found <3>.");
         }
 
         [TestMethod]
@@ -154,7 +163,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <1, 2, 3> to have a count (c >= 4) because a minimum of 4 is required, but count is <3>.");
+                "Expected collection {1, 2, 3} to have a count (c >= 4) because a minimum of 4 is required, but count is <3>.");
         }
 
         [TestMethod]
@@ -194,7 +203,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected <1> items because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected <1> item(s) because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [TestMethod]
@@ -361,7 +370,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to <1, 2, 5>, but <1, 2, 3> differs at index 2.");
+                "Expected collection to be equal to {1, 2, 5}, but {1, 2, 3} differs at index 2.");
         }
 
         [TestMethod]
@@ -382,7 +391,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to <1, 2, 5> because we want to test the failure message, but <1, 2, 3> differs at index 2.");
+                "Expected collection to be equal to {1, 2, 5} because we want to test the failure message, but {1, 2, 3} differs at index 2.");
         }
 
         [TestMethod]
@@ -445,7 +454,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to <1, 2, 3>, but <empty> differs at index 0.");
+                "Expected collection to be equal to {1, 2, 3}, but {empty} differs at index 0.");
         }
 
         [TestMethod]
@@ -475,7 +484,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal.");
+                "Did not expect collections {1, 2, 3} and {1, 2, 3} to be equal.");
         }
 
         [TestMethod]
@@ -496,7 +505,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect collections <1, 2, 3> and <1, 2, 3> to be equal because we want to test the failure message.");
+                "Did not expect collections {1, 2, 3} and {1, 2, 3} to be equal because we want to test the failure message.");
         }
 
 
@@ -596,7 +605,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <1, 2, 3> to contain the same items as <1, 2> in any order because we treat all alike.");
+                "Expected collection {1, 2, 3} to contain the same items as {1, 2} in any order because we treat all alike.");
         }
 
         [TestMethod]
@@ -696,7 +705,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <1, 2, 3> not be equivalent with collection <3, 1, 2>.");
+                "Expected collection {1, 2, 3} not be equivalent with collection {3, 1, 2}.");
         }
 
         [TestMethod]
@@ -801,8 +810,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be a subset of <1, 2, 4, 5> because we want to test the failure message, " +
-                    "but items <3, 6> are not part of the superset.");
+                "Expected collection to be a subset of {1, 2, 4, 5} because we want to test the failure message, " +
+                    "but items {3, 6} are not part of the superset.");
         }
 
         [TestMethod]
@@ -823,7 +832,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be a subset of <1, 2, 4, 5>, but the subset is empty.");
+                "Expected collection to be a subset of {1, 2, 4, 5}, but the subset is empty.");
         }
 
         [TestMethod]
@@ -880,7 +889,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <1, 2> not to be a subset of <1, 2, 3> because I'm mistaken, but it is anyhow.");
+                "Expected collection {1, 2} not to be a subset of {1, 2, 3} because I'm mistaken, but it is anyhow.");
         }
 
         [TestMethod]
@@ -902,7 +911,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be a subset of <1, 2, 3> because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to be a subset of {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -940,7 +949,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <1, 2, 3> to contain <4> because we do.");
+                "Expected collection {1, 2, 3} to contain <4> because we do.");
         }
 
         [TestMethod]
@@ -960,7 +969,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection <1, 2, 3> to contain <3, 4, 5> because we do, but could not find <4, 5>.");
+                "Expected collection {1, 2, 3} to contain {3, 4, 5} because we do, but could not find {4, 5}.");
         }
 
         [TestMethod]
@@ -1011,7 +1020,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection <1, 2, 3> should not contain <1> because we don't like it, but found it anyhow.");
+                "Collection {1, 2, 3} should not contain <1> because we don't like it, but found it anyhow.");
         }
 
         [TestMethod]
@@ -1031,7 +1040,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection <1, 2, 3> should not have any items matching (item == 2) because 2s are evil.");
+                "Collection {1, 2, 3} should not have any items matching (item == 2) because 2s are evil.");
         }
 
         [TestMethod]
@@ -1118,7 +1127,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected items <1, 2, 1, 1, 2> in ordered collection <1, 2, 1, 3, 12, 2, 2>, but the order did not match.");
+                "Expected items {1, 2, 1, 1, 2} in ordered collection {1, 2, 1, 3, 12, 2, 2}, but the order did not match.");
         }
 
         [TestMethod]
@@ -1133,7 +1142,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected items <3, 1> in ordered collection <1, 2, 3> " +
+                "Expected items {3, 1} in ordered collection {1, 2, 3} " +
                     "because we said so, but the order did not match.");
         }
 
@@ -1149,8 +1158,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected items <4, 1> in ordered collection <1, 2, 3> " +
-                    "because we failed, but <4> did not appear.");
+                "Expected items {4, 1} in ordered collection {1, 2, 3} " +
+                    "because we failed, but {4} did not appear.");
         }
 
         [TestMethod]
@@ -1526,7 +1535,7 @@ namespace FluentAssertions.Specs
             extensions
                 .Invoking(e => e.HaveSameCount(secondCollection))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to have <2> items, but found <3>.");
+                .WithMessage("Expected collection to have <2> item(s), but found <3>.");
         }
 
         [TestMethod]
@@ -1546,7 +1555,7 @@ namespace FluentAssertions.Specs
             extensions
                 .Invoking(e => e.HaveSameCount(secondCollection, "we want to test the {0}", "reason"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to have <2> items because we want to test the reason, but found <3>.");
+                .WithMessage("Expected collection to have <2> item(s) because we want to test the reason, but found <3>.");
         }
 
         [TestMethod]
@@ -1568,7 +1577,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to have the same count as <1, 2, 3> because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [TestMethod]

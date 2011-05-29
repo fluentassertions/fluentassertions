@@ -106,7 +106,7 @@ namespace FluentAssertions
                     var values = new List<string>(new[] {reason});
                     values.AddRange(failureArgs.Select(ToString));
 
-                    AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()));
+                    AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()).Replace("}}", "}").Replace("{{", "{"));
                 }
             }
             finally
