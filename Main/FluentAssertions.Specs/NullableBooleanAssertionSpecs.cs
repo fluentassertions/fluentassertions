@@ -52,7 +52,7 @@ namespace FluentAssertions.Specs
             var assertions = nullableBoolean.Should();
             assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect a value because we want to test the failure message, but found <True>.");
+                .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
         }
 
         [TestMethod]

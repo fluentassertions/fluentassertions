@@ -1300,7 +1300,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected only items of type <System.String> in collection, but item 1 at index 0 is of type <System.Int32>.");
+                "Expected only items of type System.String in collection, but item 1 at index 0 is of type System.Int32.");
         }
 
         [TestMethod]
@@ -1326,8 +1326,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected only items of type <System.String> in collection because we want to test the failure message" +
-                        ", but item 1 at index 0 is of type <System.Int32>.");
+                    "Expected only items of type System.String in collection because we want to test the failure message" +
+                        ", but item 1 at index 0 is of type System.Int32.");
         }
 
         [TestMethod]
@@ -1348,7 +1348,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to contain element assignable to type <System.String> because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to contain element assignable to type System.String because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion

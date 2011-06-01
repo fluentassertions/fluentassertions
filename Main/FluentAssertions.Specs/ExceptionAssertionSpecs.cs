@@ -165,7 +165,7 @@ namespace FluentAssertions.Specs
             catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected <System.Exception> because IFoo.Do should do that, but no exception was thrown.");
+                    "Expected System.Exception because IFoo.Do should do that, but no exception was thrown.");
             }
         }
 
@@ -186,7 +186,7 @@ namespace FluentAssertions.Specs
             catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected <System.InvalidOperationException>, but found <System.ArgumentException>.");
+                    "Expected System.InvalidOperationException, but found System.ArgumentException.");
             }
         }
 
@@ -208,7 +208,7 @@ namespace FluentAssertions.Specs
             catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected <System.InvalidOperationException> because IFoo.Do should throw that one, but found <System.ArgumentException>.");
+                    "Expected System.InvalidOperationException because IFoo.Do should throw that one, but found System.ArgumentException.");
             }
         }
 
@@ -243,7 +243,7 @@ namespace FluentAssertions.Specs
             catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected inner <System.ArgumentException>, but found <System.NullReferenceException>.");
+                    "Expected inner System.ArgumentException, but found System.NullReferenceException.");
             }
         }
 
@@ -265,7 +265,7 @@ namespace FluentAssertions.Specs
             catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected inner <System.ArgumentException> because IFoo.Do should do just that, but found <System.NullReferenceException>.");
+                    "Expected inner System.ArgumentException because IFoo.Do should do just that, but found System.NullReferenceException.");
             }
         }
 
@@ -286,7 +286,7 @@ namespace FluentAssertions.Specs
             catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected inner <System.InvalidOperationException>, but the thrown exception has no inner exception.");
+                    "Expected inner System.InvalidOperationException, but the thrown exception has no inner exception.");
             }
         }
 
@@ -308,7 +308,7 @@ namespace FluentAssertions.Specs
             catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected inner <System.InvalidOperationException> because IFoo.Do should do that, but the thrown exception has no inner exception.");
+                    "Expected inner System.InvalidOperationException because IFoo.Do should do that, but the thrown exception has no inner exception.");
             }
         }
 
@@ -557,7 +557,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect <System.ArgumentException> because we passed valid arguments, " + 
+                "Did not expect System.ArgumentException because we passed valid arguments, " + 
                 "but found one with message \"An exception was forced\".");
         }
 
@@ -596,7 +596,7 @@ namespace FluentAssertions.Specs
             action
                 .ShouldThrow<AssertFailedException>().WithMessage(
                 "Did not expect any exception because we passed valid arguments, " +
-                "but found a <System.ArgumentException> with message \"An exception was forced\".");
+                "but found a System.ArgumentException with message \"An exception was forced\".");
         }
         
         [TestMethod]

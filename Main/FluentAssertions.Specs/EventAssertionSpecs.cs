@@ -2,6 +2,7 @@
 using System.ComponentModel;
 
 using FluentAssertions.EventMonitoring;
+using FluentAssertions.Formatting;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -29,7 +30,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <" + subject + "> is not being monitored for events or has already been garbage collected. "+ 
+                "Object <FluentAssertions.specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " + 
                 "Use the MonitorEvents() extension method to start monitoring events.");
         }
 
@@ -50,7 +51,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <" + subject + "> is not being monitored for events or has already been garbage collected. " +
+                "Object <FluentAssertions.specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
                 "Use the MonitorEvents() extension method to start monitoring events.");
         }
 
@@ -133,7 +134,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object <" + subject + "> to raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did not.");
+                "Expected object " + Formatter.ToString(subject) + " to raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did not.");
         }
 
         [TestMethod]
@@ -176,7 +177,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object <" + subject + "> to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
+                "Expected object " + Formatter.ToString(subject) + " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
         }
 
         [TestMethod]
@@ -217,7 +218,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected sender <" + subject + ">, but found <null>.");
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected sender " + Formatter.ToString(subject) + ", but found <null>.");
         }
         
         [TestMethod]
@@ -360,7 +361,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect object <" + subject + "> to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
+                "Did not expect object " + Formatter.ToString(subject) + " to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
         }
 
         [TestMethod]
@@ -381,7 +382,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object <" + subject + "> to raise event \"PropertyChanged\" because the property was changed, but it did not.");
+                "Expected object " + Formatter.ToString(subject) + " to raise event \"PropertyChanged\" because the property was changed, but it did not.");
         }
 
         [TestMethod]

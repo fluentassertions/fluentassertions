@@ -79,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertEx.cs" />
-    <Compile Include="AssertionsSpecs.cs" />
+    <Compile Include="ReferenceTypeAssertionsSpecs.cs" />
     <Compile Include="BooleanAssertionSpecs.cs" />
     <Compile Include="CollectionAssertionSpecs.cs" />
     <Compile Include="DateTimeAssertionSpecs.cs" />

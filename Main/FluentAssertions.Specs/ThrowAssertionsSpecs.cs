@@ -40,7 +40,7 @@ namespace FluentAssertions.Specs
             catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected <System.Exception>, but no exception was thrown.");
+                    "Expected System.Exception, but no exception was thrown.");
             }
         }
 
@@ -58,7 +58,7 @@ namespace FluentAssertions.Specs
             catch (AssertFailedException ex)
             {
                 ex.Message.Should().Be(
-                    "Expected <System.Exception>, but no exception was thrown.");
+                    "Expected System.Exception, but no exception was thrown.");
             }
         }
     }

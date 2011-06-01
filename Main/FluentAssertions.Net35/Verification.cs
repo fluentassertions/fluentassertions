@@ -90,16 +90,23 @@ namespace FluentAssertions
             {
                 if (!succeeded)
                 {
-                    var values = new List<string>(new[] {reason});
-                    values.AddRange(failureArgs.Select(a => useLineBreaks ? Formatter.ToStringLine(a) : Formatter.ToString(a)));
+                    string exceptionMessage = BuildExceptionMessage(failureMessage, failureArgs);
 
-                    AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()).Replace("{{{{", "{{").Replace("}}}}", "}}"));
+                    AssertionHelper.Throw(exceptionMessage);
                 }
             }
             finally
             {
                 succeeded = false;
             }
+        }
+
+        private string BuildExceptionMessage(string failureMessage, object[] failureArgs)
+        {
+            var values = new List<string>(new[] {reason});
+            values.AddRange(failureArgs.Select(a => useLineBreaks ? Formatter.ToStringLine(a) : Formatter.ToString(a)));
+
+            return string.Format(failureMessage, values.ToArray()).Replace("{{{{", "{{").Replace("}}}}", "}}");
         }
 
         /// <summary>

@@ -104,9 +104,6 @@
     <Compile Include="..\FluentAssertions.Specs\AssertEx.cs">
       <Link>AssertEx.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Specs\AssertionsSpecs.cs">
-      <Link>AssertionsSpecs.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Specs\BooleanAssertionSpecs.cs">
       <Link>BooleanAssertionSpecs.cs</Link>
     </Compile>
@@ -148,6 +145,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\PropertyAssertionSpecs.cs">
       <Link>PropertyAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ReferenceTypeAssertionsSpecs.cs">
+      <Link>ReferenceTypeAssertionsSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\SimpleTimeSpanAssertionSpecs.cs">
       <Link>SimpleTimeSpanAssertionSpecs.cs</Link>
