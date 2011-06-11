@@ -168,18 +168,18 @@ namespace FluentAssertions.Specs
         #region Same / NotSame
 
         [TestMethod]
-        public void When_same_objects_are_expected_to_be_the_same_it_should_not_throw()
+        public void When_the_same_objects_are_expected_to_be_the_same_it_should_not_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var someObject = new ClassWithCustomEqualMethod(1);
-            var sameObject = someObject;
+            var subject = new ClassWithCustomEqualMethod(1);
+            var referenceToSubject = subject;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act / Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            someObject.Should().BeSameAs(sameObject);
+            subject.Should().BeSameAs(referenceToSubject);
         }
 
         [TestMethod]
@@ -188,40 +188,29 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var someObject = new ClassWithCustomEqualMethod(1);
-            var someOtherObject = new ClassWithCustomEqualMethod(2);
+            var subject = new
+            {
+                Name = "John Doe"
+            };
+            
+            var otherObject = new
+            {
+                UserName = "JohnDoe"
+            };
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () => someObject.Should().BeSameAs(someOtherObject);
+            Action act = () => subject.Should().BeSameAs(otherObject, "they are {0} {1}", "the", "same");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected the exact same objects.");
-        }
-
-        [TestMethod]
-        public void When_two_different_objects_are_expected_to_be_the_same_it_should_throw_and_use_the_reason()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            var someObject = new ClassWithCustomEqualMethod(1);
-            var someOtherObject = new ClassWithCustomEqualMethod(2);
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () => someObject.Should().BeSameAs(someOtherObject, "the are {0} {1}", "not", "the same");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected the exact same objects because the are not the same.");
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected reference to object \r\n{ UserName = JohnDoe } because " + 
+                    "they are the same, but found object \r\n{ Name = John Doe }.");
         }
 
         [TestMethod]
@@ -257,7 +246,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected different objects because they are the same.");
+                .WithMessage("Did not expect reference to object \r\nClassWithCustomEqualMethod(1) because they are the same.");
         }
 
         #endregion
