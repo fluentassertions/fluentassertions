@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace FluentAssertions.Frameworks
@@ -24,15 +25,8 @@ namespace FluentAssertions.Frameworks
         {
             get
             {
-                try
-                {
-                    assembly = Assembly.Load(AssemblyName);
-                    return (assembly != null);
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+                assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == AssemblyName);
+                return (assembly != null);
             }
         }
 

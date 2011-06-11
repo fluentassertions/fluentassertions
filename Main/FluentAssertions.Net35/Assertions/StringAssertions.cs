@@ -519,9 +519,9 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
-        static bool IsBlank(string str)
+        private static bool IsBlank(string str)
         {
-            return str == null || string.IsNullOrEmpty(str.Trim());
+            return (str == null) || string.IsNullOrEmpty(str.Trim());
         }
     }
 }
