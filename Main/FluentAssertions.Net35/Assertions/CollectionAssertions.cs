@@ -312,26 +312,18 @@ namespace FluentAssertions.Assertions
                 throw new NullReferenceException("Cannot verify equivalence against a <null> collection.");
             }
 
-            if (!expected.Cast<object>().Any())
-            {
-                throw new ArgumentException("Cannot verify equivalence against an empty collection.");
-            }
-
-            if (ReferenceEquals(Subject, null))
-            {
-                Execute.Fail("Expected collections to be equivalent{2}, but found {1}.", expected, Subject, reason,
-                    reasonParameters);
-            }
+            Execute.Verification
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected collection to be equivalent to {1}{0}, but found {2}.", expected, Subject);
 
             var expectedItems = expected.Cast<object>().ToList();
             var actualItems = Subject.Cast<object>().ToList();
 
-            if (!AreEquivalent(expectedItems, actualItems))
-            {
-                Execute.Fail(
-                    "Expected collection {1} to contain the same items as {0} in any order{2}.",
-                    expectedItems, actualItems, reason, reasonParameters);
-            }
+            Execute.Verification
+                .ForCondition(AreEquivalent(expectedItems, actualItems))
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected collection {1} to be equivalent to {2}{0}.", actualItems, expectedItems);
 
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
@@ -348,11 +340,6 @@ namespace FluentAssertions.Assertions
                 throw new NullReferenceException("Cannot verify inequivalence against a <null> collection.");
             }
 
-            if (!expected.Cast<object>().Any())
-            {
-                throw new ArgumentException("Cannot verify inequivalence against an empty collection.");
-            }
-
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Fail("Expected collections not to be equivalent{2}, but found {1}.", expected, Subject, reason,
@@ -363,6 +350,44 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Fail("Expected collection {1} not be equivalent with collection {0}.", expected, Subject, reason,
                     reasonParameters);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions) this);
+        }
+
+        /// <summary>
+        ///   Expects the current collection not to contain all elements of the collection identified by <param name = "expected" />,
+        ///   regardless of the order. Elements are compared using their <see cref = "object.Equals(object)" />.
+        /// </summary>
+        public AndConstraint<TAssertions> NotBeEquivalentTo(IEnumerable expected)
+        {
+            return NotBeEquivalentTo(expected, String.Empty);
+        }
+
+        /// <summary>
+        ///   Asserts that the current collection only contains items that are assignable to the type <typeparamref name = "T" />.
+        /// </summary>
+        public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string reason,
+            params object[] reasonParameters)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Fail("Expected collection to contain element assignable to type {0}{2}, but found {1}.",
+                    typeof (T), Subject, reason, reasonParameters);
+            }
+
+            int index = 0;
+            foreach (var item in Subject)
+            {
+                if (!typeof (T).IsAssignableFrom(item.GetType()))
+                {
+                    Execute.Fail(
+                        "Expected only items of type {0} in collection{2}, but item " + item + " at index " + index +
+                            " is of type {1}.",
+                        typeof (T), item.GetType(), reason, reasonParameters);
+                }
+
+                ++index;
             }
 
             return new AndConstraint<TAssertions>((TAssertions) this);
@@ -713,44 +738,6 @@ namespace FluentAssertions.Assertions
         public AndConstraint<TAssertions> ContainItemsAssignableTo<T>()
         {
             return ContainItemsAssignableTo<T>(String.Empty);
-        }
-
-        /// <summary>
-        ///   Asserts that the current collection only contains items that are assignable to the type <typeparamref name = "T" />.
-        /// </summary>
-        public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string reason,
-            params object[] reasonParameters)
-        {
-            if (ReferenceEquals(Subject, null))
-            {
-                Execute.Fail("Expected collection to contain element assignable to type {0}{2}, but found {1}.",
-                    typeof (T), Subject, reason, reasonParameters);
-            }
-
-            int index = 0;
-            foreach (var item in Subject)
-            {
-                if (!typeof (T).IsAssignableFrom(item.GetType()))
-                {
-                    Execute.Fail(
-                        "Expected only items of type {0} in collection{2}, but item " + item + " at index " + index +
-                            " is of type {1}.",
-                        typeof (T), item.GetType(), reason, reasonParameters);
-                }
-
-                ++index;
-            }
-
-            return new AndConstraint<TAssertions>((TAssertions) this);
-        }
-
-        /// <summary>
-        ///   Expects the current collection not to contain all elements of the collection identified by <param name = "expected" />,
-        ///   regardless of the order. Elements are compared using their <see cref = "object.Equals(object)" />.
-        /// </summary>
-        public AndConstraint<TAssertions> NotBeEquivalentTo(IEnumerable expected)
-        {
-            return NotBeEquivalentTo(expected, String.Empty);
         }
 
         /// <summary>

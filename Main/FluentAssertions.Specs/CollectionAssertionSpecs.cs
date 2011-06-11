@@ -558,28 +558,42 @@ namespace FluentAssertions.Specs
         #region Be Equivalent To
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_is_equivalent_to_an_equivalent_collection()
-        {
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 3, 1, 2 };
-            collection1.Should().BeEquivalentTo(collection2);
-        }
-
-        [TestMethod]
-        public void Should_succeed_when_asserting_collection_is_equivalent_to_an_equivalent_list_of_elements()
-        {
-            IEnumerable collection = new [] { 1, 2, 3 };
-            collection.Should().BeEquivalentTo(3, 1, 2);
-        }
-
-        [TestMethod]
-        public void When_collections_are_equivalent_it_should_not_throw()
+        public void When_two_collections_contain_the_same_elements_it_should_treat_them_as_equivalent()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            char [] list1 = ("abc123ab").ToCharArray();
-            char [] list2 = ("abc123ab").ToCharArray();
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+            IEnumerable collection2 = new[] { 3, 1, 2 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection1.Should().BeEquivalentTo(collection2);
+        }
+
+        [TestMethod]
+        public void When_a_collection_contain_same_elements_it_should_treat_it_as_equivalent()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().BeEquivalentTo(3, 1, 2);
+        }
+
+        [TestMethod]
+        public void When_character_collections_are_equivalent_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            char[] list1 = ("abc123ab").ToCharArray();
+            char[] list2 = ("abc123ab").ToCharArray();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -605,7 +619,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to contain the same items as {1, 2} in any order because we treat all alike.");
+                "Expected collection {1, 2, 3} to be equivalent to {1, 2} because we treat all alike.");
         }
 
         [TestMethod]
@@ -614,19 +628,39 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new int[0];
+            IEnumerable subject = new [] { 1, 2, 3 };
+            IEnumerable otherCollection = new int[0];
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection1.Should().BeEquivalentTo(collection2);
+            Action act = () => subject.Should().BeEquivalentTo(otherCollection);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
-                "Cannot verify equivalence against an empty collection.");
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected collection {1, 2, 3} to be equivalent to {empty}.");
+        }
+        
+        [TestMethod]
+        public void When_two_collections_are_both_empty_it_should_treat_them_as_equivalent()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable subject = new int[0];
+            IEnumerable otherCollection = new int[0];
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(otherCollection);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
@@ -669,7 +703,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collections to be equivalent because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to be equivalent to {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [TestMethod]
@@ -732,7 +766,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_collections_not_to_be_equivalent_against_empty_collection_it_should_throw()
+        public void When_non_empty_collection_is_not_expected_to_be_equivalent_to_an_empty_collection_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -748,8 +782,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<ArgumentException>().WithMessage(
-                "Cannot verify inequivalence against an empty collection.");
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
