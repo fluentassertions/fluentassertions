@@ -36,8 +36,10 @@ namespace FluentAssertions.Assertions
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected, string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection to contain {0}, but found {1}.", expected, reason,
-                                               reasonParameters);
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Fail("Expected collection to contain {0}, but found {1}.", expected, Subject, reason, reasonParameters);
+            }
 
             if (!Subject.Contains(expected))
             {
@@ -79,8 +81,10 @@ namespace FluentAssertions.Assertions
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection to contain {0}{2}, but found {1}.", predicate.Body, reason,
-                                               reasonParameters);
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Fail("Expected collection to contain {0}{2}, but found {1}.", predicate.Body, Subject, reason, reasonParameters);
+            }
 
             if (!Subject.Any(item => predicate.Compile()(item)))
             {
@@ -143,8 +147,10 @@ namespace FluentAssertions.Assertions
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonParameters)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection not to contain {0}{2}, but found {1}.", predicate.Body, reason,
-                                               reasonParameters);
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Fail("Expected collection not to contain {0}{2}, but found {1}.", predicate.Body, Subject, reason, reasonParameters);
+            }
 
             if (Subject.Any(item => predicate.Compile()(item)))
             {

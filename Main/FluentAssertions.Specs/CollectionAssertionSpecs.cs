@@ -815,7 +815,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_an_empty_collection_is_tested_against_a_superset_it_should_throw_with_a_clear_explanation()
+        public void When_an_empty_collection_is_tested_against_a_superset_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -831,8 +831,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be a subset of {1, 2, 4, 5}, but the subset is empty.");
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
@@ -857,18 +856,39 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_set_is_expected_to_be_not_a_subset_and_it_isnt_it_should_not_throw()
+        public void When_a_set_is_expected_to_be_not_a_subset_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable otherSet = new [] { 1, 2, 4 };
-            IEnumerable superSet = new [] { 1, 2, 3 };
+            IEnumerable subject = new [] { 1, 2, 4 };
+            IEnumerable otherSet = new [] { 1, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            otherSet.Should().NotBeSubsetOf(superSet);
+            subject.Should().NotBeSubsetOf(otherSet);
+        }
+        
+        [TestMethod]
+        public void When_an_empty_set_is_not_supposed_to_be_a_subset_of_another_set_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable subject = new int[] {};
+            IEnumerable otherSet = new [] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeSubsetOf(otherSet);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect collection {empty} to be a subset of {1, 2, 3}.");
         }
 
         [TestMethod]
@@ -877,19 +897,19 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2 };
-            IEnumerable collection2 = new [] { 1, 2, 3 };
+            IEnumerable subject = new [] { 1, 2 };
+            IEnumerable otherSet = new [] { 1, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection1.Should().NotBeSubsetOf(collection2, "because I'm {0}", "mistaken");
+            Action act = () => subject.Should().NotBeSubsetOf(otherSet, "because I'm {0}", "mistaken");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2} not to be a subset of {1, 2, 3} because I'm mistaken, but it is anyhow.");
+                "Did not expect collection {1, 2} to be a subset of {1, 2, 3} because I'm mistaken.");
         }
 
         [TestMethod]
