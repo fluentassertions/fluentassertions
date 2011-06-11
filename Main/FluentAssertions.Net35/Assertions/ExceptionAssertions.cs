@@ -89,18 +89,27 @@ namespace FluentAssertions.Assertions
         public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string reason,
             params object[] reasonParameters)
         {
-            Execute.Verify(Subject != null, "Expected inner {0}{2}, but no exception was thrown.",
-                typeof (TInnerException), null, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(Subject != null)
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected inner {1}{0}, but no exception was thrown.", typeof (TInnerException));
 
-            Execute.Verify(Subject.InnerException != null,
-                "Expected inner {0}{2}, but the thrown exception has no inner exception.",
-                typeof (TInnerException), null, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(Subject.InnerException != null)
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected inner {1}{0}, but the thrown exception has no inner exception.",
+                    typeof (TInnerException));
 
-            Execute.Verify((Subject.InnerException.GetType() == typeof (TInnerException)),
-                "Expected inner {0}{2}, but found {1}.",
-                typeof (TInnerException),
-                Subject.InnerException.GetType(),
-                reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(Subject.InnerException != null)
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected inner {1}{0}, but the thrown exception has no inner exception.",
+                    typeof (TInnerException));
+
+            Execute.Verification
+                .ForCondition(Subject.InnerException is TInnerException)
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected inner {1}{0}, but found {2}.", typeof(TInnerException), Subject.InnerException);
 
             return this;
         }

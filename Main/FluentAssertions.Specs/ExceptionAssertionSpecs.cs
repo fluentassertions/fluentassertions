@@ -83,7 +83,7 @@ namespace FluentAssertions.Specs
                     ex.Message);
             }
         }
-        
+
         [TestMethod]
         public void When_subject_throws_some_exception_with_an_empty_message_it_should_throw_with_clear_description()
         {
@@ -117,7 +117,9 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw()
+        public void
+            When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw
+            ()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -150,55 +152,48 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_subject_does_not_throw_exception_but_one_was_expected_with_reason_it_should_throw_with_clear_description_and_reason
-            ()
+        public void When_no_exception_was_thrown_but_one_was_expected_it_should_clearly_report_that()
         {
             try
             {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
                 IFoo testSubject = A.Fake<IFoo>();
 
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
                 testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>("because {0} should do that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
             }
             catch (AssertFailedException ex)
             {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
                     "Expected System.Exception because IFoo.Do should do that, but no exception was thrown.");
             }
         }
 
         [TestMethod]
-        public void When_subject_throws_another_exception_than_expected_it_should_throw_with_clear_description()
+        public void When_subject_throws_another_exception_than_expected_it_should_include_details_of_that_exception()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actualException = new ArgumentException();
+
             IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new ArgumentException());
+            A.CallTo(() => testSubject.Do()).Throws(actualException);
 
             try
             {
-                testSubject
-                    .Invoking(x => x.Do())
-                    .ShouldThrow<InvalidOperationException>();
-
-                Assert.Fail("This point should not be reached");
-            }
-            catch (AssertFailedException ex)
-            {
-                ex.Message.Should().Be(
-                    "Expected System.InvalidOperationException, but found System.ArgumentException.");
-            }
-        }
-
-        [TestMethod]
-        public void
-            When_subject_throws_another_exception_than_expected_it_should_throw_with_clear_description_and_reason()
-        {
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new ArgumentException());
-
-            try
-            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
                 testSubject
                     .Invoking(x => x.Do())
                     .ShouldThrow<InvalidOperationException>("because {0} should throw that one", "IFoo.Do");
@@ -207,8 +202,14 @@ namespace FluentAssertions.Specs
             }
             catch (AssertFailedException ex)
             {
-                ex.Message.Should().Be(
-                    "Expected System.InvalidOperationException because IFoo.Do should throw that one, but found System.ArgumentException.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                ex.Message.Should().StartWith(
+                    "Expected System.InvalidOperationException because IFoo.Do should throw that one, but found System.ArgumentException");
+
+                ex.Message.Should().Contain(actualException.Message);
+                ex.Message.Should().Contain(actualException.StackTrace);
             }
         }
 
@@ -217,61 +218,60 @@ namespace FluentAssertions.Specs
         #region Inner Exceptions
 
         [TestMethod]
-        public void When_subject_throws_an_exception_with_the_expected_innerexception_it_should_not_do_anything()
+        public void When_subject_throws_an_exception_with_the_expected_inner_exception_it_should_not_do_anything()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IFoo testSubject = A.Fake<IFoo>();
             A.CallTo(() => testSubject.Do()).Throws(new Exception("", new ArgumentException()));
 
-            testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            testSubject
+                .Invoking(x => x.Do())
+                .ShouldThrow<Exception>()
                 .WithInnerException<ArgumentException>();
         }
 
         [TestMethod]
-        public void
-            When_subject_throws_an_exception_with_an_unexpected_innerexception_it_should_throw_with_clear_description()
+        public void When_subject_throws_an_exception_with_an_unexpected_inner_exception_it_should_throw_with_clear_description()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var innerException = new NullReferenceException();
+
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", innerException));
+
             try
             {
-                IFoo testSubject = A.Fake<IFoo>();
-                A.CallTo(() => testSubject.Do()).Throws(new Exception("", new NullReferenceException()));
-
-                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
-                    .WithInnerException<ArgumentException>();
-
-                Assert.Fail("This point should not be reached");
-            }
-            catch (AssertFailedException ex)
-            {
-                ex.Message.Should().Be(
-                    "Expected inner System.ArgumentException, but found System.NullReferenceException.");
-            }
-        }
-
-        [TestMethod]
-        public void
-            When_subject_throws_an_exception_with_an_unexpected_innerexception_it_should_throw_with_clear_description_reason
-            ()
-        {
-            try
-            {
-                IFoo testSubject = A.Fake<IFoo>();
-                A.CallTo(() => testSubject.Do()).Throws(new Exception("", new NullReferenceException()));
-
-                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                testSubject
+                    .Invoking(x => x.Do())
+                    .ShouldThrow<Exception>()
                     .WithInnerException<ArgumentException>("because {0} should do just that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached");
             }
-            catch (AssertFailedException ex)
+            catch (AssertFailedException exc)
             {
-                ex.Message.Should().Be(
-                    "Expected inner System.ArgumentException because IFoo.Do should do just that, but found System.NullReferenceException.");
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                exc.Message.Should().StartWith(
+                    "Expected inner System.ArgumentException because IFoo.Do should do just that, but found System.NullReferenceException");
+
+                exc.Message.Should().Contain(innerException.Message);
             }
         }
 
         [TestMethod]
-        public void
-            When_subject_throws_an_exception_without_expected_inner_exception_it_should_throw_with_clear_description()
+        public void When_subject_throws_an_exception_without_expected_inner_exception_it_should_throw_with_clear_description()
         {
             try
             {
@@ -329,7 +329,8 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("",
+                new InvalidOperationException("unexpected message")));
 
             try
             {
@@ -352,13 +353,16 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_subject_throws_inner_exception_with_unexpected_message_it_should_throw_with_clear_description_and_reason()
+        public void
+            When_subject_throws_inner_exception_with_unexpected_message_it_should_throw_with_clear_description_and_reason
+            ()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("",
+                new InvalidOperationException("unexpected message")));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -380,16 +384,6 @@ namespace FluentAssertions.Specs
                 ex.Message.Should().Be(
                     "Expected inner exception with message \r\n\"expected message\" because IFoo.Do should do just that, but \r\n\"unexpected message\" differs near \"une\" (index 0).");
             }
-        }
-
-        [TestMethod]
-        public void When_WHEN_it_should_SHOULD()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            
-            
         }
 
         #endregion
@@ -439,13 +433,13 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Func<IEnumerable<char>> act = () => MethodThatUsesYield("aaa!aaa");
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.Enumerating().ShouldThrow<Exception>();
         }
-        
+
         private static IEnumerable<char> MethodThatUsesYield(string bar)
         {
             foreach (var character in bar)
@@ -487,7 +481,7 @@ namespace FluentAssertions.Specs
                     "Expected exception where (e.Message.Length > 0) because an exception must have a message, but the condition was not met.");
             }
         }
-        
+
         [TestMethod]
         public void When_a_2nd_condition_is_not_met_it_should_throw()
         {
@@ -550,15 +544,16 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => foo.Invoking(f => f.Do()).ShouldNotThrow<ArgumentException>("we passed valid arguments");
+            Action action =
+                () => foo.Invoking(f => f.Do()).ShouldNotThrow<ArgumentException>("we passed valid arguments");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect System.ArgumentException because we passed valid arguments, " + 
-                "but found one with message \"An exception was forced\".");
+                    "Did not expect System.ArgumentException because we passed valid arguments, " +
+                        "but found one with message \"An exception was forced\".");
         }
 
         [TestMethod]
@@ -575,7 +570,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             foo.Invoking(f => f.Do()).ShouldNotThrow<InvalidOperationException>();
         }
-        
+
         [TestMethod]
         public void When_no_exception_should_be_thrown_but_it_was_it_should_throw()
         {
@@ -595,10 +590,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect any exception because we passed valid arguments, " +
-                "but found a System.ArgumentException with message \"An exception was forced\".");
+                    "Did not expect any exception because we passed valid arguments, " +
+                        "but found a System.ArgumentException with message \"An exception was forced\".");
         }
-        
+
         [TestMethod]
         public void When_no_exception_should_be_thrown_and_none_was_it_should_not_throw()
         {
@@ -615,7 +610,7 @@ namespace FluentAssertions.Specs
     }
 
     #endregion
-    
+
     public class SomeTestClass
     {
         internal const string ExceptionMessage = "someMessage";

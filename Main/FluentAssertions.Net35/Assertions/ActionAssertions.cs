@@ -27,12 +27,16 @@ namespace FluentAssertions.Assertions
                 exception = actualException;
             }
 
-            Execute.Verify(exception != null, "Expected {0}{2}, but no exception was thrown.",
-                typeof(TException), null, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(exception != null)
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected {1}{0}, but no exception was thrown.", typeof(TException));
 
-            Execute.Verify(exception is TException,
-                "Expected {0}{2}, but found {1}.",
-                typeof(TException), exception.GetType(), reason, reasonParameters);
+
+            Execute.Verification
+                .ForCondition(exception is TException)
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected {1}{0}, but found {2}.", typeof(TException), exception);
 
             return new ExceptionAssertions<TException>((TException)exception);            
         }
