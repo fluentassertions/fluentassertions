@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Specs
 {
@@ -140,32 +143,9 @@ namespace FluentAssertions.Specs
                 "Did not expect object to be equal to ClassWithCustomEqualMethod(1).");
         }
 
-        [TestMethod]
-        public void When_two_equal_objects_are_expected_not_to_be_equal_it_should_throw_and_use_the_reason()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var someObject = new ClassWithCustomEqualMethod(1);
-            var equalObject = new ClassWithCustomEqualMethod(1);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                someObject.Should().NotBe(equalObject, "because we want to test the failure {0}", "message");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect object to be equal to ClassWithCustomEqualMethod(1) " +
-                    "because we want to test the failure message.");
-        }
-
         #endregion
 
-        #region Same / NotSame
+        #region BeSameAs / NotBeSameAs
 
         [TestMethod]
         public void When_the_same_objects_are_expected_to_be_the_same_it_should_not_throw()
@@ -249,7 +229,32 @@ namespace FluentAssertions.Specs
                 .WithMessage("Did not expect reference to object \r\nClassWithCustomEqualMethod(1) because they are the same.");
         }
 
+        [TestMethod]
+        public void When_two_equal_objects_are_expected_not_to_be_equal_it_should_throw_and_use_the_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new ClassWithCustomEqualMethod(1);
+            var equalObject = new ClassWithCustomEqualMethod(1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                someObject.Should().NotBe(equalObject, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Did not expect object to be equal to ClassWithCustomEqualMethod(1) " +
+                    "because we want to test the failure message.");
+        }
+
         #endregion
+
+        #region BeNull / BeNotNull
 
         [TestMethod]
         public void Should_succeed_when_asserting_null_object_to_be_null()
@@ -310,6 +315,10 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected non-null value because we want to test the failure message, but found <null>.");
         }
+
+        #endregion
+
+        #region BeOfType
 
         [TestMethod]
         public void When_the_object_type_is_exactly_equal_to_the_specified_type_it_should_not_throw()
@@ -382,6 +391,10 @@ namespace FluentAssertions.Specs
                     "Expected type System.Exception because we want to test the failure message, but found System.Object.");
         }
 
+        #endregion
+
+        #region BeAssignableTo
+
         [TestMethod]
         public void Should_succeed_when_asserting_object_assignable_to_for_same_type()
         {
@@ -416,6 +429,10 @@ namespace FluentAssertions.Specs
                     typeof (DummyImplementingClass), typeof (DateTime)));
         }
 
+        #endregion
+
+        #region Miscellaneous
+
         [TestMethod]
         public void Should_support_chaining_constraints_with_and()
         {
@@ -425,6 +442,114 @@ namespace FluentAssertions.Specs
                 .And
                 .NotBeNull();
         }
+
+        #endregion
+
+        #region BeSerializable
+
+        [TestMethod]
+        public void When_an_object_is_binary_serializable_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SerializableClass
+            {
+                Name = "John"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeBinarySerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_object_is_not_binary_serializable_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new UnserializableClass
+            {
+                Name = "John"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeBinarySerializable("we need to store it on {0}", "disk");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .Where(ex => 
+                    ex.Message.Contains("to be serializable because we need to store it on disk, but serialization failed with:") &&
+                    ex.Message.Contains("marked as serializable"));
+        }
+        
+        [TestMethod]
+        public void When_an_object_is_serializable_but_not_deserializable_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SerializableClassMissingDeserializationConstructor
+            {
+                Name = "John",
+                BirthDay = 20.September(1973)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeBinarySerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .Where(ex => 
+                    ex.Message.Contains("to be serializable, but serialization failed with:") &&
+                    ex.Message.Contains("constructor to deserialize"));
+        }
+
+        [TestMethod]
+        public void When_an_object_is_serializable_but_doesnt_restore_all_properties_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SerializableClassNotRestoringAllProperties
+            {
+                Name = "John",
+                BirthDay = 20.September(1973)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeBinarySerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .Where(ex => 
+                    ex.Message.Contains("to be serializable, but serialization failed with:") &&
+                    ex.Message.Contains("property Name to be"));
+        }
+
+        #endregion
     }
 
     internal class ClassWithCustomEqualMethod
@@ -506,6 +631,50 @@ namespace FluentAssertions.Specs
         public void Dispose()
         {
             // Ignore
+        }
+    }
+
+    internal class UnserializableClass
+    {
+        public string Name { get; set; }
+    }
+
+    [Serializable]
+    internal class SerializableClass
+    {
+        public string Name { get; set; }
+    }
+
+    [Serializable]
+    internal class SerializableClassMissingDeserializationConstructor : ISerializable
+    {
+        public string Name { get; set; }
+        public DateTime BirthDay { get; set; }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            
+        }
+    }
+    
+    [Serializable]
+    internal class SerializableClassNotRestoringAllProperties : ISerializable
+    {
+        public string Name { get; set; }
+        public DateTime BirthDay { get; set; }
+
+        public SerializableClassNotRestoringAllProperties()
+        {
+        }
+
+        public SerializableClassNotRestoringAllProperties(SerializationInfo info, StreamingContext context)
+        {
+            BirthDay = info.GetDateTime("BirthDay");
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("BirthDay", BirthDay);
         }
     }
 }

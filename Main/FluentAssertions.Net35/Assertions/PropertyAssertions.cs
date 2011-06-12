@@ -35,7 +35,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public PropertyAssertions<T> AllProperties()
         {
-            foreach (var propertyInfo in typeof(T).GetProperties(InstancePropertiesFlag))
+            foreach (var propertyInfo in Subject.GetType().GetProperties(InstancePropertiesFlag))
             {
                 if (!propertyInfo.GetGetMethod(true).IsPrivate)
                 {
