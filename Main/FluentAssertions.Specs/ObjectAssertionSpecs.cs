@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -445,7 +448,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region BeSerializable
+        #region BeBinarySerializable
 
         [TestMethod]
         public void When_an_object_is_binary_serializable_it_should_succeed()
@@ -496,12 +499,12 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        public void When_an_object_is_serializable_but_not_deserializable_it_should_throw()
+        public void When_an_object_is_binary_serializable_but_not_deserializable_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new SerializableClassMissingDeserializationConstructor
+            var subject = new BinarySerializableClassMissingDeserializationConstructor
             {
                 Name = "John",
                 BirthDay = 20.September(1973)
@@ -523,12 +526,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_an_object_is_serializable_but_doesnt_restore_all_properties_it_should_throw()
+        public void When_an_object_is_binary_serializable_but_doesnt_restore_all_properties_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new SerializableClassNotRestoringAllProperties
+            var subject = new BinarySerializableClassNotRestoringAllProperties
             {
                 Name = "John",
                 BirthDay = 20.September(1973)
@@ -550,6 +553,86 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+
+        #region BeXmlSerializable
+
+        [TestMethod]
+        public void When_an_object_is_xml_serializable_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SerializableClass
+            {
+                Name = "John"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeXmlSerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_object_is_not_xml_serializable_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new NonPublicClass
+            {
+                Name = "John"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeXmlSerializable("we need to store it on {0}", "disk");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .Where(ex =>
+                    ex.Message.Contains("to be serializable because we need to store it on disk, but serialization failed with:") &&
+                    ex.Message.Contains("Only public types can be processed"));
+        }
+
+        [TestMethod]
+        public void When_an_object_is_xml_serializable_but_doesnt_restore_all_properties_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new XmlSerializableClassNotRestoringAllProperties
+            {
+                Name = "John",
+                BirthDay = 20.September(1973)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeXmlSerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .Where(ex =>
+                    ex.Message.Contains("to be serializable, but serialization failed with:") &&
+                    ex.Message.Contains("property Name to be"));
+        }
+
+        #endregion
+
     }
 
     internal class ClassWithCustomEqualMethod
@@ -639,14 +722,19 @@ namespace FluentAssertions.Specs
         public string Name { get; set; }
     }
 
-    [Serializable]
-    internal class SerializableClass
+    internal class NonPublicClass
     {
         public string Name { get; set; }
     }
 
     [Serializable]
-    internal class SerializableClassMissingDeserializationConstructor : ISerializable
+    public class SerializableClass
+    {
+        public string Name { get; set; }
+    }
+
+    [Serializable]
+    internal class BinarySerializableClassMissingDeserializationConstructor : ISerializable
     {
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
@@ -658,16 +746,16 @@ namespace FluentAssertions.Specs
     }
     
     [Serializable]
-    internal class SerializableClassNotRestoringAllProperties : ISerializable
+    internal class BinarySerializableClassNotRestoringAllProperties : ISerializable
     {
         public string Name { get; set; }
         public DateTime BirthDay { get; set; }
 
-        public SerializableClassNotRestoringAllProperties()
+        public BinarySerializableClassNotRestoringAllProperties()
         {
         }
 
-        public SerializableClassNotRestoringAllProperties(SerializationInfo info, StreamingContext context)
+        public BinarySerializableClassNotRestoringAllProperties(SerializationInfo info, StreamingContext context)
         {
             BirthDay = info.GetDateTime("BirthDay");
         }
@@ -675,6 +763,27 @@ namespace FluentAssertions.Specs
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("BirthDay", BirthDay);
+        }
+    }
+
+    public class XmlSerializableClassNotRestoringAllProperties : IXmlSerializable
+    {
+        public string Name { get; set; }
+        public DateTime BirthDay { get; set; }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            BirthDay = DateTime.Parse(reader.ReadString());
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteString(BirthDay.ToString());
         }
     }
 }

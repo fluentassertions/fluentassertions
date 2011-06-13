@@ -186,13 +186,11 @@ namespace FluentAssertions.Assertions
             params object[] reasonParameters)
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
-            if (!condition((TException) Subject))
-            {
-                Execute.Fail(
-                    "Expected exception where {0}{2}, but the condition was not met.",
-                    exceptionExpression.Body, null, reason, reasonParameters);
-            }
-
+            Execute.Verification
+                .ForCondition(condition((TException)Subject))
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected exception where {1}{0}, but the condition was not met by:\r\n\r\n{2}", exceptionExpression.Body, Subject);
+            
             return this;
         }
     }

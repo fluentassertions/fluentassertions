@@ -477,8 +477,8 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                exc.Message.Should().Be(
-                    "Expected exception where (e.Message.Length > 0) because an exception must have a message, but the condition was not met.");
+                exc.Message.Should().StartWith(
+                    "Expected exception where (e.Message.Length > 0) because an exception must have a message, but the condition was not met");
             }
         }
 
@@ -507,8 +507,8 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                exc.Message.Should().Be(
-                    "Expected exception where (e.Message == \"Error\"), but the condition was not met.");
+                exc.Message.Should().StartWith(
+                    "Expected exception where (e.Message == \"Error\"), but the condition was not met");
             }
         }
 
