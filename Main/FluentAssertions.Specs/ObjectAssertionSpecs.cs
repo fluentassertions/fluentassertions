@@ -448,6 +448,8 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+#if !SILVERLIGHT
+
         #region BeBinarySerializable
 
         [TestMethod]
@@ -552,7 +554,53 @@ namespace FluentAssertions.Specs
                     ex.Message.Contains("property Name to be"));
         }
 
+        internal class UnserializableClass
+        {
+            public string Name { get; set; }
+        }
+
+        [Serializable]
+        public class SerializableClass
+        {
+            public string Name { get; set; }
+        }
+
+        [Serializable]
+        internal class BinarySerializableClassMissingDeserializationConstructor : ISerializable
+        {
+            public string Name { get; set; }
+            public DateTime BirthDay { get; set; }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+
+            }
+        }
+
+        [Serializable]
+        internal class BinarySerializableClassNotRestoringAllProperties : ISerializable
+        {
+            public string Name { get; set; }
+            public DateTime BirthDay { get; set; }
+
+            public BinarySerializableClassNotRestoringAllProperties()
+            {
+            }
+
+            public BinarySerializableClassNotRestoringAllProperties(SerializationInfo info, StreamingContext context)
+            {
+                BirthDay = info.GetDateTime("BirthDay");
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue("BirthDay", BirthDay);
+            }
+        }
+
         #endregion
+
+#endif
 
         #region BeXmlSerializable
 
@@ -562,7 +610,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new SerializableClass
+            var subject = new XmlSerializableClass
             {
                 Name = "John"
             };
@@ -631,8 +679,38 @@ namespace FluentAssertions.Specs
                     ex.Message.Contains("property Name to be"));
         }
 
-        #endregion
+        internal class NonPublicClass
+        {
+            public string Name { get; set; }
+        }
 
+        public class XmlSerializableClass
+        {
+            public string Name { get; set; }
+        }
+
+        public class XmlSerializableClassNotRestoringAllProperties : IXmlSerializable
+        {
+            public string Name { get; set; }
+            public DateTime BirthDay { get; set; }
+
+            public XmlSchema GetSchema()
+            {
+                return null;
+            }
+
+            public void ReadXml(XmlReader reader)
+            {
+                BirthDay = DateTime.Parse(reader.ReadElementContentAsString());
+            }
+
+            public void WriteXml(XmlWriter writer)
+            {
+                writer.WriteString(BirthDay.ToString());
+            }
+        }
+
+        #endregion
     }
 
     internal class ClassWithCustomEqualMethod
@@ -714,76 +792,6 @@ namespace FluentAssertions.Specs
         public void Dispose()
         {
             // Ignore
-        }
-    }
-
-    internal class UnserializableClass
-    {
-        public string Name { get; set; }
-    }
-
-    internal class NonPublicClass
-    {
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    public class SerializableClass
-    {
-        public string Name { get; set; }
-    }
-
-    [Serializable]
-    internal class BinarySerializableClassMissingDeserializationConstructor : ISerializable
-    {
-        public string Name { get; set; }
-        public DateTime BirthDay { get; set; }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            
-        }
-    }
-    
-    [Serializable]
-    internal class BinarySerializableClassNotRestoringAllProperties : ISerializable
-    {
-        public string Name { get; set; }
-        public DateTime BirthDay { get; set; }
-
-        public BinarySerializableClassNotRestoringAllProperties()
-        {
-        }
-
-        public BinarySerializableClassNotRestoringAllProperties(SerializationInfo info, StreamingContext context)
-        {
-            BirthDay = info.GetDateTime("BirthDay");
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("BirthDay", BirthDay);
-        }
-    }
-
-    public class XmlSerializableClassNotRestoringAllProperties : IXmlSerializable
-    {
-        public string Name { get; set; }
-        public DateTime BirthDay { get; set; }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            BirthDay = DateTime.Parse(reader.ReadString());
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteString(BirthDay.ToString());
         }
     }
 }

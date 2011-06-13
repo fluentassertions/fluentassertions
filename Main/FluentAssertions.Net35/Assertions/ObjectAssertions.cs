@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 
 using FluentAssertions.Common;
@@ -160,6 +159,8 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<ObjectAssertions>(this);
         }
 
+#if !SILVERLIGHT
+
         /// <summary>
         ///   Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains
         ///   the values of all properties.
@@ -202,12 +203,13 @@ namespace FluentAssertions.Assertions
         private static object CreateCloneUsingBinarySerializer(object subject)
         {
             var stream = new MemoryStream();
-            var binaryFormatter = new BinaryFormatter();
+            var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
             binaryFormatter.Serialize(stream, subject);
             
             stream.Position = 0;
             return binaryFormatter.Deserialize(stream);
         }
+#endif
 
         /// <summary>
         ///   Asserts that an object can be serialized and deserialized using the XML serializer and that it stills retains
