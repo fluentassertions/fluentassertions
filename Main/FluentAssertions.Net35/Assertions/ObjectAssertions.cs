@@ -187,7 +187,7 @@ namespace FluentAssertions.Assertions
             {
                 object deserializedObject = CreateCloneUsingBinarySerializer(Subject);
 
-                deserializedObject.ShouldHave().AllProperties().EqualTo(Subject);
+                deserializedObject.ShouldHave().AllRuntimeProperties().EqualTo(Subject);
             }
             catch (Exception exc)
             {
@@ -237,7 +237,7 @@ namespace FluentAssertions.Assertions
             {
                 object deserializedObject = CreateCloneUsingXmlSerializer(Subject);
 
-                deserializedObject.ShouldHave().AllProperties().EqualTo(Subject);
+                deserializedObject.ShouldHave().AllRuntimeProperties().EqualTo(Subject);
             }
             catch (Exception exc)
             {

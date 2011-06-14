@@ -35,15 +35,31 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public PropertyAssertions<T> AllProperties()
         {
-            foreach (var propertyInfo in Subject.GetType().GetProperties(InstancePropertiesFlag))
+            AddPublicProperties(typeof (T));
+
+            return this;
+        }
+
+        /// <summary>
+        /// Includes all properties of <typeparamref name="T"/> including those of the run-time type when comparing the subject 
+        /// with another object using <see cref="EqualTo(object)"/>.
+        /// </summary>
+        internal PropertyAssertions<T> AllRuntimeProperties()
+        {
+            AddPublicProperties(Subject.GetType());
+
+            return this;
+        }
+
+        private void AddPublicProperties(Type typeToReflect)
+        {
+            foreach (var propertyInfo in typeToReflect.GetProperties(InstancePropertiesFlag))
             {
                 if (!propertyInfo.GetGetMethod(true).IsPrivate)
                 {
                     validator.Properties.Add(propertyInfo);
                 }
             }
-
-            return this;
         }
 
         /// <summary>
