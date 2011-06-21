@@ -5,7 +5,7 @@ namespace FluentAssertions.Assertions
     public static class TimeSpanConversionExtensions
     {
         /// <summary>
-        /// Returns a <see cref = "TimeSpan" /> based on a number of seconds.
+        /// Returns a <see cref = "TimeSpan" /> based on a number of milliseconds.
         /// </summary>
         public static TimeSpan Milliseconds(this int milliseconds)
         {
