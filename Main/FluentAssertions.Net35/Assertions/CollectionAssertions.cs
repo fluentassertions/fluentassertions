@@ -422,13 +422,13 @@ namespace FluentAssertions.Assertions
         {
             if (expected == null)
             {
-                throw new NullReferenceException("Connect verify containment against a <null> collection");
+                throw new NullReferenceException("Cannot verify containment against a <null> collection");
             }
 
             IEnumerable<object> expectedObjects = expected.Cast<object>();
             if (!expectedObjects.Any())
             {
-                throw new ArgumentException("Connect verify containment against an empty collection");
+                throw new ArgumentException("Cannot verify containment against an empty collection");
             }
 
             if (ReferenceEquals(Subject, null))
