@@ -188,7 +188,12 @@ namespace FluentAssertions.Assertions
         /// </param>
         public virtual AndConstraint<StringAssertions> MatchEquivalentOf(string wildcardPattern, string reason, params object[] reasonArgs)
         {
-            new StringWildcardMatchingValidator(Subject, wildcardPattern, reason, reasonArgs).Validate();
+            var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, reason, reasonArgs)
+            {
+                IgnoreCase = true
+            };
+
+            validator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -221,6 +226,7 @@ namespace FluentAssertions.Assertions
         {
             var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, reason, reasonArgs)
             {
+                IgnoreCase = true,
                 Negate = true
             };
             

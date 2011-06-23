@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace FluentAssertions.Assertions
@@ -24,7 +25,12 @@ namespace FluentAssertions.Assertions
 
         private bool IsMatch
         {
-            get { return Regex.IsMatch(subject, ConvertWildcardToRegEx(expected)); }
+            get
+            {
+                var options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
+
+                return Regex.IsMatch(subject, ConvertWildcardToRegEx(expected), options);
+            }
         }
 
         private static string ConvertWildcardToRegEx(string wildcardExpression)
@@ -36,7 +42,13 @@ namespace FluentAssertions.Assertions
         {
             get
             {
-                return (Negate ? "Did not expect " : "Expected ") + Verification.SubjectNameOr("string") + " to match {1}{0}, ";
+                var builder = new StringBuilder();
+                builder.Append(Negate ? "Did not expect " : "Expected ");
+                builder.Append(Verification.SubjectNameOr("string"));
+                builder.Append(IgnoreCase ? " to match the equivalent of" : " to match");
+                builder.Append(" {1}{0}, ");
+
+                return builder.ToString();
             }
         }
 
@@ -44,5 +56,13 @@ namespace FluentAssertions.Assertions
         /// Gets or sets a value indicating whether the subject should not match the pattern.
         /// </summary>
         public bool Negate { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the matching process should ignore any casing difference.
+        /// </summary>
+        public bool IgnoreCase
+        {
+            get; set;
+        }
     }
 }

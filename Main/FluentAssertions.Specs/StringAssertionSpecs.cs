@@ -412,7 +412,6 @@ namespace FluentAssertions.Specs
         #region Match Equivalent Of
 
         [TestMethod]
-        [Ignore]
         public void When_a_string_does_not_match_the_equivalent_of_a_wildcard_pattern_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -434,7 +433,6 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        [Ignore]
         public void When_a_string_does_match_the_equivalent_of_a_wildcard_pattern_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -458,8 +456,7 @@ namespace FluentAssertions.Specs
         #region Not Match Equivalent Of
 
         [TestMethod]
-        [Ignore]
-        public void When_a_string_is_not_equivalent_to_a_pattern_and_it_shouldnt_it_should_not_throw()
+        public void When_a_string_is_not_equivalent_to_a_pattern_and_thats_expected_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -478,7 +475,6 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        [Ignore]
         public void When_a_string_does_match_the_equivalent_of_a_pattern_but_it_shouldnt_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -496,7 +492,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect string to match equivalent of \r\n\"*world*\" because that's illegal, " + 
+                .WithMessage("Did not expect string to match the equivalent of \r\n\"*world*\" because that's illegal, " + 
                 "but \r\n\"hello WORLD\" matches.");
         }
 
