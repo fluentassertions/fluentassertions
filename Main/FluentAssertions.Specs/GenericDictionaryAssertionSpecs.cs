@@ -858,7 +858,7 @@ namespace FluentAssertions.specs
         #region Contain
 
         [TestMethod]
-        public void When_dictionary_has_expected_element_at_specific_key_it_should_not_throw()
+        public void When_dictionary_has_expected_value_at_specific_key_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -876,7 +876,51 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_dictionary_does_not_have_the_expected_element_at_specific_key_it_should_throw()
+        public void When_dictionary_has_expected_key_value_pair_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            var item = new KeyValuePair<int, string>(1, "One");
+            dictionary.Should().Contain(item);
+        }
+
+        [TestMethod]
+        public void When_dictionary_does_not_have_the_expected_value_at_specific_key_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var item = new KeyValuePair<int, string>(1, "Two");
+            Action act = () => dictionary.Should().Contain(item, "we put it {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected \"Two\" at key 1 because we put it there, but found \"One\".");
+        }
+
+        [TestMethod]
+        public void When_dictionary_does_not_have_the_key_value_pair_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -900,7 +944,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_dictionary_does_not_have_an_element_at_the_specific_key_it_should_throw()
+        public void When_dictionary_does_not_have_an_value_at_the_specific_key_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -924,7 +968,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_dictionary_has_element_at_specific_key_against_null_dictionary_it_should_throw()
+        public void When_asserting_dictionary_has_value_at_specific_key_against_null_dictionary_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

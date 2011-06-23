@@ -683,6 +683,38 @@ namespace FluentAssertions.Assertions
         #region Contain
 
         /// <summary>
+        /// Asserts that the current dictionary has the specified <paramref name="item"/>.
+        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="item">
+        /// The <see cref="KeyValuePair{TKey,TValue}"/> to look for
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(KeyValuePair<TKey, TValue> item)
+        {
+            return Contain(item.Key, item.Value);
+        }
+
+        /// <summary>
+        /// Asserts that the current dictionary has the specified <paramref name="item"/>.
+        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="item">
+        /// The <see cref="KeyValuePair{TKey,TValue}"/> to look for
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(KeyValuePair<TKey, TValue> item, string reason,
+            params object[] reasonArgs)
+        {
+            return Contain(item.Key, item.Value, reason, reasonArgs);
+        }
+
+        /// <summary>
         /// Asserts that the current dictionary has the specified <paramref name="value" /> for the supplied <paramref
         /// name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
