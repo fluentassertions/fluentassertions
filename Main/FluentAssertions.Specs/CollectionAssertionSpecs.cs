@@ -1248,7 +1248,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to contain \"string4\" in order, but found <null>.");
+                "Expected collection to contain \"string4\" in order because we're checking how it reacts to a null subject, but found <null>.");
         }
 
         #endregion

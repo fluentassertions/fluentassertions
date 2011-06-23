@@ -72,8 +72,10 @@ namespace FluentAssertions.Assertions
             }
             catch (Exception exception)
             {
-                Execute.Fail("Did not expect any exception{2}, but found a {0} with message {1}.",
-                    exception.GetType(), exception.Message, reason, reasonArgs);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Did not expect any exception{0}, but found a {1} with message {2}.",
+                        exception.GetType(), exception.Message);
             }
         }
     }
