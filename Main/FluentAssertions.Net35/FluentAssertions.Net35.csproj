@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="Assertions\ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
+    <Compile Include="Assertions\GenericDictionaryAssertions.cs" />
     <Compile Include="Assertions\PropertyEqualityValidator.cs" />
     <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
     <Compile Include="Assertions\FloatingPointExtensions.cs" />

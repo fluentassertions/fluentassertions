@@ -1670,6 +1670,7 @@ namespace FluentAssertions.Specs
 
     internal class TrackingTestEnumerable : IEnumerable
     {
+        private readonly TrackingEnumerator enumerator;
         private readonly int[] values;
 
         public TrackingTestEnumerable(params int[] values)
@@ -1677,8 +1678,6 @@ namespace FluentAssertions.Specs
             this.values = values;
             enumerator = new TrackingEnumerator(this.values);
         }
-
-        private readonly TrackingEnumerator enumerator;
 
         public TrackingEnumerator Enumerator
         {

@@ -191,6 +191,11 @@ namespace FluentAssertions
             return new GenericCollectionAssertions<T>(actualValue);
         }
 
+        public static GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+        {
+            return new GenericDictionaryAssertions<TKey, TValue>(actualValue);
+        }
+
         public static DateTimeAssertions Should(this DateTime actualValue)
         {
             return new DateTimeAssertions(actualValue);

@@ -124,6 +124,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\GenericCollectionAssertions.cs">
       <Link>Assertions\GenericCollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\GenericDictionaryAssertions.cs">
+      <Link>Assertions\GenericDictionaryAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\IntegralAssertions.cs">
       <Link>Assertions\IntegralAssertions.cs</Link>
     </Compile>
