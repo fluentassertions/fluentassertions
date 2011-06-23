@@ -92,11 +92,14 @@
     </Compile>
     <Compile Include="Assertions\ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
+    <Compile Include="Assertions\ComparableTypeAssertions.cs" />
     <Compile Include="Assertions\GenericDictionaryAssertions.cs" />
     <Compile Include="Assertions\PropertyEqualityValidator.cs" />
     <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
     <Compile Include="Assertions\FloatingPointExtensions.cs" />
     <Compile Include="Assertions\StringEqualityValidator.cs" />
+    <Compile Include="Assertions\StringValidator.cs" />
+    <Compile Include="Assertions\StringWildcardMatchingValidator.cs" />
     <Compile Include="Common\FluentDateTimeExtensions.cs" />
     <Compile Include="Assertions\IntegralAssertions.cs" />
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />

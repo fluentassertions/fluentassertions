@@ -43,24 +43,29 @@ namespace FluentAssertions.Assertions
         /// </param>
         public virtual AndConstraint<StringAssertions> Be(string expected, string reason, params object[] reasonArgs)
         {
-            new StringEqualityValidator(Subject, expected, reason, reasonArgs).Validate();
+            new StringEqualityValidator(Subject, expected, StringComparison.CurrentCulture, reason, reasonArgs).Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }
 
         /// <summary>
-        ///   Case insensitive comparison
+        ///   Asserts that a string is exactly the same as another string, including any leading or trailing whitespace, with 
+        ///   the exception of the casing.
         /// </summary>
+        /// <param name = "expected">
+        ///   The string that the subject is expected to be equivalent to.
+        /// </param>
         public AndConstraint<StringAssertions> BeEquivalentTo(string expected)
         {
             return BeEquivalentTo(expected, String.Empty);
         }
 
         /// <summary>
-        ///   Asserts that a string is exactly the same as another string, including the casing and any leading or trailing whitespace.
+        ///   Asserts that a string is exactly the same as another string, including any leading or trailing whitespace, with 
+        ///   the exception of the casing.
         /// </summary>
         /// <param name = "expected">
-        ///   The expected string.
+        ///   The string that the subject is expected to be equivalent to.
         /// </param>
         /// <param name = "reason">
         ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
@@ -72,10 +77,8 @@ namespace FluentAssertions.Assertions
         public virtual AndConstraint<StringAssertions> BeEquivalentTo(string expected, string reason,
             params object[] reasonArgs)
         {
-            var expectation = new StringEqualityValidator(Subject, expected, reason, reasonArgs)
-            {
-                CaseSensitive = false
-            };
+            var expectation = new StringEqualityValidator(
+                Subject, expected, StringComparison.CurrentCultureIgnoreCase, reason, reasonArgs);
 
             expectation.Validate();
 
@@ -92,6 +95,136 @@ namespace FluentAssertions.Assertions
         {
             Execute.Verify(() => (Subject != expected),
                 "Expected string not to be {0}{2}.", expected, Subject, reason, reasonArgs);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        ///   Asserts that a string matches a wildcard pattern.
+        /// </summary>
+        /// <param name = "wildcardPattern">
+        ///   The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        public AndConstraint<StringAssertions> Match(string wildcardPattern)
+        {
+            return Match(wildcardPattern, String.Empty);
+        }
+
+        /// <summary>
+        ///   Asserts that a string matches a wildcard pattern.
+        /// </summary>
+        /// <param name = "wildcardPattern">
+        ///   The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        /// <param name = "reason">
+        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "reasonArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
+        /// </param>
+        public virtual AndConstraint<StringAssertions> Match(string wildcardPattern, string reason, params object[] reasonArgs)
+        {
+            new StringWildcardMatchingValidator(Subject, wildcardPattern, reason, reasonArgs).Validate();
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        ///   Asserts that a string does not match a wildcard pattern.
+        /// </summary>
+        /// <param name = "wildcardPattern">
+        ///   The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        public AndConstraint<StringAssertions> NotMatch(string wildcardPattern)
+        {
+            return NotMatch(wildcardPattern, String.Empty);
+        }
+
+        /// <summary>
+        ///   Asserts that a string does not match a wildcard pattern.
+        /// </summary>
+        /// <param name = "wildcardPattern">
+        ///   The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        /// <param name = "reason">
+        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "reasonArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
+        /// </param>
+        public virtual AndConstraint<StringAssertions> NotMatch(string wildcardPattern, string reason, params object[] reasonArgs)
+        {
+            new StringWildcardMatchingValidator(Subject, wildcardPattern, reason, reasonArgs)
+            {
+                Negate = true
+            }.Validate();
+
+            return new AndConstraint<StringAssertions>(this);
+        }        /// <summary>
+        ///   Asserts that a string matches a wildcard pattern.
+        /// </summary>
+        /// <param name = "wildcardPattern">
+        ///   The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        public AndConstraint<StringAssertions> MatchEquivalentOf(string wildcardPattern)
+        {
+            return MatchEquivalentOf(wildcardPattern, String.Empty);
+        }
+
+        /// <summary>
+        ///   Asserts that a string matches a wildcard pattern.
+        /// </summary>
+        /// <param name = "wildcardPattern">
+        ///   The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        /// <param name = "reason">
+        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "reasonArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
+        /// </param>
+        public virtual AndConstraint<StringAssertions> MatchEquivalentOf(string wildcardPattern, string reason, params object[] reasonArgs)
+        {
+            new StringWildcardMatchingValidator(Subject, wildcardPattern, reason, reasonArgs).Validate();
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        ///   Asserts that a string does not match a wildcard pattern.
+        /// </summary>
+        /// <param name = "wildcardPattern">
+        ///   The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        public AndConstraint<StringAssertions> NotMatchEquivalentOf(string wildcardPattern)
+        {
+            return NotMatchEquivalentOf(wildcardPattern, String.Empty);
+        }
+
+        /// <summary>
+        ///   Asserts that a string does not match a wildcard pattern.
+        /// </summary>
+        /// <param name = "wildcardPattern">
+        ///   The wildcard pattern with which the subject is matched, where * and ? have special meanings.
+        /// </param>
+        /// <param name = "reason">
+        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "reasonArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
+        /// </param>
+        public virtual AndConstraint<StringAssertions> NotMatchEquivalentOf(string wildcardPattern, string reason, params object[] reasonArgs)
+        {
+            var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, reason, reasonArgs)
+            {
+                Negate = true
+            };
+            
+            validator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }

@@ -24,7 +24,6 @@ namespace FluentAssertions
         ///     <item>{1} = the actual value</item>
         ///     <item>{2} = a reason explaining the expectations</item>
         ///   </list><br />
-        ///   Any additional placeholders are allowed and will be satisfied using the <paramref name = "failureMessageArgs" />.
         /// </param>
         /// <param name = "expected">
         ///   The expected value, or <c>null</c> if there is no explicit expected value.
@@ -32,14 +31,11 @@ namespace FluentAssertions
         /// <param name = "actual">The actual value, or <c>null</c> if there is no explicit actual value.</param>
         /// <param name = "reason">Should describe the reason for the expectation.</param>
         /// <param name = "reasonArgs">Optional args for formatting placeholders in the <paramref name = "reason" />.</param>
-        /// <param name = "failureMessageArgs">
-        ///   Optional arguments to satisfy any additional placeholders in the <paramref name = "failureMessage" />
-        /// </param>
         public static void Verify(Func<bool> condition, string failureMessage, object expected, object actual,
             string reason,
-            object[] reasonArgs, params object[] failureMessageArgs)
+            params object[] reasonArgs)
         {
-            Verify(condition.Invoke(), failureMessage, expected, actual, reason, reasonArgs, failureMessageArgs);
+            Verify(condition.Invoke(), failureMessage, expected, actual, reason, reasonArgs);
         }
 
         /// <summary>
@@ -54,7 +50,6 @@ namespace FluentAssertions
         ///     <item>{1} = the actual value</item>
         ///     <item>{2} = a reason explaining the expectations</item>
         ///   </list><br />
-        ///   Any additional placeholders are allowed and will be satisfied using the <paramref name = "failureMessageArgs" />.
         /// </param>
         /// <param name = "expected">
         ///   The expected value, or <c>null</c> if there is no explicit expected value.
@@ -62,11 +57,7 @@ namespace FluentAssertions
         /// <param name = "actual">The actual value, or <c>null</c> if there is no explicit actual value.</param>
         /// <param name = "reason">Should describe the reason for the expectation.</param>
         /// <param name = "reasonArgs">Optional args for formatting placeholders in the <paramref name = "reason" />.</param>
-        /// <param name = "failureMessageArgs">
-        ///   Optional arguments to satisfy any additional placeholders in the <paramref name = "failureMessage" />
-        /// </param>
-        private static void Verify(bool condition, string failureMessage, object expected, object actual, string reason,
-            object[] reasonArgs, params object[] failureMessageArgs)
+        private static void Verify(bool condition, string failureMessage, object expected, object actual, string reason, params object[] reasonArgs)
         {
             if (!condition)
             {

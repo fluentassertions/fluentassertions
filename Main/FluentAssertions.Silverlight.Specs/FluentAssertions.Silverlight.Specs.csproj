@@ -110,6 +110,9 @@
     <Compile Include="..\FluentAssertions.Specs\CollectionAssertionSpecs.cs">
       <Link>CollectionAssertionSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ComparableSpecs.cs">
+      <Link>ComparableSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\DateTimeAssertionSpecs.cs">
       <Link>DateTimeAssertionSpecs.cs</Link>
     </Compile>

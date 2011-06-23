@@ -57,7 +57,6 @@ namespace FluentAssertions.Assertions
                 "Expected exception with message {1}{0}, but {2} is too short.", expectedMessage, message);
 
             int index = message.IndexOfFirstMismatch(expectedMessage);
-
             if (index != -1)
             {
                 verification.FailWith(

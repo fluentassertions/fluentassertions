@@ -72,6 +72,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\CollectionAssertions.cs">
       <Link>Assertions\CollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\ComparableTypeAssertions.cs">
+      <Link>Assertions\ComparableTypeAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\DateTimeAssertions.cs">
       <Link>Assertions\DateTimeAssertions.cs</Link>
     </Compile>
@@ -131,6 +134,12 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\StringEqualityValidator.cs">
       <Link>Assertions\StringEqualityValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\StringValidator.cs">
+      <Link>Assertions\StringValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\StringWildcardMatchingValidator.cs">
+      <Link>Assertions\StringWildcardMatchingValidator.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanAssertions.cs">
       <Link>Assertions\TimeSpanAssertions.cs</Link>
@@ -226,7 +235,9 @@
       <Link>FluentAssertions.snk</Link>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

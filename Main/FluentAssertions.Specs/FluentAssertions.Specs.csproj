@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertEx.cs" />
+    <Compile Include="ComparableSpecs.cs" />
     <Compile Include="GenericDictionaryAssertionSpecs.cs" />
     <Compile Include="ReferenceTypeAssertionsSpecs.cs" />
     <Compile Include="BooleanAssertionSpecs.cs" />

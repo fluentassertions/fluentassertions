@@ -206,6 +206,11 @@ namespace FluentAssertions
             return new NullableDateTimeAssertions(actualValue);
         }
 
+        public static ComparableTypeAssertions<T> Should<T>(this IComparable<T> comparableValue)
+        {
+            return new ComparableTypeAssertions<T>(comparableValue);
+        }
+
         public static IntegralAssertions<int> Should(this int actualValue)
         {
             return new IntegralAssertions<int>(actualValue);
