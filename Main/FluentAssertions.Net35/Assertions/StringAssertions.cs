@@ -88,10 +88,10 @@ namespace FluentAssertions.Assertions
         }
 
         public virtual AndConstraint<StringAssertions> NotBe(string expected, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             Execute.Verify(() => (Subject != expected),
-                "Expected string not to be {0}{2}.", expected, Subject, reason, reasonParameters);
+                "Expected string not to be {0}{2}.", expected, Subject, reason, reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -102,7 +102,7 @@ namespace FluentAssertions.Assertions
         }
 
         public virtual AndConstraint<StringAssertions> StartWith(string expected, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -116,11 +116,11 @@ namespace FluentAssertions.Assertions
 
             if (Subject == null)
             {
-                Execute.Fail("Expected string {1} to start with {0}{2}.", expected, Subject, reason, reasonParameters);
+                Execute.Fail("Expected string {1} to start with {0}{2}.", expected, Subject, reason, reasonArgs);
             }
 
             Execute.Verify(() => Subject.StartsWith(expected),
-                "Expected string {1} to start with {0}{2}.", expected, Subject, reason, reasonParameters);
+                "Expected string {1} to start with {0}{2}.", expected, Subject, reason, reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -131,7 +131,7 @@ namespace FluentAssertions.Assertions
         }
 
         public virtual AndConstraint<StringAssertions> StartWithEquivalent(string expected, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -146,12 +146,12 @@ namespace FluentAssertions.Assertions
             if (Subject == null)
             {
                 Execute.Fail("Expected string {1} to start with equivalent of {0}{2}.", expected, Subject, reason,
-                    reasonParameters);
+                    reasonArgs);
             }
 
             Execute.Verify(() => Subject.StartsWith(expected, StringComparison.CurrentCultureIgnoreCase),
                 "Expected string {1} to start with equivalent of {0}{2}.", expected, Subject, reason,
-                reasonParameters);
+                reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -162,7 +162,7 @@ namespace FluentAssertions.Assertions
         }
 
         public virtual AndConstraint<StringAssertions> EndWith(string expected, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -176,11 +176,11 @@ namespace FluentAssertions.Assertions
 
             if (Subject == null)
             {
-                Execute.Fail("Expected string {1} to end with {0}{2}.", expected, Subject, reason, reasonParameters);
+                Execute.Fail("Expected string {1} to end with {0}{2}.", expected, Subject, reason, reasonArgs);
             }
 
             Execute.Verify(() => Subject.EndsWith(expected),
-                "Expected string {1} to end with {0}{2}.", expected, Subject, reason, reasonParameters);
+                "Expected string {1} to end with {0}{2}.", expected, Subject, reason, reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -191,7 +191,7 @@ namespace FluentAssertions.Assertions
         }
 
         public virtual AndConstraint<StringAssertions> EndWithEquivalent(string expected, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -206,12 +206,12 @@ namespace FluentAssertions.Assertions
             if (Subject == null)
             {
                 Execute.Fail("Expected string {1} to end with equivalent of {0}{2}.", expected, Subject, reason,
-                    reasonParameters);
+                    reasonArgs);
             }
 
             Execute.Verify(() => Subject.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase),
                 "Expected string {1} to end with equivalent of {0}{2}.", expected, Subject, reason,
-                reasonParameters);
+                reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -267,7 +267,7 @@ namespace FluentAssertions.Assertions
         }
 
         public AndConstraint<StringAssertions> ContainEquivalentOf(string expectedValue, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             if (string.IsNullOrEmpty(expectedValue))
             {
@@ -277,7 +277,7 @@ namespace FluentAssertions.Assertions
 
             Execute.Verify(() => Contains(Subject, expectedValue, StringComparison.CurrentCultureIgnoreCase),
                 "Expected string to contain equivalent of {0}{2} but found {1}", expectedValue, Subject, reason,
-                reasonParameters);
+                reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -352,11 +352,11 @@ namespace FluentAssertions.Assertions
             return BeEmpty(String.Empty);
         }
 
-        public virtual AndConstraint<StringAssertions> BeEmpty(string reason, params object[] reasonParameters)
+        public virtual AndConstraint<StringAssertions> BeEmpty(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => ((Subject != null) && (Subject.Length == 0)),
                 "Expected empty string{2}, but found {1}.", null, Subject, reason,
-                reasonParameters);
+                reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -366,10 +366,10 @@ namespace FluentAssertions.Assertions
             return NotBeEmpty(String.Empty);
         }
 
-        public virtual AndConstraint<StringAssertions> NotBeEmpty(string reason, params object[] reasonParameters)
+        public virtual AndConstraint<StringAssertions> NotBeEmpty(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => (Subject.Length > 0),
-                "Did not expect empty string{2}.", null, Subject, reason, reasonParameters);
+                "Did not expect empty string{2}.", null, Subject, reason, reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -380,11 +380,11 @@ namespace FluentAssertions.Assertions
         }
 
         public virtual AndConstraint<StringAssertions> HaveLength(int expected, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             Execute.Verify(() => (Subject.Length == expected),
                 "Expected string with length {0}{2}, but found string {1} with length " + Subject.Length + ".",
-                expected, Subject, reason, reasonParameters);
+                expected, Subject, reason, reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -394,10 +394,10 @@ namespace FluentAssertions.Assertions
             return BeNull(string.Empty);
         }
 
-        public virtual AndConstraint<StringAssertions> BeNull(string reason, params object[] reasonParameters)
+        public virtual AndConstraint<StringAssertions> BeNull(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => (Subject == null),
-                "Expected string to be <null>{2}, but found {1}.", null, Subject, reason, reasonParameters);
+                "Expected string to be <null>{2}, but found {1}.", null, Subject, reason, reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -407,10 +407,10 @@ namespace FluentAssertions.Assertions
             return NotBeNull(string.Empty);
         }
 
-        public virtual AndConstraint<StringAssertions> NotBeNull(string reason, params object[] reasonParameters)
+        public virtual AndConstraint<StringAssertions> NotBeNull(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => (Subject != null),
-                "Expected string not to be <null>{2}.", null, null, reason, reasonParameters);
+                "Expected string not to be <null>{2}.", null, null, reason, reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -430,13 +430,13 @@ namespace FluentAssertions.Assertions
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonParameters">
+        /// <param name = "reasonArgs">
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public virtual AndConstraint<StringAssertions> NotBeNullOrEmpty(string reason, params object[] reasonParameters)
+        public virtual AndConstraint<StringAssertions> NotBeNullOrEmpty(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => !string.IsNullOrEmpty(Subject),
-                "Expected string not to be <null> or empty{2}, but found {1}.", null, Subject, reason, reasonParameters);
+                "Expected string not to be <null> or empty{2}, but found {1}.", null, Subject, reason, reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -456,13 +456,13 @@ namespace FluentAssertions.Assertions
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonParameters">
+        /// <param name = "reasonArgs">
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public virtual AndConstraint<StringAssertions> BeNullOrEmpty(string reason, params object[] reasonParameters)
+        public virtual AndConstraint<StringAssertions> BeNullOrEmpty(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => string.IsNullOrEmpty(Subject),
-                "Expected string to be <null> or empty{2}, but found {1}.", null, Subject, reason, reasonParameters);
+                "Expected string to be <null> or empty{2}, but found {1}.", null, Subject, reason, reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -482,13 +482,13 @@ namespace FluentAssertions.Assertions
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonParameters">
+        /// <param name = "reasonArgs">
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<StringAssertions> NotBeBlank(string reason, params object[] reasonParameters)
+        public AndConstraint<StringAssertions> NotBeBlank(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => !IsBlank(Subject), "Expected non-blank string, but found {1}.", null, Subject, reason,
-                reasonParameters);
+                reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -508,13 +508,13 @@ namespace FluentAssertions.Assertions
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonParameters">
+        /// <param name = "reasonArgs">
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<StringAssertions> BeBlank(string reason, params object[] reasonParameters)
+        public AndConstraint<StringAssertions> BeBlank(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => IsBlank(Subject), "Expected blank string, but found {1}.", null, Subject, reason,
-                reasonParameters);
+                reasonArgs);
 
             return new AndConstraint<StringAssertions>(this);
         }

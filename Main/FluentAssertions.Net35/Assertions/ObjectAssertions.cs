@@ -59,14 +59,14 @@ namespace FluentAssertions.Assertions
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonParameters">
+        /// <param name = "reasonArgs">
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> NotBe(object expected, string reason, params object[] reasonParameters)
+        public AndConstraint<ObjectAssertions> NotBe(object expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(!Subject.IsEqualTo(expected))
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect object to be equal to {1}{0}.", expected);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -87,15 +87,15 @@ namespace FluentAssertions.Assertions
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonParameters">
+        /// <param name = "reasonArgs">
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason, params object[] reasonParameters)
+        public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .UsingLineBreaks
                 .ForCondition(ReferenceEquals(Subject, expected))
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected reference to object {1}{0}, but found object {2}.", expected, Subject);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -116,16 +116,16 @@ namespace FluentAssertions.Assertions
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonParameters">
+        /// <param name = "reasonArgs">
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public AndConstraint<ObjectAssertions> NotBeSameAs(object expected, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             Execute.Verification
                 .UsingLineBreaks
                 .ForCondition(!ReferenceEquals(Subject, expected))
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect reference to object {1}{0}.", expected);
 
             return new AndConstraint<ObjectAssertions>(this);

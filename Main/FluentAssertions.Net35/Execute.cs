@@ -66,11 +66,11 @@ namespace FluentAssertions
         ///   Optional arguments to satisfy any additional placeholders in the <paramref name = "failureMessage" />
         /// </param>
         private static void Verify(bool condition, string failureMessage, object expected, object actual, string reason,
-            object[] reasonParameters, params object[] failureMessageArgs)
+            object[] reasonArgs, params object[] failureMessageArgs)
         {
             if (!condition)
             {
-                Fail(failureMessage, expected, actual, reason, reasonParameters);
+                Fail(failureMessage, expected, actual, reason, reasonArgs);
             }
         }
 
@@ -112,7 +112,7 @@ namespace FluentAssertions
             AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()));
         }
 
-        private static string SanitizeReason(string reason, object[] reasonParameters)
+        private static string SanitizeReason(string reason, object[] reasonArgs)
         {
             if (!String.IsNullOrEmpty(reason))
             {
@@ -121,7 +121,7 @@ namespace FluentAssertions
                     reason = "because " + reason;
                 }
 
-                return " " + String.Format(reason, reasonParameters);
+                return " " + String.Format(reason, reasonArgs);
             }
 
             return "";

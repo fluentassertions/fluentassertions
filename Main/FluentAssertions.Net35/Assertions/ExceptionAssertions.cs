@@ -84,31 +84,31 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
         /// <param name = "reason">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name = "reasonParameters">The parameters used when formatting the <paramref name = "reason" />.</param>
+        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
         /// <returns>An <see cref = "AndConstraint" /> which can be used to chain assertions.</returns>
         public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject != null)
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected inner {1}{0}, but no exception was thrown.", typeof (TInnerException));
 
             Execute.Verification
                 .ForCondition(Subject.InnerException != null)
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected inner {1}{0}, but the thrown exception has no inner exception.",
                     typeof (TInnerException));
 
             Execute.Verification
                 .ForCondition(Subject.InnerException != null)
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected inner {1}{0}, but the thrown exception has no inner exception.",
                     typeof (TInnerException));
 
             Execute.Verification
                 .ForCondition(Subject.InnerException is TInnerException)
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected inner {1}{0}, but found {2}.", typeof(TInnerException), Subject.InnerException);
 
             return this;
@@ -178,17 +178,17 @@ namespace FluentAssertions.Assertions
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonParameters">
+        /// <param name = "reasonArgs">
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
             string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
             Execute.Verification
                 .ForCondition(condition((TException)Subject))
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected exception where {1}{0}, but the condition was not met by:\r\n\r\n{2}", exceptionExpression.Body, Subject);
             
             return this;

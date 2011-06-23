@@ -25,10 +25,10 @@ namespace FluentAssertions.Assertions
             return BePositive(String.Empty);
         }
 
-        public AndConstraint<SimpleTimeSpanAssertions> BePositive(string reason, params object[] reasonParameters)
+        public AndConstraint<SimpleTimeSpanAssertions> BePositive(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => Subject.Value.CompareTo(new TimeSpan()) > 0,
-               "Expected positive value{2}, but found {1}", null, Subject.Value, reason, reasonParameters);
+               "Expected positive value{2}, but found {1}", null, Subject.Value, reason, reasonArgs);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -38,10 +38,10 @@ namespace FluentAssertions.Assertions
             return BeNegative(String.Empty);
         }
 
-        public AndConstraint<SimpleTimeSpanAssertions> BeNegative(string reason, params object[] reasonParameters)
+        public AndConstraint<SimpleTimeSpanAssertions> BeNegative(string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => Subject.Value.CompareTo(new TimeSpan()) < 0,
-                "Expected negative value{2}, but found {1}", null, Subject.Value, reason, reasonParameters);
+                "Expected negative value{2}, but found {1}", null, Subject.Value, reason, reasonArgs);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -51,10 +51,10 @@ namespace FluentAssertions.Assertions
             return Be(expected, String.Empty);
         }
 
-        public AndConstraint<SimpleTimeSpanAssertions> Be(TimeSpan expected, string reason, params object[] reasonParameters)
+        public AndConstraint<SimpleTimeSpanAssertions> Be(TimeSpan expected, string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => Subject.Value.CompareTo(expected) == 0,
-                "Expected {0}{2}, but found {1}.", expected, Subject.Value, reason, reasonParameters);
+                "Expected {0}{2}, but found {1}.", expected, Subject.Value, reason, reasonArgs);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -64,10 +64,10 @@ namespace FluentAssertions.Assertions
             return NotBe(expected, String.Empty);
         }
 
-        public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan expected, string reason, params object[] reasonParameters)
+        public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan expected, string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => Subject.Value.CompareTo(expected) != 0,
-                "Did not expect {0}{2}.", expected, Subject.Value, reason, reasonParameters);
+                "Did not expect {0}{2}.", expected, Subject.Value, reason, reasonArgs);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -77,10 +77,10 @@ namespace FluentAssertions.Assertions
             return BeLessThan(expected, String.Empty);
         }
 
-        public AndConstraint<SimpleTimeSpanAssertions> BeLessThan(TimeSpan expected, string reason, params object[] reasonParameters)
+        public AndConstraint<SimpleTimeSpanAssertions> BeLessThan(TimeSpan expected, string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => Subject.Value.CompareTo(expected) < 0,
-                "Expected a value less than {0}{2}, but found {1}.", expected, Subject.Value, reason, reasonParameters);
+                "Expected a value less than {0}{2}, but found {1}.", expected, Subject.Value, reason, reasonArgs);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -90,11 +90,11 @@ namespace FluentAssertions.Assertions
             return BeLessOrEqualTo(expected, String.Empty);
         }
 
-        public AndConstraint<SimpleTimeSpanAssertions> BeLessOrEqualTo(TimeSpan expected, string reason, params object[] reasonParameters)
+        public AndConstraint<SimpleTimeSpanAssertions> BeLessOrEqualTo(TimeSpan expected, string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => Subject.Value.CompareTo(expected) <= 0,
                 "Expected a value less or equal to {0}{2}, but found {1}.", expected, Subject.Value, reason,
-                reasonParameters);
+                reasonArgs);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -104,11 +104,11 @@ namespace FluentAssertions.Assertions
             return BeGreaterThan(expected, String.Empty);
         }
 
-        public AndConstraint<SimpleTimeSpanAssertions> BeGreaterThan(TimeSpan expected, string reason, params object[] reasonParameters)
+        public AndConstraint<SimpleTimeSpanAssertions> BeGreaterThan(TimeSpan expected, string reason, params object[] reasonArgs)
         {
             Execute.Verify(() => Subject.Value.CompareTo(expected) > 0,
                 "Expected a value greater than {0}{2}, but found {1}.", expected, Subject.Value, reason,
-                reasonParameters);
+                reasonArgs);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -119,11 +119,11 @@ namespace FluentAssertions.Assertions
         }
 
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterOrEqualTo(TimeSpan expected, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             Execute.Verify(() => Subject.Value.CompareTo(expected) >= 0,
                 "Expected a value greater or equal to {0}{2}, but found {1}.", expected, Subject.Value, reason,
-                reasonParameters);
+                reasonArgs);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }

@@ -56,17 +56,17 @@ namespace FluentAssertions.Assertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason, params object[] reasonParameters)
+        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason, params object[] reasonArgs)
         {
             var actual = target.Subtract(subject.Value);
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
                 Execute.Fail("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} before {0}{2}, but it differs {4}.", target, subject,
-                    reason, reasonParameters, timeSpan, actual);
+                    reason, reasonArgs, timeSpan, actual);
             }
             
             return new AndConstraint<DateTimeAssertions>(parentAssertions);
@@ -93,17 +93,17 @@ namespace FluentAssertions.Assertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason, params object[] reasonParameters)
+        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason, params object[] reasonArgs)
         {
             var actual = subject.Value.Subtract(target);
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
                 Execute.Fail("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} after {0}{2}, but it differs {4}.", target, subject,
-                    reason, reasonParameters, timeSpan, actual);
+                    reason, reasonArgs, timeSpan, actual);
             }
 
             return new AndConstraint<DateTimeAssertions>(parentAssertions);

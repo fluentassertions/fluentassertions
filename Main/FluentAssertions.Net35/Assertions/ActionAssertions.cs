@@ -13,7 +13,7 @@ namespace FluentAssertions.Assertions
 
         public Action Subject { get; private set; }
 
-        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason, object[] reasonParameters)
+        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason, object[] reasonArgs)
             where TException : Exception
         {
             Exception exception = null;
@@ -29,13 +29,13 @@ namespace FluentAssertions.Assertions
 
             Execute.Verification
                 .ForCondition(exception != null)
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {1}{0}, but no exception was thrown.", typeof(TException));
 
 
             Execute.Verification
                 .ForCondition(exception is TException)
-                .BecauseOf(reason, reasonParameters)
+                .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {1}{0}, but found {2}.", typeof(TException), exception);
 
             return new ExceptionAssertions<TException>((TException)exception);            
@@ -64,7 +64,7 @@ namespace FluentAssertions.Assertions
             }
         }
 
-        public void ShouldNotThrow(string reason, object[] reasonParameters)
+        public void ShouldNotThrow(string reason, object[] reasonArgs)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace FluentAssertions.Assertions
             catch (Exception exception)
             {
                 Execute.Fail("Did not expect any exception{2}, but found a {0} with message {1}.",
-                    exception.GetType(), exception.Message, reason, reasonParameters);
+                    exception.GetType(), exception.Message, reason, reasonArgs);
             }
         }
     }

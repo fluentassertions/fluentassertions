@@ -34,16 +34,16 @@ namespace FluentAssertions.Assertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public void ShouldNotExceed(TimeSpan maxDuration, string reason, params object[] reasonParameters)
+        public void ShouldNotExceed(TimeSpan maxDuration, string reason, params object[] reasonArgs)
         {
             if (executionTime > maxDuration)
             {
                 Execute.Fail(
                     "Execution of " + ActionDescription + " should not exceed {0}{2}, but it required {1}.",
-                    maxDuration, executionTime, reason, reasonParameters);
+                    maxDuration, executionTime, reason, reasonArgs);
             }
         }
 

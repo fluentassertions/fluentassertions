@@ -18,14 +18,14 @@ namespace FluentAssertions.Assertions
         }
 
         public AndConstraint<NonGenericCollectionAssertions> Contain(object expected, string reason,
-                                                           params object[] reasonParameters)
+                                                           params object[] reasonArgs)
         {
             if (expected is IEnumerable)
             {
-                return base.Contain((IEnumerable)expected , reason, reasonParameters);
+                return base.Contain((IEnumerable)expected , reason, reasonArgs);
             } 
                 
-            return base.Contain(new[] { expected }, reason, reasonParameters);
+            return base.Contain(new[] { expected }, reason, reasonArgs);
         }
     }
 }

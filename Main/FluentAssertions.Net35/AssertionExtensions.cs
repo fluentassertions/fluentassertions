@@ -76,16 +76,16 @@ namespace FluentAssertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason, params object[] reasonParameters) 
+        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason, params object[] reasonArgs) 
             where TException : Exception
         {
-            return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonParameters);
+            return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -109,12 +109,12 @@ namespace FluentAssertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public static void ShouldNotThrow<TException>(this Action action, string reason, params object[] reasonParameters)
+        public static void ShouldNotThrow<TException>(this Action action, string reason, params object[] reasonArgs)
         {
-            new ActionAssertions(action).ShouldNotThrow<TException>(reason, reasonParameters);
+            new ActionAssertions(action).ShouldNotThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -132,12 +132,12 @@ namespace FluentAssertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public static void ShouldNotThrow(this Action action, string reason, params object[] reasonParameters)
+        public static void ShouldNotThrow(this Action action, string reason, params object[] reasonArgs)
         {
-            new ActionAssertions(action).ShouldNotThrow(reason, reasonParameters);
+            new ActionAssertions(action).ShouldNotThrow(reason, reasonArgs);
         }
 
         /// <summary>
