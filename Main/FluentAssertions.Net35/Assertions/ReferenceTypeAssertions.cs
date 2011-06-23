@@ -47,11 +47,12 @@ namespace FluentAssertions.Assertions
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> BeAssignableTo<T>(string reason, params object[] reasonArgs)
         {
-            Execute.Verify(() => typeof(T).IsAssignableFrom(Subject.GetType()),
-                "Expected to be assignable to {0}{2}, but {1} does not implement {0}", typeof(T),
-                Subject.GetType(), reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(typeof(T).IsAssignableFrom(Subject.GetType()))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected to be assignable to {1}{0}, but {2} does not implement {1}", typeof(T), Subject.GetType());
 
-            return new AndConstraint<TAssertions>((TAssertions) this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -104,9 +105,10 @@ namespace FluentAssertions.Assertions
                 throw new NullReferenceException("Cannot match an object against a <null> predicate.");
             }
 
-            Execute.Verify(() => predicate.Compile()((T) Subject),
-                "Expected {1} to match {0}{2}.",
-                predicate.Body, Subject, reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(predicate.Compile()((T)Subject))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {1} to match {2}{0}.", Subject, predicate.Body);
 
             return new AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>>(this);
         }

@@ -33,8 +33,10 @@ namespace FluentAssertions.Assertions
 
             int actualCount = Subject.Cast<object>().Count();
 
-            Execute.Verify(() => actualCount == expected, "Expected {0} item(s){2}, but found {1}.",
-                expected, actualCount, reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(actualCount == expected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {1} item(s){0}, but found {2}.", expected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
@@ -98,8 +100,10 @@ namespace FluentAssertions.Assertions
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
 
-            Execute.Verify(() => !enumerable.Any(), "Expected no items{2}, but found {1}.",
-                null, enumerable.Count(), reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(!enumerable.Any())
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected no items{0}, but found {1}.", enumerable.Count());
 
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
@@ -125,8 +129,10 @@ namespace FluentAssertions.Assertions
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
 
-            Execute.Verify(() => enumerable.Any(), "Expected one or more items{2}.",
-                null, 0, reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(enumerable.Any())
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected one or more items{0}.");
 
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
@@ -641,9 +647,10 @@ namespace FluentAssertions.Assertions
             int actualCount = enumerable.Count();
             int expectedCount = otherCollection.Cast<object>().Count();
 
-            Execute.Verify(() => actualCount == expectedCount,
-                "Expected collection to have {0} item(s){2}, but found {1}.",
-                expectedCount, actualCount, reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(actualCount == expectedCount)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected collection to have {1} item(s){0}, but found {2}.", expectedCount, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions) this);
         }

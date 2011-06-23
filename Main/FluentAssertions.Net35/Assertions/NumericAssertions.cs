@@ -47,9 +47,11 @@ namespace FluentAssertions.Assertions
 
         public AndConstraint<NumericAssertions<T>> BePositive(string reason, params object[] reasonArgs)
         {
-            Execute.Verify(() => Subject.CompareTo(0) > 0,
-                "Expected positive value{2}, but found {1}", null, Subject, reason, reasonArgs);
-
+            Execute.Verification
+                .ForCondition(Subject.CompareTo(0) > 0)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected positive value{0}, but found {1}", Subject);
+            
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
@@ -60,8 +62,10 @@ namespace FluentAssertions.Assertions
 
         public AndConstraint<NumericAssertions<T>> BeNegative(string reason, params object[] reasonArgs)
         {
-            Execute.Verify(() => Subject.CompareTo(0) < 0,
-                "Expected negative value{2}, but found {1}", null, Subject, reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(Subject.CompareTo(0) < 0)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected negative value{0}, but found {1}", Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -74,8 +78,10 @@ namespace FluentAssertions.Assertions
         public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string reason,
             params object[] reasonArgs)
         {
-            Execute.Verify(() => Subject.CompareTo(expected) < 0,
-                "Expected a value less than {0}{2}, but found {1}.", expected, Subject, reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(Subject.CompareTo(expected) < 0)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected a value less than {1}{0}, but found {2}.", expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -88,9 +94,10 @@ namespace FluentAssertions.Assertions
         public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected, string reason,
             params object[] reasonArgs)
         {
-            Execute.Verify(() => Subject.CompareTo(expected) <= 0,
-                "Expected a value less or equal to {0}{2}, but found {1}.", expected, Subject, reason,
-                reasonArgs);
+            Execute.Verification
+                .ForCondition(Subject.CompareTo(expected) <= 0)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected a value less or equal to {1}{0}, but found {2}.", expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -103,9 +110,10 @@ namespace FluentAssertions.Assertions
         public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected, string reason,
             params object[] reasonArgs)
         {
-            Execute.Verify(() => Subject.CompareTo(expected) > 0,
-                "Expected a value greater than {0}{2}, but found {1}.", expected, Subject, reason,
-                reasonArgs);
+            Execute.Verification
+                .ForCondition(Subject.CompareTo(expected) > 0)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected a value greater than {1}{0}, but found {2}.", expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -118,10 +126,11 @@ namespace FluentAssertions.Assertions
         public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T expected, string reason,
             params object[] reasonArgs)
         {
-            Execute.Verify(() => Subject.CompareTo(expected) >= 0,
-                "Expected a value greater or equal to {0}{2}, but found {1}.", expected, Subject, reason,
-                reasonArgs);
-
+            Execute.Verification
+                .ForCondition(Subject.CompareTo(expected) >= 0)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected a value greater or equal to {1}{0}, but found {2}.", expected, Subject);
+            
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
