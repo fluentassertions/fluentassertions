@@ -147,7 +147,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected 4 item(s) because we want to test the failure message, but found 3.");
+                .WithMessage("Expected dictionary {[1, One], [2, Two], [3, Three]} to have 4 item(s) because we want to test the failure message, but found 3.");
         }
 
         [TestMethod]
@@ -328,7 +328,7 @@ namespace FluentAssertions.specs
             var assertions = dictionary.Should();
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected one or more items because we want to test the failure message.");
+                .WithMessage("Expected one or more items because we want to test the failure message, but found none.");
         }
 
         [TestMethod]
@@ -916,7 +916,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"Two\" at key 1 because we put it there, but found \"One\".");
+                "Expected dictionary to have value \"Two\" at key 1 because we put it there, but found \"One\".");
         }
 
         [TestMethod]
@@ -940,7 +940,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"Two\" at key 1 because we put it there, but found \"One\".");
+                "Expected dictionary to have value \"Two\" at key 1 because we put it there, but found \"One\".");
         }
 
         [TestMethod]
@@ -964,7 +964,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected \"Two\" at key 3 because we put it there, but the key was not found.");
+                "Expected dictionary to have value \"Two\" at key 3 because we put it there, but the key was not found.");
         }
 
         [TestMethod]
@@ -985,7 +985,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected dictionary to have value at key 1 because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected dictionary to have value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
         #endregion
