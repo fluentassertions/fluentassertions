@@ -705,12 +705,12 @@ namespace FluentAssertions.Assertions
         ///    name = "index" />.
         /// </summary>
         public AndConstraint<TAssertions> HaveElementAt(int index, object element, string reason,
-            params object[] reasonParameters)
+            params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Fail("Expected collection to have element at index {0}{2}, but found {1}.", index, Subject,
-                    reason, reasonParameters);
+                    reason, reasonArgs);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -719,14 +719,15 @@ namespace FluentAssertions.Assertions
             {
                 var actual = Subject.Cast<object>().ElementAt(index);
 
-                Execute.Verify(actual.Equals(element),
-                    "Expected {0} at index " + index + "{2}, but found {1}.",
-                    element, actual, reason, reasonParameters);
+                Execute.Verification
+                    .ForCondition(actual.Equals(element))
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected {1} at index " + index + "{0}, but found {2}.", element, actual);
             }
             else
             {
                 Execute.Fail("Expected {0} at index " + index + "{2}, but found no element.",
-                    element, null, reason, reasonParameters);
+                    element, null, reason, reasonArgs);
             }
 
             return new AndConstraint<TAssertions>((TAssertions) this);

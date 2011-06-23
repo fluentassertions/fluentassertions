@@ -227,9 +227,11 @@ namespace FluentAssertions.Specs
 
         internal class AssertionsTestSubClass : ReferenceTypeAssertions<object,AssertionsTestSubClass>
         {
-            public void AssertFail(string reason, params object[] reasonParameters)
+            public void AssertFail(string reason, params object[] reasonArgs)
             {
-                Execute.Verify(false, "Expected it to fail{2}", null, null, reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected it to fail{0}");
             }
         }
     }

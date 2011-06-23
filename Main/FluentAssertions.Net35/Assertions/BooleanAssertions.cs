@@ -14,19 +14,19 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public bool? Subject
-        {
-            get; private set;
-        }
+        public bool? Subject { get; private set; }
 
         public AndConstraint<BooleanAssertions> BeFalse()
         {
             return BeFalse(String.Empty);
         }
 
-        public AndConstraint<BooleanAssertions> BeFalse(string reason, params object[] reasonParameters)
+        public AndConstraint<BooleanAssertions> BeFalse(string reason, params object [] reasonArgs)
         {
-            Execute.Verify(!Subject.Value, "Expected {0}{2}, but found {1}.", false, Subject, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(!Subject.Value)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {1}{0}, but found {2}.", false, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -36,9 +36,12 @@ namespace FluentAssertions.Assertions
             return BeTrue(String.Empty);
         }
 
-        public AndConstraint<BooleanAssertions> BeTrue(string reason, params object[] reasonParameters)
+        public AndConstraint<BooleanAssertions> BeTrue(string reason, params object [] reasonArgs)
         {
-            Execute.Verify(Subject.Value, "Expected {0}{2}, but found {1}.", true, Subject, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(Subject.Value)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {1}{0}, but found {2}.", true, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -48,10 +51,12 @@ namespace FluentAssertions.Assertions
             return Be(expected, String.Empty);
         }
 
-        public AndConstraint<BooleanAssertions> Be(bool expected, string reason, params object[] reasonParameters)
+        public AndConstraint<BooleanAssertions> Be(bool expected, string reason, params object [] reasonArgs)
         {
-            Execute.Verify(() => Subject.Value.Equals(expected), "Expected {0}{2}, but found {1}.", expected, Subject,
-                reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(Subject.Value.Equals(expected))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {1}{0}, but found {2}.", expected, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }

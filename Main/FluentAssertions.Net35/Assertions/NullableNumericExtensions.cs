@@ -24,9 +24,13 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>      
-        public static AndConstraint<NumericAssertions<T?>> HaveValue<T>(this NumericAssertions<T?> parent, string reason, params object[] reasonArgs) where T: struct
+        public static AndConstraint<NumericAssertions<T?>> HaveValue<T>(this NumericAssertions<T?> parent, string reason,
+            params object [] reasonArgs) where T : struct
         {
-            Execute.Verify(!ReferenceEquals(parent.Subject, null), "Expected a value{2}.", null, null, reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(!ReferenceEquals(parent.Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected a value{0}.");
 
             return new AndConstraint<NumericAssertions<T?>>(parent);
         }
@@ -49,12 +53,15 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>  
-        public static AndConstraint<NumericAssertions<T?>> NotHaveValue<T>(this NumericAssertions<T?> parent, string reason, params object[] reasonArgs) where T : struct
+        public static AndConstraint<NumericAssertions<T?>> NotHaveValue<T>(this NumericAssertions<T?> parent, string reason,
+            params object [] reasonArgs) where T : struct
         {
-            Execute.Verify(ReferenceEquals(parent.Subject, null), "Did not expect a value{2}, but found {1}.", null, parent.Subject, reason, reasonArgs);
+            Execute.Verification
+                .ForCondition(ReferenceEquals(parent.Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect a value{0}, but found {1}.", parent.Subject);
 
             return new AndConstraint<NumericAssertions<T?>>(parent);
         }
-
     }
 }

@@ -41,7 +41,7 @@ namespace FluentAssertions.Assertions
             return new ExceptionAssertions<TException>((TException)exception);            
         }
 
-        public void ShouldNotThrow<TException>(string reason, object[] reasonParameters)
+        public void ShouldNotThrow<TException>(string reason, object[] reasonArgs)
         {
             Exception exception = null;
 
@@ -56,9 +56,11 @@ namespace FluentAssertions.Assertions
 
             if (exception != null)
             {
-                Execute.Verify(!(exception is TException),
-                    "Did not expect {0}{2}, but found one with message {1}.",
-                    typeof (TException), exception.Message, reason, reasonParameters);
+                Execute.Verification
+                    .ForCondition(!(exception is TException))
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Did not expect {1}{0}, but found one with message {2}.",
+                        typeof (TException), exception.Message);
             }
         }
 

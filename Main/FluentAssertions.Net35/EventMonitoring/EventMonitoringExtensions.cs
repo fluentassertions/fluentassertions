@@ -304,8 +304,9 @@ namespace FluentAssertions.EventMonitoring
                 }
 
                 object actualSender = recordedEvent.Parameters.First();
-                Execute.Verify(ReferenceEquals(actualSender, expectedSender),
-                    "Expected sender {0}, but found {1}.", expectedSender, actualSender, "", null);
+                Execute.Verification
+                    .ForCondition(ReferenceEquals(actualSender, expectedSender))
+                    .FailWith("Expected sender {1}, but found {2}.", expectedSender, actualSender);
             }
 
             return eventRecorder;

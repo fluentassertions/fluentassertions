@@ -13,34 +13,46 @@ namespace FluentAssertions.Assertions
 
         public AndConstraint<NullableDateTimeAssertions> HaveValue()
         {
-            return HaveValue("Expected variable to have a value. Actual: null");
+            return HaveValue(string.Empty);
         }
 
-        public AndConstraint<NullableDateTimeAssertions> HaveValue(string reason, params object[] reasonParameters)
+        public AndConstraint<NullableDateTimeAssertions> HaveValue(string reason, params object[] reasonArgs)
         {
-            Execute.Verify(Subject.HasValue, "Expected variable to have a value. Actual: null", null, Subject, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected variable to have a value, but found {1}", Subject);
+
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }
 
         public AndConstraint<NullableDateTimeAssertions> NotHaveValue()
         {
-            return NotHaveValue("Did not expect variable to have a value. Actual: {0}", Subject);
+            return NotHaveValue(string.Empty);
         }
 
-        public AndConstraint<NullableDateTimeAssertions> NotHaveValue(string reason, params object[] reasonParameters)
+        public AndConstraint<NullableDateTimeAssertions> NotHaveValue(string reason, params object[] reasonArgs)
         {
-            Execute.Verify(!Subject.HasValue, "Did not expect variable to have a value, but found {1}", null, Subject, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(!Subject.HasValue)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect variable to have a value{0}, but found {1}", Subject);
+            
             return new AndConstraint<NullableDateTimeAssertions>(this);
         }
 
         public AndConstraint<DateTimeAssertions> Be(DateTime? expected)
         {
-            return Be(expected, "Expected expected {0}. Actual: {1}", expected, Subject);
+            return Be(expected, string.Empty);
         }
 
-        public AndConstraint<DateTimeAssertions> Be(DateTime? expected, string reason, params object[] reasonParameters)
+        public AndConstraint<DateTimeAssertions> Be(DateTime? expected, string reason, params object[] reasonArgs)
         {
-            Execute.Verify(Subject == expected, "Expected {0}, but found {1}{2}", expected, Subject, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(Subject == expected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {1}{0}, but found {2}", expected, Subject);
+
             return new AndConstraint<DateTimeAssertions>(this);
         }
     }

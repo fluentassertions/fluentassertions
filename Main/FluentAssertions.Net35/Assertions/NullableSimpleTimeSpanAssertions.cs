@@ -16,9 +16,12 @@ namespace FluentAssertions.Assertions
             return HaveValue(String.Empty);
         }
 
-        public AndConstraint<NullableSimpleTimeSpanAssertions> HaveValue(string reason, params object[] reasonParameters)
+        public AndConstraint<NullableSimpleTimeSpanAssertions> HaveValue(string reason, params object[] reasonArgs)
         {
-            Execute.Verify(Subject.HasValue, "Expected a value{2}.", null, Subject, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected a value{0}.");
 
             return new AndConstraint<NullableSimpleTimeSpanAssertions>(this);
         }
@@ -28,10 +31,12 @@ namespace FluentAssertions.Assertions
             return NotHaveValue(String.Empty);
         }
 
-        public AndConstraint<NullableSimpleTimeSpanAssertions> NotHaveValue(string reason, params object[] reasonParameters)
+        public AndConstraint<NullableSimpleTimeSpanAssertions> NotHaveValue(string reason, params object[] reasonArgs)
         {
-            Execute.Verify(!Subject.HasValue, "Did not expect a value{2}, but found {1}.", null, Subject, reason,
-                reasonParameters);
+            Execute.Verification
+                .ForCondition(!Subject.HasValue)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect a value{0}, but found {1}.", Subject);
 
             return new AndConstraint<NullableSimpleTimeSpanAssertions>(this);
         }

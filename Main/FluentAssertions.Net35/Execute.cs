@@ -65,7 +65,7 @@ namespace FluentAssertions
         /// <param name = "failureMessageArgs">
         ///   Optional arguments to satisfy any additional placeholders in the <paramref name = "failureMessage" />
         /// </param>
-        public static void Verify(bool condition, string failureMessage, object expected, object actual, string reason,
+        private static void Verify(bool condition, string failureMessage, object expected, object actual, string reason,
             object[] reasonParameters, params object[] failureMessageArgs)
         {
             if (!condition)

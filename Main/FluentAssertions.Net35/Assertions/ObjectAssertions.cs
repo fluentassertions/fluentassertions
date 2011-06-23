@@ -136,11 +136,12 @@ namespace FluentAssertions.Assertions
             return BeNull(String.Empty);
         }
 
-        public AndConstraint<ObjectAssertions> BeNull(string reason, params object[] reasonParameters)
+        public AndConstraint<ObjectAssertions> BeNull(string reason, params object[] reasonArgs)
         {
-            Execute.Verify(ReferenceEquals(Subject, null),
-                "Expected <null>{2}, but found {1}.", null, Subject, reason,
-                reasonParameters);
+            Execute.Verification
+                .ForCondition(ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected <null>{0}, but found {1}.", Subject);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -150,11 +151,12 @@ namespace FluentAssertions.Assertions
             return NotBeNull(String.Empty);
         }
 
-        public AndConstraint<ObjectAssertions> NotBeNull(string reason, params object[] reasonParameters)
+        public AndConstraint<ObjectAssertions> NotBeNull(string reason, params object[] reasonArgs)
         {
-            Execute.Verify(!ReferenceEquals(Subject, null),
-                "Expected non-null value{2}, but found <null>.", null, Subject, reason,
-                reasonParameters);
+            Execute.Verification
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected non-null value{0}, but found <null>.");
 
             return new AndConstraint<ObjectAssertions>(this);
         }

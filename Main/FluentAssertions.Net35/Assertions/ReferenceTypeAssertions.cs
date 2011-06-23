@@ -20,9 +20,10 @@ namespace FluentAssertions.Assertions
 
         public AndConstraint<TAssertions> BeOfType<T>(string reason, params object[] reasonParameters)
         {
-            Execute.Verify(typeof(T) == Subject.GetType(),
-                "Expected type {0}{2}, but found {1}.", typeof(T), Subject.GetType(), reason,
-                reasonParameters);
+            Execute.Verification
+                .ForCondition(typeof(T) == Subject.GetType())
+                .BecauseOf(reason, reasonParameters)
+                .FailWith("Expected type {1}{0}, but found {2}.", typeof(T), Subject.GetType());
 
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
