@@ -98,10 +98,10 @@ namespace FluentAssertions.Assertions
 
             if (actualDifference > precision)
             {
-                Execute.Fail(
-                    "Expected value " + parent.Subject + " to approximate " + expectedValue +
-                        " +/- {0}{2}, but it differed by {1}.",
-                    precision, actualDifference, reason, reasonArgs);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected value {1} to approximate {2} +/- {3}{0}, but it differed by {4}.",
+                        parent.Subject, expectedValue, precision, actualDifference);
             }
 
             return new AndConstraint<NumericAssertions<float>>(parent);

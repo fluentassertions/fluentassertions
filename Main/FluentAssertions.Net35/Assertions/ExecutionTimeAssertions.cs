@@ -14,7 +14,7 @@ namespace FluentAssertions.Assertions
         public ExecutionTimeAssertions(Action action)
         {
             ActionDescription = "the action";
-            
+
             var stopwatch = Stopwatch.StartNew();
             action();
             stopwatch.Stop();
@@ -23,6 +23,17 @@ namespace FluentAssertions.Assertions
         }
 
         protected string ActionDescription { get; set; }
+
+        /// <summary>
+        /// Asserts that the execution time of the operation does not exceed a specified amount of time.
+        /// </summary>
+        /// <param name="maxDuration">
+        /// The maximum allowed duration.
+        /// </param>
+        public void ShouldNotExceed(TimeSpan maxDuration)
+        {
+            ShouldNotExceed(maxDuration, string.Empty);
+        }
 
         /// <summary>
         /// Asserts that the execution time of the operation does not exceed a specified amount of time.
@@ -41,21 +52,11 @@ namespace FluentAssertions.Assertions
         {
             if (executionTime > maxDuration)
             {
-                Execute.Fail(
-                    "Execution of " + ActionDescription + " should not exceed {0}{2}, but it required {1}.",
-                    maxDuration, executionTime, reason, reasonArgs);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Execution of " + ActionDescription + " should not exceed {1}{0}, but it required {2}",
+                        maxDuration, executionTime);
             }
-        }
-
-        /// <summary>
-        /// Asserts that the execution time of the operation does not exceed a specified amount of time.
-        /// </summary>
-        /// <param name="maxDuration">
-        /// The maximum allowed duration.
-        /// </param>
-        public void ShouldNotExceed(TimeSpan maxDuration)
-        {
-            ShouldNotExceed(maxDuration, string.Empty);
         }
     }
 
@@ -65,7 +66,7 @@ namespace FluentAssertions.Assertions
     /// <typeparam name="T"></typeparam>
     public class MemberExecutionTimeAssertions<T> : ExecutionTimeAssertions
     {
-        public MemberExecutionTimeAssertions(T subject, Expression<Action<T>> action) : 
+        public MemberExecutionTimeAssertions(T subject, Expression<Action<T>> action) :
             base(() => action.Compile()(subject))
         {
             ActionDescription = "(" + action.Body + ")";

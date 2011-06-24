@@ -65,8 +65,10 @@ namespace FluentAssertions.Assertions
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
-                Execute.Fail("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} before {0}{2}, but it differs {4}.", target, subject,
-                    reason, reasonArgs, timeSpan, actual);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected date and/or time {1} to be " + predicate.DisplayText + " {2} before {3}{0}, but it differs {4}.",
+                        subject, timeSpan, target, actual);
             }
             
             return new AndConstraint<DateTimeAssertions>(parentAssertions);
@@ -102,8 +104,10 @@ namespace FluentAssertions.Assertions
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
-                Execute.Fail("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} after {0}{2}, but it differs {4}.", target, subject,
-                    reason, reasonArgs, timeSpan, actual);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected date and/or time {1} to be " + predicate.DisplayText + " {2} after {3}{0}, but it differs {4}.",
+                        subject, timeSpan, target, actual);
             }
 
             return new AndConstraint<DateTimeAssertions>(parentAssertions);

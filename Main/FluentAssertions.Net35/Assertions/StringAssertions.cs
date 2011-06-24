@@ -257,7 +257,9 @@ namespace FluentAssertions.Assertions
 
             if (Subject == null)
             {
-                Execute.Fail("Expected string {1} to start with {0}{2}.", expected, Subject, reason, reasonArgs);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected string {1} to start with {2}{0}.", Subject, expected);
             }
 
             Execute.Verification
@@ -288,8 +290,9 @@ namespace FluentAssertions.Assertions
 
             if (Subject == null)
             {
-                Execute.Fail("Expected string {1} to start with equivalent of {0}{2}.", expected, Subject, reason,
-                    reasonArgs);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected string {1} to start with equivalent of {2}{0}.", Subject, expected);
             }
 
             Execute.Verification
@@ -320,7 +323,9 @@ namespace FluentAssertions.Assertions
 
             if (Subject == null)
             {
-                Execute.Fail("Expected string {1} to end with {0}{2}.", expected, Subject, reason, reasonArgs);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected string {1} to end with {2}{0}.", Subject, expected);
             }
 
             Execute.Verification
@@ -351,8 +356,9 @@ namespace FluentAssertions.Assertions
 
             if (Subject == null)
             {
-                Execute.Fail("Expected string {1} to end with equivalent of {0}{2}.", expected, Subject, reason,
-                    reasonArgs);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected string {1} to end with equivalent of {2}{0}.", Subject, expected);
             }
 
             Execute.Verification
