@@ -50,7 +50,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.CompareTo(0) > 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected positive value{0}, but found {1}", Subject);
+                .FailWith("Expected positive value{reason}, but found {0}", Subject);
             
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -65,7 +65,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.CompareTo(0) < 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected negative value{0}, but found {1}", Subject);
+                .FailWith("Expected negative value{reason}, but found {0}", Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -81,7 +81,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) < 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value less than {1}{0}, but found {2}.", expected, Subject);
+                .FailWith("Expected a value less than {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -97,7 +97,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) <= 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value less or equal to {1}{0}, but found {2}.", expected, Subject);
+                .FailWith("Expected a value less or equal to {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -113,7 +113,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) > 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value greater than {1}{0}, but found {2}.", expected, Subject);
+                .FailWith("Expected a value greater than {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -129,7 +129,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) >= 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value greater or equal to {1}{0}, but found {2}.", expected, Subject);
+                .FailWith("Expected a value greater or equal to {0}{reason}, but found {1}.", expected, Subject);
             
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -148,7 +148,7 @@ namespace FluentAssertions.Assertions
         /// </param>
         public AndConstraint<NumericAssertions<T>> BeInRange(T minimumValue, T maximumValue)
         {
-            return BeInRange(minimumValue, maximumValue, "");
+            return BeInRange(minimumValue, maximumValue, string.Empty);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition((Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected value {1} to be between {2} and {3}{0}, but it was not.",
+                .FailWith("Expected value {0} to be between {1} and {2}{reason}, but it was not.",
                     Subject, minimumValue, maximumValue);
 
             return new AndConstraint<NumericAssertions<T>>(this);

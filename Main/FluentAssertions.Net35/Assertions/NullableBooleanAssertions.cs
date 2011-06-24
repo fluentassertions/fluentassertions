@@ -21,7 +21,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value{0}.");
+                .FailWith("Expected a value{reason}.");
 
             return new AndConstraint<NullableBooleanAssertions>(this);
         }
@@ -36,7 +36,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect a value{0}, but found {1}.", Subject);
+                .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 
             return new AndConstraint<NullableBooleanAssertions>(this);
         }

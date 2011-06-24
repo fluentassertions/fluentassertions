@@ -34,12 +34,12 @@ namespace FluentAssertions.Assertions
         {
             if (subject.Length < expected.Length)
             {
-                verification.FailWith(ExpectationDescription + "but {2} is too short.", expected, subject);
+                verification.FailWith(ExpectationDescription + "but {1} is too short.", expected, subject);
             }
 
             if (subject.Length > expected.Length)
             {
-                verification.FailWith(ExpectationDescription + "but {2} is too long.", expected, subject);
+                verification.FailWith(ExpectationDescription + "but {1} is too long.", expected, subject);
             }
         }
 
@@ -49,7 +49,7 @@ namespace FluentAssertions.Assertions
             if (indexOfMismatch != -1)
             {
                 verification.FailWith(
-                    ExpectationDescription + "but {2} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
+                    ExpectationDescription + "but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
                     expected, subject);
             }
         }
@@ -59,7 +59,7 @@ namespace FluentAssertions.Assertions
             get
             {
                 string predicateDescription = IgnoreCase ? "be equivalent to" : "be";
-                return "Expected " + Verification.SubjectNameOr("string") + " to " + predicateDescription + " {1}{0}, ";
+                return "Expected " + Verification.SubjectNameOr("string") + " to " + predicateDescription + " {0}{reason}, ";
             }
         }
 

@@ -18,7 +18,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == 0))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {1}{0}, but found {2}.", expected, Subject);
+                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -33,7 +33,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) != 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect {1}{0}.", expected);
+                .FailWith("Did not expect {0}{reason}.", expected);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }

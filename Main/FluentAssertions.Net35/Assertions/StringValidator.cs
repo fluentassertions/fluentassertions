@@ -47,7 +47,7 @@ namespace FluentAssertions.Assertions
         {
             if (((expected == null) && (subject != null)) || ((expected != null) && (subject == null)))
             {
-                verification.FailWith(ExpectationDescription + "but found {2}.", expected, subject);
+                verification.FailWith(ExpectationDescription + "but found {1}.", expected, subject);
             }
         }
 

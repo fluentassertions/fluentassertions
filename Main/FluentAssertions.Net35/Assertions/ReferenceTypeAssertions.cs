@@ -23,7 +23,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(typeof(T) == Subject.GetType())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected type {1}{0}, but found {2}.", typeof(T), Subject.GetType());
+                .FailWith("Expected type {0}{reason}, but found {1}.", typeof(T), Subject.GetType());
 
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
@@ -50,7 +50,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(typeof(T).IsAssignableFrom(Subject.GetType()))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected to be assignable to {1}{0}, but {2} does not implement {1}", typeof(T), Subject.GetType());
+                .FailWith("Expected to be assignable to {0}{reason}, but {1} does not implement {0}", typeof(T), Subject.GetType());
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -108,7 +108,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(predicate.Compile()((T)Subject))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {1} to match {2}{0}.", Subject, predicate.Body);
+                .FailWith("Expected {0} to match {1}{reason}.", Subject, predicate.Body);
 
             return new AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>>(this);
         }

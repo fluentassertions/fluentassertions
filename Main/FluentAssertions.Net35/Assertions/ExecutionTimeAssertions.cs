@@ -54,7 +54,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Execution of " + ActionDescription + " should not exceed {1}{0}, but it required {2}",
+                    .FailWith("Execution of " + ActionDescription + " should not exceed {0}{reason}, but it required {1}",
                         maxDuration, executionTime);
             }
         }

@@ -100,9 +100,10 @@ namespace FluentAssertions.Assertions
                 }
                 catch (FormatException)
                 {
-                    Execute.Verification.BecauseOf(Reason, ReasonArgs).FailWith(
-                            "Expected property " + propertyName + " to be {1}{0}, but {2} is of an incompatible type.",
-                            expectedValue, subjectValue);
+                    Execute.Verification
+                        .BecauseOf(Reason, ReasonArgs)
+                        .FailWith("Expected property " + propertyName + " to be {0}{reason}, but {1} is of an incompatible type.",
+                        expectedValue, subjectValue);
                 }
             }
 

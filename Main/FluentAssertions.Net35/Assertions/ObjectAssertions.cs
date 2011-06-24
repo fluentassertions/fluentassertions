@@ -38,7 +38,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .BecauseOf(reason, reasonArgs)
                 .ForCondition(Subject.IsEqualTo(expected))
-                .FailWith("Expected " + Verification.SubjectNameOr("object") + " to be {1}{0}, but found {2}.", expected,
+                .FailWith("Expected " + Verification.SubjectNameOr("object") + " to be {0}{reason}, but found {1}.", expected,
                     Subject);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -67,7 +67,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!Subject.IsEqualTo(expected))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect object to be equal to {1}{0}.", expected);
+                .FailWith("Did not expect object to be equal to {0}{reason}.", expected);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -96,7 +96,7 @@ namespace FluentAssertions.Assertions
                 .UsingLineBreaks
                 .ForCondition(ReferenceEquals(Subject, expected))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected reference to object {1}{0}, but found object {2}.", expected, Subject);
+                .FailWith("Expected reference to object {0}{reason}, but found object {1}.", expected, Subject);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -126,7 +126,7 @@ namespace FluentAssertions.Assertions
                 .UsingLineBreaks
                 .ForCondition(!ReferenceEquals(Subject, expected))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect reference to object {1}{0}.", expected);
+                .FailWith("Did not expect reference to object {0}{reason}.", expected);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -141,7 +141,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(ReferenceEquals(Subject, null))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected <null>{0}, but found {1}.", Subject);
+                .FailWith("Expected <null>{reason}, but found {0}.", Subject);
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -156,7 +156,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected non-null value{0}, but found <null>.");
+                .FailWith("Expected non-null value{reason}, but found <null>.");
 
             return new AndConstraint<ObjectAssertions>(this);
         }
@@ -195,7 +195,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {1} to be serializable{0}, but serialization failed with:\r\n\r\n{2}", Subject,
+                    .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:\r\n\r\n{1}", Subject,
                         exc.Message);
             }
 
@@ -245,7 +245,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {1} to be serializable{0}, but serialization failed with:\r\n\r\n{2}", Subject,
+                    .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:\r\n\r\n{1}", Subject,
                         exc.Message);
             }
 

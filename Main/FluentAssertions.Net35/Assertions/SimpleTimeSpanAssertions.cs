@@ -30,7 +30,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(new TimeSpan()) > 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected positive value{0}, but found {1}", Subject.Value);
+                .FailWith("Expected positive value{reason}, but found {0}", Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -45,7 +45,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(new TimeSpan()) < 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected negative value{0}, but found {1}", Subject.Value);
+                .FailWith("Expected negative value{reason}, but found {0}", Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -60,7 +60,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(expected) == 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {1}{0}, but found {2}.", expected, Subject.Value);
+                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -75,7 +75,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(unexpected) != 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect {1}{0}.", unexpected);
+                .FailWith("Did not expect {0}{reason}.", unexpected);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -90,7 +90,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value less than {1}{0}, but found {2}.", expected, Subject.Value);
+                .FailWith("Expected a value less than {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -105,7 +105,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value less or equal to {1}{0}, but found {2}.", expected, Subject.Value);
+                .FailWith("Expected a value less or equal to {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -120,7 +120,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value greater than {1}{0}, but found {2}.", expected, Subject.Value);
+                .FailWith("Expected a value greater than {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
@@ -136,7 +136,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value greater or equal to {1}{0}, but found {2}.", expected, Subject.Value);
+                .FailWith("Expected a value greater or equal to {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }

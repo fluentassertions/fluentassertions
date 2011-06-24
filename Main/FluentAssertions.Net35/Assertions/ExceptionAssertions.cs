@@ -46,21 +46,21 @@ namespace FluentAssertions.Assertions
             Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
             verification.ForCondition(Subject != null).FailWith(
-                "Expected exception with message {1}{0}, but no exception was thrown.", expectedMessage);
+                "Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
 
             string message = Subject.Message;
 
             verification.ForCondition(!string.IsNullOrEmpty(message)).FailWith(
-                "Expected exception with message {1}{0}, but message was empty.", expectedMessage);
+                "Expected exception with message {0}{reason}, but message was empty.", expectedMessage);
 
             verification.ForCondition(message.Length >= expectedMessage.Length).FailWith(
-                "Expected exception with message {1}{0}, but {2} is too short.", expectedMessage, message);
+                "Expected exception with message {0}{reason}, but {1} is too short.", expectedMessage, message);
 
             int index = message.IndexOfFirstMismatch(expectedMessage);
             if (index != -1)
             {
                 verification.FailWith(
-                    "Expected exception with message {1}{0}, but {2} differs near " + message.IndexedSegmentAt(index) +
+                    "Expected exception with message {0}{reason}, but {1} differs near " + message.IndexedSegmentAt(index) +
                         ".",
                     expectedMessage, message);
             }
@@ -91,24 +91,24 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected inner {1}{0}, but no exception was thrown.", typeof (TInnerException));
+                .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof(TInnerException));
 
             Execute.Verification
                 .ForCondition(Subject.InnerException != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected inner {1}{0}, but the thrown exception has no inner exception.",
+                .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
                     typeof (TInnerException));
 
             Execute.Verification
                 .ForCondition(Subject.InnerException != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected inner {1}{0}, but the thrown exception has no inner exception.",
+                .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
                     typeof (TInnerException));
 
             Execute.Verification
                 .ForCondition(Subject.InnerException is TInnerException)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected inner {1}{0}, but found {2}.", typeof(TInnerException), Subject.InnerException);
+                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), Subject.InnerException);
 
             return this;
         }
@@ -137,10 +137,10 @@ namespace FluentAssertions.Assertions
             Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
             verification.ForCondition(Subject != null).FailWith(
-                "Expected exception {0}, but no exception was thrown.");
+                "Expected exception {reason}, but no exception was thrown.");
 
             verification.ForCondition(Subject.InnerException != null).FailWith(
-                "Expected exception{0}, but the thrown exception has no inner exception.");
+                "Expected exception{reason}, but the thrown exception has no inner exception.");
 
             string innerMessage = Subject.InnerException.Message;
 
@@ -148,7 +148,7 @@ namespace FluentAssertions.Assertions
             if (index != -1)
             {
                 verification.FailWith(
-                    "Expected inner exception with message {1}{0}, but {2} differs near " +
+                    "Expected inner exception with message {0}{reason}, but {1} differs near " +
                         innerMessage.IndexedSegmentAt(index) + ".",
                     expectedInnerMessage, innerMessage);
             }
@@ -164,7 +164,7 @@ namespace FluentAssertions.Assertions
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression)
         {
-            return Where(exceptionExpression, "");
+            return Where(exceptionExpression, string.Empty);
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(condition((TException)Subject))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected exception where {1}{0}, but the condition was not met by:\r\n\r\n{2}", exceptionExpression.Body, Subject);
+                .FailWith("Expected exception where {0}{reason}, but the condition was not met by:\r\n\r\n{1}", exceptionExpression.Body, Subject);
             
             return this;
         }

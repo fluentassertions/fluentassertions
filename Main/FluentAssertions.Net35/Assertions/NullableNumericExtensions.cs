@@ -30,7 +30,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!ReferenceEquals(parent.Subject, null))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value{0}.");
+                .FailWith("Expected a value{reason}.");
 
             return new AndConstraint<NumericAssertions<T?>>(parent);
         }
@@ -59,7 +59,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(ReferenceEquals(parent.Subject, null))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect a value{0}, but found {1}.", parent.Subject);
+                .FailWith("Did not expect a value{reason}, but found {0}.", parent.Subject);
 
             return new AndConstraint<NumericAssertions<T?>>(parent);
         }

@@ -67,7 +67,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected date and/or time {1} to be " + predicate.DisplayText + " {2} before {3}{0}, but it differs {4}.",
+                    .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText + " {1} before {2}{reason}, but it differs {3}.",
                         subject, timeSpan, target, actual);
             }
             
@@ -106,7 +106,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected date and/or time {1} to be " + predicate.DisplayText + " {2} after {3}{0}, but it differs {4}.",
+                    .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText + " {1} after {2}{reason}, but it differs {3}.",
                         subject, timeSpan, target, actual);
             }
 

@@ -46,7 +46,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to be <null>{0}, but found {1}.", Subject);
+                    .FailWith("Expected dictionary to be <null>{reason}, but found {0}.", Subject);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -76,7 +76,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary not to be <null>{0}.");
+                    .FailWith("Expected dictionary not to be <null>{reason}.");
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -117,7 +117,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {1} item(s){0}, but found {2}.", expected, Subject);
+                    .FailWith("Expected {0} item(s){reason}, but found {1}.", expected, Subject);
             }
 
             int actualCount = Subject.Count;
@@ -125,7 +125,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition((actualCount == expected))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected dictionary {1} to have {2} item(s){0}, but found {3}.", Subject, expected, actualCount); 
+                .FailWith("Expected dictionary {0} to have {1} item(s){reason}, but found {2}.", Subject, expected, actualCount); 
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -166,7 +166,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {1} items{0}, but found {2}.", countPredicate.Body, Subject); 
+                    .FailWith("Expected {0} items{reason}, but found {1}.", countPredicate.Body, Subject); 
             }
 
             Func<int, bool> compiledPredicate = countPredicate.Compile();
@@ -177,7 +177,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary {1} to have a count {2}{0}, but count is {3}.",
+                    .FailWith("Expected dictionary {0} to have a count {1}{reason}, but count is {2}.",
                         Subject, countPredicate.Body, actualCount);
             }
 
@@ -212,13 +212,13 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to be empty{0}, but found {1}.", Subject);
+                    .FailWith("Expected dictionary to be empty{reason}, but found {0}.", Subject);
             }
 
             Execute.Verification
                 .ForCondition(!Subject.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected no items{0}, but found {1}.", Subject.Count);
+                .FailWith("Expected no items{reason}, but found {0}.", Subject.Count);
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -248,13 +248,13 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary not to be empty{0}, but found {1}.", Subject);
+                    .FailWith("Expected dictionary not to be empty{reason}, but found {0}.", Subject);
             }
 
             Execute.Verification
                 .ForCondition(Subject.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected one or more items{0}, but found none.");
+                .FailWith("Expected one or more items{reason}, but found none.");
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
         }
@@ -297,7 +297,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to be equal to {1}{0}, but found {2}.", expected, Subject);
+                    .FailWith("Expected dictionary to be equal to {0}{reason}, but found {1}.", expected, Subject);
             }
 
             if (expected == null)
@@ -312,14 +312,14 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to be equal to {1}{0}, but could not find keys {2}.", expected, missingKeys);
+                    .FailWith("Expected dictionary to be equal to {0}{reason}, but could not find keys {1}.", expected, missingKeys);
             }
             
             if (additionalKeys.Any())
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to be equal to {1}{0}, but found additional keys {2}.", expected, additionalKeys);
+                    .FailWith("Expected dictionary to be equal to {0}{reason}, but found additional keys {1}.", expected, additionalKeys);
             }
 
             foreach (var key in expected.Keys)
@@ -328,7 +328,7 @@ namespace FluentAssertions.Assertions
                     .ForCondition(Subject[key].Equals(expected[key]))
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected " + Verification.SubjectNameOr("dictionary") +
-                            " to be equal to {1}{0}, but {2} differs at key {3}.", expected, Subject, key);
+                            " to be equal to {0}{reason}, but {1} differs at key {2}.", expected, Subject, key);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -369,7 +369,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionaries not to be equal{0}, but found {1}.", Subject);
+                    .FailWith("Expected dictionaries not to be equal{reason}, but found {0}.", Subject);
             }
 
             if (unexpected == null)
@@ -388,7 +388,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect dictionaries {1} and {2} to be equal{0}.", unexpected, Subject);
+                    .FailWith("Did not expect dictionaries {0} and {1} to be equal{reason}.", unexpected, Subject);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -475,7 +475,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to contain keys {1}{0}, but found {2}.", expected, Subject);
+                    .FailWith("Expected dictionary to contain keys {0}{reason}, but found {1}.", expected, Subject);
             }
 
             var missingKeys = expectedKeys.Except(Subject.Keys);
@@ -485,14 +485,14 @@ namespace FluentAssertions.Assertions
                 {
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
-                        .FailWith("Expected dictionary {1} to contain key {2}{0}, but could not find {3}.", Subject,
+                        .FailWith("Expected dictionary {0} to contain key {1}{reason}, but could not find {2}.", Subject,
                             expected, missingKeys);
                 }
                 else
                 {
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
-                        .FailWith("Expected dictionary {1} to contain key {2}{0}.", Subject,
+                        .FailWith("Expected dictionary {0} to contain key {1}{reason}.", Subject,
                             expected.Cast<object>().First());
                 }
             }
@@ -537,14 +537,14 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary not to contain key {1}{0}, but found {2}.", unexpected, Subject);
+                    .FailWith("Expected dictionary not to contain key {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
             if (Subject.ContainsKey(unexpected))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Dictionary {1} should not contain key {2}{0}, but found it anyhow.", Subject, unexpected);
+                    .FailWith("Dictionary {0} should not contain key {1}{reason}, but found it anyhow.", Subject, unexpected);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -631,7 +631,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to contain value {1}{0}, but found {2}.", expected, Subject);
+                    .FailWith("Expected dictionary to contain value {0}{reason}, but found {1}.", expected, Subject);
             }
 
             var missingValues = expectedValues.Except(Subject.Values);
@@ -641,14 +641,14 @@ namespace FluentAssertions.Assertions
                 {
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
-                        .FailWith("Expected dictionary {1} to contain value {2}{0}, but could not find {3}.", Subject,
+                        .FailWith("Expected dictionary {0} to contain value {1}{reason}, but could not find {2}.", Subject,
                             expected, missingValues);
                 }
                 else
                 {
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
-                        .FailWith("Expected dictionary {1} to contain value {2}{0}.", Subject,
+                        .FailWith("Expected dictionary {0} to contain value {1}{reason}.", Subject,
                             expected.Cast<object>().First());
                 }
             }
@@ -693,14 +693,14 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary not to contain value {1}{0}, but found {2}.", unexpected, Subject);
+                    .FailWith("Expected dictionary not to contain value {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
             if (Subject.Values.Contains(unexpected))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Dictionary {1} should not contain value {2}{0}, but found it anyhow.", Subject, unexpected);
+                    .FailWith("Dictionary {0} should not contain value {1}{reason}, but found it anyhow.", Subject, unexpected);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -781,7 +781,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to have value {1} at key {2}{0}, but dictionary is {3}.", value, key, Subject);
+                    .FailWith("Expected dictionary to have value {0} at key {1}{reason}, but dictionary is {2}.", value, key, Subject);
             }
 
             if (Subject.ContainsKey(key))
@@ -791,13 +791,13 @@ namespace FluentAssertions.Assertions
                 Execute.Verification
                     .ForCondition(actual.Equals(value))
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to have value {1} at key {2}{0}, but found {3}.", value, key, actual);
+                    .FailWith("Expected dictionary to have value {0} at key {1}{reason}, but found {2}.", value, key, actual);
             }
             else
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to have value {1} at key {2}{0}, but the key was not found.", value, key);
+                    .FailWith("Expected dictionary to have value {0} at key {1}{reason}, but the key was not found.", value, key);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);

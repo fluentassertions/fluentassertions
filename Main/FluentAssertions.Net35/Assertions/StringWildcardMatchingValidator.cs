@@ -14,12 +14,12 @@ namespace FluentAssertions.Assertions
         {
             if (!IsMatch && !Negate)
             {
-                verification.FailWith(ExpectationDescription + "but {2} does not match.", expected, subject);
+                verification.FailWith(ExpectationDescription + "but {1} does not match.", expected, subject);
             }
 
             if (IsMatch && Negate)
             {
-                verification.FailWith(ExpectationDescription + "but {2} matches.", expected, subject);
+                verification.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
             }
         }
 
@@ -46,7 +46,7 @@ namespace FluentAssertions.Assertions
                 builder.Append(Negate ? "Did not expect " : "Expected ");
                 builder.Append(Verification.SubjectNameOr("string"));
                 builder.Append(IgnoreCase ? " to match the equivalent of" : " to match");
-                builder.Append(" {1}{0}, ");
+                builder.Append(" {0}{reason}, ");
 
                 return builder.ToString();
             }
