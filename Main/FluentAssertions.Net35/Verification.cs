@@ -86,6 +86,15 @@ namespace FluentAssertions
             return "";
         }
 
+        /// <summary>
+        /// Define the failure message for the verification.
+        /// </summary>
+        /// <remarks>
+        /// If the <paramref name="failureMessage"/> contains the text "[reason]", this will be replaced by the reason as
+        /// defined through <see cref="BecauseOf"/>.
+        /// </remarks>
+        /// <param name="failureMessage">The format string that represents the failure message.</param>
+        /// <param name="failureArgs">Optional arguments for the <paramref name="failureMessage"/></param>
         public void FailWith(string failureMessage, params object[] failureArgs)
         {
             try
