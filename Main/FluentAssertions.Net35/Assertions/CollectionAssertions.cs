@@ -98,7 +98,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to be empty{0}, but found {1}.", Subject);
+                    .FailWith("Expected collection to be empty{reason}, but found {0}.", Subject);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -106,7 +106,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!enumerable.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected no items{0}, but found {1}.", enumerable.Count());
+                .FailWith("Expected no items{reason}, but found {0}.", enumerable.Count());
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -128,7 +128,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection not to be empty{0}, but found {1}.", Subject);
+                    .FailWith("Expected collection not to be empty{reason}, but found {0}.", Subject);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -136,7 +136,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(enumerable.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected one or more items{0}.");
+                .FailWith("Expected one or more items{reason}.");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -158,7 +158,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to only have unique items{0}, but found {1}.", Subject);
+                    .FailWith("Expected collection to only have unique items{reason}, but found {0}.", Subject);
             }
 
             var groupWithMultipleItems =
@@ -167,7 +167,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected only unique items{0}, but item {1} was found multiple times.", groupWithMultipleItems.Key);
+                    .FailWith("Expected only unique items{reason}, but item {0} was found multiple times.", groupWithMultipleItems.Key);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -190,7 +190,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to not contain nulls{0}, but found {1}.", Subject);
+                    .FailWith("Expected collection to not contain nulls{reason}, but found {0}.", Subject);
             }
 
             var values = Subject.Cast<object>().ToArray();
@@ -200,7 +200,7 @@ namespace FluentAssertions.Assertions
                 {
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
-                        .FailWith("Expected no <null> in collection{0}, but found one at index {1}.", index);
+                        .FailWith("Expected no <null> in collection{reason}, but found one at index {0}.", index);
                 }
             }
 
@@ -235,7 +235,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collections to be equal{0}, but found {1}.", Subject);
+                    .FailWith("Expected collections to be equal{reason}, but found {0}.", Subject);
             }
 
             if (expected == null)
@@ -251,9 +251,8 @@ namespace FluentAssertions.Assertions
                 Execute.Verification
                     .ForCondition((index < actualItems.Length) && actualItems[index].Equals(expectedItems[index]))
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith(
-                        "Expected " + Verification.SubjectNameOr("collection") +
-                            " to be equal to {1}{0}, but {2} differs at index " + index + ".", expected, Subject);
+                    .FailWith("Expected " + Verification.SubjectNameOr("collection") + " to be equal to {0}{reason}, but {1} differs at index {2}.",
+                        expected, Subject, index);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

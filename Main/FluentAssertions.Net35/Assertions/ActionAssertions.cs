@@ -30,13 +30,13 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(exception != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {1}{0}, but no exception was thrown.", typeof(TException));
+                .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
 
 
             Execute.Verification
                 .ForCondition(exception is TException)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {1}{0}, but found {2}.", typeof(TException), exception);
+                .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), exception);
 
             return new ExceptionAssertions<TException>((TException)exception);            
         }
@@ -59,7 +59,7 @@ namespace FluentAssertions.Assertions
                 Execute.Verification
                     .ForCondition(!(exception is TException))
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect {1}{0}, but found one with message {2}.",
+                    .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
                         typeof (TException), exception.Message);
             }
         }
@@ -74,7 +74,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect any exception{0}, but found a {1} with message {2}.",
+                    .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
                         exception.GetType(), exception.Message);
             }
         }

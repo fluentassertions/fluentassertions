@@ -26,7 +26,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!Subject.Value)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {1}{0}, but found {2}.", false, Subject);
+                .FailWith("Expected {0}{reason}, but found {1}.", false, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -41,7 +41,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {1}{0}, but found {2}.", true, Subject);
+                .FailWith("Expected {0}{reason}, but found {1}.", true, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
@@ -56,7 +56,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Value.Equals(expected))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {1}{0}, but found {2}.", expected, Subject);
+                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<BooleanAssertions>(this);
         }
