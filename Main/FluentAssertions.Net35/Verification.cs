@@ -13,6 +13,8 @@ namespace FluentAssertions
     /// </summary>
     public class Verification
     {
+        public const string ReasonTag = "[reason]";
+
         #region Private Definitions
 
         private bool succeeded;
@@ -90,7 +92,8 @@ namespace FluentAssertions
             {
                 if (!succeeded)
                 {
-                    string exceptionMessage = BuildExceptionMessage(failureMessage, failureArgs);
+                    string reNumberedFailureMessage = ReplaceReasonTag(failureMessage);
+                    string exceptionMessage = BuildExceptionMessage(reNumberedFailureMessage, failureArgs);
 
                     AssertionHelper.Throw(exceptionMessage);
                 }
@@ -99,6 +102,26 @@ namespace FluentAssertions
             {
                 succeeded = false;
             }
+        }
+
+        private static string ReplaceReasonTag(string failureMessage)
+        {
+            string renumderedMessage = failureMessage;
+
+            if (failureMessage.Contains(ReasonTag))
+            {
+                for (int index = 9; index >= 0; index--)
+                {
+                    int newIndex = index + 1;
+                    string oldTag = "{" + index + "}";
+                    string newTag = "{" + newIndex + "}";
+                    renumderedMessage = renumderedMessage.Replace(oldTag, newTag);
+                }
+
+                renumderedMessage = renumderedMessage.Replace(ReasonTag, "{0}");
+            }
+
+            return renumderedMessage;
         }
 
         private string BuildExceptionMessage(string failureMessage, object[] failureArgs)
