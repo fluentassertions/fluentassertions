@@ -4,7 +4,6 @@ using System.Linq;
 
 using FluentAssertions.Formatting;
 using FluentAssertions.Frameworks;
-using FluentAssertions.Common;
 
 namespace FluentAssertions
 {
@@ -13,15 +12,14 @@ namespace FluentAssertions
     /// </summary>
     public class Verification
     {
-        public const string ReasonTag = "[reason]";
+        public const string ReasonTag = "{reason}";
 
         #region Private Definitions
 
-        private bool succeeded;
-        private string reason;
-        private bool useLineBreaks;
-
         [ThreadStatic] private static string subjectName;
+        private string reason;
+        private bool succeeded;
+        private bool useLineBreaks;
 
         #endregion
 
@@ -65,13 +63,13 @@ namespace FluentAssertions
             return this;
         }
 
-        public Verification BecauseOf(string reason, params object[] reasonArgs)
+        public Verification BecauseOf(string reason, params object [] reasonArgs)
         {
             this.reason = SanitizeReason(reason, reasonArgs);
             return this;
         }
 
-        private static string SanitizeReason(string reason, object[] reasonArgs)
+        private static string SanitizeReason(string reason, object [] reasonArgs)
         {
             if (!string.IsNullOrEmpty(reason))
             {
@@ -90,12 +88,12 @@ namespace FluentAssertions
         /// Define the failure message for the verification.
         /// </summary>
         /// <remarks>
-        /// If the <paramref name="failureMessage"/> contains the text "[reason]", this will be replaced by the reason as
+        /// If the <paramref name="failureMessage"/> contains the text "{reason}", this will be replaced by the reason as
         /// defined through <see cref="BecauseOf"/>.
         /// </remarks>
         /// <param name="failureMessage">The format string that represents the failure message.</param>
         /// <param name="failureArgs">Optional arguments for the <paramref name="failureMessage"/></param>
-        public void FailWith(string failureMessage, params object[] failureArgs)
+        public void FailWith(string failureMessage, params object [] failureArgs)
         {
             try
             {
@@ -133,9 +131,9 @@ namespace FluentAssertions
             return renumderedMessage;
         }
 
-        private string BuildExceptionMessage(string failureMessage, object[] failureArgs)
+        private string BuildExceptionMessage(string failureMessage, object [] failureArgs)
         {
-            var values = new List<string>(new[] {reason});
+            var values = new List<string>(new [] { reason });
             values.AddRange(failureArgs.Select(a => useLineBreaks ? Formatter.ToStringLine(a) : Formatter.ToString(a)));
 
             return string.Format(failureMessage, values.ToArray()).Replace("{{{{", "{{").Replace("}}}}", "}}");
