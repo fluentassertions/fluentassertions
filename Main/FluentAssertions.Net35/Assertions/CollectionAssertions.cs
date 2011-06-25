@@ -681,7 +681,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public AndConstraint<TAssertions> BeNull()
         {
-            return BeNull("");
+            return BeNull(string.Empty);
         }
 
         /// <summary>
@@ -704,7 +704,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public AndConstraint<TAssertions> NotBeNull()
         {
-            return NotBeNull("");
+            return NotBeNull(string.Empty);
         }
 
         /// <summary>

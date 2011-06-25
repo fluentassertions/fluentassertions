@@ -51,6 +51,14 @@ namespace FluentAssertions
             set { subjectName = value; }
         }
 
+        /// <summary>
+        /// Gets the name or identifier of the current subject, or a default value if the subject is not known.
+        /// </summary>
+        public static string SubjectNameOr(string defaultName)
+        {
+            return string.IsNullOrEmpty(SubjectName) ? defaultName : SubjectName;
+        }
+
         public Verification ForCondition(bool condition)
         {
             succeeded = condition;
@@ -69,7 +77,7 @@ namespace FluentAssertions
             return this;
         }
 
-        private static string SanitizeReason(string reason, object [] reasonArgs)
+        private string SanitizeReason(string reason, object [] reasonArgs)
         {
             if (!string.IsNullOrEmpty(reason))
             {
@@ -89,7 +97,8 @@ namespace FluentAssertions
         /// </summary>
         /// <remarks>
         /// If the <paramref name="failureMessage"/> contains the text "{reason}", this will be replaced by the reason as
-        /// defined through <see cref="BecauseOf"/>.
+        /// defined through <see cref="BecauseOf"/>. Only 10 <paramref name="failureArgs"/> are supported in combination with
+        /// a {reason}.
         /// </remarks>
         /// <param name="failureMessage">The format string that represents the failure message.</param>
         /// <param name="failureArgs">Optional arguments for the <paramref name="failureMessage"/></param>
@@ -99,8 +108,8 @@ namespace FluentAssertions
             {
                 if (!succeeded)
                 {
-                    string reNumberedFailureMessage = ReplaceReasonTag(failureMessage);
-                    string exceptionMessage = BuildExceptionMessage(reNumberedFailureMessage, failureArgs);
+                    var message = ReplaceReasonTag(failureMessage);
+                    string exceptionMessage = BuildExceptionMessage(message, failureArgs);
 
                     AssertionHelper.Throw(exceptionMessage);
                 }
@@ -111,40 +120,50 @@ namespace FluentAssertions
             }
         }
 
-        private static string ReplaceReasonTag(string failureMessage)
+        private string ReplaceReasonTag(string failureMessage)
         {
-            string renumderedMessage = failureMessage;
+            return !string.IsNullOrEmpty(reason)
+                ? ReplaceReasonTagWithFormatSpecification(failureMessage)
+                : failureMessage.Replace(ReasonTag, string.Empty);
+        }
 
-            if (failureMessage.Contains(ReasonTag))
+        private static string ReplaceReasonTagWithFormatSpecification(string failureMessage)
+        {
+            if (!failureMessage.Contains(ReasonTag))
             {
-                for (int index = 9; index >= 0; index--)
-                {
-                    int newIndex = index + 1;
-                    string oldTag = "{" + index + "}";
-                    string newTag = "{" + newIndex + "}";
-                    renumderedMessage = renumderedMessage.Replace(oldTag, newTag);
-                }
-
-                renumderedMessage = renumderedMessage.Replace(ReasonTag, "{0}");
+                throw new InvalidOperationException(
+                    @"Reason is specified through 'BecauseOf(...)', but format string does not contain a placeholder for the reason!");
             }
 
-            return renumderedMessage;
+            string message = IncreaseAllFormatSpecifiers(failureMessage);
+            message = message.Replace(ReasonTag, "{0}");
+
+            return message;
+        }
+
+        private static string IncreaseAllFormatSpecifiers(string message)
+        {
+            for (int index = 9; index >= 0; index--)
+            {
+                int newIndex = index + 1;
+                string oldTag = "{" + index + "}";
+                string newTag = "{" + newIndex + "}";
+                message = message.Replace(oldTag, newTag);
+            }
+            return message;
         }
 
         private string BuildExceptionMessage(string failureMessage, object [] failureArgs)
         {
-            var values = new List<string>(new [] { reason });
+            var values = new List<string>();
+            if (!string.IsNullOrEmpty(reason))
+            {
+                values.Add(reason);
+            }
+
             values.AddRange(failureArgs.Select(a => useLineBreaks ? Formatter.ToStringLine(a) : Formatter.ToString(a)));
 
             return string.Format(failureMessage, values.ToArray()).Replace("{{{{", "{{").Replace("}}}}", "}}");
-        }
-
-        /// <summary>
-        /// Gets the name or identifier of the current subject, or a default value if the subject is not known.
-        /// </summary>
-        public static string SubjectNameOr(string defaultName)
-        {
-            return string.IsNullOrEmpty(SubjectName) ? defaultName : SubjectName;
         }
     }
 }

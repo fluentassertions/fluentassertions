@@ -176,8 +176,8 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object " + Formatter.ToString(subject) + " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected object " + Formatter.ToString(subject) + " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
         }
 
         [TestMethod]

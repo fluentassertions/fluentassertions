@@ -101,7 +101,7 @@ namespace FluentAssertions.EventMonitoring
         /// </remarks>
         public static EventRecorder ShouldRaise(this object eventSource, string eventName)
         {
-            return ShouldRaise(eventSource, eventName, "");
+            return ShouldRaise(eventSource, eventName, string.Empty);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace FluentAssertions.EventMonitoring
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected object {1} to raise event {2}{0}, but it did not.", eventSource, eventName);
+                    .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", eventSource, eventName);
             }
 
             return eventRecorder;
@@ -148,7 +148,7 @@ namespace FluentAssertions.EventMonitoring
         /// </remarks>
         public static void ShouldNotRaise(this object eventSource, string eventName)
         {
-            ShouldNotRaise(eventSource, eventName, "");
+            ShouldNotRaise(eventSource, eventName, string.Empty);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace FluentAssertions.EventMonitoring
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected object {1} to not raise event {2}{0}, but it did.", eventSource, eventName);
+                    .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", eventSource, eventName);
             }
         }
 
@@ -198,7 +198,7 @@ namespace FluentAssertions.EventMonitoring
         public static IEventRecorder ShouldRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression)
         {
-            return ShouldRaisePropertyChangeFor(eventSource, propertyExpression, "");
+            return ShouldRaisePropertyChangeFor(eventSource, propertyExpression, string.Empty);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace FluentAssertions.EventMonitoring
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected object {1} to raise event {2}{0}, but it did not.", eventSource, PropertyChangedEventName);
+                    .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", eventSource, PropertyChangedEventName);
             }
 
             return eventRecorder.WithArgs<PropertyChangedEventArgs>(
@@ -242,7 +242,7 @@ namespace FluentAssertions.EventMonitoring
         public static void ShouldNotRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression)
         {
-            ShouldNotRaisePropertyChangeFor(eventSource, propertyExpression, "");
+            ShouldNotRaisePropertyChangeFor(eventSource, propertyExpression, string.Empty);
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace FluentAssertions.EventMonitoring
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect object {1} to raise the \"PropertyChanged\" event for property {2}{0}, but it did.",
+                    .FailWith("Did not expect object {0} to raise the \"PropertyChanged\" event for property {1}{reason}, but it did.",
                         eventSource, propertyName);
             }
         }
@@ -310,7 +310,7 @@ namespace FluentAssertions.EventMonitoring
                 object actualSender = recordedEvent.Parameters.First();
                 Execute.Verification
                     .ForCondition(ReferenceEquals(actualSender, expectedSender))
-                    .FailWith("Expected sender {1}, but found {2}.", expectedSender, actualSender);
+                    .FailWith("Expected sender {0}, but found {1}.", expectedSender, actualSender);
             }
 
             return eventRecorder;
@@ -331,7 +331,7 @@ namespace FluentAssertions.EventMonitoring
             if (!eventRecorder.Any(@event => compiledPredicate(@event.Parameters.OfType<T>().Single())))
             {
                 Execute.Verification
-                    .FailWith("Expected at least one event with arguments matching {1}, but found none.", predicate.Body);
+                    .FailWith("Expected at least one event with arguments matching {0}, but found none.", predicate.Body);
             }
 
             return eventRecorder;

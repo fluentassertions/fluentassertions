@@ -231,7 +231,7 @@ namespace FluentAssertions.Specs
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected it to fail{0}");
+                    .FailWith("Expected it to fail{reason}");
             }
         }
     }

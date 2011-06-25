@@ -57,7 +57,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeNull()
         {
-            return NotBeNull("");
+            return NotBeNull(string.Empty);
         }
 
         /// <summary>
