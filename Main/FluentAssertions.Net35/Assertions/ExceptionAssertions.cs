@@ -24,23 +24,70 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception has a message matching the <paramref name = "expectedMessage" />.
+        /// Asserts that the thrown exception has a message that exactly matches  the <paramref name = "expectedMessage" />
         /// </summary>
-        /// <param name = "expectedMessage">The expected message of the exception.</param>
+        /// <param name = "expectedMessage">
+        /// The expected message of the exception.
+        /// </param>
         public ExceptionAssertions<TException> WithMessage(string expectedMessage)
         {
-            return WithMessage(expectedMessage, null, null);
+            return WithMessage(expectedMessage, ComparisonMode.Exact, null, null);
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception has a message matching the <paramref name = "expectedMessage" />.
+        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedMessage" />
+        ///   depending on the specified matching mode.
         /// </summary>
-        /// <param name = "expectedMessage">The expected message of the exception.</param>
-        /// <param name = "reason">
-        ///   The reason why the message of the exception should match the <paramref name = "expectedMessage" />.
+        /// <param name = "expectedMessage">
+        /// The expected message of the exception.
         /// </param>
-        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string reason,
+            params object[] reasonArgs)
+        {
+            return WithMessage(expectedMessage, ComparisonMode.Exact, reason, reasonArgs);
+        }
+
+        /// <summary>
+        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedMessage" />
+        ///   depending on the specified matching mode.
+        /// </summary>
+        /// <param name = "expectedMessage">
+        ///   The expected message of the exception.
+        /// </param>
+        /// <param name = "comparisonMode">
+        ///   Determines how the expected message is compared with the actual message.
+        /// </param>
+        public ExceptionAssertions<TException> WithMessage(string expectedMessage, ComparisonMode comparisonMode)
+        {
+            return WithMessage(expectedMessage, comparisonMode, null, null);
+        }
+
+        /// <summary>
+        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedMessage" />
+        ///   depending on the specified matching mode.
+        /// </summary>
+        /// <param name = "expectedMessage">
+        /// The expected message of the exception.
+        /// </param>
+        /// <param name = "comparisonMode">
+        ///   Determines how the expected message is compared with the actual message.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, ComparisonMode comparisonMode,
+            string reason,
             params object[] reasonArgs)
         {
             Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
@@ -48,21 +95,23 @@ namespace FluentAssertions.Assertions
             verification.ForCondition(Subject != null).FailWith(
                 "Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
 
-            string message = Subject.Message;
-
-            verification.ForCondition(!string.IsNullOrEmpty(message)).FailWith(
-                "Expected exception with message {0}{reason}, but message was empty.", expectedMessage);
-
-            verification.ForCondition(message.Length >= expectedMessage.Length).FailWith(
-                "Expected exception with message {0}{reason}, but {1} is too short.", expectedMessage, message);
-
-            int index = message.IndexOfFirstMismatch(expectedMessage);
-            if (index != -1)
+            if (comparisonMode == ComparisonMode.Exact)
             {
-                verification.FailWith(
-                    "Expected exception with message {0}{reason}, but {1} differs near " + message.IndexedSegmentAt(index) +
-                        ".",
-                    expectedMessage, message);
+                Verification.SubjectName = "exception message";
+
+                Subject.Message.Should().Be(expectedMessage, reason, reasonArgs);
+            }
+            else if (comparisonMode == ComparisonMode.Substring)
+            {
+                Verification.SubjectName = "exception message to contain";
+
+                Subject.Message.Should().Contain(expectedMessage, reason, reasonArgs);
+            }
+            else
+            {
+                Verification.SubjectName = "exception message";
+
+                Subject.Message.Should().Match(expectedMessage, reason, reasonArgs);
             }
 
             return this;
@@ -186,7 +235,7 @@ namespace FluentAssertions.Assertions
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
             Execute.Verification
-                .ForCondition(condition((TException)Subject))
+                .ForCondition(condition((TException) Subject))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected exception where {0}{reason}, but the condition was not met by:\r\n\r\n{1}", exceptionExpression.Body, Subject);
             

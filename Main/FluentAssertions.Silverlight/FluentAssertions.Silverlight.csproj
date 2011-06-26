@@ -115,6 +115,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\ComparableTypeAssertions.cs">
       <Link>Assertions\ComparableTypeAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\ComparisonMode.cs">
+      <Link>Assertions\ComparisonMode.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\DateTimeAssertions.cs">
       <Link>Assertions\DateTimeAssertions.cs</Link>
     </Compile>

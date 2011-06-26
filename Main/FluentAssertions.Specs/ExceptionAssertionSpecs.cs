@@ -48,7 +48,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
-                    "Expected exception with message \r\n\"some message\", but \r\n\"some\" is too short.");
+                    "Expected exception message to be \r\n\"some message\", but \r\n\"some\" is too short.");
             }
         }
 
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 Assert.AreEqual(
-                    "Expected exception with message \r\n\"message2\", but \r\n\"message1\" differs near \"1\" (index 7).",
+                    "Expected exception message to be \"message2\", but \"message1\" differs near \"1\" (index 7).",
                     ex.Message);
             }
         }
@@ -111,15 +111,13 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 Assert.AreEqual(
-                    "Expected exception with message \r\n\"message2\", but message was empty.",
+                    "Expected exception message to be \"message2\", but \"\" is too short.",
                     ex.Message);
             }
         }
 
         [TestMethod]
-        public void
-            When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw
-            ()
+        public void When_subject_throws_some_exception_with_message_which_contains_complete_expected_exception_and_more_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -146,7 +144,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 Assert.AreEqual(
-                    "Expected exception with message \r\n\"message2\", but \r\n\"message2\\r\\nParameter name: someParam\" differs near \"\\r\\nP\" (index 8).",
+                    "Expected exception message to be \r\n\"message2\", but \r\n\"message2\\r\\nParameter name: someParam\" is too long.",
                     ex.Message);
             }
         }

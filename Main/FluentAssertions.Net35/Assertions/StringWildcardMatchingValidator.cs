@@ -29,7 +29,7 @@ namespace FluentAssertions.Assertions
             {
                 var options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
 
-                return Regex.IsMatch(subject, ConvertWildcardToRegEx(expected), options);
+                return Regex.IsMatch(subject, ConvertWildcardToRegEx(expected), options | RegexOptions.Singleline);
             }
         }
 

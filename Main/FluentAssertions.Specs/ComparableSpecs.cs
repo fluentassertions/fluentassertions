@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+using FluentAssertions.Assertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -31,9 +30,8 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             subject.Should().BeEqualTo(other);
         }
-        
+
         [TestMethod]
-        [Ignore]
         public void When_two_instances_are_not_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -57,15 +55,17 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected \\r\\n\\r\\nFluentAssertions.specs.ComparableClass\\r\\n{{\\r\\n    Value = \"Hi\"\\r\\n}} because they have the same property values, but found \\r\\n\\r\\nFluentAssertions.specs.ComparableClass\\r\\n{{\\r\\n    Value = \"Hello\"\\r\\n}}.");
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected*Hi*because they have the same property values, but found*Hello*.", ComparisonMode.Wildcard);
         }
     }
 
     internal class ComparableClass : IComparable<ComparableClass>
     {
         public string Value { get; set; }
-        
+
         public int CompareTo(ComparableClass other)
         {
             return Value.CompareTo(other.Value);
