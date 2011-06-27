@@ -19,9 +19,9 @@ namespace FluentAssertions.Assertions
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> BeEqualTo(T expected)
+        public AndConstraint<ComparableTypeAssertions<T>> Be(T expected)
         {
-            return BeEqualTo(expected, String.Empty);
+            return Be(expected, String.Empty);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> BeEqualTo(T expected, string reason, params object[] reasonArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == 0))
@@ -177,9 +177,9 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that a nullable numeric value is not <c>null</c>.
         /// </summary>
-        public AndConstraint<ComparableTypeAssertions<T>> HaveValue()
+        public AndConstraint<ComparableTypeAssertions<T>> NotBeNull()
         {
-            return HaveValue(String.Empty);
+            return NotBeNull(String.Empty);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>      
-        public AndConstraint<ComparableTypeAssertions<T>> HaveValue(string reason, params object[] reasonArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> NotBeNull(string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(!ReferenceEquals(Subject, null))
@@ -205,9 +205,9 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that a nullable numeric value is <c>null</c>.
         /// </summary>
-        public AndConstraint<ComparableTypeAssertions<T>> NotHaveValue()
+        public AndConstraint<ComparableTypeAssertions<T>> BeNull()
         {
-            return NotHaveValue(String.Empty);
+            return BeNull(String.Empty);
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>  
-        public AndConstraint<ComparableTypeAssertions<T>> NotHaveValue(string reason, params object[] reasonArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> BeNull(string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(!ReferenceEquals(Subject, null))
