@@ -855,141 +855,6 @@ namespace FluentAssertions.specs
 
         #endregion
 
-        #region Contain
-
-        [TestMethod]
-        public void When_dictionary_has_expected_value_at_specific_key_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var dictionary = new Dictionary<int, string>
-            {
-                { 1, "One" },
-                { 2, "Two" }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            dictionary.Should().Contain(1, "One");
-        }
-
-        [TestMethod]
-        public void When_dictionary_has_expected_key_value_pair_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var dictionary = new Dictionary<int, string>
-            {
-                { 1, "One" },
-                { 2, "Two" }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            var item = new KeyValuePair<int, string>(1, "One");
-            dictionary.Should().Contain(item);
-        }
-
-        [TestMethod]
-        public void When_dictionary_does_not_have_the_expected_value_at_specific_key_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var dictionary = new Dictionary<int, string>
-            {
-                { 1, "One" },
-                { 2, "Two" }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            var item = new KeyValuePair<int, string>(1, "Two");
-            Action act = () => dictionary.Should().Contain(item, "we put it {0}", "there");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected dictionary to have value \"Two\" at key 1 because we put it there, but found \"One\".");
-        }
-
-        [TestMethod]
-        public void When_dictionary_does_not_have_the_key_value_pair_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var dictionary = new Dictionary<int, string>
-            {
-                { 1, "One" },
-                { 2, "Two" }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.Should().Contain(1, "Two", "we put it {0}", "there");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected dictionary to have value \"Two\" at key 1 because we put it there, but found \"One\".");
-        }
-
-        [TestMethod]
-        public void When_dictionary_does_not_have_an_value_at_the_specific_key_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var dictionary = new Dictionary<int, string>
-            {
-                { 1, "One" },
-                { 2, "Two" }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.Should().Contain(3, "Two", "we put it {0}", "there");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------            
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected dictionary to have value \"Two\" at key 3 because we put it there, but the key was not found.");
-        }
-
-        [TestMethod]
-        public void When_asserting_dictionary_has_value_at_specific_key_against_null_dictionary_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            Dictionary<int, string> dictionary = null;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary.Should().Contain(1, "One",
-                "because we want to test the behaviour with a null subject");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected dictionary to have value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
-        }
-
-        #endregion
-
         #region ContainValue
 
         [TestMethod]
@@ -1139,6 +1004,266 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        #endregion
+
+        #region Contain
+
+        [TestMethod]
+        public void When_dictionary_contains_expected_value_at_specific_key_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dictionary.Should().Contain(1, "One");
+        }
+
+        [TestMethod]
+        public void When_dictionary_contains_expected_key_value_pair_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            var item = new KeyValuePair<int, string>(1, "One");
+            dictionary.Should().Contain(item);
+        }
+
+        [TestMethod]
+        public void When_dictionary_does_not_contain_the_expected_value_at_specific_key_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var item = new KeyValuePair<int, string>(1, "Two");
+            Action act = () => dictionary.Should().Contain(item, "we put it {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
+        }
+
+        [TestMethod]
+        public void When_dictionary_does_not_contain_the_key_value_pair_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().Contain(1, "Two", "we put it {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
+        }
+
+        [TestMethod]
+        public void When_dictionary_does_not_contain_an_value_at_the_specific_key_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().Contain(3, "Two", "we put it {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to contain value \"Two\" at key 3 because we put it there, but the key was not found.");
+        }
+
+        [TestMethod]
+        public void When_asserting_dictionary_contains_value_at_specific_key_against_null_dictionary_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Dictionary<int, string> dictionary = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().Contain(1, "One",
+                "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
+        }
+
+        [TestMethod]
+        public void When_dictionary_does_not_contain_unexpected_value_or_key_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dictionary.Should().NotContain(3, "Three");
+        }
+
+        [TestMethod]
+        public void When_dictionary_does_not_contain_unexpected_value_at_existing_key_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dictionary.Should().NotContain(2, "Three");
+        }
+
+        [TestMethod]
+        public void When_dictionary_does_not_contain_unexpected_key_value_pair_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            var item = new KeyValuePair<int, string>(3, "Three");
+            dictionary.Should().NotContain(item);
+        }
+
+        [TestMethod]
+        public void When_dictionary_contains_the_unexpected_value_at_specific_key_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var item = new KeyValuePair<int, string>(1, "One");
+            Action act = () => dictionary.Should().NotContain(item, "we put it {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary not to contain value \"One\" at key 1 because we put it there, but found it anyhow.");
+        }
+
+        [TestMethod]
+        public void When_dictionary_contains_the_key_value_pair_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContain(1, "One", "we did not put it {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary not to contain value \"One\" at key 1 because we did not put it there, but found it anyhow.");
+        }
+
+        [TestMethod]
+        public void When_asserting_dictionary_does_not_contain_value_at_specific_key_against_null_dictionary_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Dictionary<int, string> dictionary = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContain(1, "One",
+                "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary not to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
         #endregion

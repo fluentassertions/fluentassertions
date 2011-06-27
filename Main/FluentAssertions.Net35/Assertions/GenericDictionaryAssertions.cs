@@ -711,7 +711,7 @@ namespace FluentAssertions.Assertions
         #region Contain
 
         /// <summary>
-        /// Asserts that the current dictionary has the specified <paramref name="item"/>.
+        /// Asserts that the current dictionary contains the specified <paramref name="item"/>.
         /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="item">
@@ -723,7 +723,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that the current dictionary has the specified <paramref name="item"/>.
+        /// Asserts that the current dictionary contains the specified <paramref name="item"/>.
         /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="item">
@@ -743,7 +743,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that the current dictionary has the specified <paramref name="value" /> for the supplied <paramref
+        /// Asserts that the current dictionary contains the specified <paramref name="value" /> for the supplied <paramref
         /// name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="key">
@@ -758,7 +758,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that the current dictionary has the specified <paramref name="value" /> for the supplied <paramref
+        /// Asserts that the current dictionary contains the specified <paramref name="value" /> for the supplied <paramref
         /// name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="key">
@@ -781,7 +781,7 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to have value {0} at key {1}{reason}, but dictionary is {2}.", value, key, Subject);
+                    .FailWith("Expected dictionary to contain value {0} at key {1}{reason}, but dictionary is {2}.", value, key, Subject);
             }
 
             if (Subject.ContainsKey(key))
@@ -791,13 +791,104 @@ namespace FluentAssertions.Assertions
                 Execute.Verification
                     .ForCondition(actual.Equals(value))
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to have value {0} at key {1}{reason}, but found {2}.", value, key, actual);
+                    .FailWith("Expected dictionary to contain value {0} at key {1}{reason}, but found {2}.", value, key, actual);
             }
             else
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected dictionary to have value {0} at key {1}{reason}, but the key was not found.", value, key);
+                    .FailWith("Expected dictionary to contain value {0} at key {1}{reason}, but the key was not found.", value, key);
+            }
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        #endregion
+
+        #region NotContain
+
+        /// <summary>
+        /// Asserts that the current dictionary does not contain the specified <paramref name="item"/>.
+        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="item">
+        /// The <see cref="KeyValuePair{TKey,TValue}"/> to look for
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(KeyValuePair<TKey, TValue> item)
+        {
+            return NotContain(item.Key, item.Value);
+        }
+
+        /// <summary>
+        /// Asserts that the current dictionary does not contain the specified <paramref name="item"/>.
+        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="item">
+        /// The <see cref="KeyValuePair{TKey,TValue}"/> to look for
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(KeyValuePair<TKey, TValue> item, string reason,
+            params object[] reasonArgs)
+        {
+            return NotContain(item.Key, item.Value, reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current dictionary does not contain the specified <paramref name="value" /> for the
+        /// supplied <paramref name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="key">
+        /// The key for which to validate the value
+        /// </param>
+        /// <param name="value">
+        /// The value to validate
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(TKey key, TValue value)
+        {
+            return NotContain(key, value, String.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current dictionary does not contain the specified <paramref name="value" /> for the
+        /// supplied <paramref name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="key">
+        /// The key for which to validate the value
+        /// </param>
+        /// <param name="value">
+        /// The value to validate
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(TKey key, TValue value, string reason,
+            params object[] reasonArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected dictionary not to contain value {0} at key {1}{reason}, but dictionary is {2}.", value, key, Subject);
+            }
+
+            if (Subject.ContainsKey(key))
+            {
+                TValue actual = Subject[key];
+
+                Execute.Verification
+                    .ForCondition(!actual.Equals(value))
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected dictionary not to contain value {0} at key {1}{reason}, but found it anyhow.", value, key);
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
