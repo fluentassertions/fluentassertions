@@ -13,6 +13,16 @@ namespace FluentAssertions.Assertions
 
         public Action Subject { get; private set; }
 
+        /// <summary>
+        /// Asserts that the current <see cref="Action"/> throws an exception of type <typeparamref name="TException"/>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public ExceptionAssertions<TException> ShouldThrow<TException>(string reason, object[] reasonArgs)
             where TException : Exception
         {
@@ -41,6 +51,16 @@ namespace FluentAssertions.Assertions
             return new ExceptionAssertions<TException>((TException)exception);            
         }
 
+        /// <summary>
+        /// Asserts that the current <see cref="Action"/> does not throw an exception of type <typeparamref name="TException"/>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public void ShouldNotThrow<TException>(string reason, object[] reasonArgs)
         {
             Exception exception = null;
@@ -64,6 +84,16 @@ namespace FluentAssertions.Assertions
             }
         }
 
+        /// <summary>
+        /// Asserts that the current <see cref="Action"/> does not throw any exception.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public void ShouldNotThrow(string reason, object[] reasonArgs)
         {
             try
