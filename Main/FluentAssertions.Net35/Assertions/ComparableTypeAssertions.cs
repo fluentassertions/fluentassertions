@@ -6,6 +6,8 @@ namespace FluentAssertions.Assertions
     [DebuggerNonUserCode]
     public class ComparableTypeAssertions<T>
     {
+        private const int Equal = 0;
+
         protected internal ComparableTypeAssertions(IComparable<T> value)
         {
             Subject = value;
@@ -40,40 +42,78 @@ namespace FluentAssertions.Assertions
         public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == 0))
+                .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == Equal))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the subject is not equal to another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> NotBe(T expected)
         {
             return NotBe(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the subject is not equal to another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> NotBe(T expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.CompareTo(expected) != 0)
+                .ForCondition(Subject.CompareTo(expected) != Equal)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect {0}{reason}.", expected);
+                .FailWith("Did not expect object to be equal to {0}{reason}.", expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the subject is less than another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeLessThan(T expected)
         {
             return BeLessThan(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the subject is less than another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeLessThan(T expected, string reason,
             params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.CompareTo(expected) < 0)
+                .ForCondition(Subject.CompareTo(expected) < Equal)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value less than {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected object {0} to be less than {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -87,7 +127,7 @@ namespace FluentAssertions.Assertions
             params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.CompareTo(expected) <= 0)
+                .ForCondition(Subject.CompareTo(expected) <= Equal)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a value less or equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -103,7 +143,7 @@ namespace FluentAssertions.Assertions
             params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.CompareTo(expected) > 0)
+                .ForCondition(Subject.CompareTo(expected) > Equal)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a value greater than {0}{reason}, but found {1}.", expected, Subject);
 
@@ -119,7 +159,7 @@ namespace FluentAssertions.Assertions
             params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.CompareTo(expected) >= 0)
+                .ForCondition(Subject.CompareTo(expected) >= Equal)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a value greater or equal to {0}{reason}, but found {1}.", expected, Subject);
 
@@ -166,7 +206,7 @@ namespace FluentAssertions.Assertions
             params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition((Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0))
+                .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected value {0} to be between {1} and {2}{reason}, but it was not.",
                     Subject, minimumValue, maximumValue);
