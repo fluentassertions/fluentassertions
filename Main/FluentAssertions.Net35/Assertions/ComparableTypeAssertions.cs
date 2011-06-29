@@ -107,8 +107,14 @@ namespace FluentAssertions.Assertions
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> BeLessThan(T expected, string reason,
-            params object[] reasonArgs)
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public AndConstraint<ComparableTypeAssertions<T>> BeLessThan(T expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) < Equal)
@@ -118,50 +124,104 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the subject is less than or equal to another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeLessOrEqualTo(T expected)
         {
             return BeLessOrEqualTo(expected, String.Empty);
         }
 
-        public AndConstraint<ComparableTypeAssertions<T>> BeLessOrEqualTo(T expected, string reason,
-            params object[] reasonArgs)
+        /// <summary>
+        /// Asserts that the subject is less than or equal to another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public AndConstraint<ComparableTypeAssertions<T>> BeLessOrEqualTo(T expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) <= Equal)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value less or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected object {0} to be less or equal to {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the subject is greater than another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan(T expected)
         {
             return BeGreaterThan(expected, String.Empty);
         }
 
-        public AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan(T expected, string reason,
-            params object[] reasonArgs)
+        /// <summary>
+        /// Asserts that the subject is greater than another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan(T expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) > Equal)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value greater than {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected object {0} to be greater than {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the subject is greater than or equal to another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeGreaterOrEqualTo(T expected)
         {
             return BeGreaterOrEqualTo(expected, String.Empty);
         }
 
-        public AndConstraint<ComparableTypeAssertions<T>> BeGreaterOrEqualTo(T expected, string reason,
-            params object[] reasonArgs)
+        /// <summary>
+        /// Asserts that the subject is greater than or equal to another object according to its implementation of <see cref="IComparable{T}"/>.
+        /// </summary>
+        /// <param name="expected">
+        /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public AndConstraint<ComparableTypeAssertions<T>> BeGreaterOrEqualTo(T expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) >= Equal)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value greater or equal to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected object {0} to be greater or equal to {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -208,7 +268,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected value {0} to be between {1} and {2}{reason}, but it was not.",
+                .FailWith("Expected object {0} to be between {1} and {2}{reason}.",
                     Subject, minimumValue, maximumValue);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
