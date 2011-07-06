@@ -43,5 +43,13 @@ namespace FluentAssertions.Assertions
         {
             return TimeSpan.FromDays(days);
         }
+
+        /// <summary>
+        /// Returns a <see cref = "TimeSpan" /> based on a number of days.
+        /// </summary>
+        public static TimeSpan And(this TimeSpan sourceTime, TimeSpan timeToAdd)
+        {
+            return sourceTime.Add(timeToAdd);
+        }
     }
 }

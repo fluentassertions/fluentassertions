@@ -102,6 +102,7 @@
     <Compile Include="SimpleTimeSpanAssertionSpecs.cs" />
     <Compile Include="StringAssertionSpecs.cs" />
     <Compile Include="ThrowAssertionsSpecs.cs" />
+    <Compile Include="TimeSpanConversionExtensionSpecs.cs" />
     <Compile Include="TimeSpanFormatterSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
