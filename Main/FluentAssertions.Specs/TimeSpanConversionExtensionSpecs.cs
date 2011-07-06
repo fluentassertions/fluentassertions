@@ -86,13 +86,15 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             TimeSpan time1 = 23.Hours().And(59.Minutes());
-            TimeSpan time2 = 1.Days().And(2.Hours().And(33.Minutes().And(44.Seconds())));
+            TimeSpan time2 = 23.Hours(59.Minutes()).And(20.Seconds());
+            TimeSpan time3 = 1.Days(2.Hours(33.Minutes(44.Seconds()))).And(99.Milliseconds());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             Assert.AreEqual(new TimeSpan(23, 59, 0), time1);
-            Assert.AreEqual(new TimeSpan(1, 2, 33, 44, 0), time2);
+            Assert.AreEqual(new TimeSpan(23, 59, 20), time2);
+            Assert.AreEqual(new TimeSpan(1, 2, 33, 44, 99), time3);
         }
     }
 }

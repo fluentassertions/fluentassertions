@@ -5,7 +5,7 @@ namespace FluentAssertions.Assertions
     public static class TimeSpanConversionExtensions
     {
         /// <summary>
-        /// Returns a <see cref = "TimeSpan" /> based on a number of milliseconds.
+        /// Returns a <see cref="TimeSpan" /> based on a number of milliseconds.
         /// </summary>
         public static TimeSpan Milliseconds(this int milliseconds)
         {
@@ -13,7 +13,16 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Returns a <see cref = "TimeSpan" /> based on a number of seconds.
+        /// Returns a <see cref="TimeSpan" /> based on a number of milliseconds, and add the specified
+        /// <paramref name="timeToAdd"/>.
+        /// </summary>
+        public static TimeSpan Milliseconds(this int milliseconds, TimeSpan timeToAdd)
+        {
+            return TimeSpan.FromMilliseconds(milliseconds).Add(timeToAdd);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of seconds.
         /// </summary>
         public static TimeSpan Seconds(this int seconds)
         {
@@ -21,7 +30,16 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Returns a <see cref = "TimeSpan" /> based on a number of minutes.
+        /// Returns a <see cref="TimeSpan" /> based on a number of seconds, and add the specified
+        /// <paramref name="timeToAdd"/>.
+        /// </summary>
+        public static TimeSpan Seconds(this int seconds, TimeSpan timeToAdd)
+        {
+            return TimeSpan.FromSeconds(seconds).Add(timeToAdd);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of minutes.
         /// </summary>
         public static TimeSpan Minutes(this int minutes)
         {
@@ -29,7 +47,16 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Returns a <see cref = "TimeSpan" /> based on a number of hours.
+        /// Returns a <see cref="TimeSpan" /> based on a number of minutes, and add the specified
+        /// <paramref name="timeToAdd"/>.
+        /// </summary>
+        public static TimeSpan Minutes(this int minutes, TimeSpan timeToAdd)
+        {
+            return TimeSpan.FromMinutes(minutes).Add(timeToAdd);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of hours.
         /// </summary>
         public static TimeSpan Hours(this int hours)
         {
@@ -37,7 +64,16 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Returns a <see cref = "TimeSpan" /> based on a number of days.
+        /// Returns a <see cref="TimeSpan" /> based on a number of hours, and add the specified
+        /// <paramref name="timeToAdd"/>.
+        /// </summary>
+        public static TimeSpan Hours(this int hours, TimeSpan timeToAdd)
+        {
+            return TimeSpan.FromHours(hours).Add(timeToAdd);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of days.
         /// </summary>
         public static TimeSpan Days(this int days)
         {
@@ -45,7 +81,16 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Returns a <see cref = "TimeSpan" /> based on a number of days.
+        /// Returns a <see cref="TimeSpan" /> based on a number of days, and add the specified
+        /// <paramref name="timeToAdd"/>.
+        /// </summary>
+        public static TimeSpan Days(this int days, TimeSpan timeToAdd)
+        {
+            return TimeSpan.FromDays(days).Add(timeToAdd);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of days.
         /// </summary>
         public static TimeSpan And(this TimeSpan sourceTime, TimeSpan timeToAdd)
         {
