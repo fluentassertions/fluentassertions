@@ -13,15 +13,6 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Returns a <see cref="TimeSpan" /> based on a number of milliseconds, and add the specified
-        /// <paramref name="timeToAdd"/>.
-        /// </summary>
-        public static TimeSpan Milliseconds(this int milliseconds, TimeSpan timeToAdd)
-        {
-            return TimeSpan.FromMilliseconds(milliseconds).Add(timeToAdd);
-        }
-
-        /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of seconds.
         /// </summary>
         public static TimeSpan Seconds(this int seconds)
