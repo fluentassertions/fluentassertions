@@ -216,6 +216,9 @@
     <Compile Include="..\FluentAssertions.Net35\Frameworks\LateBoundTestFramework.cs">
       <Link>Frameworks\LateBoundTestFramework.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Frameworks\MSpecFramework.cs">
+      <Link>Frameworks\MSpecFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\MSTestFramework.cs">
       <Link>Frameworks\MSTestFramework.cs</Link>
     </Compile>

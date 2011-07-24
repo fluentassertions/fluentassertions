@@ -15,7 +15,8 @@ namespace FluentAssertions.Frameworks
         {
             {"nunit", new NUnitTestFramework()},
             {"xunit", new XUnitTestFramework()},
-            {"mstest", new MSTestFramework()}
+            {"mstest", new MSTestFramework()},
+            {"mspec", new MSpecFramework()}
         };
 
         private static ITestFramework testFramework;
@@ -61,8 +62,9 @@ namespace FluentAssertions.Frameworks
         {
             string errorMessage =
                 "Failed to detect the test framework. Make sure that the framework assembly is copied into the test run directory, or " +
-                    "configure it explicitly in the <appSettings> section using key \"" + AppSettingKey + "\" and one of the supported " +
-                        " frameworks: " + string.Join(", ", frameworks.Keys.ToArray());
+                    "configure it explicitly in the <appSettings> section using key \"" + AppSettingKey +
+                        "\" and one of the supported " +
+                            " frameworks: " + string.Join(", ", frameworks.Keys.ToArray());
 
             throw new ConfigurationErrorsException(errorMessage);
         }
@@ -77,7 +79,8 @@ namespace FluentAssertions.Frameworks
                 if (!framework.IsAvailable)
                 {
                     throw new Exception(
-                        "FluentAssertions was configured to use " + frameworkName + " but the required test framework assembly could not be found");
+                        "FluentAssertions was configured to use " + frameworkName +
+                            " but the required test framework assembly could not be found");
                 }
 
                 return framework;

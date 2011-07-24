@@ -128,6 +128,7 @@
     <Compile Include="Formatting\TimeSpanValueFormatter.cs" />
     <Compile Include="Frameworks\AssertionHelper.cs" />
     <Compile Include="Frameworks\ITestFramework.cs" />
+    <Compile Include="Frameworks\MSpecFramework.cs" />
     <Compile Include="Frameworks\MSTestFramework.cs" />
     <Compile Include="Frameworks\NUnitTestFramework.cs" />
     <Compile Include="Frameworks\LateBoundTestFramework.cs" />
