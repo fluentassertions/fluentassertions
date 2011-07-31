@@ -208,28 +208,28 @@ namespace FluentAssertions.Assertions
             Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
             verification.ForCondition(Subject != null).FailWith(
-                "Expected exception {reason}, but no exception was thrown.");
+                "Expected inner exception {reason}, but no exception was thrown.");
 
             verification.ForCondition(Subject.InnerException != null).FailWith(
-                "Expected exception{reason}, but the thrown exception has no inner exception.");
+                "Expected inner exception{reason}, but the thrown exception has no inner exception.");
 
             string subjectInnerMessage = Subject.InnerException.Message;
 
             if (comparisonMode == ComparisonMode.Exact)
             {
-                Verification.SubjectName = "innerexception message";
+                Verification.SubjectName = "inner exception message";
 
                 subjectInnerMessage.Should().Be(expectedInnerMessage, reason, reasonArgs);
             }
             else if (comparisonMode == ComparisonMode.Substring)
             {
-                Verification.SubjectName = "innerexception message to contain";
+                Verification.SubjectName = "inner exception message to contain";
 
                 subjectInnerMessage.Should().Contain(expectedInnerMessage, reason, reasonArgs);
             }
             else
             {
-                Verification.SubjectName = "innerexception message";
+                Verification.SubjectName = "inner exception message";
 
                 subjectInnerMessage.Should().Match(expectedInnerMessage, reason, reasonArgs);
             }

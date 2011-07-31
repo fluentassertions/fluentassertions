@@ -346,7 +346,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
-                    "Expected inner exception with message \r\n\"expected message\", but \r\n\"unexpected message\" differs near \"une\" (index 0).");
+                    "Expected inner exception message to be \r\n\"expected message\", but \r\n\"unexpected message\" is too long.");
             }
         }
 
@@ -380,7 +380,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
-                    "Expected inner exception with message \r\n\"expected message\" because IFoo.Do should do just that, but \r\n\"unexpected message\" differs near \"une\" (index 0).");
+                    "Expected inner exception message to be \r\n\"expected message\" because IFoo.Do should do just that, but \r\n\"unexpected message\" is too long.");
             }
         }
 
