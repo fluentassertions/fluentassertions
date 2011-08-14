@@ -89,6 +89,27 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
+        public void Should_fail_when_asserting_null_equals_some_guid()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Guid? nullableGuid = null;
+            var someGuid = new Guid("11111111-aaaa-bbbb-cccc-999999999999");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => nullableGuid.Should().Be(someGuid, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected GUID to be 11111111-aaaa-bbbb-cccc-999999999999 because we want to test the failure message, but found <null>.");
+        }
+
+        [TestMethod]
         public void Should_support_chaining_constraints_with_and()
         {
             Guid? nullableGuid = Guid.NewGuid();
