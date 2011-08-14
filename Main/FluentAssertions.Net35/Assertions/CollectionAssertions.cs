@@ -28,7 +28,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveCount(int expected, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> HaveCount(int expected, string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -44,7 +44,7 @@ namespace FluentAssertions.Assertions
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0} item(s){reason}, but found {1}.", expected, actualCount);
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace FluentAssertions.Assertions
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string reason,
-            params object[] reasonArgs)
+            params object [] reasonArgs)
         {
             if (countPredicate == null)
             {
@@ -92,7 +92,7 @@ namespace FluentAssertions.Assertions
                         Subject, countPredicate.Body, actualCount);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> BeEmpty(string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> BeEmpty(string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -129,7 +129,7 @@ namespace FluentAssertions.Assertions
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected no items{reason}, but found {0}.", enumerable.Count());
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeEmpty(string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotBeEmpty(string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -166,7 +166,7 @@ namespace FluentAssertions.Assertions
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected one or more items{reason}.");
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> OnlyHaveUniqueItems(string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> OnlyHaveUniqueItems(string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -202,10 +202,11 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected only unique items{reason}, but item {0} was found multiple times.", groupWithMultipleItems.Key);
+                    .FailWith("Expected only unique items{reason}, but item {0} was found multiple times.",
+                        groupWithMultipleItems.Key);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -226,7 +227,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> NotContainNulls(string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotContainNulls(string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -246,7 +247,7 @@ namespace FluentAssertions.Assertions
                 }
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -260,16 +261,9 @@ namespace FluentAssertions.Assertions
 
         /// <summary>
         /// Expects the current collection to contain all the same elements in the same order as the collection identified by 
-        /// <param name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
+        /// <param name="elements" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<TAssertions> Equal(params object[] elements)
+        public AndConstraint<TAssertions> Equal(params object [] elements)
         {
             return Equal(elements, String.Empty);
         }
@@ -285,7 +279,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> Equal(IEnumerable expected, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> Equal(IEnumerable expected, string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -299,19 +293,66 @@ namespace FluentAssertions.Assertions
                 throw new ArgumentNullException("expected", "Cannot compare collection with <null>.");
             }
 
-            var expectedItems = expected.Cast<object>().ToArray();
-            var actualItems = Subject.Cast<object>().ToArray();
+            object [] expectedItems = expected.Cast<object>().ToArray();
+            object [] actualItems = Subject.Cast<object>().ToArray();
+
+            VerifyThatCollectionsContainEqualNumberOfItems(expectedItems, actualItems, reason, reasonArgs);
 
             for (int index = 0; index < expectedItems.Length; index++)
             {
                 Execute.Verification
                     .ForCondition((index < actualItems.Length) && actualItems[index].Equals(expectedItems[index]))
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected " + Verification.SubjectNameOr("collection") + " to be equal to {0}{reason}, but {1} differs at index {2}.",
-                        expected, Subject, index);
+                    .FailWith("Expected " + Verification.SubjectNameOr("collection") +
+                        " to be equal to {0}{reason}, but {1} differs at index {2}.", expected, Subject, index);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
+        }
+
+        private void VerifyThatCollectionsContainEqualNumberOfItems(object [] expectedItems, object [] actualItems, string reason,
+            params object [] reasonArgs)
+        {
+            int expectedCount = expectedItems.Length;
+            int actualCount = actualItems.Length;
+
+            if (actualCount == expectedCount)
+            {
+                return;
+            }
+
+            int difference = Math.Abs(expectedCount - actualCount);
+            string plurification = (difference == 1) ? "" : "s";
+            string differenceText = string.Format("{0} item{1}", difference, plurification);
+
+            var expected = (IEnumerable)expectedItems;
+
+            if (actualCount < expectedCount)
+            {
+                if (actualCount == 0)
+                {
+                    Execute.Verification
+                        .BecauseOf(reason, reasonArgs)
+                        .FailWith("Expected " + Verification.SubjectNameOr("collection") +
+                            " to be equal to {0}{reason}, but found empty collection.", expected);
+                }
+                else
+                {
+                    Execute.Verification
+                        .BecauseOf(reason, reasonArgs)
+                        .FailWith("Expected " + Verification.SubjectNameOr("collection") +
+                            " to be equal to {0}{reason}, but {1} contains " + differenceText + " less.",
+                            expected, Subject, difference, plurification);
+                }
+            }
+            else if (actualCount > expectedCount)
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected " + Verification.SubjectNameOr("collection") +
+                        " to be equal to {0}{reason}, but {1} contains " + differenceText + " too many.",
+                        expected, Subject, difference, plurification);
+            }
         }
 
         /// <summary>
@@ -334,7 +375,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> NotEqual(IEnumerable expected, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotEqual(IEnumerable expected, string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -357,7 +398,7 @@ namespace FluentAssertions.Assertions
                     .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", expected, Subject);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -373,7 +414,7 @@ namespace FluentAssertions.Assertions
         /// Expects the current collection to contain all elements of the collection identified by <param name="expected" />,
         /// regardless of the order. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
-        public AndConstraint<TAssertions> BeEquivalentTo(params object[] elements)
+        public AndConstraint<TAssertions> BeEquivalentTo(params object [] elements)
         {
             return BeEquivalentTo(elements, String.Empty);
         }
@@ -389,7 +430,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable expected, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable expected, string reason, params object [] reasonArgs)
         {
             if (expected == null)
             {
@@ -409,7 +450,7 @@ namespace FluentAssertions.Assertions
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected collection {0} to be equivalent to {1}{reason}.", actualItems, expectedItems);
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -432,7 +473,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeEquivalentTo(IEnumerable expected, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotBeEquivalentTo(IEnumerable expected, string reason, params object [] reasonArgs)
         {
             if (expected == null)
             {
@@ -453,7 +494,7 @@ namespace FluentAssertions.Assertions
                     .FailWith("Expected collection {0} not be equivalent with collection {1}{reason}.", Subject, expected);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -466,31 +507,32 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to contain element assignable to type {0}{reason}, but found {1}.", typeof(T),
+                    .FailWith("Expected collection to contain element assignable to type {0}{reason}, but found {1}.", typeof (T),
                         Subject);
             }
 
             int index = 0;
             foreach (var item in Subject)
             {
-                if (!typeof(T).IsAssignableFrom(item.GetType()))
+                if (!typeof (T).IsAssignableFrom(item.GetType()))
                 {
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
-                        .FailWith("Expected only items of type {0} in collection{reason}, but item {1} at index {2} is of type {3}.",
-                            typeof(T), item, index, item.GetType());
+                        .FailWith(
+                            "Expected only items of type {0} in collection{reason}, but item {1} at index {2} is of type {3}.",
+                            typeof (T), item, index, item.GetType());
                 }
 
                 ++index;
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         private static bool AreEquivalent(IEnumerable<object> expectedItems, IEnumerable<object> actualItems)
@@ -524,7 +566,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> Contain(IEnumerable expected, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> Contain(IEnumerable expected, string reason, params object [] reasonArgs)
         {
             if (expected == null)
             {
@@ -575,7 +617,7 @@ namespace FluentAssertions.Assertions
                 }
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -599,7 +641,7 @@ namespace FluentAssertions.Assertions
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<TAssertions> ContainInOrder(IEnumerable expected, string reason,
-            params object[] reasonArgs)
+            params object [] reasonArgs)
         {
             if (expected == null)
             {
@@ -630,10 +672,11 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected items {0} in ordered collection {1}{reason}, but the order did not match.", expected, Subject);
+                    .FailWith("Expected items {0} in ordered collection {1}{reason}, but the order did not match.", expected,
+                        Subject);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         private static IEnumerable<object> RemoveItemsThatWereNotExpected(IEnumerable<object> actualItems,
@@ -660,7 +703,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> BeSubsetOf(IEnumerable otherCollection, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> BeSubsetOf(IEnumerable otherCollection, string reason, params object [] reasonArgs)
         {
             if (otherCollection == null)
             {
@@ -687,7 +730,7 @@ namespace FluentAssertions.Assertions
                         otherCollection, excessItems);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -708,7 +751,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable otherCollection, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotBeSubsetOf(IEnumerable otherCollection, string reason, params object [] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(!ReferenceEquals(Subject, null))
@@ -725,7 +768,7 @@ namespace FluentAssertions.Assertions
                     .FailWith("Did not expect collection {0} to be a subset of {1}{reason}.", actualItems, expectedItems);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -746,7 +789,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveSameCount(IEnumerable otherCollection, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> HaveSameCount(IEnumerable otherCollection, string reason, params object [] reasonArgs)
         {
             if (otherCollection == null)
             {
@@ -757,7 +800,8 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to have the same count as {0}{reason}, but found {1}.", otherCollection, Subject);
+                    .FailWith("Expected collection to have the same count as {0}{reason}, but found {1}.", otherCollection,
+                        Subject);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -770,7 +814,7 @@ namespace FluentAssertions.Assertions
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected collection to have {0} item(s){reason}, but found {1}.", expectedCount, actualCount);
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -791,7 +835,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> BeNull(string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> BeNull(string reason, params object [] reasonArgs)
         {
             if (!ReferenceEquals(Subject, null))
             {
@@ -800,7 +844,7 @@ namespace FluentAssertions.Assertions
                     .FailWith("Expected collection to be <null>{reason}, but found {0}.", Subject);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -828,7 +872,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeNull(string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotBeNull(string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -837,7 +881,7 @@ namespace FluentAssertions.Assertions
                     .FailWith("Expected collection not to be <null>{reason}.");
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -860,7 +904,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveElementAt(int index, object element, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> HaveElementAt(int index, object element, string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -887,7 +931,7 @@ namespace FluentAssertions.Assertions
                     .FailWith("Expected {0} at index {1}{reason}, but found no element.", element, index);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
         /// <summary>
@@ -916,7 +960,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> NotContain(object unexpected, string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotContain(object unexpected, string reason, params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -932,7 +976,7 @@ namespace FluentAssertions.Assertions
                     .FailWith("Collection {0} should not contain {1}{reason}, but found it anyhow.", Subject, unexpected);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndConstraint<TAssertions>((TAssertions) this);
         }
     }
 }

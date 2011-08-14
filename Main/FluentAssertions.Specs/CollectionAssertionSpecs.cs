@@ -353,7 +353,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_collections_are_not_equal_it_should_throw_using_the_reason()
+        public void When_two_collections_are_not_equal_because_one_item_differs_it_should_throw_using_the_reason()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -371,6 +371,48 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to be equal to {1, 2, 5} because we want to test the failure message, but {1, 2, 3} differs at index 2.");
+        }
+
+        [TestMethod]
+        public void When_two_collections_are_not_equal_because_the_actual_collection_contains_more_items_it_should_throw_using_the_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+            IEnumerable collection2 = new[] { 1, 2 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected collection to be equal to {1, 2} because we want to test the failure message, but {1, 2, 3} contains 1 item too many.");
+        }
+
+        [TestMethod]
+        public void When_two_collections_are_not_equal_because_the_actual_collection_contains_less_items_it_should_throw_using_the_reason()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection1 = new[] { 1, 2, 3 };
+            IEnumerable collection2 = new[] { 1, 2, 3, 4 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().Equal(collection2, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected collection to be equal to {1, 2, 3, 4} because we want to test the failure message, but {1, 2, 3} contains 1 item less.");
         }
 
         [TestMethod]
@@ -454,7 +496,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to {1, 2, 3}, but {empty} differs at index 0.");
+                "Expected collection to be equal to {1, 2, 3}, but found empty collection.");
         }
 
         [TestMethod]
