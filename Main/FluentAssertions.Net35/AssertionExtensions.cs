@@ -181,6 +181,16 @@ namespace FluentAssertions
             return new NullableBooleanAssertions(actualValue);
         }
 
+        public static GuidAssertions Should(this Guid actualValue)
+        {
+            return new GuidAssertions(actualValue);
+        }
+
+        public static NullableGuidAssertions Should(this Guid? actualValue)
+        {
+            return new NullableGuidAssertions(actualValue);
+        }
+
         public static NonGenericCollectionAssertions Should(this IEnumerable actualValue)
         {
             return new NonGenericCollectionAssertions(actualValue);

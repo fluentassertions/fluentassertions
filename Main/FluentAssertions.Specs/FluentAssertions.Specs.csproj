@@ -81,6 +81,8 @@
     <Compile Include="AssertEx.cs" />
     <Compile Include="ComparableSpecs.cs" />
     <Compile Include="GenericDictionaryAssertionSpecs.cs" />
+    <Compile Include="GuidAssertionSpecs.cs" />
+    <Compile Include="NullableGuidAssertionSpecs.cs" />
     <Compile Include="ReferenceTypeAssertionsSpecs.cs" />
     <Compile Include="BooleanAssertionSpecs.cs" />
     <Compile Include="CollectionAssertionSpecs.cs" />

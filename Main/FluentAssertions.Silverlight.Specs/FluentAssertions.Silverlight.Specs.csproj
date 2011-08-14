@@ -125,11 +125,17 @@
     <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionsSpecs.cs">
       <Link>GenericCollectionAssertionsSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GuidAssertionSpecs.cs">
+      <Link>GuidAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
       <Link>NullableBooleanAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableDateTimeAssertionSpecs.cs">
       <Link>NullableDateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableGuidAssertionSpecs.cs">
+      <Link>NullableGuidAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableNumericAssertionSpecs.cs">
       <Link>NullableNumericAssertionSpecs.cs</Link>

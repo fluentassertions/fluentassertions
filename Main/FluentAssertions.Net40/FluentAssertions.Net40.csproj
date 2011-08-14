@@ -96,6 +96,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\GenericDictionaryAssertions.cs">
       <Link>Assertions\GenericDictionaryAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\GuidAssertions.cs">
+      <Link>Assertions\GuidAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\IntegralAssertions.cs">
       <Link>Assertions\IntegralAssertions.cs</Link>
     </Compile>
@@ -107,6 +110,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableDateTimeAssertions.cs">
       <Link>Assertions\NullableDateTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\NullableGuidAssertions.cs">
+      <Link>Assertions\NullableGuidAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableNumericExtensions.cs">
       <Link>Assertions\NullableNumericExtensions.cs</Link>
