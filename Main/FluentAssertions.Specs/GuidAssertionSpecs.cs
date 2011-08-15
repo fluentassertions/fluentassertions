@@ -94,6 +94,25 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
+        public void Should_succeed_when_asserting_guid_equals_the_same_guid_in_string_format()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var guid = new Guid("11111111-aaaa-bbbb-cccc-999999999999");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => guid.Should().Be("11111111-aaaa-bbbb-cccc-999999999999");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void Should_fail_when_asserting_guid_equals_a_different_guid()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -177,5 +196,14 @@ namespace FluentAssertions.specs
         }
 
         #endregion
+
+        [TestMethod]
+        public void Should_support_chaining_constraints_with_and()
+        {
+            Guid guid = Guid.NewGuid();
+            guid.Should()
+                .NotBeEmpty()
+                .And.Be(guid);
+        }
     }
 }

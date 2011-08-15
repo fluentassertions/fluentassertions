@@ -36,7 +36,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GuidAssertions> BeEmpty(string reason, params object [] reasonArgs)
+        public AndConstraint<GuidAssertions> BeEmpty(string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition((Subject.HasValue) && (Subject.Value == Guid.Empty))
@@ -64,7 +64,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GuidAssertions> NotBeEmpty(string reason, params object [] reasonArgs)
+        public AndConstraint<GuidAssertions> NotBeEmpty(string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition((Subject.HasValue) && (Subject.Value != Guid.Empty))
@@ -90,6 +90,32 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the <see cref="Guid"/> is equal to the <paramref name="expected"/> GUID.
         /// </summary>
+        /// <param name="expected">The expected <see cref="string"/> value to compare the actual value with.</param>
+        public AndConstraint<GuidAssertions> Be(string expected)
+        {
+            return Be(expected, String.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="Guid"/> is equal to the <paramref name="expected"/> GUID.
+        /// </summary>
+        /// <param name="expected">The expected <see cref="string"/> value to compare the actual value with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<GuidAssertions> Be(string expected, string reason, params object[] reasonArgs)
+        {
+            var expectedGuid = new Guid(expected);
+            return Be(expectedGuid, reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="Guid"/> is equal to the <paramref name="expected"/> GUID.
+        /// </summary>
         /// <param name="expected">The expected value to compare the actual value with.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -98,7 +124,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GuidAssertions> Be(Guid expected, string reason, params object [] reasonArgs)
+        public AndConstraint<GuidAssertions> Be(Guid expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Equals(expected))
