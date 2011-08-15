@@ -59,19 +59,36 @@ namespace FluentAssertions
             return string.IsNullOrEmpty(SubjectName) ? defaultName : SubjectName;
         }
 
+        /// <summary>
+        /// Specify the condition that must be satisfied.
+        /// </summary>
+        /// <param name="condition">If <c>true</c> the verification will be succesful.</param>
         public Verification ForCondition(bool condition)
         {
             succeeded = condition;
             return this;
         }
 
+        /// <summary>
+        /// Specify a predicate that with the condition that must be satisfied.
+        /// </summary>
         public Verification ForCondition(Func<bool> condition)
         {
             succeeded = condition();
             return this;
         }
 
-        public Verification BecauseOf(string reason, params object [] reasonArgs)
+        /// <summary>
+        /// Specify the reason why you expect the condition to be <c>true</c>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the condition should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public Verification BecauseOf(string reason, params object[] reasonArgs)
         {
             this.reason = SanitizeReason(reason, reasonArgs);
             return this;
