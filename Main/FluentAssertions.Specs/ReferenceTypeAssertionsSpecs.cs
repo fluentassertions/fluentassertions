@@ -175,9 +175,9 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object to be \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n    Age = 2\r\n    Birthdate = <2009-02-22>\r\n" + 
-                "    Name = \"Teddie\"\r\n}, but found \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n    Age = 37\r\n" + 
-                "    Birthdate = <1973-09-20>\r\n    Name = \"Dennis\"\r\n}.");
+                "Expected object to be \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 2\r\n   Birthdate = <2009-02-22>\r\n" +
+                "   Name = \"Teddie\"\r\n}, but found \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 37\r\n" +
+                "   Birthdate = <1973-09-20>\r\n   Name = \"Dennis\"\r\n}.");
         }
 
         [TestMethod]

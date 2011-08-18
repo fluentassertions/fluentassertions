@@ -8,7 +8,7 @@
             return !(value is string) && decimal.TryParse(value.ToString(), out result);
         }
 
-        public string ToString(object value)
+        public string ToString(object value, int nestedPropertyLevel = 0)
         {
             return value.ToString();
         }

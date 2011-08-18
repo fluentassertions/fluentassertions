@@ -9,7 +9,7 @@ namespace FluentAssertions.Formatting
             return value is Expression;
         }
 
-        public string ToString(object value)
+        public string ToString(object value, int nestedPropertyLevel = 0)
         {
             return value.ToString();
         }
