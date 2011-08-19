@@ -220,16 +220,17 @@ namespace FluentAssertions.EventMonitoring
             string reason, params object[] reasonArgs)
         {
             EventRecorder eventRecorder = GetRecorderForEvent(eventSource, PropertyChangedEventName);
+            string propertyName = propertyExpression.GetPropertyInfo().Name;
 
             if (!eventRecorder.Any())
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", eventSource, PropertyChangedEventName);
+                    .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not.",
+                        eventSource, PropertyChangedEventName, propertyName);
             }
 
-            return eventRecorder.WithArgs<PropertyChangedEventArgs>(
-                    args => args.PropertyName == propertyExpression.GetPropertyInfo().Name);
+            return eventRecorder.WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == propertyName);
         }
         
         /// <summary>
@@ -271,8 +272,8 @@ namespace FluentAssertions.EventMonitoring
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect object {0} to raise the \"PropertyChanged\" event for property {1}{reason}, but it did.",
-                        eventSource, propertyName);
+                    .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
+                        eventSource, PropertyChangedEventName, propertyName);
             }
         }
 

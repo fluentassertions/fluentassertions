@@ -382,7 +382,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object " + Formatter.ToString(subject) + " to raise event \"PropertyChanged\" because the property was changed, but it did not.");
+                "Expected object " + Formatter.ToString(subject) + " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
         }
 
         [TestMethod]
