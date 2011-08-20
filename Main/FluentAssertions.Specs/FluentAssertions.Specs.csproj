@@ -81,6 +81,7 @@
     <Compile Include="AssertEx.cs" />
     <Compile Include="ComparableSpecs.cs" />
     <Compile Include="DefaultValueFormatterSpecs.cs" />
+    <Compile Include="FluentDateTimeSpecs.cs" />
     <Compile Include="GenericDictionaryAssertionSpecs.cs" />
     <Compile Include="GuidAssertionSpecs.cs" />
     <Compile Include="NullableGuidAssertionSpecs.cs" />

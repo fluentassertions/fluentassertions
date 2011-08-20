@@ -592,7 +592,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentNullException>().WithMessage(
-                "Cannot compare collection with <null>.\r\nParameter name: expected");
+                "Cannot compare collection with <null>.\r\nParameter name: unexpected");
         }
 
         #endregion
