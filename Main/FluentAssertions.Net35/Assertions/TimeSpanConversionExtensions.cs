@@ -1,7 +1,26 @@
 ﻿using System;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Extension methods on <see cref="int"/> to allow for a more fluent way of specifying a <see cref="TimeSpan"/>.
+    /// </summary>
+    /// <example>
+    /// Instead of<br />
+    /// <br />
+    /// TimeSpan.FromHours(12)<br />
+    /// <br />
+    /// you can write<br />
+    /// <br />
+    /// 12.Hours()<br />
+    /// <br />
+    /// Or even<br />
+    /// <br />
+    /// 12.Hours().And(30.Minutes()).
+    /// </example>
+    /// <seealso cref="FluentDateTimeExtensions"/>
     public static class TimeSpanConversionExtensions
     {
         /// <summary>

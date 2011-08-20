@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="IComparable"/> is in the expected state.
+    /// </summary>
     [DebuggerNonUserCode]
     public class NumericAssertions<T>
     {

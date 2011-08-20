@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
+    /// </summary>
     [DebuggerNonUserCode]
     public class ComparableTypeAssertions<T>
     {
@@ -13,6 +16,9 @@ namespace FluentAssertions.Assertions
             Subject = value;
         }
 
+        /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
         public IComparable<T> Subject { get; private set; }
 
         /// <summary>
@@ -88,13 +94,6 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
-        /// </param>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeLessThan(T expected)
         {

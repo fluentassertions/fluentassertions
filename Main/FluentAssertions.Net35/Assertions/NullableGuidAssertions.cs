@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that a nullable <see cref="Guid"/> is in the expected state.
+    /// </summary>
     [DebuggerNonUserCode]
     public class NullableGuidAssertions : GuidAssertions
     {

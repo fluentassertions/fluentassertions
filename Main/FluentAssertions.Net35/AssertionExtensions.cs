@@ -166,6 +166,11 @@ namespace FluentAssertions
             }
         }
 
+        /// <summary>
+        /// Returns an <see cref="ObjectAssertions"/> object that vali
+        /// </summary>
+        /// <param name="actualValue">The actual value.</param>
+        /// <returns></returns>
         public static ObjectAssertions Should(this object actualValue)
         {
             return new ObjectAssertions(actualValue);

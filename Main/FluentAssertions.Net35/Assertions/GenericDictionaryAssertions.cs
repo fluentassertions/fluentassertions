@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="IDictionary{TKey, TValue}"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
     public class GenericDictionaryAssertions<TKey, TValue>
     {
         protected internal GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary)
@@ -15,12 +20,12 @@ namespace FluentAssertions.Assertions
             }
         }
 
-        #region BeNull
-
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
         public IDictionary<TKey, TValue> Subject { get; private set; }
+
+        #region BeNull
 
         /// <summary>
         /// Asserts that the current dictionary has not been initialized yet with an actual dictionary.
@@ -508,7 +513,7 @@ namespace FluentAssertions.Assertions
         /// Asserts that the current dictionary does not contain the specified <paramref name="unexpected" /> key.
         /// Keys are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name="expected">
+        /// <param name="unexpected">
         /// The unexpected key
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKey(TKey unexpected)
@@ -520,7 +525,7 @@ namespace FluentAssertions.Assertions
         /// Asserts that the current dictionary does not contain the specified <paramref name="unexpected" /> key.
         /// Keys are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name="expected">
+        /// <param name="unexpected">
         /// The unexpected key
         /// </param>
         /// <param name="reason">
@@ -664,7 +669,7 @@ namespace FluentAssertions.Assertions
         /// Asserts that the current dictionary does not contain the specified <paramref name="unexpected" /> value.
         /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name="expected">
+        /// <param name="unexpected">
         /// The unexpected value
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValue(TValue unexpected)
@@ -676,7 +681,7 @@ namespace FluentAssertions.Assertions
         /// Asserts that the current dictionary does not contain the specified <paramref name="unexpected" /> value.
         /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name="expected">
+        /// <param name="unexpected">
         /// The unexpected value
         /// </param>
         /// <param name="reason">

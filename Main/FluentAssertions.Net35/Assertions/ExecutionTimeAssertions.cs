@@ -11,6 +11,10 @@ namespace FluentAssertions.Assertions
     {
         private readonly TimeSpan executionTime;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExecutionTimeAssertions"/> class.
+        /// </summary>
+        /// <param name="action">The action of which the execution time must be asserted.</param>
         public ExecutionTimeAssertions(Action action)
         {
             ActionDescription = "the action";

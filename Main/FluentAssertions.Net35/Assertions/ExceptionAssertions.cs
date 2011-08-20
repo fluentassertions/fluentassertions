@@ -2,10 +2,11 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 
-using FluentAssertions.Common;
-
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="Exception"/> is in the correct state.
+    /// </summary>
     [DebuggerNonUserCode]
     public class ExceptionAssertions<TException> : ReferenceTypeAssertions<Exception, ExceptionAssertions<TException>>
         where TException : Exception
@@ -49,7 +50,7 @@ namespace FluentAssertions.Assertions
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string reason,
-            params object[] reasonArgs)
+            params object [] reasonArgs)
         {
             return WithMessage(expectedMessage, ComparisonMode.Exact, reason, reasonArgs);
         }
@@ -88,7 +89,7 @@ namespace FluentAssertions.Assertions
         /// </param>
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, ComparisonMode comparisonMode,
             string reason,
-            params object[] reasonArgs)
+            params object [] reasonArgs)
         {
             Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
@@ -133,12 +134,12 @@ namespace FluentAssertions.Assertions
         /// <param name="reason">The reason why the inner exception should be of the supplied type.</param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="reason" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string reason,
-            params object[] reasonArgs)
+            params object [] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof(TInnerException));
+                .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof (TInnerException));
 
             Execute.Verification
                 .ForCondition(Subject.InnerException != null)
@@ -155,7 +156,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.InnerException is TInnerException)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), Subject.InnerException);
+                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof (TInnerException), Subject.InnerException);
 
             return this;
         }
@@ -188,7 +189,7 @@ namespace FluentAssertions.Assertions
         /// </param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="reason" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string reason,
-            params object[] reasonArgs)
+            params object [] reasonArgs)
         {
             return WithInnerMessage(expectedInnerMessage, ComparisonMode.Exact, reason, reasonArgs);
         }
@@ -202,8 +203,8 @@ namespace FluentAssertions.Assertions
         ///   The reason why the message of the inner exception should match <paramref name="expectedInnerMessage" />.
         /// </param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="reason" />.</param>
-        public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, 
-            ComparisonMode comparisonMode, string reason, params object[] reasonArgs)
+        public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage,
+            ComparisonMode comparisonMode, string reason, params object [] reasonArgs)
         {
             Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
@@ -263,14 +264,15 @@ namespace FluentAssertions.Assertions
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
             string reason,
-            params object[] reasonArgs)
+            params object [] reasonArgs)
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
             Execute.Verification
                 .ForCondition(condition((TException) Subject))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected exception where {0}{reason}, but the condition was not met by:\r\n\r\n{1}", exceptionExpression.Body, Subject);
-            
+                .FailWith("Expected exception where {0}{reason}, but the condition was not met by:\r\n\r\n{1}",
+                    exceptionExpression.Body, Subject);
+
             return this;
         }
     }

@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
     public class GenericCollectionAssertions<T> : CollectionAssertions<IEnumerable<T>, GenericCollectionAssertions<T>>
     {
         protected internal GenericCollectionAssertions(IEnumerable<T> actualValue)

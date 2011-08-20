@@ -1,8 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that a reference type object is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
     public abstract class ReferenceTypeAssertions<TSubject, TAssertions> where TAssertions : ReferenceTypeAssertions<TSubject, TAssertions>
     {
         /// <summary>
@@ -56,22 +61,22 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the <paramref name = "predicate" /> is statisfied.
+        /// Asserts that the <paramref name="predicate" /> is statisfied.
         /// </summary>
-        /// <param name = "predicate">The predicate which must be satisfied by the <typeparamref name = "TSubject" />.</param>
-        /// <returns>An <see cref = "AndConstraint" /> which can be used to chain assertions.</returns>
+        /// <param name = "predicate">The predicate which must be satisfied by the <typeparamref name="TSubject" />.</param>
+        /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
         public AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>> Match(Expression<Func<TSubject, bool>> predicate)
         {
             return Match<TSubject>(predicate, String.Empty);
         }
 
         /// <summary>
-        ///   Asserts that the <paramref name = "predicate" /> is satisfied.
+        /// Asserts that the <paramref name="predicate" /> is satisfied.
         /// </summary>
-        /// <param name = "predicate">The predicate which must be statisfied by the <typeparamref name = "TSubject" />.</param>
+        /// <param name = "predicate">The predicate which must be statisfied by the <typeparamref name="TSubject" />.</param>
         /// <param name = "reason">The reason why the predicate should be satisfied.</param>
-        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
-        /// <returns>An <see cref = "AndConstraint" /> which can be used to chain assertions.</returns>
+        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name="reason" />.</param>
+        /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
         public AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>> Match(Expression<Func<TSubject, bool>> predicate, string reason,
             params object[] reasonArgs)
         {
@@ -79,10 +84,10 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the <paramref name = "predicate" /> is satisfied.
+        /// Asserts that the <paramref name="predicate" /> is satisfied.
         /// </summary>
-        /// <param name = "predicate">The predicate which must be statisfied by the <typeparamref name = "TSubject" />.</param>
-        /// <returns>An <see cref = "AndConstraint" /> which can be used to chain assertions.</returns>
+        /// <param name = "predicate">The predicate which must be statisfied by the <typeparamref name="TSubject" />.</param>
+        /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
         public AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>> Match<T>(Expression<Func<T, bool>> predicate)
             where T : TSubject
         {
@@ -90,12 +95,12 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the <paramref name = "predicate" /> is satisfied.
+        /// Asserts that the <paramref name="predicate" /> is satisfied.
         /// </summary>
-        /// <param name = "predicate">The predicate which must be statisfied by the <typeparamref name = "TSubject" />.</param>
+        /// <param name = "predicate">The predicate which must be statisfied by the <typeparamref name="TSubject" />.</param>
         /// <param name = "reason">The reason why the predicate should be satisfied.</param>
-        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
-        /// <returns>An <see cref = "AndConstraint" /> which can be used to chain assertions.</returns>
+        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name="reason" />.</param>
+        /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
         public AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>> Match<T>(Expression<Func<T, bool>> predicate, string reason,
             params object[] reasonArgs)
             where T : TSubject

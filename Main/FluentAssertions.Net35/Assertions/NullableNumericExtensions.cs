@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that a nullable numeric value has the expected value.
+    /// </summary>
     [DebuggerNonUserCode]
     public static class NullableNumericExtensions
     {

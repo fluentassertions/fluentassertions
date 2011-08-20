@@ -7,6 +7,9 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="object"/> is in the expected state.
+    /// </summary>
     [DebuggerNonUserCode]
     public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>
     {
@@ -16,22 +19,23 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the value of an object equals another object when using it's <see cref = "object.Equals(object)" /> method.
+        /// Asserts that the value of an object equals another object when using it's <see cref="object.Equals(object)" /> method.
         /// </summary>
+        /// <paramref name="expected">The </paramref>>
         public AndConstraint<ObjectAssertions> Be(object expected)
         {
             return Be(expected, String.Empty);
         }
 
         /// <summary>
-        ///   Asserts that an object equals another object using its <see cref = "object.Equals(object)" /> implementation.
+        /// Asserts that an object equals another object using its <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name = "reason">
-        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
-        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name = "reasonArgs">
-        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<ObjectAssertions> Be(object expected, string reason, params object[] reasonArgs)
         {
@@ -45,7 +49,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that an object does not equal another object using it's <see cref = "object.Equals(object)" /> method.
+        ///   Asserts that an object does not equal another object using it's <see cref="object.Equals(object)" /> method.
         /// </summary>
         public AndConstraint<ObjectAssertions> NotBe(object expected)
         {
@@ -53,14 +57,14 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that an object does not equal another object using it's <see cref = "object.Equals(object)" /> method.
+        ///   Asserts that an object does not equal another object using it's <see cref="object.Equals(object)" /> method.
         /// </summary>
-        /// <param name = "reason">
+        /// <param name="reason">
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonArgs">
-        ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
+        /// <param name="reasonArgs">
+        ///   Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public AndConstraint<ObjectAssertions> NotBe(object expected, string reason, params object[] reasonArgs)
         {
@@ -83,12 +87,12 @@ namespace FluentAssertions.Assertions
         /// <summary>
         ///   Asserts that an object reference refers to the exact same object as another object reference.
         /// </summary>
-        /// <param name = "reason">
+        /// <param name="reason">
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonArgs">
-        ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
+        /// <param name="reasonArgs">
+        ///   Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason, params object[] reasonArgs)
         {
@@ -112,12 +116,12 @@ namespace FluentAssertions.Assertions
         /// <summary>
         ///   Asserts that an object reference refers to a different object than another object reference refers to.
         /// </summary>
-        /// <param name = "reason">
+        /// <param name="reason">
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonArgs">
-        ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
+        /// <param name="reasonArgs">
+        ///   Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public AndConstraint<ObjectAssertions> NotBeSameAs(object expected, string reason,
             params object[] reasonArgs)
@@ -176,12 +180,12 @@ namespace FluentAssertions.Assertions
         ///   Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains
         ///   the values of all properties.
         /// </summary>
-        /// <param name = "reason">
-        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
+        /// <param name="reason">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name = "reasonArgs">
-        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
+        /// <param name="reasonArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<ObjectAssertions> BeBinarySerializable(string reason, params object[] reasonArgs)
         {
@@ -226,12 +230,12 @@ namespace FluentAssertions.Assertions
         ///   Asserts that an object can be serialized and deserialized using the XML serializer and that it stills retains
         ///   the values of all properties.
         /// </summary>
-        /// <param name = "reason">
-        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
+        /// <param name="reason">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name = "reasonArgs">
-        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
+        /// <param name="reasonArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<ObjectAssertions> BeXmlSerializable(string reason, params object[] reasonArgs)
         {

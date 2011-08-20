@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an integral number is in the correct state.
+    /// </summary>
+    [DebuggerNonUserCode]
     public class IntegralAssertions<T> : NumericAssertions<T>
     {
         protected internal IntegralAssertions(T value) : base(value)

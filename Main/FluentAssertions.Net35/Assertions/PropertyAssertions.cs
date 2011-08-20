@@ -8,7 +8,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Assertions
 {
     /// <summary>
-    /// Provides methods for selecting one or properties of an object and comparing them with another object.
+    /// Provides methods for selecting one or more properties of an object and comparing them with another object.
     /// </summary>
     public class PropertyAssertions<T>
     {

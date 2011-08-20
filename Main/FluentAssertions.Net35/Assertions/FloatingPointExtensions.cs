@@ -2,6 +2,9 @@ using System;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of extension methods for floating point <see cref="NumericAssertions{T}"/>.
+    /// </summary>
     public static class FloatingPointExtensions
     {
         /// <summary>

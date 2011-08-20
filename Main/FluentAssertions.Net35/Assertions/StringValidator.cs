@@ -3,7 +3,7 @@ using System;
 namespace FluentAssertions.Assertions
 {
     /// <summary>
-    ///   Dedicated class for comparing two strings and generating consistent error messages.
+    /// Dedicated class for comparing two strings and generating consistent error messages.
     /// </summary>
     internal abstract class StringValidator
     {

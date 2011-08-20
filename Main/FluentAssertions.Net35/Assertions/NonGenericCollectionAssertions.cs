@@ -1,7 +1,12 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="IEnumerable"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
     public class NonGenericCollectionAssertions : CollectionAssertions<IEnumerable, NonGenericCollectionAssertions>
     {
         protected internal NonGenericCollectionAssertions(IEnumerable collection)

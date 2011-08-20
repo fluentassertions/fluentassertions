@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="Action"/> yields the expected result.
+    /// </summary>
     [DebuggerNonUserCode]
     public class ActionAssertions
     {
@@ -11,6 +14,9 @@ namespace FluentAssertions.Assertions
             Subject = subject;
         }
 
+        /// <summary>
+        /// Gets the <see cref="Action"/> that is being asserted.
+        /// </summary>
         public Action Subject { get; private set; }
 
         /// <summary>
