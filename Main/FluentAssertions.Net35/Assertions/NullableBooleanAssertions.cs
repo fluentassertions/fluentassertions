@@ -43,5 +43,20 @@ namespace FluentAssertions.Assertions
 
             return new AndConstraint<NullableBooleanAssertions>(this);
         }
+
+        public AndConstraint<BooleanAssertions> Be(bool? expected)
+        {
+            return Be(expected, string.Empty);
+        }
+
+        public AndConstraint<BooleanAssertions> Be(bool? expected, string reason, params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(Subject == expected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
+
+            return new AndConstraint<BooleanAssertions>(this);
+        }
     }
 }

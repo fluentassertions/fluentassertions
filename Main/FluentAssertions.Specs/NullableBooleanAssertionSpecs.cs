@@ -1,3 +1,5 @@
+using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
@@ -53,6 +55,91 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_boolean_null_value_is_false()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            bool? nullableBoolean = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableBoolean.Should().BeFalse("we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected False because we want to test the failure message, but found <null>.");
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_boolean_null_value_is_true()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            bool? nullableBoolean = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableBoolean.Should().BeTrue("we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected True because we want to test the failure message, but found <null>.");
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_boolean_null_value_to_be_equal_to_different_nullable_boolean()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            bool? nullableBoolean = null;
+            bool? differentNullableBoolean = false;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableBoolean.Should().Be(differentNullableBoolean, "we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected False because we want to test the failure message, but found <null>.");
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_boolean_null_value_to_be_equal_to_null()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            bool? nullableBoolean = null;
+            bool? otherNullableBoolean = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableBoolean.Should().Be(otherNullableBoolean, "we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
         }
 
         [TestMethod]

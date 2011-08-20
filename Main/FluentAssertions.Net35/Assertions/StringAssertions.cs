@@ -422,24 +422,28 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
-        public AndConstraint<StringAssertions> ContainEquivalentOf(string expectedValue)
+        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected)
         {
-            return ContainEquivalentOf(expectedValue, null);
+            return ContainEquivalentOf(expected, null);
         }
 
-        public AndConstraint<StringAssertions> ContainEquivalentOf(string expectedValue, string reason,
+        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, string reason,
             params object [] reasonArgs)
         {
-            if (string.IsNullOrEmpty(expectedValue))
+            if (expected == null)
             {
-                throw new ArgumentNullException("expectedValue",
-                    "Null and empty strings are considered to be contained in all strings.");
+                throw new ArgumentException("Cannot assert string containment against <null>.");
+            }
+
+            if (expected.Length == 0)
+            {
+                throw new ArgumentException("Cannot assert string containment against an empty string.");
             }
 
             Execute.Verification
-                .ForCondition(Contains(Subject, expectedValue, StringComparison.CurrentCultureIgnoreCase))
+                .ForCondition(Contains(Subject, expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected string to contain equivalent of {0}{reason} but found {1}", expectedValue, Subject);
+                .FailWith("Expected string to contain equivalent of {0}{reason} but found {1}", expected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -588,7 +592,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Ensures that a string is neither <c>null</c> or empty.
+        /// Asserts that a string is neither <c>null</c> or empty.
         /// </summary>
         public AndConstraint<StringAssertions> NotBeNullOrEmpty()
         {
@@ -596,7 +600,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Ensures that a string is neither <c>null</c> or empty.
+        /// Asserts that a string is neither <c>null</c> or empty.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -616,7 +620,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Ensures that a string is neither <c>null</c> or empty.
+        /// Asserts that a string is neither <c>null</c> or empty.
         /// </summary>
         public AndConstraint<StringAssertions> BeNullOrEmpty()
         {
@@ -624,7 +628,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Ensures that a string is either <c>null</c> or empty.
+        /// Asserts that a string is either <c>null</c> or empty.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -644,7 +648,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Ensures that a string is neither <c>null</c> nor empty nor white space
+        /// Asserts that a string is neither <c>null</c> nor empty nor white space
         /// </summary>
         public AndConstraint<StringAssertions> NotBeBlank()
         {
@@ -652,7 +656,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Ensures that a string is neither <c>null</c> nor empty nor white space
+        /// Asserts that a string is neither <c>null</c> nor empty nor white space
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -672,7 +676,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Ensures that a string is either <c>null</c> or empty or white space
+        /// Asserts that a string is either <c>null</c> or empty or white space
         /// </summary>
         public AndConstraint<StringAssertions> BeBlank()
         {
@@ -680,7 +684,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Ensures that a string is either <c>null</c> or empty or white space
+        /// Asserts that a string is either <c>null</c> or empty or white space
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 

@@ -59,7 +59,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject == expected)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {0}{reason}, but found {1}", expected, Subject);
+                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
