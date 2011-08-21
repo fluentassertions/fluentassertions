@@ -134,7 +134,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                nullableBoolean.Should().Be(otherNullableBoolean, "we want to test the failure {0}", "message");
+                nullableBoolean.Should().Be(otherNullableBoolean);
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

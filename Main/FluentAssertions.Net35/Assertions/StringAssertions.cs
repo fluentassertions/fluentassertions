@@ -25,9 +25,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that a string is equal to another string.
         /// </summary>
-        /// <param name="expected">
-        /// The expected string.
-        /// </param>
+        /// <param name="expected">The expected string.</param>
         public AndConstraint<StringAssertions> Be(string expected)
         {
             return Be(expected, String.Empty);
@@ -36,9 +34,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that a string is exactly the same as another string, including the casing and any leading or trailing whitespace.
         /// </summary>
-        /// <param name="expected">
-        /// The expected string.
-        /// </param>
+        /// <param name="expected">The expected string.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.

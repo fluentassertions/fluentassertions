@@ -17,7 +17,8 @@ namespace FluentAssertions.Assertions
         /// <param name="precision">
         /// The maximum amount of which the two values may differ.
         /// </param>
-        public static AndConstraint<NumericAssertions<float?>> BeApproximately(this NumericAssertions<float?> parent, float expectedValue, float precision)
+        public static AndConstraint<NumericAssertions<float?>> BeApproximately(this NumericAssertions<float?> parent,
+            float expectedValue, float precision)
         {
             return BeApproximately(parent, expectedValue, precision, string.Empty);
         }
@@ -39,8 +40,9 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public static AndConstraint<NumericAssertions<float?>> BeApproximately(this NumericAssertions<float?> parent, float expectedValue, float precision, string reason,
-            params object[] reasonArgs)
+        public static AndConstraint<NumericAssertions<float?>> BeApproximately(this NumericAssertions<float?> parent,
+            float expectedValue, float precision, string reason,
+            params object [] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(parent.Subject != null)
@@ -63,7 +65,8 @@ namespace FluentAssertions.Assertions
         /// <param name="precision">
         /// The maximum amount of which the two values may differ.
         /// </param>
-        public static AndConstraint<NumericAssertions<float>> BeApproximately(this NumericAssertions<float> parent, float expectedValue, float precision)
+        public static AndConstraint<NumericAssertions<float>> BeApproximately(this NumericAssertions<float> parent,
+            float expectedValue, float precision)
         {
             return BeApproximately(parent, expectedValue, precision, string.Empty);
         }
@@ -85,8 +88,9 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public static AndConstraint<NumericAssertions<float>> BeApproximately(this NumericAssertions<float> parent, float expectedValue, float precision, string reason,
-            params object[] reasonArgs)
+        public static AndConstraint<NumericAssertions<float>> BeApproximately(this NumericAssertions<float> parent,
+            float expectedValue, float precision, string reason,
+            params object [] reasonArgs)
         {
             float actualDifference = Math.Abs(expectedValue - (float) parent.Subject);
 
@@ -111,7 +115,8 @@ namespace FluentAssertions.Assertions
         /// <param name="precision">
         /// The maximum amount of which the two values may differ.
         /// </param>
-        public static AndConstraint<NumericAssertions<double?>> BeApproximately(this NumericAssertions<double?> parent, double expectedValue, double precision)
+        public static AndConstraint<NumericAssertions<double?>> BeApproximately(this NumericAssertions<double?> parent,
+            double expectedValue, double precision)
         {
             return BeApproximately(parent, expectedValue, precision, string.Empty);
         }
@@ -133,8 +138,9 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public static AndConstraint<NumericAssertions<double?>> BeApproximately(this NumericAssertions<double?> parent, double expectedValue, double precision, string reason,
-            params object[] reasonArgs)
+        public static AndConstraint<NumericAssertions<double?>> BeApproximately(this NumericAssertions<double?> parent,
+            double expectedValue, double precision, string reason,
+            params object [] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(parent.Subject != null)
@@ -157,7 +163,8 @@ namespace FluentAssertions.Assertions
         /// <param name="precision">
         /// The maximum amount of which the two values may differ.
         /// </param>
-        public static AndConstraint<NumericAssertions<double>> BeApproximately(this NumericAssertions<double> parent, double expectedValue, double precision)
+        public static AndConstraint<NumericAssertions<double>> BeApproximately(this NumericAssertions<double> parent,
+            double expectedValue, double precision)
         {
             return BeApproximately(parent, expectedValue, precision, string.Empty);
         }
@@ -179,15 +186,16 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public static AndConstraint<NumericAssertions<double>> BeApproximately(this NumericAssertions<double> parent, double expectedValue, double precision, string reason,
-            params object[] reasonArgs)
+        public static AndConstraint<NumericAssertions<double>> BeApproximately(this NumericAssertions<double> parent,
+            double expectedValue, double precision, string reason,
+            params object [] reasonArgs)
         {
             double actualDifference = Math.Abs(expectedValue - (double) parent.Subject);
 
             Execute.Verification
                 .ForCondition(actualDifference <= precision)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected value {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.", 
+                .FailWith("Expected value {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.",
                     parent.Subject, expectedValue, precision, actualDifference);
 
             return new AndConstraint<NumericAssertions<double>>(parent);

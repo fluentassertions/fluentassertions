@@ -17,7 +17,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Gets the exception object of the exception thrown.
+        /// Gets the exception object of the exception thrown.
         /// </summary>
         public TException And
         {
@@ -36,8 +36,8 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception has a message that matches <paramref name="expectedMessage" />
-        ///   depending on the specified matching mode.
+        /// Asserts that the thrown exception has a message that matches <paramref name="expectedMessage" />
+        /// depending on the specified matching mode.
         /// </summary>
         /// <param name="expectedMessage">
         /// The expected message of the exception.
@@ -56,14 +56,14 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception has a message that matches <paramref name="expectedMessage" />
-        ///   depending on the specified matching mode.
+        /// Asserts that the thrown exception has a message that matches <paramref name="expectedMessage" />
+        /// depending on the specified matching mode.
         /// </summary>
         /// <param name="expectedMessage">
-        ///   The expected message of the exception.
+        /// The expected message of the exception.
         /// </param>
         /// <param name="comparisonMode">
-        ///   Determines how the expected message is compared with the actual message.
+        /// Determines how the expected message is compared with the actual message.
         /// </param>
         public ExceptionAssertions<TException> WithMessage(string expectedMessage, ComparisonMode comparisonMode)
         {
@@ -71,14 +71,14 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception has a message that matches <paramref name="expectedMessage" />
-        ///   depending on the specified matching mode.
+        /// Asserts that the thrown exception has a message that matches <paramref name="expectedMessage" />
+        /// depending on the specified matching mode.
         /// </summary>
         /// <param name="expectedMessage">
         /// The expected message of the exception.
         /// </param>
         /// <param name="comparisonMode">
-        ///   Determines how the expected message is compared with the actual message.
+        /// Determines how the expected message is compared with the actual message.
         /// </param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
@@ -88,8 +88,7 @@ namespace FluentAssertions.Assertions
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, ComparisonMode comparisonMode,
-            string reason,
-            params object [] reasonArgs)
+            string reason, params object [] reasonArgs)
         {
             Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
@@ -119,7 +118,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
+        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
         /// </summary>
         /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
         public ExceptionAssertions<TException> WithInnerException<TInnerException>()
@@ -128,7 +127,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
+        /// Asserts that the thrown exception contains an inner exception of type <typeparamref name="TInnerException" />.
         /// </summary>
         /// <typeparam name="TInnerException">The expected type of the inner exception.</typeparam>
         /// <param name="reason">The reason why the inner exception should be of the supplied type.</param>
@@ -162,7 +161,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception with the <paramref name="expectedInnerMessage" />.
+        /// Asserts that the thrown exception contains an inner exception with the <paramref name="expectedInnerMessage" />.
         /// </summary>
         /// <param name="expectedInnerMessage">The expected message of the inner exception.</param>
         public ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage)
@@ -171,7 +170,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception with the <paramref name="expectedInnerMessage" />.
+        /// Asserts that the thrown exception contains an inner exception with the <paramref name="expectedInnerMessage" />.
         /// </summary>
         /// <param name="expectedInnerMessage">The expected message of the inner exception.</param>
         /// <param name="comparisonMode">Determines how the expected message is compared with the actual message.</param>
@@ -181,11 +180,11 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception with the <paramref name="expectedInnerMessage" />.
+        /// Asserts that the thrown exception contains an inner exception with the <paramref name="expectedInnerMessage" />.
         /// </summary>
         /// <param name="expectedInnerMessage">The expected message of the inner exception.</param>
         /// <param name="reason">
-        ///   The reason why the message of the inner exception should match <paramref name="expectedInnerMessage" />.
+        /// The reason why the message of the inner exception should match <paramref name="expectedInnerMessage" />.
         /// </param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="reason" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string reason,
@@ -195,24 +194,28 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception with the <paramref name="expectedInnerMessage" />.
+        /// Asserts that the thrown exception contains an inner exception with the <paramref name="expectedInnerMessage" />.
         /// </summary>
         /// <param name="expectedInnerMessage">The expected message of the inner exception.</param>
         /// <param name="comparisonMode">Determines how the expected message is compared with the actual message.</param>
         /// <param name="reason">
-        ///   The reason why the message of the inner exception should match <paramref name="expectedInnerMessage" />.
+        /// The reason why the message of the inner exception should match <paramref name="expectedInnerMessage" />.
         /// </param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="reason" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage,
             ComparisonMode comparisonMode, string reason, params object [] reasonArgs)
         {
-            Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
+            Verification verification = Execute.Verification
+                .BecauseOf(reason, reasonArgs)
+                .UsingLineBreaks;
 
-            verification.ForCondition(Subject != null).FailWith(
-                "Expected inner exception {reason}, but no exception was thrown.");
+            verification
+                .ForCondition(Subject != null)
+                .FailWith("Expected inner exception {reason}, but no exception was thrown.");
 
-            verification.ForCondition(Subject.InnerException != null).FailWith(
-                "Expected inner exception{reason}, but the thrown exception has no inner exception.");
+            verification
+                .ForCondition(Subject.InnerException != null)
+                .FailWith("Expected inner exception{reason}, but the thrown exception has no inner exception.");
 
             string subjectInnerMessage = Subject.InnerException.Message;
 
@@ -239,10 +242,10 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the exception matches a particular condition.
+        /// Asserts that the exception matches a particular condition.
         /// </summary>
         /// <param name="exceptionExpression">
-        ///   The condition that the exception must match.
+        /// The condition that the exception must match.
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression)
         {
@@ -250,21 +253,20 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        ///   Asserts that the exception matches a particular condition.
+        /// Asserts that the exception matches a particular condition.
         /// </summary>
         /// <param name="exceptionExpression">
-        ///   The condition that the exception must match.
+        /// The condition that the exception must match.
         /// </param>
         /// <param name="reason">
-        ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        ///   start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="reasonArgs">
-        ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
+        /// Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
-            string reason,
-            params object [] reasonArgs)
+            string reason, params object [] reasonArgs)
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
             Execute.Verification

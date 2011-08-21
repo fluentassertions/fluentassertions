@@ -69,7 +69,7 @@ namespace FluentAssertions.Specs
                 subjectThatThrows
                     .Invoking(x => x.Do())
                     .ShouldThrow<InvalidOperationException>()
-                    .WithMessage("message2");
+                    .WithMessage("message2", "because we want to test the failure {0}", "message");
 
                 Assert.Fail("This point should not be reached");
             }
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 Assert.AreEqual(
-                    "Expected exception message to be \"message2\", but \"message1\" differs near \"1\" (index 7).",
+                    "Expected exception message to be \"message2\" because we want to test the failure message, but \"message1\" differs near \"1\" (index 7).",
                     ex.Message);
             }
         }

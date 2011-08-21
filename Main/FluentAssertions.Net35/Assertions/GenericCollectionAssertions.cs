@@ -32,6 +32,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection contains the specified item.
         /// </summary>
+        /// <param name="expected">The expected item.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -62,10 +63,13 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection contains some extra items in addition to the original items.
         /// </summary>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(IEnumerable<T> originalItems, params T[] additionalItems)
+        /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expected items.</param>
+        /// <param name="additionalExpectedItems">Additional items that are expected to be contained by the collection.</param>
+        public AndConstraint<GenericCollectionAssertions<T>> Contain(IEnumerable<T> expectedItemsList,
+            params T [] additionalExpectedItems)
         {
-            var list = new List<T>(originalItems);
-            list.AddRange(additionalItems);
+            var list = new List<T>(expectedItemsList);
+            list.AddRange(additionalExpectedItems);
 
             return Contain((IEnumerable)list);
         }
@@ -73,6 +77,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection contains at least one item that matches the predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate)
         {
             return Contain(predicate, string.Empty);
@@ -81,6 +86,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection contains at least one item that matches the predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -110,6 +116,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection only contains items that match a predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         public AndConstraint<GenericCollectionAssertions<T>> OnlyContain(Expression<Func<T, bool>> predicate)
         {
             return OnlyContain(predicate, string.Empty);
@@ -118,6 +125,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection only contains items that match a predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -145,6 +153,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection does not contain any items that match the predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate)
         {
             return NotContain(predicate, string.Empty);
@@ -153,6 +162,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection does not contain any items that match the predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.

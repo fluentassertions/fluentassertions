@@ -70,6 +70,11 @@ namespace FluentAssertions.Assertions
     /// <typeparam name="T"></typeparam>
     public class MemberExecutionTimeAssertions<T> : ExecutionTimeAssertions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MemberExecutionTimeAssertions&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="subject">The object that exposes the method or property.</param>
+        /// <param name="action">A reference to the method or property to measure the execution time of.</param>
         public MemberExecutionTimeAssertions(T subject, Expression<Action<T>> action) :
             base(() => action.Compile()(subject))
         {
