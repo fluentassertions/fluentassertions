@@ -101,9 +101,6 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Specs\AssertEx.cs">
-      <Link>AssertEx.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Specs\BooleanAssertionSpecs.cs">
       <Link>BooleanAssertionSpecs.cs</Link>
     </Compile>

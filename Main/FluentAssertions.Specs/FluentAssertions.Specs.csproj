@@ -78,7 +78,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssertEx.cs" />
     <Compile Include="ComparableSpecs.cs" />
     <Compile Include="DefaultValueFormatterSpecs.cs" />
     <Compile Include="FluentDateTimeSpecs.cs" />
