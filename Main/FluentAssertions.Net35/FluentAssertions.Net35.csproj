@@ -108,7 +108,7 @@
     <Compile Include="Assertions\IntegralAssertions.cs" />
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />
     <Compile Include="Assertions\SimpleTimeSpanAssertions.cs" />
-    <Compile Include="Assertions\TimeSpanConversionExtensions.cs" />
+    <Compile Include="Common\TimeSpanConversionExtensions.cs" />
     <Compile Include="Assertions\ReferenceTypeAssertions.cs" />
     <Compile Include="Assertions\BooleanAssertions.cs" />
     <Compile Include="Assertions\CollectionAssertions.cs" />

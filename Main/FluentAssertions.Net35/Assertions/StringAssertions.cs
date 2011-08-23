@@ -86,17 +86,34 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
-        public AndConstraint<StringAssertions> NotBe(string expected)
+        /// <summary>
+        /// Asserts that a string is not exactly the same as the specified <paramref name="unexpected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="unexpected">The string that the subject is not expected to be equivalent to.</param>
+        public AndConstraint<StringAssertions> NotBe(string unexpected)
         {
-            return NotBe(expected, String.Empty);
+            return NotBe(unexpected, String.Empty);
         }
 
-        public AndConstraint<StringAssertions> NotBe(string expected, string reason, params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string is not exactly the same as the specified <paramref name="unexpected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="unexpected">The string that the subject is not expected to be equivalent to.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotBe(string unexpected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject != expected)
+                .ForCondition(Subject != unexpected)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected string not to be {0}{reason}.", expected);
+                .FailWith("Expected string not to be {0}{reason}.", unexpected);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -241,13 +258,29 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string starts exactly with the specified <paramref name="expected"/>,
+        /// including the casing and any leading or trailing whitespace.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to start with.</param>
         public AndConstraint<StringAssertions> StartWith(string expected)
         {
             return StartWith(expected, String.Empty);
         }
 
-        public AndConstraint<StringAssertions> StartWith(string expected, string reason,
-            params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string starts exactly with the specified <paramref name="expected"/>,
+        /// including the casing and any leading or trailing whitespace.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to start with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> StartWith(string expected, string reason, params object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -274,11 +307,28 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string starts with the specified <paramref name="expected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to start with.</param>
         public AndConstraint<StringAssertions> StartWithEquivalent(string expected)
         {
             return StartWithEquivalent(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that a string starts with the specified <paramref name="expected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to start with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<StringAssertions> StartWithEquivalent(string expected, string reason,
             params object [] reasonArgs)
         {
@@ -307,13 +357,29 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string ends exactly with the specified <paramref name="expected"/>,
+        /// including the casing and any leading or trailing whitespace.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to end with.</param>
         public AndConstraint<StringAssertions> EndWith(string expected)
         {
             return EndWith(expected, String.Empty);
         }
 
-        public AndConstraint<StringAssertions> EndWith(string expected, string reason,
-            params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string ends exactly with the specified <paramref name="expected"/>,
+        /// including the casing and any leading or trailing whitespace.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to end with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> EndWith(string expected, string reason, params object [] reasonArgs)
         {
             if (expected == null)
             {
@@ -340,13 +406,29 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string ends with the specified <paramref name="expected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to end with.</param>
         public AndConstraint<StringAssertions> EndWithEquivalent(string expected)
         {
             return EndWithEquivalent(expected, String.Empty);
         }
 
-        public AndConstraint<StringAssertions> EndWithEquivalent(string expected, string reason,
-            params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string ends with the specified <paramref name="expected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to end with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> EndWithEquivalent(string expected, string reason, params object [] reasonArgs)
         {
             if (expected == null)
             {
@@ -397,8 +479,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<StringAssertions> Contain(string expected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<StringAssertions> Contain(string expected, string reason, params object [] reasonArgs)
         {
             if (expected == null)
             {
@@ -418,13 +499,29 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string contains the specified <paramref name="expected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to contain.</param>
         public AndConstraint<StringAssertions> ContainEquivalentOf(string expected)
         {
-            return ContainEquivalentOf(expected, null);
+            return ContainEquivalentOf(expected, string.Empty);
         }
 
-        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, string reason,
-            params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string contains the specified <paramref name="expected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="expected">The string that the subject is expected to contain.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> ContainEquivalentOf(string expected, string reason, params object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -452,7 +549,7 @@ namespace FluentAssertions.Assertions
         /// </param>
         public AndConstraint<StringAssertions> NotContain(string expected)
         {
-            return NotContain(expected, null);
+            return NotContain(expected, string.Empty);
         }
 
         /// <summary>
@@ -489,18 +586,35 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
-        public AndConstraint<StringAssertions> NotContainEquivalentOf(string expectedValue)
+        /// <summary>
+        /// Asserts that a string does not contain the specified <paramref name="unexpected"/> string,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="unexpected">The string that the subject is not expected to contain.</param>
+        public AndConstraint<StringAssertions> NotContainEquivalentOf(string unexpected)
         {
-            return NotContainEquivalentOf(expectedValue, null);
+            return NotContainEquivalentOf(unexpected, string.Empty);
         }
 
-        public AndConstraint<StringAssertions> NotContainEquivalentOf(string expectedValue, string reason,
+        /// <summary>
+        /// Asserts that a string does not contain the specified <paramref name="unexpected"/> string,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="unexpected">The string that the subject is not expected to contain.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotContainEquivalentOf(string unexpected, string reason,
             params object [] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(!Contains(Subject, expectedValue, StringComparison.CurrentCultureIgnoreCase))
+                .ForCondition(!Contains(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect string to contain equivalent of {0}{reason} but found {1}", expectedValue, Subject);
+                .FailWith("Did not expect string to contain equivalent of {0}{reason} but found {1}", unexpected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -510,12 +624,25 @@ namespace FluentAssertions.Assertions
             return (actual ?? "").IndexOf(expected ?? "", comparison) >= 0;
         }
 
+        /// <summary>
+        /// Asserts that a string is <see cref="string.Empty"/>.
+        /// </summary>
         public AndConstraint<StringAssertions> BeEmpty()
         {
             return BeEmpty(String.Empty);
         }
 
-        public AndConstraint<StringAssertions> BeEmpty(string reason, params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string is <see cref="string.Empty"/>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> BeEmpty(string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition((Subject != null) && (Subject.Length == 0))
@@ -525,12 +652,25 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string is not <see cref="string.Empty"/>.
+        /// </summary>
         public AndConstraint<StringAssertions> NotBeEmpty()
         {
             return NotBeEmpty(String.Empty);
         }
 
-        public AndConstraint<StringAssertions> NotBeEmpty(string reason, params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string is not <see cref="string.Empty"/>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotBeEmpty(string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Length > 0)
@@ -540,13 +680,27 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string has the specified <paramref name="expected"/> length.
+        /// </summary>
+        /// <param name="expected">The expected length of the string</param>
         public AndConstraint<StringAssertions> HaveLength(int expected)
         {
             return HaveLength(expected, String.Empty);
         }
 
-        public AndConstraint<StringAssertions> HaveLength(int expected, string reason,
-            params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string has the specified <paramref name="expected"/> length.
+        /// </summary>
+        /// <param name="expected">The expected length of the string</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> HaveLength(int expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Length == expected)
@@ -557,12 +711,25 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string is <c>null</c>.
+        /// </summary>
         public AndConstraint<StringAssertions> BeNull()
         {
             return BeNull(string.Empty);
         }
 
-        public AndConstraint<StringAssertions> BeNull(string reason, params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string is <c>null</c>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> BeNull(string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject == null)
@@ -572,12 +739,25 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that a string is not <c>null</c>.
+        /// </summary>
         public AndConstraint<StringAssertions> NotBeNull()
         {
             return NotBeNull(string.Empty);
         }
 
-        public AndConstraint<StringAssertions> NotBeNull(string reason, params object [] reasonArgs)
+        /// <summary>
+        /// Asserts that a string is not <c>null</c>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotBeNull(string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject != null)
@@ -588,7 +768,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that a string is neither <c>null</c> or empty.
+        /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/>.
         /// </summary>
         public AndConstraint<StringAssertions> NotBeNullOrEmpty()
         {
@@ -596,7 +776,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that a string is neither <c>null</c> or empty.
+        /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -616,7 +796,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that a string is neither <c>null</c> or empty.
+        /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/>.
         /// </summary>
         public AndConstraint<StringAssertions> BeNullOrEmpty()
         {
@@ -624,7 +804,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that a string is either <c>null</c> or empty.
+        /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -644,7 +824,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that a string is neither <c>null</c> nor empty nor white space
+        /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/> nor white space
         /// </summary>
         public AndConstraint<StringAssertions> NotBeBlank()
         {
@@ -652,7 +832,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that a string is neither <c>null</c> nor empty nor white space
+        /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/> nor white space
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -672,7 +852,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that a string is either <c>null</c> or empty or white space
+        /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/> or white space
         /// </summary>
         public AndConstraint<StringAssertions> BeBlank()
         {
@@ -680,7 +860,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that a string is either <c>null</c> or empty or white space
+        /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/> or white space
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -699,9 +879,9 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<StringAssertions>(this);
         }
 
-        private static bool IsBlank(string str)
+        private static bool IsBlank(string value)
         {
-            return (str == null) || string.IsNullOrEmpty(str.Trim());
+            return (value == null) || string.IsNullOrEmpty(value.Trim());
         }
     }
 }

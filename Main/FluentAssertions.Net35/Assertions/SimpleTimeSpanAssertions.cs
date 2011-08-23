@@ -23,11 +23,24 @@ namespace FluentAssertions.Assertions
             private set;
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than zero.
+        /// </summary>
         public AndConstraint<SimpleTimeSpanAssertions> BePositive()
         {
             return BePositive(String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than zero.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BePositive(string reason, params object[] reasonArgs)
         {
             Execute.Verification
@@ -38,11 +51,24 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is less than zero.
+        /// </summary>
         public AndConstraint<SimpleTimeSpanAssertions> BeNegative()
         {
             return BeNegative(String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is less than zero.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeNegative(string reason, params object[] reasonArgs)
         {
             Execute.Verification
@@ -53,11 +79,28 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is equal to the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The expected time difference</param>
         public AndConstraint<SimpleTimeSpanAssertions> Be(TimeSpan expected)
         {
             return Be(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is equal to the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The expected time difference</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> Be(TimeSpan expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
@@ -68,11 +111,28 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is not equal to the 
+        /// specified <paramref name="unexpected"/> time.
+        /// </summary>
+        /// <param name="unexpected">The unexpected time difference</param>
         public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan unexpected)
         {
             return NotBe(unexpected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is not equal to the 
+        /// specified <paramref name="unexpected"/> time.
+        /// </summary>
+        /// <param name="unexpected">The unexpected time difference</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan unexpected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
@@ -83,11 +143,28 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is less than the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The time difference to which the current value will be compared</param>
         public AndConstraint<SimpleTimeSpanAssertions> BeLessThan(TimeSpan expected)
         {
             return BeLessThan(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is less than the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The time difference to which the current value will be compared</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeLessThan(TimeSpan expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
@@ -98,11 +175,28 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is less than or equal to the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The time difference to which the current value will be compared</param>
         public AndConstraint<SimpleTimeSpanAssertions> BeLessOrEqualTo(TimeSpan expected)
         {
             return BeLessOrEqualTo(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is less than or equal to the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The time difference to which the current value will be compared</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeLessOrEqualTo(TimeSpan expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
@@ -113,11 +207,28 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The time difference to which the current value will be compared</param>
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterThan(TimeSpan expected)
         {
             return BeGreaterThan(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The time difference to which the current value will be compared</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterThan(TimeSpan expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
@@ -128,11 +239,28 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than or equal to the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The time difference to which the current value will be compared</param>
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterOrEqualTo(TimeSpan expected)
         {
             return BeGreaterOrEqualTo(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the time difference of the current <see cref="TimeSpan"/> is greater than or equal to the 
+        /// specified <paramref name="expected"/> time.
+        /// </summary>
+        /// <param name="expected">The time difference to which the current value will be compared</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterOrEqualTo(TimeSpan expected, string reason,
             params object[] reasonArgs)
         {
@@ -143,7 +271,5 @@ namespace FluentAssertions.Assertions
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
-
-
     }
 }

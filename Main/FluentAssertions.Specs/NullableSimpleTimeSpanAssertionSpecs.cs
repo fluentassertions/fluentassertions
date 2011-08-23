@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using FluentAssertions.Assertions;
+using FluentAssertions.Common;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

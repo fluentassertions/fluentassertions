@@ -2,6 +2,7 @@
 using System.Threading;
 
 using FluentAssertions.Assertions;
+using FluentAssertions.Common;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

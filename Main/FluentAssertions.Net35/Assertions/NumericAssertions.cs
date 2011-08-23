@@ -43,11 +43,24 @@ namespace FluentAssertions.Assertions
 
         public IComparable Subject { get; private set; }
 
+        /// <summary>
+        /// Asserts that the numeric value is greater than or equal to zero.
+        /// </summary>
         public AndConstraint<NumericAssertions<T>> BePositive()
         {
             return BePositive(String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is greater than or equal to zero.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<NumericAssertions<T>> BePositive(string reason, params object[] reasonArgs)
         {
             Execute.Verification
@@ -58,11 +71,24 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is less than zero.
+        /// </summary>
         public AndConstraint<NumericAssertions<T>> BeNegative()
         {
             return BeNegative(String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is less than zero.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<NumericAssertions<T>> BeNegative(string reason, params object[] reasonArgs)
         {
             Execute.Verification
@@ -73,13 +99,27 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is less than the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
         public AndConstraint<NumericAssertions<T>> BeLessThan(T expected)
         {
             return BeLessThan(expected, String.Empty);
         }
 
-        public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string reason,
-            params object[] reasonArgs)
+        /// <summary>
+        /// Asserts that the numeric value is less than the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<NumericAssertions<T>> BeLessThan(T expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.CompareTo(expected) < 0)
@@ -89,11 +129,26 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is less than or equal to the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
         public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected)
         {
             return BeLessOrEqualTo(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is less than or equal to the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<NumericAssertions<T>> BeLessOrEqualTo(T expected, string reason,
             params object[] reasonArgs)
         {
@@ -105,11 +160,26 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is greater than the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
         public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected)
         {
             return BeGreaterThan(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is greater than the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<NumericAssertions<T>> BeGreaterThan(T expected, string reason,
             params object[] reasonArgs)
         {
@@ -121,11 +191,26 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is greater than or equal to the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
         public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T expected)
         {
             return BeGreaterOrEqualTo(expected, String.Empty);
         }
 
+        /// <summary>
+        /// Asserts that the numeric value is greater than or equal to the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The value to compare the current numeric value with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
         public AndConstraint<NumericAssertions<T>> BeGreaterOrEqualTo(T expected, string reason,
             params object[] reasonArgs)
         {
