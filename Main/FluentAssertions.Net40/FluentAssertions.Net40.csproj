@@ -154,14 +154,14 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanAssertions.cs">
       <Link>Assertions\TimeSpanAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanConversionExtensions.cs">
-      <Link>Assertions\TimeSpanConversionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\FluentDateTimeExtensions.cs">
       <Link>Common\FluentDateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\TimeSpanConversionExtensions.cs">
+      <Link>Common\TimeSpanConversionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventHandlerFactory.cs">
       <Link>EventMonitoring\EventHandlerFactory.cs</Link>
