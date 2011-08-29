@@ -12,9 +12,19 @@
         Exact,
 
         /// <summary>
-        /// The message must contain the expected message.
+        /// The message must match except for the casing of the characters.
+        /// </summary>
+        Equivalent,
+
+        /// <summary>
+        /// The message must contain the exact text.
         /// </summary>
         Substring,
+
+        /// <summary>
+        /// The message must contain the text except for the casing of the characters.
+        /// </summary>
+        EquivalentSubstring,
 
         /// <summary>
         /// The message must match a wildcard pattern consisting of ordinary characters as well as * and ?.

@@ -101,11 +101,23 @@ namespace FluentAssertions.Assertions
 
                 Subject.Message.Should().Be(expectedMessage, reason, reasonArgs);
             }
+            else if (comparisonMode == ComparisonMode.Equivalent)
+            {
+                Verification.SubjectName = "equivalent of exception message";
+
+                Subject.Message.Should().BeEquivalentTo(expectedMessage, reason, reasonArgs);
+            }
             else if (comparisonMode == ComparisonMode.Substring)
             {
                 Verification.SubjectName = "exception message to contain";
 
                 Subject.Message.Should().Contain(expectedMessage, reason, reasonArgs);
+            }
+            else if (comparisonMode == ComparisonMode.EquivalentSubstring)
+            {
+                Verification.SubjectName = "exception message to contain equivalent of";
+
+                Subject.Message.Should().ContainEquivalentOf(expectedMessage, reason, reasonArgs);
             }
             else
             {
