@@ -95,6 +95,8 @@
     <Compile Include="AndConstraint.cs" />
     <Compile Include="Assertions\ComparableTypeAssertions.cs" />
     <Compile Include="Assertions\ComparisonMode.cs" />
+    <Compile Include="Assertions\CyclicReferenceTracker.cs" />
+    <Compile Include="Assertions\CyclicReferenceInRecursionException.cs" />
     <Compile Include="Assertions\GenericDictionaryAssertions.cs" />
     <Compile Include="Assertions\GuidAssertions.cs" />
     <Compile Include="Assertions\NullableGuidAssertions.cs" />

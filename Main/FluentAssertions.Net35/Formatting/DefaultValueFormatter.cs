@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Reflection;
+using System.Text;
+
+using FluentAssertions.Assertions;
 
 namespace FluentAssertions.Formatting
 {
     internal class DefaultValueFormatter : IValueFormatter
     {
-        private static IList<object> referencedObjects;
+        private const int RootLevel = 0;
+        private readonly CyclicReferenceTracker cyclicReferenceTracker = new CyclicReferenceTracker();
 
         /// <summary>
         ///   Determines whether this instance can handle the specified value.
@@ -32,21 +35,20 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public string ToString(object value, int nestedPropertyLevel = 0)
+        public string ToString(object value, int nestedPropertyLevel = RootLevel)
         {
-            if (value.GetType() == typeof(object))
+            if (value.GetType() == typeof (object))
             {
                 return string.Format("System.Object (HashCode={0})", value.GetHashCode());
             }
-            
+
             if (HasDefaultToStringImplementation(value))
             {
-                if (nestedPropertyLevel == 0)
+                try
                 {
-                    InitializeCyclicReferenceDetection();
+                    AssertNoCyclicReferenceFor(value, nestedPropertyLevel);
                 }
-
-                if (DetectCyclicReferenceFor(value))
+                catch (CyclicReferenceInRecursionException)
                 {
                     return string.Format("Cyclic reference detected for object of type {0}.", value.GetType());
                 }
@@ -57,21 +59,14 @@ namespace FluentAssertions.Formatting
             return value.ToString();
         }
 
-        private static void InitializeCyclicReferenceDetection()
+        private void AssertNoCyclicReferenceFor(object value, int nestedPropertyLevel)
         {
-            referencedObjects = new List<object>();
-        }
-
-        private static bool DetectCyclicReferenceFor(object value)
-        {
-            if (referencedObjects.Contains(value))
+            if (nestedPropertyLevel == RootLevel)
             {
-                return true;
+                cyclicReferenceTracker.Initialize();
             }
 
-            referencedObjects.Add(value);
-
-            return false;
+            cyclicReferenceTracker.AssertNoCyclicReferenceFor(value);
         }
 
         private string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel)
@@ -81,25 +76,33 @@ namespace FluentAssertions.Formatting
             string currenLevelIndenting = GetIndentingSpacesForLevel(nestedPropertyLevel);
 
             var builder = new StringBuilder();
-            builder.AppendLine();
-            builder.AppendLine();
-            builder.AppendLine(string.Format("{0}{1}", currenLevelIndenting, type.FullName));
+            if (nestedPropertyLevel == RootLevel)
+            {
+                builder.AppendLine();
+                builder.AppendLine();
+            }
+            builder.AppendLine(string.Format("{0}", type.FullName));
             builder.AppendLine(string.Format("{0}{{", currenLevelIndenting));
 
             foreach (var propertyInfo in type.GetProperties().OrderBy(pi => pi.Name))
             {
-                int nextPropertyNestingLevel = nestedPropertyLevel + 1;
-
-                object propertyValue = propertyInfo.GetValue(obj, null);
-                builder.AppendFormat("{0}{1} = {2}" + Environment.NewLine,
-                    GetIndentingSpacesForLevel(nextPropertyNestingLevel),
-                    propertyInfo.Name,
-                    Formatter.ToString(propertyValue, nextPropertyNestingLevel));
+                var propertyValueText = GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1);
+                builder.AppendLine(propertyValueText);
             }
 
             builder.AppendFormat("{0}}}", currenLevelIndenting);
 
             return builder.ToString();
+        }
+
+        private string GetPropertyValueTextFor(object value, PropertyInfo propertyInfo, int nextPropertyNestingLevel)
+        {
+            object propertyValue = propertyInfo.GetValue(value, null);
+
+            return string.Format("{0}{1} = {2}",
+                GetIndentingSpacesForLevel(nextPropertyNestingLevel),
+                propertyInfo.Name,
+                Formatter.ToString(propertyValue, nextPropertyNestingLevel));
         }
 
         private string GetIndentingSpacesForLevel(int count)

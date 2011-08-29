@@ -13,7 +13,7 @@ namespace FluentAssertions.Assertions
     public class PropertyAssertions<T>
     {
         private const BindingFlags InstancePropertiesFlag = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
-        private readonly PropertyEqualityValidator<T> validator;
+        private readonly PropertyEqualityValidator validator;
 
         internal protected PropertyAssertions(T subject)
         {
@@ -22,13 +22,14 @@ namespace FluentAssertions.Assertions
                 throw new NullReferenceException("Cannot compare the properties of a <null> object.");
             }
 
-            validator = new PropertyEqualityValidator<T>(subject);
+            Subject = subject;
+            validator = new PropertyEqualityValidator(subject);
         }
 
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
-        public T Subject { get { return validator.Subject; }}
+        public T Subject { get; private set; }
 
         /// <summary>
         /// Includes all properties of <typeparamref name="T"/> when comparing the subject with another object using <see cref="EqualTo(object)"/>.
@@ -70,6 +71,15 @@ namespace FluentAssertions.Assertions
         {
             validator.OnlySharedProperties = true;
             return AllProperties();
+        }
+
+        /// <summary>
+        /// Perform recursive property comparison of the child properties for objects that are of incompatible type.
+        /// </summary>
+        public PropertyAssertions<T> RecurseIfIncompatible()
+        {
+            validator.RecurseOnIncompatibleProperties = true;
+            return this;
         }
 
         /// <summary>

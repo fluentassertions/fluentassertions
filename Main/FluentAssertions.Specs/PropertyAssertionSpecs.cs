@@ -1,5 +1,6 @@
 ﻿using System;
 
+using FluentAssertions.Assertions;
 using FluentAssertions.Specs;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -91,7 +92,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected property Name to be <null>, but found \"Dennis\".");
-        }       
+        }
 
         [TestMethod]
         public void When_two_collection_properties_dont_match_it_should_throw_and_specify_the_difference()
@@ -101,12 +102,12 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Values = new[]{1, 2, 3}
+                Values = new [] { 1, 2, 3 }
             };
 
             var other = new
             {
-                Values = new[] {1, 4, 3}
+                Values = new [] { 1, 4, 3 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -119,9 +120,9 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected property Values to be equal to {1, 4, 3}, but {1, 2, 3} differs at index 1.");
-        }       
+        }
 
-        
+
         [TestMethod]
         public void When_two_objects_have_the_same_properties_with_convertable_values_it_should_not_throw()
         {
@@ -196,7 +197,6 @@ namespace FluentAssertions.specs
 
             var other = new
             {
-
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -210,14 +210,16 @@ namespace FluentAssertions.specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Subject has property City that the other object does not have.");
         }
-        
+
         [TestMethod]
         public void When_subjects_properties_are_compared_to_null_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new {};
+            var subject = new
+            {
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -230,7 +232,7 @@ namespace FluentAssertions.specs
             act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot compare subject's properties with a <null> object.");
         }
-        
+
         [TestMethod]
         public void When_subject_is_null_it_should_throw()
         {
@@ -242,7 +244,9 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldHave().AllProperties().EqualTo(new {});
+            Action act = () => subject.ShouldHave().AllProperties().EqualTo(new
+            {
+            });
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -308,7 +312,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Type to be 36, but \"A\" is of an incompatible type.");
+                .WithMessage("Expected property Type to be 36, but found \"A\" which is of an incompatible type.");
         }
 
         #endregion
@@ -428,7 +432,7 @@ namespace FluentAssertions.specs
 
             var customer = new Customer
             {
-                Id =1,
+                Id = 1,
                 Version = 2,
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20),
@@ -468,6 +472,190 @@ namespace FluentAssertions.specs
         }
 
         #endregion
+
+        #region Recursive property validation
+
+        [TestMethod]
+        public void When_recursing_on_incompatible_properties_that_have_equal_child_properties_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var root = new Root
+            {
+                Text = "Root",
+                Level = new Level1
+                {
+                    Text = "Level1",
+                    Level = new Level2
+                    {
+                        Text = "Level2",
+                    }
+                }
+            };
+
+            var equalRootDto = new RootDto
+            {
+                Text = "Root",
+                Level = new Level1Dto
+                {
+                    Text = "Level1",
+                    Level = new Level2Dto
+                    {
+                        Text = "Level2",
+                    }
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                root.ShouldHave().AllProperties().RecurseIfIncompatible().EqualTo(equalRootDto);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_not_recursing_on_incompatible_properties_that_have_equal_child_properties_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var root = new Root
+            {
+                Text = "Root",
+                Level = new Level1
+                {
+                    Text = "Level1",
+                }
+            };
+
+            var equalRootDto = new RootDto
+            {
+                Text = "Root",
+                Level = new Level1Dto
+                {
+                    Text = "Level1",
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                root.ShouldHave().AllProperties().EqualTo(equalRootDto);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property Level to be \r\n\r\nFluentAssertions.specs.Level1Dto\r\n" +
+                    "{\r\n   Level = <null>\r\n   Text = \"Level1\"\r\n}" +
+                        ", but found \r\n\r\nFluentAssertions.specs.Level1\r\n" +
+                            "{\r\n   Level = <null>\r\n   Text = \"Level1\"\r\n}" +
+                                " which is of an incompatible type.");
+        }
+
+        [TestMethod]
+        public void When_recursing_on_incompatible_properties_that_have_differences_in_their_child_properties_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var root = new Root
+            {
+                Text = "Root",
+                Level = new Level1
+                {
+                    Text = "Level1",
+                    Level = new Level2
+                    {
+                        Text = "Level2",
+                    }
+                }
+            };
+
+            var rootDto = new RootDto
+            {
+                Text = "Root",
+                Level = new Level1Dto
+                {
+                    Text = "Level1",
+                    Level = new Level2Dto
+                    {
+                        Text = "A wrong text value",
+                    }
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                root.ShouldHave().AllProperties().RecurseIfIncompatible().EqualTo(rootDto);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property Level to have all properties equal to \r\n\r\n" +
+                    "FluentAssertions.specs.Level1Dto\r\n" +
+                        "{\r\n   Level = FluentAssertions.specs.Level2Dto" +
+                            "\r\n   {\r\n      Text = \"A wrong text value\"\r\n   }\r\n   Text = \"Level1\"\r\n}" +
+                                ", but found \r\n\r\n" +
+                                    "FluentAssertions.specs.Level1\r\n" +
+                                        "{\r\n   Level = FluentAssertions.specs.Level2" +
+                                            "\r\n   {\r\n      Text = \"Level2\"\r\n   }\r\n   Text = \"Level1\"\r\n}.");
+        }
+
+        [TestMethod]
+        public void When_recursing_on_incompatible_properties_that_have_cyclic_references_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var cyclicRoot = new CyclicRoot
+            {
+                Text = "Root",
+            };
+            cyclicRoot.Level = new CyclicLevel1
+            {
+                Text = "Level1",
+                Root = cyclicRoot
+            };
+
+            var cyclicRootDto = new CyclicRootDto
+            {
+                Text = "Root",
+            };
+            cyclicRootDto.Level = new CyclicLevel1Dto
+            {
+                Text = "Level1",
+                Root = cyclicRootDto
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                cyclicRoot.ShouldHave().AllProperties().RecurseIfIncompatible().EqualTo(cyclicRootDto);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property Level to be FluentAssertions.specs.CyclicLevel1Dto, but found " +
+                    "FluentAssertions.specs.CyclicLevel1 which is of an incompatible type and has a cyclic reference.");
+        }
+
+        #endregion
     }
 
     internal class Customer : Entity
@@ -491,26 +679,65 @@ namespace FluentAssertions.specs
         public DateTime Birthdate { get; set; }
     }
 
-    internal class CustomerDtoWithStringBasedProperties
+    #region Nested classes for comparison
+
+    internal class Root
     {
-        public string Name { get; set; }
-        public string Age { get; set; }
-        public string Birthdate { get; set; }
-    }
-    
-    internal class CustomerDtoWithExtraneousProperty
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public DateTime Birthdate { get; set; }
-        public string City { get; set; }
+        public string Text { get; set; }
+        public Level1 Level { get; set; }
     }
 
-    internal class CustomerDtoWithPrivateProperty
+    internal class Level1
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public DateTime Birthdate { get; set; }
-        private bool IsValid { get; set; }
+        public string Text { get; set; }
+        public Level2 Level { get; set; }
     }
+
+    internal class Level2
+    {
+        public string Text { get; set; }
+    }
+
+    internal class RootDto
+    {
+        public string Text { get; set; }
+        public Level1Dto Level { get; set; }
+    }
+
+    internal class Level1Dto
+    {
+        public string Text { get; set; }
+        public Level2Dto Level { get; set; }
+    }
+
+    internal class Level2Dto
+    {
+        public string Text { get; set; }
+    }
+
+    internal class CyclicRoot
+    {
+        public string Text { get; set; }
+        public CyclicLevel1 Level { get; set; }
+    }
+
+    internal class CyclicLevel1
+    {
+        public string Text { get; set; }
+        public CyclicRoot Root { get; set; }
+    }
+
+    internal class CyclicRootDto
+    {
+        public string Text { get; set; }
+        public CyclicLevel1Dto Level { get; set; }
+    }
+
+    internal class CyclicLevel1Dto
+    {
+        public string Text { get; set; }
+        public CyclicRootDto Root { get; set; }
+    }
+
+    #endregion
 }
