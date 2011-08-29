@@ -28,7 +28,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Package\Lib\.NetFramework 4.0\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -37,6 +37,7 @@
     <DocumentationFile>..\Package\Lib\.NetFramework 4.0\FluentAssertions.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573;1574</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -72,6 +73,18 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\CollectionAssertions.cs">
       <Link>Assertions\CollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\ComparableTypeAssertions.cs">
+      <Link>Assertions\ComparableTypeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\ComparisonMode.cs">
+      <Link>Assertions\ComparisonMode.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\CyclicReferenceInRecursionException.cs">
+      <Link>Assertions\CyclicReferenceInRecursionException.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\CyclicReferenceTracker.cs">
+      <Link>Assertions\CyclicReferenceTracker.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\DateTimeAssertions.cs">
       <Link>Assertions\DateTimeAssertions.cs</Link>
     </Compile>
@@ -87,6 +100,12 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\GenericCollectionAssertions.cs">
       <Link>Assertions\GenericCollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\GenericDictionaryAssertions.cs">
+      <Link>Assertions\GenericDictionaryAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\GuidAssertions.cs">
+      <Link>Assertions\GuidAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\IntegralAssertions.cs">
       <Link>Assertions\IntegralAssertions.cs</Link>
     </Compile>
@@ -98,6 +117,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableDateTimeAssertions.cs">
       <Link>Assertions\NullableDateTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\NullableGuidAssertions.cs">
+      <Link>Assertions\NullableGuidAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableNumericExtensions.cs">
       <Link>Assertions\NullableNumericExtensions.cs</Link>
@@ -129,17 +151,23 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\StringEqualityValidator.cs">
       <Link>Assertions\StringEqualityValidator.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\StringValidator.cs">
+      <Link>Assertions\StringValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\StringWildcardMatchingValidator.cs">
+      <Link>Assertions\StringWildcardMatchingValidator.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanAssertions.cs">
       <Link>Assertions\TimeSpanAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanConversionExtensions.cs">
-      <Link>Assertions\TimeSpanConversionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\FluentDateTimeExtensions.cs">
       <Link>Common\FluentDateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\TimeSpanConversionExtensions.cs">
+      <Link>Common\TimeSpanConversionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventHandlerFactory.cs">
       <Link>EventMonitoring\EventHandlerFactory.cs</Link>
@@ -201,6 +229,9 @@
     <Compile Include="..\FluentAssertions.Net35\Frameworks\LateBoundTestFramework.cs">
       <Link>Frameworks\LateBoundTestFramework.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Frameworks\MSpecFramework.cs">
+      <Link>Frameworks\MSpecFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\MSTestFramework.cs">
       <Link>Frameworks\MSTestFramework.cs</Link>
     </Compile>
@@ -223,7 +254,9 @@
       <Link>FluentAssertions.snk</Link>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

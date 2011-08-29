@@ -402,7 +402,6 @@ namespace FluentAssertions.Specs
                 value, 3.14, 0.001, difference));
         }
 
-
         [TestMethod]
         public void When_double_is_indeed_approximating_a_value_it_should_not_throw()
         {

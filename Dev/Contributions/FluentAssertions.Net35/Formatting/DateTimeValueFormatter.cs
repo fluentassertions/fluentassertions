@@ -10,7 +10,7 @@ namespace FluentAssertions.Formatting
             return (value is DateTime);
         }
 
-        public string ToString(object value)
+        public string ToString(object value, int nestedPropertyLevel = 0)
         {
             var dateTime = (DateTime)value;
 

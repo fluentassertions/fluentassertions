@@ -7,7 +7,7 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class StringAssertionSpecs
     {
-        #region Equal
+        #region Be
 
         [TestMethod]
         public void When_both_values_are_the_same_it_should_not_throw()
@@ -191,7 +191,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Not Equal
+        #region Not Be
 
         [TestMethod]
         public void When_different_strings_are_expected_to_differ_it_should_not_throw()
@@ -277,6 +277,223 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected string not to be <null> because we don't like null.");
+        }
+
+        #endregion
+
+        #region Match
+
+        [TestMethod]
+        public void When_a_string_does_not_match_a_wildcard_pattern_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "hello world!";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().Match("h*earth!", "that's the universal greeting");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected string to match \r\n\"h*earth!\" because that's the universal greeting, but \r\n\"hello world!\" does not match.");
+        }
+        
+        [TestMethod]
+        public void When_a_string_does_match_a_wildcard_pattern_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "hello world!";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().Match("h*world?");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }        
+        
+        [TestMethod]
+        public void When_a_string_does_not_match_a_wildcard_pattern_with_escaped_markers_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "What! Are you deaf!";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().Match(@"What\? Are you deaf\?");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected string to match \r\n\"What\\? Are you deaf\\?\", but \r\n\"What! Are you deaf!\" does not match.");
+        }        
+        
+        [TestMethod]
+        public void When_a_string_does_match_a_wildcard_pattern_but_differs_in_casing_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "hello world";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().Match(@"*World*");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected string to match \r\n\"*World*\", but \r\n\"hello world\" does not match.");
+        }
+
+        #endregion
+
+        #region Not Match
+
+        [TestMethod]
+        public void When_a_string_does_not_match_a_pattern_and_it_shouldnt_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "hello world";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotMatch("*World*");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        
+        [TestMethod]
+        public void When_a_string_does_match_a_pattern_but_it_shouldnt_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "hello world";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotMatch("*world*", "because that's illegal");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect string to match \r\n\"*world*\" because that's illegal, " + 
+                "but \r\n\"hello world\" matches.");
+        }
+
+        #endregion
+
+        #region Match Equivalent Of
+
+        [TestMethod]
+        public void When_a_string_does_not_match_the_equivalent_of_a_wildcard_pattern_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "hello world!";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().MatchEquivalentOf("h*earth!", "that's the universal greeting");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string to match the equivalent of \r\n\"h*earth!\" " + 
+                "because that's the universal greeting, but \r\n\"hello world!\" does not match.");
+        }
+        
+        [TestMethod]
+        public void When_a_string_does_match_the_equivalent_of_a_wildcard_pattern_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "hello world!";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().MatchEquivalentOf("h*WORLD?");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }        
+
+        #endregion
+
+        #region Not Match Equivalent Of
+
+        [TestMethod]
+        public void When_a_string_is_not_equivalent_to_a_pattern_and_thats_expected_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "Hello Earth";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotMatchEquivalentOf("*World*");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        
+        [TestMethod]
+        public void When_a_string_does_match_the_equivalent_of_a_pattern_but_it_shouldnt_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string subject = "hello WORLD";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotMatchEquivalentOf("*world*", "because that's illegal");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect string to match the equivalent of \r\n\"*world*\" because that's illegal, " + 
+                "but \r\n\"hello WORLD\" matches.");
         }
 
         #endregion
@@ -822,30 +1039,66 @@ namespace FluentAssertions.Specs
         #region Not Contain Equivalent Of
 
         [TestMethod]
-        public void Should_not_contain_equivalent_of_null_or_empty_in_anything_should_fail()
+        public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_null()
         {
-            AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContainEquivalentOf(null))
-                .WithMessage("Did not expect string to contain equivalent of <null> but found \"a\"");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                "a".Should().NotContainEquivalentOf(null);
 
-            AssertEx.Throws<AssertFailedException>(() => "a".Should().NotContainEquivalentOf(""))
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect string to contain equivalent of <null> but found \"a\"");
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_empty()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                "a".Should().NotContainEquivalentOf("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Did not expect string to contain equivalent of \"\" but found \"a\"");
         }
 
         [TestMethod]
-        public void Should_not_contain_equivalent_of_should_fail_when_contains()
+        public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_another_string_but_it_does()
         {
-            AssertEx.Throws<AssertFailedException>(() => "DaBc".Should().NotContainEquivalentOf("ab"))
-                .WithMessage("Did not expect string to contain equivalent of \"ab\" but found \"DaBc\"");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                "Hello, world!".Should().NotContainEquivalentOf(", worLD!");
 
-            AssertEx.Throws<AssertFailedException>(() => "Hello, world!".Should().NotContainEquivalentOf(", worLD!"))
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Did not expect string to contain equivalent of \", worLD!\" but found \"Hello, world!\"");
         }
 
         [TestMethod]
-        public void Should_not_contain_equivalent_of_should_pass_when_not_contains()
+        public void Should_succeed_when_asserting_string_does_not_contain_equivalent_of_another_string()
         {
-            "aB".Should().NotContainEquivalentOf("ac");
-            "aAa".Should().NotContainEquivalentOf("aa ");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                "aAa".Should().NotContainEquivalentOf("aa ");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
         
         #endregion
@@ -862,21 +1115,49 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_contain_equivalent_of_when_not_contains()
         {
-            AssertEx.Throws<AssertFailedException>(() => "a".Should().ContainEquivalentOf("aa"))
-                .WithMessage("Expected string to contain equivalent of \"aa\" but found \"a\"");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                "a".Should().ContainEquivalentOf("aa");
 
-            AssertEx.Throws<AssertFailedException>(() => "aaBBcc".Should().ContainEquivalentOf("aBc"))
-                .WithMessage("Expected string to contain equivalent of \"aBc\" but found \"aaBBcc\"");
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected string to contain equivalent of \"aa\" but found \"a\"");
         }
 
         [TestMethod]
-        public void Should_throw_when_null_or_empty_equivalent_is_expected()
+        public void Should_throw_when_null_equivalent_is_expected()
         {
-            var expectedMessage = "Null and empty strings are considered to be contained in all strings." +
-                Environment.NewLine + "Parameter name: expectedValue";
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                "a".Should().ContainEquivalentOf(null);
 
-            AssertEx.Throws<ArgumentNullException>(() => "a".Should().ContainEquivalentOf(null)).WithMessage(expectedMessage);
-            AssertEx.Throws<ArgumentNullException>(() => "a".Should().ContainEquivalentOf("")).WithMessage(expectedMessage);
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>()
+                .WithMessage("Cannot assert string containment against <null>.");
+        }
+
+        [TestMethod]
+        public void Should_throw_when_empty_equivalent_is_expected()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                "a".Should().ContainEquivalentOf("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>()
+                .WithMessage("Cannot assert string containment against an empty string.");
         }
         
         #endregion
@@ -1109,23 +1390,69 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_throw_when_not_blank()
         {
-            AssertEx.Throws<AssertFailedException>(() => "abc".Should().BeBlank())
-                .WithMessage("Expected blank string, but found \"abc\".");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                " abc  ".Should().BeBlank();
 
-            AssertEx.Throws<AssertFailedException>(() => " def  ".Should().BeBlank())
-                .WithMessage("Expected blank string, but found \" def  \".");
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected blank string, but found \" abc  \".");
         }
 
         [TestMethod]
-        public void Should_throw_when_blank()
+        public void Should_fail_when_asserting_null_string_is_not_blank()
         {
-            AssertEx.Throws<AssertFailedException>(() => ((string)null).Should().NotBeBlank())
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string nullString = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                nullString.Should().NotBeBlank();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected non-blank string, but found <null>.");
+        }
 
-            AssertEx.Throws<AssertFailedException>(() => "".Should().NotBeBlank())
+        [TestMethod]
+        public void Should_fail_when_asserting_empty_string_is_not_blank()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                "".Should().NotBeBlank();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected non-blank string, but found \"\".");
+        }
 
-            AssertEx.Throws<AssertFailedException>(() => "   ".Should().NotBeBlank())
+        [TestMethod]
+        public void Should_fail_when_asserting_string_with_only_spaces_is_not_blank()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                "   ".Should().NotBeBlank();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected non-blank string, but found \"   \".");
         }
 

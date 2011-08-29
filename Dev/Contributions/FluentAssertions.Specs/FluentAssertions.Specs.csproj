@@ -69,7 +69,9 @@
     <Reference Include="FakeItEasy">
       <HintPath>..\SharedBinaries\FakeItEasy.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\SharedBinaries\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -78,7 +80,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssertEx.cs" />
+    <Compile Include="ComparableSpecs.cs" />
+    <Compile Include="DefaultValueFormatterSpecs.cs" />
+    <Compile Include="FluentDateTimeSpecs.cs" />
+    <Compile Include="GenericDictionaryAssertionSpecs.cs" />
+    <Compile Include="GuidAssertionSpecs.cs" />
+    <Compile Include="NullableGuidAssertionSpecs.cs" />
     <Compile Include="ReferenceTypeAssertionsSpecs.cs" />
     <Compile Include="BooleanAssertionSpecs.cs" />
     <Compile Include="CollectionAssertionSpecs.cs" />
@@ -100,6 +107,7 @@
     <Compile Include="SimpleTimeSpanAssertionSpecs.cs" />
     <Compile Include="StringAssertionSpecs.cs" />
     <Compile Include="ThrowAssertionsSpecs.cs" />
+    <Compile Include="TimeSpanConversionExtensionSpecs.cs" />
     <Compile Include="TimeSpanFormatterSpecs.cs" />
   </ItemGroup>
   <ItemGroup>

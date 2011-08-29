@@ -87,10 +87,10 @@
       <HintPath>..\SharedBinaries\FakeItEasy-SL.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Silverlight.Testing">
-      <HintPath>$(MSBuildExtensionsPath)\..\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Testing\Microsoft.Silverlight.Testing.dll</HintPath>
+      <HintPath>..\SharedBinaries\Microsoft.Silverlight.Testing.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
-      <HintPath>$(MSBuildExtensionsPath)\..\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Testing\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\SharedBinaries\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />
@@ -101,14 +101,14 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Specs\AssertEx.cs">
-      <Link>AssertEx.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Specs\BooleanAssertionSpecs.cs">
       <Link>BooleanAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\CollectionAssertionSpecs.cs">
       <Link>CollectionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ComparableSpecs.cs">
+      <Link>ComparableSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\DateTimeAssertionSpecs.cs">
       <Link>DateTimeAssertionSpecs.cs</Link>
@@ -122,11 +122,17 @@
     <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionsSpecs.cs">
       <Link>GenericCollectionAssertionsSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GuidAssertionSpecs.cs">
+      <Link>GuidAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
       <Link>NullableBooleanAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableDateTimeAssertionSpecs.cs">
       <Link>NullableDateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableGuidAssertionSpecs.cs">
+      <Link>NullableGuidAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableNumericAssertionSpecs.cs">
       <Link>NullableNumericAssertionSpecs.cs</Link>

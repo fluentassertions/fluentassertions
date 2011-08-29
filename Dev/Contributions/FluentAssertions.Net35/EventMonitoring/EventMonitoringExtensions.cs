@@ -101,7 +101,7 @@ namespace FluentAssertions.EventMonitoring
         /// </remarks>
         public static EventRecorder ShouldRaise(this object eventSource, string eventName)
         {
-            return ShouldRaise(eventSource, eventName, "");
+            return ShouldRaise(eventSource, eventName, string.Empty);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace FluentAssertions.EventMonitoring
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
@@ -122,14 +122,15 @@ namespace FluentAssertions.EventMonitoring
         /// subscribe for the events of the object.
         /// </remarks>
         public static EventRecorder ShouldRaise(
-            this object eventSource, string eventName, string reason, params object[] reasonParameters)
+            this object eventSource, string eventName, string reason, params object[] reasonArgs)
         {
             EventRecorder eventRecorder = GetRecorderForEvent(eventSource, eventName);
 
             if (!eventRecorder.Any())
             {
-                Execute.Fail("Expected object {1} to raise event {0}{2}, but it did not.", eventName, eventSource,
-                    reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", eventSource, eventName);
             }
 
             return eventRecorder;
@@ -147,7 +148,7 @@ namespace FluentAssertions.EventMonitoring
         /// </remarks>
         public static void ShouldNotRaise(this object eventSource, string eventName)
         {
-            ShouldNotRaise(eventSource, eventName, "");
+            ShouldNotRaise(eventSource, eventName, string.Empty);
         }
 
         /// <summary>
@@ -160,7 +161,7 @@ namespace FluentAssertions.EventMonitoring
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
@@ -168,7 +169,7 @@ namespace FluentAssertions.EventMonitoring
         /// subscribe for the events of the object.
         /// </remarks>
         public static void ShouldNotRaise(
-            this object eventSource, string eventName, string reason, params object[] reasonParameters)
+            this object eventSource, string eventName, string reason, params object[] reasonArgs)
         {
             EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
             if (eventRecorder == null)
@@ -179,8 +180,9 @@ namespace FluentAssertions.EventMonitoring
 
             if (eventRecorder.Any())
             {
-                Execute.Fail("Expected object {1} to not raise event {0}{2}, but it did.", eventName, eventSource,
-                    reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", eventSource, eventName);
             }
         }
 
@@ -196,7 +198,7 @@ namespace FluentAssertions.EventMonitoring
         public static IEventRecorder ShouldRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression)
         {
-            return ShouldRaisePropertyChangeFor(eventSource, propertyExpression, "");
+            return ShouldRaisePropertyChangeFor(eventSource, propertyExpression, string.Empty);
         }
 
         /// <summary>
@@ -206,7 +208,7 @@ namespace FluentAssertions.EventMonitoring
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
@@ -215,18 +217,20 @@ namespace FluentAssertions.EventMonitoring
         /// </remarks>
         public static IEventRecorder ShouldRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression,
-            string reason, params object[] reasonParameters)
+            string reason, params object[] reasonArgs)
         {
             EventRecorder eventRecorder = GetRecorderForEvent(eventSource, PropertyChangedEventName);
+            string propertyName = propertyExpression.GetPropertyInfo().Name;
 
             if (!eventRecorder.Any())
             {
-                Execute.Fail("Expected object {1} to raise event {0}{2}, but it did not.", PropertyChangedEventName, eventSource,
-                    reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not.",
+                        eventSource, PropertyChangedEventName, propertyName);
             }
 
-            return eventRecorder.WithArgs<PropertyChangedEventArgs>(
-                    args => args.PropertyName == propertyExpression.GetPropertyInfo().Name);
+            return eventRecorder.WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == propertyName);
         }
         
         /// <summary>
@@ -239,7 +243,7 @@ namespace FluentAssertions.EventMonitoring
         public static void ShouldNotRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression)
         {
-            ShouldNotRaisePropertyChangeFor(eventSource, propertyExpression, "");
+            ShouldNotRaisePropertyChangeFor(eventSource, propertyExpression, string.Empty);
         }
 
         /// <summary>
@@ -249,7 +253,7 @@ namespace FluentAssertions.EventMonitoring
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
@@ -258,7 +262,7 @@ namespace FluentAssertions.EventMonitoring
         /// </remarks>
         public static void ShouldNotRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression,
-            string reason, params object[] reasonParameters)
+            string reason, params object[] reasonArgs)
         {
             EventRecorder eventRecorder = GetRecorderForEvent(eventSource, PropertyChangedEventName);
 
@@ -266,9 +270,10 @@ namespace FluentAssertions.EventMonitoring
 
             if (eventRecorder.Any(@event => GetAffectedPropertyName(@event) == propertyName))
             {
-                Execute.Fail("Did not expect object {1} to raise the \"PropertyChanged\" event for property {0}{2}, but it did.", 
-                    propertyName, eventSource,
-                    reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
+                        eventSource, PropertyChangedEventName, propertyName);
             }
         }
 
@@ -296,7 +301,7 @@ namespace FluentAssertions.EventMonitoring
         {
             foreach (RecordedEvent recordedEvent in eventRecorder)
             {
-                if (recordedEvent.Parameters.Length == 0)
+                if (!recordedEvent.Parameters.Any())
                 {
                     throw new ArgumentException(string.Format(
                         "Expected event from sender <{0}>, but event {1} does not include any arguments",
@@ -304,8 +309,9 @@ namespace FluentAssertions.EventMonitoring
                 }
 
                 object actualSender = recordedEvent.Parameters.First();
-                Execute.Verify(ReferenceEquals(actualSender, expectedSender),
-                    "Expected sender {0}, but found {1}.", expectedSender, actualSender, "", null);
+                Execute.Verification
+                    .ForCondition(ReferenceEquals(actualSender, expectedSender))
+                    .FailWith("Expected sender {0}, but found {1}.", expectedSender, actualSender);
             }
 
             return eventRecorder;
@@ -325,9 +331,8 @@ namespace FluentAssertions.EventMonitoring
 
             if (!eventRecorder.Any(@event => compiledPredicate(@event.Parameters.OfType<T>().Single())))
             {
-                Execute.Fail(
-                    "Expected at least one event with arguments matching {0}, but found none.", 
-                    predicate.Body, null, "", null);
+                Execute.Verification
+                    .FailWith("Expected at least one event with arguments matching {0}, but found none.", predicate.Body);
             }
 
             return eventRecorder;

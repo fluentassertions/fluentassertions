@@ -40,7 +40,6 @@ namespace FluentAssertions
         /// <summary>
         /// Provides methods for asserting the execution time of a method or property.
         /// </summary>
-        /// <param name="subject">The object that exposes the method or property.</param>
         /// <param name="action">A reference to the method or property to measure the execution time of.</param>
         /// <returns>
         /// Returns an object for asserting that the execution time matches certain conditions.
@@ -69,6 +68,7 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that the <paramref name="action"/> throws an exception.
         /// </summary>
+        /// <param name="action">A reference to the method or property.</param>
         /// <typeparam name="TException">
         /// The type of the exception it should throw.
         /// </typeparam>
@@ -76,16 +76,16 @@ namespace FluentAssertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason, params object[] reasonParameters) 
+        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason, params object[] reasonArgs) 
             where TException : Exception
         {
-            return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonParameters);
+            return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -102,6 +102,7 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that the <paramref name="action"/> does not throw a particular exception.
         /// </summary>
+        /// <param name="action">The current method or property.</param>
         /// <typeparam name="TException">
         /// The type of the exception it should not throw. Any other exceptions are ignored and will satisfy the assertion.
         /// </typeparam>
@@ -109,12 +110,12 @@ namespace FluentAssertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public static void ShouldNotThrow<TException>(this Action action, string reason, params object[] reasonParameters)
+        public static void ShouldNotThrow<TException>(this Action action, string reason, params object[] reasonArgs)
         {
-            new ActionAssertions(action).ShouldNotThrow<TException>(reason, reasonParameters);
+            new ActionAssertions(action).ShouldNotThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -128,16 +129,17 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that the <paramref name="action"/> does not throw any exception at all.
         /// </summary>
+        /// <param name="action">The current method or property.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public static void ShouldNotThrow(this Action action, string reason, params object[] reasonParameters)
+        public static void ShouldNotThrow(this Action action, string reason, params object[] reasonArgs)
         {
-            new ActionAssertions(action).ShouldNotThrow(reason, reasonParameters);
+            new ActionAssertions(action).ShouldNotThrow(reason, reasonArgs);
         }
 
         /// <summary>
@@ -166,111 +168,235 @@ namespace FluentAssertions
             }
         }
 
+        /// <summary>
+        /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
+        /// current <see cref="object"/>.
+        /// </summary>
         public static ObjectAssertions Should(this object actualValue)
         {
             return new ObjectAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="BooleanAssertions"/> object that can be used to assert the
+        /// current <see cref="bool"/>.
+        /// </summary>
         public static BooleanAssertions Should(this bool actualValue)
         {
             return new BooleanAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="NullableBooleanAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="bool"/>.
+        /// </summary>
         public static NullableBooleanAssertions Should(this bool? actualValue)
         {
             return new NullableBooleanAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="GuidAssertions"/> object that can be used to assert the
+        /// current <see cref="Guid"/>.
+        /// </summary>
+        public static GuidAssertions Should(this Guid actualValue)
+        {
+            return new GuidAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableGuidAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="Guid"/>.
+        /// </summary>
+        public static NullableGuidAssertions Should(this Guid? actualValue)
+        {
+            return new NullableGuidAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NonGenericCollectionAssertions"/> object that can be used to assert the
+        /// current <see cref="IEnumerable"/>.
+        /// </summary>
         public static NonGenericCollectionAssertions Should(this IEnumerable actualValue)
         {
             return new NonGenericCollectionAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="GenericCollectionAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="IEnumerable{T}"/>.
+        /// </summary>
         public static GenericCollectionAssertions<T> Should<T>(this IEnumerable<T> actualValue)
         {
             return new GenericCollectionAssertions<T>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="GenericDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
+        /// current <see cref="IDictionary{TKey, TValue}"/>.
+        /// </summary>
+        public static GenericDictionaryAssertions<TKey, TValue> Should<TKey, TValue>(this IDictionary<TKey, TValue> actualValue)
+        {
+            return new GenericDictionaryAssertions<TKey, TValue>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="DateTimeAssertions"/> object that can be used to assert the
+        /// current <see cref="DateTime"/>.
+        /// </summary>
         public static DateTimeAssertions Should(this DateTime actualValue)
         {
             return new DateTimeAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="NullableDateTimeAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="DateTime"/>.
+        /// </summary>
         public static NullableDateTimeAssertions Should(this DateTime? actualValue)
         {
             return new NullableDateTimeAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="ComparableTypeAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="IComparable{T}"/>.
+        /// </summary>
+        public static ComparableTypeAssertions<T> Should<T>(this IComparable<T> comparableValue)
+        {
+            return new ComparableTypeAssertions<T>(comparableValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="int"/>.
+        /// </summary>
         public static IntegralAssertions<int> Should(this int actualValue)
         {
             return new IntegralAssertions<int>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="int"/>.
+        /// </summary>
         public static IntegralAssertions<int?> Should(this int? actualValue)
         {
             return new IntegralAssertions<int?>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="byte"/>.
+        /// </summary>
         public static IntegralAssertions<byte> Should(this byte actualValue)
         {
             return new IntegralAssertions<byte>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="byte"/>.
+        /// </summary>
         public static IntegralAssertions<byte?> Should(this byte? actualValue)
         {
             return new IntegralAssertions<byte?>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="short"/>.
+        /// </summary>
         public static IntegralAssertions<short> Should(this short actualValue)
         {
             return new IntegralAssertions<short>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="short"/>.
+        /// </summary>
         public static IntegralAssertions<short?> Should(this short? actualValue)
         {
             return new IntegralAssertions<short?>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="long"/>.
+        /// </summary>
         public static IntegralAssertions<long> Should(this long actualValue)
         {
             return new IntegralAssertions<long>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="long"/>.
+        /// </summary>
         public static IntegralAssertions<long?> Should(this long? actualValue)
         {
             return new IntegralAssertions<long?>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="float"/>.
+        /// </summary>
         public static NumericAssertions<float> Should(this float actualValue)
         {
             return new NumericAssertions<float>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="float"/>.
+        /// </summary>
         public static NumericAssertions<float?> Should(this float? actualValue)
         {
             return new NumericAssertions<float?>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="double"/>.
+        /// </summary>
         public static NumericAssertions<double> Should(this double actualValue)
         {
             return new NumericAssertions<double>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="double"/>.
+        /// </summary>
         public static NumericAssertions<double?> Should(this double? actualValue)
         {
             return new NumericAssertions<double?>(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="StringAssertions"/> object that can be used to assert the
+        /// current <see cref="string"/>.
+        /// </summary>
         public static StringAssertions Should(this string actualValue)
         {
             return new StringAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="SimpleTimeSpanAssertions"/> object that can be used to assert the
+        /// current <see cref="TimeSpan"/>.
+        /// </summary>
         public static SimpleTimeSpanAssertions Should(this TimeSpan actualValue)
         {
             return new SimpleTimeSpanAssertions(actualValue);
         }
 
+        /// <summary>
+        /// Returns an <see cref="NullableSimpleTimeSpanAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="TimeSpan"/>.
+        /// </summary>
         public static NullableSimpleTimeSpanAssertions Should(this TimeSpan? actualValue)
         {
             return new NullableSimpleTimeSpanAssertions(actualValue);

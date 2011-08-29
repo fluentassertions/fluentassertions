@@ -10,9 +10,9 @@ namespace FluentAssertions.Formatting
     public static class Formatter
     {
         /// <summary>
-        ///   A list of objects responsible for formatting the objects represented by placeholders.
+        /// A list of objects responsible for formatting the objects represented by placeholders.
         /// </summary>
-        public static readonly List<IValueFormatter> formatters = new List<IValueFormatter>
+        private static readonly List<IValueFormatter> formatters = new List<IValueFormatter>
         {
             new NullValueFormatter(),
             new DateTimeValueFormatter(),
@@ -25,21 +25,37 @@ namespace FluentAssertions.Formatting
         };
 
         /// <summary>
-        ///   Returns a human-readable representation of a particular object.
+        /// Returns a human-readable representation of a particular object.
         /// </summary>
-        public static string ToString(object value)
+        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="nestedPropertyLevel">
+        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
+        /// no <see cref="object.ToString()"/> override.
+        /// </param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public static string ToString(object value, int nestedPropertyLevel = 0)
         {
             var formatter = formatters.First(f => f.CanHandle(value));
 
-            return formatter.ToString(value);
+            return formatter.ToString(value, nestedPropertyLevel);
         }
 
         /// <summary>
-        ///   Returns a human-readable representation of a particular object that starts on a new line.
+        /// Returns a human-readable representation of a particular object that starts on a new line.
         /// </summary>
-        public static string ToStringLine(object value)
+        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="nestedPropertyLevel">
+        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
+        /// no <see cref="object.ToString()"/> override.
+        /// </param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public static string ToStringLine(object value, int nestedPropertyLevel = 0)
         {
-            return Environment.NewLine + ToString(value);
+            return Environment.NewLine + ToString(value, nestedPropertyLevel);
         }
     }
 }

@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
     public class GenericCollectionAssertions<T> : CollectionAssertions<IEnumerable<T>, GenericCollectionAssertions<T>>
     {
         protected internal GenericCollectionAssertions(IEnumerable<T> actualValue)
@@ -27,21 +32,28 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection contains the specified item.
         /// </summary>
+        /// <param name="expected">The expected item.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected, string reason, params object[] reasonParameters)
+        public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected, string reason, params object[] reasonArgs)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection to contain {0}, but found {1}.", expected, reason,
-                                               reasonParameters);
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected collection to contain {0}{reason}, but found {1}.", expected, Subject);
+            }
 
             if (!Subject.Contains(expected))
             {
-                Execute.Fail("Expected collection {1} to contain {0}{2}.", expected, Subject, reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected collection {0} to contain {1}{reason}.", Subject, expected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -51,10 +63,13 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection contains some extra items in addition to the original items.
         /// </summary>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(IEnumerable<T> originalItems, params T[] additionalItems)
+        /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expected items.</param>
+        /// <param name="additionalExpectedItems">Additional items that are expected to be contained by the collection.</param>
+        public AndConstraint<GenericCollectionAssertions<T>> Contain(IEnumerable<T> expectedItemsList,
+            params T [] additionalExpectedItems)
         {
-            var list = new List<T>(originalItems);
-            list.AddRange(additionalItems);
+            var list = new List<T>(expectedItemsList);
+            list.AddRange(additionalExpectedItems);
 
             return Contain((IEnumerable)list);
         }
@@ -62,6 +77,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection contains at least one item that matches the predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate)
         {
             return Contain(predicate, string.Empty);
@@ -70,21 +86,28 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection contains at least one item that matches the predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonParameters)
+        public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonArgs)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection to contain {0}{2}, but found {1}.", predicate.Body, reason,
-                                               reasonParameters);
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected collection to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
+            }
 
             if (!Subject.Any(item => predicate.Compile()(item)))
             {
-                Execute.Fail("Collection {1} should have an item matching {0}{2}.", predicate.Body, Subject, reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Collection {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -93,31 +116,35 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection only contains items that match a predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         public AndConstraint<GenericCollectionAssertions<T>> OnlyContain(Expression<Func<T, bool>> predicate)
         {
-            return OnlyContain(predicate, "");
+            return OnlyContain(predicate, string.Empty);
         }
 
         /// <summary>
         /// Asserts that the collection only contains items that match a predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> OnlyContain(
-            Expression<Func<T, bool>> predicate, string reason, params object[] reasonParameters)
+            Expression<Func<T, bool>> predicate, string reason, params object[] reasonArgs)
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
             
             IEnumerable<T> mismatchingItems = Subject.Where(item => !compiledPredicate(item));
             if (mismatchingItems.Any())
             {
-                Execute.Fail("Expected collection to contain only items matching {0}{2}, but {1} do(es) not match.",
-                    predicate.Body, mismatchingItems, reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected collection to contain only items matching {0}{reason}, but {1} do(es) not match.",
+                        predicate.Body, mismatchingItems);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -126,6 +153,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection does not contain any items that match the predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate)
         {
             return NotContain(predicate, string.Empty);
@@ -134,21 +162,28 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Asserts that the collection does not contain any items that match the predicate.
         /// </summary>
+        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonParameters)
+        public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonArgs)
         {
-            VerifySubjectCollectionAgainstNull("Expected collection not to contain {0}{2}, but found {1}.", predicate.Body, reason,
-                                               reasonParameters);
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected collection not to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
+            }
 
             if (Subject.Any(item => predicate.Compile()(item)))
             {
-                Execute.Fail("Collection {1} should not have any items matching {0}{2}.", predicate.Body, Subject, reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Collection {0} should not have any items matching {1}{reason}.", Subject, predicate.Body);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);

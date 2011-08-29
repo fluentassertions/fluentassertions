@@ -11,7 +11,7 @@ namespace FluentAssertions.Formatting
             return value is string;
         }
 
-        public string ToString(object value)
+        public string ToString(object value, int nestedPropertyLevel = 0)
         {
             return "\"" + value.ToString().Escape() + "\"";
         }

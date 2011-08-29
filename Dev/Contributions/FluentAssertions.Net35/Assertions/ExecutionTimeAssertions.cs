@@ -11,10 +11,14 @@ namespace FluentAssertions.Assertions
     {
         private readonly TimeSpan executionTime;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExecutionTimeAssertions"/> class.
+        /// </summary>
+        /// <param name="action">The action of which the execution time must be asserted.</param>
         public ExecutionTimeAssertions(Action action)
         {
             ActionDescription = "the action";
-            
+
             var stopwatch = Stopwatch.StartNew();
             action();
             stopwatch.Stop();
@@ -30,21 +34,9 @@ namespace FluentAssertions.Assertions
         /// <param name="maxDuration">
         /// The maximum allowed duration.
         /// </param>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonParameters">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
-        /// </param>
-        public void ShouldNotExceed(TimeSpan maxDuration, string reason, params object[] reasonParameters)
+        public void ShouldNotExceed(TimeSpan maxDuration)
         {
-            if (executionTime > maxDuration)
-            {
-                Execute.Fail(
-                    "Execution of " + ActionDescription + " should not exceed {0}{2}, but it required {1}.",
-                    maxDuration, executionTime, reason, reasonParameters);
-            }
+            ShouldNotExceed(maxDuration, string.Empty);
         }
 
         /// <summary>
@@ -53,9 +45,22 @@ namespace FluentAssertions.Assertions
         /// <param name="maxDuration">
         /// The maximum allowed duration.
         /// </param>
-        public void ShouldNotExceed(TimeSpan maxDuration)
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public void ShouldNotExceed(TimeSpan maxDuration, string reason, params object[] reasonArgs)
         {
-            ShouldNotExceed(maxDuration, string.Empty);
+            if (executionTime > maxDuration)
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Execution of " + ActionDescription + " should not exceed {0}{reason}, but it required {1}",
+                        maxDuration, executionTime);
+            }
         }
     }
 
@@ -65,7 +70,12 @@ namespace FluentAssertions.Assertions
     /// <typeparam name="T"></typeparam>
     public class MemberExecutionTimeAssertions<T> : ExecutionTimeAssertions
     {
-        public MemberExecutionTimeAssertions(T subject, Expression<Action<T>> action) : 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MemberExecutionTimeAssertions&lt;T&gt;"/> class.
+        /// </summary>
+        /// <param name="subject">The object that exposes the method or property.</param>
+        /// <param name="action">A reference to the method or property to measure the execution time of.</param>
+        public MemberExecutionTimeAssertions(T subject, Expression<Action<T>> action) :
             base(() => action.Compile()(subject))
         {
             ActionDescription = "(" + action.Body + ")";

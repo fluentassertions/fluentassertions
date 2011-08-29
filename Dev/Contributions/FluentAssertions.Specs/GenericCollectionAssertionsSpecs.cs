@@ -112,7 +112,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to contain \"string4\", but found <null>.");
+                "Expected collection to contain \"string4\" because we're checking how it reacts to a null subject, but found <null>.");
         }
 
 

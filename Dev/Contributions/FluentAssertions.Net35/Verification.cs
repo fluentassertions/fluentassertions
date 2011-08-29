@@ -4,7 +4,6 @@ using System.Linq;
 
 using FluentAssertions.Formatting;
 using FluentAssertions.Frameworks;
-using FluentAssertions.Common;
 
 namespace FluentAssertions
 {
@@ -13,13 +12,14 @@ namespace FluentAssertions
     /// </summary>
     public class Verification
     {
+        public const string ReasonTag = "{reason}";
+
         #region Private Definitions
 
-        private bool succeeded;
-        private string reason;
-        private bool useLineBreaks;
-
         [ThreadStatic] private static string subjectName;
+        private string reason;
+        private bool succeeded;
+        private bool useLineBreaks;
 
         #endregion
 
@@ -51,25 +51,50 @@ namespace FluentAssertions
             set { subjectName = value; }
         }
 
+        /// <summary>
+        /// Gets the name or identifier of the current subject, or a default value if the subject is not known.
+        /// </summary>
+        public static string SubjectNameOr(string defaultName)
+        {
+            return string.IsNullOrEmpty(SubjectName) ? defaultName : SubjectName;
+        }
+
+        /// <summary>
+        /// Specify the condition that must be satisfied.
+        /// </summary>
+        /// <param name="condition">If <c>true</c> the verification will be succesful.</param>
         public Verification ForCondition(bool condition)
         {
             succeeded = condition;
             return this;
         }
 
+        /// <summary>
+        /// Specify a predicate that with the condition that must be satisfied.
+        /// </summary>
         public Verification ForCondition(Func<bool> condition)
         {
             succeeded = condition();
             return this;
         }
 
+        /// <summary>
+        /// Specify the reason why you expect the condition to be <c>true</c>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the condition should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
         public Verification BecauseOf(string reason, params object[] reasonArgs)
         {
             this.reason = SanitizeReason(reason, reasonArgs);
             return this;
         }
 
-        private static string SanitizeReason(string reason, object[] reasonArgs)
+        private string SanitizeReason(string reason, object [] reasonArgs)
         {
             if (!string.IsNullOrEmpty(reason))
             {
@@ -84,13 +109,24 @@ namespace FluentAssertions
             return "";
         }
 
-        public void FailWith(string failureMessage, params object[] failureArgs)
+        /// <summary>
+        /// Define the failure message for the verification.
+        /// </summary>
+        /// <remarks>
+        /// If the <paramref name="failureMessage"/> contains the text "{reason}", this will be replaced by the reason as
+        /// defined through <see cref="BecauseOf"/>. Only 10 <paramref name="failureArgs"/> are supported in combination with
+        /// a {reason}.
+        /// </remarks>
+        /// <param name="failureMessage">The format string that represents the failure message.</param>
+        /// <param name="failureArgs">Optional arguments for the <paramref name="failureMessage"/></param>
+        public void FailWith(string failureMessage, params object [] failureArgs)
         {
             try
             {
                 if (!succeeded)
                 {
-                    string exceptionMessage = BuildExceptionMessage(failureMessage, failureArgs);
+                    var message = ReplaceReasonTag(failureMessage);
+                    string exceptionMessage = BuildExceptionMessage(message, failureArgs);
 
                     AssertionHelper.Throw(exceptionMessage);
                 }
@@ -101,20 +137,50 @@ namespace FluentAssertions
             }
         }
 
-        private string BuildExceptionMessage(string failureMessage, object[] failureArgs)
+        private string ReplaceReasonTag(string failureMessage)
         {
-            var values = new List<string>(new[] {reason});
+            return !string.IsNullOrEmpty(reason)
+                ? ReplaceReasonTagWithFormatSpecification(failureMessage)
+                : failureMessage.Replace(ReasonTag, string.Empty);
+        }
+
+        private static string ReplaceReasonTagWithFormatSpecification(string failureMessage)
+        {
+            if (!failureMessage.Contains(ReasonTag))
+            {
+                throw new InvalidOperationException(
+                    @"Reason is specified through 'BecauseOf(...)', but format string does not contain a placeholder for the reason!");
+            }
+
+            string message = IncreaseAllFormatSpecifiers(failureMessage);
+            message = message.Replace(ReasonTag, "{0}");
+
+            return message;
+        }
+
+        private static string IncreaseAllFormatSpecifiers(string message)
+        {
+            for (int index = 9; index >= 0; index--)
+            {
+                int newIndex = index + 1;
+                string oldTag = "{" + index + "}";
+                string newTag = "{" + newIndex + "}";
+                message = message.Replace(oldTag, newTag);
+            }
+            return message;
+        }
+
+        private string BuildExceptionMessage(string failureMessage, object [] failureArgs)
+        {
+            var values = new List<string>();
+            if (!string.IsNullOrEmpty(reason))
+            {
+                values.Add(reason);
+            }
+
             values.AddRange(failureArgs.Select(a => useLineBreaks ? Formatter.ToStringLine(a) : Formatter.ToString(a)));
 
             return string.Format(failureMessage, values.ToArray()).Replace("{{{{", "{{").Replace("}}}}", "}}");
-        }
-
-        /// <summary>
-        /// Gets the name or identifier of the current subject, or a default value if the subject is not known.
-        /// </summary>
-        public static string SubjectNameOr(string defaultName)
-        {
-            return string.IsNullOrEmpty(SubjectName) ? defaultName : SubjectName;
         }
     }
 }

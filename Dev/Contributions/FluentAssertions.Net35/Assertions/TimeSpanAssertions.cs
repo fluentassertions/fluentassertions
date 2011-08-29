@@ -1,32 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Assertions
 {
     /// <summary>
-    /// Provides methods for asserting that two <see cref="DateTime"/> objects differ in certain ways.
+    /// Contains a number of methods to assert that two <see cref="DateTime"/> objects differ in the expected way.
     /// </summary>
+    /// <remarks>
+    /// You can use the <see cref="FluentDateTimeExtensions"/> and <see cref="TimeSpanConversionExtensions"/> for a more fluent
+    /// way of specifying a <see cref="DateTime"/> or a <see cref="TimeSpan"/>.
+    /// </remarks>
+    [DebuggerNonUserCode]
     public class TimeSpanAssertions
     {
         #region Private Definitions
 
         private readonly DateTimeAssertions parentAssertions;
-        private readonly DateTime? subject;
-        private readonly TimeSpan timeSpan;
         private readonly TimeSpanPredicate predicate;
 
-        private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary<TimeSpanCondition, TimeSpanPredicate>
+        private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
+            <TimeSpanCondition, TimeSpanPredicate>
         {
             { TimeSpanCondition.MoreThan, new TimeSpanPredicate((ts1, ts2) => ts1 > ts2, "more than") },
             { TimeSpanCondition.AtLeast, new TimeSpanPredicate((ts1, ts2) => ts1 >= ts2, "at least") },
             { TimeSpanCondition.Exactly, new TimeSpanPredicate((ts1, ts2) => ts1 == ts2, "exactly") },
-            { TimeSpanCondition.Within, new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within") },  
-            { TimeSpanCondition.LessThan, new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than") }    
+            { TimeSpanCondition.Within, new TimeSpanPredicate((ts1, ts2) => ts1 <= ts2, "within") },
+            { TimeSpanCondition.LessThan, new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than") }
         };
+
+        private readonly DateTime? subject;
+        private readonly TimeSpan timeSpan;
 
         #endregion
 
-        protected internal TimeSpanAssertions(DateTimeAssertions parentAssertions, DateTime? subject, TimeSpanCondition condition, TimeSpan timeSpan)
+        protected internal TimeSpanAssertions(DateTimeAssertions parentAssertions, DateTime? subject, TimeSpanCondition condition,
+            TimeSpan timeSpan)
         {
             this.parentAssertions = parentAssertions;
             this.subject = subject;
@@ -56,19 +67,23 @@ namespace FluentAssertions.Assertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason, params object[] reasonParameters)
+        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason, params object [] reasonArgs)
         {
             var actual = target.Subtract(subject.Value);
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
-                Execute.Fail("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} before {0}{2}, but it differs {4}.", target, subject,
-                    reason, reasonParameters, timeSpan, actual);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith(
+                        "Expected date and/or time {0} to be " + predicate.DisplayText +
+                            " {1} before {2}{reason}, but it differs {3}.",
+                        subject, timeSpan, target, actual);
             }
-            
+
             return new AndConstraint<DateTimeAssertions>(parentAssertions);
         }
 
@@ -93,17 +108,21 @@ namespace FluentAssertions.Assertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonParameters">
+        /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason, params object[] reasonParameters)
+        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason, params object [] reasonArgs)
         {
             var actual = subject.Value.Subtract(target);
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
-                Execute.Fail("Expected date and/or time {1} to be " + predicate.DisplayText + " {3} after {0}{2}, but it differs {4}.", target, subject,
-                    reason, reasonParameters, timeSpan, actual);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith(
+                        "Expected date and/or time {0} to be " + predicate.DisplayText +
+                            " {1} after {2}{reason}, but it differs {3}.",
+                        subject, timeSpan, target, actual);
             }
 
             return new AndConstraint<DateTimeAssertions>(parentAssertions);
@@ -114,8 +133,8 @@ namespace FluentAssertions.Assertions
         /// </summary>
         private class TimeSpanPredicate
         {
-            private readonly Func<TimeSpan, TimeSpan, bool> lambda;
             private readonly string displayText;
+            private readonly Func<TimeSpan, TimeSpan, bool> lambda;
 
             public TimeSpanPredicate(Func<TimeSpan, TimeSpan, bool> lambda, string displayText)
             {

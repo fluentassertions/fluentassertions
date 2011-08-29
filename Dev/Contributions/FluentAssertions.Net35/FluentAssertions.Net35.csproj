@@ -51,7 +51,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Package\Lib\.NetFramework 3.5\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -61,6 +61,7 @@
     <NoWarn>1591; 1572; 1573;1574</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -92,15 +93,24 @@
     </Compile>
     <Compile Include="Assertions\ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
+    <Compile Include="Assertions\ComparableTypeAssertions.cs" />
+    <Compile Include="Assertions\ComparisonMode.cs" />
+    <Compile Include="Assertions\CyclicReferenceTracker.cs" />
+    <Compile Include="Assertions\CyclicReferenceInRecursionException.cs" />
+    <Compile Include="Assertions\GenericDictionaryAssertions.cs" />
+    <Compile Include="Assertions\GuidAssertions.cs" />
+    <Compile Include="Assertions\NullableGuidAssertions.cs" />
     <Compile Include="Assertions\PropertyEqualityValidator.cs" />
     <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
     <Compile Include="Assertions\FloatingPointExtensions.cs" />
     <Compile Include="Assertions\StringEqualityValidator.cs" />
+    <Compile Include="Assertions\StringValidator.cs" />
+    <Compile Include="Assertions\StringWildcardMatchingValidator.cs" />
     <Compile Include="Common\FluentDateTimeExtensions.cs" />
     <Compile Include="Assertions\IntegralAssertions.cs" />
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />
     <Compile Include="Assertions\SimpleTimeSpanAssertions.cs" />
-    <Compile Include="Assertions\TimeSpanConversionExtensions.cs" />
+    <Compile Include="Common\TimeSpanConversionExtensions.cs" />
     <Compile Include="Assertions\ReferenceTypeAssertions.cs" />
     <Compile Include="Assertions\BooleanAssertions.cs" />
     <Compile Include="Assertions\CollectionAssertions.cs" />
@@ -123,6 +133,7 @@
     <Compile Include="Formatting\TimeSpanValueFormatter.cs" />
     <Compile Include="Frameworks\AssertionHelper.cs" />
     <Compile Include="Frameworks\ITestFramework.cs" />
+    <Compile Include="Frameworks\MSpecFramework.cs" />
     <Compile Include="Frameworks\MSTestFramework.cs" />
     <Compile Include="Frameworks\NUnitTestFramework.cs" />
     <Compile Include="Frameworks\LateBoundTestFramework.cs" />

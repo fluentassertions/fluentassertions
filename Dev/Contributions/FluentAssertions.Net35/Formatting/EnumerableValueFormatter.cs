@@ -10,7 +10,7 @@ namespace FluentAssertions.Formatting
             return value is IEnumerable;
         }
 
-        public string ToString(object value)
+        public string ToString(object value, int nestedPropertyLevel = 0)
         {
             var enumerable = ((IEnumerable)value).Cast<object>();
             if (enumerable.Any())

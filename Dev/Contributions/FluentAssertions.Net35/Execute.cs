@@ -8,10 +8,21 @@ using FluentAssertions.Frameworks;
 namespace FluentAssertions
 {
     /// <summary>
-    ///   Helper class for verifying a condition and/or throwing a test harness specific exception representing an assertion failure.
+    /// Helper class for verifying a condition and/or throwing a test harness specific exception representing an assertion failure.
     /// </summary>
     public static class Execute
     {
+        /// <summary>
+        /// Gets an object that wraps and executes a conditional or unconditional verification.
+        /// </summary>
+        public static Verification Verification
+        {
+            get { return new Verification(); }
+        }
+
+
+        #region Obsolete
+
         /// <summary>
         ///   Asserts that the supplied <paramref name = "condition" /> is met.
         /// </summary>
@@ -24,7 +35,6 @@ namespace FluentAssertions
         ///     <item>{1} = the actual value</item>
         ///     <item>{2} = a reason explaining the expectations</item>
         ///   </list><br />
-        ///   Any additional placeholders are allowed and will be satisfied using the <paramref name = "failureMessageArgs" />.
         /// </param>
         /// <param name = "expected">
         ///   The expected value, or <c>null</c> if there is no explicit expected value.
@@ -32,14 +42,12 @@ namespace FluentAssertions
         /// <param name = "actual">The actual value, or <c>null</c> if there is no explicit actual value.</param>
         /// <param name = "reason">Should describe the reason for the expectation.</param>
         /// <param name = "reasonArgs">Optional args for formatting placeholders in the <paramref name = "reason" />.</param>
-        /// <param name = "failureMessageArgs">
-        ///   Optional arguments to satisfy any additional placeholders in the <paramref name = "failureMessage" />
-        /// </param>
+        [Obsolete("The Verify method is no longer supported! Use Verification.ForCondition instead.")]
         public static void Verify(Func<bool> condition, string failureMessage, object expected, object actual,
             string reason,
-            object[] reasonArgs, params object[] failureMessageArgs)
+            params object[] reasonArgs)
         {
-            Verify(condition.Invoke(), failureMessage, expected, actual, reason, reasonArgs, failureMessageArgs);
+            Verify(condition.Invoke(), failureMessage, expected, actual, reason, reasonArgs);
         }
 
         /// <summary>
@@ -54,7 +62,6 @@ namespace FluentAssertions
         ///     <item>{1} = the actual value</item>
         ///     <item>{2} = a reason explaining the expectations</item>
         ///   </list><br />
-        ///   Any additional placeholders are allowed and will be satisfied using the <paramref name = "failureMessageArgs" />.
         /// </param>
         /// <param name = "expected">
         ///   The expected value, or <c>null</c> if there is no explicit expected value.
@@ -62,15 +69,12 @@ namespace FluentAssertions
         /// <param name = "actual">The actual value, or <c>null</c> if there is no explicit actual value.</param>
         /// <param name = "reason">Should describe the reason for the expectation.</param>
         /// <param name = "reasonArgs">Optional args for formatting placeholders in the <paramref name = "reason" />.</param>
-        /// <param name = "failureMessageArgs">
-        ///   Optional arguments to satisfy any additional placeholders in the <paramref name = "failureMessage" />
-        /// </param>
-        public static void Verify(bool condition, string failureMessage, object expected, object actual, string reason,
-            object[] reasonParameters, params object[] failureMessageArgs)
+        [Obsolete("The Verify method is no longer supported! Use Verification.ForCondition instead.")]
+        public static void Verify(bool condition, string failureMessage, object expected, object actual, string reason, params object[] reasonArgs)
         {
             if (!condition)
             {
-                Fail(failureMessage, expected, actual, reason, reasonParameters);
+                Fail(failureMessage, expected, actual, reason, reasonArgs);
             }
         }
 
@@ -96,6 +100,7 @@ namespace FluentAssertions
         /// <param name = "failureMessageArgs">
         ///   Optional arguments to satisfy any additional placeholders in the <paramref name = "failureMessage" />
         /// </param>
+        [Obsolete("The Fail method is no longer supported! Use Verification.FailWith instead.")]
         public static void Fail(string failureMessage, object expected, object actual, string reason,
             object[] reasonArgs,
             params object[] failureMessageArgs)
@@ -112,7 +117,7 @@ namespace FluentAssertions
             AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()));
         }
 
-        private static string SanitizeReason(string reason, object[] reasonParameters)
+        private static string SanitizeReason(string reason, object[] reasonArgs)
         {
             if (!String.IsNullOrEmpty(reason))
             {
@@ -121,18 +126,12 @@ namespace FluentAssertions
                     reason = "because " + reason;
                 }
 
-                return " " + String.Format(reason, reasonParameters);
+                return " " + String.Format(reason, reasonArgs);
             }
 
             return "";
         }
 
-        /// <summary>
-        ///   Gets an object that wraps and executes a conditional or unconditional verification.
-        /// </summary>
-        public static Verification Verification
-        {
-            get { return new Verification(); }
-        }
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
@@ -6,71 +7,201 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class NullableDateTimeAssertionSpecs
     {
-        [TestMethod]
-        public void Should_succeed_when_asserting_nullable_datetime_value_with_a_value_to_have_a_value()
+        private DateTime Today { get; set; }
+
+        [TestInitialize]
+        public void InitializeTest()
         {
-            DateTime? nullableDateTime = DateTime.Today;
-            nullableDateTime.Should()
-                .HaveValue();
+            Today = DateTime.Today;
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
+        public void Should_succeed_when_asserting_nullable_datetime_value_with_a_value_to_have_a_value()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTime = Today;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTime.Should().HaveValue();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void Should_fail_when_asserting_nullable_datetime_value_without_a_value_to_have_a_value()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             DateTime? nullableDateTime = null;
-            nullableDateTime.Should().HaveValue();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTime.Should().HaveValue();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
         public void Should_succeed_when_asserting_nullable_datetime_value_without_a_value_to_be_null()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             DateTime? nullableDateTime = null;
-            nullableDateTime.Should().NotHaveValue();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTime.Should().NotHaveValue();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_nullable_datetime_value_with_a_value_to_be_null()
         {
-            DateTime? nullableDateTime = DateTime.Today;
-            nullableDateTime.Should().NotHaveValue();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTime = Today;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTime.Should().NotHaveValue();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
         public void Should_succeed_when_asserting_nullable_numeric_value_equals_the_same_value()
         {
-            DateTime? nullableDateTimeA = DateTime.Today;
-            DateTime? nullableDateTimeB = DateTime.Today;
-            nullableDateTimeA.Should().Be(nullableDateTimeB);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTimeA = Today;
+            DateTime? nullableDateTimeB = Today;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTimeA.Should().Be(nullableDateTimeB);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
         }
 
         [TestMethod]
         public void Should_succeed_when_asserting_nullable_numeric_null_value_equals_null()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             DateTime? nullableDateTimeA = null;
             DateTime? nullableDateTimeB = null;
-            nullableDateTimeA.Should().Be(nullableDateTimeB);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTimeA.Should().Be(nullableDateTimeB);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_nullable_numeric_value_equals_a_different_value()
         {
-            DateTime? nullableDateTimeA = DateTime.Today;
-            DateTime? nullableDateTimeB = DateTime.Today.AddDays(2);
-            nullableDateTimeA.Should().Be(nullableDateTimeB);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTimeA = Today;
+            DateTime? nullableDateTimeB = Today.AddDays(2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTimeA.Should().Be(nullableDateTimeB);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Should_fail_with_descriptive_message_when_asserting_datetime_null_value_is_equal_to_another_value()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTime = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTime.Should().Be(Today, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format("Expected <{0}> because we want to test the failure message, but found <null>.",
+                    Today.ToString("yyyy-MM-dd")));
         }
 
         [TestMethod]
         public void Should_support_chaining_constraints_with_and()
         {
-            DateTime yesterday = DateTime.Today.AddDays(-1);
-            DateTime? nullableDateTime = DateTime.Today;
-            nullableDateTime.Should()
-                .HaveValue()
-                .And
-                .BeAfter(yesterday);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime yesterday = Today.AddDays(-1);
+            DateTime? nullableDateTime = Today;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTime.Should()
+                    .HaveValue()
+                    .And
+                    .BeAfter(yesterday);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
         }
     }
 }

@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="Action"/> yields the expected result.
+    /// </summary>
     [DebuggerNonUserCode]
     public class ActionAssertions
     {
@@ -11,9 +14,22 @@ namespace FluentAssertions.Assertions
             Subject = subject;
         }
 
+        /// <summary>
+        /// Gets the <see cref="Action"/> that is being asserted.
+        /// </summary>
         public Action Subject { get; private set; }
 
-        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason, object[] reasonParameters)
+        /// <summary>
+        /// Asserts that the current <see cref="Action"/> throws an exception of type <typeparamref name="TException"/>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason, object[] reasonArgs)
             where TException : Exception
         {
             Exception exception = null;
@@ -27,17 +43,31 @@ namespace FluentAssertions.Assertions
                 exception = actualException;
             }
 
-            Execute.Verify(exception != null, "Expected {0}{2}, but no exception was thrown.",
-                typeof(TException), null, reason, reasonParameters);
+            Execute.Verification
+                .ForCondition(exception != null)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
 
-            Execute.Verify(exception is TException,
-                "Expected {0}{2}, but found {1}.",
-                typeof(TException), exception.GetType(), reason, reasonParameters);
+
+            Execute.Verification
+                .ForCondition(exception is TException)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), exception);
 
             return new ExceptionAssertions<TException>((TException)exception);            
         }
 
-        public void ShouldNotThrow<TException>(string reason, object[] reasonParameters)
+        /// <summary>
+        /// Asserts that the current <see cref="Action"/> does not throw an exception of type <typeparamref name="TException"/>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public void ShouldNotThrow<TException>(string reason, object[] reasonArgs)
         {
             Exception exception = null;
 
@@ -52,13 +82,25 @@ namespace FluentAssertions.Assertions
 
             if (exception != null)
             {
-                Execute.Verify(!(exception is TException),
-                    "Did not expect {0}{2}, but found one with message {1}.",
-                    typeof (TException), exception.Message, reason, reasonParameters);
+                Execute.Verification
+                    .ForCondition(!(exception is TException))
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
+                        typeof (TException), exception.Message);
             }
         }
 
-        public void ShouldNotThrow(string reason, object[] reasonParameters)
+        /// <summary>
+        /// Asserts that the current <see cref="Action"/> does not throw any exception.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public void ShouldNotThrow(string reason, object[] reasonArgs)
         {
             try
             {
@@ -66,8 +108,10 @@ namespace FluentAssertions.Assertions
             }
             catch (Exception exception)
             {
-                Execute.Fail("Did not expect any exception{2}, but found a {0} with message {1}.",
-                    exception.GetType(), exception.Message, reason, reasonParameters);
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
+                        exception.GetType(), exception.Message);
             }
         }
     }
