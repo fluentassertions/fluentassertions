@@ -30,8 +30,8 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <FluentAssertions.specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " + 
-                "Use the MonitorEvents() extension method to start monitoring events.");
+                "Object <FluentAssertions.specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
+                    "Use the MonitorEvents() extension method to start monitoring events.");
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
                 "Object <FluentAssertions.specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
-                "Use the MonitorEvents() extension method to start monitoring events.");
+                    "Use the MonitorEvents() extension method to start monitoring events.");
         }
 
         [TestMethod]
@@ -134,7 +134,8 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object " + Formatter.ToString(subject) + " to raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did not.");
+                "Expected object " + Formatter.ToString(subject) +
+                    " to raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did not.");
         }
 
         [TestMethod]
@@ -177,7 +178,8 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected object " + Formatter.ToString(subject) + " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
+                .WithMessage("Expected object " + Formatter.ToString(subject) +
+                    " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
         }
 
         [TestMethod]
@@ -218,9 +220,10 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected sender " + Formatter.ToString(subject) + ", but found <null>.");
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected sender " + Formatter.ToString(subject) +
+                ", but found <null>.");
         }
-        
+
         [TestMethod]
         public void When_the_event_sender_is_the_expected_object_it_should_not_throw()
         {
@@ -264,7 +267,8 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected at least one event with arguments matching (args.PropertyName == \"SomeProperty\"), but found none.");
+                .WithMessage(
+                    "Expected at least one event with arguments matching (args.PropertyName == \"SomeProperty\"), but found none.");
         }
 
         [TestMethod]
@@ -291,7 +295,7 @@ namespace FluentAssertions.specs
                 .ShouldThrow<ArgumentException>()
                 .WithMessage("No argument of event PropertyChanged is of type <System.UnhandledExceptionEventArgs>.");
         }
-        
+
         [TestMethod]
         public void When_the_event_parameters_do_match_it_should_not_throw()
         {
@@ -361,7 +365,8 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect object " + Formatter.ToString(subject) + " to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
+                "Did not expect object " + Formatter.ToString(subject) +
+                    " to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
         }
 
         [TestMethod]
@@ -382,7 +387,8 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object " + Formatter.ToString(subject) + " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
+                "Expected object " + Formatter.ToString(subject) +
+                    " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
         }
 
         [TestMethod]
@@ -408,15 +414,63 @@ namespace FluentAssertions.specs
 
         #endregion
 
+        [TestMethod]
+        public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            var referenceToSubject = new WeakReference(subject);
+            subject.MonitorEvents();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            subject = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            referenceToSubject.IsAlive.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected_also_if_an_Event_passing_Sender_was_raised()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            var referenceToSubject = new WeakReference(subject);
+            subject.MonitorEvents();
+            subject.RaiseEventWithSender();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            subject = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            referenceToSubject.IsAlive.Should().BeFalse();
+        }
+
         internal class EventRaisingClass : INotifyPropertyChanged
         {
+            public string SomeProperty { get; set; }
             public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
             public void RaiseEventWithoutSender()
             {
                 PropertyChanged(null, new PropertyChangedEventArgs(""));
             }
-            
+
             public void RaiseEventWithSender()
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(""));
@@ -426,8 +480,6 @@ namespace FluentAssertions.specs
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
-
-            public string SomeProperty { get; set; }
         }
     }
 }

@@ -301,7 +301,7 @@ namespace FluentAssertions.EventMonitoring
         {
             foreach (RecordedEvent recordedEvent in eventRecorder)
             {
-                if (recordedEvent.Parameters.Length == 0)
+                if (!recordedEvent.Parameters.Any())
                 {
                     throw new ArgumentException(string.Format(
                         "Expected event from sender <{0}>, but event {1} does not include any arguments",

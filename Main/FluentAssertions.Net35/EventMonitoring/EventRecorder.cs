@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ namespace FluentAssertions.EventMonitoring
     public class EventRecorder : IEventRecorder
     {
         private readonly IList<RecordedEvent> raisedEvents = new List<RecordedEvent>();
+        private WeakReference eventObject;
 
         /// <summary>
         /// </summary>
@@ -25,7 +27,11 @@ namespace FluentAssertions.EventMonitoring
         /// <summary>
         ///   The object events are recorded from
         /// </summary>
-        public object EventObject { get; private set; }
+        public object EventObject
+        {
+            get { return eventObject == null ? null : eventObject.Target; }
+            private set { eventObject = new WeakReference(value); }
+        }
 
         /// <summary>
         ///   The name of the event that's recorded
@@ -52,9 +58,9 @@ namespace FluentAssertions.EventMonitoring
         /// <summary>
         ///   Called by the auto-generated IL, to record information about a raised event.
         /// </summary>
-        public void RecordEvent(params object[] parameters)
+        public void RecordEvent(params object [] parameters)
         {
-            raisedEvents.Add(new RecordedEvent(parameters));
+            raisedEvents.Add(new RecordedEvent(EventObject, parameters));
         }
     }
 }
