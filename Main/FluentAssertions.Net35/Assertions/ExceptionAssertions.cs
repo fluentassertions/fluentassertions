@@ -95,35 +95,42 @@ namespace FluentAssertions.Assertions
             verification.ForCondition(Subject != null).FailWith(
                 "Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
 
-            if (comparisonMode == ComparisonMode.Exact)
+            try
             {
-                Verification.SubjectName = "exception message";
+                if (comparisonMode == ComparisonMode.Exact)
+                {
+                    Verification.SubjectName = "exception message";
 
-                Subject.Message.Should().Be(expectedMessage, reason, reasonArgs);
+                    Subject.Message.Should().Be(expectedMessage, reason, reasonArgs);
+                }
+                else if (comparisonMode == ComparisonMode.Equivalent)
+                {
+                    Verification.SubjectName = "equivalent of exception message";
+
+                    Subject.Message.Should().BeEquivalentTo(expectedMessage, reason, reasonArgs);
+                }
+                else if (comparisonMode == ComparisonMode.Substring)
+                {
+                    Verification.SubjectName = "exception message to contain";
+
+                    Subject.Message.Should().Contain(expectedMessage, reason, reasonArgs);
+                }
+                else if (comparisonMode == ComparisonMode.EquivalentSubstring)
+                {
+                    Verification.SubjectName = "exception message to contain equivalent of";
+
+                    Subject.Message.Should().ContainEquivalentOf(expectedMessage, reason, reasonArgs);
+                }
+                else
+                {
+                    Verification.SubjectName = "exception message";
+
+                    Subject.Message.Should().Match(expectedMessage, reason, reasonArgs);
+                }
             }
-            else if (comparisonMode == ComparisonMode.Equivalent)
+            finally
             {
-                Verification.SubjectName = "equivalent of exception message";
-
-                Subject.Message.Should().BeEquivalentTo(expectedMessage, reason, reasonArgs);
-            }
-            else if (comparisonMode == ComparisonMode.Substring)
-            {
-                Verification.SubjectName = "exception message to contain";
-
-                Subject.Message.Should().Contain(expectedMessage, reason, reasonArgs);
-            }
-            else if (comparisonMode == ComparisonMode.EquivalentSubstring)
-            {
-                Verification.SubjectName = "exception message to contain equivalent of";
-
-                Subject.Message.Should().ContainEquivalentOf(expectedMessage, reason, reasonArgs);
-            }
-            else
-            {
-                Verification.SubjectName = "exception message";
-
-                Subject.Message.Should().Match(expectedMessage, reason, reasonArgs);
+                Verification.SubjectName = null;
             }
 
             return this;
@@ -231,23 +238,30 @@ namespace FluentAssertions.Assertions
 
             string subjectInnerMessage = Subject.InnerException.Message;
 
-            if (comparisonMode == ComparisonMode.Exact)
+            try
             {
-                Verification.SubjectName = "inner exception message";
+                if (comparisonMode == ComparisonMode.Exact)
+                {
+                    Verification.SubjectName = "inner exception message";
 
-                subjectInnerMessage.Should().Be(expectedInnerMessage, reason, reasonArgs);
+                    subjectInnerMessage.Should().Be(expectedInnerMessage, reason, reasonArgs);
+                }
+                else if (comparisonMode == ComparisonMode.Substring)
+                {
+                    Verification.SubjectName = "inner exception message to contain";
+
+                    subjectInnerMessage.Should().Contain(expectedInnerMessage, reason, reasonArgs);
+                }
+                else
+                {
+                    Verification.SubjectName = "inner exception message";
+
+                    subjectInnerMessage.Should().Match(expectedInnerMessage, reason, reasonArgs);
+                }
             }
-            else if (comparisonMode == ComparisonMode.Substring)
+            finally
             {
-                Verification.SubjectName = "inner exception message to contain";
-
-                subjectInnerMessage.Should().Contain(expectedInnerMessage, reason, reasonArgs);
-            }
-            else
-            {
-                Verification.SubjectName = "inner exception message";
-
-                subjectInnerMessage.Should().Match(expectedInnerMessage, reason, reasonArgs);
+                Verification.SubjectName = null;
             }
 
             return this;
