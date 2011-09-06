@@ -62,7 +62,7 @@ namespace FluentAssertions
         public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action) 
             where TException : Exception
         {
-            return ShouldThrow<TException>(action, string.Empty);
+            return ShouldThrow<TException>(action, String.Empty);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace FluentAssertions
         /// </typeparam>
         public static void ShouldNotThrow<TException>(this Action action)
         {
-            ShouldNotThrow<TException>(action, string.Empty);
+            ShouldNotThrow<TException>(action, String.Empty);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace FluentAssertions
         /// </summary>
         public static void ShouldNotThrow(this Action action)
         {
-            ShouldNotThrow(action, string.Empty);
+            ShouldNotThrow(action, String.Empty);
         }
 
         /// <summary>
@@ -408,6 +408,25 @@ namespace FluentAssertions
         public static PropertyAssertions<T> ShouldHave<T>(this T subject)
         {
             return new PropertyAssertions<T>(subject);
+        }
+        
+        /// <summary>
+        /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
+        /// current <see cref="Type"/>.
+        /// </summary>
+        public static TypeAssertions Should(this Type subject)
+        {
+            return new TypeAssertions(subject);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="MethodInfoAssertions"/> object that can be used to assert the methods returned by the
+        /// current <see cref="MethodSelector"/>.
+        /// </summary>
+        /// <seealso cref="TypeAssertions"/>
+        public static MethodInfoAssertions Should(this MethodSelector methodSelector)
+        {
+            return new MethodInfoAssertions(methodSelector.Subject, methodSelector.ToArray());
         }
 
         /// <summary>

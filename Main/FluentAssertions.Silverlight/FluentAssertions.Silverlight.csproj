@@ -146,6 +146,12 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\IntegralAssertions.cs">
       <Link>Assertions\IntegralAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\MethodInfoAssertions.cs">
+      <Link>Assertions\MethodInfoAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\MethodSelector.cs">
+      <Link>Assertions\MethodSelector.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NonGenericCollectionAssertions.cs">
       <Link>Assertions\NonGenericCollectionAssertions.cs</Link>
     </Compile>
@@ -196,6 +202,12 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanAssertions.cs">
       <Link>Assertions\TimeSpanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\TypeAssertions.cs">
+      <Link>Assertions\TypeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\TypeExtensions.cs">
+      <Link>Assertions\TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>

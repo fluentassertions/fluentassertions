@@ -99,6 +99,8 @@
     <Compile Include="Assertions\CyclicReferenceInRecursionException.cs" />
     <Compile Include="Assertions\GenericDictionaryAssertions.cs" />
     <Compile Include="Assertions\GuidAssertions.cs" />
+    <Compile Include="Assertions\MethodInfoAssertions.cs" />
+    <Compile Include="Assertions\MethodSelector.cs" />
     <Compile Include="Assertions\NullableGuidAssertions.cs" />
     <Compile Include="Assertions\PropertyEqualityValidator.cs" />
     <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Assertions\StringEqualityValidator.cs" />
     <Compile Include="Assertions\StringValidator.cs" />
     <Compile Include="Assertions\StringWildcardMatchingValidator.cs" />
+    <Compile Include="Assertions\TypeExtensions.cs" />
     <Compile Include="Common\FluentDateTimeExtensions.cs" />
     <Compile Include="Assertions\IntegralAssertions.cs" />
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />
@@ -153,6 +156,7 @@
     <Compile Include="Assertions\StringAssertions.cs" />
     <Compile Include="Assertions\TimeSpanAssertions.cs" />
     <Compile Include="Execute.cs" />
+    <Compile Include="Assertions\TypeAssertions.cs" />
     <Compile Include="Verification.cs" />
   </ItemGroup>
   <ItemGroup>

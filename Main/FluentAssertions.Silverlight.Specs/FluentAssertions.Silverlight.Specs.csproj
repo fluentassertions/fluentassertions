@@ -125,6 +125,12 @@
     <Compile Include="..\FluentAssertions.Specs\GuidAssertionSpecs.cs">
       <Link>GuidAssertionSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\MethodInfoAssertionSpecs.cs">
+      <Link>MethodInfoAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\MethodSelectorSpecs.cs">
+      <Link>MethodSelectorSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
       <Link>NullableBooleanAssertionSpecs.cs</Link>
     </Compile>
@@ -166,6 +172,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\TimeSpanFormatterSpecs.cs">
       <Link>TimeSpanFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TypeAssertionSpecs.cs">
+      <Link>TypeAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
