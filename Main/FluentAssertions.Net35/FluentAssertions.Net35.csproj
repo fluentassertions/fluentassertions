@@ -100,11 +100,13 @@
     <Compile Include="Assertions\GenericDictionaryAssertions.cs" />
     <Compile Include="Assertions\GuidAssertions.cs" />
     <Compile Include="Assertions\MethodInfoAssertions.cs" />
-    <Compile Include="Assertions\MethodSelector.cs" />
+    <Compile Include="Assertions\MethodInfoSelector.cs" />
     <Compile Include="Assertions\NullableGuidAssertions.cs" />
     <Compile Include="Assertions\PropertyEqualityValidator.cs" />
     <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
     <Compile Include="Assertions\FloatingPointExtensions.cs" />
+    <Compile Include="Assertions\PropertyInfoAssertions.cs" />
+    <Compile Include="Assertions\PropertyInfoSelector.cs" />
     <Compile Include="Assertions\StringEqualityValidator.cs" />
     <Compile Include="Assertions\StringValidator.cs" />
     <Compile Include="Assertions\StringWildcardMatchingValidator.cs" />

@@ -7,7 +7,7 @@ using System.Reflection;
 namespace FluentAssertions.Assertions
 {
     /// <summary>
-    /// Contains assertions for the <see cref="MethodInfo"/> objects returned by the parent <see cref="MethodSelector"/>.
+    /// Contains assertions for the <see cref="MethodInfo"/> objects returned by the parent <see cref="MethodInfoSelector"/>.
     /// </summary>
     [DebuggerNonUserCode]
     public class MethodInfoAssertions

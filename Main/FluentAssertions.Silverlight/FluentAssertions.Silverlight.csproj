@@ -149,8 +149,8 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\MethodInfoAssertions.cs">
       <Link>Assertions\MethodInfoAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\MethodSelector.cs">
-      <Link>Assertions\MethodSelector.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\MethodInfoSelector.cs">
+      <Link>Assertions\MethodInfoSelector.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NonGenericCollectionAssertions.cs">
       <Link>Assertions\NonGenericCollectionAssertions.cs</Link>
@@ -181,6 +181,12 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\PropertyEqualityValidator.cs">
       <Link>Assertions\PropertyEqualityValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\PropertyInfoAssertions.cs">
+      <Link>Assertions\PropertyInfoAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\PropertyInfoSelector.cs">
+      <Link>Assertions\PropertyInfoSelector.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\ReferenceTypeAssertions.cs">
       <Link>Assertions\ReferenceTypeAssertions.cs</Link>

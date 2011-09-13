@@ -7,21 +7,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.specs
 {
     [TestClass]
-    public class MethodInfoAssertionSpecs
+    public class PropertyInfoAssertionSpecs
     {
         [TestMethod]
-        public void When_asserting_methods_are_virtual_and_they_are_it_should_succeed()
+        public void When_asserting_properties_are_virtual_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsVirtual));
+            var propertyInfoSelector = new PropertyInfoSelector(typeof (ClassWithAllPropertiesVirtual));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodSelector.Should().BeVirtual();
+                propertyInfoSelector.Should().BeVirtual();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -30,18 +30,18 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_methods_are_virtual_but_non_virtual_methods_are_found_it_should_throw()
+        public void When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonVirtualPublicMethods));
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodSelector.Should().BeVirtual();
+                propertyInfoSelector.Should().BeVirtual();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -50,41 +50,41 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_methods_are_virtual_but_non_virtual_methods_are_found_it_should_throw_with_descriptive_message()
+        public void When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonVirtualPublicMethods));
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodSelector.Should().BeVirtual("we want to test the error {0}", "message");
+                propertyInfoSelector.Should().BeVirtual("we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected all selected methods from type FluentAssertions.specs.ClassWithNonVirtualPublicMethods" +
+                .WithMessage("Expected all selected properties from type FluentAssertions.specs.ClassWithNonVirtualPublicProperties" +
                     " to be virtual because we want to test the error message," +
-                        " but the following methods are not virtual:\r\nVoid PublicDoNothing()\r\nVoid InternalDoNothing()\r\nVoid ProtectedDoNothing()");
+                        " but the following properties are not virtual:\r\nString PublicVirtualProperty\r\nString InternalVirtualProperty\r\nString ProtectedVirtualProperty");
         }
 
         [TestMethod]
-        public void When_asserting_methods_are_decorated_with_attribute_and_it_is_it_should_succeed()
+        public void When_asserting_properties_are_decorated_with_attribute_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsDecoratedWithDummyAttribute));
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>();
+                propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -93,19 +93,19 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_methods_are_decorated_with_attribute_and_they_are_not_it_should_throw()
+        public void When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var methodSelector = new MethodInfoSelector(typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute))
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute))
                 .ThatArePublicOrInternal;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>();
+                propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -114,94 +114,70 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_methods_are_decorated_with_attribute_and_they_are_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var methodSelector = new MethodInfoSelector(typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute));
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>("because we want to test the error {0}", "message");
+                propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected all selected methods from type " +
-                    "FluentAssertions.specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute to be decorated with" +
-                        " FluentAssertions.specs.DummyMethodAttribute because we want to test the error message," +
-                            " but the following methods are not:" +
-                                "\r\nVoid PublicDoNothing()\r\nVoid ProtectedDoNothing()\r\nVoid PrivateDoNothing()");
+                .WithMessage("Expected all selected properties from type " +
+                    "FluentAssertions.specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute to be decorated with" +
+                        " FluentAssertions.specs.DummyPropertyAttribute because we want to test the error message," +
+                            " but the following properties are not:" +
+                                "\r\nString PublicVirtualProperty\r\nString InternalVirtualProperty\r\nString ProtectedVirtualProperty");
         }
     }
 
     #region Internal classes used in unit tests
 
-    internal class ClassWithAllMethodsVirtual
+    internal class ClassWithAllPropertiesVirtual
     {
-        public virtual void PublicVirtualDoNothing()
-        {
-        }
+        public virtual string PublicVirtualProperty { get; set; }
 
-        internal virtual void InternalVirtualDoNothing()
-        {
-        }
+        internal virtual string InternalVirtualProperty { get; set; }
 
-        protected virtual void ProtectedVirtualDoNothing()
-        {
-        }
+        protected virtual string ProtectedVirtualProperty { get; set; }
     }
 
-    internal class ClassWithNonVirtualPublicMethods
+    internal class ClassWithNonVirtualPublicProperties
     {
-        public void PublicDoNothing()
-        {
-        }
+        public string PublicVirtualProperty { get; set; }
 
-        internal void InternalDoNothing()
-        {
-        }
+        internal string InternalVirtualProperty { get; set; }
 
-        protected void ProtectedDoNothing()
-        {
-        }
+        protected string ProtectedVirtualProperty { get; set; }
     }
 
-    internal class ClassWithAllMethodsDecoratedWithDummyAttribute
+    internal class ClassWithAllPropertiesDecoratedWithDummyAttribute
     {
-        [DummyMethod]
-        public void PublicDoNothing()
-        {
-        }
+        [DummyProperty]
+        public string PublicVirtualProperty { get; set; }
 
-        [DummyMethod]
-        protected void ProtectedDoNothing()
-        {
-        }
+        [DummyProperty]
+        internal string InternalVirtualProperty { get; set; }
 
-        [DummyMethod]
-        private void PrivateDoNothing()
-        {
-        }
+        [DummyProperty]
+        protected string ProtectedVirtualProperty { get; set; }
     }
 
-    internal class ClassWithMethodsThatAreNotDecoratedWithDummyAttribute
+    internal class ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute
     {
-        public void PublicDoNothing()
-        {
-        }
+        public string PublicVirtualProperty { get; set; }
 
-        protected void ProtectedDoNothing()
-        {
-        }
+        internal string InternalVirtualProperty { get; set; }
 
-        private void PrivateDoNothing()
-        {
-        }
+        protected string ProtectedVirtualProperty { get; set; }
     }
 
     #endregion

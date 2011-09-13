@@ -128,8 +128,8 @@
     <Compile Include="..\FluentAssertions.Specs\MethodInfoAssertionSpecs.cs">
       <Link>MethodInfoAssertionSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Specs\MethodSelectorSpecs.cs">
-      <Link>MethodSelectorSpecs.cs</Link>
+    <Compile Include="..\FluentAssertions.Specs\MethodInfoSelectorSpecs.cs">
+      <Link>MethodInfoSelectorSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
       <Link>NullableBooleanAssertionSpecs.cs</Link>
@@ -157,6 +157,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\PropertyAssertionSpecs.cs">
       <Link>PropertyAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyInfoSelectorSpecs.cs">
+      <Link>PropertyInfoSelectorSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\ReferenceTypeAssertionsSpecs.cs">
       <Link>ReferenceTypeAssertionsSpecs.cs</Link>

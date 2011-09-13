@@ -85,8 +85,10 @@
     <Compile Include="FluentDateTimeSpecs.cs" />
     <Compile Include="GenericDictionaryAssertionSpecs.cs" />
     <Compile Include="GuidAssertionSpecs.cs" />
-    <Compile Include="MethodSelectorSpecs.cs" />
+    <Compile Include="MethodInfoSelectorSpecs.cs" />
     <Compile Include="NullableGuidAssertionSpecs.cs" />
+    <Compile Include="PropertyInfoAssertionSpecs.cs" />
+    <Compile Include="PropertyInfoSelectorSpecs.cs" />
     <Compile Include="ReferenceTypeAssertionsSpecs.cs" />
     <Compile Include="BooleanAssertionSpecs.cs" />
     <Compile Include="CollectionAssertionSpecs.cs" />

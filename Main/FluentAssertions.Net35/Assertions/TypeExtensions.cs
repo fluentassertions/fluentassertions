@@ -12,9 +12,17 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Returns a method selector for the current <see cref="Type"/>.
         /// </summary>
-        public static MethodSelector Methods(this Type type)
+        public static MethodInfoSelector Methods(this Type type)
         {
-            return new MethodSelector(type);
+            return new MethodInfoSelector(type);
+        }
+
+        /// <summary>
+        /// Returns a property selector for the current <see cref="Type"/>.
+        /// </summary>
+        public static PropertyInfoSelector Properties(this Type type)
+        {
+            return new PropertyInfoSelector(type);
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -9,44 +9,46 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.specs
 {
     [TestClass]
-    public class MethodSelectorSpecs
+    public class PropertyInfoSelectorSpecs
     {
         [TestMethod]
-        public void When_selecting_methods_that_are_non_private_it_should_return_only_the_applicable_methods()
+        public void When_selecting_properties_that_are_public_or_internal_it_should_return_only_the_applicable_properties()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (TestClassForMethodSelector);
+            Type type = typeof(TestClassForPropertySelector);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<MethodInfo> methods = type.Methods().ThatAreNonPrivate.ToArray();
+            IEnumerable<PropertyInfo> properties = type.Properties().ThatArePublicOrInternal.ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            methods.Should().HaveCount(4);
+            const int PublicPropertyCount = 3;
+            const int InternalcPropertyCount = 1;
+            properties.Should().HaveCount(PublicPropertyCount + InternalcPropertyCount);
         }
 
         [TestMethod]
-        public void When_selecting_methods_decorated_with_specific_attribute_it_should_return_only_the_applicable_methods()
+        public void When_selecting_properties_decorated_with_specific_attribute_it_should_return_only_the_applicable_properties()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (TestClassForMethodSelector);
+            Type type = typeof(TestClassForPropertySelector);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<MethodInfo> methods = type.Methods().ThatAreDecoratedWith<DummyMethodAttribute>().ToArray();
+            IEnumerable<PropertyInfo> properties = type.Properties().ThatAreDecoratedWith<DummyPropertyAttribute>().ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            methods.Should().HaveCount(2);
+            properties.Should().HaveCount(2);
         }
 
         [TestMethod]
@@ -55,36 +57,17 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (TestClassForMethodSelector);
+            Type type = typeof(TestClassForPropertySelector);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<MethodInfo> methods = type.Methods().ThatReturn<string>().ToArray();
+            IEnumerable<PropertyInfo> properties = type.Properties().OfType<string>().ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            methods.Should().HaveCount(2);
-        }
-
-        [TestMethod]
-        public void When_selecting_methods_without_return_value_it_should_return_only_the_applicable_methods()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (TestClassForMethodSelector);
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<MethodInfo> methods = type.Methods().ThatReturnVoid().ToArray();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            methods.Should().HaveCount(4);
+            properties.Should().HaveCount(2);
         }
 
         [TestMethod]
@@ -93,58 +76,45 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (TestClassForMethodSelector);
+            Type type = typeof(TestClassForPropertySelector);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<MethodInfo> methods = type.Methods()
-                .ThatAreNonPrivate
-                .ThatReturn<string>()
+            IEnumerable<PropertyInfo> properties = type.Properties()
+                .ThatArePublicOrInternal
+                .OfType<string>()
+                .ThatAreDecoratedWith<DummyPropertyAttribute>()
                 .ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            methods.Should().HaveCount(1);
+            properties.Should().HaveCount(1);
         }
     }
 
     #region Internal classes used in unit tests
 
-    internal class TestClassForMethodSelector
+    internal class TestClassForPropertySelector
     {
-        public virtual void PublicVirtualVoidMethod()
-        {
-        }
+        public virtual string PublicVirtualStringProperty { get; set; }
 
-        [DummyMethod]
-        public virtual void PublicVirtualVoidMethodWithAttribute()
-        {
-        }
+        [DummyProperty]
+        public virtual string PublicVirtualStringPropertyWithAttribute { get; set; }
 
-        [DummyMethod]
-        protected virtual void ProtectedVirtualVoidMethodWithAttribute()
-        {
-        }
+        public virtual int PublicVirtualIntPropertyWithPrivateSetter { get; private set; }
 
-        private void PrivateVoidDoNothing()
-        {
-        }
+        internal virtual int InternalVirtualIntPropertyWithPrivateSetter { get; private set; }
 
-        protected virtual string ProtectedVirtualStringMethodWithAttribute()
-        {
-            return "";
-        }
+        [DummyProperty]
+        protected virtual int ProtectedVirtualIntPropertyWithAttribute { get; set; }
 
-        private string PrivateStringMethod()
-        {
-            return "";
-        }
+        private int PrivateIntProperty { get; set; }
     }
 
-    [AttributeUsage(AttributeTargets.Method)]
-    public class DummyMethodAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public class DummyPropertyAttribute : Attribute
     {
     }
 

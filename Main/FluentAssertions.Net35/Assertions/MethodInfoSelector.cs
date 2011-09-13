@@ -8,15 +8,15 @@ namespace FluentAssertions.Assertions
     /// <summary>
     /// Allows for fluent selection of methods of a type through reflection.
     /// </summary>
-    public class MethodSelector
+    public class MethodInfoSelector
     {
         private IEnumerable<MethodInfo> selectedMethods = new List<MethodInfo>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MethodSelector"/> class.
+        /// Initializes a new instance of the <see cref="MethodInfoSelector"/> class.
         /// </summary>
         /// <param name="type">The type from which to select methods.</param>
-        public MethodSelector(Type type)
+        public MethodInfoSelector(Type type)
         {
             Subject = type;
             selectedMethods = type
@@ -30,41 +30,44 @@ namespace FluentAssertions.Assertions
         public Type Subject { get; private set; }
 
         /// <summary>
-        /// Only select the methods that are public or protected
+        /// Only select the methods that are public or internal.
         /// </summary>
-        public MethodSelector ThatAreNonPrivate
+        public MethodInfoSelector ThatArePublicOrInternal
         {
             get
             {
-                selectedMethods = selectedMethods.Where(method => !method.IsPrivate);
+                selectedMethods = selectedMethods.Where(method => method.IsPublic || method.IsAssembly);
                 return this;
             }
         }
 
         /// <summary>
-        /// Only select the methods that are decorated with an attribute of the specified type.
+        /// Only select the methods without a return value
         /// </summary>
-        public MethodSelector ThatAreDecoratedWith<TAttribute>()
+        public MethodInfoSelector ThatReturnVoid
         {
-            selectedMethods = selectedMethods.Where(method => method.GetCustomAttributes(false).OfType<TAttribute>().Any());
-            return this;
+            get
+            {
+                selectedMethods = selectedMethods.Where(method => method.ReturnType == typeof (void));
+                return this;
+            }
         }
 
         /// <summary>
         /// Only select the methods that return the specified type 
         /// </summary>
-        public MethodSelector ThatReturn<TReturn>()
+        public MethodInfoSelector ThatReturn<TReturn>()
         {
             selectedMethods = selectedMethods.Where(method => method.ReturnType == typeof(TReturn));
             return this;
         }
 
         /// <summary>
-        /// Only select the methods without a return value
+        /// Only select the methods that are decorated with an attribute of the specified type.
         /// </summary>
-        public MethodSelector ThatReturnVoid()
+        public MethodInfoSelector ThatAreDecoratedWith<TAttribute>()
         {
-            selectedMethods = selectedMethods.Where(method => method.ReturnType == typeof(void));
+            selectedMethods = selectedMethods.Where(method => method.GetCustomAttributes(false).OfType<TAttribute>().Any());
             return this;
         }
 
