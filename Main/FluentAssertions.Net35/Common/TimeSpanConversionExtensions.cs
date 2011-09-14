@@ -39,11 +39,11 @@ namespace FluentAssertions.Common
 
         /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of seconds, and add the specified
-        /// <paramref name="timeToAdd"/>.
+        /// <paramref name="offset"/>.
         /// </summary>
-        public static TimeSpan Seconds(this int seconds, TimeSpan timeToAdd)
+        public static TimeSpan Seconds(this int seconds, TimeSpan offset)
         {
-            return TimeSpan.FromSeconds(seconds).Add(timeToAdd);
+            return TimeSpan.FromSeconds(seconds).Add(offset);
         }
 
         /// <summary>
@@ -56,11 +56,11 @@ namespace FluentAssertions.Common
 
         /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of minutes, and add the specified
-        /// <paramref name="timeToAdd"/>.
+        /// <paramref name="offset"/>.
         /// </summary>
-        public static TimeSpan Minutes(this int minutes, TimeSpan timeToAdd)
+        public static TimeSpan Minutes(this int minutes, TimeSpan offset)
         {
-            return TimeSpan.FromMinutes(minutes).Add(timeToAdd);
+            return TimeSpan.FromMinutes(minutes).Add(offset);
         }
 
         /// <summary>
@@ -73,11 +73,11 @@ namespace FluentAssertions.Common
 
         /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of hours, and add the specified
-        /// <paramref name="timeToAdd"/>.
+        /// <paramref name="offset"/>.
         /// </summary>
-        public static TimeSpan Hours(this int hours, TimeSpan timeToAdd)
+        public static TimeSpan Hours(this int hours, TimeSpan offset)
         {
-            return TimeSpan.FromHours(hours).Add(timeToAdd);
+            return TimeSpan.FromHours(hours).Add(offset);
         }
 
         /// <summary>
@@ -90,19 +90,22 @@ namespace FluentAssertions.Common
 
         /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of days, and add the specified
-        /// <paramref name="timeToAdd"/>.
+        /// <paramref name="offset"/>.
         /// </summary>
-        public static TimeSpan Days(this int days, TimeSpan timeToAdd)
+        public static TimeSpan Days(this int days, TimeSpan offset)
         {
-            return TimeSpan.FromDays(days).Add(timeToAdd);
+            return TimeSpan.FromDays(days).Add(offset);
         }
 
         /// <summary>
-        /// Returns a <see cref="TimeSpan" /> based on a number of days.
+        /// Convenience method for chaining multiple calls to the methods provided by this class.
         /// </summary>
-        public static TimeSpan And(this TimeSpan sourceTime, TimeSpan timeToAdd)
+        /// <example>
+        /// 23.Hours().And(59.Minutes())
+        /// </example>
+        public static TimeSpan And(this TimeSpan sourceTime, TimeSpan offset)
         {
-            return sourceTime.Add(timeToAdd);
+            return sourceTime.Add(offset);
         }
     }
 }

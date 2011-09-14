@@ -50,7 +50,7 @@ namespace FluentAssertions.Assertions
                 .FailWith("Expected value to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
             var nonNullableAssertions = new NumericAssertions<float>(expectedValue);
-            BeApproximately(nonNullableAssertions, expectedValue, precision, reason, reasonArgs);
+            nonNullableAssertions.BeApproximately(expectedValue, precision, reason, reasonArgs);
 
             return new AndConstraint<NumericAssertions<float?>>(parent);
         }
