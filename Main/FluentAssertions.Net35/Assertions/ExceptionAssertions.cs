@@ -15,6 +15,9 @@ namespace FluentAssertions.Assertions
         private static readonly Dictionary<ComparisonMode, ExceptionMessageAssertion> outerMessageAssertions =
             new Dictionary<ComparisonMode, ExceptionMessageAssertion>();
 
+        private static readonly Dictionary<ComparisonMode, ExceptionMessageAssertion> innerMessageAssertions =
+            new Dictionary<ComparisonMode, ExceptionMessageAssertion>();
+
         static ExceptionAssertions()
         {
             SetupMessageAssertionRules();
@@ -213,31 +216,8 @@ namespace FluentAssertions.Assertions
 
             string subjectInnerMessage = Subject.InnerException.Message;
 
-            try
-            {
-                if (comparisonMode == ComparisonMode.Exact)
-                {
-                    Verification.SubjectName = "inner exception message";
-
-                    subjectInnerMessage.Should().Be(expectedInnerMessage, reason, reasonArgs);
-                }
-                else if (comparisonMode == ComparisonMode.Substring)
-                {
-                    Verification.SubjectName = "inner exception message to contain";
-
-                    subjectInnerMessage.Should().Contain(expectedInnerMessage, reason, reasonArgs);
-                }
-                else
-                {
-                    Verification.SubjectName = "inner exception message";
-
-                    subjectInnerMessage.Should().Match(expectedInnerMessage, reason, reasonArgs);
-                }
-            }
-            finally
-            {
-                Verification.SubjectName = null;
-            }
+            ExceptionMessageAssertion messageAssertion = innerMessageAssertions[comparisonMode];
+            messageAssertion.Execute(subjectInnerMessage, expectedInnerMessage, reason, reasonArgs);
 
             return this;
         }
@@ -303,6 +283,21 @@ namespace FluentAssertions.Assertions
 
             outerMessageAssertions[ComparisonMode.Wildcard] = new ExceptionMessageAssertion(
                 "exception message",
+                (message, expectedMessage, reason, reasonArgs) =>
+                    message.Should().Match(expectedMessage, reason, reasonArgs));
+
+            innerMessageAssertions[ComparisonMode.Exact] = new ExceptionMessageAssertion(
+                "inner exception message",
+                (message, expectedMessage, reason, reasonArgs) =>
+                    message.Should().Be(expectedMessage, reason, reasonArgs));
+
+            innerMessageAssertions[ComparisonMode.Substring] = new ExceptionMessageAssertion(
+                "inner exception message to contain",
+                (message, expectedMessage, reason, reasonArgs) =>
+                    message.Should().Contain(expectedMessage, reason, reasonArgs));
+
+            innerMessageAssertions[ComparisonMode.Wildcard] = new ExceptionMessageAssertion(
+                "inner exception message",
                 (message, expectedMessage, reason, reasonArgs) =>
                     message.Should().Match(expectedMessage, reason, reasonArgs));
         }
