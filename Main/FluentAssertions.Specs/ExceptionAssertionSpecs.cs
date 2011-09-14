@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using FakeItEasy;
 
+using FluentAssertions.Assertions;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
@@ -311,56 +313,55 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_subject_throws_inner_exception_with_expected_message_it_should_not_do_anything()
+        public void When_subject_throws_inner_exception_with_expected_message_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IFoo testSubject = A.Fake<IFoo>();
             A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("expected message")));
 
-            testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
-                .WithInnerMessage("expected message");
-        }
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = testSubject.Do;
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<Exception>()
+                .WithInnerMessage("xpected messag", ComparisonMode.Substring);
+        }
+        
         [TestMethod]
-        public void When_subject_throws_inner_exception_with_unexpected_message_it_should_throw_with_clear_description()
+        public void When_subject_throws_inner_exception_with_a_matching_message_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("",
-                new InvalidOperationException("unexpected message")));
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("expected message")));
 
-            try
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                testSubject.Invoking(x => x.Do()).ShouldThrow<Exception>()
-                    .WithInnerMessage("expected message");
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = testSubject.Do;
 
-                Assert.Fail("This point should not be reached");
-            }
-            catch (AssertFailedException ex)
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                ex.Message.Should().Be(
-                    "Expected inner exception message to be \r\n\"expected message\", but \r\n\"unexpected message\" is too long.");
-            }
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<Exception>()
+                .WithInnerMessage("*ted*mes*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
-        public void
-            When_subject_throws_inner_exception_with_unexpected_message_it_should_throw_with_clear_description_and_reason
-            ()
+        public void When_subject_throws_inner_exception_with_unexpected_message_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();
-            A.CallTo(() => testSubject.Do()).Throws(new Exception("",
-                new InvalidOperationException("unexpected message")));
+            var testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("unexpected message")));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -379,8 +380,8 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                ex.Message.Should().Be(
-                    "Expected inner exception message to be \r\n\"expected message\" because IFoo.Do should do just that, but \r\n\"unexpected message\" is too long.");
+                ex.Message.Should().Match(
+                    "Expected inner*\r\n\"expected message\" because IFoo.Do should do just that, but*");
             }
         }
 

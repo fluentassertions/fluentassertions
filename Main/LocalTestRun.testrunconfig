@@ -25,7 +25,7 @@
           <Configuration>
             <CodeCoverage keyFile="FluentAssertions.snk" xmlns="">
               <Regular>
-                <CodeCoverageItem binaryFile="FluentAssertions.Net35\bin\Debug\FluentAssertions.dll" pdbFile="FluentAssertions.Net35\bin\Debug\FluentAssertions.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="FluentAssertions.Net35\bin\Debug\FluentAssertions.dll" pdbFile="FluentAssertions.Net35\bin\Debug\FluentAssertions.pdb" />
               </Regular>
             </CodeCoverage>
           </Configuration>
