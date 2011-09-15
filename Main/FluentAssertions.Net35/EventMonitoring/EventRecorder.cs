@@ -29,7 +29,7 @@ namespace FluentAssertions.EventMonitoring
         /// </summary>
         public object EventObject
         {
-            get { return eventObject == null ? null : eventObject.Target; }
+            get { return (eventObject == null) ? null : eventObject.Target; }
             private set { eventObject = new WeakReference(value); }
         }
 

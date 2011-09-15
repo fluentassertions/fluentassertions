@@ -37,9 +37,9 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public static string ToString(object value, int nestedPropertyLevel = 0)
         {
-            var formatter = formatters.First(f => f.CanHandle(value));
+            var firstFormatterThatCanHandleValue = formatters.First(f => f.CanHandle(value));
 
-            return formatter.ToString(value, nestedPropertyLevel);
+            return firstFormatterThatCanHandleValue.ToString(value, nestedPropertyLevel);
         }
 
         /// <summary>

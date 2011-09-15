@@ -92,9 +92,9 @@ namespace FluentAssertions.EventMonitoring
         /// <summary>
         /// Asserts that an object has raised a particular event at least once.
         /// </summary>
-        /// <param name="eventName">
-        /// The name of the event that should have been raised.
-        /// </param>
+        /// <param name="eventSource">The object exposing the event.</param>
+        /// <param name="eventName">The name of the event that should have been raised.</param>
+        /// <returns></returns>
         /// <remarks>
         /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
@@ -107,6 +107,7 @@ namespace FluentAssertions.EventMonitoring
         /// <summary>
         /// Asserts that an object has raised a particular event at least once.
         /// </summary>
+        /// <param name="eventSource">The object exposing the event.</param>
         /// <param name="eventName">
         /// The name of the event that should have been raised.
         /// </param>
@@ -139,6 +140,7 @@ namespace FluentAssertions.EventMonitoring
         /// <summary>
         /// Asserts that an object has not raised a particular event.
         /// </summary>
+        /// <param name="eventSource">The object exposing the event.</param>
         /// <param name="eventName">
         /// The name of the event that should not be raised.
         /// </param>
@@ -154,6 +156,7 @@ namespace FluentAssertions.EventMonitoring
         /// <summary>
         /// Asserts that an object has not raised a particular event.
         /// </summary>
+        /// <param name="eventSource">The object exposing the event.</param>
         /// <param name="eventName">
         /// The name of the event that should not be raised.
         /// </param>
@@ -204,6 +207,10 @@ namespace FluentAssertions.EventMonitoring
         /// <summary>
         /// Asserts that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
+        /// <param name="eventSource">The object exposing the event.</param>
+        /// <param name="propertyExpression">
+        /// A lambda expression referring to the property for which the property changed event should have been raised.
+        /// </param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -249,6 +256,10 @@ namespace FluentAssertions.EventMonitoring
         /// <summary>
         /// Asserts that an object has not raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
+        /// <param name="eventSource">The object exposing the event.</param>
+        /// <param name="propertyExpression">
+        /// A lambda expression referring to the property for which the property changed event should have been raised.
+        /// </param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.

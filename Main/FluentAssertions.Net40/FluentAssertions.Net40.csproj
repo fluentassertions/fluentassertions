@@ -79,12 +79,6 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\ComparisonMode.cs">
       <Link>Assertions\ComparisonMode.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\CyclicReferenceInRecursionException.cs">
-      <Link>Assertions\CyclicReferenceInRecursionException.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\CyclicReferenceTracker.cs">
-      <Link>Assertions\CyclicReferenceTracker.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\DateTimeAssertions.cs">
       <Link>Assertions\DateTimeAssertions.cs</Link>
     </Compile>
@@ -183,6 +177,12 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\FluentDateTimeExtensions.cs">
       <Link>Common\FluentDateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\ObjectAlreadyTrackedException.cs">
+      <Link>Common\ObjectAlreadyTrackedException.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\ObjectTracker.cs">
+      <Link>Common\ObjectTracker.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\TimeSpanConversionExtensions.cs">
       <Link>Common\TimeSpanConversionExtensions.cs</Link>

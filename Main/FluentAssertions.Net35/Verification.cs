@@ -12,6 +12,9 @@ namespace FluentAssertions
     /// </summary>
     public class Verification
     {
+        /// <summary>
+        /// Represents the phrase that can be used in <see cref="FailWith"/> as a placeholder for the reason of an assertion.
+        /// </summary>
         public const string ReasonTag = "{reason}";
 
         #region Private Definitions
@@ -152,13 +155,13 @@ namespace FluentAssertions
                     @"Reason is specified through 'BecauseOf(...)', but format string does not contain a placeholder for the reason!");
             }
 
-            string message = IncreaseAllFormatSpecifiers(failureMessage);
+            string message = IncrementAllFormatSpecifiers(failureMessage);
             message = message.Replace(ReasonTag, "{0}");
 
             return message;
         }
 
-        private static string IncreaseAllFormatSpecifiers(string message)
+        private static string IncrementAllFormatSpecifiers(string message)
         {
             for (int index = 9; index >= 0; index--)
             {
@@ -167,6 +170,7 @@ namespace FluentAssertions
                 string newTag = "{" + newIndex + "}";
                 message = message.Replace(oldTag, newTag);
             }
+
             return message;
         }
 

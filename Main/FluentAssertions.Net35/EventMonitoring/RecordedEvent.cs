@@ -11,15 +11,14 @@ namespace FluentAssertions.EventMonitoring
     [DebuggerNonUserCode]
     public class RecordedEvent
     {
-        private object [] parameters;
+        private object[] parameters;
 
         /// <summary>
         /// Default constructor stores the parameters the event was raised with
         /// </summary>
-        public RecordedEvent(object monitoredObject, params object [] parameters)
+        public RecordedEvent(object monitoredObject, params object[] parameters)
         {
-            var eventArguments = parameters.Select(p => p == monitoredObject ? new ParameterWeakReference(p) : p);
-            Parameters = eventArguments;
+            Parameters = parameters.Select(p => (p == monitoredObject) ? new WeakReference(p) : p);
         }
 
         /// <summary>
@@ -31,20 +30,12 @@ namespace FluentAssertions.EventMonitoring
             {
                 return parameters.Select(parameter =>
                 {
-                    var weakReference = parameter as ParameterWeakReference;
+                    var weakReference = parameter as WeakReference;
                     return (weakReference != null) ? weakReference.Target : parameter;
-                });
+                }).ToArray();
             }
 
             private set { parameters = value.ToArray(); }
-        }
-
-        private class ParameterWeakReference : WeakReference
-        {
-            public ParameterWeakReference(object target)
-                : base(target)
-            {
-            }
         }
     }
 }

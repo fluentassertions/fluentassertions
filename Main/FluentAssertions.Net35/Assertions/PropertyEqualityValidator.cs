@@ -5,6 +5,8 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Assertions
 {
     /// <summary>
@@ -12,12 +14,17 @@ namespace FluentAssertions.Assertions
     /// </summary>
     internal class PropertyEqualityValidator
     {
+        #region Private Definitions
+
         private const BindingFlags InstancePropertiesFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
 
         private const int RootLevel = 0;
-        private readonly CyclicReferenceTracker cyclicReferenceTracker = new CyclicReferenceTracker();
+        private readonly ObjectTracker objectTracker = new ObjectTracker();
         private int nestedPropertyLevel;
+
+        #endregion
+
 
         public PropertyEqualityValidator(object subject)
         {
@@ -143,10 +150,10 @@ namespace FluentAssertions.Assertions
         {
             if (nestedPropertyLevel == RootLevel)
             {
-                cyclicReferenceTracker.Initialize();
+                objectTracker.Reset();
             }
 
-            cyclicReferenceTracker.AssertNoCyclicReferenceFor(actualValue);
+            objectTracker.Add(actualValue);
         }
 
         private PropertyInfo FindPropertyFrom(string propertyName)
@@ -177,11 +184,11 @@ namespace FluentAssertions.Assertions
 
                 validator.Validate(nestedPropertyLevel + 1);
             }
-            catch (CyclicReferenceInRecursionException)
+            catch (ObjectAlreadyTrackedException)
             {
                 if (nestedPropertyLevel != RootLevel)
                 {
-                    // Keep throwing the CyclicReferenceInRecursionException untill it is caught at the root level
+                    // Keep rethrowing the exception untill it is caught at the root level
                     throw;
                 }
 

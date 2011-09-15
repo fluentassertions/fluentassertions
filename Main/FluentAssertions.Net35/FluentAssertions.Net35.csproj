@@ -95,8 +95,6 @@
     <Compile Include="AndConstraint.cs" />
     <Compile Include="Assertions\ComparableTypeAssertions.cs" />
     <Compile Include="Assertions\ComparisonMode.cs" />
-    <Compile Include="Assertions\CyclicReferenceTracker.cs" />
-    <Compile Include="Assertions\CyclicReferenceInRecursionException.cs" />
     <Compile Include="Assertions\GenericDictionaryAssertions.cs" />
     <Compile Include="Assertions\GuidAssertions.cs" />
     <Compile Include="Assertions\MethodInfoAssertions.cs" />
@@ -115,6 +113,8 @@
     <Compile Include="Assertions\IntegralAssertions.cs" />
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />
     <Compile Include="Assertions\SimpleTimeSpanAssertions.cs" />
+    <Compile Include="Common\ObjectAlreadyTrackedException.cs" />
+    <Compile Include="Common\ObjectTracker.cs" />
     <Compile Include="Common\TimeSpanConversionExtensions.cs" />
     <Compile Include="Assertions\ReferenceTypeAssertions.cs" />
     <Compile Include="Assertions\BooleanAssertions.cs" />

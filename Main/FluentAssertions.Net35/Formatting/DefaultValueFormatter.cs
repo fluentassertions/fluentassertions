@@ -4,13 +4,19 @@ using System.Reflection;
 using System.Text;
 
 using FluentAssertions.Assertions;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
     internal class DefaultValueFormatter : IValueFormatter
     {
+        #region Private Definitions
+
         private const int RootLevel = 0;
-        private readonly CyclicReferenceTracker cyclicReferenceTracker = new CyclicReferenceTracker();
+        private const int SpacesPerIndentionLevel = 3;
+        private readonly ObjectTracker objectTracker = new ObjectTracker();
+
+        #endregion
 
         /// <summary>
         ///   Determines whether this instance can handle the specified value.
@@ -46,9 +52,9 @@ namespace FluentAssertions.Formatting
             {
                 try
                 {
-                    AssertNoCyclicReferenceFor(value, nestedPropertyLevel);
+                    DetectCyclicReferenceOf(value, nestedPropertyLevel);
                 }
-                catch (CyclicReferenceInRecursionException)
+                catch (ObjectAlreadyTrackedException)
                 {
                     return string.Format("Cyclic reference detected for object of type {0}.", value.GetType());
                 }
@@ -59,38 +65,41 @@ namespace FluentAssertions.Formatting
             return value.ToString();
         }
 
-        private void AssertNoCyclicReferenceFor(object value, int nestedPropertyLevel)
+        private static bool HasDefaultToStringImplementation(object value)
+        {
+            return value.ToString().Equals(value.GetType().FullName);
+        }
+
+        private void DetectCyclicReferenceOf(object value, int nestedPropertyLevel)
         {
             if (nestedPropertyLevel == RootLevel)
             {
-                cyclicReferenceTracker.Initialize();
+                objectTracker.Reset();
             }
 
-            cyclicReferenceTracker.AssertNoCyclicReferenceFor(value);
+            objectTracker.Add(value);
         }
 
         private string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel)
         {
-            Type type = obj.GetType();
-
-            string currenLevelIndenting = GetIndentingSpacesForLevel(nestedPropertyLevel);
-
             var builder = new StringBuilder();
+            
             if (nestedPropertyLevel == RootLevel)
             {
                 builder.AppendLine();
                 builder.AppendLine();
             }
-            builder.AppendLine(string.Format("{0}", type.FullName));
-            builder.AppendLine(string.Format("{0}{{", currenLevelIndenting));
+
+            Type type = obj.GetType();
+            builder.AppendLine(type.FullName);
+            builder.AppendLine(CreateWhitespaceForLevel(nestedPropertyLevel) + "{");
 
             foreach (var propertyInfo in type.GetProperties().OrderBy(pi => pi.Name))
             {
-                var propertyValueText = GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1);
-                builder.AppendLine(propertyValueText);
+                builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1));
             }
 
-            builder.AppendFormat("{0}}}", currenLevelIndenting);
+            builder.AppendFormat("{0}}}", CreateWhitespaceForLevel(nestedPropertyLevel));
 
             return builder.ToString();
         }
@@ -100,25 +109,14 @@ namespace FluentAssertions.Formatting
             object propertyValue = propertyInfo.GetValue(value, null);
 
             return string.Format("{0}{1} = {2}",
-                GetIndentingSpacesForLevel(nextPropertyNestingLevel),
+                CreateWhitespaceForLevel(nextPropertyNestingLevel),
                 propertyInfo.Name,
                 Formatter.ToString(propertyValue, nextPropertyNestingLevel));
         }
 
-        private string GetIndentingSpacesForLevel(int count)
+        private string CreateWhitespaceForLevel(int level)
         {
-            var spaces = new StringBuilder();
-            for (int i = 0; i < count; i++)
-            {
-                spaces.Append("   ");
-            }
-
-            return spaces.ToString();
-        }
-
-        private static bool HasDefaultToStringImplementation(object value)
-        {
-            return value.ToString().Equals(value.GetType().FullName);
+            return new string(' ', level * SpacesPerIndentionLevel);
         }
     }
 }
