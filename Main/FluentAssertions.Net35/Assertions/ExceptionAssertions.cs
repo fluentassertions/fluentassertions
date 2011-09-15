@@ -290,11 +290,21 @@ namespace FluentAssertions.Assertions
                 "inner exception message",
                 (message, expectedMessage, reason, reasonArgs) =>
                     message.Should().Be(expectedMessage, reason, reasonArgs));
+            
+            innerMessageAssertions[ComparisonMode.Equivalent] = new ExceptionMessageAssertion(
+                "inner exception message",
+                (message, expectedMessage, reason, reasonArgs) =>
+                    message.Should().BeEquivalentTo(expectedMessage, reason, reasonArgs));
 
             innerMessageAssertions[ComparisonMode.Substring] = new ExceptionMessageAssertion(
                 "inner exception message to contain",
                 (message, expectedMessage, reason, reasonArgs) =>
-                    message.Should().Contain(expectedMessage, reason, reasonArgs));
+                    message.Should().Contain(expectedMessage, reason, reasonArgs));            
+            
+            innerMessageAssertions[ComparisonMode.EquivalentSubstring] = new ExceptionMessageAssertion(
+                "inner exception message to contain equivalent of",
+                (message, expectedMessage, reason, reasonArgs) =>
+                    message.Should().ContainEquivalentOf(expectedMessage, reason, reasonArgs));
 
             innerMessageAssertions[ComparisonMode.Wildcard] = new ExceptionMessageAssertion(
                 "inner exception message",

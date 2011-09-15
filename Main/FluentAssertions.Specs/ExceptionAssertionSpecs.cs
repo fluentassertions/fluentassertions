@@ -334,6 +334,53 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
+        public void When_subject_throws_inner_exception_without_an_equivalent_message_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("OxpectOd message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => testSubject
+                    .Invoking(s => s.Do())
+                    .ShouldThrow<Exception>()
+                    .WithInnerMessage("Expected message", ComparisonMode.Equivalent);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected inner exception message to be equivalent to \r\n\"Expected message\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0).");
+        }
+
+        [TestMethod]
+        public void When_subject_throws_inner_exception_with_a_matching_message_with_different_casing_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("Expected Message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<Exception>()
+                .WithInnerMessage("EXPECTED", ComparisonMode.EquivalentSubstring);
+        }
+
+        [TestMethod]
         public void When_subject_throws_inner_exception_with_a_matching_message_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -350,7 +397,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<Exception>()
+            action
+                .ShouldThrow<Exception>()
                 .WithInnerMessage("*ted*mes*", ComparisonMode.Wildcard);
         }
 
