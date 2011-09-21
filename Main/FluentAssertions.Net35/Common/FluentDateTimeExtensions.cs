@@ -145,5 +145,23 @@ namespace FluentAssertions.Common
       {
          return new DateTime(date.Year, date.Month, date.Day, hours, minutes, seconds);
       }
+
+      /// <summary>
+      /// Returns a new <see cref="DateTime"/> value that is the current <see cref="TimeSpan"/> before the
+      /// specified <paramref name="sourceDateTime"/>.
+      /// </summary>
+      public static DateTime Before(this TimeSpan timeDifference, DateTime sourceDateTime)
+      {
+          return sourceDateTime.Subtract(timeDifference);
+      }
+
+      /// <summary>
+      /// Returns a new <see cref="DateTime"/> value that is the current <see cref="TimeSpan"/> after the
+      /// specified <paramref name="sourceDateTime"/>.
+      /// </summary>
+      public static DateTime After(this TimeSpan timeDifference, DateTime sourceDateTime)
+      {
+          return sourceDateTime.Add(timeDifference);
+      }
    }
 }
