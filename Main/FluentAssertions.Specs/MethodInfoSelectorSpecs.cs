@@ -28,8 +28,8 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             const int PublicMethodCount = 2;
-            const int InternalcMethodCount = 1;
-            methods.Should().HaveCount(PublicMethodCount + InternalcMethodCount);
+            const int InternalMethodCount = 1;
+            methods.Should().HaveCount(PublicMethodCount + InternalMethodCount);
         }
 
         [TestMethod]
@@ -116,6 +116,8 @@ namespace FluentAssertions.specs
 
     internal class TestClassForMethodSelector
     {
+        public event EventHandler SomethingChanged = delegate { };
+
         public virtual void PublicVirtualVoidMethod()
         {
         }

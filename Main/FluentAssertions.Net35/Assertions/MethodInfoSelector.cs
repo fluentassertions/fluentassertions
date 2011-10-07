@@ -21,7 +21,7 @@ namespace FluentAssertions.Assertions
             Subject = type;
             selectedMethods = type
                 .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                .Where(method => !IsProperty(method));
+                .Where(method => !HasSpecialName(method));
         }
 
         /// <summary>
@@ -79,9 +79,12 @@ namespace FluentAssertions.Assertions
             return selectedMethods.ToArray();
         }
 
-        private bool IsProperty(MethodInfo method)
+        /// <summary>
+        /// Determines whether the specified method has a special name (like properties and events).
+        /// </summary>
+        private bool HasSpecialName(MethodInfo method)
         {
-            return method.Name.StartsWith("get_") || method.Name.StartsWith("set_");
+            return (method.Attributes & MethodAttributes.SpecialName) == MethodAttributes.SpecialName;
         }
     }
 }
