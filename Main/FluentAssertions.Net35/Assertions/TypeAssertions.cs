@@ -24,6 +24,59 @@ namespace FluentAssertions.Assertions
         public Type Subject { get; private set; }
 
         /// <summary>
+        /// Asserts that the current type is equal to the specified <typeparamref name="TExpected"/> type.
+        /// </summary>
+        public AndConstraint<TypeAssertions> Be<TExpected>()
+        {
+            return Be<TExpected>(string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current type is equal to the specified <typeparamref name="TExpected"/> type.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TypeAssertions> Be<TExpected>(string reason, params object[] reasonArgs)
+        {
+            return Be(typeof(TExpected), reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type is equal to the specified <paramref name="expected"/> type.
+        /// </summary>
+        /// <param name="expected">The expected type</param>
+        public AndConstraint<TypeAssertions> Be(Type expected)
+        {
+            return Be(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current type is equal to the specified <paramref name="expected"/> type.
+        /// </summary>
+        /// <param name="expected">The expected type</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TypeAssertions> Be(Type expected, string reason, params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(Subject == expected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected type to be {0}{reason}, but found {1}.", expected, Subject);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>()
