@@ -77,6 +77,59 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
+        /// Asserts that the current type is not equal to the specified <typeparamref name="TUnexpected"/> type.
+        /// </summary>
+        public AndConstraint<TypeAssertions> NotBe<TUnexpected>()
+        {
+            return NotBe<TUnexpected>(string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current type is not equal to the specified <typeparamref name="TUnexpected"/> type.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TypeAssertions> NotBe<TUnexpected>(string reason, params object[] reasonArgs)
+        {
+            return NotBe(typeof(TUnexpected), reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type is not equal to the specified <paramref name="unexpected"/> type.
+        /// </summary>
+        /// <param name="unexpected">The unexpected type</param>
+        public AndConstraint<TypeAssertions> NotBe(Type unexpected)
+        {
+            return NotBe(unexpected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current type is not equal to the specified <paramref name="unexpected"/> type.
+        /// </summary>
+        /// <param name="unexpected">The unexpected type</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TypeAssertions> NotBe(Type unexpected, string reason, params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(Subject != unexpected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected type not to be {0}{reason}.", unexpected);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>()
