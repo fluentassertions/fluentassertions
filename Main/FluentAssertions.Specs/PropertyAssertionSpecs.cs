@@ -13,7 +13,7 @@ namespace FluentAssertions.specs
         #region Property Comparison
 
         [TestMethod]
-        public void When_two_objects_have_the_same_property_values_it_should_not_throw()
+        public void When_two_objects_have_the_same_property_values_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -124,7 +124,7 @@ namespace FluentAssertions.specs
 
 
         [TestMethod]
-        public void When_two_objects_have_the_same_properties_with_convertable_values_it_should_not_throw()
+        public void When_two_objects_have_the_same_properties_with_convertable_values_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -178,6 +178,34 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected property Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4).");
+        }
+
+        [TestMethod]
+        public void When_two_properties_are_of_derived_types_but_are_equal_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Type = new CustomerType("123")
+            };
+
+            var other = new
+            {
+                Type = new DerivedCustomerType("123")
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.ShouldHave().AllProperties().EqualTo(other);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         #endregion
@@ -312,7 +340,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Type to be 36, but found \"A\" which is of an incompatible type.");
+                .WithMessage("Expected property Type to be 36, but found \"A\".");
         }
 
         #endregion
@@ -557,8 +585,7 @@ namespace FluentAssertions.specs
                 .WithMessage("Expected property Level to be \r\n\r\nFluentAssertions.specs.Level1Dto\r\n" +
                     "{\r\n   Level = <null>\r\n   Text = \"Level1\"\r\n}" +
                         ", but found \r\n\r\nFluentAssertions.specs.Level1\r\n" +
-                            "{\r\n   Level = <null>\r\n   Text = \"Level1\"\r\n}" +
-                                " which is of an incompatible type.");
+                            "{\r\n   Level = <null>\r\n   Text = \"Level1\"\r\n}.");
         }
 
         [TestMethod]
@@ -677,6 +704,54 @@ namespace FluentAssertions.specs
         public string Name { get; set; }
         public int Age { get; set; }
         public DateTime Birthdate { get; set; }
+    }
+
+    internal class CustomerType
+    {
+        public CustomerType(string code)
+        {
+            Code = code;
+        }
+
+        public string Code { get; private set; }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as CustomerType;
+            return (other != null) && (Code.Equals(other.Code));
+        }
+
+        public override int GetHashCode()
+        {
+            return (Code != null ? Code.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(CustomerType a, CustomerType b)
+        {
+            if (ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            return a.Code.Equals(b.Code);
+        }
+
+        public static bool operator !=(CustomerType a, CustomerType b)
+        {
+            return !(a == b);
+        }
+    }
+
+    internal class DerivedCustomerType : CustomerType
+    {
+        public DerivedCustomerType(string code) : base(code)
+        {
+        }
     }
 
     #region Nested classes for comparison

@@ -72,13 +72,14 @@ namespace FluentAssertions.Assertions
             {
                 object expectedValue = compareeProperty.GetValue(OtherObject, null);
 
-                bool typesAreCompatible;
-                actualValue = HarmonizeTypeDifferences(actualValue, expectedValue, out typesAreCompatible);
-
-                if (ReferenceEquals(actualValue, expectedValue))
+                if (ReferenceEquals(actualValue, expectedValue)
+                    || ((actualValue != null) && actualValue.Equals(expectedValue)))
                 {
                     return;
                 }
+
+                bool typesAreCompatible;
+                actualValue = HarmonizeTypeDifferences(actualValue, expectedValue, out typesAreCompatible);
 
                 if (typesAreCompatible)
                 {
@@ -142,7 +143,7 @@ namespace FluentAssertions.Assertions
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
                     .FailWith("Expected property " + propertyInfo.Name +
-                        " to be {0}{reason}, but found {1} which is of an incompatible type.", expectedValue, actualValue);
+                        " to be {0}{reason}, but found {1}.", expectedValue, actualValue);
             }
         }
 
