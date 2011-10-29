@@ -1183,12 +1183,26 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable collection = new [] { 1, 2, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().ContainInOrder(new [] { 1, 3 });
+            collection.Should().ContainInOrder(new [] { 1, 2, 3 });
+        }
+
+        [TestMethod]
+        public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_order_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new [] { 1, 2, 3, 2 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().ContainInOrder(new [] { 1, 2, 3 });
         }
 
         [TestMethod]
@@ -1222,7 +1236,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected items {1, 2, 1, 1, 2} in ordered collection {1, 2, 1, 3, 12, 2, 2}, but the order did not match.");
+                "Expected items {1, 2, 1, 1, 2} in ordered collection {1, 2, 1, 3, 12, 2, 2}, but 1 (index 3) did not appear (in the right order).");
         }
 
         [TestMethod]
@@ -1237,8 +1251,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected items {3, 1} in ordered collection {1, 2, 3} " +
-                    "because we said so, but the order did not match.");
+                "Expected items {3, 1} in ordered collection {1, 2, 3} because we said so, but 1 (index 1) did not appear (in the right order).");
         }
 
         [TestMethod]
@@ -1254,7 +1267,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected items {4, 1} in ordered collection {1, 2, 3} " +
-                    "because we failed, but {4} did not appear.");
+                    "because we failed, but 4 (index 0) did not appear (in the right order).");
         }
 
         [TestMethod]

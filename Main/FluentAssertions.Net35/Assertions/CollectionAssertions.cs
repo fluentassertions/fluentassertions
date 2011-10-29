@@ -663,36 +663,29 @@ namespace FluentAssertions.Assertions
                     .FailWith("Expected collection to contain {0} in order{reason}, but found {1}.", expected, Subject);
             }
 
-            var expectedItems = expected.Cast<object>().ToList();
+            var expectedItems = expected.Cast<object>().ToArray();
             var actualItems = Subject.Cast<object>().ToArray();
-            var missingItems = expectedItems.Except(actualItems);
-            if (missingItems.Any())
-            {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected items {0} in ordered collection {1}{reason}, but {2} did not appear.", expected,
-                        Subject,
-                        missingItems);
-            }
 
-            var actualMatchingItems = RemoveItemsThatWereNotExpected(actualItems, expectedItems);
-
-            if (!expectedItems.SequenceEqual(actualMatchingItems))
+            for (int index = 0; index < expectedItems.Length; index++)
             {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected items {0} in ordered collection {1}{reason}, but the order did not match.",
-                        expected,
-                        Subject);
+                object item = expectedItems[index];
+                actualItems = actualItems.SkipWhile(a => !a.Equals(item)).ToArray();
+                if (actualItems.Any())
+                {
+                    actualItems = actualItems.Skip(1).ToArray();
+                }
+                else
+                {
+                    Execute.Verification
+                        .BecauseOf(reason, reasonArgs)
+                        .FailWith(
+                            "Expected items {0} in ordered collection {1}{reason}, but {2} (index {3}) did not appear (in the right order).",
+                            expected,
+                            Subject, item, index);
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        private static IEnumerable<object> RemoveItemsThatWereNotExpected(IEnumerable<object> actualItems,
-            IEnumerable<object> expectedItems)
-        {
-            return actualItems.Where(item => expectedItems.Any(expected => expected.Equals(item))).ToArray();
         }
 
         /// <summary>
