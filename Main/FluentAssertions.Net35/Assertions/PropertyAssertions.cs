@@ -76,7 +76,7 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Perform recursive property comparison of the child properties for objects that are of incompatible type.
         /// </summary>
-        public PropertyAssertions<T> RecurseIfIncompatible()
+        public PropertyAssertions<T> IncludingNestedObjects()
         {
             validator.RecurseOnIncompatibleProperties = true;
             return this;

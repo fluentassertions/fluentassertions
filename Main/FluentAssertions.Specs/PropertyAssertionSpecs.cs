@@ -539,7 +539,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                root.ShouldHave().AllProperties().RecurseIfIncompatible().EqualTo(equalRootDto);
+                root.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(equalRootDto);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -624,7 +624,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                root.ShouldHave().AllProperties().RecurseIfIncompatible().EqualTo(rootDto);
+                root.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(rootDto);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -671,7 +671,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                cyclicRoot.ShouldHave().AllProperties().RecurseIfIncompatible().EqualTo(cyclicRootDto);
+                cyclicRoot.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(cyclicRootDto);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
