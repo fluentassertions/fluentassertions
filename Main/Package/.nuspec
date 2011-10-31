@@ -10,7 +10,7 @@
     <language>en-US</language>
     <licenseUrl>http://fluentassertions.codeplex.com/license</licenseUrl>    
     <projectUrl>http://fluentassertions.codeplex.com</projectUrl>
-    <tags>MSTest xUnit NUnit TDD BDD Fluent Silverlight</tags>
+    <tags>MSTest xUnit NUnit MSpec TDD BDD Fluent Silverlight</tags>
       <releaseNotes>
           • And() extension method to TimeSpanConversionExtensions to support 4.Hours().And(30.Minutes()).
           • More TimeSpan extensions to fluently create a TimeSpan like  23.Hours(59.Minutes()).And(20.Seconds()).
@@ -33,5 +33,6 @@
           • ShouldHave().AllProperties().EqualTo() sometimes treated two objects that are functional equivalent according to their Equals() override as different, simply because they were not of the same type.
           • Fixed the detection of collection items that appear in the wrong order in Should().ContainInOrder().
       </releaseNotes>
-  </metadata> 
+  </metadata>
+    <copyright>Copyright Dennis Doomen 2010-2011</copyright>
 </package>

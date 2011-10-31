@@ -30,11 +30,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Package\Lib\.NetFramework 4.0\</OutputPath>
+    <OutputPath>..\Package\Lib\net40\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\.NetFramework 4.0\FluentAssertions.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\net40\FluentAssertions.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573;1574</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugSymbols>true</DebugSymbols>

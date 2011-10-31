@@ -53,11 +53,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Package\Lib\.NetFramework 3.5\</OutputPath>
+    <OutputPath>..\Package\Lib\net35\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\.NetFramework 3.5\FluentAssertions.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\net35\FluentAssertions.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573;1574</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
