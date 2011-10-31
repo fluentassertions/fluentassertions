@@ -179,6 +179,9 @@
     <Compile Include="..\FluentAssertions.Specs\TypeAssertionSpecs.cs">
       <Link>TypeAssertionSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TypeSelectorSpecs.cs">
+      <Link>TypeSelectorSpecs.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>

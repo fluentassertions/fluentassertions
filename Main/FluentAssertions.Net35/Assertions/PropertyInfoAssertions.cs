@@ -13,11 +13,6 @@ namespace FluentAssertions.Assertions
     public class PropertyInfoAssertions
     {
         /// <summary>
-        /// Gets the <see cref="Type"/> that contains the specified properties.
-        /// </summary>
-        public Type SubjectType { get; private set; }
-
-        /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
         public IEnumerable<PropertyInfo> SubjectProperties { get; private set; }
@@ -25,11 +20,9 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyInfoAssertions"/> class.
         /// </summary>
-        /// <param name="type">The <see cref="Type"/> that contains the specified properties</param>
         /// <param name="properties">The properties.</param>
-        public PropertyInfoAssertions(Type type, IEnumerable<PropertyInfo> properties)
+        public PropertyInfoAssertions(IEnumerable<PropertyInfo> properties)
         {
-            SubjectType = type;
             SubjectProperties = properties;
         }
 
@@ -58,8 +51,8 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!nonVirtualProperties.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected properties from type {0} to be virtual{reason}, but the following properties are" +
-                    " not virtual:\r\n" + GetDescriptionsFor(nonVirtualProperties), SubjectType);
+                .FailWith("Expected all selected properties to be virtual{reason}, but the following properties are" +
+                    " not virtual:\r\n" + GetDescriptionsFor(nonVirtualProperties));
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -94,8 +87,8 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!propertiesWithoutAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected properties from type {0} to be decorated with {1}{reason}, but the" +
-                    " following properties are not:\r\n" + GetDescriptionsFor(propertiesWithoutAttribute), SubjectType, typeof(TAttribute));
+                .FailWith("Expected all selected properties to be decorated with {0}{reason}, but the" +
+                    " following properties are not:\r\n" + GetDescriptionsFor(propertiesWithoutAttribute), typeof(TAttribute));
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -117,7 +110,7 @@ namespace FluentAssertions.Assertions
 
         private static string GetDescriptionFor(PropertyInfo property)
         {
-            return string.Format("{0} {1}", property.PropertyType.Name, property.Name);
+            return string.Format("{0} {1}.{2}", property.PropertyType.Name, property.DeclaringType, property.Name);
         }
     }
 }

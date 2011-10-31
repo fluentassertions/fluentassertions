@@ -426,7 +426,7 @@ namespace FluentAssertions
         /// <seealso cref="TypeAssertions"/>
         public static MethodInfoAssertions Should(this MethodInfoSelector methodSelector)
         {
-            return new MethodInfoAssertions(methodSelector.Subject, methodSelector.ToArray());
+            return new MethodInfoAssertions(methodSelector.ToArray());
         }
 
         /// <summary>
@@ -436,7 +436,7 @@ namespace FluentAssertions
         /// <seealso cref="TypeAssertions"/>
         public static PropertyInfoAssertions Should(this PropertyInfoSelector propertyInfoSelector)
         {
-            return new PropertyInfoAssertions(propertyInfoSelector.Subject, propertyInfoSelector.ToArray());
+            return new PropertyInfoAssertions(propertyInfoSelector.ToArray());
         }
 
         /// <summary>

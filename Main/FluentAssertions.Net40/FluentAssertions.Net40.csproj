@@ -172,6 +172,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\TypeExtensions.cs">
       <Link>Assertions\TypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\TypeSelector.cs">
+      <Link>Assertions\TypeSelector.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
     </Compile>

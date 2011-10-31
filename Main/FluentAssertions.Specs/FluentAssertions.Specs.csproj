@@ -114,6 +114,7 @@
     <Compile Include="TimeSpanFormatterSpecs.cs" />
     <Compile Include="MethodInfoAssertionSpecs.cs" />
     <Compile Include="TypeAssertionSpecs.cs" />
+    <Compile Include="TypeSelectorSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

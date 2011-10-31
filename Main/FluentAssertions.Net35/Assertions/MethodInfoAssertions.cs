@@ -13,11 +13,6 @@ namespace FluentAssertions.Assertions
     public class MethodInfoAssertions
     {
         /// <summary>
-        /// Gets the <see cref="Type"/> that contains the specified methods.
-        /// </summary>
-        public Type SubjectType { get; private set; }
-
-        /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
         public IEnumerable<MethodInfo> SubjectMethods { get; private set; }
@@ -25,11 +20,9 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodInfoAssertions"/> class.
         /// </summary>
-        /// <param name="type">The <see cref="Type"/> that contains the specified methods</param>
         /// <param name="methods">The methods.</param>
-        public MethodInfoAssertions(Type type, IEnumerable<MethodInfo> methods)
+        public MethodInfoAssertions(IEnumerable<MethodInfo> methods)
         {
-            SubjectType = type;
             SubjectMethods = methods;
         }
 
@@ -58,8 +51,8 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!nonVirtualMethods.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected methods from type {0} to be virtual{reason}, but the following methods are" +
-                    " not virtual:\r\n" + GetDescriptionsFor(nonVirtualMethods), SubjectType);
+                .FailWith("Expected all selected methods to be virtual{reason}, but the following methods are" +
+                    " not virtual:\r\n" + GetDescriptionsFor(nonVirtualMethods));
 
             return new AndConstraint<MethodInfoAssertions>(this);
         }
@@ -94,8 +87,8 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(!methodsWithoutAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected methods from type {0} to be decorated with {1}{reason}, but the" +
-                    " following methods are not:\r\n" + GetDescriptionsFor(methodsWithoutAttribute), SubjectType, typeof(TAttribute));
+                .FailWith("Expected all selected methods to be decorated with {0}{reason}, but the" +
+                    " following methods are not:\r\n" + GetDescriptionsFor(methodsWithoutAttribute), typeof(TAttribute));
 
             return new AndConstraint<MethodInfoAssertions>(this);
         }
@@ -112,7 +105,12 @@ namespace FluentAssertions.Assertions
 
         private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)
         {
-            return string.Join(Environment.NewLine, methods.Select(m => m.ToString()).ToArray());
+            return string.Join(Environment.NewLine, methods.Select(GetDescriptionFor).ToArray());
+        }
+
+        private static string GetDescriptionFor(MethodInfo method)
+        {
+            return string.Format("{0} {1}.{2}", method.ReturnType.Name, method.DeclaringType, method.Name);
         }
     }
 }

@@ -15,18 +15,22 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.
         /// </summary>
-        /// <param name="type">The type from which to select methods.</param>
+        /// <param name="type">The type from which to select properties.</param>
         public PropertyInfoSelector(Type type)
         {
-            Subject = type;
             selectedProperties = type
                 .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
         /// <summary>
-        /// Gets the <see cref="Type"/> from which to select methods.
+        /// Initializes a new instance of the <see cref="PropertyInfoSelector"/> class.
         /// </summary>
-        public Type Subject { get; private set; }
+        /// <param name="types">The types from which to select properties.</param>
+        public PropertyInfoSelector(IEnumerable<Type> types)
+        {
+            selectedProperties = types.SelectMany(t => t
+                .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic));
+        }
 
         /// <summary>
         /// Only select the properties that have a public or internal getter.

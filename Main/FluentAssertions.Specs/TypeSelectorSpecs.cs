@@ -1,187 +1,235 @@
 ﻿using System;
-
-using FluentAssertions.Assertions;
+using System.Collections.Generic;
+using System.Reflection;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using FluentAssertions.Assertions;
 
 namespace FluentAssertions.specs
 {
     [TestClass]
-    public class PropertyInfoAssertionSpecs
+    public class TypeSelectorSpecs
     {
         [TestMethod]
-        public void When_asserting_properties_are_virtual_and_they_are_it_should_succeed()
+        public void When_selecting_types_that_derive_from_a_specific_class_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var propertyInfoSelector = new PropertyInfoSelector(typeof (ClassWithAllPropertiesVirtual));
+            Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).Assembly;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfoSelector.Should().BeVirtual();
+            IEnumerable<Type> types = assembly.Types()
+                .DerivingFrom<SomeBaseClass>()
+                .ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            types.Should()
+                .HaveCount(1)
+                .And.Contain(typeof(ClassDerivedFromSomeBaseClass));
         }
 
         [TestMethod]
-        public void When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw()
+        public void When_selecting_types_that_derive_from_a_specific_generic_class_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
+            Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).Assembly;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfoSelector.Should().BeVirtual();
+            IEnumerable<Type> types = assembly.Types()
+                .DerivingFrom<SomeGenericBaseClass<int>>()
+                .ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            types.Should()
+                .HaveCount(1)
+                .And.Contain(typeof(ClassDerivedFromSomeGenericBaseClass));
         }
 
         [TestMethod]
-        public void When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw_with_descriptive_message()
+        public void When_selecting_types_that_implement_a_specific_interface_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithNonVirtualPublicProperties));
+            Assembly assembly = typeof(ClassImplementingSomeInterface).Assembly;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfoSelector.Should().BeVirtual("we want to test the error {0}", "message");
+            IEnumerable<Type> types = assembly.Types()
+                .Implementing<ISomeInterface>()
+                .ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected all selected properties" +
-                    " to be virtual because we want to test the error message," +
-                        " but the following properties are not virtual:\r\n" +
-                            "String FluentAssertions.specs.ClassWithNonVirtualPublicProperties.PublicVirtualProperty\r\n" +
-                                "String FluentAssertions.specs.ClassWithNonVirtualPublicProperties.InternalVirtualProperty\r\n" +
-                                    "String FluentAssertions.specs.ClassWithNonVirtualPublicProperties.ProtectedVirtualProperty");
+            types.Should()
+                .HaveCount(2)
+                .And.Contain(typeof(ClassImplementingSomeInterface))
+                .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
         }
 
         [TestMethod]
-        public void When_asserting_properties_are_decorated_with_attribute_and_they_are_it_should_succeed()
+        public void When_selecting_types_that_are_decorated_with_a_specific_attribute_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute));
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>();
+            IEnumerable<Type> types = assembly.Types()
+                .DecoratedWith<SomeAttribute>()
+                .ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            types.Should()
+                .HaveCount(2)
+                .And.Contain(typeof(ClassWithSomeAttribute))
+                .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
         }
 
         [TestMethod]
-        public void When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw()
+        public void When_combining_type_selection_filters_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute))
-                .ThatArePublicOrInternal;
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>();
+            IEnumerable<Type> types = assembly.Types()
+                .DecoratedWith<SomeAttribute>()
+                .Implementing<ISomeInterface>()
+                .ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            types.Should()
+                .HaveCount(1)
+                .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
         }
 
         [TestMethod]
-        public void When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw_with_descriptive_message()
+        public void When_selecting_methods_from_types_in_an_assembly_it_should_return_the_applicable_methods()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute));
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
+            MethodInfo [] methods = assembly.Types()
+                .DecoratedWith<SomeAttribute>()
+                .Methods()
+                .ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected all selected properties to be decorated with" +
-                    " FluentAssertions.specs.DummyPropertyAttribute because we want to test the error message," +
-                        " but the following properties are not:\r\n" +
-                            "String FluentAssertions.specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicVirtualProperty\r\n" +
-                                "String FluentAssertions.specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalVirtualProperty\r\n" +
-                                    "String FluentAssertions.specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedVirtualProperty");
+            methods.Should()
+                .HaveCount(2)
+                .And.Contain(m => m.Name == "Method1")
+                .And.Contain(m => m.Name == "Method2");
+        }
+
+        [TestMethod]
+        public void When_selecting_properties_from_types_in_an_assembly_it_should_return_the_applicable_properties()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            PropertyInfo [] properties = assembly.Types()
+                .DecoratedWith<SomeAttribute>()
+                .Properties()
+                .ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            properties.Should()
+                .HaveCount(2)
+                .And.Contain(m => m.Name == "Property1")
+                .And.Contain(m => m.Name == "Property2");
         }
     }
 
     #region Internal classes used in unit tests
 
-    internal class ClassWithAllPropertiesVirtual
+    internal class SomeBaseClass
     {
-        public virtual string PublicVirtualProperty { get; set; }
-
-        internal virtual string InternalVirtualProperty { get; set; }
-
-        protected virtual string ProtectedVirtualProperty { get; set; }
     }
 
-    internal class ClassWithNonVirtualPublicProperties
+    internal class ClassDerivedFromSomeBaseClass : SomeBaseClass
     {
-        public string PublicVirtualProperty { get; set; }
-
-        internal string InternalVirtualProperty { get; set; }
-
-        protected string ProtectedVirtualProperty { get; set; }
     }
 
-    internal class ClassWithAllPropertiesDecoratedWithDummyAttribute
+    internal class SomeGenericBaseClass<T>
     {
-        [DummyProperty]
-        public string PublicVirtualProperty { get; set; }
-
-        [DummyProperty]
-        internal string InternalVirtualProperty { get; set; }
-
-        [DummyProperty]
-        protected string ProtectedVirtualProperty { get; set; }
+        public T Value { get; set; }
     }
 
-    internal class ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute
+    internal class ClassDerivedFromSomeGenericBaseClass : SomeGenericBaseClass<int>
     {
-        public string PublicVirtualProperty { get; set; }
+    }
 
-        internal string InternalVirtualProperty { get; set; }
+    internal interface ISomeInterface
+    {
+    }
 
-        protected string ProtectedVirtualProperty { get; set; }
+    internal class ClassImplementingSomeInterface : ISomeInterface
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    internal class SomeAttribute : Attribute
+    {
+    }
+
+    [Some]
+    internal class ClassWithSomeAttribute
+    {
+        public string Property1 { get; set; }
+
+        public void Method1()
+        {
+        }
+    }
+
+    [Some]
+    internal class ClassWithSomeAttributeThatImplementsSomeInterface : ISomeInterface
+    {
+        public string Property2 { get; set; }
+
+        public void Method2()
+        {
+        }
     }
 
     #endregion

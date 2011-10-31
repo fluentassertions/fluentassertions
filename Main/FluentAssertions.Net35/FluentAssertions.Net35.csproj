@@ -109,6 +109,7 @@
     <Compile Include="Assertions\StringValidator.cs" />
     <Compile Include="Assertions\StringWildcardMatchingValidator.cs" />
     <Compile Include="Assertions\TypeExtensions.cs" />
+    <Compile Include="Assertions\TypeSelector.cs" />
     <Compile Include="Common\FluentDateTimeExtensions.cs" />
     <Compile Include="Assertions\IntegralAssertions.cs" />
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />

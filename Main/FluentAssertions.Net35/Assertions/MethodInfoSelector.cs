@@ -18,16 +18,21 @@ namespace FluentAssertions.Assertions
         /// <param name="type">The type from which to select methods.</param>
         public MethodInfoSelector(Type type)
         {
-            Subject = type;
             selectedMethods = type
                 .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(method => !HasSpecialName(method));
         }
 
         /// <summary>
-        /// Gets the <see cref="Type"/> from which to select methods.
+        /// Initializes a new instance of the <see cref="MethodInfoSelector"/> class.
         /// </summary>
-        public Type Subject { get; private set; }
+        /// <param name="types">The types from which to select methods.</param>
+        public MethodInfoSelector(IEnumerable<Type> types)
+        {
+            selectedMethods = types.SelectMany(t => t
+                .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                .Where(method => !HasSpecialName(method)));
+        }
 
         /// <summary>
         /// Only select the methods that are public or internal.

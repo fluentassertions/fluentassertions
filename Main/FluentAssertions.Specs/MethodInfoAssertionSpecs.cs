@@ -67,9 +67,12 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected all selected methods from type FluentAssertions.specs.ClassWithNonVirtualPublicMethods" +
+                .WithMessage("Expected all selected methods" +
                     " to be virtual because we want to test the error message," +
-                        " but the following methods are not virtual:\r\nVoid PublicDoNothing()\r\nVoid InternalDoNothing()\r\nVoid ProtectedDoNothing()");
+                        " but the following methods are not virtual:\r\n" +
+                            "Void FluentAssertions.specs.ClassWithNonVirtualPublicMethods.PublicDoNothing\r\n" +
+                                "Void FluentAssertions.specs.ClassWithNonVirtualPublicMethods.InternalDoNothing\r\n" +
+                                    "Void FluentAssertions.specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
 
         [TestMethod]
@@ -131,11 +134,12 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected all selected methods from type " +
-                    "FluentAssertions.specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute to be decorated with" +
-                        " FluentAssertions.specs.DummyMethodAttribute because we want to test the error message," +
-                            " but the following methods are not:" +
-                                "\r\nVoid PublicDoNothing()\r\nVoid ProtectedDoNothing()\r\nVoid PrivateDoNothing()");
+                .WithMessage("Expected all selected methods to be decorated with" +
+                    " FluentAssertions.specs.DummyMethodAttribute because we want to test the error message," +
+                        " but the following methods are not:\r\n" +
+                            "Void FluentAssertions.specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
+                                "Void FluentAssertions.specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
+                                    "Void FluentAssertions.specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
     }
 
