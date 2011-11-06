@@ -244,6 +244,9 @@
     <Compile Include="..\FluentAssertions.Net35\Frameworks\AssertionHelper.cs">
       <Link>Frameworks\AssertionHelper.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Frameworks\FallbackTestFramework.cs">
+      <Link>Frameworks\FallbackTestFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\ITestFramework.cs">
       <Link>Frameworks\ITestFramework.cs</Link>
     </Compile>

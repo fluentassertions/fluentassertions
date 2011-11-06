@@ -138,6 +138,7 @@
     <Compile Include="Formatting\StringValueFormatter.cs" />
     <Compile Include="Formatting\TimeSpanValueFormatter.cs" />
     <Compile Include="Frameworks\AssertionHelper.cs" />
+    <Compile Include="Frameworks\FallbackTestFramework.cs" />
     <Compile Include="Frameworks\ITestFramework.cs" />
     <Compile Include="Frameworks\MSpecFramework.cs" />
     <Compile Include="Frameworks\MSTestFramework.cs" />

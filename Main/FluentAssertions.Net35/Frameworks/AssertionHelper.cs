@@ -16,7 +16,8 @@ namespace FluentAssertions.Frameworks
             {"nunit", new NUnitTestFramework()},
             {"xunit", new XUnitTestFramework()},
             {"mstest", new MSTestFramework()},
-            {"mspec", new MSpecFramework()}
+            {"mspec", new MSpecFramework()},
+            {"fallback", new FallbackTestFramework()}
         };
 
         private static ITestFramework testFramework;
