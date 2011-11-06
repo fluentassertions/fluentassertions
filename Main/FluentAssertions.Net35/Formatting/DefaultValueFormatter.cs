@@ -56,7 +56,7 @@ namespace FluentAssertions.Formatting
                 }
                 catch (ObjectAlreadyTrackedException)
                 {
-                    return string.Format("Cyclic reference detected for object of type {0}.", value.GetType());
+                    return string.Format("{{Cyclic reference to type {0} detected}}", value.GetType());
                 }
 
                 return GetTypeAndPublicPropertyValues(value, nestedPropertyLevel);

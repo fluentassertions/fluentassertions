@@ -87,7 +87,7 @@ namespace FluentAssertions.Common
             return string.Format("{0} (index {1})", Formatter.ToString(value.Substring(index, length)), index);
         }
 
-        public static bool IsEqualTo(this object actual, object expected)
+        public static bool IsSameOrEqualTo(this object actual, object expected)
         {
             if (ReferenceEquals(actual, null) && ReferenceEquals(expected, null))
             {
@@ -100,6 +100,11 @@ namespace FluentAssertions.Common
             }
 
             return actual.Equals(expected);
+        }
+
+        public static bool IsSameOrInherits(this Type actualType, Type expectedType)
+        {
+            return (actualType == expectedType) || (expectedType.IsSubclassOf(actualType));
         }
 
         /// <summary>

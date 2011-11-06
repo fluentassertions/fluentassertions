@@ -42,7 +42,7 @@ namespace FluentAssertions.Assertions
         {
             Execute.Verification
                 .BecauseOf(reason, reasonArgs)
-                .ForCondition(Subject.IsEqualTo(expected))
+                .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .FailWith("Expected " + Verification.SubjectNameOr("object") + " to be {0}{reason}, but found {1}.", expected,
                     Subject);
 
@@ -72,7 +72,7 @@ namespace FluentAssertions.Assertions
         public AndConstraint<ObjectAssertions> NotBe(object unexpected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(!Subject.IsEqualTo(unexpected))
+                .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect object to be equal to {0}{reason}.", unexpected);
 

@@ -631,14 +631,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level to have all properties equal to \r\n\r\n" +
-                    "FluentAssertions.specs.Level1Dto\r\n" +
-                        "{\r\n   Level = FluentAssertions.specs.Level2Dto" +
-                            "\r\n   {\r\n      Text = \"A wrong text value\"\r\n   }\r\n   Text = \"Level1\"\r\n}" +
-                                ", but found \r\n\r\n" +
-                                    "FluentAssertions.specs.Level1\r\n" +
-                                        "{\r\n   Level = FluentAssertions.specs.Level2" +
-                                            "\r\n   {\r\n      Text = \"Level2\"\r\n   }\r\n   Text = \"Level1\"\r\n}.");
+                .WithMessage("Expected property Level.Level.Text to be \r\n\"A wrong text value\", but \r\n\"Level2\" is too short.");
         }
 
         [TestMethod]
@@ -678,8 +671,79 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level to be FluentAssertions.specs.CyclicLevel1Dto, but found " +
-                    "FluentAssertions.specs.CyclicLevel1 which is of an incompatible type and has a cyclic reference.");
+                .WithMessage("Expected property Level.Root to be*but it contains a cyclic reference.", 
+                ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
+        public void When_two_objects_have_the_same_nested_objects_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var c1 = new ClassOne();
+            var c2 = new ClassOne();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => c1.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(c2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_property_of_a_nested_object_doesnt_match_it_should_clearly_indicate_the_path()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var c1 = new ClassOne();
+            var c2 = new ClassOne();
+            c2.RefOne.ValTwo = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => c1.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(c2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property RefOne.ValTwo to be 2, but found 3.");
+        }
+
+        public class ClassOne
+        {
+            private ClassTwo refOne = new ClassTwo();
+            private int valOne = 1;
+            
+            public ClassTwo RefOne
+            {
+                get { return refOne; }
+                set { refOne = value; }
+            }
+            
+            public int ValOne
+            {
+                get { return valOne; }
+                set { valOne = value; }
+            }
+        }
+        
+        public class ClassTwo
+        {
+            private int valTwo = 3;
+            
+            public int ValTwo
+            {
+                get { return valTwo; }
+                set { valTwo = value; }
+            }
         }
 
         #endregion

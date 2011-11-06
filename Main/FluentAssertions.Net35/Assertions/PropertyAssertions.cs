@@ -78,7 +78,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public PropertyAssertions<T> IncludingNestedObjects()
         {
-            validator.RecurseOnIncompatibleProperties = true;
+            validator.RecurseOnNestedObjects = true;
             return this;
         }
 

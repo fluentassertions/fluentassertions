@@ -22,9 +22,9 @@ namespace FluentAssertions.Assertions
         private const int RootLevel = 0;
         private readonly ObjectTracker objectTracker = new ObjectTracker();
         private int nestedPropertyLevel;
+        private string parentPropertyName = "";
 
         #endregion
-
 
         public PropertyEqualityValidator(object subject)
         {
@@ -33,19 +33,23 @@ namespace FluentAssertions.Assertions
         }
 
         internal object Subject { get; private set; }
+
         public object OtherObject { get; set; }
+
         public IList<PropertyInfo> Properties { get; private set; }
 
         public bool OnlySharedProperties { get; set; }
-        public bool RecurseOnIncompatibleProperties { get; set; }
+
+        public bool RecurseOnNestedObjects { get; set; }
 
         public string Reason { get; set; }
 
-        public object [] ReasonArgs { get; set; }
+        public object[] ReasonArgs { get; set; }
 
-        public void Validate(int nestingLevel = RootLevel)
+        public void Validate(int nestingLevel = RootLevel, string parentPropertyName = "")
         {
             nestedPropertyLevel = nestingLevel;
+            this.parentPropertyName = parentPropertyName;
 
             if (ReferenceEquals(OtherObject, null))
             {
@@ -57,72 +61,45 @@ namespace FluentAssertions.Assertions
                 throw new InvalidOperationException("Please specify some properties to include in the comparison.");
             }
 
+            AssertSelectedPropertiesAreEqual(Subject, OtherObject);
+        }
+
+        private void AssertSelectedPropertiesAreEqual(object subject, object expected)
+        {
             foreach (var propertyInfo in Properties)
             {
-                CompareProperty(propertyInfo);
+                object actualValue = propertyInfo.GetValue(subject, null);
+
+                PropertyInfo compareeProperty = FindPropertyFrom(expected, propertyInfo.Name);
+                if (compareeProperty != null)
+                {
+                    object expectedValue = compareeProperty.GetValue(OtherObject, null);
+
+                    AssertPropertyEqualityUsingVerificationContext(expectedValue, actualValue, propertyInfo);
+                }
             }
         }
 
-        private void CompareProperty(PropertyInfo propertyInfo)
+        private PropertyInfo FindPropertyFrom(object obj, string propertyName)
         {
-            object actualValue = propertyInfo.GetValue(Subject, null);
+            PropertyInfo compareeProperty =
+                obj.GetType().GetProperties(InstancePropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
 
-            PropertyInfo compareeProperty = FindPropertyFrom(propertyInfo.Name);
-            if (compareeProperty != null)
+            if (!OnlySharedProperties && (compareeProperty == null))
             {
-                object expectedValue = compareeProperty.GetValue(OtherObject, null);
-
-                if (ReferenceEquals(actualValue, expectedValue)
-                    || ((actualValue != null) && actualValue.Equals(expectedValue)))
-                {
-                    return;
-                }
-
-                bool typesAreCompatible;
-                actualValue = HarmonizeTypeDifferences(actualValue, expectedValue, out typesAreCompatible);
-
-                if (typesAreCompatible)
-                {
-                    CompareCompatibleProperties(actualValue, expectedValue, propertyInfo.Name);
-                }
-                else
-                {
-                    ValidateEqualityOfIncompatibleProperties(actualValue, expectedValue, propertyInfo);
-                }
-            }
-        }
-
-        private object HarmonizeTypeDifferences(object subjectValue, object expectedValue, out bool typesAreCompatible)
-        {
-            typesAreCompatible = true;
-
-            if (!ReferenceEquals(subjectValue, null) && !ReferenceEquals(expectedValue, null) &&
-                (subjectValue.GetType() != expectedValue.GetType()))
-            {
-                try
-                {
-                    subjectValue = Convert.ChangeType(subjectValue, expectedValue.GetType(), CultureInfo.CurrentCulture);
-                }
-                catch (FormatException)
-                {
-                    typesAreCompatible = false;
-                }
-                catch (InvalidCastException)
-                {
-                    typesAreCompatible = false;
-                }
+                Execute.Verification.FailWith(
+                    "Subject has property " + GetPropertyPath(propertyName) + " that the other object does not have.");
             }
 
-            return subjectValue;
+            return compareeProperty;
         }
 
-        private void CompareCompatibleProperties(object actualValue, object expectedValue, string propertyName)
+        private void AssertPropertyEqualityUsingVerificationContext(object expectedValue, object actualValue, PropertyInfo propertyInfo)
         {
-            Verification.SubjectName = "property " + propertyName;
-
             try
             {
-                VerifySemanticEquality(actualValue, expectedValue);
+                Verification.SubjectName = "property " + GetPropertyPath(propertyInfo.Name);
+                AssertSinglePropertyEquality(propertyInfo.Name, actualValue, expectedValue);
             }
             finally
             {
@@ -130,24 +107,59 @@ namespace FluentAssertions.Assertions
             }
         }
 
-        private void ValidateEqualityOfIncompatibleProperties(object actualValue, object expectedValue, PropertyInfo propertyInfo)
+        private void AssertSinglePropertyEquality(string propertyName, object actualValue, object expectedValue)
         {
-            if (RecurseOnIncompatibleProperties)
-            {
-                AssertNoCyclicReferenceFor(actualValue);
+            actualValue = TryConvertTo(expectedValue, actualValue);
 
-                CompareIncompatibleProperties(actualValue, expectedValue, propertyInfo.Name);
-            }
-            else
+            if (!actualValue.IsSameOrEqualTo(expectedValue))
             {
-                Execute.Verification
-                    .BecauseOf(Reason, ReasonArgs)
-                    .FailWith("Expected property " + propertyInfo.Name +
-                        " to be {0}{reason}, but found {1}.", expectedValue, actualValue);
+                if (expectedValue is string)
+                {
+                    ((string)actualValue).Should().Be(expectedValue.ToString(), Reason, ReasonArgs);
+                }
+                else if (expectedValue is IEnumerable)
+                {
+                    ((IEnumerable)actualValue).Should().Equal(((IEnumerable)expectedValue), Reason, ReasonArgs);
+                }
+                else if (IsComplexType(expectedValue) & RecurseOnNestedObjects)
+                {
+                    DetectCyclicReference(actualValue);
+
+                    AssertNestedEquality(actualValue, expectedValue, GetPropertyPath(propertyName));
+                }
+                else
+                {
+                    actualValue.Should().Be(expectedValue, Reason, ReasonArgs);
+                }
             }
         }
 
-        private void AssertNoCyclicReferenceFor(object actualValue)
+        private object TryConvertTo(object expectedValue, object subjectValue)
+        {
+            if (!ReferenceEquals(expectedValue, null) && !ReferenceEquals(subjectValue, null)
+                && !subjectValue.GetType().IsSameOrInherits(expectedValue.GetType()))
+            {
+                try
+                {
+                    subjectValue = Convert.ChangeType(subjectValue, expectedValue.GetType(), CultureInfo.CurrentCulture);
+                }
+                catch (FormatException)
+                {
+                }
+                catch (InvalidCastException)
+                {
+                }
+            }
+
+            return subjectValue;
+        }
+
+        private static bool IsComplexType(object expectedValue)
+        {
+            return (expectedValue != null) && expectedValue.GetType().GetProperties(InstancePropertiesFlag).Any();
+        }
+
+        private void DetectCyclicReference(object actualValue)
         {
             if (nestedPropertyLevel == RootLevel)
             {
@@ -157,59 +169,30 @@ namespace FluentAssertions.Assertions
             objectTracker.Add(actualValue);
         }
 
-        private PropertyInfo FindPropertyFrom(string propertyName)
-        {
-            PropertyInfo compareeProperty =
-                OtherObject.GetType().GetProperties(InstancePropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
-
-            if (!OnlySharedProperties && (compareeProperty == null))
-            {
-                Execute.Verification.FailWith(
-                    "Subject has property " + propertyName + " that the other object does not have.");
-            }
-
-            return compareeProperty;
-        }
-
-        private void CompareIncompatibleProperties(object actualValue, object expectedValue, string propertyName)
+        private void AssertNestedEquality(object actualValue, object expectedValue, string propertyName)
         {
             try
             {
-                var validator = new PropertyEqualityValidator(actualValue)
-                {
-                    RecurseOnIncompatibleProperties = true,
-                    OtherObject = expectedValue
-                };
-
-                AddPublicPropertiesFor(actualValue, validator);
-
-                validator.Validate(nestedPropertyLevel + 1);
+                var validator = CreateNestedValidatorFor(actualValue, expectedValue);
+                validator.Validate(nestedPropertyLevel + 1, propertyName);
             }
             catch (ObjectAlreadyTrackedException)
             {
-                if (nestedPropertyLevel != RootLevel)
-                {
-                    // Keep rethrowing the exception untill it is caught at the root level
-                    throw;
-                }
-
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
-                    .FailWith("Expected property " + propertyName +
-                        " to be {0}{reason}, but found {1} which is of an incompatible type and has a cyclic reference.",
-                        expectedValue.GetType(), actualValue.GetType());
-            }
-            catch
-            {
-                Execute.Verification
-                    .BecauseOf(Reason, ReasonArgs)
-                    .FailWith("Expected property " + propertyName +
-                        " to have all properties equal to {0}{reason}, but found {1}.", expectedValue, actualValue);
+                    .FailWith("Expected property " + propertyName + " to be {0}{reason}, but it contains a cyclic reference.",
+                        expectedValue);
             }
         }
 
-        private static void AddPublicPropertiesFor(object actualValue, PropertyEqualityValidator validator)
+        private static PropertyEqualityValidator CreateNestedValidatorFor(object actualValue, object expectedValue)
         {
+            var validator = new PropertyEqualityValidator(actualValue)
+            {
+                RecurseOnNestedObjects = true,
+                OtherObject = expectedValue
+            };
+
             foreach (var propertyInfo in actualValue.GetType().GetProperties(InstancePropertiesFlag))
             {
                 if (!propertyInfo.GetGetMethod(true).IsPrivate)
@@ -217,22 +200,13 @@ namespace FluentAssertions.Assertions
                     validator.Properties.Add(propertyInfo);
                 }
             }
+
+            return validator;
         }
 
-        private void VerifySemanticEquality(object subjectValue, object expectedValue)
+        private string GetPropertyPath(string propertyName)
         {
-            if (subjectValue is string)
-            {
-                ((string) subjectValue).Should().Be((string) expectedValue, Reason, ReasonArgs);
-            }
-            else if (subjectValue is IEnumerable)
-            {
-                ((IEnumerable) subjectValue).Should().Equal(((IEnumerable) expectedValue), Reason, ReasonArgs);
-            }
-            else
-            {
-                subjectValue.Should().Be(expectedValue, Reason, ReasonArgs);
-            }
+            return (parentPropertyName.Length > 0) ? parentPropertyName + "." + propertyName : propertyName;
         }
     }
 }
