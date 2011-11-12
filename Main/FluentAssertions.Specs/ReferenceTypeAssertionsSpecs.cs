@@ -1,51 +1,15 @@
 ﻿using System;
 
-using FluentAssertions.Assertions;
+using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using FluentAssertions.Common;
 
 namespace FluentAssertions.Specs
 {
     [TestClass]
     public class ReferenceTypeAssertionsSpecs
     {
-        [TestMethod]
-        public void When_reason_starts_with_because_it_should_not_do_anything()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var assertions = new AssertionsTestSubClass();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            assertions
-                .Invoking(x => x.AssertFail("because {0} should always fail.", typeof(AssertionsTestSubClass).Name))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
-        }        
-        
-        [TestMethod]
-        public void When_reason_includes_no_because_it_should_be_added()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var assertions = new AssertionsTestSubClass();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            assertions
-                .Invoking(x => x.AssertFail("{0} should always fail.", typeof(AssertionsTestSubClass).Name))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
-        }
-
         [TestMethod]
         public void When_object_satisfies_predicate_it_should_not_throw()
         {
@@ -59,7 +23,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             someObject.Should().Match(o => (o != null));
         }
-        
+
         [TestMethod]
         public void When_typed_object_satisfies_predicate_it_should_not_throw()
         {
@@ -86,7 +50,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var someObject = new object();
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -97,8 +61,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().Where(e => e.Message.EndsWith(
                 "to match (o == null) because it is not initialized yet."));
-        }        
-        
+        }
+
         [TestMethod]
         public void When_a_typed_object_does_not_match_the_predicate_it_should_throw()
         {
@@ -111,7 +75,7 @@ namespace FluentAssertions.Specs
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20)
             };
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -176,8 +140,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected object to be \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 2\r\n   Birthdate = <2009-02-22>\r\n" +
-                "   Name = \"Teddie\"\r\n}, but found \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 37\r\n" +
-                "   Birthdate = <1973-09-20>\r\n   Name = \"Dennis\"\r\n}.");
+                    "   Name = \"Teddie\"\r\n}, but found \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 37\r\n" +
+                        "   Birthdate = <1973-09-20>\r\n   Name = \"Dennis\"\r\n}.");
         }
 
         [TestMethod]
@@ -188,7 +152,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             object subject = 3;
             object other = 4;
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -200,7 +164,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected object to be 4, but found 3.");
         }
-        
+
         [TestMethod]
         public void When_an_assertion_on_two_unknown_objects_fails_it_should_report_the_type_name()
         {
@@ -209,7 +173,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new object();
             var other = new object();
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -219,21 +183,11 @@ namespace FluentAssertions.Specs
             // Assertt
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected object to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).", 
+                "Expected object to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
                 other.GetHashCode(), subject.GetHashCode()));
         }
 
         #endregion
-
-        internal class AssertionsTestSubClass : ReferenceTypeAssertions<object,AssertionsTestSubClass>
-        {
-            public void AssertFail(string reason, params object[] reasonArgs)
-            {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected it to fail{reason}");
-            }
-        }
     }
 
     internal class SomeDto
