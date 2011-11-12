@@ -289,14 +289,14 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new
+            var subject = new Customer("MyPassword")
             {
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20),
                 Name = "John",
             };
 
-            var other = new
+            var other = new Customer("SomeOtherPassword")
             {
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20),
@@ -751,10 +751,21 @@ namespace FluentAssertions.specs
 
     internal class Customer : Entity
     {
+        private string Password { get; set; }
+
         public string Name { get; set; }
         public int Age { get; set; }
         public DateTime Birthdate { get; set; }
         public long Id { get; set; }
+
+        public Customer()
+        {
+        }
+
+        public Customer(string password)
+        {
+            Password = password;
+        }
     }
 
     public class Entity
