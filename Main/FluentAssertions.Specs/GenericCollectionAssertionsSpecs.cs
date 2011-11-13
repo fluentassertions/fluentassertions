@@ -175,6 +175,26 @@ namespace FluentAssertions.specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to contain only items matching (i <= 10) because 10 is the maximum, but {12, 11} do(es) not match.");
         }
+
+        [TestMethod]
+        public void When_a_collection_is_empty_and_should_contain_only_items_matching_a_predicate_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var strings = new string[0];
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => strings.Should().OnlyContain(e => e.Length > 0);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected collection to contain only items matching (e.Length > 0), but the collection is empty.");
+        }
         
         [TestMethod]
         public void When_a_collection_contains_only_items_matching_a_predicate_it_should_not_throw()

@@ -137,6 +137,12 @@ namespace FluentAssertions.Assertions
             Expression<Func<T, bool>> predicate, string reason, params object[] reasonArgs)
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
+
+            Execute.Verification
+                .ForCondition(Subject.Any())
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected collection to contain only items matching {0}{reason}, but the collection is empty.",
+                    predicate.Body);
             
             IEnumerable<T> mismatchingItems = Subject.Where(item => !compiledPredicate(item));
             if (mismatchingItems.Any())
