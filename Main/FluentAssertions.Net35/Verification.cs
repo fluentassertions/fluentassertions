@@ -12,6 +12,8 @@ namespace FluentAssertions
     /// </summary>
     public class Verification
     {
+        private readonly char[] blanks = new[] { '\r', '\n', ' ', '\t' };
+
         /// <summary>
         /// Represents the phrase that can be used in <see cref="FailWith"/> as a placeholder for the reason of an assertion.
         /// </summary>
@@ -101,15 +103,37 @@ namespace FluentAssertions
         {
             if (!string.IsNullOrEmpty(reason))
             {
-                if (!reason.StartsWith("because", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    reason = "because " + reason;
-                }
+                reason = EnsureIsPrefixedWithBecause(reason);
 
-                return " " + String.Format(reason, reasonArgs);
+                return StartsWithBlank(reason)
+                    ? string.Format(reason, reasonArgs)
+                    : " " + string.Format(reason, reasonArgs);
             }
 
             return "";
+        }
+
+        private string EnsureIsPrefixedWithBecause(string originalReason)
+        {
+            string blanksPrefix = ExtractTrailingBlanksFrom(originalReason);
+            string textWithoutTrailingBlanks = originalReason.Substring(blanksPrefix.Length);
+
+            return !textWithoutTrailingBlanks.StartsWith("because", StringComparison.CurrentCultureIgnoreCase)
+                ? blanksPrefix + "because " + textWithoutTrailingBlanks
+                : originalReason;
+        }
+
+        private string ExtractTrailingBlanksFrom(string text)
+        {
+            string trimmedText = text.TrimStart(blanks);
+            int trailingBlanksCount = text.Length - trimmedText.Length;
+
+            return text.Substring(0, trailingBlanksCount);
+        }
+
+        private bool StartsWithBlank(string text)
+        {
+            return (text.Length > 0) && blanks.Any(blank => text.First() == blank);
         }
 
         /// <summary>
