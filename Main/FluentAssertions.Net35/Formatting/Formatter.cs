@@ -21,7 +21,10 @@ namespace FluentAssertions.Formatting
             new StringValueFormatter(),
             new ExpressionValueFormatter(),
             new EnumerableValueFormatter(),
-            new DefaultValueFormatter()
+#if !SILVERLIGHT
+            new XmlValueFormatter(),
+#endif
+            new DefaultValueFormatter(),
         };
 
         /// <summary>

@@ -78,6 +78,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertionFailureSpecs.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="MethodInfoAssertionSpecs.cs" />
     <Compile Include="TypeAssertionSpecs.cs" />
     <Compile Include="TypeSelectorSpecs.cs" />
+    <Compile Include="XElementAssertionSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

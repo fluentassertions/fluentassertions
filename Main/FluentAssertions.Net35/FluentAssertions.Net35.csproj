@@ -110,6 +110,7 @@
     <Compile Include="Assertions\StringWildcardMatchingValidator.cs" />
     <Compile Include="Assertions\TypeExtensions.cs" />
     <Compile Include="Assertions\TypeSelector.cs" />
+    <Compile Include="Assertions\XElementAssertions.cs" />
     <Compile Include="Common\FluentDateTimeExtensions.cs" />
     <Compile Include="Assertions\IntegralAssertions.cs" />
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Formatting\NumericValueFormatter.cs" />
     <Compile Include="Formatting\StringValueFormatter.cs" />
     <Compile Include="Formatting\TimeSpanValueFormatter.cs" />
+    <Compile Include="Formatting\XmlValueFormatter.cs" />
     <Compile Include="Frameworks\AssertionHelper.cs" />
     <Compile Include="Frameworks\FallbackTestFramework.cs" />
     <Compile Include="Frameworks\ITestFramework.cs" />

@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
+#if !SILVERLIGHT
+using System.Xml.Linq;
+#endif
+
 using FluentAssertions.Assertions;
 
 namespace FluentAssertions
@@ -47,6 +51,15 @@ namespace FluentAssertions
         public static ExecutionTimeAssertions ExecutionTime(this Action action)
         {
             return new ExecutionTimeAssertions(action);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
+        /// current <see cref="object"/>.
+        /// </summary>
+        public static XElementAssertions Should(this XElement actualValue)
+        {
+            return new XElementAssertions(actualValue);
         }
 #endif
 
