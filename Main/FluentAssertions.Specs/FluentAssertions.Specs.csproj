@@ -117,7 +117,10 @@
     <Compile Include="MethodInfoAssertionSpecs.cs" />
     <Compile Include="TypeAssertionSpecs.cs" />
     <Compile Include="TypeSelectorSpecs.cs" />
+    <Compile Include="XAttributeAssertionSpecs.cs" />
+    <Compile Include="XAttributeFormatterSpecs.cs" />
     <Compile Include="XElementAssertionSpecs.cs" />
+    <Compile Include="XElementFormatterSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

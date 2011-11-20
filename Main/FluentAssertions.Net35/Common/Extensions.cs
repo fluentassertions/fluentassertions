@@ -4,6 +4,8 @@ using System.Reflection;
 
 using FluentAssertions.Formatting;
 
+using System.Linq;
+
 namespace FluentAssertions.Common
 {
     internal static class Extensions
@@ -105,6 +107,15 @@ namespace FluentAssertions.Common
         public static bool IsSameOrInherits(this Type actualType, Type expectedType)
         {
             return (actualType == expectedType) || (expectedType.IsSubclassOf(actualType));
+        }
+
+        /// <summary>
+        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
+        /// </summary>
+        public static string FirstLine(this string value)
+        {
+            string [] lines = value.Split(new [] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            return lines.First();
         }
 
         /// <summary>

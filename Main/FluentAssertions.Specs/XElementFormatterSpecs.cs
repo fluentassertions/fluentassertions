@@ -1,4 +1,4 @@
-﻿using System;
+using System.Xml.Linq;
 
 using FluentAssertions.Formatting;
 
@@ -7,64 +7,50 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.specs
 {
     [TestClass]
-    public class DateTimeFormatterSpecs
+    public class XElementFormatterSpecs
     {
         [TestMethod]
-        public void When_time_is_not_relevant_it_should_not_be_included_in_the_output()
+        public void When_element_has_attributes_it_should_include_them_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new XElementValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            string result = formatter.ToString(new DateTime(1973, 9, 20));
+            var element = XElement.Parse(@"<person name=""Martin"" age=""36"" />");
+            string result = formatter.ToString(element);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be("<1973-09-20>");
+            result.Should().Be(@"<person name=\""Martin\"" age=\""36\"" />");
         }
 
         [TestMethod]
-        public void When_date_is_not_relevant_it_should_not_be_included_in_the_output()
+        public void When_element_has_child_element_it_should_not_include_them_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new XElementValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            string result = formatter.ToString(new DateTime(1, 1, 1, 8, 20, 1));
+            var element = XElement.Parse(
+                @"<person name=""Martin"" age=""36"">
+                      <child name=""Laura"" />
+                  </person>");
+
+            string result = formatter.ToString(element);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be("<08:20:01>");
-        }
-
-        [TestMethod]
-        public void When_a_full_date_and_time_is_specified_all_parts_should_be_included_in_the_output()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            DateTime now = DateTime.Now;
-            string result = formatter.ToString(now);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be(now.ToString("<yyyy-MM-dd HH:mm:ss>"));
+            result.Should().Be(@"<person name=\""Martin\"" age=\""36\"">...</person>");
         }
     }
 }

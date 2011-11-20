@@ -175,6 +175,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\TypeSelector.cs">
       <Link>Assertions\TypeSelector.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\XAttributeAssertions.cs">
+      <Link>Assertions\XAttributeAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\XElementAssertions.cs">
       <Link>Assertions\XElementAssertions.cs</Link>
     </Compile>
@@ -244,8 +247,11 @@
     <Compile Include="..\FluentAssertions.Net35\Formatting\TimeSpanValueFormatter.cs">
       <Link>Formatting\TimeSpanValueFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Formatting\XmlValueFormatter.cs">
-      <Link>Formatting\XmlValueFormatter.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\XAttributeValueFormatter.cs">
+      <Link>Formatting\XAttributeValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\XElementValueFormatter.cs">
+      <Link>Formatting\XElementValueFormatter.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\AssertionHelper.cs">
       <Link>Frameworks\AssertionHelper.cs</Link>

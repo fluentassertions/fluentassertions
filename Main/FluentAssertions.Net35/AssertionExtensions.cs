@@ -54,12 +54,21 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="ObjectAssertions"/> object that can be used to assert the
-        /// current <see cref="object"/>.
+        /// Returns an <see cref="XElementAssertions"/> object that can be used to assert the
+        /// current <see cref="XElement"/>.
         /// </summary>
         public static XElementAssertions Should(this XElement actualValue)
         {
             return new XElementAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="XAttributeAssertions"/> object that can be used to assert the
+        /// current <see cref="XAttribute"/>.
+        /// </summary>
+        public static XAttributeAssertions Should(this XAttribute actualValue)
+        {
+            return new XAttributeAssertions(actualValue);
         }
 #endif
 
