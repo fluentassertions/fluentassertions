@@ -10,7 +10,7 @@ namespace FluentAssertions.Assertions
     public class XElementAssertions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.Object" /> class.
+        /// Initializes a new instance of the <see cref="XElementAssertions" /> class.
         /// </summary>
         protected internal XElementAssertions(XElement xElement)
         {
@@ -82,6 +82,62 @@ namespace FluentAssertions.Assertions
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element not to be {0}{reason}.", unexpected);
+
+            return new AndConstraint<XElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XElement"/> is <c>null</c>.
+        /// </summary>
+        public AndConstraint<XElementAssertions> BeNull()
+        {
+            return BeNull(string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XElement"/> is <c>null</c>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// </param>
+        public AndConstraint<XElementAssertions> BeNull(string reason, params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected XML element to be <null>{reason}, but found {0}.", Subject);
+
+            return new AndConstraint<XElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XElement"/> is not <c>null</c>.
+        /// </summary>
+        public AndConstraint<XElementAssertions> NotBeNull()
+        {
+            return NotBeNull(string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XElement"/> is not <c>null</c>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// </param>
+        public AndConstraint<XElementAssertions> NotBeNull(string reason, params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect XML element to be <null>{reason}.");
 
             return new AndConstraint<XElementAssertions>(this);
         }
