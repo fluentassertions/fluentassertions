@@ -175,15 +175,14 @@ namespace FluentAssertions.Assertions
                 .ForCondition(attribute != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(
-                    "Expected XML element to have attribute {0} with value {1}{reason}, but found no such attribute in {2}",
-                    expectedName,
+                    "Expected XML element to have attribute '" + expectedName + "' with value {0}{reason}, but found no such attribute in {1}",
                     expectedValue, Subject);
 
             Execute.Verification
                 .ForCondition(attribute.Value == expectedValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(
-                    "Expected XML attribute {0} to have value {1}{reason}, but found {2}.", expectedName, expectedValue, attribute.Value);
+                    "Expected XML attribute '" + expectedName + "' to have value {0}{reason}, but found {1}.", expectedValue, attribute.Value);
 
             return new AndConstraint<XElementAssertions>(this);
         }

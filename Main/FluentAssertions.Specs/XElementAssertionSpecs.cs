@@ -329,7 +329,7 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected XML element to have attribute \"age\" with value \"36\"" +
+                .WithMessage("Expected XML element to have attribute 'age' with value \"36\"" +
                     " because we want to test the failure message" +
                         ", but found no such attribute in <user name=\\\"martin\\\" />");
         }
@@ -372,7 +372,7 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected XML attribute \"name\" to have value \"dennis\"" +
+                .WithMessage("Expected XML attribute 'name' to have value \"dennis\"" +
                     " because we want to test the failure message" +
                         ", but found \"martin\".");
         }
