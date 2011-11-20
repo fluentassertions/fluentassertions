@@ -178,6 +178,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\XAttributeAssertions.cs">
       <Link>Assertions\XAttributeAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\XDocumentAssertions.cs">
+      <Link>Assertions\XDocumentAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\XElementAssertions.cs">
       <Link>Assertions\XElementAssertions.cs</Link>
     </Compile>

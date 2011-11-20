@@ -119,6 +119,8 @@
     <Compile Include="TypeSelectorSpecs.cs" />
     <Compile Include="XAttributeAssertionSpecs.cs" />
     <Compile Include="XAttributeFormatterSpecs.cs" />
+    <Compile Include="XDocumentAssertionSpecs.cs" />
+    <Compile Include="XDocumentFormatterSpecs.cs" />
     <Compile Include="XElementAssertionSpecs.cs" />
     <Compile Include="XElementFormatterSpecs.cs" />
   </ItemGroup>

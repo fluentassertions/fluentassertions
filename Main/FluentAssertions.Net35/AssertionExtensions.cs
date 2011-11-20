@@ -54,6 +54,15 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns an <see cref="XDocumentAssertions"/> object that can be used to assert the
+        /// current <see cref="XElement"/>.
+        /// </summary>
+        public static XDocumentAssertions Should(this XDocument actualValue)
+        {
+            return new XDocumentAssertions(actualValue);
+        }
+
+        /// <summary>
         /// Returns an <see cref="XElementAssertions"/> object that can be used to assert the
         /// current <see cref="XElement"/>.
         /// </summary>

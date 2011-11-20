@@ -111,6 +111,7 @@
     <Compile Include="Assertions\TypeExtensions.cs" />
     <Compile Include="Assertions\TypeSelector.cs" />
     <Compile Include="Assertions\XAttributeAssertions.cs" />
+    <Compile Include="Assertions\XDocumentAssertions.cs" />
     <Compile Include="Assertions\XElementAssertions.cs" />
     <Compile Include="Common\FluentDateTimeExtensions.cs" />
     <Compile Include="Assertions\IntegralAssertions.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Formatting\StringValueFormatter.cs" />
     <Compile Include="Formatting\TimeSpanValueFormatter.cs" />
     <Compile Include="Formatting\XAttributeValueFormatter.cs" />
+    <Compile Include="Formatting\XDocumentValueFormatter.cs" />
     <Compile Include="Formatting\XElementValueFormatter.cs" />
     <Compile Include="Frameworks\AssertionHelper.cs" />
     <Compile Include="Frameworks\FallbackTestFramework.cs" />
