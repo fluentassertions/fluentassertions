@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Xml.Linq;
 
+using FluentAssertions.Formatting;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.specs
@@ -97,7 +99,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_an_xml_element_is_not_equal_to_the_same_xml_element_it_should_throw()
+        public void When_asserting_an_xml_element_is_not_equal_to_the_same_xml_element_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -118,7 +120,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_an_xml_element_is_not_equal_to_the_same_xml_element_it_should_throw_with_descriptive_message()
+        public void When_asserting_an_xml_element_is_not_equal_to_the_same_xml_element_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -292,7 +294,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_throw()
+        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -312,7 +314,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_throw_with_descriptive_message()
+        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -335,7 +337,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_throw()
+        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -355,7 +357,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_throw_with_descriptive_message()
+        public void When_asserting_element_has_attribute_with_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -375,6 +377,83 @@ namespace FluentAssertions.specs
                 .WithMessage("Expected XML attribute 'name' to have value \"dennis\"" +
                     " because we want to test the failure message" +
                         ", but found \"martin\".");
+        }
+
+        #endregion
+
+        #region HaveChild
+
+        [TestMethod]
+        public void When_asserting_element_has_child_element_and_it_does_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveChild("child");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_element_has_child_element_but_it_does_not_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveChild("unknown");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_element_has_child_element_but_it_does_not_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveChild("unknown");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            string expectedMessage = string.Format("Expected XML element {0} to have child element <unknown>" +
+                " because we want to test the failure message" +
+                    ", but no such child element was found.", Formatter.ToString(element));
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
 
         #endregion

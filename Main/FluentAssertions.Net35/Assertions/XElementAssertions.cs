@@ -186,5 +186,39 @@ namespace FluentAssertions.Assertions
 
             return new AndConstraint<XElementAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XElement"/> has a direct child element with the specified
+        /// <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">The name of the expected child element</param>
+        public AndConstraint<XElementAssertions> HaveChild(string expected)
+        {
+            return HaveChild(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XElement"/> has a direct child element with the specified
+        /// <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">The name of the expected child element</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XElementAssertions> HaveChild(string expected, string reason, params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(Subject.Element(expected) != null)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected XML element {0} to have child element <" + expected + ">" +
+                    " because we want to test the failure message" +
+                        ", but no such child element was found.", Subject);
+
+            return new AndConstraint<XElementAssertions>(this);
+        }
     }
 }

@@ -141,5 +141,86 @@ namespace FluentAssertions.Assertions
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XDocument"/> has a root element with the specified
+        /// <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">The name of the expected root element of the current document.</param>
+        public AndConstraint<XDocumentAssertions> HaveRoot(string expected)
+        {
+            return HaveRoot(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XDocument"/> has a root element with the specified
+        /// <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">The name of the expected root element of the current document.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> HaveRoot(string expected, string reason, params object[] reasonArgs)
+        {
+            XElement root = Subject.Root;
+
+            Execute.Verification
+                .ForCondition((root != null) && root.Name == expected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected XML document to have root element <" + expected + ">" +
+                    " because we want to test the failure message" +
+                        ", but found {0}.", Subject);
+
+            return new AndConstraint<XDocumentAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a direct
+        /// child element with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
+        /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> HaveChild(string expected)
+        {
+            return HaveChild(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a direct
+        /// child element with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
+        /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> HaveChild(string expected, string reason, params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(Subject.Root != null)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected XML document {0} to have root element with child <" + expected + ">" +
+                    " because we want to test the failure message" +
+                        ", but XML document has no Root element.", Subject);
+
+            Execute.Verification
+                .ForCondition(Subject.Root.Element(expected) != null)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected XML document {0} to have root element with child <" + expected + ">" +
+                    " because we want to test the failure message" +
+                        ", but no such child element was found.", Subject);
+
+            return new AndConstraint<XDocumentAssertions>(this);
+        }
     }
 }
