@@ -253,6 +253,9 @@
     <Compile Include="..\FluentAssertions.Net35\Formatting\XAttributeValueFormatter.cs">
       <Link>Formatting\XAttributeValueFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\XDocumentValueFormatter.cs">
+      <Link>Formatting\XDocumentValueFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\XElementValueFormatter.cs">
       <Link>Formatting\XElementValueFormatter.cs</Link>
     </Compile>
