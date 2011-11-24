@@ -351,7 +351,7 @@ namespace FluentAssertions.specs
 
         #endregion
 
-        #region HaveChild
+        #region HaveElement
 
         [TestMethod]
         public void When_asserting_document_has_root_with_child_element_and_it_does_it_should_succeed()
@@ -368,7 +368,7 @@ namespace FluentAssertions.specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                document.Should().HaveChild("child");
+                document.Should().HaveElement("child");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -391,7 +391,7 @@ namespace FluentAssertions.specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                document.Should().HaveChild("unknown");
+                document.Should().HaveElement("unknown");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -414,7 +414,7 @@ namespace FluentAssertions.specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                document.Should().HaveChild("unknown");
+                document.Should().HaveElement("unknown");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert

@@ -192,9 +192,9 @@ namespace FluentAssertions.Assertions
         /// <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">The name of the expected child element</param>
-        public AndConstraint<XElementAssertions> HaveChild(string expected)
+        public AndConstraint<XElementAssertions> HaveElement(string expected)
         {
-            return HaveChild(expected, string.Empty);
+            return HaveElement(expected, string.Empty);
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XElementAssertions> HaveChild(string expected, string reason, params object[] reasonArgs)
+        public AndConstraint<XElementAssertions> HaveElement(string expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Element(expected) != null)

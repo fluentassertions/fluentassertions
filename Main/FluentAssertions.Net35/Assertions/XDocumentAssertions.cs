@@ -185,9 +185,9 @@ namespace FluentAssertions.Assertions
         /// <param name="expected">
         /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveChild(string expected)
+        public AndConstraint<XDocumentAssertions> HaveElement(string expected)
         {
-            return HaveChild(expected, string.Empty);
+            return HaveElement(expected, string.Empty);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveChild(string expected, string reason, params object[] reasonArgs)
+        public AndConstraint<XDocumentAssertions> HaveElement(string expected, string reason, params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Root != null)

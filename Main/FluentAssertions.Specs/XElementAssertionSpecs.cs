@@ -381,7 +381,7 @@ namespace FluentAssertions.specs
 
         #endregion
 
-        #region HaveChild
+        #region HaveElement
 
         [TestMethod]
         public void When_asserting_element_has_child_element_and_it_does_it_should_succeed()
@@ -398,7 +398,7 @@ namespace FluentAssertions.specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                element.Should().HaveChild("child");
+                element.Should().HaveElement("child");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -421,7 +421,7 @@ namespace FluentAssertions.specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                element.Should().HaveChild("unknown");
+                element.Should().HaveElement("unknown");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -444,7 +444,7 @@ namespace FluentAssertions.specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                element.Should().HaveChild("unknown");
+                element.Should().HaveElement("unknown");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
