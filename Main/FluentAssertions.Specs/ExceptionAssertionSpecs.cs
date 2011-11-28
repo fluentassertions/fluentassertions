@@ -55,6 +55,96 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_subject_throws_expected_exception_with_message_starting_with_expected_message_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("expected message"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<InvalidOperationException>()
+                .WithMessage("expected mes", ComparisonMode.StartWith);
+        }
+
+        [TestMethod]
+        public void When_subject_throws_expected_exception_with_message_that_does_not_start_with_expected_message_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("OxpectOd message"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => testSubject
+                .Invoking(s => s.Do())
+                .ShouldThrow<InvalidOperationException>()
+                .WithMessage("Expected mes", ComparisonMode.StartWith);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<Exception>()
+                .WithMessage("Expected exception message to start with \r\n\"Expected mes\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0).");
+        }
+
+        [TestMethod]
+        public void When_subject_throws_expected_exception_with_message_starting_with_expected_equivalent_message_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("Expected Message"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<InvalidOperationException>()
+                .WithMessage("expected mes", ComparisonMode.StartWithEquivalent);
+        }
+
+        [TestMethod]
+        public void When_subject_throws_expected_exception_with_message_that_does_not_start_with_equivalent_message_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new InvalidOperationException("OxpectOd message"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => testSubject
+                    .Invoking(s => s.Do())
+                    .ShouldThrow<InvalidOperationException>()
+                    .WithMessage("expected mes", ComparisonMode.StartWithEquivalent);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<Exception>()
+                .WithMessage("Expected exception message to start with equivalent of \r\n\"expected mes\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0).");
+        }
+
+        [TestMethod]
         public void When_subject_throws_some_exception_with_unexpected_message_it_should_throw_with_clear_description()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -333,6 +423,96 @@ namespace FluentAssertions.Specs
                 .WithInnerMessage("xpected messag", ComparisonMode.Substring);
         }
         
+        [TestMethod]
+        public void When_subject_throws_inner_exception_with_message_starting_with_expected_message_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("expected message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<Exception>()
+                .WithInnerMessage("expected mes", ComparisonMode.StartWith);
+        }
+        
+        [TestMethod]
+        public void When_subject_throws_inner_exception_with_message_that_does_not_start_with_expected_message_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("OxpectOd message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => testSubject
+                    .Invoking(s => s.Do())
+                    .ShouldThrow<Exception>()
+                    .WithInnerMessage("Expected mes", ComparisonMode.StartWith);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<Exception>()
+                .WithMessage("Expected inner exception message to start with \r\n\"Expected mes\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0).");
+        }
+
+        [TestMethod]
+        public void When_subject_throws_inner_exception_with_message_starting_with_expected_equivalent_message_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("Expected Message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<Exception>()
+                .WithInnerMessage("expected mes", ComparisonMode.StartWithEquivalent);
+        }
+
+        [TestMethod]
+        public void When_subject_throws_inner_exception_with_message_that_does_not_start_with_equivalent_message_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do()).Throws(new Exception("", new InvalidOperationException("OxpectOd message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => testSubject
+                    .Invoking(s => s.Do())
+                    .ShouldThrow<Exception>()
+                    .WithInnerMessage("expected mes", ComparisonMode.StartWithEquivalent);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<Exception>()
+                .WithMessage("Expected inner exception message to start with equivalent of \r\n\"expected mes\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0).");
+        }
+
         [TestMethod]
         public void When_subject_throws_inner_exception_without_an_equivalent_message_it_should_throw()
         {

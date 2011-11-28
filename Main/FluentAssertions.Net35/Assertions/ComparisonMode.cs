@@ -17,6 +17,16 @@
         Equivalent,
 
         /// <summary>
+        /// The message must start with the exact text, including the casing of the characters..
+        /// </summary>
+        StartWith,
+
+        /// <summary>
+        /// The message must start with the text except for the casing of the characters.
+        /// </summary>
+        StartWithEquivalent,
+
+        /// <summary>
         /// The message must contain the exact text.
         /// </summary>
         Substring,

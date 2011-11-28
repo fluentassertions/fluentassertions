@@ -271,6 +271,16 @@ namespace FluentAssertions.Assertions
                 (message, expectedMessage, reason, reasonArgs) =>
                     message.Should().BeEquivalentTo(expectedMessage, reason, reasonArgs));
 
+            outerMessageAssertions[ComparisonMode.StartWith] = new ExceptionMessageAssertion(
+                "exception message",
+                (message, expectedMessage, reason, reasonArgs) =>
+                    message.Should().StartWith(expectedMessage, reason, reasonArgs));
+
+            outerMessageAssertions[ComparisonMode.StartWithEquivalent] = new ExceptionMessageAssertion(
+                "exception message",
+                (message, expectedMessage, reason, reasonArgs) =>
+                    message.Should().StartWithEquivalent(expectedMessage, reason, reasonArgs));
+
             outerMessageAssertions[ComparisonMode.Substring] = new ExceptionMessageAssertion(
                 "exception message to contain",
                 (message, expectedMessage, reason, reasonArgs) =>
@@ -300,6 +310,16 @@ namespace FluentAssertions.Assertions
                 "inner exception message to contain",
                 (message, expectedMessage, reason, reasonArgs) =>
                     message.Should().Contain(expectedMessage, reason, reasonArgs));            
+
+            innerMessageAssertions[ComparisonMode.StartWith] = new ExceptionMessageAssertion(
+                "inner exception message",
+                (message, expectedMessage, reason, reasonArgs) =>
+                    message.Should().StartWith(expectedMessage, reason, reasonArgs));            
+            
+            innerMessageAssertions[ComparisonMode.StartWithEquivalent] = new ExceptionMessageAssertion(
+                "inner exception message",
+                (message, expectedMessage, reason, reasonArgs) =>
+                    message.Should().StartWithEquivalent(expectedMessage, reason, reasonArgs));            
             
             innerMessageAssertions[ComparisonMode.EquivalentSubstring] = new ExceptionMessageAssertion(
                 "inner exception message to contain equivalent of",
