@@ -292,17 +292,7 @@ namespace FluentAssertions.Assertions
                 throw new ArgumentException("Cannot compare start of string with empty string.");
             }
 
-            if (Subject == null)
-            {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected string {0} to start with {1}{reason}.", Subject, expected);
-            }
-
-            Execute.Verification
-                .ForCondition(Subject.StartsWith(expected))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected string {0} to start with {1}{reason}.", Subject, expected);
+            new StringStartValidator(Subject, expected, StringComparison.CurrentCulture, reason, reasonArgs).Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -342,17 +332,7 @@ namespace FluentAssertions.Assertions
                 throw new ArgumentException("Cannot compare string start equivalence with empty string.");
             }
 
-            if (Subject == null)
-            {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected string {0} to start with equivalent of {1}{reason}.", Subject, expected);
-            }
-
-            Execute.Verification
-                .ForCondition(Subject.StartsWith(expected, StringComparison.CurrentCultureIgnoreCase))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected string {0} to start with equivalent of {1}{reason}.", Subject, expected);
+            new StringStartValidator(Subject, expected, StringComparison.CurrentCultureIgnoreCase, reason, reasonArgs).Validate();
 
             return new AndConstraint<StringAssertions>(this);
         }

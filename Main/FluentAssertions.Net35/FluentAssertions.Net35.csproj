@@ -106,6 +106,7 @@
     <Compile Include="Assertions\PropertyInfoAssertions.cs" />
     <Compile Include="Assertions\PropertyInfoSelector.cs" />
     <Compile Include="Assertions\StringEqualityValidator.cs" />
+    <Compile Include="Assertions\StringStartValidator.cs" />
     <Compile Include="Assertions\StringValidator.cs" />
     <Compile Include="Assertions\StringWildcardMatchingValidator.cs" />
     <Compile Include="Assertions\TypeExtensions.cs" />

@@ -512,13 +512,31 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => "ABC".Should().StartWith("BC", "it should {0}", "start");
+            Action act = () => "ABC".Should().StartWith("ABB", "it should {0}", "start");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string \"ABC\" to start with \"BC\" because it should start.");
+                "Expected string to start with \"ABB\" because it should start," +
+                    " but \"ABC\" differs near \"C\" (index 2).");
+        }
+
+        [TestMethod]
+        public void When_string_does_not_start_with_expected_phrase_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABCDEFGHI".Should().StartWith("ABCDDFGHI", "it should {0}", "start");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string to start with " +
+                    "\r\n\"ABCDDFGHI\" because it should start, but " +
+                        "\r\n\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
         }
 
         [TestMethod]
@@ -564,7 +582,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string <null> to start with \"ABC\".");
+                "Expected string to start with \"ABC\", but found <null>.");
         }
 
         #endregion
@@ -660,7 +678,24 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string \"ABC\" to start with equivalent of \"bc\" because it should start.");
+                "Expected string to start with equivalent of \"bc\" because it should start, but \"ABC\" differs near \"ABC\" (index 0).");
+        }
+
+        [TestMethod]
+        public void When_start_of_string_does_not_meet_equivalent_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABCDEFGHI".Should().StartWithEquivalent("abcddfghi", "it should {0}", "start");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string to start with equivalent of " +
+                    "\r\n\"abcddfghi\" because it should start, but " +
+                        "\r\n\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
         }
 
         [TestMethod]
@@ -706,7 +741,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string <null> to start with equivalent of \"AbC\".");
+                "Expected string to start with equivalent of \"AbC\", but found <null>.");
         }
 
         #endregion

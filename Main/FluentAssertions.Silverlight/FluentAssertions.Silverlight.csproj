@@ -194,6 +194,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\StringEqualityValidator.cs">
       <Link>Assertions\StringEqualityValidator.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\StringStartValidator.cs">
+      <Link>Assertions\StringStartValidator.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\StringValidator.cs">
       <Link>Assertions\StringValidator.cs</Link>
     </Compile>
