@@ -719,6 +719,8 @@ namespace FluentAssertions.specs
                 .WithMessage("Expected property RefOne.ValTwo to be 2, but found 3.");
         }
 
+        #region Recursive collection validation
+
         [TestMethod]
         public void When_a_collection_property_contains_objects_with_matching_properties_it_should_not_throw()
         {
@@ -849,6 +851,102 @@ namespace FluentAssertions.specs
                 .WithMessage("*\"Customers\" property to be a collection*Jane, John*is a \"System.String\"*", ComparisonMode.Wildcard);
         }
 
+        [TestMethod]
+        public void When_a_collection_contains_more_items_than_expected_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = new[] { 
+                    new Customer
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "John"
+                    },
+                }
+            };
+
+            var subject = new
+            {
+                Customers = new[] { 
+                    new CustomerDto
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "Jane"
+                    },
+                    new CustomerDto
+                    {
+                        Age = 24,
+                        Birthdate = 21.September(1973),
+                        Name = "John"
+                    },
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*\"Customers\" property to be a collection with 1 item(s), but found 2*", ComparisonMode.Wildcard);
+        }
+        [TestMethod]
+        public void When_a_collection_contains_less_items_than_expected_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = new[] { 
+                    new Customer
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "John"
+                    },
+                    new Customer
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "Jane"
+                    }
+                }
+            };
+
+            var subject = new
+            {
+                Customers = new[] { 
+                    new CustomerDto
+                    {
+                        Age = 24,
+                        Birthdate = 21.September(1973),
+                        Name = "John"
+                    },
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*\"Customers\" property to be a collection with 2 item(s), but found 1*", ComparisonMode.Wildcard);
+        }
+
+        #endregion
 
         public class ClassOne
         {

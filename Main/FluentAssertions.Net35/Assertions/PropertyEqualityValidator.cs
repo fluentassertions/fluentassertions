@@ -152,6 +152,14 @@ namespace FluentAssertions.Assertions
             var actualItems = ((IEnumerable)actualValue).Cast<object>().ToArray();
             var expectedItems = expectedValue.Cast<object>().ToArray();
 
+            if (actualItems.Length != expectedItems.Length)
+            {
+                Execute.Verification
+                    .BecauseOf(Reason, ReasonArgs)
+                    .FailWith("Expected {0} property to be a collection with {1} item(s){reason}, but found {2}.",
+                    propertyPath, expectedItems.Length, actualItems.Length);
+            }
+
             for (int index = 0; index < actualItems.Length; index++)
             {
                 DetectCyclicReference(actualItems[index]);
@@ -168,7 +176,6 @@ namespace FluentAssertions.Assertions
                         .FailWith("Expected property " + propertyPath + " to be {0}{reason}, but it contains a cyclic reference.",
                             expectedValue);
                 }
-
             }
         }
 
