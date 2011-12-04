@@ -117,6 +117,10 @@ namespace FluentAssertions.Assertions
                 {
                     ((string)actualValue).Should().Be(expectedValue.ToString(), Reason, ReasonArgs);
                 }
+                else if (expectedValue is DateTime)
+                {
+                    ((DateTime)actualValue).Should().Be((DateTime)expectedValue, Reason, ReasonArgs);
+                }
                 else if (IsCollection(expectedValue))
                 {
                     if (RecurseOnNestedObjects)
@@ -179,7 +183,7 @@ namespace FluentAssertions.Assertions
             }
         }
 
-        private bool IsCollection(object value)
+        private static bool IsCollection(object value)
         {
             return (!(value is string) && (value is IEnumerable));
         }
