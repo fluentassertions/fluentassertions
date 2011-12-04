@@ -5,6 +5,8 @@ using FluentAssertions.Specs;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.specs
 {
     [TestClass]
@@ -716,6 +718,137 @@ namespace FluentAssertions.specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected property RefOne.ValTwo to be 2, but found 3.");
         }
+
+        [TestMethod]
+        public void When_a_collection_property_contains_objects_with_matching_properties_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = new[] { 
+                    new Customer
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "John"
+                    },
+                    new Customer
+                    {
+                        Age = 32,
+                        Birthdate = 31.July(1978),
+                        Name = "Jane"
+                    }
+                }
+            };
+            
+            var subject = new
+            {
+                Customers = new[] { 
+                    new CustomerDto
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "John"
+                    },
+                    new CustomerDto
+                    {
+                        Age = 32,
+                        Birthdate = 31.July(1978),
+                        Name = "Jane"
+                    }
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = new[] { 
+                    new Customer
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "John"
+                    },
+                }
+            };
+
+            var subject = new
+            {
+                Customers = new[] { 
+                    new CustomerDto
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "Jane"
+                    },
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*Customers[index 0].Name*John*Jane*", ComparisonMode.Wildcard);
+        }
+        
+        [TestMethod]
+        public void When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = new[] { 
+                    new Customer
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "John"
+                    },
+                }
+            };
+
+            var subject = new
+            {
+                Customers = "Jane, John"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*\"Customers\" property to be a collection*Jane, John*is a \"System.String\"*", ComparisonMode.Wildcard);
+        }
+
 
         public class ClassOne
         {

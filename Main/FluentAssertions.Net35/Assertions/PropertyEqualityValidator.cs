@@ -117,14 +117,19 @@ namespace FluentAssertions.Assertions
                 {
                     ((string)actualValue).Should().Be(expectedValue.ToString(), Reason, ReasonArgs);
                 }
-                else if (expectedValue is IEnumerable)
+                else if (IsCollection(expectedValue))
                 {
-                    ((IEnumerable)actualValue).Should().Equal(((IEnumerable)expectedValue), Reason, ReasonArgs);
+                    if (RecurseOnNestedObjects)
+                    {
+                        AssertNestedCollectionEquality(actualValue, (IEnumerable)expectedValue, GetPropertyPath(propertyName));
+                    }
+                    else
+                    {
+                        ((IEnumerable)actualValue).Should().Equal(((IEnumerable)expectedValue), Reason, ReasonArgs);    
+                    }
                 }
                 else if (IsComplexType(expectedValue) & RecurseOnNestedObjects)
                 {
-                    DetectCyclicReference(actualValue);
-
                     AssertNestedEquality(actualValue, expectedValue, GetPropertyPath(propertyName));
                 }
                 else
@@ -132,6 +137,49 @@ namespace FluentAssertions.Assertions
                     actualValue.Should().Be(expectedValue, Reason, ReasonArgs);
                 }
             }
+        }
+
+        private void AssertNestedCollectionEquality(object actualValue, IEnumerable expectedValue, string propertyPath)
+        {
+            if (!IsCollection(actualValue))
+            {
+                Execute.Verification
+                    .BecauseOf(Reason, ReasonArgs)
+                    .FailWith("Expected {0} property to be a collection{reason}, but {1} is a {2}.", 
+                    propertyPath, actualValue, actualValue.GetType().FullName);
+            }
+
+            var actualItems = ((IEnumerable)actualValue).Cast<object>().ToArray();
+            var expectedItems = expectedValue.Cast<object>().ToArray();
+
+            for (int index = 0; index < actualItems.Length; index++)
+            {
+                DetectCyclicReference(actualItems[index]);
+
+                try
+                {
+                    var validator = CreateNestedValidatorFor(actualItems[index], expectedItems[index]);
+                    validator.Validate(nestedPropertyLevel + 1, propertyPath + "[index " + index + "]");
+                }
+                catch (ObjectAlreadyTrackedException)
+                {
+                    Execute.Verification
+                        .BecauseOf(Reason, ReasonArgs)
+                        .FailWith("Expected property " + propertyPath + " to be {0}{reason}, but it contains a cyclic reference.",
+                            expectedValue);
+                }
+
+            }
+        }
+
+        private bool IsCollection(object value)
+        {
+            return (!(value is string) && (value is IEnumerable));
+        }
+
+        private static bool IsComplexType(object expectedValue)
+        {
+            return (expectedValue != null) && expectedValue.GetType().GetProperties(InstancePropertiesFlag).Any();
         }
 
         private object TryConvertTo(object expectedValue, object subjectValue)
@@ -154,23 +202,10 @@ namespace FluentAssertions.Assertions
             return subjectValue;
         }
 
-        private static bool IsComplexType(object expectedValue)
-        {
-            return (expectedValue != null) && expectedValue.GetType().GetProperties(InstancePropertiesFlag).Any();
-        }
-
-        private void DetectCyclicReference(object actualValue)
-        {
-            if (nestedPropertyLevel == RootLevel)
-            {
-                objectTracker.Reset();
-            }
-
-            objectTracker.Add(actualValue);
-        }
-
         private void AssertNestedEquality(object actualValue, object expectedValue, string propertyName)
         {
+            DetectCyclicReference(actualValue);
+
             try
             {
                 var validator = CreateNestedValidatorFor(actualValue, expectedValue);
@@ -183,6 +218,16 @@ namespace FluentAssertions.Assertions
                     .FailWith("Expected property " + propertyName + " to be {0}{reason}, but it contains a cyclic reference.",
                         expectedValue);
             }
+        }
+
+        private void DetectCyclicReference(object actualValue)
+        {
+            if (nestedPropertyLevel == RootLevel)
+            {
+                objectTracker.Reset();
+            }
+
+            objectTracker.Add(actualValue);
         }
 
         private static PropertyEqualityValidator CreateNestedValidatorFor(object actualValue, object expectedValue)
