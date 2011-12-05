@@ -68,11 +68,19 @@ namespace FluentAssertions.Assertions
         /// </param>
         public AndConstraint<TypeAssertions> Be(Type expected, string reason, params object[] reasonArgs)
         {
+            string expectedTypeDescription = expected.FullName;
+            string subjectTypeDescription = Subject.FullName;
+
+            if (expectedTypeDescription == subjectTypeDescription)
+            {
+                expectedTypeDescription = "[" + expected.AssemblyQualifiedName + "]";
+                subjectTypeDescription = "[" + Subject.AssemblyQualifiedName + "]";
+            }
+
             Execute.Verification
                 .ForCondition(Subject == expected)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected type to be ["
-                    + expected.AssemblyQualifiedName + "]{reason}, but found [" + Subject.AssemblyQualifiedName + "].");
+                .FailWith("Expected type to be " + expectedTypeDescription + "{reason}, but found " + subjectTypeDescription + ".");
 
             return new AndConstraint<TypeAssertions>(this);
         }

@@ -17,8 +17,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
-            Type sameType = typeof(ClasWithAttribute);
+            Type type = typeof (ClasWithAttribute);
+            Type sameType = typeof (ClasWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -38,8 +38,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
-            Type differentType = typeof(ClasWithoutAttribute);
+            Type type = typeof (ClasWithAttribute);
+            Type differentType = typeof (ClasWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -59,8 +59,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
-            Type differentType = typeof(ClasWithoutAttribute);
+            Type type = typeof (ClasWithAttribute);
+            Type differentType = typeof (ClasWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -71,10 +71,35 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected type to be FluentAssertions.specs.ClasWithoutAttribute" +
+                    " because we want to test the error message, but found FluentAssertions.specs.ClasWithAttribute.");
+        }
+
+        [TestMethod]
+        public void
+            When_asserting_a_type_is_equal_to_same_type_from_different_assembly_it_should_throw_with_assembly_qualified_name()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeFromThisAssembly = typeof (ObjectAssertions);
+            Type typeFromOtherAssembly = typeof (TypeAssertions).Assembly.GetType("FluentAssertions.Assertions.ObjectAssertions");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeFromThisAssembly.Should().Be(typeFromOtherAssembly, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
             const string expectedMessage =
-                "Expected type to be [FluentAssertions.specs.ClasWithoutAttribute, FluentAssertions.Specs, Version=*]" +
+                "Expected type to be [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions, Version=*]" +
                     " because we want to test the error message, but found " +
-                        "[FluentAssertions.specs.ClasWithAttribute, FluentAssertions.Specs, Version=*].";
+                        "[FluentAssertions.Assertions.ObjectAssertions, FluentAssertions.Specs, Version=*].";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
         }
@@ -85,7 +110,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
+            Type type = typeof (ClasWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -105,7 +130,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
+            Type type = typeof (ClasWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -125,7 +150,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
+            Type type = typeof (ClasWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -137,8 +162,8 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type to be [FluentAssertions.specs.ClasWithoutAttribute*] because we want to test " +
-                    "the error message, but found [FluentAssertions.specs.ClasWithAttribute*].", ComparisonMode.Wildcard);
+                .WithMessage("Expected type to be FluentAssertions.specs.ClasWithoutAttribute because we want to test " +
+                    "the error message, but found FluentAssertions.specs.ClasWithAttribute.");
         }
 
         #endregion
@@ -151,8 +176,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
-            Type otherType = typeof(ClasWithoutAttribute);
+            Type type = typeof (ClasWithAttribute);
+            Type otherType = typeof (ClasWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -172,8 +197,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
-            Type sameType = typeof(ClasWithAttribute);
+            Type type = typeof (ClasWithAttribute);
+            Type sameType = typeof (ClasWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -193,8 +218,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
-            Type sameType = typeof(ClasWithAttribute);
+            Type type = typeof (ClasWithAttribute);
+            Type sameType = typeof (ClasWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -216,7 +241,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
+            Type type = typeof (ClasWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -236,7 +261,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
+            Type type = typeof (ClasWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -256,7 +281,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClasWithAttribute);
+            Type type = typeof (ClasWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -360,4 +385,11 @@ namespace FluentAssertions.specs
     }
 
     #endregion
+}
+
+namespace FluentAssertions.Assertions
+{
+    internal class ObjectAssertions
+    {
+    }
 }
