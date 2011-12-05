@@ -71,7 +71,8 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject == expected)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected type to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected type to be ["
+                    + expected.AssemblyQualifiedName + "]{reason}, but found [" + Subject.AssemblyQualifiedName + "].");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -124,7 +125,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject != unexpected)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected type not to be {0}{reason}.", unexpected);
+                .FailWith("Expected type not to be [" + unexpected.AssemblyQualifiedName + "]{reason}.");
 
             return new AndConstraint<TypeAssertions>(this);
         }

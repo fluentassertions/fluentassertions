@@ -1,5 +1,7 @@
 using System;
 
+using FluentAssertions.Assertions;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.specs
@@ -69,9 +71,12 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type to be FluentAssertions.specs.ClasWithoutAttribute because we want to test " +
-                    "the error message, but found FluentAssertions.specs.ClasWithAttribute.");
+            const string expectedMessage =
+                "Expected type to be [FluentAssertions.specs.ClasWithoutAttribute, FluentAssertions.Specs, Version=*]" +
+                    " because we want to test the error message, but found " +
+                        "[FluentAssertions.specs.ClasWithAttribute, FluentAssertions.Specs, Version=*].";
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -132,8 +137,8 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type to be FluentAssertions.specs.ClasWithoutAttribute because we want to test " +
-                    "the error message, but found FluentAssertions.specs.ClasWithAttribute.");
+                .WithMessage("Expected type to be [FluentAssertions.specs.ClasWithoutAttribute*] because we want to test " +
+                    "the error message, but found [FluentAssertions.specs.ClasWithAttribute*].", ComparisonMode.Wildcard);
         }
 
         #endregion
@@ -201,8 +206,8 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type not to be FluentAssertions.specs.ClasWithAttribute" +
-                    " because we want to test the error message.");
+                .WithMessage("Expected type not to be [FluentAssertions.specs.ClasWithAttribute*]" +
+                    " because we want to test the error message.", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -263,8 +268,8 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type not to be FluentAssertions.specs.ClasWithAttribute because we want to test " +
-                    "the error message.");
+                .WithMessage("Expected type not to be [FluentAssertions.specs.ClasWithAttribute*] because we want to test " +
+                    "the error message.", ComparisonMode.Wildcard);
         }
 
         #endregion
