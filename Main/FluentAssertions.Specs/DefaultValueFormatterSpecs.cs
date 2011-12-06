@@ -18,12 +18,10 @@ namespace FluentAssertions.specs
             parent.Child = child;
             child.Parent = parent;
 
-            var formatter = new DefaultValueFormatter();
-
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            string result = formatter.ToString(parent);
+            string result = Formatter.ToString(parent);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

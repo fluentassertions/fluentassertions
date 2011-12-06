@@ -112,7 +112,7 @@ namespace FluentAssertions
                 SanitizeReason(reason, reasonArgs),
             };
 
-            values.AddRange(failureMessageArgs.Select(Formatter.ToString));
+            values.AddRange(failureMessageArgs.Select(arg => Formatter.ToString(arg)));
 
             AssertionHelper.Throw(string.Format(failureMessage, values.ToArray()));
         }

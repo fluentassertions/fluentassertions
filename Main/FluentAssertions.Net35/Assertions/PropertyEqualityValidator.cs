@@ -20,36 +20,52 @@ namespace FluentAssertions.Assertions
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
 
         private const int RootLevel = 0;
-        private readonly ObjectTracker objectTracker = new ObjectTracker();
-        private int nestedPropertyLevel;
+        private UniqueObjectTracker uniqueObjectTracker;
         private string parentPropertyName = "";
+        private readonly object subject;
 
         #endregion
 
         public PropertyEqualityValidator(object subject)
         {
-            Subject = subject;
+            this.subject = subject;
             Properties = new List<PropertyInfo>();
         }
 
-        internal object Subject { get; private set; }
-
         public object OtherObject { get; set; }
 
+        /// <summary>
+        /// Contains the properties that should be included when comparing two objects.
+        /// </summary>
         public IList<PropertyInfo> Properties { get; private set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the validator will ignore properties from the <see cref="Properties"/>
+        /// collection that the <see cref="Other"/> object doesn't have.
+        /// </summary>
         public bool OnlySharedProperties { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether it should continue comparing (collections of objects) that
+        /// the <see cref="OtherObject"/> refers to.
+        /// </summary>
         public bool RecurseOnNestedObjects { get; set; }
 
         public string Reason { get; set; }
 
         public object[] ReasonArgs { get; set; }
 
-        public void Validate(int nestingLevel = RootLevel, string parentPropertyName = "")
+        public void Validate()
         {
-            nestedPropertyLevel = nestingLevel;
+            Validate(new UniqueObjectTracker(), "");
+        }
+
+        private void Validate(UniqueObjectTracker tracker, string parentPropertyName)
+        {
             this.parentPropertyName = parentPropertyName;
+
+            uniqueObjectTracker = tracker;
+            uniqueObjectTracker.Track(subject);
 
             if (ReferenceEquals(OtherObject, null))
             {
@@ -61,7 +77,7 @@ namespace FluentAssertions.Assertions
                 throw new InvalidOperationException("Please specify some properties to include in the comparison.");
             }
 
-            AssertSelectedPropertiesAreEqual(Subject, OtherObject);
+            AssertSelectedPropertiesAreEqual(subject, OtherObject);
         }
 
         private void AssertSelectedPropertiesAreEqual(object subject, object expected)
@@ -166,12 +182,10 @@ namespace FluentAssertions.Assertions
 
             for (int index = 0; index < actualItems.Length; index++)
             {
-                DetectCyclicReference(actualItems[index]);
-
                 try
                 {
                     var validator = CreateNestedValidatorFor(actualItems[index], expectedItems[index]);
-                    validator.Validate(nestedPropertyLevel + 1, propertyPath + "[index " + index + "]");
+                    validator.Validate(uniqueObjectTracker, propertyPath + "[index " + index + "]");
                 }
                 catch (ObjectAlreadyTrackedException)
                 {
@@ -215,12 +229,10 @@ namespace FluentAssertions.Assertions
 
         private void AssertNestedEquality(object actualValue, object expectedValue, string propertyName)
         {
-            DetectCyclicReference(actualValue);
-
             try
             {
                 var validator = CreateNestedValidatorFor(actualValue, expectedValue);
-                validator.Validate(nestedPropertyLevel + 1, propertyName);
+                validator.Validate(uniqueObjectTracker, propertyName);
             }
             catch (ObjectAlreadyTrackedException)
             {
@@ -229,16 +241,6 @@ namespace FluentAssertions.Assertions
                     .FailWith("Expected property " + propertyName + " to be {0}{reason}, but it contains a cyclic reference.",
                         expectedValue);
             }
-        }
-
-        private void DetectCyclicReference(object actualValue)
-        {
-            if (nestedPropertyLevel == RootLevel)
-            {
-                objectTracker.Reset();
-            }
-
-            objectTracker.Add(actualValue);
         }
 
         private static PropertyEqualityValidator CreateNestedValidatorFor(object actualValue, object expectedValue)

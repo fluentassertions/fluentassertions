@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Formatting
+﻿using FluentAssertions.Common;
+
+namespace FluentAssertions.Formatting
 {
     internal class NullValueFormatter : IValueFormatter
     {
@@ -7,7 +9,7 @@
             return ReferenceEquals(value, null);
         }
 
-        public string ToString(object value, int nestedPropertyLevel = 0)
+        public string ToString(object value, UniqueObjectTracker uniqueObjectTracker, int nestedPropertyLevel = 0)
         {
             return "<null>";
         }

@@ -119,7 +119,7 @@
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />
     <Compile Include="Assertions\SimpleTimeSpanAssertions.cs" />
     <Compile Include="Common\ObjectAlreadyTrackedException.cs" />
-    <Compile Include="Common\ObjectTracker.cs" />
+    <Compile Include="Common\UniqueObjectTracker.cs" />
     <Compile Include="Common\TimeSpanConversionExtensions.cs" />
     <Compile Include="Assertions\ReferenceTypeAssertions.cs" />
     <Compile Include="Assertions\BooleanAssertions.cs" />

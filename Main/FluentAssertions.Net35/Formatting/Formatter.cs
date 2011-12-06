@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Formatting
 {
     /// <summary>
@@ -31,18 +33,24 @@ namespace FluentAssertions.Formatting
         /// Returns a human-readable representation of a particular object.
         /// </summary>
         /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="uniqueObjectTracker"></param>
         /// <param name="nestedPropertyLevel">
-        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
-        /// no <see cref="object.ToString()"/> override.
+        ///     The level of nesting for the supplied value. This is used for indenting the format string for objects that have
+        ///     no <see cref="object.ToString()"/> override.
         /// </param>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public static string ToString(object value, int nestedPropertyLevel = 0)
+        public static string ToString(object value, UniqueObjectTracker uniqueObjectTracker = null, int nestedPropertyLevel = 0)
         {
+            if (uniqueObjectTracker == null)
+            {
+                uniqueObjectTracker = new UniqueObjectTracker();
+            }
+
             var firstFormatterThatCanHandleValue = formatters.First(f => f.CanHandle(value));
 
-            return firstFormatterThatCanHandleValue.ToString(value, nestedPropertyLevel);
+            return firstFormatterThatCanHandleValue.ToString(value, uniqueObjectTracker, nestedPropertyLevel);
         }
 
         /// <summary>
@@ -56,9 +64,9 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public static string ToStringLine(object value, int nestedPropertyLevel = 0)
+        public static string ToStringLine(object value, UniqueObjectTracker uniqueObjectTracker = null, int nestedPropertyLevel = 0)
         {
-            return Environment.NewLine + ToString(value, nestedPropertyLevel);
+            return Environment.NewLine + ToString(value, uniqueObjectTracker, nestedPropertyLevel);
         }
     }
 }

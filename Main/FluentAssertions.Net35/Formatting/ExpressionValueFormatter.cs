@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Formatting
 {
     internal class ExpressionValueFormatter : IValueFormatter
@@ -9,7 +11,7 @@ namespace FluentAssertions.Formatting
             return value is Expression;
         }
 
-        public string ToString(object value, int nestedPropertyLevel = 0)
+        public string ToString(object value, UniqueObjectTracker uniqueObjectTracker, int nestedPropertyLevel = 0)
         {
             return value.ToString();
         }

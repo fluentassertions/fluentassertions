@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-using FluentAssertions.Assertions;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
@@ -14,7 +13,6 @@ namespace FluentAssertions.Formatting
 
         private const int RootLevel = 0;
         private const int SpacesPerIndentionLevel = 3;
-        private readonly ObjectTracker objectTracker = new ObjectTracker();
 
         #endregion
 
@@ -34,14 +32,17 @@ namespace FluentAssertions.Formatting
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="uniqueObjectTracker">
+        /// An object that is passed through recursive calls and which should be used to detect circular references
+        /// in the object graph that is being converted to a string representation.</param>
         /// <param name="nestedPropertyLevel">
-        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
-        /// no <see cref="object.ToString()"/> override.
+        ///     The level of nesting for the supplied value. This is used for indenting the format string for objects that have
+        ///     no <see cref="object.ToString()"/> override.
         /// </param>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public string ToString(object value, int nestedPropertyLevel = RootLevel)
+        public string ToString(object value, UniqueObjectTracker uniqueObjectTracker, int nestedPropertyLevel = 0)
         {
             if (value.GetType() == typeof (object))
             {
@@ -52,14 +53,14 @@ namespace FluentAssertions.Formatting
             {
                 try
                 {
-                    DetectCyclicReferenceOf(value, nestedPropertyLevel);
+                    uniqueObjectTracker.Track(value);
                 }
                 catch (ObjectAlreadyTrackedException)
                 {
                     return string.Format("{{Cyclic reference to type {0} detected}}", value.GetType());
                 }
 
-                return GetTypeAndPublicPropertyValues(value, nestedPropertyLevel);
+                return GetTypeAndPublicPropertyValues(value, nestedPropertyLevel, uniqueObjectTracker);
             }
 
             return value.ToString();
@@ -70,17 +71,7 @@ namespace FluentAssertions.Formatting
             return value.ToString().Equals(value.GetType().FullName);
         }
 
-        private void DetectCyclicReferenceOf(object value, int nestedPropertyLevel)
-        {
-            if (nestedPropertyLevel == RootLevel)
-            {
-                objectTracker.Reset();
-            }
-
-            objectTracker.Add(value);
-        }
-
-        private string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel)
+        private string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel, UniqueObjectTracker uniqueObjectTracker)
         {
             var builder = new StringBuilder();
             
@@ -96,7 +87,7 @@ namespace FluentAssertions.Formatting
 
             foreach (var propertyInfo in type.GetProperties().OrderBy(pi => pi.Name))
             {
-                builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1));
+                builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1, uniqueObjectTracker));
             }
 
             builder.AppendFormat("{0}}}", CreateWhitespaceForLevel(nestedPropertyLevel));
@@ -104,14 +95,14 @@ namespace FluentAssertions.Formatting
             return builder.ToString();
         }
 
-        private string GetPropertyValueTextFor(object value, PropertyInfo propertyInfo, int nextPropertyNestingLevel)
+        private string GetPropertyValueTextFor(object value, PropertyInfo propertyInfo, int nextPropertyNestingLevel, UniqueObjectTracker uniqueObjectTracker)
         {
             object propertyValue = propertyInfo.GetValue(value, null);
 
             return string.Format("{0}{1} = {2}",
                 CreateWhitespaceForLevel(nextPropertyNestingLevel),
                 propertyInfo.Name,
-                Formatter.ToString(propertyValue, nextPropertyNestingLevel));
+                Formatter.ToString(propertyValue, uniqueObjectTracker, nextPropertyNestingLevel));
         }
 
         private string CreateWhitespaceForLevel(int level)
