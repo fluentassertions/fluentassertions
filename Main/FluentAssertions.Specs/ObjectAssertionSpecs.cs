@@ -359,7 +359,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected type System.Int32 because they are of different type, but found System.Object.");
+                "Expected type to be System.Int32 because they are of different type, but found System.Object.");
         }
 
         [TestMethod]
@@ -379,7 +379,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected type FluentAssertions.Specs.DummyBaseClass, but found FluentAssertions.Specs.DummyImplementingClass.");
+                "Expected type to be FluentAssertions.Specs.DummyBaseClass, but found FluentAssertions.Specs.DummyImplementingClass.");
         }
 
         [TestMethod]
@@ -391,7 +391,7 @@ namespace FluentAssertions.Specs
                 .Invoking(x => x.BeOfType<Exception>("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected type System.Exception because we want to test the failure message, but found System.Object.");
+                    "Expected type to be System.Exception because we want to test the failure message, but found System.Object.");
         }
 
         #endregion

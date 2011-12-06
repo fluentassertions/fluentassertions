@@ -68,21 +68,39 @@ namespace FluentAssertions.Assertions
         /// </param>
         public AndConstraint<TypeAssertions> Be(Type expected, string reason, params object[] reasonArgs)
         {
-            string expectedTypeDescription = expected.FullName;
-            string subjectTypeDescription = Subject.FullName;
-
-            if (expectedTypeDescription == subjectTypeDescription)
-            {
-                expectedTypeDescription = "[" + expected.AssemblyQualifiedName + "]";
-                subjectTypeDescription = "[" + Subject.AssemblyQualifiedName + "]";
-            }
-
             Execute.Verification
                 .ForCondition(Subject == expected)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected type to be " + expectedTypeDescription + "{reason}, but found " + subjectTypeDescription + ".");
+                .FailWith(GetFailureMessageIfTypesAreDifferent(Subject, expected));
 
             return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Creates an error message in case the specifed <paramref name="actual"/> type differs from the 
+        /// <paramref name="expected"/> type.
+        /// </summary>
+        /// <returns>
+        /// An empty <see cref="string"/> if the two specified types are the same, or an error message that describes that
+        /// the two specified types are not the same.
+        /// </returns>
+        private static string GetFailureMessageIfTypesAreDifferent(Type actual, Type expected)
+        {
+            if (actual.Equals(expected))
+            {
+                return "";
+            }
+
+            string expectedType = expected.FullName;
+            string actualType = actual.FullName;
+
+            if (expectedType == actualType)
+            {
+                expectedType = "[" + expected.AssemblyQualifiedName + "]";
+                actualType = "[" + actual.AssemblyQualifiedName + "]";
+            }
+
+            return string.Format("Expected type to be {0}{{reason}}, but found {1}.", expectedType, actualType);
         }
 
         /// <summary>
