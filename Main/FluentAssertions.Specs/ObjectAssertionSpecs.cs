@@ -4,6 +4,8 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
+using FluentAssertions.Assertions;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using FluentAssertions.Common;
@@ -16,7 +18,7 @@ namespace FluentAssertions.Specs
         #region Be / NotBe
 
         [TestMethod]
-        public void When_two_equal_object_are_expected_to_be_equal_it_should_not_throw()
+        public void When_two_equal_object_are_expected_to_be_equal_it_should_not_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -31,7 +33,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_different_objects_are_expected_to_be_equal_it_should_throw_with_a_clear_explanation()
+        public void When_two_different_objects_are_expected_to_be_equal_it_should_fail_with_a_clear_explanation()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -67,7 +69,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_the_subject_is_null_it_should_throw()
+        public void When_the_subject_is_null_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -88,7 +90,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_different_objects_are_expected_to_be_equal_it_should_throw_and_use_the_reason()
+        public void When_two_different_objects_are_expected_to_be_equal_it_should_fail_and_use_the_reason()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -110,7 +112,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_non_equal_objects_are_expected_to_be_not_equal_it_should_not_throw()
+        public void When_non_equal_objects_are_expected_to_be_not_equal_it_should_not_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -125,7 +127,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_equal_objects_are_expected_not_to_be_equal_it_should_throw_with_a_clear_explanation()
+        public void When_two_equal_objects_are_expected_not_to_be_equal_it_should_fail_with_a_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -151,7 +153,7 @@ namespace FluentAssertions.Specs
         #region BeSameAs / NotBeSameAs
 
         [TestMethod]
-        public void When_the_same_objects_are_expected_to_be_the_same_it_should_not_throw()
+        public void When_the_same_objects_are_expected_to_be_the_same_it_should_not_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -166,7 +168,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_different_objects_are_expected_to_be_the_same_it_should_throw_with_a_clear_explanation()
+        public void When_two_different_objects_are_expected_to_be_the_same_it_should_fail_with_a_clear_explanation()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -197,7 +199,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_different_objects_are_expected_not_to_be_the_same_it_should_not_throw()
+        public void When_two_different_objects_are_expected_not_to_be_the_same_it_should_not_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -212,7 +214,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_equal_object_are_expected_not_to_be_the_same_it_should_throw()
+        public void When_two_equal_object_are_expected_not_to_be_the_same_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -233,7 +235,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_equal_objects_are_expected_not_to_be_equal_it_should_throw_and_use_the_reason()
+        public void When_two_equal_objects_are_expected_not_to_be_equal_it_should_fail_and_use_the_reason()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -275,7 +277,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_non_null_object_is_expected_to_be_null_it_should_throw()
+        public void When_a_non_null_object_is_expected_to_be_null_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -324,7 +326,7 @@ namespace FluentAssertions.Specs
         #region BeOfType
 
         [TestMethod]
-        public void When_the_object_type_is_exactly_equal_to_the_specified_type_it_should_not_throw()
+        public void When_object_type_is_exactly_equal_to_the_specified_type_it_should_not_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -343,7 +345,27 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_object_type_is_different_than_expected_type_it_should_throw()
+        public void When_object_type_is_different_than_expected_type_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var someObject = new object();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().BeOfType<int>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected type to be System.Int32, but found System.Object.");
+        }
+
+        [TestMethod]
+        public void When_object_type_is_different_than_expected_type_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -363,7 +385,31 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_object_type_is_a_subclass_of_the_expected_type_it_should_throw()
+        public void When_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var assertionsFromOtherAssembly = new object().Should();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                assertionsFromOtherAssembly.Should().BeOfType<ObjectAssertions>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            const string expectedMessage =
+                "Expected type to be [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions.Specs, Version=*]" +
+                    ", but found [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions, Version=*].";
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
+        public void When_object_type_is_a_subclass_of_the_expected_type_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -380,18 +426,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected type to be FluentAssertions.Specs.DummyBaseClass, but found FluentAssertions.Specs.DummyImplementingClass.");
-        }
-
-        [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_object_type_to_be_equal_to_a_different_type()
-        {
-            var someObject = new object();
-            var assertions = someObject.Should();
-            assertions
-                .Invoking(x => x.BeOfType<Exception>("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(
-                    "Expected type to be System.Exception because we want to test the failure message, but found System.Object.");
         }
 
         #endregion
@@ -475,7 +509,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_an_object_is_not_binary_serializable_it_should_throw()
+        public void When_an_object_is_not_binary_serializable_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -501,7 +535,7 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        public void When_an_object_is_binary_serializable_but_not_deserializable_it_should_throw()
+        public void When_an_object_is_binary_serializable_but_not_deserializable_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -528,7 +562,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_an_object_is_binary_serializable_but_doesnt_restore_all_properties_it_should_throw()
+        public void When_an_object_is_binary_serializable_but_doesnt_restore_all_properties_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -627,7 +661,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_an_object_is_not_xml_serializable_it_should_throw()
+        public void When_an_object_is_not_xml_serializable_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -653,7 +687,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_an_object_is_xml_serializable_but_doesnt_restore_all_properties_it_should_throw()
+        public void When_an_object_is_xml_serializable_but_doesnt_restore_all_properties_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

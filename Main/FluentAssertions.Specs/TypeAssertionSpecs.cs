@@ -12,7 +12,7 @@ namespace FluentAssertions.specs
         #region Be
 
         [TestMethod]
-        public void When_asserting_a_type_is_equal_to_the_same_type_it_should_succeed()
+        public void When_type_is_equal_to_the_same_type_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -33,7 +33,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_equal_to_another_type_it_should_throw()
+        public void When_type_is_equal_to_another_type_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -54,7 +54,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_equal_to_another_type_it_should_throw_with_descriptive_message()
+        public void When_type_is_equal_to_another_type_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -78,8 +78,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void
-            When_asserting_a_type_is_equal_to_same_type_from_different_assembly_it_should_throw_with_assembly_qualified_name()
+        public void When_type_is_equal_to_same_type_from_different_assembly_it_should_throw_with_assembly_qualified_name()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -105,7 +104,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_equal_to_the_same_type_using_generics_it_should_succeed()
+        public void When_type_is_equal_to_the_same_type_using_generics_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -125,7 +124,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_equal_to_another_type_using_generics_it_should_throw()
+        public void When_type_is_equal_to_another_type_using_generics_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -145,7 +144,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_equal_to_another_type_using_generics_it_should_throw_with_descriptive_message()
+        public void When_type_is_equal_to_another_type_using_generics_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -171,7 +170,7 @@ namespace FluentAssertions.specs
         #region NotBe
 
         [TestMethod]
-        public void When_asserting_a_type_is_not_equal_to_the_another_type_it_should_succeed()
+        public void When_type_is_not_equal_to_the_another_type_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -192,7 +191,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_not_equal_to_the_same_type_it_should_throw()
+        public void When_type_is_not_equal_to_the_same_type_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -213,7 +212,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_not_equal_to_the_same_type_it_should_throw_with_descriptive_message()
+        public void When_type_is_not_equal_to_the_same_type_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -236,7 +235,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_not_equal_to_another_type_using_generics_it_should_succeed()
+        public void When_type_is_not_equal_to_another_type_using_generics_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -256,7 +255,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_not_equal_to_the_same_type_using_generics_it_should_throw()
+        public void When_type_is_not_equal_to_the_same_type_using_generics_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -276,7 +275,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_not_equal_to_the_same_type_using_generics_it_should_throw_with_descriptive_message()
+        public void When_type_is_not_equal_to_the_same_type_using_generics_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -302,7 +301,7 @@ namespace FluentAssertions.specs
         #region BeDecoratedWith
 
         [TestMethod]
-        public void When_asserting_a_type_is_decorated_with_a_specific_attribute_and_it_is_it_should_succeed()
+        public void When_type_is_decorated_with_a_specific_attribute_and_it_is_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -322,7 +321,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_decorated_with_an_attribute_and_it_is_not_it_should_throw()
+        public void When_type_is_decorated_with_an_attribute_and_it_is_not_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -342,7 +341,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_decorated_with_an_attribute_and_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_type_is_decorated_with_an_attribute_and_it_is_not_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
