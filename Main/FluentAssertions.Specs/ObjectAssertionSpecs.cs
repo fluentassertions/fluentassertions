@@ -395,8 +395,12 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
+#pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
+
             Action act = () =>
                 assertionsFromOtherAssembly.Should().BeOfType<ObjectAssertions>();
+
+#pragma warning restore 436
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert

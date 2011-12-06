@@ -83,8 +83,12 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeFromThisAssembly = typeof (ObjectAssertions);
+#pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
+
+            Type typeFromThisAssembly = typeof(ObjectAssertions);
             Type typeFromOtherAssembly = typeof (TypeAssertions).Assembly.GetType("FluentAssertions.Assertions.ObjectAssertions");
+
+#pragma warning restore 436
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -388,7 +392,15 @@ namespace FluentAssertions.specs
 
 namespace FluentAssertions.Assertions
 {
+#pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
+
+    /// <summary>
+    /// A class that intentianalty has the exact same name and namespace as the ObjectAssertions from the FluentAssertions
+    /// assembly. This class is used to test the behavior of comparisons on such types.
+    /// </summary>
     internal class ObjectAssertions
     {
     }
+
+#pragma warning restore 436
 }
