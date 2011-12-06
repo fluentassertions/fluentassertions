@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Serialization, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +216,15 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\TypeSelector.cs">
       <Link>TypeSelector.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\XAttributeAssertions.cs">
+      <Link>Assertions\XAttributeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\XDocumentAssertions.cs">
+      <Link>Assertions\XDocumentAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\XElementAssertions.cs">
+      <Link>Assertions\XElementAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
     </Compile>
@@ -277,6 +287,15 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\TimeSpanValueFormatter.cs">
       <Link>Formatting\TimeSpanValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\XAttributeValueFormatter.cs">
+      <Link>Formatting\XAttributeValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\XDocumentValueFormatter.cs">
+      <Link>Formatting\XDocumentValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\XElementValueFormatter.cs">
+      <Link>Formatting\XElementValueFormatter.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Verification.cs">
       <Link>Verification.cs</Link>

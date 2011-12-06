@@ -402,8 +402,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             const string expectedMessage =
-                "Expected type to be [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions.Specs, Version=*]" +
-                    ", but found [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions, Version=*].";
+                "Expected type to be [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions.*]" +
+                    ", but found [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions*].";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
         }

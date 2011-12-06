@@ -96,9 +96,9 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             const string expectedMessage =
-                "Expected type to be [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions, Version=*]" +
+                "Expected type to be [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions*]" +
                     " because we want to test the error message, but found " +
-                        "[FluentAssertions.Assertions.ObjectAssertions, FluentAssertions.Specs, Version=*].";
+                        "[FluentAssertions.Assertions.ObjectAssertions, FluentAssertions*].";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
         }

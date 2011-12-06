@@ -99,6 +99,7 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\FluentAssertions.Specs\AssertionFailureSpecs.cs">
@@ -184,6 +185,24 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\TypeSelectorSpecs.cs">
       <Link>TypeSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XAttributeAssertionSpecs.cs">
+      <Link>XAttributeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XAttributeFormatterSpecs.cs">
+      <Link>XAttributeFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XDocumentAssertionSpecs.cs">
+      <Link>XDocumentAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XDocumentFormatterSpecs.cs">
+      <Link>XDocumentFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XElementAssertionSpecs.cs">
+      <Link>XElementAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XElementFormatterSpecs.cs">
+      <Link>XElementFormatterSpecs.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

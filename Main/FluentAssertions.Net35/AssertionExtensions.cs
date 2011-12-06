@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
-#if !SILVERLIGHT
 using System.Xml.Linq;
-#endif
 
 using FluentAssertions.Assertions;
 
@@ -28,6 +26,7 @@ namespace FluentAssertions
         }
 
 #if !SILVERLIGHT
+
         /// <summary>
         /// Provides methods for asserting the execution time of a method or property.
         /// </summary>
@@ -52,6 +51,8 @@ namespace FluentAssertions
         {
             return new ExecutionTimeAssertions(action);
         }
+
+#endif
 
         /// <summary>
         /// Returns an <see cref="XDocumentAssertions"/> object that can be used to assert the
@@ -79,7 +80,6 @@ namespace FluentAssertions
         {
             return new XAttributeAssertions(actualValue);
         }
-#endif
 
         /// <summary>
         /// Asserts that the <paramref name="action"/> throws an exception.
