@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 
+using Internal.Main.Test;
+using Internal.Other.Test;
+using Internal.Other.Test.Common;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using FluentAssertions.Assertions;
@@ -106,6 +110,53 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
+        public void When_selecting_types_from_specific_namespace_it_should_return_the_correct_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = assembly.Types()
+                .InNamespace("Internal.Other.Test")
+                .ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should()
+                .HaveCount(1)
+                .And.Contain(typeof(SomeOtherClass));
+        }
+
+        [TestMethod]
+        public void When_selecting_types_from_specific_namespace_or_sub_namespaces_it_should_return_the_correct_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = assembly.Types()
+                .UnderNamespace("Internal.Other.Test")
+                .ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should()
+                .HaveCount(2)
+                .And.Contain(typeof(SomeOtherClass))
+                .And.Contain(typeof(SomeCommonClass));
+        }
+
+        [TestMethod]
         public void When_combining_type_selection_filters_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -119,6 +170,7 @@ namespace FluentAssertions.specs
             IEnumerable<Type> types = assembly.Types()
                 .DecoratedWith<SomeAttribute>()
                 .Implementing<ISomeInterface>()
+                .InNamespace("Internal.Main.Test")
                 .ToArray();
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -179,9 +231,12 @@ namespace FluentAssertions.specs
                 .And.Contain(m => m.Name == "Property2");
         }
     }
+}
 
-    #region Internal classes used in unit tests
+#region Internal classes used in unit tests
 
+namespace Internal.Main.Test
+{
     internal class SomeBaseClass
     {
     }
@@ -231,6 +286,20 @@ namespace FluentAssertions.specs
         {
         }
     }
-
-    #endregion
 }
+
+namespace Internal.Other.Test
+{
+    internal class SomeOtherClass
+    {
+    }
+}
+
+namespace Internal.Other.Test.Common
+{
+    internal class SomeCommonClass
+    {
+    }
+}
+
+#endregion

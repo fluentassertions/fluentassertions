@@ -61,5 +61,23 @@ namespace FluentAssertions.Assertions
             selectedTypes = selectedTypes.Where(type => (type.GetCustomAttributes(typeof(TAttribute), true).Length > 0));
             return this;
         }
+
+        /// <summary>
+        /// Only select the types that are in the specified namespace.
+        /// </summary>
+        public TypeSelector InNamespace(string @namespace)
+        {
+            selectedTypes = selectedTypes.Where(type => (type.Namespace == @namespace));
+            return this;
+        }
+
+        /// <summary>
+        /// Only select the types that are in the specified namespace or sub namespaces.
+        /// </summary>
+        public TypeSelector UnderNamespace(string @namespace)
+        {
+            selectedTypes = selectedTypes.Where(type => ((type.Namespace != null) && type.Namespace.StartsWith(@namespace)));
+            return this;
+        }
     }
 }
