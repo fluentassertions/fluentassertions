@@ -503,15 +503,15 @@ namespace FluentAssertions.specs
 
         #endregion
 
-        #region Recursive property validation
+        #region Nested property validation
 
         [TestMethod]
-        public void When_recursing_on_incompatible_properties_that_have_equal_child_properties_it_should_succeed()
+        public void When_all_the_properties_of_the_nested_objects_are_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var root = new Root
+            var subject = new Root
             {
                 Text = "Root",
                 Level = new Level1
@@ -524,7 +524,7 @@ namespace FluentAssertions.specs
                 }
             };
 
-            var equalRootDto = new RootDto
+            var expected = new RootDto
             {
                 Text = "Root",
                 Level = new Level1Dto
@@ -541,7 +541,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                root.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(equalRootDto);
+                subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -550,12 +550,12 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_not_recursing_on_incompatible_properties_that_have_equal_child_properties_it_should_throw()
+        public void When_not_all_the_properties_of_the_nested_objects_are_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var root = new Root
+            var subject = new Root
             {
                 Text = "Root",
                 Level = new Level1
@@ -564,12 +564,12 @@ namespace FluentAssertions.specs
                 }
             };
 
-            var equalRootDto = new RootDto
+            var expected = new RootDto
             {
                 Text = "Root",
                 Level = new Level1Dto
                 {
-                    Text = "Level1",
+                    Text = "Level2",
                 }
             };
 
@@ -577,21 +577,91 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                root.ShouldHave().AllProperties().EqualTo(equalRootDto);
+                subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level to be \r\n\r\nFluentAssertions.specs.Level1Dto\r\n" +
-                    "{\r\n   Level = <null>\r\n   Text = \"Level1\"\r\n}" +
-                        ", but found \r\n\r\nFluentAssertions.specs.Level1\r\n" +
-                            "{\r\n   Level = <null>\r\n   Text = \"Level1\"\r\n}.");
+                .WithMessage("Expected property Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5).");
+        }
+        
+        [TestMethod]
+        public void When_not_all_the_properties_of_the_nested_object_exist_on_the_expected_object_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Level = new
+                {
+                    Text = "Level1",
+                    OtherProperty = "OtherProperty"
+                }
+            };
+
+            var expected = new
+            {
+                Level = new
+                {
+                    Text = "Level1"
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Subject has property Level.OtherProperty that the other object does not have.");
+        }        
+        
+        [TestMethod]
+        public void When_all_the_shared_properties_of_the_nested_objects_are_equal_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Level = new
+                {
+                    Text = "Level1",
+                    Property = "Property"
+                }
+            };
+
+            var expected = new
+            {
+                Level = new
+                {
+                    Text = "Level1",
+                    OtherProperty = "OtherProperty"
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.ShouldHave().SharedProperties().IncludingNestedObjects().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void When_recursing_on_incompatible_properties_that_have_differences_in_their_child_properties_it_should_throw()
+        public void When_deeply_nested_properties_do_not_have_all_equal_values_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -718,6 +788,8 @@ namespace FluentAssertions.specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected property RefOne.ValTwo to be 2, but found 3.");
         }
+
+        #endregion
 
         #region Recursive collection validation
 
@@ -976,8 +1048,6 @@ namespace FluentAssertions.specs
                 set { valTwo = value; }
             }
         }
-
-        #endregion
     }
 
     internal class Customer : Entity

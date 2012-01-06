@@ -243,12 +243,13 @@ namespace FluentAssertions.Assertions
             }
         }
 
-        private static PropertyEqualityValidator CreateNestedValidatorFor(object actualValue, object expectedValue)
+        private PropertyEqualityValidator CreateNestedValidatorFor(object actualValue, object expectedValue)
         {
             var validator = new PropertyEqualityValidator(actualValue)
             {
                 RecurseOnNestedObjects = true,
-                OtherObject = expectedValue
+                OtherObject = expectedValue,
+                OnlySharedProperties = OnlySharedProperties
             };
 
             foreach (var propertyInfo in actualValue.GetType().GetProperties(InstancePropertiesFlag))
