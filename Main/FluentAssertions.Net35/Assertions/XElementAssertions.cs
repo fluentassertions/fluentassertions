@@ -47,7 +47,7 @@ namespace FluentAssertions.Assertions
         public AndConstraint<XElementAssertions> Be(XElement expected, string reason, params object [] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.Equals(expected))
+                .ForCondition(Subject.Name.Equals(expected.Name))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element to be {0}{reason}, but found {1}", expected, Subject);
 

@@ -47,7 +47,7 @@ namespace FluentAssertions.Assertions
         public AndConstraint<XAttributeAssertions> Be(XAttribute expected, string reason, params object [] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.Equals(expected))
+                .ForCondition(Subject.Name.Equals(expected.Name) && Subject.Value.Equals(expected.Value))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML attribute to be {0}{reason}, but found {1}", expected, Subject);
 

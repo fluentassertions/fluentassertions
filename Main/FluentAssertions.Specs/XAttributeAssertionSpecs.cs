@@ -11,13 +11,13 @@ namespace FluentAssertions.specs
         #region Be / NotBe
 
         [TestMethod]
-        public void When_asserting_a_xml_attribute_is_equal_to_the_same_xml_attribute_it_should_succeed()
+        public void When_asserting_an_xml_attribute_is_equal_to_the_same_xml_attribute_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var attribute = new XAttribute("name", "value");
-            var sameXAttribute = attribute;
+            var sameXAttribute = new XAttribute("name", "value");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -32,34 +32,13 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_xml_attribute_is_equal_to_a_different_xml_attribute_it_should_fail()
+        public void When_asserting_an_xml_attribute_is_equal_to_a_different_xml_attribute_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var attribute = new XAttribute("name", "value");
-            var otherXAttribute = new XAttribute("name", "value");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                attribute.Should().Be(otherXAttribute);
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
-        }
-
-        [TestMethod]
-        public void When_asserting_a_xml_attribute_is_equal_to_a_different_xml_attribute_it_should_fail_with_descriptive_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            var attribute = new XAttribute("name", "value");
-            var otherXAttribute = new XAttribute("name", "value");
+            var otherXAttribute = new XAttribute("name2", "value");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -78,13 +57,13 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_xml_attribute_is_not_equal_to_a_different_xml_attribute_it_should_succeed()
+        public void When_asserting_an_xml_attribute_is_not_equal_to_a_different_xml_attribute_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             var attribute = new XAttribute("name", "value");
-            var otherXAttribute = new XAttribute("name", "value");
+            var otherXAttribute = new XAttribute("name2", "value");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -99,7 +78,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw()
+        public void When_asserting_an_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -120,7 +99,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_asserting_a_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw_with_descriptive_message()
+        public void When_asserting_an_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange

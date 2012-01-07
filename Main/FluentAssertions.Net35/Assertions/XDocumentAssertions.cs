@@ -47,7 +47,7 @@ namespace FluentAssertions.Assertions
         public AndConstraint<XDocumentAssertions> Be(XDocument expected, string reason, params object [] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.Equals(expected))
+                .ForCondition(Subject .Equals(expected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML document to be {0}{reason}, but found {1}", expected, Subject);
 
