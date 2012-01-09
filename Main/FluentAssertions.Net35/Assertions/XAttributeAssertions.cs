@@ -23,8 +23,7 @@ namespace FluentAssertions.Assertions
         public XAttribute Subject { get; private set; }
 
         /// <summary>
-        /// Asserts that the current <see cref="XAttribute"/> equals the <paramref name="expected"/> attribute,
-        /// using its <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the current <see cref="XAttribute"/> equals the <paramref name="expected"/> attribute.
         /// </summary>
         /// <param name="expected">The expected attribute</param>
         public AndConstraint<XAttributeAssertions> Be(XAttribute expected)
@@ -33,8 +32,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XAttribute"/> equals the <paramref name="expected"/> attribute,
-        /// using its <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the current <see cref="XAttribute"/> equals the <paramref name="expected"/> attribute.
         /// </summary>
         /// <param name="expected">The expected attribute</param>
         /// <param name="reason">

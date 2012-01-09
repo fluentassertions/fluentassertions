@@ -23,8 +23,7 @@ namespace FluentAssertions.Assertions
         public XElement Subject { get; private set; }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> equals the <paramref name="expected"/> element,
-        /// using its <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the current <see cref="XElement"/> equals the <paramref name="expected"/> element.
         /// </summary>
         /// <param name="expected">The expected element</param>
         public AndConstraint<XElementAssertions> Be(XElement expected)
@@ -33,8 +32,7 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> equals the <paramref name="expected"/> element,
-        /// using its <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the current <see cref="XElement"/> equals the <paramref name="expected"/> element.
         /// </summary>
         /// <param name="expected">The expected element</param>
         /// <param name="reason">
