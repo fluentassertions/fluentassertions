@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,7 +9,7 @@ namespace FluentAssertions.Assertions
     /// <summary>
     /// Allows for fluent selection of properties of a type through reflection.
     /// </summary>
-    public class PropertyInfoSelector
+    public class PropertyInfoSelector : IEnumerable<PropertyInfo>
     {
         private IEnumerable<PropertyInfo> selectedProperties = new List<PropertyInfo>();
 
@@ -74,6 +75,30 @@ namespace FluentAssertions.Assertions
         public PropertyInfo[] ToArray()
         {
             return selectedProperties.ToArray();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public IEnumerator<PropertyInfo> GetEnumerator()
+        {
+            return selectedProperties.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

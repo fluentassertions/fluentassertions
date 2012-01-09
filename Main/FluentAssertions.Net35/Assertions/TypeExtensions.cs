@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Linq;
 
 namespace FluentAssertions.Assertions
 {
@@ -11,11 +12,11 @@ namespace FluentAssertions.Assertions
     public static class TypeExtensions
     {
         /// <summary>
-        /// Returns a type selector for the current <see cref="Assembly"/>.
+        /// Returns the types that are visible outside the specified <see cref="Assembly"/>.
         /// </summary>
         public static TypeSelector Types(this Assembly assembly)
         {
-            return new TypeSelector(assembly);
+            return new TypeSelector(assembly.GetTypes());
         }
 
         /// <summary>

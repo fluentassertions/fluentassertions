@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,7 +9,7 @@ namespace FluentAssertions.Assertions
     /// <summary>
     /// Allows for fluent selection of methods of a type through reflection.
     /// </summary>
-    public class MethodInfoSelector
+    public class MethodInfoSelector : IEnumerable<MethodInfo>
     {
         private IEnumerable<MethodInfo> selectedMethods = new List<MethodInfo>();
 
@@ -90,6 +91,30 @@ namespace FluentAssertions.Assertions
         private bool HasSpecialName(MethodInfo method)
         {
             return (method.Attributes & MethodAttributes.SpecialName) == MethodAttributes.SpecialName;
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public IEnumerator<MethodInfo> GetEnumerator()
+        {
+            return selectedMethods.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

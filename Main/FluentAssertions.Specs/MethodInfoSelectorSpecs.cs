@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using FluentAssertions.Assertions;
-
+using Internal.Main.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.specs
@@ -11,6 +11,30 @@ namespace FluentAssertions.specs
     [TestClass]
     public class MethodInfoSelectorSpecs
     {
+        [TestMethod]
+        public void When_selecting_methods_from_types_in_an_assembly_it_should_return_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = assembly.Types()
+                .ThatAreDecoratedWith<SomeAttribute>()
+                .Methods();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should()
+                .HaveCount(2)
+                .And.Contain(m => m.Name == "Method1")
+                .And.Contain(m => m.Name == "Method2");
+        }
+
         [TestMethod]
         public void When_selecting_methods_that_are_public_or_internal_it_should_return_only_the_applicable_methods()
         {
@@ -22,7 +46,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<MethodInfo> methods = type.Methods().ThatArePublicOrInternal.ToArray();
+            IEnumerable<MethodInfo> methods = type.Methods().ThatArePublicOrInternal;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert

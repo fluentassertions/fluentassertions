@@ -1,83 +1,89 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace FluentAssertions.Assertions
 {
     /// <summary>
-    /// Allows for fluent selection of types from an assembly.
+    /// Allows for fluent filtering a list of types.
     /// </summary>
-    public class TypeSelector
+    public class TypeSelector : IEnumerable<Type>
     {
-        private IEnumerable<Type> selectedTypes = new List<Type>();
+        private Type[] types;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TypeSelector"/> class.
-        /// </summary>
-        /// <param name="assembly">The assembly from which to select types.</param>
-        public TypeSelector(Assembly assembly)
+        internal TypeSelector(IEnumerable<Type> types)
         {
-            Subject = assembly;
-            selectedTypes = assembly.GetTypes();
+            this.types = types.ToArray();
         }
 
         /// <summary>
-        /// Gets the <see cref="Assembly"/> from which to select types.
+        /// Determines whether a type is a subclass of another type, but NOT the same type.
         /// </summary>
-        public Assembly Subject { get; private set; }
-
-        /// <summary>
-        /// The resulting <see cref="Type"/> objects.
-        /// </summary>
-        public Type[] ToArray()
+        public TypeSelector ThatDeriveFrom<TBase>()
         {
-            return selectedTypes.ToArray();
+            types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToArray();
+            return this;
         }
-
+        
         /// <summary>
-        /// Only select the types that derive from a class of the specified type.
+        /// Determines whether a type implements an interface (but is not the interface itself).
         /// </summary>
-        public TypeSelector DerivingFrom<TBase>()
+        public TypeSelector ThatImplement<TInterface>()
         {
-            selectedTypes = selectedTypes.Where(type => type.IsSubclassOf(typeof(TBase)));
+            types = types.Where(t => typeof (TInterface).IsAssignableFrom(t) && (t != typeof (TInterface))).ToArray();
             return this;
         }
 
         /// <summary>
-        /// Only select the types that implement the specified interface.
+        /// Determines whether a type is decorated with a particular attribute.
         /// </summary>
-        public TypeSelector Implementing<TInterface>()
+        public TypeSelector ThatAreDecoratedWith<TAttribute>()
         {
-            selectedTypes = selectedTypes.Where(type => typeof(TInterface).IsAssignableFrom(type) && (type != typeof(TInterface)));
+            types = types.Where(t => t.GetCustomAttributes(typeof(TAttribute), true).Length > 0).ToArray();
             return this;
         }
 
         /// <summary>
-        /// Only select the types that are decorated with the specified attribute.
+        /// Determines whether the namespace of type is exactly <paramref name="namespace"/>.
         /// </summary>
-        public TypeSelector DecoratedWith<TAttribute>()
+        public TypeSelector ThatAreInNamespace(string @namespace)
         {
-            selectedTypes = selectedTypes.Where(type => (type.GetCustomAttributes(typeof(TAttribute), true).Length > 0));
+            types = types.Where(t => t.Namespace == @namespace).ToArray();
             return this;
         }
 
         /// <summary>
-        /// Only select the types that are in the specified namespace.
+        /// Determines whether the namespace of type is starts with <paramref name="namespace"/>.
         /// </summary>
-        public TypeSelector InNamespace(string @namespace)
+        public TypeSelector ThatAreUnderNamespace(string @namespace)
         {
-            selectedTypes = selectedTypes.Where(type => (type.Namespace == @namespace));
+            types = types.Where(t => (t.Namespace != null) && t.Namespace.StartsWith(@namespace)).ToArray();
             return this;
         }
 
         /// <summary>
-        /// Only select the types that are in the specified namespace or sub namespaces.
+        /// Returns an enumerator that iterates through the collection.
         /// </summary>
-        public TypeSelector UnderNamespace(string @namespace)
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public IEnumerator<Type> GetEnumerator()
         {
-            selectedTypes = selectedTypes.Where(type => ((type.Namespace != null) && type.Namespace.StartsWith(@namespace)));
-            return this;
+            return types.Cast<Type>().GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

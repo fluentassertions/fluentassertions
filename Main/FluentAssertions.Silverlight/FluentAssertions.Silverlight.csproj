@@ -214,7 +214,7 @@
       <Link>Assertions\TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\TypeSelector.cs">
-      <Link>TypeSelector.cs</Link>
+      <Link>Assertions\TypeSelector.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\XAttributeAssertions.cs">
       <Link>Assertions\XAttributeAssertions.cs</Link>

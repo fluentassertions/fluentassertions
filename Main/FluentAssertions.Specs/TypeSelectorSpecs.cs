@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 using Internal.Main.Test;
@@ -26,9 +27,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types()
-                .DerivingFrom<SomeBaseClass>()
-                .ToArray();
+            IEnumerable<Type> types = assembly.Types().ThatDeriveFrom<SomeBaseClass>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -49,9 +48,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types()
-                .DerivingFrom<SomeGenericBaseClass<int>>()
-                .ToArray();
+            IEnumerable<Type> types = assembly.Types().ThatDeriveFrom<SomeGenericBaseClass<int>>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -72,10 +69,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types()
-                .Implementing<ISomeInterface>()
-                .ToArray();
-
+            IEnumerable<Type> types = assembly.Types().ThatImplement<ISomeInterface>();
+            
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
@@ -96,10 +91,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types()
-                .DecoratedWith<SomeAttribute>()
-                .ToArray();
-
+            IEnumerable<Type> types = assembly.Types().ThatAreDecoratedWith<SomeAttribute>();
+            
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
@@ -120,10 +113,8 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types()
-                .InNamespace("Internal.Other.Test")
-                .ToArray();
-
+            IEnumerable<Type> types = assembly.Types().ThatAreInNamespace("Internal.Other.Test");
+            
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
@@ -143,9 +134,7 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types()
-                .UnderNamespace("Internal.Other.Test")
-                .ToArray();
+            IEnumerable<Type> types = assembly.Types().ThatAreUnderNamespace("Internal.Other.Test");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -168,10 +157,9 @@ namespace FluentAssertions.specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             IEnumerable<Type> types = assembly.Types()
-                .DecoratedWith<SomeAttribute>()
-                .Implementing<ISomeInterface>()
-                .InNamespace("Internal.Main.Test")
-                .ToArray();
+                    .ThatAreDecoratedWith<SomeAttribute>()
+                    .ThatImplement<ISomeInterface>()
+                    .ThatAreInNamespace("Internal.Main.Test");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -179,56 +167,6 @@ namespace FluentAssertions.specs
             types.Should()
                 .HaveCount(1)
                 .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
-        }
-
-        [TestMethod]
-        public void When_selecting_methods_from_types_in_an_assembly_it_should_return_the_applicable_methods()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo [] methods = assembly.Types()
-                .DecoratedWith<SomeAttribute>()
-                .Methods()
-                .ToArray();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            methods.Should()
-                .HaveCount(2)
-                .And.Contain(m => m.Name == "Method1")
-                .And.Contain(m => m.Name == "Method2");
-        }
-
-        [TestMethod]
-        public void When_selecting_properties_from_types_in_an_assembly_it_should_return_the_applicable_properties()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            PropertyInfo [] properties = assembly.Types()
-                .DecoratedWith<SomeAttribute>()
-                .Properties()
-                .ToArray();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            properties.Should()
-                .HaveCount(2)
-                .And.Contain(m => m.Name == "Property1")
-                .And.Contain(m => m.Name == "Property2");
         }
     }
 }

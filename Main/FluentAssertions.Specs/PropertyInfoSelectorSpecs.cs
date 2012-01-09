@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using FluentAssertions.Assertions;
-
+using Internal.Main.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.specs
@@ -11,6 +11,30 @@ namespace FluentAssertions.specs
     [TestClass]
     public class PropertyInfoSelectorSpecs
     {
+        [TestMethod]
+        public void When_selecting_properties_from_types_in_an_assembly_it_should_return_the_applicable_properties()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<PropertyInfo> properties = assembly.Types()
+                .ThatAreDecoratedWith<SomeAttribute>()
+                .Properties();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            properties.Should()
+                .HaveCount(2)
+                .And.Contain(m => m.Name == "Property1")
+                .And.Contain(m => m.Name == "Property2");
+        }
+
         [TestMethod]
         public void When_selecting_properties_that_are_public_or_internal_it_should_return_only_the_applicable_properties()
         {
