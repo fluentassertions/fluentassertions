@@ -77,7 +77,7 @@ namespace FluentAssertions.Assertions
         public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string reason, params object [] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(!Subject.Equals(unexpected))
+                .ForCondition(!Subject.Name.Equals(unexpected.Name))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element not to be {0}{reason}.", unexpected);
 
