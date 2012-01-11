@@ -59,7 +59,12 @@ namespace FluentAssertions.Assertions
 
         private MethodInfo[] GetAllNonVirtualMethodsFromSelection()
         {
-            return SubjectMethods.Where(method => !method.IsVirtual).ToArray();
+            var query =
+                    from method in SubjectMethods
+                    where !method.IsVirtual || method.IsFinal
+                    select method;
+
+            return query.ToArray();
         }
 
         /// <summary>

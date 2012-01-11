@@ -154,7 +154,12 @@ namespace FluentAssertions.specs
         protected virtual string ProtectedVirtualProperty { get; set; }
     }
 
-    internal class ClassWithNonVirtualPublicProperties
+    internal interface IInterfaceWithProperty
+    {
+        string PublicVirtualProperty { get; set; }
+    }
+
+    internal class ClassWithNonVirtualPublicProperties : IInterfaceWithProperty
     {
         public string PublicVirtualProperty { get; set; }
 

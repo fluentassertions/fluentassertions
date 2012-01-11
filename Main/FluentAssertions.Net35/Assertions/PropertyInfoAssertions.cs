@@ -59,7 +59,13 @@ namespace FluentAssertions.Assertions
 
         private PropertyInfo[] GetAllNonVirtualPropertiesFromSelection()
         {
-            return SubjectProperties.Where(property => !property.GetGetMethod(true).IsVirtual).ToArray();
+            var query = 
+                from property in SubjectProperties
+                let getter = property.GetGetMethod(true)
+                where !getter.IsVirtual || getter.IsFinal
+                select property;
+
+            return query.ToArray();
         }
 
         /// <summary>

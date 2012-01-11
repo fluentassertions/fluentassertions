@@ -160,7 +160,12 @@ namespace FluentAssertions.specs
         }
     }
 
-    internal class ClassWithNonVirtualPublicMethods
+    internal interface IInterfaceWithPublicMethod
+    {
+        void PublicDoNothing();
+    }
+
+    internal class ClassWithNonVirtualPublicMethods : IInterfaceWithPublicMethod
     {
         public void PublicDoNothing()
         {
