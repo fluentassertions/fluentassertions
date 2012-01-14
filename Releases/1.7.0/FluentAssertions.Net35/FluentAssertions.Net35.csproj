@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B41571A3-A982-40E1-8308-7B70F5DE9CA2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FluentAssertions</RootNamespace>
+    <AssemblyName>FluentAssertions</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;MSTEST</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\FluentAssertions.xml</DocumentationFile>
+    <NoWarn>1591; 1572; 1573; 1574</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Package\Lib\net35\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Package\Lib\net35\FluentAssertions.xml</DocumentationFile>
+    <NoWarn>1591; 1572; 1573;1574</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Assertions\ActionAssertions.cs" />
+    <Compile Include="AndConstraint.cs" />
+    <Compile Include="Assertions\ComparableTypeAssertions.cs" />
+    <Compile Include="Assertions\ComparisonMode.cs" />
+    <Compile Include="Assertions\GenericDictionaryAssertions.cs" />
+    <Compile Include="Assertions\GuidAssertions.cs" />
+    <Compile Include="Assertions\MethodInfoAssertions.cs" />
+    <Compile Include="Assertions\MethodInfoSelector.cs" />
+    <Compile Include="Assertions\NullableGuidAssertions.cs" />
+    <Compile Include="Assertions\PropertyEqualityValidator.cs" />
+    <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
+    <Compile Include="Assertions\FloatingPointExtensions.cs" />
+    <Compile Include="Assertions\PropertyInfoAssertions.cs" />
+    <Compile Include="Assertions\PropertyInfoSelector.cs" />
+    <Compile Include="Assertions\StringEqualityValidator.cs" />
+    <Compile Include="Assertions\StringStartValidator.cs" />
+    <Compile Include="Assertions\StringValidator.cs" />
+    <Compile Include="Assertions\StringWildcardMatchingValidator.cs" />
+    <Compile Include="Assertions\TypeExtensions.cs" />
+    <Compile Include="Assertions\TypeSelector.cs" />
+    <Compile Include="Assertions\XAttributeAssertions.cs" />
+    <Compile Include="Assertions\XDocumentAssertions.cs" />
+    <Compile Include="Assertions\XElementAssertions.cs" />
+    <Compile Include="Common\FluentDateTimeExtensions.cs" />
+    <Compile Include="Assertions\IntegralAssertions.cs" />
+    <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />
+    <Compile Include="Assertions\SimpleTimeSpanAssertions.cs" />
+    <Compile Include="Common\ObjectAlreadyTrackedException.cs" />
+    <Compile Include="Common\UniqueObjectTracker.cs" />
+    <Compile Include="Common\TimeSpanConversionExtensions.cs" />
+    <Compile Include="Assertions\ReferenceTypeAssertions.cs" />
+    <Compile Include="Assertions\BooleanAssertions.cs" />
+    <Compile Include="Assertions\CollectionAssertions.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="EventMonitoring\EventMonitoringExtensions.cs" />
+    <Compile Include="EventMonitoring\EventRecorder.cs" />
+    <Compile Include="EventMonitoring\EventHandlerFactory.cs" />
+    <Compile Include="EventMonitoring\IEventRecorder.cs" />
+    <Compile Include="EventMonitoring\RecordedEvent.cs" />
+    <Compile Include="EventMonitoring\EventRecordersMap.cs" />
+    <Compile Include="Formatting\DateTimeValueFormatter.cs" />
+    <Compile Include="Formatting\DefaultValueFormatter.cs" />
+    <Compile Include="Formatting\EnumerableValueFormatter.cs" />
+    <Compile Include="Formatting\ExpressionValueFormatter.cs" />
+    <Compile Include="Formatting\Formatter.cs" />
+    <Compile Include="Formatting\IValueFormatter.cs" />
+    <Compile Include="Formatting\NullValueFormatter.cs" />
+    <Compile Include="Formatting\NumericValueFormatter.cs" />
+    <Compile Include="Formatting\StringValueFormatter.cs" />
+    <Compile Include="Formatting\TimeSpanValueFormatter.cs" />
+    <Compile Include="Formatting\XAttributeValueFormatter.cs" />
+    <Compile Include="Formatting\XDocumentValueFormatter.cs" />
+    <Compile Include="Formatting\XElementValueFormatter.cs" />
+    <Compile Include="Frameworks\AssertionHelper.cs" />
+    <Compile Include="Frameworks\FallbackTestFramework.cs" />
+    <Compile Include="Frameworks\ITestFramework.cs" />
+    <Compile Include="Frameworks\MSpecFramework.cs" />
+    <Compile Include="Frameworks\MSTestFramework.cs" />
+    <Compile Include="Frameworks\NUnitTestFramework.cs" />
+    <Compile Include="Frameworks\LateBoundTestFramework.cs" />
+    <Compile Include="Frameworks\XUnitTestFramework.cs" />
+    <Compile Include="Assertions\GenericCollectionAssertions.cs" />
+    <Compile Include="Assertions\NonGenericCollectionAssertions.cs" />
+    <Compile Include="AssertionExtensions.cs" />
+    <Compile Include="Assertions\DateTimeAssertions.cs" />
+    <Compile Include="Assertions\ExceptionAssertions.cs" />
+    <Compile Include="Assertions\NullableBooleanAssertions.cs" />
+    <Compile Include="Assertions\NullableDateTimeAssertions.cs" />
+    <Compile Include="Assertions\NullableNumericExtensions.cs" />
+    <Compile Include="Assertions\NumericAssertions.cs" />
+    <Compile Include="Assertions\ObjectAssertions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Assertions\PropertyAssertions.cs" />
+    <Compile Include="Assertions\StringAssertions.cs" />
+    <Compile Include="Assertions\TimeSpanAssertions.cs" />
+    <Compile Include="Execute.cs" />
+    <Compile Include="Assertions\TypeAssertions.cs" />
+    <Compile Include="Verification.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

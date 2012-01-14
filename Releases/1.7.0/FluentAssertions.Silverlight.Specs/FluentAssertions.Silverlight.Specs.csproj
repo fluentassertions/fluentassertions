@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FluentAssertions.Silverlight.Specs</RootNamespace>
+    <AssemblyName>FluentAssertions.Silverlight.Specs</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures />
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>FluentAssertions.Silverlight.Specs.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>FluentAssertions.Silverlight.Specs.App</SilverlightAppEntry>
+    <TestPageFileName>TestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <!--
+  //
+  // Silverlight Code Coverage Instrumentation
+  // List any libraries or assemblies that you would like to instrument during
+  // a code coverage pass. An example, for ClassLibrary1, is provided, and
+  // commented out below as a starting point:
+  //
+  -->
+  <!--
+  <ItemGroup>
+    <InstrumentSilverlightAssemblies Include="SilverlightClassLibrary1">
+      <Visible>false</Visible>
+    </InstrumentSilverlightAssemblies>
+  </ItemGroup>
+  -->
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FakeItEasy-SL">
+      <HintPath>..\SharedBinaries\FakeItEasy-SL.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Silverlight.Testing">
+      <HintPath>..\SharedBinaries\Microsoft.Silverlight.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\SharedBinaries\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\FluentAssertions.Specs\AssertionFailureSpecs.cs">
+      <Link>AssertionFailureSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\BooleanAssertionSpecs.cs">
+      <Link>BooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\CollectionAssertionSpecs.cs">
+      <Link>CollectionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ComparableSpecs.cs">
+      <Link>ComparableSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\DateTimeAssertionSpecs.cs">
+      <Link>DateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\DateTimeFormatterSpecs.cs">
+      <Link>DateTimeFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ExceptionAssertionSpecs.cs">
+      <Link>ExceptionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionsSpecs.cs">
+      <Link>GenericCollectionAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GuidAssertionSpecs.cs">
+      <Link>GuidAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\MethodInfoAssertionSpecs.cs">
+      <Link>MethodInfoAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\MethodInfoSelectorSpecs.cs">
+      <Link>MethodInfoSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
+      <Link>NullableBooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableDateTimeAssertionSpecs.cs">
+      <Link>NullableDateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableGuidAssertionSpecs.cs">
+      <Link>NullableGuidAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableNumericAssertionSpecs.cs">
+      <Link>NullableNumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableSimpleTimeSpanAssertionSpecs.cs">
+      <Link>NullableSimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NumericAssertionSpecs.cs">
+      <Link>NumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ObjectAssertionSpecs.cs">
+      <Link>ObjectAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ObjectCastingSpecs.cs">
+      <Link>ObjectCastingSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyAssertionSpecs.cs">
+      <Link>PropertyAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyInfoSelectorSpecs.cs">
+      <Link>PropertyInfoSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ReferenceTypeAssertionsSpecs.cs">
+      <Link>ReferenceTypeAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\SimpleTimeSpanAssertionSpecs.cs">
+      <Link>SimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\StringAssertionSpecs.cs">
+      <Link>StringAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ThrowAssertionsSpecs.cs">
+      <Link>ThrowAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TimeSpanFormatterSpecs.cs">
+      <Link>TimeSpanFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TypeAssertionSpecs.cs">
+      <Link>TypeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TypeSelectorSpecs.cs">
+      <Link>TypeSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XAttributeAssertionSpecs.cs">
+      <Link>XAttributeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XAttributeFormatterSpecs.cs">
+      <Link>XAttributeFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XDocumentAssertionSpecs.cs">
+      <Link>XDocumentAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XDocumentFormatterSpecs.cs">
+      <Link>XDocumentFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XElementAssertionSpecs.cs">
+      <Link>XElementAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XElementFormatterSpecs.cs">
+      <Link>XElementFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EventMonitoringSpecs.cs" />
+    <Compile Include="TestViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FluentAssertions.Silverlight\FluentAssertions.Silverlight.csproj">
+      <Project>{135391A1-B669-423F-8D8C-04B60DCFB8B1}</Project>
+      <Name>FluentAssertions.Silverlight</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

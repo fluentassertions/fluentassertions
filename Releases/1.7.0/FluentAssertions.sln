@@ -1,0 +1,93 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
+	ProjectSection(SolutionItems) = preProject
+		BuildRelease.bat = BuildRelease.bat
+		FluentAssertions.snk = FluentAssertions.snk
+		FluentAssertions2.vsmdi = FluentAssertions2.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		SolutionInfo.cs = SolutionInfo.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net35", "FluentAssertions.Net35\FluentAssertions.Net35.csproj", "{B41571A3-A982-40E1-8308-7B70F5DE9CA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Specs", "FluentAssertions.Specs\FluentAssertions.Specs.csproj", "{11E362B9-2A11-4452-AD28-1F8AC14AE87B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Silverlight", "FluentAssertions.Silverlight\FluentAssertions.Silverlight.csproj", "{135391A1-B669-423F-8D8C-04B60DCFB8B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net40", "FluentAssertions.Net40\FluentAssertions.Net40.csproj", "{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Silverlight.Specs", "FluentAssertions.Silverlight.Specs\FluentAssertions.Silverlight.Specs.csproj", "{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{2D1C52B7-E25D-4BD5-8688-A642A6842AA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specs", "Specs", "{963262D0-9FD5-4741-8C0E-E2F34F110EF3}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs05
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = FluentAssertions.Net40\\FluentAssertions.Net40.csproj
+		SccProjectTopLevelParentUniqueName1 = FluentAssertions.sln
+		SccProjectName1 = FluentAssertions.Net40
+		SccLocalPath1 = FluentAssertions.Net40
+		SccProjectUniqueName2 = FluentAssertions.Net35\\FluentAssertions.Net35.csproj
+		SccProjectTopLevelParentUniqueName2 = FluentAssertions.sln
+		SccProjectName2 = FluentAssertions.Net35
+		SccLocalPath2 = FluentAssertions.Net35
+		SccProjectUniqueName3 = FluentAssertions.Silverlight\\FluentAssertions.Silverlight.csproj
+		SccProjectTopLevelParentUniqueName3 = FluentAssertions.sln
+		SccProjectName3 = FluentAssertions.Silverlight
+		SccLocalPath3 = FluentAssertions.Silverlight
+		SccProjectUniqueName4 = FluentAssertions.Specs\\FluentAssertions.Specs.csproj
+		SccProjectTopLevelParentUniqueName4 = FluentAssertions.sln
+		SccProjectName4 = FluentAssertions.Specs
+		SccLocalPath4 = FluentAssertions.Specs
+		SccProjectUniqueName5 = FluentAssertions.Silverlight.Specs\\FluentAssertions.Silverlight.Specs.csproj
+		SccProjectTopLevelParentUniqueName5 = FluentAssertions.sln
+		SccProjectName5 = FluentAssertions.Silverlight.Specs
+		SccLocalPath5 = FluentAssertions.Silverlight.Specs
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = FluentAssertions2.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{11E362B9-2A11-4452-AD28-1F8AC14AE87B} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+	EndGlobalSection
+EndGlobal

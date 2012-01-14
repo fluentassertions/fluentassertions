@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>FluentAssertions</id>
+    <title>Fluent Assertions</title>
+    <version>1.7.0</version>
+    <owners>Dennis Doomen</owners>
+    <authors>Dennis Doomen, Martin Opdam</authors>
+    <description>A very extensive set of extension methods for .NET 3.5, 4.0 and Silverlight 4.0 that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit test.</description> 
+    <language>en-US</language>
+    <licenseUrl>http://fluentassertions.codeplex.com/license</licenseUrl>    
+    <projectUrl>http://fluentassertions.codeplex.com</projectUrl>
+    <tags>MSTest xUnit NUnit MSpec TDD BDD Fluent Silverlight</tags>
+    <copyright>Copyright Dennis Doomen 2010-2012</copyright>
+    <releaseNotes>
+      - Added methods for asserting that a collection of types matching a predicate have specific methods that are virtual or marked with a specific attribute.
+      - Added methods for asserting XElements and Xattributes
+      - Added support for recursively comparing the properties of nested (collection of objects ). By default it will compare all properties of the expected object graph, unless SharedProperties is used.
+      - Added a fallback mechanism so that if FA cannot find any of the supported frameworks, it will fall back to using a custom AssertFailedException exception class rather than crashing.
+      - Added support for ComparisonMode.StartWith and ComparisonMode.StartWithEquivalent when asserting the message of an exception.
+      - For assertions that verify against a Type, the failure message will use the AssemblyQualifiedName rather than just the name of the type.
+      - Fixed a bug so that collection.Should().OnlyContain(lamba) now throws if the collection is empty. See this discussion for more details.
+      - Minor fix that ignores trailing blank characters when looking for the 'because' text in the reason of an assertion.
+      - Added better and deeper detection of cyclic references when recursively comparing properties or generating a string representation of a complex object graph.
+      - For long strings, the error message for string.Should().StartWith() places the actual and expected strings on seperate lines. This makes it easier to find the differences.
+    </releaseNotes>
+  </metadata>
+</package>
