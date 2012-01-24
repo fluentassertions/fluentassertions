@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Assertions
 {
@@ -315,7 +316,7 @@ namespace FluentAssertions.Assertions
             for (int index = 0; index < expectedItems.Length; index++)
             {
                 verification
-                    .ForCondition((index < actualItems.Length) && actualItems[index].Equals(expectedItems[index]))
+                    .ForCondition((index < actualItems.Length) && actualItems[index].IsSameOrEqualTo(expectedItems[index]))
                     .FailWith("Expected " + Verification.SubjectNameOr("collection") +
                         " to be equal to {0}{reason}, but {1} differs at index {2}.", expected, Subject, index);
             }
