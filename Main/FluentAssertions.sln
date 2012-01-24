@@ -24,9 +24,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{2D1C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specs", "Specs", "{963262D0-9FD5-4741-8C0E-E2F34F110EF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WindowsPhone", "FluentAssertions.WindowsPhone\FluentAssertions.WindowsPhone.csproj", "{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WindowsPhone.Specs", "FluentAssertions.WindowsPhone.Specs\FluentAssertions.WindowsPhone.Specs.csproj", "{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
+		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs05
 		SccLocalPath0 = .
@@ -50,6 +54,14 @@ Global
 		SccProjectTopLevelParentUniqueName5 = FluentAssertions.sln
 		SccProjectName5 = FluentAssertions.Silverlight.Specs
 		SccLocalPath5 = FluentAssertions.Silverlight.Specs
+		SccProjectUniqueName6 = FluentAssertions.WindowsPhone\\FluentAssertions.WindowsPhone.csproj
+		SccProjectTopLevelParentUniqueName6 = FluentAssertions.sln
+		SccProjectName6 = FluentAssertions.WindowsPhone
+		SccLocalPath6 = FluentAssertions.WindowsPhone
+		SccProjectUniqueName7 = FluentAssertions.WindowsPhone.Specs\\FluentAssertions.WindowsPhone.Specs.csproj
+		SccProjectTopLevelParentUniqueName7 = FluentAssertions.sln
+		SccProjectName7 = FluentAssertions.WindowsPhone.Specs
+		SccLocalPath7 = FluentAssertions.WindowsPhone.Specs
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = FluentAssertions2.vsmdi
@@ -79,15 +91,27 @@ Global
 		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B41571A3-A982-40E1-8308-7B70F5DE9CA2} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{135391A1-B669-423F-8D8C-04B60DCFB8B1} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
-		{11E362B9-2A11-4452-AD28-1F8AC14AE87B} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{11E362B9-2A11-4452-AD28-1F8AC14AE87B} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 	EndGlobalSection
 EndGlobal
