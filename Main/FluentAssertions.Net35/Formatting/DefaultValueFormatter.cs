@@ -85,7 +85,7 @@ namespace FluentAssertions.Formatting
             builder.AppendLine(type.FullName);
             builder.AppendLine(CreateWhitespaceForLevel(nestedPropertyLevel) + "{");
 
-            foreach (var propertyInfo in type.GetProperties().OrderBy(pi => pi.Name))
+            foreach (var propertyInfo in type.GetProperties(BindingFlags.Public | BindingFlags.Instance).OrderBy(pi => pi.Name))
             {
                 builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1, uniqueObjectTracker));
             }
