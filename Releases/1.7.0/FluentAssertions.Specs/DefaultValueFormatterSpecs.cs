@@ -1,4 +1,5 @@
-﻿using FluentAssertions.Formatting;
+﻿using System.Collections.Generic;
+using FluentAssertions.Formatting;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,10 +14,9 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var parent = new Parent();
-            var child = new Child();
-            parent.Child = child;
-            child.Parent = parent;
+            var parent = new Node();
+            parent.Children.Add(new Node());
+            parent.Children.Add(parent);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -30,13 +30,14 @@ namespace FluentAssertions.specs
         }
     }
 
-    public class Parent
+    public class Node
     {
-        public Child Child { get; set; }
-    }
+        public Node()
+        {
+            Children = new List<Node>();
+        }
 
-    public class Child
-    {
-        public Parent Parent { get; set; }
+        public static Node Default { get { return new Node(); } }
+        public List<Node> Children { get; set; }
     }
 }
