@@ -50,15 +50,15 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>..\Package\Lib\sl40\FluentAssertions.WindowsPhone.xml</DocumentationFile>
   </PropertyGroup>
-    <PropertyGroup>
-        <SignAssembly>true</SignAssembly>
-    </PropertyGroup>
-    <PropertyGroup>
-        <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
-    </PropertyGroup>
-    <PropertyGroup>
-        <DelaySign>false</DelaySign>
-    </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
       <HintPath>..\SharedBinaries\WindowsPhone\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
@@ -87,6 +87,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\CollectionAssertions.cs">
       <Link>Assertions\CollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\CollectionPropertyAssertions.cs">
+      <Link>Assertions\CollectionPropertyAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\ComparableTypeAssertions.cs">
       <Link>Assertions\ComparableTypeAssertions.cs</Link>
     </Compile>
@@ -113,6 +116,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\IntegralAssertions.cs">
       <Link>Assertions\IntegralAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\IPropertyAssertions.cs">
+      <Link>Assertions\IPropertyAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\MethodInfoAssertions.cs">
       <Link>Assertions\MethodInfoAssertions.cs</Link>

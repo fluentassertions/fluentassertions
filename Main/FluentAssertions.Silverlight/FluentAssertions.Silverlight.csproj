@@ -114,6 +114,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\CollectionAssertions.cs">
       <Link>Assertions\CollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\CollectionPropertyAssertions.cs">
+      <Link>Assertions\CollectionPropertyAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\ComparableTypeAssertions.cs">
       <Link>Assertions\ComparableTypeAssertions.cs</Link>
     </Compile>
@@ -140,6 +143,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\IntegralAssertions.cs">
       <Link>Assertions\IntegralAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\IPropertyAssertions.cs">
+      <Link>Assertions\IPropertyAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\MethodInfoAssertions.cs">
       <Link>Assertions\MethodInfoAssertions.cs</Link>

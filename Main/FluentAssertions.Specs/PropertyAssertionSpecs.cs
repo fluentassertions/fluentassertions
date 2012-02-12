@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using FluentAssertions.Assertions;
 using FluentAssertions.Specs;
@@ -791,7 +792,7 @@ namespace FluentAssertions.specs
 
         #endregion
 
-        #region Recursive collection validation
+        #region Nested collection validation
 
         [TestMethod]
         public void When_a_collection_property_contains_objects_with_matching_properties_it_should_not_throw()
@@ -1016,6 +1017,39 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("*\"Customers\" property to be a collection with 2 item(s), but found 1*", ComparisonMode.Wildcard);
+        }
+
+        #endregion
+
+        #region Collection Validation
+
+        [TestMethod]
+        public void When_two_lists_contain_the_same_structural_equal_objects_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection1 = new List<Customer>
+            {
+                new Customer {Name = "John", Age = 27, Id = 1},
+                new Customer {Name = "Jane", Age = 24, Id = 2}
+            };
+
+            var collection2 = new List<Customer>
+            {
+                new Customer {Name = "John", Age = 27, Id = 1},
+                new Customer {Name = "Jane", Age = 24, Id = 2}
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection1.ShouldHave().AllProperties().EqualTo(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
         }
 
         #endregion

@@ -16,34 +16,22 @@ namespace FluentAssertions.Assertions
     {
         #region Private Definitions
 
-        private const BindingFlags InstancePropertiesFlag =
-            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy;
+        private const BindingFlags PublicPropertiesFlag =
+            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
-        private const int RootLevel = 0;
         private UniqueObjectTracker uniqueObjectTracker;
         private string parentPropertyName = "";
-        private readonly object subject;
+        private readonly IList<string> includedProperties = new List<string>();
+        private readonly IList<string> excludedProperties = new List<string>();
 
         #endregion
 
-        public PropertyEqualityValidator(object subject)
+        public PropertyEqualityValidator()
         {
-            this.subject = subject;
-            Properties = new List<PropertyInfo>();
+            PropertySelection = PropertySelection.None;
         }
 
-        public object OtherObject { get; set; }
-
-        /// <summary>
-        /// Contains the properties that should be included when comparing two objects.
-        /// </summary>
-        public IList<PropertyInfo> Properties { get; private set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the validator will ignore properties from the <see cref="Properties"/>
-        /// collection that the <see cref="Other"/> object doesn't have.
-        /// </summary>
-        public bool OnlySharedProperties { get; set; }
+        public PropertySelection PropertySelection { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether it should continue comparing (collections of objects) that
@@ -51,57 +39,99 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public bool RecurseOnNestedObjects { get; set; }
 
+        public Type CompileTimeType { get; set; }
+
         public string Reason { get; set; }
 
         public object[] ReasonArgs { get; set; }
 
-        public void Validate()
+        public void ExcludeProperty(string propertyName)
         {
-            Validate(new UniqueObjectTracker(), "");
+            excludedProperties.Add(propertyName);
         }
 
-        private void Validate(UniqueObjectTracker tracker, string parentPropertyName)
+        public void IncludeProperty(string propertyName)
+        {
+            includedProperties.Add(propertyName);
+        }
+
+        public void AssertEquality(object subject, object expected)
+        {
+            AssertEquality(subject, expected, new UniqueObjectTracker(), "");
+        }
+
+        private void AssertEquality(object subject, object expected, UniqueObjectTracker tracker,
+            string parentPropertyName)
         {
             this.parentPropertyName = parentPropertyName;
 
             uniqueObjectTracker = tracker;
             uniqueObjectTracker.Track(subject);
 
-            if (ReferenceEquals(OtherObject, null))
+            if (ReferenceEquals(expected, null))
             {
                 throw new NullReferenceException("Cannot compare subject's properties with a <null> object.");
             }
 
-            if (Properties.Count == 0)
-            {
-                throw new InvalidOperationException("Please specify some properties to include in the comparison.");
-            }
-
-            AssertSelectedPropertiesAreEqual(subject, OtherObject);
+            AssertSelectedPropertiesAreEqual(subject, expected);
         }
 
         private void AssertSelectedPropertiesAreEqual(object subject, object expected)
         {
-            foreach (var propertyInfo in Properties)
+            foreach (var propertyInfo in DeterminePropertiesToInclude(subject))
             {
                 object actualValue = propertyInfo.GetValue(subject, null);
 
                 PropertyInfo compareeProperty = FindPropertyFrom(expected, propertyInfo.Name);
                 if (compareeProperty != null)
                 {
-                    object expectedValue = compareeProperty.GetValue(OtherObject, null);
+                    object expectedValue = compareeProperty.GetValue(expected, null);
 
                     AssertPropertyEqualityUsingVerificationContext(expectedValue, actualValue, propertyInfo);
                 }
             }
         }
 
+        private IEnumerable<PropertyInfo> DeterminePropertiesToInclude(object subject)
+        {
+            var properties = GetNonPrivateProperties(subject.GetType(), includedProperties);
+
+            if (PropertySelection == PropertySelection.AllRuntimePublic)
+            {
+                properties.AddRange(GetNonPrivateProperties(subject.GetType()));
+            }
+            else if (PropertySelection == PropertySelection.AllCompileTimePublic)
+            {
+                properties.AddRange(GetNonPrivateProperties(CompileTimeType));
+            }
+
+            properties = properties.Where(pi => !excludedProperties.Contains(pi.Name)).ToList();
+            if ((PropertySelection != PropertySelection.OnlyShared) && !properties.Any())
+            {
+                throw new InvalidOperationException("Please specify some properties to include in the comparison.");
+            }
+
+            return properties.ToArray();
+        }
+
+        private List<PropertyInfo> GetNonPrivateProperties(Type typeToReflect, IList<string> properties = null)
+        {
+            var query =
+                from propertyInfo in typeToReflect.GetProperties(PublicPropertiesFlag)
+                where !propertyInfo.GetGetMethod(true).IsPrivate
+                where (properties == null) || properties.Contains(propertyInfo.Name)
+                select propertyInfo;
+
+            return query.ToList();
+        }
+
+
         private PropertyInfo FindPropertyFrom(object obj, string propertyName)
         {
             PropertyInfo compareeProperty =
-                obj.GetType().GetProperties(InstancePropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
+                obj.GetType().GetProperties(PublicPropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
 
-            if (!OnlySharedProperties && (compareeProperty == null))
+            if ((PropertySelection != PropertySelection.OnlyShared) && (compareeProperty == null))
             {
                 Execute.Verification.FailWith(
                     "Subject has property " + GetPropertyPath(propertyName) + " that the other object does not have.");
@@ -110,7 +140,8 @@ namespace FluentAssertions.Assertions
             return compareeProperty;
         }
 
-        private void AssertPropertyEqualityUsingVerificationContext(object expectedValue, object actualValue, PropertyInfo propertyInfo)
+        private void AssertPropertyEqualityUsingVerificationContext(object expectedValue, object actualValue,
+            PropertyInfo propertyInfo)
         {
             try
             {
@@ -141,11 +172,12 @@ namespace FluentAssertions.Assertions
                 {
                     if (RecurseOnNestedObjects)
                     {
-                        AssertNestedCollectionEquality(actualValue, (IEnumerable)expectedValue, GetPropertyPath(propertyName));
+                        AssertNestedCollectionEquality(actualValue, (IEnumerable)expectedValue,
+                            GetPropertyPath(propertyName));
                     }
                     else
                     {
-                        ((IEnumerable)actualValue).Should().Equal(((IEnumerable)expectedValue), Reason, ReasonArgs);    
+                        ((IEnumerable)actualValue).Should().Equal(((IEnumerable)expectedValue), Reason, ReasonArgs);
                     }
                 }
                 else if (IsComplexType(expectedValue) & RecurseOnNestedObjects)
@@ -165,8 +197,8 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
-                    .FailWith("Expected {0} property to be a collection{reason}, but {1} is a {2}.", 
-                    propertyPath, actualValue, actualValue.GetType().FullName);
+                    .FailWith("Expected {0} property to be a collection{reason}, but {1} is a {2}.",
+                        propertyPath, actualValue, actualValue.GetType().FullName);
             }
 
             var actualItems = ((IEnumerable)actualValue).Cast<object>().ToArray();
@@ -177,21 +209,24 @@ namespace FluentAssertions.Assertions
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
                     .FailWith("Expected {0} property to be a collection with {1} item(s){reason}, but found {2}.",
-                    propertyPath, expectedItems.Length, actualItems.Length);
+                        propertyPath, expectedItems.Length, actualItems.Length);
             }
 
             for (int index = 0; index < actualItems.Length; index++)
             {
                 try
                 {
-                    var validator = CreateNestedValidatorFor(actualItems[index], expectedItems[index]);
-                    validator.Validate(uniqueObjectTracker, propertyPath + "[index " + index + "]");
+                    var validator = CreateNestedValidatorFor(actualItems[index]);
+                    validator.AssertEquality(actualItems[index], expectedItems[index], uniqueObjectTracker,
+                        propertyPath + "[index " + index + "]");
                 }
                 catch (ObjectAlreadyTrackedException)
                 {
                     Execute.Verification
                         .BecauseOf(Reason, ReasonArgs)
-                        .FailWith("Expected property " + propertyPath + " to be {0}{reason}, but it contains a cyclic reference.",
+                        .FailWith(
+                            "Expected property " + propertyPath +
+                                " to be {0}{reason}, but it contains a cyclic reference.",
                             expectedValue);
                 }
             }
@@ -204,7 +239,7 @@ namespace FluentAssertions.Assertions
 
         private static bool IsComplexType(object expectedValue)
         {
-            return (expectedValue != null) && expectedValue.GetType().GetProperties(InstancePropertiesFlag).Any();
+            return (expectedValue != null) && expectedValue.GetType().GetProperties(PublicPropertiesFlag).Any();
         }
 
         private object TryConvertTo(object expectedValue, object subjectValue)
@@ -231,41 +266,40 @@ namespace FluentAssertions.Assertions
         {
             try
             {
-                var validator = CreateNestedValidatorFor(actualValue, expectedValue);
-                validator.Validate(uniqueObjectTracker, propertyName);
+                var validator = CreateNestedValidatorFor(actualValue);
+                validator.AssertEquality(actualValue, expectedValue, uniqueObjectTracker, propertyName);
             }
             catch (ObjectAlreadyTrackedException)
             {
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
-                    .FailWith("Expected property " + propertyName + " to be {0}{reason}, but it contains a cyclic reference.",
+                    .FailWith(
+                        "Expected property " + propertyName + " to be {0}{reason}, but it contains a cyclic reference.",
                         expectedValue);
             }
         }
 
-        private PropertyEqualityValidator CreateNestedValidatorFor(object actualValue, object expectedValue)
+        private PropertyEqualityValidator CreateNestedValidatorFor(object actualItem)
         {
-            var validator = new PropertyEqualityValidator(actualValue)
+            return new PropertyEqualityValidator
             {
                 RecurseOnNestedObjects = true,
-                OtherObject = expectedValue,
-                OnlySharedProperties = OnlySharedProperties
+                PropertySelection = PropertySelection,
+                CompileTimeType = actualItem.GetType()
             };
-
-            foreach (var propertyInfo in actualValue.GetType().GetProperties(InstancePropertiesFlag))
-            {
-                if (!propertyInfo.GetGetMethod(true).IsPrivate)
-                {
-                    validator.Properties.Add(propertyInfo);
-                }
-            }
-
-            return validator;
         }
 
         private string GetPropertyPath(string propertyName)
         {
             return (parentPropertyName.Length > 0) ? parentPropertyName + "." + propertyName : propertyName;
         }
+    }
+
+    public enum PropertySelection
+    {
+        AllCompileTimePublic,
+        AllRuntimePublic,
+        OnlyShared,
+        None,
     }
 }

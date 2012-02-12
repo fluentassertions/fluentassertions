@@ -126,5 +126,15 @@ namespace FluentAssertions.Common
             return value.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r").Replace("{", "{{").Replace(
                 "}", "}}");
         }
+
+        public static bool Implements<TInterface>(this Type type)
+        {
+            return Implements(type, typeof(TInterface));
+        }
+
+        public static bool Implements(this Type type, Type expectedBaseType)
+        {
+            return expectedBaseType.IsAssignableFrom(type) && (type != expectedBaseType);
+        }
     }
 }
