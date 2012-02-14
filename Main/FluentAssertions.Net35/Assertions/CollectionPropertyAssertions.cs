@@ -128,7 +128,7 @@ namespace FluentAssertions.Assertions
                 validator.CompileTimeType = subjectItems[i].GetType();
                 validator.Reason = reason;
                 validator.ReasonArgs = reasonArgs;
-                validator.AssertEquality(subjectItems[i], expectedItems[i]);
+                validator.AssertEquality(subjectItems[i], expectedItems[i], "item[" + i + "]");
             }
         }
     }

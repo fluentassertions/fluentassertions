@@ -55,9 +55,9 @@ namespace FluentAssertions.Assertions
             includedProperties.Add(propertyName);
         }
 
-        public void AssertEquality(object subject, object expected)
+        public void AssertEquality(object subject, object expected, string parentPropertyName = "")
         {
-            AssertEquality(subject, expected, new UniqueObjectTracker(), "");
+            AssertEquality(subject, expected, new UniqueObjectTracker(), parentPropertyName);
         }
 
         private void AssertEquality(object subject, object expected, UniqueObjectTracker tracker,
