@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using FluentAssertions.Assertions;
 using FluentAssertions.Specs;
@@ -1050,6 +1051,65 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_two_different_enumerables_contain_the_same_structural_equal_objects_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Customer[] collection1 = new[]
+            {
+                new Customer {Name = "John", Age = 27, Id = 1},
+                new Customer {Name = "Jane", Age = 24, Id = 2}
+            };
+
+            IEnumerable<Customer> collection2 = new Collection<Customer>
+            {
+                new Customer {Name = "John", Age = 27, Id = 1},
+                new Customer {Name = "Jane", Age = 24, Id = 2}
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection1.ShouldHave().AllProperties().EqualTo(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection1 = new List<Customer>
+            {
+                new Customer {Name = "John", Age = 27, Id = 1},
+                new Customer {Name = "Jane", Age = 24, Id = 2}
+            };
+
+            var collection2 = new List<Customer>
+            {
+                new Customer {Name = "John", Age = 27, Id = 1},
+                new Customer {Name = "Jane", Age = 30, Id = 2}
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection1.ShouldHave().AllProperties().EqualTo(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*item[1].Age*30*24.", ComparisonMode.Wildcard);
         }
 
         #endregion
