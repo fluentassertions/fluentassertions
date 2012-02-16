@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections;
-using System.Linq.Expressions;
-
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace FluentAssertions.Assertions
 {
+    /// <summary>
+    /// Provides assertion methods for asserting that two collections are structurally equal.
+    /// </summary>
     public class CollectionPropertyAssertions<T> : IPropertyAssertions<T>
     {
+        #region Private Definitions
+
         private readonly IEnumerable subject;
-        PropertyEqualityValidator validator = new PropertyEqualityValidator();
+        private readonly PropertyEqualityValidator validator = new PropertyEqualityValidator();
+
+        #endregion
 
         public CollectionPropertyAssertions(IEnumerable subject)
         {
@@ -31,7 +37,8 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public IPropertyAssertions<T> AllRuntimeProperties()
         {
-            return null;
+            validator.PropertySelection = PropertySelection.AllRuntimePublic;
+            return this;
         }
 
         /// <summary>
@@ -41,7 +48,7 @@ namespace FluentAssertions.Assertions
         public IPropertyAssertions<T> SharedProperties()
         {
             validator.PropertySelection = PropertySelection.OnlyShared;
-            return null;
+            return this;
         }
 
         /// <summary>
@@ -50,7 +57,7 @@ namespace FluentAssertions.Assertions
         public IPropertyAssertions<T> IncludingNestedObjects()
         {
             validator.RecurseOnNestedObjects = true;
-            return null;
+            return this;
         }
 
         /// <summary>
@@ -62,7 +69,7 @@ namespace FluentAssertions.Assertions
         public IPropertyAssertions<T> AllPropertiesBut(Expression<Func<T, object>> propertyExpression,
             params Expression<Func<T, object>>[] propertyExpressions)
         {
-            return null;
+            throw new NotSupportedException("Property selection on a collection is not supported");
         }
 
         /// <summary>
@@ -73,7 +80,7 @@ namespace FluentAssertions.Assertions
         public IPropertyAssertions<T> But(Expression<Func<T, object>> propertyExpression,
             params Expression<Func<T, object>>[] propertyExpressions)
         {
-            return null;
+            throw new NotSupportedException("Property selection on a collection is not supported");
         }
 
         /// <summary>
@@ -85,7 +92,7 @@ namespace FluentAssertions.Assertions
         public IPropertyAssertions<T> Properties(Expression<Func<T, object>> propertyExpression,
             params Expression<Func<T, object>>[] propertyExpressions)
         {
-            return null;
+            throw new NotSupportedException("Property selection on a collection is not supported");
         }
 
         /// <summary>
@@ -120,14 +127,36 @@ namespace FluentAssertions.Assertions
         /// </param>
         public void EqualTo(object expected, string reason, params object[] reasonArgs)
         {
-            var subjectItems = subject.Cast<object>().ToArray();
-            var expectedItems = ((IEnumerable)expected).Cast<object>().ToArray();
+            AssertExpectedObjectIsACollection(expected);
 
+            object[] subjectItems = subject.Cast<object>().ToArray();
+            object[] expectedItems = ((IEnumerable)expected).Cast<object>().ToArray();
+
+            Execute.Verification
+                .ForCondition(subjectItems.Length == expectedItems.Length)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected collection {0} to contain {1} item(s){reason}, but found {2}",
+                    subjectItems, expectedItems.Length, subjectItems.Length);
+
+            validator.Reason = reason;
+            validator.ReasonArgs = reasonArgs;
+
+            AssertAllItemsAreStructurallyEqual(expectedItems, subjectItems);
+        }
+
+        private static void AssertExpectedObjectIsACollection(object expected)
+        {
+            if (!(expected is IEnumerable) || (expected is string))
+            {
+                throw new ArgumentException("expected", "Cannot compare a collection with a non-collection.");
+            }
+        }
+
+        private void AssertAllItemsAreStructurallyEqual(object[] expectedItems, object[] subjectItems)
+        {
             for (int i = 0; i < subjectItems.Length; i++)
             {
                 validator.CompileTimeType = subjectItems[i].GetType();
-                validator.Reason = reason;
-                validator.ReasonArgs = reasonArgs;
                 validator.AssertEquality(subjectItems[i], expectedItems[i], "item[" + i + "]");
             }
         }
