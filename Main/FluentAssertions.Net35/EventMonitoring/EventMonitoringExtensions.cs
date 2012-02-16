@@ -209,7 +209,8 @@ namespace FluentAssertions.EventMonitoring
         /// </summary>
         /// <param name="eventSource">The object exposing the event.</param>
         /// <param name="propertyExpression">
-        /// A lambda expression referring to the property for which the property changed event should have been raised.
+        /// A lambda expression referring to the property for which the property changed event should have been raised, or
+        /// <c>null</c> to refer to all properties.
         /// </param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -227,14 +228,14 @@ namespace FluentAssertions.EventMonitoring
             string reason, params object[] reasonArgs)
         {
             EventRecorder eventRecorder = GetRecorderForEvent(eventSource, PropertyChangedEventName);
-            string propertyName = propertyExpression.GetPropertyInfo().Name;
+            string propertyName = (propertyExpression != null) ? propertyExpression.GetPropertyInfo().Name : null;
 
             if (!eventRecorder.Any())
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not.",
-                        eventSource, PropertyChangedEventName, propertyName);
+                    eventSource, PropertyChangedEventName, propertyName);
             }
 
             return eventRecorder.WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == propertyName);

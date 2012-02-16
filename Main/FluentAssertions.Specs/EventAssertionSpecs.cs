@@ -324,7 +324,7 @@ namespace FluentAssertions.specs
         #region Should(Not)RaisePropertyChanged events
 
         [TestMethod]
-        public void When_a_property_changed_event_was_raised_for_the_right_property_it_should_not_throw()
+        public void When_a_property_changed_event_was_raised_for_the_expected_property_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -344,7 +344,27 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+        
+        [TestMethod]
+        public void When_an_expected_property_changed_event_was_raised_for_all_properties_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseEventWithSenderAndPropertyName(null);
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldRaisePropertyChangeFor(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
 
         [TestMethod]
         public void When_a_property_changed_event_for_an_unexpected_property_was_raised_it_should_throw()
@@ -390,6 +410,28 @@ namespace FluentAssertions.specs
                 "Expected object " + Formatter.ToString(subject) +
                     " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
         }
+        
+        [TestMethod]
+        public void When_a_property_agnostic_property_changed_event_for_was_not_raised_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldRaisePropertyChangeFor(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected object " + Formatter.ToString(subject) +
+                    " to raise event \"PropertyChanged\" for property <null>, but it did not.");
+        }
 
         [TestMethod]
         public void When_a_property_changed_event_for_another_than_the_unexpected_property_was_raised_it_should_not_throw()
@@ -413,6 +455,8 @@ namespace FluentAssertions.specs
         }
 
         #endregion
+
+        #region General Checks
 
         [TestMethod]
         public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected()
@@ -460,6 +504,8 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             referenceToSubject.IsAlive.Should().BeFalse();
         }
+
+        #endregion
 
         internal class EventRaisingClass : INotifyPropertyChanged
         {
