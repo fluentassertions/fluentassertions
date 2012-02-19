@@ -68,7 +68,9 @@ namespace FluentAssertions.Assertions
             get
             {
                 return (comparisonMode == StringComparison.CurrentCultureIgnoreCase) ||
+#if !WINRT
                     (comparisonMode == StringComparison.InvariantCultureIgnoreCase) ||
+#endif
                         (comparisonMode == StringComparison.OrdinalIgnoreCase);
             }
         }

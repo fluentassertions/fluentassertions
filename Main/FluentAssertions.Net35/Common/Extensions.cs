@@ -106,7 +106,13 @@ namespace FluentAssertions.Common
 
         public static bool IsSameOrInherits(this Type actualType, Type expectedType)
         {
-            return (actualType == expectedType) || (expectedType.IsSubclassOf(actualType));
+            return (actualType == expectedType) || 
+#if !WINRT
+                (expectedType.IsSubclassOf(actualType))
+#else
+                (actualType.GetTypeInfo().IsAssignableFrom(expectedType.GetTypeInfo()))
+#endif
+                ;
         }
 
         /// <summary>
@@ -134,7 +140,13 @@ namespace FluentAssertions.Common
 
         public static bool Implements(this Type type, Type expectedBaseType)
         {
-            return expectedBaseType.IsAssignableFrom(type) && (type != expectedBaseType);
+            return 
+#if !WINRT
+                expectedBaseType.IsAssignableFrom(type) 
+#else
+                expectedBaseType.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo())
+#endif
+                && (type != expectedBaseType);
         }
     }
 }

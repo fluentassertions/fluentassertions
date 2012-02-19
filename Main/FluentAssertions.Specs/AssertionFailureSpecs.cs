@@ -1,5 +1,9 @@
 ﻿using System;
 
+#if WINRT
+using System.Reflection;
+#endif
+
 using FluentAssertions.Assertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,6 +13,12 @@ namespace FluentAssertions.specs
     [TestClass]
     public class AssertionFailureSpecs
     {
+#if !WINRT
+        private static readonly string AssertionsTestSubClassName = typeof (AssertionsTestSubClass).Name;
+#else
+        private static readonly string AssertionsTestSubClassName = typeof(AssertionsTestSubClass).GetTypeInfo().Name;
+#endif
+
         [TestMethod]
         public void When_reason_starts_with_because_it_should_not_do_anything()
         {
@@ -21,7 +31,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                assertions.AssertFail("because {0} should always fail.", typeof (AssertionsTestSubClass).Name);
+                assertions.AssertFail("because {0} should always fail.", AssertionsTestSubClassName);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -42,7 +52,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                assertions.AssertFail("{0} should always fail.", typeof (AssertionsTestSubClass).Name);
+                assertions.AssertFail("{0} should always fail.", AssertionsTestSubClassName);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -63,7 +73,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                assertions.AssertFail("\r\nbecause {0} should always fail.", typeof (AssertionsTestSubClass).Name);
+                assertions.AssertFail("\r\nbecause {0} should always fail.", AssertionsTestSubClassName);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -84,7 +94,7 @@ namespace FluentAssertions.specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                assertions.AssertFail("\r\n{0} should always fail.", typeof (AssertionsTestSubClass).Name);
+                assertions.AssertFail("\r\n{0} should always fail.", AssertionsTestSubClassName);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

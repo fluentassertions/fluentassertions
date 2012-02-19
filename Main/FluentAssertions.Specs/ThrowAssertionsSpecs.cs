@@ -1,6 +1,8 @@
 ﻿using System;
 
+#if !WINRT
 using FakeItEasy;
+#endif
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,6 +11,7 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class ThrowAssertionsSpecs
     {
+#if !WINRT
         [TestMethod]
         public void When_subject_throws_expected_exception_it_should_not_do_anything()
         {
@@ -17,6 +20,7 @@ namespace FluentAssertions.Specs
 
             testSubject.Invoking(x => x.Do()).ShouldThrow<InvalidOperationException>();
         }
+#endif
 
         [TestMethod]
         public void When_action_throws_expected_exception_it_should_not_do_anything()
@@ -26,6 +30,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<InvalidOperationException>();
         }
 
+#if !WINRT
         [TestMethod]
         public void When_subject_does_not_throw_exception_but_one_was_expected_it_should_throw_with_clear_description()
         {
@@ -43,6 +48,7 @@ namespace FluentAssertions.Specs
                     "Expected System.Exception, but no exception was thrown.");
             }
         }
+#endif
 
         [TestMethod]
         public void When_action_does_not_throw_exception_but_one_was_expected_it_should_throw_with_clear_description()

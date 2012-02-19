@@ -29,7 +29,9 @@ namespace FluentAssertions.Assertions
             get
             {
                 return (stringComparison == StringComparison.CurrentCultureIgnoreCase) ||
+#if !WINRT
                     (stringComparison == StringComparison.InvariantCultureIgnoreCase) ||
+#endif
                         (stringComparison == StringComparison.OrdinalIgnoreCase);
             }
         }

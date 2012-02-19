@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 
+#if WINRT
+using System.Reflection;
+#endif
+
 namespace FluentAssertions.Assertions
 {
     /// <summary>
@@ -38,7 +42,11 @@ namespace FluentAssertions.Assertions
 
         private static T GetValueOrDefault(T value)
         {
+#if !WINRT
             return (T) typeof (T).GetMethod("GetValueOrDefault", new Type[0]).Invoke(value, null);
+#else
+            return (T) typeof (T).GetTypeInfo().GetDeclaredMethod("GetValueOrDefault").Invoke(value, null);
+#endif
         }
 
         public IComparable Subject { get; private set; }

@@ -2,6 +2,10 @@ using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
+#if WINRT
+using System.Reflection;
+#endif
+
 namespace FluentAssertions.Assertions
 {
     /// <summary>
@@ -65,7 +69,13 @@ namespace FluentAssertions.Assertions
         public AndConstraint<TAssertions> BeAssignableTo<T>(string reason, params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(typeof(T).IsAssignableFrom(Subject.GetType()))
+                .ForCondition(
+#if !WINRT
+                typeof(T).IsAssignableFrom(Subject.GetType())
+#else
+                typeof(T).GetTypeInfo().IsAssignableFrom(Subject.GetType().GetTypeInfo())
+#endif
+                )
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected to be assignable to {0}{reason}, but {1} does not implement {0}", typeof(T), Subject.GetType());
 

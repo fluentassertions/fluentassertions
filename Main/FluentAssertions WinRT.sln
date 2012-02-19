@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 11
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
+	ProjectSection(SolutionItems) = preProject
+		BuildRelease.bat = BuildRelease.bat
+		FluentAssertions.snk = FluentAssertions.snk
+		FluentAssertions2.vsmdi = FluentAssertions2.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		SolutionInfo.cs = SolutionInfo.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{2D1C52B7-E25D-4BD5-8688-A642A6842AA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specs", "Specs", "{963262D0-9FD5-4741-8C0E-E2F34F110EF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WinRT", "FluentAssertions.WinRT\FluentAssertions.WinRT.csproj", "{CE8A220A-FAA6-469D-B9B8-5F1834685861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WinRT.Specs", "FluentAssertions.WinRT.Specs\FluentAssertions.WinRT.Specs.csproj", "{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccLocalPath0 = .
+		SccLocalPath1 = FluentAssertions.WinRT
+		SccLocalPath2 = FluentAssertions.WinRT.Specs
+		SccNumberOfProjects = 3
+		SccProjectName1 = FluentAssertions.WinRT
+		SccProjectName2 = FluentAssertions.WinRT.Specs
+		SccProjectTopLevelParentUniqueName1 = FluentAssertions\u0020WinRT.sln
+		SccProjectTopLevelParentUniqueName2 = FluentAssertions\u0020WinRT.sln
+		SccProjectUniqueName1 = FluentAssertions.WinRT\\FluentAssertions.WinRT.csproj
+		SccProjectUniqueName2 = FluentAssertions.WinRT.Specs\\FluentAssertions.WinRT.Specs.csproj
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs05
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = FluentAssertions2.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+	EndGlobalSection
+EndGlobal

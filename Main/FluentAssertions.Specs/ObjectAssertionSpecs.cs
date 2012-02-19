@@ -486,7 +486,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINRT
 
         #region BeBinarySerializable
 
@@ -614,6 +614,7 @@ namespace FluentAssertions.Specs
 
             }
         }
+
 
         [Serializable]
         internal class BinarySerializableClassNotRestoringAllProperties : ISerializable

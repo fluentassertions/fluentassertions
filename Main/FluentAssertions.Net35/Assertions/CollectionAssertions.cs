@@ -6,6 +6,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 
+#if WINRT
+using System.Reflection;
+#endif
+
 namespace FluentAssertions.Assertions
 {
     /// <summary>
@@ -525,7 +529,11 @@ namespace FluentAssertions.Assertions
             int index = 0;
             foreach (var item in Subject)
             {
+#if !WINRT
                 if (!typeof (T).IsAssignableFrom(item.GetType()))
+#else
+                if(!typeof(T).GetTypeInfo().IsAssignableFrom(item.GetType().GetTypeInfo()))
+#endif
                 {
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)

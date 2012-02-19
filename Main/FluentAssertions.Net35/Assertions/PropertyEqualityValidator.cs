@@ -16,8 +16,10 @@ namespace FluentAssertions.Assertions
     {
         #region Private Definitions
 
+#if !WINRT
         private const BindingFlags PublicPropertiesFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+#endif
 
         private UniqueObjectTracker uniqueObjectTracker;
         private string parentPropertyName = "";
@@ -117,8 +119,14 @@ namespace FluentAssertions.Assertions
         private List<PropertyInfo> GetNonPrivateProperties(Type typeToReflect, IList<string> properties = null)
         {
             var query =
+#if !WINRT
                 from propertyInfo in typeToReflect.GetProperties(PublicPropertiesFlag)
                 where !propertyInfo.GetGetMethod(true).IsPrivate
+#else
+                from propertyInfo in typeToReflect.GetTypeInfo().DeclaredProperties
+                where !propertyInfo.GetMethod.IsPrivate
+#endif
+                
                 where (properties == null) || properties.Contains(propertyInfo.Name)
                 select propertyInfo;
 
@@ -129,7 +137,12 @@ namespace FluentAssertions.Assertions
         private PropertyInfo FindPropertyFrom(object obj, string propertyName)
         {
             PropertyInfo compareeProperty =
-                obj.GetType().GetProperties(PublicPropertiesFlag).SingleOrDefault(pi => pi.Name == propertyName);
+#if !WINRT
+                obj.GetType().GetProperties(PublicPropertiesFlag)
+#else
+                obj.GetType().GetTypeInfo().DeclaredProperties
+#endif
+                .SingleOrDefault(pi => pi.Name == propertyName);
 
             if ((PropertySelection != PropertySelection.OnlyShared) && (compareeProperty == null))
             {
@@ -239,7 +252,13 @@ namespace FluentAssertions.Assertions
 
         private static bool IsComplexType(object expectedValue)
         {
-            return (expectedValue != null) && expectedValue.GetType().GetProperties(PublicPropertiesFlag).Any();
+            return (expectedValue != null) && expectedValue.GetType()
+#if !WINRT
+                .GetProperties(PublicPropertiesFlag)
+#else
+                .GetTypeInfo().DeclaredProperties
+#endif
+                .Any();
         }
 
         private object TryConvertTo(object expectedValue, object subjectValue)

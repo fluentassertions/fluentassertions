@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FluentAssertions.WinRT.Specs</RootNamespace>
+    <AssemblyName>FluentAssertions.WinRT.Specs</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINRT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;WINRT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AppXPackage>True</AppXPackage>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--A reference to the entire .Net Framework and Windows SDK are automatically included-->
+    <SDKReference Include="MSTestFramework, Version=11.0" />
+    <SDKReference Include="TestPlatform, Version=11.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\FluentAssertions.Specs\AssertionFailureSpecs.cs">
+      <Link>AssertionFailureSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\BooleanAssertionSpecs.cs">
+      <Link>BooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\CollectionAssertionSpecs.cs">
+      <Link>CollectionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ComparableSpecs.cs">
+      <Link>ComparableSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\DateTimeAssertionSpecs.cs">
+      <Link>DateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\DateTimeFormatterSpecs.cs">
+      <Link>DateTimeFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\DefaultValueFormatterSpecs.cs">
+      <Link>DefaultValueFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ExceptionAssertionSpecs.cs">
+      <Link>ExceptionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ExecutionTimeAssertionsSpecs.cs">
+      <Link>ExecutionTimeAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\FluentDateTimeSpecs.cs">
+      <Link>FluentDateTimeSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionsSpecs.cs">
+      <Link>GenericCollectionAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GenericDictionaryAssertionSpecs.cs">
+      <Link>GenericDictionaryAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GuidAssertionSpecs.cs">
+      <Link>GuidAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\MethodInfoAssertionSpecs.cs">
+      <Link>MethodInfoAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\MethodInfoSelectorSpecs.cs">
+      <Link>MethodInfoSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
+      <Link>NullableBooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableDateTimeAssertionSpecs.cs">
+      <Link>NullableDateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableGuidAssertionSpecs.cs">
+      <Link>NullableGuidAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableNumericAssertionSpecs.cs">
+      <Link>NullableNumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableSimpleTimeSpanAssertionSpecs.cs">
+      <Link>NullableSimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NumericAssertionSpecs.cs">
+      <Link>NumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ObjectAssertionSpecs.cs">
+      <Link>ObjectAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ObjectCastingSpecs.cs">
+      <Link>ObjectCastingSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyAssertionSpecs.cs">
+      <Link>PropertyAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyInfoAssertionSpecs.cs">
+      <Link>PropertyInfoAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyInfoSelectorSpecs.cs">
+      <Link>PropertyInfoSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ReferenceTypeAssertionsSpecs.cs">
+      <Link>ReferenceTypeAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\SimpleTimeSpanAssertionSpecs.cs">
+      <Link>SimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\StringAssertionSpecs.cs">
+      <Link>StringAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ThrowAssertionsSpecs.cs">
+      <Link>ThrowAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TimeSpanConversionExtensionSpecs.cs">
+      <Link>TimeSpanConversionExtensionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TimeSpanFormatterSpecs.cs">
+      <Link>TimeSpanFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TypeAssertionSpecs.cs">
+      <Link>TypeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TypeSelectorSpecs.cs">
+      <Link>TypeSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XAttributeAssertionSpecs.cs">
+      <Link>XAttributeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XAttributeFormatterSpecs.cs">
+      <Link>XAttributeFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XDocumentAssertionSpecs.cs">
+      <Link>XDocumentAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XDocumentFormatterSpecs.cs">
+      <Link>XDocumentFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XElementAssertionSpecs.cs">
+      <Link>XElementAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XElementFormatterSpecs.cs">
+      <Link>XElementFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\UnitTestLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="Images\UnitTestLogo.png" />
+    <Content Include="Images\UnitTestSmallLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="Images\UnitTestSmallLogo.png" />
+    <Content Include="Images\UnitTestSplashScreen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="Images\UnitTestSplashScreen.png" />
+    <Content Include="Images\UnitTestStoreLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="Images\UnitTestStoreLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FluentAssertions.WinRT\FluentAssertions.WinRT.csproj">
+      <Project>{ce8a220a-faa6-469d-b9b8-5f1834685861}</Project>
+      <Name>FluentAssertions.WinRT</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v1.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>  
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

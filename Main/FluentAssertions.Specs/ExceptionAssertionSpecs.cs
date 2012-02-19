@@ -1,7 +1,9 @@
-﻿using System;
+﻿#if !WINRT
+using System;
 using System.Collections.Generic;
 
 using FakeItEasy;
+
 
 using FluentAssertions.Assertions;
 
@@ -867,3 +869,5 @@ namespace FluentAssertions.Specs
         public string Property { get; set; }
     }
 }
+
+#endif

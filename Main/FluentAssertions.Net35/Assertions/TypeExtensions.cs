@@ -16,7 +16,14 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public static TypeSelector Types(this Assembly assembly)
         {
-            return new TypeSelector(assembly.GetTypes());
+            return new TypeSelector(
+#if !WINRT
+                assembly.GetTypes()
+#else
+                assembly.ExportedTypes
+#endif
+                
+                );
         }
 
         /// <summary>

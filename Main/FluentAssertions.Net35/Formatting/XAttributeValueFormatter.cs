@@ -4,7 +4,12 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
-    internal class XAttributeValueFormatter : IValueFormatter
+    #if DP
+    public
+#else
+    internal 
+#endif
+        class XAttributeValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value)
         {

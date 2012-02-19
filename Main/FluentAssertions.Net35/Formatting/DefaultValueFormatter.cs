@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -85,7 +86,13 @@ namespace FluentAssertions.Formatting
             builder.AppendLine(type.FullName);
             builder.AppendLine(CreateWhitespaceForLevel(nestedPropertyLevel) + "{");
 
-            foreach (var propertyInfo in type.GetProperties(BindingFlags.Public | BindingFlags.Instance).OrderBy(pi => pi.Name))
+            IEnumerable<PropertyInfo> properties = null;
+#if !WINRT
+            properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+#else
+            properties = type.GetTypeInfo().DeclaredProperties;
+#endif
+            foreach (var propertyInfo in properties.OrderBy(pi => pi.Name))
             {
                 builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1, uniqueObjectTracker));
             }

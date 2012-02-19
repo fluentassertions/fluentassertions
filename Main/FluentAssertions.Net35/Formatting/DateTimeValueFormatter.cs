@@ -5,7 +5,12 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
-    internal class DateTimeValueFormatter : IValueFormatter
+#if DP
+    public
+#else
+    internal 
+#endif
+ class DateTimeValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value)
         {

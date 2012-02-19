@@ -18,10 +18,8 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <param name="type">The type from which to select methods.</param>
         public MethodInfoSelector(Type type)
+            : this(new[]{type})
         {
-            selectedMethods = type
-                .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                .Where(method => !HasSpecialName(method));
         }
 
         /// <summary>
@@ -30,9 +28,16 @@ namespace FluentAssertions.Assertions
         /// <param name="types">The types from which to select methods.</param>
         public MethodInfoSelector(IEnumerable<Type> types)
         {
+#if !WINRT
             selectedMethods = types.SelectMany(t => t
                 .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                 .Where(method => !HasSpecialName(method)));
+#else
+            selectedMethods = from type in types
+                              from method in type.GetTypeInfo().DeclaredMethods
+                              where !HasSpecialName(method)
+                              select method;
+#endif
         }
 
         /// <summary>
@@ -90,7 +95,11 @@ namespace FluentAssertions.Assertions
         /// </summary>
         private bool HasSpecialName(MethodInfo method)
         {
+#if WINRT
+            return method.IsSpecialName;
+#else
             return (method.Attributes & MethodAttributes.SpecialName) == MethodAttributes.SpecialName;
+#endif
         }
 
         /// <summary>

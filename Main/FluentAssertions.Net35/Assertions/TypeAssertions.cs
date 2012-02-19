@@ -1,6 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+#if WINRT
+using System.Reflection;
+#endif
 
 namespace FluentAssertions.Assertions
 {
@@ -187,7 +190,11 @@ namespace FluentAssertions.Assertions
 
         private static bool IsDecoratedWith<TAttribute>(Type type)
         {
+#if !WINRT
             return type.GetCustomAttributes(false).OfType<TAttribute>().Any();
+#else
+            return type.GetTypeInfo().GetCustomAttributes(false).OfType<TAttribute>().Any();
+#endif
         }
     }
 }

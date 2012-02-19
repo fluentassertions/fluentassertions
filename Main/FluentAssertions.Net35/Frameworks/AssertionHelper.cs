@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
+
+#if !WINRT
+using System.Configuration;
+#endif
 
 namespace FluentAssertions.Frameworks
 {
@@ -15,12 +18,13 @@ namespace FluentAssertions.Frameworks
         {
             {"nunit", new NUnitTestFramework()},
             {"xunit", new XUnitTestFramework()},
-            {"mstest", new MSTestFramework()},
             {"mspec", new MSpecFramework()},
+            {"mstest", new MSTestFramework()},
             {"fallback", new FallbackTestFramework()}
         };
 
         private static ITestFramework testFramework;
+
 
         #endregion
 
@@ -42,10 +46,14 @@ namespace FluentAssertions.Frameworks
             }
         }
 
+
         private static ITestFramework FindStrategy()
         {
-            ITestFramework detectedFramework = AttemptToDetectUsingAppSetting();
-
+            ITestFramework detectedFramework = null;
+            
+#if !WINRT
+            detectedFramework = AttemptToDetectUsingAppSetting();
+#endif
             if (detectedFramework == null)
             {
                 detectedFramework = AttemptToDetectUsingAssemblyScanning();
@@ -62,14 +70,23 @@ namespace FluentAssertions.Frameworks
         private static void FailWithIncorrectConfiguration()
         {
             string errorMessage =
-                "Failed to detect the test framework. Make sure that the framework assembly is copied into the test run directory, or " +
-                    "configure it explicitly in the <appSettings> section using key \"" + AppSettingKey +
+                "Failed to detect the test framework. Make sure that the framework assembly is copied into the test run directory" 
+#if WINRT
+                ;
+#else
+                + ", or configure it explicitly in the <appSettings> section using key \"" + AppSettingKey +
                         "\" and one of the supported " +
                             " frameworks: " + string.Join(", ", frameworks.Keys.ToArray());
+#endif
 
+#if !WINRT
             throw new ConfigurationErrorsException(errorMessage);
+#else
+            throw new InvalidOperationException(errorMessage);
+#endif
         }
 
+#if !WINRT
         private static ITestFramework AttemptToDetectUsingAppSetting()
         {
             string frameworkName = ConfigurationManager.AppSettings[AppSettingKey];
@@ -89,10 +106,12 @@ namespace FluentAssertions.Frameworks
 
             return null;
         }
+#endif
 
         private static ITestFramework AttemptToDetectUsingAssemblyScanning()
         {
             return frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
         }
+
     }
 }

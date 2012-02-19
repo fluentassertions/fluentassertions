@@ -54,7 +54,7 @@ namespace FluentAssertions.EventMonitoring
             return recorders;
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINRT
         private static EventRecorder[] BuildRecorders(object eventSource)
         {
             var recorders =
@@ -177,8 +177,14 @@ namespace FluentAssertions.EventMonitoring
             EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
             if (eventRecorder == null)
             {
+                string typeName = null;
+#if !WINRT
+                typeName = eventSource.GetType().Name;
+#else
+                typeName = eventSource.GetType().GetTypeInfo().Name;
+#endif
                 throw new InvalidOperationException(string.Format(
-                    "Type <{0}> does not expose an event named \"{1}\".", eventSource.GetType().Name, eventName));
+                    "Type <{0}> does not expose an event named \"{1}\".", typeName, eventName));
             }
 
             if (eventRecorder.Any())
@@ -294,8 +300,14 @@ namespace FluentAssertions.EventMonitoring
             EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
             if (eventRecorder == null)
             {
+                string name = null;
+#if !WINRT
+                name = eventSource.GetType().Name;
+#else
+                name = eventSource.GetType().GetTypeInfo().Name;
+#endif
                 throw new InvalidOperationException(string.Format(
-                    "Type <{0}> does not expose an event named \"{1}\".", eventSource.GetType().Name, eventName));
+                    "Type <{0}> does not expose an event named \"{1}\".", name, eventName));
             }
 
             return eventRecorder;

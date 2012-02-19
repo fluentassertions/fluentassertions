@@ -6,7 +6,12 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
-    internal class TimeSpanValueFormatter : IValueFormatter
+#if DP
+    public
+#else
+    internal 
+#endif
+ class TimeSpanValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value)
         {

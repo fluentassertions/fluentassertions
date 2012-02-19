@@ -17,7 +17,11 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
+#if !WINRT
             Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
+#else
+            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

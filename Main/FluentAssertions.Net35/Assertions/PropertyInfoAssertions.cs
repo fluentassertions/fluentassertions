@@ -61,7 +61,11 @@ namespace FluentAssertions.Assertions
         {
             var query = 
                 from property in SubjectProperties
+#if !WINRT
                 let getter = property.GetGetMethod(true)
+#else
+                let getter = property.GetMethod
+#endif
                 where !getter.IsVirtual || getter.IsFinal
                 select property;
 
@@ -116,7 +120,13 @@ namespace FluentAssertions.Assertions
 
         private static string GetDescriptionFor(PropertyInfo property)
         {
-            return string.Format("{0} {1}.{2}", property.PropertyType.Name, property.DeclaringType, property.Name);
+            string propTypeName = null;
+#if !WINRT
+            propTypeName = property.PropertyType.Name;
+#else
+            propTypeName = property.PropertyType.GetTypeInfo().Name;
+#endif
+            return string.Format("{0} {1}.{2}", propTypeName, property.DeclaringType, property.Name);
         }
     }
 }

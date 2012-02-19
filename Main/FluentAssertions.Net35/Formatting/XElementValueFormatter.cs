@@ -7,7 +7,12 @@ using System.Linq;
 
 namespace FluentAssertions.Formatting
 {
-    internal class XElementValueFormatter : IValueFormatter
+#if DP
+    public
+#else
+    internal 
+#endif
+        class XElementValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value)
         {

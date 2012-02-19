@@ -198,7 +198,7 @@ namespace FluentAssertions.Assertions
             return new AndConstraint<ObjectAssertions>(this);
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINRT
 
         /// <summary>
         /// Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains

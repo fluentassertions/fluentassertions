@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+#if WINRT
+using System.Reflection;
+#endif
+
 namespace FluentAssertions.Assertions
 {
     /// <summary>
@@ -22,7 +26,15 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public TypeSelector ThatDeriveFrom<TBase>()
         {
-            types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToArray();
+            types = types.Where(type => 
+                
+#if !WINRT
+                type.IsSubclassOf(typeof(TBase))
+#else
+                typeof(TBase).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo())
+#endif
+                
+                ).ToArray();
             return this;
         }
         
@@ -31,7 +43,14 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public TypeSelector ThatImplement<TInterface>()
         {
-            types = types.Where(t => typeof (TInterface).IsAssignableFrom(t) && (t != typeof (TInterface))).ToArray();
+            types = types.Where(t => 
+#if !WINRT
+                typeof (TInterface).IsAssignableFrom(t) 
+#else
+                typeof(TInterface).GetTypeInfo().IsAssignableFrom(t.GetTypeInfo())
+#endif
+                
+                && (t != typeof (TInterface))).ToArray();
             return this;
         }
 
@@ -40,7 +59,14 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public TypeSelector ThatAreDecoratedWith<TAttribute>()
         {
-            types = types.Where(t => t.GetCustomAttributes(typeof(TAttribute), true).Length > 0).ToArray();
+            types = types.Where(t => 
+#if !WINRT
+                t.GetCustomAttributes(typeof(TAttribute), true).Length > 0
+#else
+                t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any()
+#endif
+                
+                ).ToArray();
             return this;
         }
 

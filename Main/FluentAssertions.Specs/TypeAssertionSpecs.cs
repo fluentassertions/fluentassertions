@@ -1,5 +1,9 @@
 using System;
 
+#if WINRT
+using System.Reflection;
+#endif
+
 using FluentAssertions.Assertions;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -86,7 +90,13 @@ namespace FluentAssertions.specs
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
             Type typeFromThisAssembly = typeof(ObjectAssertions);
+#if !WINRT
             Type typeFromOtherAssembly = typeof (TypeAssertions).Assembly.GetType("FluentAssertions.Assertions.ObjectAssertions");
+#else
+            Type typeFromOtherAssembly =
+                typeof (TypeAssertions).GetTypeInfo().Assembly.GetType("FluentAssertions.Assertions.ObjectAssertions");
+#endif
+
 
 #pragma warning restore 436
 

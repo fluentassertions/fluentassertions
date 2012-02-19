@@ -18,9 +18,8 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <param name="type">The type from which to select properties.</param>
         public PropertyInfoSelector(Type type)
+            : this(new [] {type})
         {
-            selectedProperties = type
-                .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
         /// <summary>
@@ -29,8 +28,14 @@ namespace FluentAssertions.Assertions
         /// <param name="types">The types from which to select properties.</param>
         public PropertyInfoSelector(IEnumerable<Type> types)
         {
+#if !WINRT
             selectedProperties = types.SelectMany(t => t
                 .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic));
+#else
+            selectedProperties = from type in types
+                                 from property in type.GetTypeInfo().DeclaredProperties
+                                 select property;
+#endif
         }
 
         /// <summary>
@@ -42,7 +47,11 @@ namespace FluentAssertions.Assertions
             {
                 selectedProperties = selectedProperties.Where(property =>
                 {
+#if !WINRT
                     MethodInfo getter = property.GetGetMethod(true);
+#else
+                    MethodInfo getter = property.GetMethod;
+#endif
 
                     return ((getter != null) && (getter.IsPublic || getter.IsAssembly));
                 });
