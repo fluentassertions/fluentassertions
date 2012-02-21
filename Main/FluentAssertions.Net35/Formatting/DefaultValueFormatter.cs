@@ -104,7 +104,16 @@ namespace FluentAssertions.Formatting
 
         private string GetPropertyValueTextFor(object value, PropertyInfo propertyInfo, int nextPropertyNestingLevel, UniqueObjectTracker uniqueObjectTracker)
         {
-            object propertyValue = propertyInfo.GetValue(value, null);
+            object propertyValue;
+
+            try
+            {
+                propertyValue = propertyInfo.GetValue(value, null);
+            }
+            catch(Exception ex)
+            {
+                propertyValue = string.Format("[Property '{0}' threw an exception: '{1}']", propertyInfo.Name, ex.Message);
+            }
 
             return string.Format("{0}{1} = {2}",
                 CreateWhitespaceForLevel(nextPropertyNestingLevel),

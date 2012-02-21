@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions.Formatting;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,9 +29,37 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             result.Should().ContainEquivalentOf("cyclic reference");
         }
+
+        [TestMethod]
+        public void When_a_property_throws_an_exception_it_should_ignore_that_and_still_create_a_descriptive_error_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ExceptionThrowingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(subject);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().Contain("Property 'ThrowingProperty' threw an exception");
+        }
+
     }
 
-    public class Node
+    internal class ExceptionThrowingClass
+    {
+        public string ThrowingProperty
+        {
+            get { throw new InvalidOperationException(); }
+        }
+    }
+
+    internal class Node
     {
         public Node()
         {
