@@ -54,6 +54,36 @@ namespace FluentAssertions.Assertions
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> is not equal to the <paramref name="unexpected"/> value.
+        /// </summary>
+        /// <param name="unexpected">The unexpected value</param>
+        public AndConstraint<DateTimeAssertions> NotBe(DateTime unexpected)
+        {
+            return NotBe(unexpected, String.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> is not equal to the <paramref name="unexpected"/> value.
+        /// </summary>
+        /// <param name="unexpected">The unexpected value</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotBe(DateTime unexpected, string reason, params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(Subject.Value != unexpected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect DateTime to be {0}{reason}.", unexpected);
+
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="DateTime"/> is before the specified value.
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be before.</param>

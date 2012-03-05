@@ -19,29 +19,91 @@ namespace FluentAssertions.Specs
             Tomorrow = Today.AddDays(1);
         }
 
+        #region Be / NotBe
+
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_value_is_equal_to_the_same_value()
         {
-            Today.Should().Be(Today);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime dateTime = Today;
+            DateTime sameDateTime = Today;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dateTime.Should().Be(sameDateTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_datetime_value_is_equal_to_the_different_value()
         {
-            Today.Should().Be(Tomorrow);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dateTime = new DateTime(2012, 03, 10);
+            var otherDateTime = new DateTime(2012, 03, 11);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dateTime.Should().Be(otherDateTime, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected <2012-03-11> because we want to test the failure message, but found <2012-03-10>.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_value_is_equal_to_the_different_value()
+        public void Should_succeed_when_asserting_datetime_value_is_not_equal_to_a_different_value()
         {
-            var assertions = Today.Should();
-            assertions.Invoking(x => x.Be(Tomorrow, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected <{0}> because we want to test the failure message, but found <{1}>.",
-                    Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime dateTime = Today;
+            DateTime otherDateTime = Tomorrow;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dateTime.Should().NotBe(otherDateTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_datetime_value_is_not_equal_to_the_same_value()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dateTime = new DateTime(2012, 03, 10);
+            var sameDateTime = new DateTime(2012, 03, 10);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dateTime.Should().NotBe(sameDateTime, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect DateTime to be <2012-03-10> because we want to test the failure message.");
+        }
+
+        #endregion
 
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_is_before_later_datetime()
