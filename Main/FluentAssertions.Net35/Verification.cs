@@ -133,7 +133,7 @@ namespace FluentAssertions
 
         private bool StartsWithBlank(string text)
         {
-            return (text.Length > 0) && blanks.Any(blank => text.First() == blank);
+            return (text.Length > 0) && blanks.Any(blank => text[0] == blank);
         }
 
         /// <summary>

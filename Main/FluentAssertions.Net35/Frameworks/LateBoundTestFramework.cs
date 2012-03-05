@@ -61,7 +61,7 @@ namespace FluentAssertions.Frameworks
                 {
                     if (file.FileType == ".dll" || file.FileType == ".exe")
                     {
-                        AssemblyName name = new AssemblyName() { Name = file.Name };
+                        AssemblyName name = new AssemblyName() { Name = file.DisplayName };
                         Assembly asm = Assembly.Load(name);
                         assemblies.Add(asm);
                     }

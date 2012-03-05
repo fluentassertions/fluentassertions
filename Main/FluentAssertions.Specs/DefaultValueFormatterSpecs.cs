@@ -66,7 +66,8 @@ namespace FluentAssertions.specs
             Children = new List<Node>();
         }
 
-        public static Node Default { get { return new Node(); } }
+        private static readonly Node _default = new Node();
+        public static Node Default { get { return _default; } }
         public List<Node> Children { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Diagnostics;
 
 #if WINRT
 using System.Reflection;
+using System.Linq;
 #endif
 
 namespace FluentAssertions.Assertions
@@ -36,7 +37,13 @@ namespace FluentAssertions.Assertions
 
         private static bool IsNullable(Type type)
         {
-            return type.IsGenericType &&
+            return 
+#if !WINRT
+                type.IsGenericType 
+#else
+                type.GetTypeInfo().IsGenericType
+#endif
+                &&
                 (type.GetGenericTypeDefinition() == typeof (Nullable<>).GetGenericTypeDefinition());
         }
 
@@ -45,6 +52,12 @@ namespace FluentAssertions.Assertions
 #if !WINRT
             return (T) typeof (T).GetMethod("GetValueOrDefault", new Type[0]).Invoke(value, null);
 #else
+
+            var ti = typeof(T).GetTypeInfo();
+            var m = ti.DeclaredMethods.First(mi => mi.GetParameters().Length == 0);
+
+            var val = m.Invoke(value, null);
+            return (T)val;
             return (T) typeof (T).GetTypeInfo().GetDeclaredMethod("GetValueOrDefault").Invoke(value, null);
 #endif
         }

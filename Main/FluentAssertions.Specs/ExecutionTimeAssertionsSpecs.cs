@@ -58,8 +58,11 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
+#if !WINRT
             Action someAction = () => Thread.Sleep(510);
-
+#else
+            Action someAction = async () => await System.Threading.Tasks.Task.Delay(510);
+#endif
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -80,7 +83,11 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
+#if !WINRT
             Action someAction = () => Thread.Sleep(100);
+#else
+            Action someAction = async () => await System.Threading.Tasks.Task.Delay(100);
+#endif
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -95,9 +102,17 @@ namespace FluentAssertions.specs
 
         internal class SleepingClass
         {
-            public void Sleep(int milliseconds)
-            {
+            public
+#if WINRT
+                async
+#endif
+                void Sleep(int milliseconds)
+            {   
+#if !WINRT
                 Thread.Sleep(milliseconds);
+#else
+                await System.Threading.Tasks.Task.Delay(milliseconds);
+#endif
             }
         }
     }
