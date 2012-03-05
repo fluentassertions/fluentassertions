@@ -35,7 +35,7 @@ namespace FluentAssertions.Assertions
 #else
             selectedMethods = from type in types
                               from method in type.GetTypeInfo().DeclaredMethods
-                              where !HasSpecialName(method)
+                              where !method.IsStatic && !HasSpecialName(method)
                               select method;
 #endif
         }

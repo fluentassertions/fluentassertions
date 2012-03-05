@@ -9,6 +9,29 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Assertions
 {
+
+#if WINRT
+    internal static class PropertyInfoExtensions
+    {
+        /// <summary>
+        /// Returns properties from a given type and all of its base types
+        /// </summary>
+        /// <param name="type">Type</param>
+        /// <returns>All properties from type</returns>
+        public static IEnumerable<PropertyInfo> AllProperties(this Type type)
+        {
+            while (type != typeof(object))
+            {
+                var ti = type.GetTypeInfo();
+
+                foreach (var pi in ti.DeclaredProperties)
+                    yield return pi;
+
+                type = ti.BaseType;
+            }
+        }
+    }
+#endif
     /// <summary>
     /// Is responsible for validating the equality of one or more properties of a subject with another object.
     /// </summary>
@@ -124,7 +147,8 @@ namespace FluentAssertions.Assertions
                 where !propertyInfo.GetGetMethod(true).IsPrivate
 #else
                 from propertyInfo in typeToReflect.GetTypeInfo().DeclaredProperties
-                where !propertyInfo.GetMethod.IsPrivate
+                where !propertyInfo.GetMethod.IsPrivate && 
+                      !propertyInfo.GetMethod.IsStatic
 #endif
                 
                 where (properties == null) || properties.Contains(propertyInfo.Name)
@@ -133,6 +157,7 @@ namespace FluentAssertions.Assertions
             return query.ToList();
         }
 
+     
 
         private PropertyInfo FindPropertyFrom(object obj, string propertyName)
         {
@@ -140,7 +165,7 @@ namespace FluentAssertions.Assertions
 #if !WINRT
                 obj.GetType().GetProperties(PublicPropertiesFlag)
 #else
-                obj.GetType().GetTypeInfo().DeclaredProperties
+                obj.GetType().AllProperties().Where(p => !p.GetMethod.IsStatic)
 #endif
                 .SingleOrDefault(pi => pi.Name == propertyName);
 
@@ -256,7 +281,7 @@ namespace FluentAssertions.Assertions
 #if !WINRT
                 .GetProperties(PublicPropertiesFlag)
 #else
-                .GetTypeInfo().DeclaredProperties
+                .AllProperties().Where(p => !p.GetMethod.IsStatic)
 #endif
                 .Any();
         }

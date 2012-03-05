@@ -14,11 +14,21 @@ namespace FluentAssertions.Assertions
     /// </summary>
     public class TypeSelector : IEnumerable<Type>
     {
-        private Type[] types;
+#if !WINRT
+        private List<Type> types;
+#else
+        private List<TypeInfo> types;
+#endif
 
-        internal TypeSelector(IEnumerable<Type> types)
+        internal TypeSelector(
+#if !WINRT            
+            IEnumerable<Type> types
+#else
+            IEnumerable<TypeInfo> types
+#endif
+            )
         {
-            this.types = types.ToArray();
+            this.types = types.ToList();
         }
 
         /// <summary>
@@ -26,15 +36,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public TypeSelector ThatDeriveFrom<TBase>()
         {
-            types = types.Where(type => 
-                
-#if !WINRT
-                type.IsSubclassOf(typeof(TBase))
-#else
-                typeof(TBase).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo())
-#endif
-                
-                ).ToArray();
+            types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToList();
             return this;
         }
         
@@ -45,12 +47,15 @@ namespace FluentAssertions.Assertions
         {
             types = types.Where(t => 
 #if !WINRT
-                typeof (TInterface).IsAssignableFrom(t) 
+                typeof (TInterface)
 #else
-                typeof(TInterface).GetTypeInfo().IsAssignableFrom(t.GetTypeInfo())
+                typeof(TInterface).GetTypeInfo()
 #endif
-                
-                && (t != typeof (TInterface))).ToArray();
+                .IsAssignableFrom(t) && (t != typeof(TInterface)
+#if WINRT
+                .GetTypeInfo()
+#endif       
+                )).ToList();
             return this;
         }
 
@@ -63,10 +68,10 @@ namespace FluentAssertions.Assertions
 #if !WINRT
                 t.GetCustomAttributes(typeof(TAttribute), true).Length > 0
 #else
-                t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any()
+                t.GetCustomAttributes(typeof(TAttribute), true).Any()
 #endif
-                
-                ).ToArray();
+
+                ).ToList();
             return this;
         }
 
@@ -75,7 +80,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public TypeSelector ThatAreInNamespace(string @namespace)
         {
-            types = types.Where(t => t.Namespace == @namespace).ToArray();
+            types = types.Where(t => t.Namespace == @namespace).ToList();
             return this;
         }
 
@@ -84,7 +89,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public TypeSelector ThatAreUnderNamespace(string @namespace)
         {
-            types = types.Where(t => (t.Namespace != null) && t.Namespace.StartsWith(@namespace)).ToArray();
+            types = types.Where(t => (t.Namespace != null) && t.Namespace.StartsWith(@namespace)).ToList();
             return this;
         }
 
@@ -97,7 +102,11 @@ namespace FluentAssertions.Assertions
         /// <filterpriority>1</filterpriority>
         public IEnumerator<Type> GetEnumerator()
         {
-            return types.Cast<Type>().GetEnumerator();
+#if !WINRT
+            return types.GetEnumerator();
+#else
+            return types.Select(t => t.AsType()).AsEnumerable().GetEnumerator();
+#endif
         }
 
         /// <summary>

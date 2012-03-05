@@ -54,11 +54,9 @@ namespace FluentAssertions.Assertions
 #else
 
             var ti = typeof(T).GetTypeInfo();
-            var m = ti.DeclaredMethods.First(mi => mi.GetParameters().Length == 0);
+            var m = ti.DeclaredMethods.First(mi => mi.Name =="GetValueOrDefault" && mi.GetParameters().Length == 0);
 
-            var val = m.Invoke(value, null);
-            return (T)val;
-            return (T) typeof (T).GetTypeInfo().GetDeclaredMethod("GetValueOrDefault").Invoke(value, null);
+            return (T)m.Invoke(value, null);
 #endif
         }
 

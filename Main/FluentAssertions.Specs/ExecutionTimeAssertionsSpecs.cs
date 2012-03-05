@@ -61,7 +61,7 @@ namespace FluentAssertions.specs
 #if !WINRT
             Action someAction = () => Thread.Sleep(510);
 #else
-            Action someAction = async () => await System.Threading.Tasks.Task.Delay(510);
+            Action someAction = () => System.Threading.Tasks.Task.Delay(510).Wait();
 #endif
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -102,16 +102,12 @@ namespace FluentAssertions.specs
 
         internal class SleepingClass
         {
-            public
-#if WINRT
-                async
-#endif
-                void Sleep(int milliseconds)
+            public void Sleep(int milliseconds)
             {   
 #if !WINRT
                 Thread.Sleep(milliseconds);
 #else
-                await System.Threading.Tasks.Task.Delay(milliseconds);
+                System.Threading.Tasks.Task.Delay(milliseconds).Wait();
 #endif
             }
         }

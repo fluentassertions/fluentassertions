@@ -20,9 +20,8 @@ namespace FluentAssertions.Assertions
 #if !WINRT
                 assembly.GetTypes()
 #else
-                assembly.ExportedTypes
+                assembly.DefinedTypes
 #endif
-                
                 );
         }
 
@@ -39,7 +38,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public static MethodInfoSelector Methods(this TypeSelector typeSelector)
         {
-            return new MethodInfoSelector(typeSelector.ToArray());
+            return new MethodInfoSelector(typeSelector.ToList());
         }
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public static PropertyInfoSelector Properties(this TypeSelector typeSelector)
         {
-            return new PropertyInfoSelector(typeSelector.ToArray());
+            return new PropertyInfoSelector(typeSelector.ToList());
         }
     }
 }
