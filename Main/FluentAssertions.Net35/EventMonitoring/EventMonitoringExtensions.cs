@@ -5,8 +5,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-
 using FluentAssertions.Common;
+
+#if WINRT
+using FluentAssertions.Assertions;
+#endif
 
 namespace FluentAssertions.EventMonitoring
 {
@@ -54,11 +57,17 @@ namespace FluentAssertions.EventMonitoring
             return recorders;
         }
 
-#if !SILVERLIGHT && !WINRT
+#if !SILVERLIGHT
         private static EventRecorder[] BuildRecorders(object eventSource)
         {
             var recorders =
-                eventSource.GetType().GetEvents().Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
+                eventSource.GetType()
+#if !WINRT
+                .GetEvents()
+#else
+                .AllEvents()
+#endif
+                .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
 
             if (!recorders.Any())
             {

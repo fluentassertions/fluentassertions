@@ -22,11 +22,17 @@ namespace FluentAssertions.EventMonitoring
                 eventSignature.Name + "DynamicHandler",
                 returnType,
                 AppendParameterListThisReference(parameters),
-                recorder.GetType().Module);
-
+                recorder.GetType()
+#if WINRT
+                .GetTypeInfo()
+#endif
+                .Module);
+#if !WINRT
             MethodInfo methodToCall = typeof (IEventRecorder).GetMethod("RecordEvent",
                 BindingFlags.Instance | BindingFlags.Public);
-
+#else
+            MethodInfo methodToCall = typeof(IEventRecorder).GetTypeInfo().GetDeclaredMethod("RecordEvent");
+#endif
             ILGenerator ilGen = eventHandler.GetILGenerator();
 
             // Make room for the one and only local variable in our function
@@ -49,7 +55,11 @@ namespace FluentAssertions.EventMonitoring
                 ilGen.Emit(OpCodes.Ldarg, index + 1);
                 
                 // Box value-type parameters
-                if (parameters[index].IsValueType)
+                if (parameters[index]
+#if WINRT
+                    .GetTypeInfo()
+#endif
+                    .IsValueType)
                 {
                     ilGen.Emit(OpCodes.Box, parameters[index]);
                 }
@@ -121,13 +131,19 @@ namespace FluentAssertions.EventMonitoring
         /// </summary>
         private static bool TypeIsDelegate(Type d)
         {
-            if (d.BaseType != typeof (MulticastDelegate))
+            if (d
+#if WINRT
+                .GetTypeInfo()
+#endif
+                .BaseType != typeof (MulticastDelegate))
             {
                 return false;
             }
-
+#if !WINRT
             var invoke = d.GetMethod("Invoke");
-
+#else
+            var invoke = d.GetTypeInfo().GetDeclaredMethod("Invoke");
+#endif
             return invoke != null;
         }
 
@@ -141,7 +157,11 @@ namespace FluentAssertions.EventMonitoring
                 throw new ArgumentException("Type is not a Delegate!");
             }
 
+#if !WINRT
             var invoke = d.GetMethod("Invoke");
+#else
+            var invoke = d.GetTypeInfo().GetDeclaredMethod("Invoke");
+#endif
             return invoke;
         }
     }

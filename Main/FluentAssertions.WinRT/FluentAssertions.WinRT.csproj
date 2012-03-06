@@ -189,6 +189,9 @@
     <Compile Include="..\FluentAssertions.Net35\Common\UniqueObjectTracker.cs">
       <Link>Common\UniqueObjectTracker.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventHandlerFactory.cs">
+      <Link>EventMonitoring\EventHandlerFactory.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventMonitoringExtensions.cs">
       <Link>EventMonitoring\EventMonitoringExtensions.cs</Link>
     </Compile>

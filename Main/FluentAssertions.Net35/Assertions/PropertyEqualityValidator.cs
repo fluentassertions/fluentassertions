@@ -10,28 +10,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Assertions
 {
 
-#if WINRT
-    internal static class PropertyInfoExtensions
-    {
-        /// <summary>
-        /// Returns properties from a given type and all of its base types
-        /// </summary>
-        /// <param name="type">Type</param>
-        /// <returns>All properties from type</returns>
-        public static IEnumerable<PropertyInfo> AllProperties(this Type type)
-        {
-            while (type != typeof(object))
-            {
-                var ti = type.GetTypeInfo();
 
-                foreach (var pi in ti.DeclaredProperties)
-                    yield return pi;
-
-                type = ti.BaseType;
-            }
-        }
-    }
-#endif
     /// <summary>
     /// Is responsible for validating the equality of one or more properties of a subject with another object.
     /// </summary>
