@@ -719,7 +719,7 @@ namespace FluentAssertions.specs
             cyclicRoot.Level = new CyclicLevel1
             {
                 Text = "Level1",
-                Root = cyclicRoot
+                Root = cyclicRoot,
             };
 
             var cyclicRootDto = new CyclicRootDto
@@ -729,7 +729,7 @@ namespace FluentAssertions.specs
             cyclicRootDto.Level = new CyclicLevel1Dto
             {
                 Text = "Level1",
-                Root = cyclicRootDto
+                Root = cyclicRootDto,
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -741,10 +741,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level.Root to be*but it contains a cyclic reference.", 
-                ComparisonMode.Wildcard);
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
