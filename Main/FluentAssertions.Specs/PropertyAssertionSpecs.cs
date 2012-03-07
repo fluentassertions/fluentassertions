@@ -1257,7 +1257,7 @@ namespace FluentAssertions.specs
         }
     }
 
-    internal class Customer : Entity
+    public class Customer : Entity
     {
         private string Password { get; set; }
 
@@ -1281,7 +1281,7 @@ namespace FluentAssertions.specs
         internal long Version { get; set; }
     }
 
-    internal class CustomerDto
+    public class CustomerDto
     {
         public long Version { get; set; }
         public string Name { get; set; }
@@ -1289,7 +1289,7 @@ namespace FluentAssertions.specs
         public DateTime Birthdate { get; set; }
     }
 
-    internal class CustomerType
+    public class CustomerType
     {
         public CustomerType(string code)
         {
@@ -1330,7 +1330,7 @@ namespace FluentAssertions.specs
         }
     }
 
-    internal class DerivedCustomerType : CustomerType
+    public class DerivedCustomerType : CustomerType
     {
         public DerivedCustomerType(string code) : base(code)
         {
@@ -1339,59 +1339,59 @@ namespace FluentAssertions.specs
 
     #region Nested classes for comparison
 
-    internal class Root
+    public class Root
     {
         public string Text { get; set; }
         public Level1 Level { get; set; }
     }
 
-    internal class Level1
+    public class Level1
     {
         public string Text { get; set; }
         public Level2 Level { get; set; }
     }
 
-    internal class Level2
+    public class Level2
     {
         public string Text { get; set; }
     }
 
-    internal class RootDto
+    public class RootDto
     {
         public string Text { get; set; }
         public Level1Dto Level { get; set; }
     }
 
-    internal class Level1Dto
+    public class Level1Dto
     {
         public string Text { get; set; }
         public Level2Dto Level { get; set; }
     }
 
-    internal class Level2Dto
+    public class Level2Dto
     {
         public string Text { get; set; }
     }
 
-    internal class CyclicRoot
+    public class CyclicRoot
     {
         public string Text { get; set; }
         public CyclicLevel1 Level { get; set; }
     }
 
-    internal class CyclicLevel1
+    public class CyclicLevel1
     {
         public string Text { get; set; }
         public CyclicRoot Root { get; set; }
     }
 
-    internal class CyclicRootDto
+    public class CyclicRootDto
     {
         public string Text { get; set; }
         public CyclicLevel1Dto Level { get; set; }
     }
 
-    internal class CyclicLevel1Dto
+    public class CyclicLevel1Dto
     {
         public string Text { get; set; }
         public CyclicRootDto Root { get; set; }
