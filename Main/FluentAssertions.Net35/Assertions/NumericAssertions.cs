@@ -3,6 +3,7 @@ using System.Diagnostics;
 
 #if WINRT
 using System.Reflection;
+using System.Reflection.RuntimeExtensions;
 using System.Linq;
 #endif
 
@@ -53,10 +54,7 @@ namespace FluentAssertions.Assertions
             return (T) typeof (T).GetMethod("GetValueOrDefault", new Type[0]).Invoke(value, null);
 #else
 
-            var ti = typeof(T).GetTypeInfo();
-            var m = ti.DeclaredMethods.First(mi => mi.Name =="GetValueOrDefault" && mi.GetParameters().Length == 0);
-
-            return (T)m.Invoke(value, null);
+            return (T)typeof(T).GetRuntimeMethod("GetValueOrDefault", new Type[0]).Invoke(value, null);
 #endif
         }
 

@@ -2,6 +2,10 @@ using System;
 using System.Reflection;
 using System.Reflection.Emit;
 
+#if WINRT
+using System.Reflection.RuntimeExtensions;
+#endif
+
 namespace FluentAssertions.EventMonitoring
 {
     /// <summary>
@@ -31,7 +35,7 @@ namespace FluentAssertions.EventMonitoring
             MethodInfo methodToCall = typeof (IEventRecorder).GetMethod("RecordEvent",
                 BindingFlags.Instance | BindingFlags.Public);
 #else
-            MethodInfo methodToCall = typeof(IEventRecorder).GetTypeInfo().GetDeclaredMethod("RecordEvent");
+            MethodInfo methodToCall = typeof(IEventRecorder).GetRuntimeMethod("RecordEvent", new Type[0]);
 #endif
             ILGenerator ilGen = eventHandler.GetILGenerator();
 

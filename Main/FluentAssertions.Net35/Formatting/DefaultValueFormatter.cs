@@ -4,6 +4,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
+#if WINRT
+using System.Reflection.RuntimeExtensions;
+#endif
+
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
@@ -90,7 +94,7 @@ namespace FluentAssertions.Formatting
 #if !WINRT
             properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 #else
-            properties = type.GetTypeInfo().DeclaredProperties;
+            properties = type.GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic && p.GetMethod.IsPublic);
 #endif
             foreach (var propertyInfo in properties.OrderBy(pi => pi.Name))
             {

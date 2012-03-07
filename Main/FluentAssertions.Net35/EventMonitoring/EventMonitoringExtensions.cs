@@ -9,6 +9,7 @@ using FluentAssertions.Common;
 
 #if WINRT
 using FluentAssertions.Assertions;
+using System.Reflection.RuntimeExtensions;
 #endif
 
 namespace FluentAssertions.EventMonitoring
@@ -65,7 +66,7 @@ namespace FluentAssertions.EventMonitoring
 #if !WINRT
                 .GetEvents()
 #else
-                .AllEvents()
+                .GetRuntimeEvents().Where(e => !e.AddMethod.IsStatic)
 #endif
                 .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
 

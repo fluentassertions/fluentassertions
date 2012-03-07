@@ -5,6 +5,10 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
+#if WINRT
+using System.Reflection.RuntimeExtensions;
+#endif
+
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Assertions
@@ -125,7 +129,7 @@ namespace FluentAssertions.Assertions
                 from propertyInfo in typeToReflect.GetProperties(PublicPropertiesFlag)
                 where !propertyInfo.GetGetMethod(true).IsPrivate
 #else
-                from propertyInfo in typeToReflect.GetTypeInfo().DeclaredProperties
+                from propertyInfo in typeToReflect.GetRuntimeProperties()
                 where !propertyInfo.GetMethod.IsPrivate && 
                       !propertyInfo.GetMethod.IsStatic
 #endif
@@ -144,7 +148,7 @@ namespace FluentAssertions.Assertions
 #if !WINRT
                 obj.GetType().GetProperties(PublicPropertiesFlag)
 #else
-                obj.GetType().AllProperties().Where(p => !p.GetMethod.IsStatic)
+                obj.GetType().GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic)
 #endif
                 .SingleOrDefault(pi => pi.Name == propertyName);
 
@@ -260,7 +264,7 @@ namespace FluentAssertions.Assertions
 #if !WINRT
                 .GetProperties(PublicPropertiesFlag)
 #else
-                .AllProperties().Where(p => !p.GetMethod.IsStatic)
+                .GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic)
 #endif
                 .Any();
         }
