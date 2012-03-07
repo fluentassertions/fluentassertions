@@ -235,21 +235,7 @@ namespace FluentAssertions.Assertions
 
             for (int index = 0; index < actualItems.Length; index++)
             {
-                try
-                {
-                    var validator = CreateNestedValidatorFor(actualItems[index]);
-                    validator.AssertEquality(actualItems[index], expectedItems[index], uniqueObjectTracker,
-                        propertyPath + "[index " + index + "]");
-                }
-                catch (ObjectAlreadyTrackedException)
-                {
-                    Execute.Verification
-                        .BecauseOf(Reason, ReasonArgs)
-                        .FailWith(
-                            "Expected property " + propertyPath +
-                                " to be {0}{reason}, but it contains a cyclic reference.",
-                            expectedValue);
-                }
+                AssertNestedEquality(actualItems[index], expectedItems[index], propertyPath + "[index " + index + "]");
             }
         }
 
@@ -298,11 +284,7 @@ namespace FluentAssertions.Assertions
             }
             catch (ObjectAlreadyTrackedException)
             {
-                Execute.Verification
-                    .BecauseOf(Reason, ReasonArgs)
-                    .FailWith(
-                        "Expected property " + propertyName + " to be {0}{reason}, but it contains a cyclic reference.",
-                        expectedValue);
+                // Ignore cyclic references
             }
         }
 
