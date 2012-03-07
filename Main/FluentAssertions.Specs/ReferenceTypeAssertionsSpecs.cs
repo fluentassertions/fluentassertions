@@ -190,7 +190,7 @@ namespace FluentAssertions.Specs
         #endregion
     }
 
-    internal class SomeDto
+    public class SomeDto
     {
         public string Name { get; set; }
 

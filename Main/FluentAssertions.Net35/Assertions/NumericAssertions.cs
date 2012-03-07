@@ -19,43 +19,12 @@ namespace FluentAssertions.Assertions
         {
             if (!ReferenceEquals(value, null))
             {
-                Type type = typeof (T);
-                if (IsNullable(type))
+                Subject = value as IComparable;
+                if (Subject == null)
                 {
-                    value = GetValueOrDefault(value);
-                }
-
-                if (!ReferenceEquals(value, null))
-                {
-                    Subject = value as IComparable;
-                    if (Subject == null)
-                    {
-                        throw new InvalidOperationException("This class only supports types implementing IComparable.");
-                    }
+                    throw new InvalidOperationException("This class only supports types implementing IComparable.");
                 }
             }
-        }
-
-        private static bool IsNullable(Type type)
-        {
-            return 
-#if !WINRT
-                type.IsGenericType 
-#else
-                type.GetTypeInfo().IsGenericType
-#endif
-                &&
-                (type.GetGenericTypeDefinition() == typeof (Nullable<>).GetGenericTypeDefinition());
-        }
-
-        private static T GetValueOrDefault(T value)
-        {
-#if !WINRT
-            return (T) typeof (T).GetMethod("GetValueOrDefault", new Type[0]).Invoke(value, null);
-#else
-
-            return (T)typeof(T).GetRuntimeMethod("GetValueOrDefault", new Type[0]).Invoke(value, null);
-#endif
         }
 
         public IComparable Subject { get; private set; }

@@ -423,7 +423,7 @@ namespace FluentAssertions.specs
 
     }
 
-    internal class ComparableClass : IComparable<ComparableClass>
+    public class ComparableClass : IComparable<ComparableClass>
     {
         public string Value { get; set; }
 

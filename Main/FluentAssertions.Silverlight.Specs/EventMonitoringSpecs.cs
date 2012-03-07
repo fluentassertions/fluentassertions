@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 
+using FluentAssertions.Assertions;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using FluentAssertions.EventMonitoring;
@@ -27,8 +29,10 @@ namespace FluentAssertions.Silverlight.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object <" + subject + "> to raise event \"PropertyChanged\" because the property was changed, but it did not.");
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                "Expected object*EventRaisingClass*to raise event*PropertyChanged*for*SomeProperty*because the property was changed, but it did not.",
+                ComparisonMode.Wildcard);
         }
         
         [TestMethod]
@@ -51,7 +55,8 @@ namespace FluentAssertions.Silverlight.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected sender <" + subject + ">, but found <null>.");
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected sender*EventRaisingClass*, but found <null>.", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -76,7 +81,7 @@ namespace FluentAssertions.Silverlight.Specs
             act.ShouldNotThrow();
         }
 
-        internal class EventRaisingClass : INotifyPropertyChanged
+        public class EventRaisingClass : INotifyPropertyChanged
         {
             public event PropertyChangedEventHandler PropertyChanged = delegate { };
 

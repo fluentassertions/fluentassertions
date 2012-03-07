@@ -13,7 +13,7 @@ namespace FluentAssertions.Formatting
 
         public string ToString(object value, UniqueObjectTracker uniqueObjectTracker, int nestedPropertyLevel = 0)
         {
-            return value.ToString();
+            return value.ToString().Replace(" = ", " == ");
         }
     }
 }
