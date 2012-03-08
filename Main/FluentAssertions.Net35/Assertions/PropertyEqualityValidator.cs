@@ -86,7 +86,7 @@ namespace FluentAssertions.Assertions
 
         private void AssertSelectedPropertiesAreEqual(object subject, object expected)
         {
-            foreach (var propertyInfo in DeterminePropertiesToInclude(subject))
+            foreach (PropertyInfo propertyInfo in DeterminePropertiesToInclude(subject))
             {
                 object actualValue = propertyInfo.GetValue(subject, null);
 

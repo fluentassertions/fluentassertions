@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected <2012-03-11> because we want to test the failure message, but found <2012-03-10>.");
+                .WithMessage("Expected DateTime to be <2012-03-11> because we want to test the failure message, but found <2012-03-10>.");
         }
 
         [TestMethod]
