@@ -124,7 +124,6 @@ namespace FluentAssertions.specs
                 "Expected property Values to be equal to {1, 4, 3}, but {1, 2, 3} differs at index 1.");
         }
 
-
         [TestMethod]
         public void When_two_objects_have_the_same_properties_with_convertable_values_it_should_succeed()
         {
