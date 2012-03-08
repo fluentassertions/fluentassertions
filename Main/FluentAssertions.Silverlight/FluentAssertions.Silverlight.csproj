@@ -63,13 +63,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Package\Lib\sl40\</OutputPath>
+    <OutputPath>..\Package\Lib\sl4\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\sl40\FluentAssertions.Silverlight.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\sl4\FluentAssertions.Silverlight.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573;1574</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
