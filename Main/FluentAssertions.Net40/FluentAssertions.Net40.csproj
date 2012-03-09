@@ -274,11 +274,17 @@
     <Compile Include="..\FluentAssertions.Net35\Frameworks\FallbackTestFramework.cs">
       <Link>Frameworks\FallbackTestFramework.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Frameworks\GallioTestFramework.cs">
+      <Link>Frameworks\GallioTestFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\ITestFramework.cs">
       <Link>Frameworks\ITestFramework.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\LateBoundTestFramework.cs">
       <Link>Frameworks\LateBoundTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Frameworks\MbUnitTestFramework.cs">
+      <Link>Frameworks\MbUnitTestFramework.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\MSpecFramework.cs">
       <Link>Frameworks\MSpecFramework.cs</Link>

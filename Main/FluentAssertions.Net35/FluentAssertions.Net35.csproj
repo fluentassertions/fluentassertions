@@ -148,7 +148,9 @@
     <Compile Include="Formatting\XElementValueFormatter.cs" />
     <Compile Include="Frameworks\AssertionHelper.cs" />
     <Compile Include="Frameworks\FallbackTestFramework.cs" />
+    <Compile Include="Frameworks\GallioTestFramework.cs" />
     <Compile Include="Frameworks\ITestFramework.cs" />
+    <Compile Include="Frameworks\MbUnitTestFramework.cs" />
     <Compile Include="Frameworks\MSpecFramework.cs" />
     <Compile Include="Frameworks\MSTestFramework.cs" />
     <Compile Include="Frameworks\NUnitTestFramework.cs" />
