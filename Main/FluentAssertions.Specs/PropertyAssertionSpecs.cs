@@ -503,6 +503,34 @@ namespace FluentAssertions.specs
                 "Please specify some properties to include in the comparison.");
         }
 
+        [TestMethod]
+        public void When_a_subject_has_a_write_only_property_it_should_ignore_that_property()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithWriteOnlyProperty
+            {
+                WriteOnlyProperty = 123,
+                SomeOtherProperty = "whatever"
+            };
+
+            var expected = new
+            {
+                SomeOtherProperty = "whatever"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldHave().AllProperties().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
         #endregion
 
         #region Nested property validation
@@ -1251,6 +1279,18 @@ namespace FluentAssertions.specs
                 get { return valTwo; }
                 set { valTwo = value; }
             }
+        }
+
+        public class ClassWithWriteOnlyProperty
+        {
+            private int writeOnlyPropertyValue;
+
+            public int WriteOnlyProperty
+            {
+                set { writeOnlyPropertyValue = value; }
+            }
+
+            public string SomeOtherProperty { get; set; }
         }
     }
 

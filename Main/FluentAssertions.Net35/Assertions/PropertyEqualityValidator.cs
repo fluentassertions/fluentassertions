@@ -127,13 +127,14 @@ namespace FluentAssertions.Assertions
             var query =
 #if !WINRT
                 from propertyInfo in typeToReflect.GetProperties(PublicPropertiesFlag)
-                where !propertyInfo.GetGetMethod(true).IsPrivate
+                let getMethod = propertyInfo.GetGetMethod(true)
+                where (getMethod != null) && !getMethod.IsPrivate
 #else
                 from propertyInfo in typeToReflect.GetRuntimeProperties()
-                where !propertyInfo.GetMethod.IsPrivate && 
-                      !propertyInfo.GetMethod.IsStatic
+                let getMethod = propertyinfo.GetMethod
+                where (getMethod != null) !getMethod.IsPrivate && !getMethod.IsStatic
 #endif
-                
+
                 where (properties == null) || properties.Contains(propertyInfo.Name)
                 select propertyInfo;
 
