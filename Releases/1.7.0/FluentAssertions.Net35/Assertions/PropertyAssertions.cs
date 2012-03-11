@@ -76,9 +76,11 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Perform recursive property comparison of the child properties for objects that are of incompatible type.
         /// </summary>
-        public PropertyAssertions<T> IncludingNestedObjects()
+        /// <param name="ignore"> </param>
+        public PropertyAssertions<T> IncludingNestedObjects(CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException)
         {
             validator.RecurseOnNestedObjects = true;
+            validator.CyclicReferenceHandling = cyclicReferenceHandling;
             return this;
         }
 

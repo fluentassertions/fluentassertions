@@ -51,6 +51,12 @@ namespace FluentAssertions.Assertions
         /// </summary>
         public bool RecurseOnNestedObjects { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating how cyclic references that are encountered while comparing (collections of)
+        /// objects should be handled.
+        /// </summary>
+        public CyclicReferenceHandling CyclicReferenceHandling { get; set; }
+
         public string Reason { get; set; }
 
         public object[] ReasonArgs { get; set; }
@@ -225,7 +231,17 @@ namespace FluentAssertions.Assertions
             }
             catch (ObjectAlreadyTrackedException)
             {
-                // Ignore cyclic properties
+                if (CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
+                {
+                    Execute.Verification
+                        .BecauseOf(Reason, ReasonArgs)
+                        .FailWith("Expected property " + propertyName + " to be {0}{reason}, but it contains a cyclic reference.",
+                            expectedValue);
+                }
+                else
+                {
+                    // Ignore cyclic references
+                }
             }
         }
 
@@ -234,6 +250,7 @@ namespace FluentAssertions.Assertions
             var validator = new PropertyEqualityValidator(actualValue)
             {
                 RecurseOnNestedObjects = true,
+                CyclicReferenceHandling = CyclicReferenceHandling,
                 OtherObject = expectedValue,
                 OnlySharedProperties = OnlySharedProperties
             };
