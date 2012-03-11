@@ -96,6 +96,7 @@
     <Compile Include="Assertions\CollectionPropertyAssertions.cs" />
     <Compile Include="Assertions\ComparableTypeAssertions.cs" />
     <Compile Include="Assertions\ComparisonMode.cs" />
+    <Compile Include="Assertions\CyclicReferenceHandling.cs" />
     <Compile Include="Assertions\GenericDictionaryAssertions.cs" />
     <Compile Include="Assertions\GuidAssertions.cs" />
     <Compile Include="Assertions\IPropertyAssertions.cs" />

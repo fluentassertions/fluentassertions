@@ -19,7 +19,12 @@ namespace FluentAssertions.Assertions
         /// <summary>
         /// Perform recursive property comparison of the child properties for objects that are of incompatible type.
         /// </summary>
-        IPropertyAssertions<T> IncludingNestedObjects();
+        /// <param name="cyclicReferenceHandling">
+        /// Indication of how cyclic references in the nested properties should be handled. By default this will result in an
+        /// exception, but if <see cref="CyclicReferenceHandling.Ignore"/> is specified, cyclic references will just be ignored.
+        /// </param>
+        IPropertyAssertions<T> IncludingNestedObjects(
+            CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException);
 
         /// <summary>
         /// Includes all properties of <typeparamref name="T"/> when comparing the subject with another object using <see cref="PropertyAssertions{T}.EqualTo(object)"/>, 
@@ -27,7 +32,8 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <param name="propertyExpression">A single property expression to exclude.</param>
         /// <param name="propertyExpressions">Optional list of additional property expressions to exclude.</param>
-        IPropertyAssertions<T> AllPropertiesBut(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions);
+        IPropertyAssertions<T> AllPropertiesBut(Expression<Func<T, object>> propertyExpression,
+            params Expression<Func<T, object>> [] propertyExpressions);
 
         /// <summary>
         /// Includes all properties of <typeparamref name="T"/> including those of the run-time type when comparing the subject 
@@ -40,7 +46,8 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <param name="propertyExpression">A single property expression to exclude.</param>
         /// <param name="propertyExpressions">Optional list of additional property expressions to exclude.</param>
-        IPropertyAssertions<T> But(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions);
+        IPropertyAssertions<T> But(Expression<Func<T, object>> propertyExpression,
+            params Expression<Func<T, object>> [] propertyExpressions);
 
         /// <summary>
         /// Includes only those properties of <typeparamref name="T"/> when comparing the subject with another object using <see cref="PropertyAssertions{T}.EqualTo(object)"/>
@@ -48,7 +55,8 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <param name="propertyExpression">A single property expression to include.</param>
         /// <param name="propertyExpressions">Optional list of additional property expressions to include.</param>
-        IPropertyAssertions<T> Properties(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions);
+        IPropertyAssertions<T> Properties(Expression<Func<T, object>> propertyExpression,
+            params Expression<Func<T, object>> [] propertyExpressions);
 
         /// <summary>
         /// Asserts that the previously selected properties of <typeparamref name="T"/> have the same value as the equally named
@@ -77,6 +85,6 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        void EqualTo(object expected, string reason, params object[] reasonArgs);
+        void EqualTo(object expected, string reason, params object [] reasonArgs);
     }
 }

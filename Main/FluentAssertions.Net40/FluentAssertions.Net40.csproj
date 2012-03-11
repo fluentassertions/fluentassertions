@@ -82,6 +82,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\ComparisonMode.cs">
       <Link>Assertions\ComparisonMode.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\CyclicReferenceHandling.cs">
+      <Link>Assertions\CyclicReferenceHandling.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\DateTimeAssertions.cs">
       <Link>Assertions\DateTimeAssertions.cs</Link>
     </Compile>

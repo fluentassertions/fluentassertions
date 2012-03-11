@@ -739,7 +739,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_recursing_on_incompatible_properties_that_have_cyclic_references_it_should_throw()
+        public void When_validating_nested_properties_that_have_cyclic_references_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -769,6 +769,49 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
                 cyclicRoot.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(cyclicRootDto);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property Level.Root to be*but it contains a cyclic reference.",
+                ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
+        public void When_validating_nested_properties_and_ignoring_cyclic_references_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var cyclicRoot = new CyclicRoot
+            {
+                Text = "Root",
+            };
+            cyclicRoot.Level = new CyclicLevel1
+            {
+                Text = "Level1",
+                Root = cyclicRoot,
+            };
+
+            var cyclicRootDto = new CyclicRootDto
+            {
+                Text = "Root",
+            };
+            cyclicRootDto.Level = new CyclicLevel1Dto
+            {
+                Text = "Level1",
+                Root = cyclicRootDto,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => cyclicRoot.ShouldHave()
+                .AllProperties()
+                .IncludingNestedObjects(CyclicReferenceHandling.Ignore)
+                .EqualTo(cyclicRootDto);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
