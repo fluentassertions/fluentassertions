@@ -171,9 +171,8 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition((root != null) && root.Name == expected)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML document to have root element <" + expected + ">" +
-                    " because we want to test the failure message" +
-                        ", but found {0}.", Subject);
+                .FailWith("Expected XML document to have root element <" + expected + ">{reason}" +
+                    ", but found {0}.", Subject);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -209,16 +208,14 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Root != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML document {0} to have root element with child <" + expected + ">" +
-                    " because we want to test the failure message" +
-                        ", but XML document has no Root element.", Subject);
+                .FailWith("Expected XML document {0} to have root element with child <" + expected + ">{reason}" +
+                    ", but XML document has no Root element.", Subject);
 
             Execute.Verification
                 .ForCondition(Subject.Root.Element(expected) != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML document {0} to have root element with child <" + expected + ">" +
-                    " because we want to test the failure message" +
-                        ", but no such child element was found.", Subject);
+                .FailWith("Expected XML document {0} to have root element with child <" + expected + ">{reason}" +
+                    ", but no such child element was found.", Subject);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }

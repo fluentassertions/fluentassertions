@@ -212,8 +212,7 @@ namespace FluentAssertions.Assertions
             Execute.Verification
                 .ForCondition(Subject.Element(expected) != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML element {0} to have child element <" + expected + ">" +
-                    " because we want to test the failure message" +
+                .FailWith("Expected XML element {0} to have child element <" + expected + ">{reason}" +
                         ", but no such child element was found.", Subject);
 
             return new AndConstraint<XElementAssertions>(this);

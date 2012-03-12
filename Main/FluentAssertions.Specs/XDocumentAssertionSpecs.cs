@@ -337,7 +337,7 @@ namespace FluentAssertions.specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                document.Should().HaveRoot("unknown");
+                document.Should().HaveRoot("unknown", "because we want to test the failure message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -414,7 +414,7 @@ namespace FluentAssertions.specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                document.Should().HaveElement("unknown");
+                document.Should().HaveElement("unknown", "because we want to test the failure message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
