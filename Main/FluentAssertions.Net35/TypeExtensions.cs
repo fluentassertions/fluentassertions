@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
 
-namespace FluentAssertions.Assertions
+using FluentAssertions.Assertions;
+
+namespace FluentAssertions
 {
     /// <summary>
     /// Extension methods for getting method and property selectors for a type.

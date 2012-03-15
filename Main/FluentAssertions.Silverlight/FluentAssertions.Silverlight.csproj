@@ -132,9 +132,6 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\ExceptionAssertions.cs">
       <Link>Assertions\ExceptionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\FloatingPointExtensions.cs">
-      <Link>Assertions\FloatingPointExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\GenericCollectionAssertions.cs">
       <Link>Assertions\GenericCollectionAssertions.cs</Link>
     </Compile>
@@ -167,9 +164,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableGuidAssertions.cs">
       <Link>Assertions\NullableGuidAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\NullableNumericExtensions.cs">
-      <Link>Assertions\NullableNumericExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableSimpleTimeSpanAssertions.cs">
       <Link>Assertions\NullableSimpleTimeSpanAssertions.cs</Link>
@@ -219,9 +213,6 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\TypeAssertions.cs">
       <Link>Assertions\TypeAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\TypeExtensions.cs">
-      <Link>Assertions\TypeExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\TypeSelector.cs">
       <Link>Assertions\TypeSelector.cs</Link>
     </Compile>
@@ -267,6 +258,9 @@
     <Compile Include="..\FluentAssertions.Net35\Execute.cs">
       <Link>Execute.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\FloatingPointExtensions.cs">
+      <Link>FloatingPointExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\DateTimeValueFormatter.cs">
       <Link>Formatting\DateTimeValueFormatter.cs</Link>
     </Compile>
@@ -305,6 +299,12 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\XElementValueFormatter.cs">
       <Link>Formatting\XElementValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\NullableNumericExtensions.cs">
+      <Link>NullableNumericExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\TypeExtensions.cs">
+      <Link>TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Verification.cs">
       <Link>Verification.cs</Link>

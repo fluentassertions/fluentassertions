@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace FluentAssertions.Assertions
+using FluentAssertions.Assertions;
+
+namespace FluentAssertions
 {
     /// <summary>
     /// Contains a number of methods to assert that a nullable numeric value has the expected value.

@@ -105,14 +105,14 @@
     <Compile Include="Assertions\NullableGuidAssertions.cs" />
     <Compile Include="Assertions\PropertyEqualityValidator.cs" />
     <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
-    <Compile Include="Assertions\FloatingPointExtensions.cs" />
+    <Compile Include="FloatingPointExtensions.cs" />
     <Compile Include="Assertions\PropertyInfoAssertions.cs" />
     <Compile Include="Assertions\PropertyInfoSelector.cs" />
     <Compile Include="Assertions\StringEqualityValidator.cs" />
     <Compile Include="Assertions\StringStartValidator.cs" />
     <Compile Include="Assertions\StringValidator.cs" />
     <Compile Include="Assertions\StringWildcardMatchingValidator.cs" />
-    <Compile Include="Assertions\TypeExtensions.cs" />
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="Assertions\TypeSelector.cs" />
     <Compile Include="Assertions\XAttributeAssertions.cs" />
     <Compile Include="Assertions\XDocumentAssertions.cs" />
@@ -164,7 +164,7 @@
     <Compile Include="Assertions\ExceptionAssertions.cs" />
     <Compile Include="Assertions\NullableBooleanAssertions.cs" />
     <Compile Include="Assertions\NullableDateTimeAssertions.cs" />
-    <Compile Include="Assertions\NullableNumericExtensions.cs" />
+    <Compile Include="NullableNumericExtensions.cs" />
     <Compile Include="Assertions\NumericAssertions.cs" />
     <Compile Include="Assertions\ObjectAssertions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

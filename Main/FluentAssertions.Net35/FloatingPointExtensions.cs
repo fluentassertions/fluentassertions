@@ -1,6 +1,8 @@
 using System;
 
-namespace FluentAssertions.Assertions
+using FluentAssertions.Assertions;
+
+namespace FluentAssertions
 {
     /// <summary>
     /// Contains a number of extension methods for floating point <see cref="NumericAssertions{T}"/>.
