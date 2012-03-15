@@ -108,18 +108,26 @@ namespace FluentAssertions.Assertions
 
         private IEnumerable<PropertyInfo> DeterminePropertiesToInclude(object subject)
         {
-            var properties = GetNonPrivateProperties(subject.GetType(), includedProperties);
+            IEnumerable<PropertyInfo> properties;
 
             if (PropertySelection == PropertySelection.AllRuntimePublic)
             {
-                properties.AddRange(GetNonPrivateProperties(subject.GetType()));
+                properties = GetNonPrivateProperties(subject.GetType());
             }
-            else if (PropertySelection == PropertySelection.AllCompileTimePublic)
+            else if ((PropertySelection == PropertySelection.AllCompileTimePublic) || (PropertySelection == PropertySelection.OnlyShared))
             {
-                properties.AddRange(GetNonPrivateProperties(CompileTimeType));
+                properties = GetNonPrivateProperties(CompileTimeType);
+            }
+            else if (PropertySelection == PropertySelection.None)
+            {
+                properties = GetNonPrivateProperties(subject.GetType(), includedProperties);
+            }
+            else
+            {
+                throw new InvalidOperationException("Unknown PropertySelection value " + PropertySelection);
             }
 
-            properties = properties.Where(pi => !excludedProperties.Contains(pi.Name)).ToList();
+            properties = properties.Where(pi => !excludedProperties.Contains(pi.Name)).ToArray();
             if ((PropertySelection != PropertySelection.OnlyShared) && !properties.Any())
             {
                 throw new InvalidOperationException("Please specify some properties to include in the comparison.");
@@ -128,7 +136,7 @@ namespace FluentAssertions.Assertions
             return properties.ToArray();
         }
 
-        private List<PropertyInfo> GetNonPrivateProperties(Type typeToReflect, IList<string> properties = null)
+        private IEnumerable<PropertyInfo> GetNonPrivateProperties(Type typeToReflect, IEnumerable<string> explicitProperties = null)
         {
             var query =
 #if !WINRT
@@ -141,7 +149,7 @@ namespace FluentAssertions.Assertions
                 where (getMethod != null) !getMethod.IsPrivate && !getMethod.IsStatic
 #endif
 
-                where (properties == null) || properties.Contains(propertyInfo.Name)
+                where (explicitProperties == null) || explicitProperties.Contains(propertyInfo.Name)
                 select propertyInfo;
 
             return query.ToList();
