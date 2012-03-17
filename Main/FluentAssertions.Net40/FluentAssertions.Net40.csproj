@@ -223,9 +223,6 @@
     <Compile Include="..\FluentAssertions.Net35\Execute.cs">
       <Link>Execute.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\FloatingPointExtensions.cs">
-      <Link>FloatingPointExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\DateTimeValueFormatter.cs">
       <Link>Formatting\DateTimeValueFormatter.cs</Link>
     </Compile>
@@ -295,8 +292,8 @@
     <Compile Include="..\FluentAssertions.Net35\Frameworks\XUnitTestFramework.cs">
       <Link>Frameworks\XUnitTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NullableNumericExtensions.cs">
-      <Link>NullableNumericExtensions.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\NumericAssertionsExtensions.cs">
+      <Link>NumericAssertionsExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\TypeExtensions.cs">
       <Link>TypeExtensions.cs</Link>

@@ -7,8 +7,66 @@ namespace FluentAssertions
     /// <summary>
     /// Contains a number of extension methods for floating point <see cref="NumericAssertions{T}"/>.
     /// </summary>
-    public static class FloatingPointExtensions
+    public static class NumericAssertionsExtensions
     {
+        /// <summary>
+        /// Asserts that a nullable numeric value is not <c>null</c>.
+        /// </summary>
+        public static AndConstraint<NumericAssertions<T?>> HaveValue<T>(this NumericAssertions<T?> parent) where T : struct
+        {
+            return HaveValue(parent, String.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that a nullable numeric value is not <c>null</c>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>      
+        public static AndConstraint<NumericAssertions<T?>> HaveValue<T>(this NumericAssertions<T?> parent, string reason,
+            params object[] reasonArgs) where T : struct
+        {
+            Execute.Verification
+                .ForCondition(!ReferenceEquals(parent.Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected a value{reason}.");
+
+            return new AndConstraint<NumericAssertions<T?>>(parent);
+        }
+
+        /// <summary>
+        /// Asserts that a nullable numeric value is <c>null</c>.
+        /// </summary>
+        public static AndConstraint<NumericAssertions<T?>> NotHaveValue<T>(this NumericAssertions<T?> parent) where T : struct
+        {
+            return NotHaveValue(parent, String.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that a nullable numeric value is <c>null</c>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>  
+        public static AndConstraint<NumericAssertions<T?>> NotHaveValue<T>(this NumericAssertions<T?> parent, string reason,
+            params object[] reasonArgs) where T : struct
+        {
+            Execute.Verification
+                .ForCondition(ReferenceEquals(parent.Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect a value{reason}, but found {0}.", parent.Subject);
+
+            return new AndConstraint<NumericAssertions<T?>>(parent);
+        }
+
         /// <summary>
         /// Asserts that the floating point value is exactly the same as the <paramref name="expected"/> value.
         /// </summary>
@@ -29,7 +87,7 @@ namespace FluentAssertions
         public static AndConstraint<NumericAssertions<float>> Be(this NumericAssertions<float> parent,
             float expected)
         {
-            return Be(parent, expected, string.Empty);
+            return Be(parent, expected, String.Empty);
         }
 
         /// <summary>
@@ -87,7 +145,7 @@ namespace FluentAssertions
         public static AndConstraint<NumericAssertions<float?>> Be(this NumericAssertions<float?> parent,
             float expected)
         {
-            return Be(parent, expected, string.Empty);
+            return Be(parent, expected, String.Empty);
         }
 
         /// <summary>
@@ -141,7 +199,7 @@ namespace FluentAssertions
         public static AndConstraint<NumericAssertions<float?>> BeApproximately(this NumericAssertions<float?> parent,
             float expectedValue, float precision)
         {
-            return BeApproximately(parent, expectedValue, precision, string.Empty);
+            return BeApproximately(parent, expectedValue, precision, String.Empty);
         }
 
         /// <summary>
@@ -189,7 +247,7 @@ namespace FluentAssertions
         public static AndConstraint<NumericAssertions<float>> BeApproximately(this NumericAssertions<float> parent,
             float expectedValue, float precision)
         {
-            return BeApproximately(parent, expectedValue, precision, string.Empty);
+            return BeApproximately(parent, expectedValue, precision, String.Empty);
         }
 
         /// <summary>
@@ -246,7 +304,7 @@ namespace FluentAssertions
         public static AndConstraint<NumericAssertions<double>> Be(this NumericAssertions<double> parent,
             double expected)
         {
-            return Be(parent, expected, string.Empty);
+            return Be(parent, expected, String.Empty);
         }
 
         /// <summary>
@@ -304,7 +362,7 @@ namespace FluentAssertions
         public static AndConstraint<NumericAssertions<double?>> Be(this NumericAssertions<double?> parent,
             double expected)
         {
-            return Be(parent, expected, string.Empty);
+            return Be(parent, expected, String.Empty);
         }
 
         /// <summary>
@@ -358,7 +416,7 @@ namespace FluentAssertions
         public static AndConstraint<NumericAssertions<double?>> BeApproximately(this NumericAssertions<double?> parent,
             double expectedValue, double precision)
         {
-            return BeApproximately(parent, expectedValue, precision, string.Empty);
+            return BeApproximately(parent, expectedValue, precision, String.Empty);
         }
 
         /// <summary>
@@ -406,7 +464,7 @@ namespace FluentAssertions
         public static AndConstraint<NumericAssertions<double>> BeApproximately(this NumericAssertions<double> parent,
             double expectedValue, double precision)
         {
-            return BeApproximately(parent, expectedValue, precision, string.Empty);
+            return BeApproximately(parent, expectedValue, precision, String.Empty);
         }
 
         /// <summary>

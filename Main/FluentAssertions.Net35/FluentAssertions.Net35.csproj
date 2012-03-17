@@ -105,7 +105,7 @@
     <Compile Include="Assertions\NullableGuidAssertions.cs" />
     <Compile Include="Assertions\PropertyEqualityValidator.cs" />
     <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
-    <Compile Include="FloatingPointExtensions.cs" />
+    <Compile Include="NumericAssertionsExtensions.cs" />
     <Compile Include="Assertions\PropertyInfoAssertions.cs" />
     <Compile Include="Assertions\PropertyInfoSelector.cs" />
     <Compile Include="Assertions\StringEqualityValidator.cs" />
@@ -164,7 +164,6 @@
     <Compile Include="Assertions\ExceptionAssertions.cs" />
     <Compile Include="Assertions\NullableBooleanAssertions.cs" />
     <Compile Include="Assertions\NullableDateTimeAssertions.cs" />
-    <Compile Include="NullableNumericExtensions.cs" />
     <Compile Include="Assertions\NumericAssertions.cs" />
     <Compile Include="Assertions\ObjectAssertions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
