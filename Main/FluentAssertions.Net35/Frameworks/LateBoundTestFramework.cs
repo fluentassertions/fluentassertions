@@ -36,40 +36,40 @@ namespace FluentAssertions.Frameworks
 
         protected abstract string AssemblyName { get; }
         protected abstract string ExceptionFullName { get; }
+    }
 
 #if WINRT
-        private sealed class AppDomain
+    internal sealed class AppDomain
+    {
+        public static AppDomain CurrentDomain { get; private set; }
+
+        static AppDomain()
         {
-            public static AppDomain CurrentDomain { get; private set; }
-
-            static AppDomain()
-            {
-                CurrentDomain = new AppDomain();
-            }
-
-            public Assembly[] GetAssemblies()
-            {
-                return GetAssemblyListAsync().Result.ToArray();
-            }
-
-            private async System.Threading.Tasks.Task<IEnumerable<Assembly>> GetAssemblyListAsync()
-            {
-                var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-                
-                List<Assembly> assemblies = new List<Assembly>();
-                foreach (Windows.Storage.StorageFile file in await folder.GetFilesAsync())
-                {
-                    if (file.FileType == ".dll" || file.FileType == ".exe")
-                    {
-                        AssemblyName name = new AssemblyName() { Name = file.DisplayName };
-                        Assembly asm = Assembly.Load(name);
-                        assemblies.Add(asm);
-                    }
-                }
-
-                return assemblies;
-            }
+            CurrentDomain = new AppDomain();
         }
-#endif
+
+        public Assembly[] GetAssemblies()
+        {
+            return GetAssemblyListAsync().Result.ToArray();
+        }
+
+        private async System.Threading.Tasks.Task<IEnumerable<Assembly>> GetAssemblyListAsync()
+        {
+            var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+
+            List<Assembly> assemblies = new List<Assembly>();
+            foreach (Windows.Storage.StorageFile file in await folder.GetFilesAsync())
+            {
+                if (file.FileType == ".dll" || file.FileType == ".exe")
+                {
+                    AssemblyName name = new AssemblyName() { Name = file.DisplayName };
+                    Assembly asm = Assembly.Load(name);
+                    assemblies.Add(asm);
+                }
+            }
+
+            return assemblies;
+        }
     }
+#endif
 }

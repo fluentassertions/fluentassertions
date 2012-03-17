@@ -145,8 +145,8 @@ namespace FluentAssertions.Assertions
                 where (getMethod != null) && !getMethod.IsPrivate
 #else
                 from propertyInfo in typeToReflect.GetRuntimeProperties()
-                let getMethod = propertyinfo.GetMethod
-                where (getMethod != null) !getMethod.IsPrivate && !getMethod.IsStatic
+                let getMethod = propertyInfo.GetMethod
+                where (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsStatic
 #endif
 
                 where (explicitProperties == null) || explicitProperties.Contains(propertyInfo.Name)

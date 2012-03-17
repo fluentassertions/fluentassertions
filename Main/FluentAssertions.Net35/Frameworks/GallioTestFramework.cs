@@ -2,6 +2,10 @@
 using System.Linq;
 using System.Reflection;
 
+#if WINRT
+using System.Reflection.RuntimeExtensions;
+#endif
+
 namespace FluentAssertions.Frameworks
 {
     internal class GallioTestFramework : ITestFramework
@@ -24,22 +28,46 @@ namespace FluentAssertions.Frameworks
                     assembly.FullName));
             }
 
-            object testContext = testContextType.GetProperty("CurrentContext").GetValue(null, null);
+            object testContext = testContextType
+#if !WINRT
+                .GetProperty("CurrentContext")
+#else
+                .GetRuntimeProperty("CurrentContext")
+#endif
+                .GetValue(null, null);
 
             if (testContext != null)
             {
+#if !WINRT
                 testContextType.InvokeMember("IncrementAssertCount", BindingFlags.InvokeMethod, null, testContext, null);
+#else
+                var method = testContextType.GetRuntimeMethod("IncrementAssertCount", new Type[0]);
+                method.Invoke(testContext, null);
+#endif
             }
 
             object assertionFailureBuilder = Activator.CreateInstance(assertionFailureBuilderType, message);
+            object assertionFailure;
+#if !WINRT
             assertionFailureBuilderType.InvokeMember("SetMessage", BindingFlags.InvokeMethod, null,
                 assertionFailureBuilder, new object[] {message});
-            object assertionFailure = assertionFailureBuilderType.InvokeMember("ToAssertionFailure",
+            assertionFailure = assertionFailureBuilderType.InvokeMember("ToAssertionFailure",
                 BindingFlags.InvokeMethod, null, assertionFailureBuilder, null);
+#else
+            var setMessageMethod = assertionFailureBuilderType.GetRuntimeMethod("SetMessage", new [] {typeof(string)});
+            setMessageMethod.Invoke(assertionFailureBuilder, new object[] {message});
 
+            var toAssertionFailureMethod = assertionFailureBuilderType.GetRuntimeMethod("ToAssertionFailure", new Type[0]);
+            assertionFailure = toAssertionFailureMethod.Invoke(assertionFailureBuilder, null);
+#endif
             try
             {
+#if !WINRT
                 assertionHelperType.InvokeMember("Fail", BindingFlags.InvokeMethod, null, null, new[] {assertionFailure});
+#else
+                var failMethod = assertionHelperType.GetRuntimeMethods().First(m => m.Name == "Fail");
+                failMethod.Invoke(null, new[] {assertionFailure});
+#endif
             }
             catch (TargetInvocationException ex)
             {

@@ -63,6 +63,9 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\ComparisonMode.cs">
       <Link>Assertions\ComparisonMode.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\CyclicReferenceHandling.cs">
+      <Link>Assertions\CyclicReferenceHandling.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\DateTimeAssertions.cs">
       <Link>Assertions\DateTimeAssertions.cs</Link>
     </Compile>
@@ -71,9 +74,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\ExecutionTimeAssertions.cs">
       <Link>Assertions\ExecutionTimeAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\FloatingPointExtensions.cs">
-      <Link>Assertions\FloatingPointExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\GenericCollectionAssertions.cs">
       <Link>Assertions\GenericCollectionAssertions.cs</Link>
@@ -107,9 +107,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableGuidAssertions.cs">
       <Link>Assertions\NullableGuidAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\NullableNumericExtensions.cs">
-      <Link>Assertions\NullableNumericExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableSimpleTimeSpanAssertions.cs">
       <Link>Assertions\NullableSimpleTimeSpanAssertions.cs</Link>
@@ -158,9 +155,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\TypeAssertions.cs">
       <Link>Assertions\TypeAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\TypeExtensions.cs">
-      <Link>Assertions\TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\TypeSelector.cs">
       <Link>Assertions\TypeSelector.cs</Link>
@@ -255,11 +249,17 @@
     <Compile Include="..\FluentAssertions.Net35\Frameworks\FallbackTestFramework.cs">
       <Link>Frameworks\FallbackTestFramework.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Frameworks\GallioTestFramework.cs">
+      <Link>Frameworks\GallioTestFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\ITestFramework.cs">
       <Link>Frameworks\ITestFramework.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\LateBoundTestFramework.cs">
       <Link>Frameworks\LateBoundTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Frameworks\MbUnitTestFramework.cs">
+      <Link>Frameworks\MbUnitTestFramework.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\MSpecFramework.cs">
       <Link>Frameworks\MSpecFramework.cs</Link>
@@ -272,6 +272,12 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Frameworks\XUnitTestFramework.cs">
       <Link>Frameworks\XUnitTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\NumericAssertionsExtensions.cs">
+      <Link>NumericAssertionsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\TypeExtensions.cs">
+      <Link>TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Verification.cs">
       <Link>Verification.cs</Link>
