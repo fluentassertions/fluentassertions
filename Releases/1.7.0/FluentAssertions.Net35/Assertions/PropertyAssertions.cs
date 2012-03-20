@@ -56,7 +56,8 @@ namespace FluentAssertions.Assertions
         {
             foreach (var propertyInfo in typeToReflect.GetProperties(InstancePropertiesFlag))
             {
-                if (!propertyInfo.GetGetMethod(true).IsPrivate)
+                var getter = propertyInfo.GetGetMethod(true);
+                if ((getter != null) && !getter.IsPrivate)
                 {
                     validator.Properties.Add(propertyInfo);
                 }

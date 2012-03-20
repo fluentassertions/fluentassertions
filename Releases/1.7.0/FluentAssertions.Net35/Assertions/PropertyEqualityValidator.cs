@@ -81,7 +81,7 @@ namespace FluentAssertions.Assertions
             if (Properties.Count == 0)
             {
                 throw new InvalidOperationException("Please specify some properties to include in the comparison.");
-            }
+        }
 
             AssertSelectedPropertiesAreEqual(subject, OtherObject);
         }
@@ -99,7 +99,7 @@ namespace FluentAssertions.Assertions
 
                     AssertPropertyEqualityUsingVerificationContext(expectedValue, actualValue, propertyInfo);
                 }
-            }
+        }
         }
 
         private PropertyInfo FindPropertyFrom(object obj, string propertyName)
@@ -151,7 +151,7 @@ namespace FluentAssertions.Assertions
                     }
                     else
                     {
-                        ((IEnumerable)actualValue).Should().Equal(((IEnumerable)expectedValue), Reason, ReasonArgs);    
+                        ((IEnumerable)actualValue).Should().Equal(((IEnumerable)expectedValue), Reason, ReasonArgs);
                     }
                 }
                 else if (IsComplexType(expectedValue) & RecurseOnNestedObjects)
@@ -171,8 +171,8 @@ namespace FluentAssertions.Assertions
             {
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
-                    .FailWith("Expected {0} property to be a collection{reason}, but {1} is a {2}.", 
-                    propertyPath, actualValue, actualValue.GetType().FullName);
+                    .FailWith("Expected {0} property to be a collection{reason}, but {1} is a {2}.",
+                        propertyPath, actualValue, actualValue.GetType().FullName);
             }
 
             var actualItems = ((IEnumerable)actualValue).Cast<object>().ToArray();
@@ -183,7 +183,7 @@ namespace FluentAssertions.Assertions
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
                     .FailWith("Expected {0} property to be a collection with {1} item(s){reason}, but found {2}.",
-                    propertyPath, expectedItems.Length, actualItems.Length);
+                        propertyPath, expectedItems.Length, actualItems.Length);
             }
 
             for (int index = 0; index < actualItems.Length; index++)
@@ -240,9 +240,9 @@ namespace FluentAssertions.Assertions
                 }
                 else
                 {
-                    // Ignore cyclic references
-                }
+                // Ignore cyclic references
             }
+        }
         }
 
         private PropertyEqualityValidator CreateNestedValidatorFor(object actualValue, object expectedValue)
@@ -257,7 +257,8 @@ namespace FluentAssertions.Assertions
 
             foreach (var propertyInfo in actualValue.GetType().GetProperties(InstancePropertiesFlag))
             {
-                if (!propertyInfo.GetGetMethod(true).IsPrivate)
+                var getter = propertyInfo.GetGetMethod(true);
+                if ((getter != null) && !getter.IsPrivate)
                 {
                     validator.Properties.Add(propertyInfo);
                 }
