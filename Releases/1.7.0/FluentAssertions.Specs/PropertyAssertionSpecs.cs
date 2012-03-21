@@ -615,6 +615,41 @@ namespace FluentAssertions.specs
         }
         
         [TestMethod]
+        public void When_the_actual_nested_object_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new Root
+            {
+                Text = "Root",
+                Level = null
+            };
+
+            var expected = new RootDto
+            {
+                Text = "Root",
+                Level = new Level1Dto
+                {
+                    Text = "Level2",
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property Level to be*Level1Dto*Level2*, but it is <null>.", ComparisonMode.Wildcard);
+        }
+        
+        [TestMethod]
         public void When_not_all_the_properties_of_the_nested_object_exist_on_the_expected_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

@@ -226,6 +226,12 @@ namespace FluentAssertions.Assertions
         {
             try
             {
+                Execute.Verification
+                    .ForCondition(!ReferenceEquals(actualValue, null))
+                    .BecauseOf(Reason, ReasonArgs)
+                    .FailWith("Expected property " + propertyName + " to be {0}{reason}, but it is <null>.",
+                        expectedValue);
+
                 PropertyEqualityValidator validator = CreateNestedValidatorFor(actualValue, expectedValue);
                 validator.Validate(uniqueObjectTracker, propertyName);
             }
