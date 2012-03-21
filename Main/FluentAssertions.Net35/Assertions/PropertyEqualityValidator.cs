@@ -13,8 +13,6 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Assertions
 {
-
-
     /// <summary>
     /// Is responsible for validating the equality of one or more properties of a subject with another object.
     /// </summary>
@@ -103,7 +101,7 @@ namespace FluentAssertions.Assertions
 
                     AssertPropertyEqualityUsingVerificationContext(expectedValue, actualValue, propertyInfo);
                 }
-            }
+        }
         }
 
         private IEnumerable<PropertyInfo> DeterminePropertiesToInclude(object subject)
@@ -294,6 +292,12 @@ namespace FluentAssertions.Assertions
         {
             try
             {
+                Execute.Verification
+    .ForCondition(!ReferenceEquals(actualValue, null))
+    .BecauseOf(Reason, ReasonArgs)
+    .FailWith("Expected property " + propertyName + " to be {0}{reason}, but it is <null>.",
+        expectedValue);
+
                 PropertyEqualityValidator validator = CreateNestedValidatorFor(actualValue);
                 validator.AssertEquality(actualValue, expectedValue, uniqueObjectTracker, propertyName);
             }
@@ -308,9 +312,9 @@ namespace FluentAssertions.Assertions
                 }
                 else
                 {
-                    // Ignore cyclic references
-                }
+                // Ignore cyclic references
             }
+        }
         }
 
         private PropertyEqualityValidator CreateNestedValidatorFor(object actualItem)
@@ -325,13 +329,13 @@ namespace FluentAssertions.Assertions
         }
 
         private string GetPropertyPath(string propertyName)
-        {
+                {
             return (parentPropertyName.Length > 0) ? parentPropertyName + "." + propertyName : propertyName;
+            }
         }
-    }
 
     public enum PropertySelection
-    {
+        {
         AllCompileTimePublic,
         AllRuntimePublic,
         OnlyShared,
