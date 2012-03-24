@@ -3,7 +3,7 @@
   <metadata> 
     <id>FluentAssertions</id>
     <title>Fluent Assertions</title>
-    <version>1.7.1</version>
+    <version>1.7.1.1</version>
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen, Martin Opdam</authors>
     <description>A very extensive set of extension methods for .NET 3.5, 4.0 and Silverlight 4.0 that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit test.</description> 
@@ -21,5 +21,9 @@
       - Fixed a NullReferenceException when comparing objects that have a write-only properties
       - Fixed a potential NullReferenceException while comparing the properties of a complex graph and when a deep property contains a null object.
     </releaseNotes>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Xml"/>
+      <frameworkAssembly assemblyName="System.Xml.Linq"  />
+    </frameworkAssemblies>
   </metadata>
 </package>
