@@ -17,14 +17,14 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_positive_value_to_be_positive()
         {
-            (1).Should().BePositive();
+            (1F).Should().BePositive();
         }
 
         [TestMethod]
         [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_negative_value_to_be_positive()
         {
-            (-1).Should().BePositive();
+            (-1D).Should().BePositive();
         }
 
         [TestMethod]
@@ -122,26 +122,7 @@ namespace FluentAssertions.Specs
             action
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected <null>, but found 2.");
-        }        [TestMethod]
-        
-        public void When_a_nullable_value_is_null_and_the_subject_is_as_well_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            int? subject = null;
-            int? value = null;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.Should().Be(value);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
+        }        
 
         [TestMethod]
         public void Should_succeed_when_asserting_value_to_be_not_equal_to_different_value()
