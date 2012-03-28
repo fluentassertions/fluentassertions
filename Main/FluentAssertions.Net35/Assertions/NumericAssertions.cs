@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 
 #if WINRT
 using System.Reflection;
@@ -16,12 +15,8 @@ namespace FluentAssertions.Assertions
     [DebuggerNonUserCode]
     public class NumericAssertions<T> where T : struct
     {
-        private readonly object zero;
-
         protected internal NumericAssertions(object value)
         {
-            zero = Convert.ChangeType(0, typeof (T), CultureInfo.CurrentCulture);
-
             if (!ReferenceEquals(value, null))
             {
                 Subject = value as IComparable;
@@ -138,7 +133,7 @@ namespace FluentAssertions.Assertions
         public AndConstraint<NumericAssertions<T>> BePositive(string reason, params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.CompareTo(zero) > 0)
+                .ForCondition(Subject.CompareTo(default(T)) > 0)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected positive value{reason}, but found {0}", Subject);
             
@@ -166,7 +161,7 @@ namespace FluentAssertions.Assertions
         public AndConstraint<NumericAssertions<T>> BeNegative(string reason, params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.CompareTo(zero) < 0)
+                .ForCondition(Subject.CompareTo(default(T)) < 0)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected negative value{reason}, but found {0}", Subject);
 
