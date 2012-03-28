@@ -300,75 +300,75 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
         /// current <see cref="int"/>.
         /// </summary>
-        public static IntegralAssertions<int> Should(this int actualValue)
+        public static NumericAssertions<int> Should(this int actualValue)
         {
-            return new IntegralAssertions<int>(actualValue);
+            return new NumericAssertions<int>(actualValue);
         }
 
         /// <summary>
-        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
         /// current nullable <see cref="int"/>.
         /// </summary>
-        public static IntegralAssertions<int?> Should(this int? actualValue)
+        public static NullableNumericAssertions<int> Should(this int? actualValue)
         {
-            return new IntegralAssertions<int?>(actualValue);
+            return new NullableNumericAssertions<int>(actualValue);
         }
 
         /// <summary>
-        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
         /// current <see cref="byte"/>.
         /// </summary>
-        public static IntegralAssertions<byte> Should(this byte actualValue)
+        public static NumericAssertions<byte> Should(this byte actualValue)
         {
-            return new IntegralAssertions<byte>(actualValue);
+            return new NumericAssertions<byte>(actualValue);
         }
 
         /// <summary>
-        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
         /// current nullable <see cref="byte"/>.
         /// </summary>
-        public static IntegralAssertions<byte?> Should(this byte? actualValue)
+        public static NullableNumericAssertions<byte> Should(this byte? actualValue)
         {
-            return new IntegralAssertions<byte?>(actualValue);
+            return new NullableNumericAssertions<byte>(actualValue);
         }
 
         /// <summary>
-        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
         /// current <see cref="short"/>.
         /// </summary>
-        public static IntegralAssertions<short> Should(this short actualValue)
+        public static NumericAssertions<short> Should(this short actualValue)
         {
-            return new IntegralAssertions<short>(actualValue);
+            return new NumericAssertions<short>(actualValue);
         }
 
         /// <summary>
-        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
         /// current nullable <see cref="short"/>.
         /// </summary>
-        public static IntegralAssertions<short?> Should(this short? actualValue)
+        public static NullableNumericAssertions<short> Should(this short? actualValue)
         {
-            return new IntegralAssertions<short?>(actualValue);
+            return new NullableNumericAssertions<short>(actualValue);
         }
 
         /// <summary>
-        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
         /// current <see cref="long"/>.
         /// </summary>
-        public static IntegralAssertions<long> Should(this long actualValue)
+        public static NumericAssertions<long> Should(this long actualValue)
         {
-            return new IntegralAssertions<long>(actualValue);
+            return new NumericAssertions<long>(actualValue);
         }
 
         /// <summary>
-        /// Returns an <see cref="IntegralAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
         /// current nullable <see cref="long"/>.
         /// </summary>
-        public static IntegralAssertions<long?> Should(this long? actualValue)
+        public static NullableNumericAssertions<long> Should(this long? actualValue)
         {
-            return new IntegralAssertions<long?>(actualValue);
+            return new NullableNumericAssertions<long>(actualValue);
         }
 
         /// <summary>
@@ -381,12 +381,12 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
         /// current nullable <see cref="float"/>.
         /// </summary>
-        public static NumericAssertions<float?> Should(this float? actualValue)
+        public static NullableNumericAssertions<float> Should(this float? actualValue)
         {
-            return new NumericAssertions<float?>(actualValue);
+            return new NullableNumericAssertions<float>(actualValue);
         }
 
         /// <summary>
@@ -399,12 +399,12 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
         /// current nullable <see cref="double"/>.
         /// </summary>
-        public static NumericAssertions<double?> Should(this double? actualValue)
+        public static NullableNumericAssertions<double> Should(this double? actualValue)
         {
-            return new NumericAssertions<double?>(actualValue);
+            return new NullableNumericAssertions<double>(actualValue);
         }
 
         /// <summary>

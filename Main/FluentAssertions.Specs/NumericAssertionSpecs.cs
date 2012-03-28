@@ -84,24 +84,64 @@ namespace FluentAssertions.Specs
                 .WithMessage(@"Expected 2 because we want to test the failure message, but found 1.");
         }
 
-//        [TestMethod]
-//        public void When_a_nullable_value_is_equal_it_should_not_throw()
-//        {
-//            //-----------------------------------------------------------------------------------------------------------
-//            // Arrange
-//            //-----------------------------------------------------------------------------------------------------------
-//            int? value = 2;
-//
-//            //-----------------------------------------------------------------------------------------------------------
-//            // Act
-//            //-----------------------------------------------------------------------------------------------------------
-//            Action action = () => 2.Should().Be(value);
-//
-//            //-----------------------------------------------------------------------------------------------------------
-//            // Assert
-//            //-----------------------------------------------------------------------------------------------------------
-//            action.ShouldNotThrow();
-//        }
+        [TestMethod]
+        public void When_a_nullable_value_is_equal_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            int? value = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => 2.Should().Be(value);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+        
+        [TestMethod]
+        public void When_a_nullable_value_is_null_but_the_subject_isnt_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            int? value = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => 2.Should().Be(value);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected <null>, but found 2.");
+        }        [TestMethod]
+        
+        public void When_a_nullable_value_is_null_and_the_subject_is_as_well_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            int? subject = null;
+            int? value = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.Should().Be(value);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
 
         [TestMethod]
         public void Should_succeed_when_asserting_value_to_be_not_equal_to_different_value()
@@ -353,8 +393,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value {0} to be exactly {1} because we want to test the error message.",
-                    value, 3.4F));
+                .WithMessage(string.Format("Expected {0} because we want to test the error message, but found {1}.",
+                    3.4F, value));
         }
 
         [TestMethod]
@@ -393,7 +433,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value to be exactly {0}, but it was <null>.", 3.5));
+                "Expected {0}, but found <null>.", 3.5));
         }
 
         [TestMethod]
@@ -475,8 +515,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value {0} to be exactly {1} because we want to test the error message.",
-                    value, 3.4));
+                .WithMessage(string.Format("Expected {0} because we want to test the error message, but found {1}.",
+                    3.4, value));
         }
 
         [TestMethod]
@@ -515,7 +555,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value to be exactly {0}, but it was <null>.", 3.5));
+                "Expected {0}, but found <null>.", 3.5));
         }
         
         [TestMethod]

@@ -101,6 +101,7 @@
     <Compile Include="Assertions\MethodInfoAssertions.cs" />
     <Compile Include="Assertions\MethodInfoSelector.cs" />
     <Compile Include="Assertions\NullableGuidAssertions.cs" />
+    <Compile Include="Assertions\NullableNumericAssertions.cs" />
     <Compile Include="Assertions\PropertyEqualityValidator.cs" />
     <Compile Include="Assertions\ExecutionTimeAssertions.cs" />
     <Compile Include="NumericAssertionsExtensions.cs" />
@@ -116,7 +117,6 @@
     <Compile Include="Assertions\XDocumentAssertions.cs" />
     <Compile Include="Assertions\XElementAssertions.cs" />
     <Compile Include="Common\FluentDateTimeExtensions.cs" />
-    <Compile Include="Assertions\IntegralAssertions.cs" />
     <Compile Include="Assertions\NullableSimpleTimeSpanAssertions.cs" />
     <Compile Include="Assertions\SimpleTimeSpanAssertions.cs" />
     <Compile Include="Common\ObjectAlreadyTrackedException.cs" />

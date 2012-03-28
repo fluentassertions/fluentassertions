@@ -36,9 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
@@ -84,9 +81,6 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\GuidAssertions.cs">
       <Link>Assertions\GuidAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\IntegralAssertions.cs">
-      <Link>Assertions\IntegralAssertions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\IPropertyAssertions.cs">
       <Link>Assertions\IPropertyAssertions.cs</Link>
     </Compile>
@@ -107,6 +101,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableGuidAssertions.cs">
       <Link>Assertions\NullableGuidAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\NullableNumericAssertions.cs">
+      <Link>Assertions\NullableNumericAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\NullableSimpleTimeSpanAssertions.cs">
       <Link>Assertions\NullableSimpleTimeSpanAssertions.cs</Link>
