@@ -17,14 +17,14 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_positive_value_to_be_positive()
         {
-            (1).Should().BePositive();
+            (1D).Should().BePositive();
         }
 
         [TestMethod]
         [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_negative_value_to_be_positive()
         {
-            (-1).Should().BePositive();
+            (-1F).Should().BePositive();
         }
 
         [TestMethod]
