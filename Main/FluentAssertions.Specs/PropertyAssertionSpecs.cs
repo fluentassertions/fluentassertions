@@ -1168,7 +1168,7 @@ namespace FluentAssertions.specs
         }
 
         [TestMethod]
-        public void When_a_collection_it_should_throw()
+        public void When_a_complex_object_graph_with_collections_matches_expectations_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
