@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Assertions
+namespace FluentAssertions.Assertions.Structure
 {
     /// <summary>
     /// Provides methods for selecting one or more properties of an object and comparing them with another object.
     /// </summary>
-    public class PropertyAssertions<T> : IPropertyAssertions<T>
+    public class PropertyAssertions<T>
     {
-        private readonly PropertyEqualityValidator validator = new PropertyEqualityValidator();
+        private readonly StructuralEqualityContext context = new StructuralEqualityContext();
+        private T subject;
 
         internal protected PropertyAssertions(T subject)
         {
@@ -20,20 +20,15 @@ namespace FluentAssertions.Assertions
                 throw new NullReferenceException("Cannot compare the properties of a <null> object.");
             }
 
-            Subject = subject;
+            this.subject = subject;
         }
-
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public T Subject { get; private set; }
 
         /// <summary>
         /// Includes all properties of <typeparamref name="T"/> when comparing the subject with another object using <see cref="EqualTo(object)"/>.
         /// </summary>
-        public IPropertyAssertions<T> AllProperties()
+        public PropertyAssertions<T> AllProperties()
         {
-            validator.PropertySelection = PropertySelection.AllCompileTimePublic;
+            context.PropertySelection = PropertySelection.AllCompileTimePublic;
             return this;
         }
 
@@ -41,9 +36,9 @@ namespace FluentAssertions.Assertions
         /// Includes all properties of <typeparamref name="T"/> including those of the run-time type when comparing the subject 
         /// with another object using <see cref="EqualTo(object)"/>.
         /// </summary>
-        public IPropertyAssertions<T> AllRuntimeProperties()
+        public PropertyAssertions<T> AllRuntimeProperties()
         {
-            validator.PropertySelection = PropertySelection.AllRuntimePublic;
+            context.PropertySelection = PropertySelection.AllRuntimePublic;
             return this;
         }
 
@@ -51,9 +46,9 @@ namespace FluentAssertions.Assertions
         /// Includes all properties of <typeparamref name="T"/> when comparing the subject with another object using <see cref="EqualTo(object)"/>, 
         /// except those that the other object does not have.
         /// </summary>
-        public IPropertyAssertions<T> SharedProperties()
+        public PropertyAssertions<T> SharedProperties()
         {
-            validator.PropertySelection = PropertySelection.OnlyShared;
+            context.PropertySelection = PropertySelection.OnlyShared;
             return this;
         }
 
@@ -64,11 +59,11 @@ namespace FluentAssertions.Assertions
         /// Indication of how cyclic references in the nested properties should be handled. By default this will result in an
         /// exception, but if <see cref="CyclicReferenceHandling.Ignore"/> is specified, cyclic references will just be ignored.
         /// </param>
-        public IPropertyAssertions<T> IncludingNestedObjects(
+        public PropertyAssertions<T> IncludingNestedObjects(
             CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException)
         {
-            validator.RecurseOnNestedObjects = true;
-            validator.CyclicReferenceHandling = cyclicReferenceHandling;
+            context.Recursive = true;
+            context.CyclicReferenceHandling = cyclicReferenceHandling;
             return this;
         }
 
@@ -78,13 +73,13 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <param name="propertyExpression">A single property expression to exclude.</param>
         /// <param name="propertyExpressions">Optional list of additional property expressions to exclude.</param>
-        public IPropertyAssertions<T> AllPropertiesBut(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
+        public PropertyAssertions<T> AllPropertiesBut(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
         {
-            validator.PropertySelection = PropertySelection.AllCompileTimePublic;
+            context.PropertySelection = PropertySelection.AllCompileTimePublic;
 
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                validator.ExcludeProperty(expression.GetPropertyInfo().Name);
+                context.ExcludeProperty(expression.GetPropertyInfo().Name);
             }
 
             return this;
@@ -95,11 +90,11 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <param name="propertyExpression">A single property expression to exclude.</param>
         /// <param name="propertyExpressions">Optional list of additional property expressions to exclude.</param>
-        public IPropertyAssertions<T> But(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
+        public PropertyAssertions<T> But(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
         {
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                validator.ExcludeProperty(expression.GetPropertyInfo().Name);
+                context.ExcludeProperty(expression.GetPropertyInfo().Name);
             }
 
             return this;
@@ -111,11 +106,11 @@ namespace FluentAssertions.Assertions
         /// </summary>
         /// <param name="propertyExpression">A single property expression to include.</param>
         /// <param name="propertyExpressions">Optional list of additional property expressions to include.</param>
-        public IPropertyAssertions<T> Properties(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
+        public PropertyAssertions<T> Properties(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
         {
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                validator.IncludeProperty(expression.GetPropertyInfo().Name);
+                context.IncludeProperty(expression.GetPropertyInfo().Name);
             }
 
             return this;
@@ -123,23 +118,9 @@ namespace FluentAssertions.Assertions
 
         /// <summary>
         /// Asserts that the previously selected properties of <typeparamref name="T"/> have the same value as the equally named
-        /// properties of <paramref name="expected"/>.
+        /// properties of <paramref name="expectation"/>.
         /// </summary>
-        /// <param name="expected">The object to compare the current object with</param>
-        /// <remarks>
-        /// Property values are considered equal if, after converting them to the requested type, calling <see cref="EqualTo(object)"/> 
-        /// returns <c>true</c>.
-        /// </remarks>
-        public void EqualTo(object expected)
-        {
-            EqualTo(expected, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the previously selected properties of <typeparamref name="T"/> have the same value as the equally named
-        /// properties of <paramref name="expected"/>.
-        /// </summary>
-        /// <param name="expected">The object to compare the current object with</param>
+        /// <param name="expectation">The object to compare the current object with</param>
         /// <remarks>
         /// Property values are considered equal if, after converting them to the requested type, calling <see cref="EqualTo(object)"/> 
         /// returns <c>true</c>.
@@ -151,12 +132,14 @@ namespace FluentAssertions.Assertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public void EqualTo(object expected, string reason, params object[] reasonArgs)
+        public void EqualTo(object expectation, string reason = "", params object[] reasonArgs)
         {
-            validator.CompileTimeType = typeof (T);
-            validator.Reason = reason;
-            validator.ReasonArgs = reasonArgs;
-            validator.AssertEquality(Subject, expected);
+            context.Subject = subject;
+            context.Expectation = expectation;
+            context.CompileTimeType = typeof (T);
+            context.Reason = reason;
+            context.ReasonArgs = reasonArgs;
+            new StructuralEqualityValidator().AssertEquality(context);
         }
     }
 }

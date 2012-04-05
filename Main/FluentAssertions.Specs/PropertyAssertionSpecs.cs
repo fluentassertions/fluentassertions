@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using FluentAssertions.Assertions;
+using FluentAssertions.Assertions.Structure;
 using FluentAssertions.Common;
 using FluentAssertions.Specs;
 
@@ -52,7 +53,7 @@ namespace FluentAssertions.specs
                 Age = 36,
             };
 
-            var other = new
+            var expectation = new
             {
                 Age = 37,
             };
@@ -60,7 +61,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldHave().AllProperties().EqualTo(other, "because {0} are the same", "they");
+            Action act = () => subject.ShouldHave().AllProperties().EqualTo(expectation, "because {0} are the same", "they");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -122,7 +123,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Values to be equal to {1, 4, 3}, but {1, 2, 3} differs at index 1.");
+                "Expected property Values[1] to be 4, but found 2.");
         }
 
         [TestMethod]
@@ -259,8 +260,8 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
-                "Cannot compare subject's properties with a <null> object.");
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected subject to be <null>, but found { }.");
         }
 
         [TestMethod]
@@ -342,7 +343,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Type to be 36, but found \"A\".");
+                .WithMessage("Expected property Type to be \"36\", but \"A\" is too short.");
         }
 
         #endregion
@@ -677,7 +678,7 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level to be*Level1Dto*Level2*, but it is <null>.", ComparisonMode.Wildcard);
+                .WithMessage("Expected property Level to be*Level1Dto*Level2*, but found <null>.", ComparisonMode.Wildcard);
         }
         
         [TestMethod]
@@ -797,7 +798,8 @@ namespace FluentAssertions.specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected property Level.Level.Text to be \r\n\"A wrong text value\", but \r\n\"Level2\" is too short.");
+                    "Expected property Level.Level.Text to be *A wrong text value*but \r\n\"Level2\" is too short.", 
+                    ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -1023,7 +1025,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*Customers[index 0].Name*John*Jane*", ComparisonMode.Wildcard);
+                .WithMessage("*Customers[0].Name*John*Jane*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -1032,6 +1034,11 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Customers = "Jane, John"
+            }; 
+            
             var expected = new
             {
                 Customers = new[]
@@ -1044,12 +1051,7 @@ namespace FluentAssertions.specs
                     },
                 }
             };
-
-            var subject = new
-            {
-                Customers = "Jane, John"
-            };
-
+            
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -1059,7 +1061,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*\"Customers\" property to be a collection*Jane, John*is a \"System.String\"*",
+                .WithMessage("*property Customers to be*Customer[]*, but*Jane, John*short*",
                     ComparisonMode.Wildcard);
         }
 
@@ -1110,7 +1112,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*\"Customers\" property to be a collection with 1 item(s), but found 2*",
+                .WithMessage("*property Customers to be a collection with 1 item(s), but found 2*",
                     ComparisonMode.Wildcard);
         }
 
@@ -1161,8 +1163,45 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*\"Customers\" property to be a collection with 2 item(s), but found 1*",
+                .WithMessage("*property Customers to be a collection with 2 item(s), but found 1*",
                     ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
+        public void When_a_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Bytes = new byte[] { 1, 2, 3, 4 },
+                Object = new
+                {
+                    A = 1,
+                    B = 2
+                }
+            };
+
+            var expected = new
+            {
+                Bytes = new byte[] { 1, 2, 3, 4 },
+                Object = new
+                {
+                    A = 1,
+                    B = 2
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         #endregion
@@ -1283,7 +1322,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection*John*Jane*to contain 1 item(s), but found 2*", ComparisonMode.Wildcard);
+                .WithMessage("Expected subject to be a collection with 1 item(s), but found 2.", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -1312,11 +1351,11 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection*John*to contain 2 item(s), but found 1*", ComparisonMode.Wildcard);
+                .WithMessage("*subject to be a collection with 2 item(s), but found 1*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
-        public void When_a_property_expression_is_used_on_a_collection_it_should_throw()
+        public void When_a_collection_is_compared_to_a_non_collection_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1331,30 +1370,10 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<ArgumentException>()
-                .WithMessage("*Cannot compare a collection with a non-collection.", ComparisonMode.Wildcard);
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Subject is a collection and cannot be compared with a non-collection type.");
         }
         
-        [TestMethod]
-        public void When_the_other_collection_is_not_really_a_collection_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldHave().Properties(p => p.Count).EqualTo(new List<Customer>());
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<NotSupportedException>()
-                .WithMessage("Property selection on a collection is not supported", ComparisonMode.Wildcard);
-        }
-
         #endregion
 
         public class ClassOne

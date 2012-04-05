@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Xml.Linq;
 
 using FluentAssertions.Assertions;
+using FluentAssertions.Assertions.Structure;
 using FluentAssertions.Common;
 
 namespace FluentAssertions
@@ -437,16 +438,9 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that the properties of an object matches those of another object.
         /// </summary>
-        public static IPropertyAssertions<T> ShouldHave<T>(this T subject)
+        public static PropertyAssertions<T> ShouldHave<T>(this T subject)
         {
-            if (typeof(T).Implements<IEnumerable>())
-            {
-                return new CollectionPropertyAssertions<T>((IEnumerable)subject);
-            }
-            else
-            {
-                return new PropertyAssertions<T>(subject);
-            }
+            return new PropertyAssertions<T>(subject);
         }
 
         /// <summary>

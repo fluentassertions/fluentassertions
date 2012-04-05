@@ -73,20 +73,32 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\CollectionAssertions.cs">
       <Link>Assertions\CollectionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\CollectionPropertyAssertions.cs">
-      <Link>Assertions\CollectionPropertyAssertions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\ComparableTypeAssertions.cs">
       <Link>Assertions\ComparableTypeAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\ComparisonMode.cs">
       <Link>Assertions\ComparisonMode.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\CyclicReferenceHandling.cs">
-      <Link>Assertions\CyclicReferenceHandling.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\DateTimeAssertions.cs">
       <Link>Assertions\DateTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Events\EventHandlerFactory.cs">
+      <Link>Assertions\Events\EventHandlerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Events\EventMonitoringExtensions.cs">
+      <Link>Assertions\Events\EventMonitoringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Events\EventRecorder.cs">
+      <Link>Assertions\Events\EventRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Events\EventRecordersMap.cs">
+      <Link>Assertions\Events\EventRecordersMap.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Events\IEventRecorder.cs">
+      <Link>Assertions\Events\IEventRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Events\RecordedEvent.cs">
+      <Link>Assertions\Events\RecordedEvent.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\ExceptionAssertions.cs">
       <Link>Assertions\ExceptionAssertions.cs</Link>
@@ -102,9 +114,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\GuidAssertions.cs">
       <Link>Assertions\GuidAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\IPropertyAssertions.cs">
-      <Link>Assertions\IPropertyAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\MethodInfoAssertions.cs">
       <Link>Assertions\MethodInfoAssertions.cs</Link>
@@ -136,12 +145,6 @@
     <Compile Include="..\FluentAssertions.Net35\Assertions\ObjectAssertions.cs">
       <Link>Assertions\ObjectAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\PropertyAssertions.cs">
-      <Link>Assertions\PropertyAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Assertions\PropertyEqualityValidator.cs">
-      <Link>Assertions\PropertyEqualityValidator.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\PropertyInfoAssertions.cs">
       <Link>Assertions\PropertyInfoAssertions.cs</Link>
     </Compile>
@@ -168,6 +171,45 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\StringWildcardMatchingValidator.cs">
       <Link>Assertions\StringWildcardMatchingValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\ComplexTypeEqualityStep.cs">
+      <Link>Assertions\Structural\ComplexTypeEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\CyclicReferenceHandling.cs">
+      <Link>Assertions\Structural\CyclicReferenceHandling.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\DateTimeEqualityStep.cs">
+      <Link>Assertions\Structural\DateTimeEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\EnumerableEqualityStep.cs">
+      <Link>Assertions\Structural\EnumerableEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\FinalEqualityStep.cs">
+      <Link>Assertions\Structural\FinalEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\IStructuralEqualityStep.cs">
+      <Link>Assertions\Structural\IStructuralEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\PropertyAssertions.cs">
+      <Link>Assertions\Structural\PropertyAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\PropertySelection.cs">
+      <Link>Assertions\Structural\PropertySelection.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\ReferenceEqualityStep.cs">
+      <Link>Assertions\Structural\ReferenceEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\StringEqualityStep.cs">
+      <Link>Assertions\Structural\StringEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\StructuralEqualityContext.cs">
+      <Link>Assertions\Structural\StructuralEqualityContext.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\StructuralEqualityValidator.cs">
+      <Link>Assertions\Structural\StructuralEqualityValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Assertions\Structural\TryConversionEqualityStep.cs">
+      <Link>Assertions\Structural\TryConversionEqualityStep.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Assertions\TimeSpanAssertions.cs">
       <Link>Assertions\TimeSpanAssertions.cs</Link>
@@ -201,24 +243,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\UniqueObjectTracker.cs">
       <Link>Common\UniqueObjectTracker.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventHandlerFactory.cs">
-      <Link>EventMonitoring\EventHandlerFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventMonitoringExtensions.cs">
-      <Link>EventMonitoring\EventMonitoringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventRecorder.cs">
-      <Link>EventMonitoring\EventRecorder.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\EventRecordersMap.cs">
-      <Link>EventMonitoring\EventRecordersMap.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\IEventRecorder.cs">
-      <Link>EventMonitoring\IEventRecorder.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventMonitoring\RecordedEvent.cs">
-      <Link>EventMonitoring\RecordedEvent.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execute.cs">
       <Link>Execute.cs</Link>

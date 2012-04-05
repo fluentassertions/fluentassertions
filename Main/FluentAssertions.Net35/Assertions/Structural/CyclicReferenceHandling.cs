@@ -1,4 +1,4 @@
-namespace FluentAssertions.Assertions
+namespace FluentAssertions.Assertions.Structure
 {
     /// <summary>
     /// Indication of how cyclic references should be handled when validating equality of nested properties.
