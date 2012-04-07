@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Xml.Linq;
 
 using FluentAssertions.Assertions;
-using FluentAssertions.Assertions.Structure;
+using FluentAssertions.Assertions.Structural;
 using FluentAssertions.Common;
 
 namespace FluentAssertions

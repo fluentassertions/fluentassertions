@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using FluentAssertions.Assertions;
-using FluentAssertions.Assertions.Structure;
+using FluentAssertions.Assertions.Structural;
 using FluentAssertions.Common;
 using FluentAssertions.Specs;
 

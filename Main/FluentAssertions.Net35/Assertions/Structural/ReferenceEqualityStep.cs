@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FluentAssertions.Assertions.Structure
+﻿namespace FluentAssertions.Assertions.Structural
 {
     internal class ReferenceEqualityStep : IStructuralEqualityStep
     {

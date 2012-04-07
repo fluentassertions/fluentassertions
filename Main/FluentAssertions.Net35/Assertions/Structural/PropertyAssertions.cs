@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Assertions.Structure
+namespace FluentAssertions.Assertions.Structural
 {
     /// <summary>
     /// Provides methods for selecting one or more properties of an object and comparing them with another object.

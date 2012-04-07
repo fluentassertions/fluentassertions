@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-
 using FluentAssertions.Formatting;
-
-using System.Linq;
 
 namespace FluentAssertions.Common
 {
     internal static class Extensions
     {
+#if !WINRT
+        private const BindingFlags PublicPropertiesFlag =
+            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+#endif
+
         public static PropertyInfo GetPropertyInfo<T>(this Expression<Func<T, object>> expression)
         {
             if (ReferenceEquals(expression, null))
@@ -36,7 +40,7 @@ namespace FluentAssertions.Common
             var memberExpression = expression.Body as MemberExpression;
             if (memberExpression != null)
             {
-                return (PropertyInfo)memberExpression.Member;
+                return (PropertyInfo) memberExpression.Member;
             }
 
             return null;
@@ -47,7 +51,7 @@ namespace FluentAssertions.Common
             var castExpression = expression.Body as UnaryExpression;
             if (castExpression != null)
             {
-                return (PropertyInfo)((MemberExpression)castExpression.Operand).Member;
+                return (PropertyInfo) ((MemberExpression) castExpression.Operand).Member;
             }
 
             return null;
@@ -106,7 +110,7 @@ namespace FluentAssertions.Common
 
         public static bool IsSameOrInherits(this Type actualType, Type expectedType)
         {
-            return (actualType == expectedType) || 
+            return (actualType == expectedType) ||
 #if !WINRT
                 (expectedType.IsSubclassOf(actualType))
 #else
@@ -120,7 +124,10 @@ namespace FluentAssertions.Common
         /// </summary>
         public static string FirstLine(this string value)
         {
-            string [] lines = value.Split(new [] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = value.Split(new[]
+            {
+                Environment.NewLine
+            }, StringSplitOptions.RemoveEmptyEntries);
             return lines.First();
         }
 
@@ -135,18 +142,66 @@ namespace FluentAssertions.Common
 
         public static bool Implements<TInterface>(this Type type)
         {
-            return Implements(type, typeof(TInterface));
+            return Implements(type, typeof (TInterface));
         }
 
         public static bool Implements(this Type type, Type expectedBaseType)
         {
-            return 
+            return
 #if !WINRT
-                expectedBaseType.IsAssignableFrom(type) 
+                expectedBaseType.IsAssignableFrom(type)
 #else
                 expectedBaseType.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo())
 #endif
-                && (type != expectedBaseType);
+                    && (type != expectedBaseType);
+        }
+
+        public static bool IsComplexType(this Type type)
+        {
+            return HasProperties(type) && (type.Namespace != typeof (int).Namespace);
+        }
+
+        private static bool HasProperties(Type type)
+        {
+            return type
+#if !WINRT
+                .GetProperties(PublicPropertiesFlag)
+#else
+                .GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic)
+#endif
+                .Any();
+        }
+
+        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)
+        {
+            var query =
+#if !WINRT
+                from propertyInfo in typeToReflect.GetProperties(PublicPropertiesFlag)
+                let getMethod = propertyInfo.GetGetMethod(true)
+                where (getMethod != null) && !getMethod.IsPrivate
+#else
+                from propertyInfo in typeToReflect.GetRuntimeProperties()
+                let getMethod = propertyInfo.GetMethod
+                where (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsStatic
+
+#endif
+                where (filter == null) || filter.Contains(propertyInfo.Name)
+                select propertyInfo;
+
+            return query.ToList();
+        }
+
+        public static PropertyInfo FindProperty(this object obj, string propertyName)
+        {
+            PropertyInfo property =
+#if !WINRT
+                obj.GetType().GetProperties(PublicPropertiesFlag)
+#else
+                obj.GetType().GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic)
+#endif
+                    .SingleOrDefault(pi => pi.Name == propertyName);
+
+            return property;
         }
     }
 }

@@ -1,6 +1,4 @@
-using FluentAssertions.Common;
-
-namespace FluentAssertions.Assertions.Structure
+namespace FluentAssertions.Assertions.Structural
 {
     /// <summary>
     /// Is responsible for validating the equality of one or more properties of a subject with another object.

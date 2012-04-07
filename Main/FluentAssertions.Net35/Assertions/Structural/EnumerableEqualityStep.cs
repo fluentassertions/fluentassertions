@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Linq;
 
-namespace FluentAssertions.Assertions.Structure
+namespace FluentAssertions.Assertions.Structural
 {
     internal class EnumerableEqualityStep : IStructuralEqualityStep
     {

@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Assertions.Structure
+namespace FluentAssertions.Assertions.Structural
 {
     internal class TryConversionEqualityStep : IStructuralEqualityStep
     {

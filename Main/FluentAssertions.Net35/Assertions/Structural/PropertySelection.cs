@@ -1,4 +1,4 @@
-namespace FluentAssertions.Assertions.Structure
+namespace FluentAssertions.Assertions.Structural
 {
     public enum PropertySelection
     {
