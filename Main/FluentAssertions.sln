@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 11
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
 		BuildRelease.bat = BuildRelease.bat
@@ -28,40 +28,52 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WindowsPho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WindowsPhone.Specs", "FluentAssertions.WindowsPhone.Specs\FluentAssertions.WindowsPhone.Specs.csproj", "{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WinRT", "FluentAssertions.WinRT\FluentAssertions.WinRT.csproj", "{CE8A220A-FAA6-469D-B9B8-5F1834685861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WinRT.Specs", "FluentAssertions.WinRT.Specs\FluentAssertions.WinRT.Specs.csproj", "{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs05
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = FluentAssertions.Net40\\FluentAssertions.Net40.csproj
-		SccProjectTopLevelParentUniqueName1 = FluentAssertions.sln
-		SccProjectName1 = FluentAssertions.Net40
 		SccLocalPath1 = FluentAssertions.Net40
-		SccProjectUniqueName2 = FluentAssertions.Net35\\FluentAssertions.Net35.csproj
-		SccProjectTopLevelParentUniqueName2 = FluentAssertions.sln
-		SccProjectName2 = FluentAssertions.Net35
 		SccLocalPath2 = FluentAssertions.Net35
-		SccProjectUniqueName3 = FluentAssertions.Silverlight\\FluentAssertions.Silverlight.csproj
-		SccProjectTopLevelParentUniqueName3 = FluentAssertions.sln
-		SccProjectName3 = FluentAssertions.Silverlight
 		SccLocalPath3 = FluentAssertions.Silverlight
-		SccProjectUniqueName4 = FluentAssertions.Specs\\FluentAssertions.Specs.csproj
-		SccProjectTopLevelParentUniqueName4 = FluentAssertions.sln
-		SccProjectName4 = FluentAssertions.Specs
 		SccLocalPath4 = FluentAssertions.Specs
-		SccProjectUniqueName5 = FluentAssertions.Silverlight.Specs\\FluentAssertions.Silverlight.Specs.csproj
-		SccProjectTopLevelParentUniqueName5 = FluentAssertions.sln
-		SccProjectName5 = FluentAssertions.Silverlight.Specs
 		SccLocalPath5 = FluentAssertions.Silverlight.Specs
-		SccProjectUniqueName6 = FluentAssertions.WindowsPhone\\FluentAssertions.WindowsPhone.csproj
-		SccProjectTopLevelParentUniqueName6 = FluentAssertions.sln
-		SccProjectName6 = FluentAssertions.WindowsPhone
 		SccLocalPath6 = FluentAssertions.WindowsPhone
-		SccProjectUniqueName7 = FluentAssertions.WindowsPhone.Specs\\FluentAssertions.WindowsPhone.Specs.csproj
-		SccProjectTopLevelParentUniqueName7 = FluentAssertions.sln
-		SccProjectName7 = FluentAssertions.WindowsPhone.Specs
 		SccLocalPath7 = FluentAssertions.WindowsPhone.Specs
+		SccLocalPath8 = FluentAssertions.WinRT
+		SccLocalPath9 = FluentAssertions.WinRT.Specs
+		SccNumberOfProjects = 10
+		SccProjectName1 = FluentAssertions.Net40
+		SccProjectName2 = FluentAssertions.Net35
+		SccProjectName3 = FluentAssertions.Silverlight
+		SccProjectName4 = FluentAssertions.Specs
+		SccProjectName5 = FluentAssertions.Silverlight.Specs
+		SccProjectName6 = FluentAssertions.WindowsPhone
+		SccProjectName7 = FluentAssertions.WindowsPhone.Specs
+		SccProjectName8 = FluentAssertions.WinRT
+		SccProjectName9 = FluentAssertions.WinRT.Specs
+		SccProjectTopLevelParentUniqueName1 = FluentAssertions.sln
+		SccProjectTopLevelParentUniqueName2 = FluentAssertions.sln
+		SccProjectTopLevelParentUniqueName3 = FluentAssertions.sln
+		SccProjectTopLevelParentUniqueName4 = FluentAssertions.sln
+		SccProjectTopLevelParentUniqueName5 = FluentAssertions.sln
+		SccProjectTopLevelParentUniqueName6 = FluentAssertions.sln
+		SccProjectTopLevelParentUniqueName7 = FluentAssertions.sln
+		SccProjectTopLevelParentUniqueName8 = FluentAssertions.sln
+		SccProjectTopLevelParentUniqueName9 = FluentAssertions.sln
+		SccProjectUniqueName1 = FluentAssertions.Net40\\FluentAssertions.Net40.csproj
+		SccProjectUniqueName2 = FluentAssertions.Net35\\FluentAssertions.Net35.csproj
+		SccProjectUniqueName3 = FluentAssertions.Silverlight\\FluentAssertions.Silverlight.csproj
+		SccProjectUniqueName4 = FluentAssertions.Specs\\FluentAssertions.Specs.csproj
+		SccProjectUniqueName5 = FluentAssertions.Silverlight.Specs\\FluentAssertions.Silverlight.Specs.csproj
+		SccProjectUniqueName6 = FluentAssertions.WindowsPhone\\FluentAssertions.WindowsPhone.csproj
+		SccProjectUniqueName7 = FluentAssertions.WindowsPhone.Specs\\FluentAssertions.WindowsPhone.Specs.csproj
+		SccProjectUniqueName8 = FluentAssertions.WinRT\\FluentAssertions.WinRT.csproj
+		SccProjectUniqueName9 = FluentAssertions.WinRT.Specs\\FluentAssertions.WinRT.Specs.csproj
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs05
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = FluentAssertions2.vsmdi
@@ -71,10 +83,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11E362B9-2A11-4452-AD28-1F8AC14AE87B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -83,35 +95,47 @@ Global
 		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{135391A1-B669-423F-8D8C-04B60DCFB8B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{135391A1-B669-423F-8D8C-04B60DCFB8B1} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
-		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
-		{B41571A3-A982-40E1-8308-7B70F5DE9CA2} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
-		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{11E362B9-2A11-4452-AD28-1F8AC14AE87B} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{135391A1-B669-423F-8D8C-04B60DCFB8B1} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{B41571A3-A982-40E1-8308-7B70F5DE9CA2} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{CE8A220A-FAA6-469D-B9B8-5F1834685861} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{D09FC2D5-A5E5-4344-9E42-BCED86D21A57} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 	EndGlobalSection
 EndGlobal

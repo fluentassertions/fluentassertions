@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+
+#if WINRT
+using System.Reflection.RuntimeExtensions;
+#endif
+
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
