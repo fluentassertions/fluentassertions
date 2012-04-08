@@ -13,36 +13,46 @@ namespace FluentAssertions.Assertions.Structural
     internal class ComplexTypeEqualityStep : IStructuralEqualityStep
     {
         /// <summary>
+        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
+        /// </summary>
+        public bool CanHandle(StructuralEqualityContext context)
+        {
+            return (context.Subject != null) && 
+                context.Subject.GetType().IsComplexType() && (context.IsRoot || context.Recursive);
+        }
+
+        /// <summary>
         /// Applies a step as part of the task to compare two objects for structural equality.
         /// </summary>
         /// <value>
-        /// Returns <c>true</c> if this step finalizes the comparison task, returns <c>false</c> otherwise.
+        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
+        /// have to be executed. Should return <c>false</c> otherwise.
         /// </value>
         /// <remarks>
-        /// May throw when preconditions are not met, or if it detects mismatching data.
+        /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Execute(StructuralEqualityContext context, IStructuralEqualityValidator parent)
+        public bool Handle(StructuralEqualityContext context, IStructuralEqualityValidator parent)
         {
-            if ((context.Subject != null) && context.Subject.GetType().IsComplexType() && (context.IsRoot || context.Recursive))
+            foreach (PropertyInfo propertyInfo in DeterminePropertiesToInclude(context))
             {
-                foreach (PropertyInfo propertyInfo in DeterminePropertiesToInclude(context))
-                {
-                    object subject = propertyInfo.GetValue(context.Subject, null);
-
-                    PropertyInfo expectationProperty = FindPropertyFrom(context, propertyInfo.Name);
-                    if (expectationProperty != null)
-                    {
-                        object expectation = expectationProperty.GetValue(context.Expectation, null);
-
-                        parent.AssertEquality(context.CreateNested(subject, expectation,
-                            !context.IsRoot ? "." + propertyInfo.Name : "property " + propertyInfo.Name));
-                    }
-                }
-
-                return true;
+                AssertPropertyEquality(context, parent, propertyInfo);
             }
 
-            return false;
+            return true;
+        }
+
+        private void AssertPropertyEquality(StructuralEqualityContext context, IStructuralEqualityValidator parent,
+            PropertyInfo propertyInfo)
+        {
+            PropertyInfo expectationProperty = FindPropertyFrom(context, propertyInfo.Name);
+            if (expectationProperty != null)
+            {
+                object expectation = expectationProperty.GetValue(context.Expectation, null);
+                object subject = propertyInfo.GetValue(context.Subject, null);
+
+                parent.AssertEquality(context.CreateNestedContext(subject, expectation,
+                    !context.IsRoot ? "." + propertyInfo.Name : "property " + propertyInfo.Name));
+            }
         }
 
         private IEnumerable<PropertyInfo> DeterminePropertiesToInclude(StructuralEqualityContext context)
@@ -80,14 +90,12 @@ namespace FluentAssertions.Assertions.Structural
         {
             PropertyInfo compareeProperty = context.Expectation.FindProperty(propertyName);
 
-            if ((context.PropertySelection != PropertySelection.OnlyShared) && (compareeProperty == null))
+            if ((compareeProperty == null) && (context.PropertySelection != PropertySelection.OnlyShared))
             {
-                string path = (context.PropertyPath.Length > 0)
-                    ? context.PropertyPath + "." + propertyName
-                    : "property " + propertyName;
+                string path = (context.PropertyPath.Length > 0) ? context.PropertyPath + "." : "property " ;
 
-                FluentAssertions.Execute.Verification.FailWith(
-                    "Subject has " + path + " that the other object does not have.");
+                context.Verification.FailWith(
+                    "Subject has " + path + propertyName + " that the other object does not have.");
             }
 
             return compareeProperty;

@@ -112,6 +112,7 @@
     <Compile Include="Assertions\Structural\StructuralEqualityContext.cs" />
     <Compile Include="Assertions\Structural\ReferenceEqualityStep.cs" />
     <Compile Include="Assertions\Structural\TryConversionEqualityStep.cs" />
+    <Compile Include="Common\Inflector.cs" />
     <Compile Include="Common\UniqueObjectTracker.cs" />
     <Compile Include="NumericAssertionsExtensions.cs" />
     <Compile Include="Assertions\PropertyInfoAssertions.cs" />

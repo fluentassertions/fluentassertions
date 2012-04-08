@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace FluentAssertions.Assertions.Structural
 {
     /// <summary>
@@ -27,9 +29,9 @@ namespace FluentAssertions.Assertions.Structural
 
                 if (!context.ContainsCyclicReference)
                 {
-                    foreach (IStructuralEqualityStep strategy in steps)
+                    foreach (IStructuralEqualityStep strategy in steps.Where(s => s.CanHandle(context)))
                     {
-                        if (strategy.Execute(context, this))
+                        if (strategy.Handle(context, this))
                         {
                             break;
                         }

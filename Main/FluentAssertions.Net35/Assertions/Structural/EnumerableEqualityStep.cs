@@ -6,60 +6,78 @@ namespace FluentAssertions.Assertions.Structural
     internal class EnumerableEqualityStep : IStructuralEqualityStep
     {
         /// <summary>
+        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
+        /// </summary>
+        public bool CanHandle(StructuralEqualityContext context)
+        {
+            return IsCollection(context.Subject);
+        }
+
+        /// <summary>
         /// Applies a step as part of the task to compare two objects for structural equality.
         /// </summary>
         /// <value>
-        /// Returns <c>true</c> if this step finalizes the comparison task, returns <c>false</c> otherwise.
+        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
+        /// have to be executed. Should return <c>false</c> otherwise.
         /// </value>
         /// <remarks>
-        /// May throw when preconditions are not met, or if it detects mismatching data.
+        /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Execute(StructuralEqualityContext context, IStructuralEqualityValidator parent)
+        public bool Handle(StructuralEqualityContext context, IStructuralEqualityValidator parent)
         {
-            if (IsCollection(context.Subject))
+            AssertExpectationIsCollection(context);
+
+            var subject = ((IEnumerable) context.Subject).Cast<object>().ToArray();
+            var expectation = ((IEnumerable) context.Expectation).Cast<object>().ToArray();
+
+            AssertCollectionsHaveEqualLength(context, subject, expectation);
+
+            if (context.IsRoot || context.Recursive)
             {
-                FluentAssertions.Execute.Verification
-                    .ForCondition(IsCollection(context.Expectation))
-                    .BecauseOf(context.Reason, context.ReasonArgs)
-                    .FailWith(((context.PropertyPath.Length == 0) ? "Subject" : context.PropertyPath) + " is a collection and cannot be compared with a non-collection type.",
-                        context.Subject, context.Subject.GetType().FullName);
-
-                var subject = ((IEnumerable)context.Subject).Cast<object>().ToArray();
-                var expectation = ((IEnumerable)context.Expectation).Cast<object>().ToArray();
-
-                FluentAssertions.Execute.Verification
-                    .ForCondition(subject.Length == expectation.Length)
-                    .BecauseOf(context.Reason, context.ReasonArgs)
-                    .FailWith("Expected " + ((context.PropertyPath.Length == 0) ? "subject" : context.PropertyPath) + " to be a collection with {0} item(s){reason}, but found {1}.",
-                        expectation.Length, subject.Length);
-
-                if (context.IsRoot || context.Recursive)
-                {
-                    if (subject.SequenceEqual(expectation))
-                    {
-                        return true;
-                    }
-                    
-                    for (int i = 0; i < subject.Length; i++)
-                    {
-                        string childPropertyName = "[" + i + "]"; 
-                        if (context.PropertyPath.Length == 0)
-                        {
-                            childPropertyName = "item" + childPropertyName;
-                        }
-
-                        parent.AssertEquality(context.CreateNested(subject[i], expectation[i], childPropertyName));
-                    }
-                }
-                else
-                {
-                    subject.Should().Equal(expectation, context.Reason, context.ReasonArgs);
-                }
-
-                return true;
+                EnumerateElements(context, subject, expectation, parent);
+            }
+            else
+            {
+                subject.Should().Equal(expectation, context.Reason, context.ReasonArgs);
             }
 
-            return false;
+            return true;
+        }
+
+        private void EnumerateElements(StructuralEqualityContext context, object[] subject, object[] expectation, IStructuralEqualityValidator parent)
+        {
+            if (!subject.SequenceEqual(expectation))
+            {
+                for (int i = 0; i < subject.Length; i++)
+                {
+                    string childPropertyName = "[" + i + "]";
+                    if (context.PropertyPath.Length == 0)
+                    {
+                        childPropertyName = "item" + childPropertyName;
+                    }
+
+                    parent.AssertEquality(context.CreateNestedContext(subject[i], expectation[i], childPropertyName));
+                }
+            }
+        }
+
+        private static void AssertExpectationIsCollection(StructuralEqualityContext context)
+        {
+            context.Verification
+                .ForCondition(IsCollection(context.Expectation))
+                .FailWith((context.IsRoot ? "Subject" : context.PropertyPath) +
+                        " is a collection and cannot be compared with a non-collection type.",
+                    context.Subject, context.Subject.GetType().FullName);
+        }
+
+        private static void AssertCollectionsHaveEqualLength(StructuralEqualityContext context, object[] subject, object[] expectation)
+        {
+            context.Verification
+                .ForCondition(subject.Length == expectation.Length)
+                .FailWith(
+                    "Expected " + (context.IsRoot ? "subject" : context.PropertyPath) +
+                        " to be a collection with {0} item(s){reason}, but found {1}.",
+                    expectation.Length, subject.Length);
         }
 
         private static bool IsCollection(object value)

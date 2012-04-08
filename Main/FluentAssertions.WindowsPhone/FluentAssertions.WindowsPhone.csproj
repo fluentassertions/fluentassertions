@@ -246,6 +246,9 @@
     <Compile Include="..\FluentAssertions.Net35\Common\FluentDateTimeExtensions.cs">
       <Link>Common\FluentDateTimeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\Inflector.cs">
+      <Link>Common\Inflector.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\ObjectAlreadyTrackedException.cs">
       <Link>Common\ObjectAlreadyTrackedException.cs</Link>
     </Compile>

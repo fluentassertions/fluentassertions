@@ -62,6 +62,11 @@ namespace FluentAssertions.Assertions.Structural
             get { return processedObjects.Contains(Subject); }
         }
 
+        public Verification Verification
+        {
+            get { return Execute.Verification.BecauseOf(Reason, ReasonArgs); }
+        }
+
         public void ExcludeProperty(string propertyName)
         {
             excludedProperties.Add(propertyName);
@@ -84,7 +89,7 @@ namespace FluentAssertions.Assertions.Structural
             }
         }
 
-        public StructuralEqualityContext CreateNested(object subject, object expectation, string childPropertyName)
+        public StructuralEqualityContext CreateNestedContext(object subject, object expectation, string childPropertyName)
         {
             string propertyPath = (PropertyPath.Length > 0) ? PropertyPath + childPropertyName : childPropertyName;
 

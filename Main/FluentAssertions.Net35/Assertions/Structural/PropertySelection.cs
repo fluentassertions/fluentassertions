@@ -1,6 +1,6 @@
 namespace FluentAssertions.Assertions.Structural
 {
-    public enum PropertySelection
+    internal enum PropertySelection
     {
         AllCompileTimePublic,
         AllRuntimePublic,
