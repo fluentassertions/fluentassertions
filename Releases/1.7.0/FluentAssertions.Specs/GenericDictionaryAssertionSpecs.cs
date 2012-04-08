@@ -373,7 +373,7 @@ namespace FluentAssertions.specs
 
         #endregion
 
-        #region Be Equal
+        #region Equal
 
         [TestMethod]
         public void Should_succeed_when_asserting_dictionary_is_equal_to_the_same_dictionary()
@@ -387,6 +387,22 @@ namespace FluentAssertions.specs
             {
                 { 1, "One" },
                 { 2, "Two" }
+            };
+            dictionary1.Should().Equal(dictionary2);
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_dictionary_with_null_value_is_equal_to_the_same_dictionary()
+        {
+            var dictionary1 = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, null }
+            };
+            var dictionary2 = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, null }
             };
             dictionary1.Should().Equal(dictionary2);
         }

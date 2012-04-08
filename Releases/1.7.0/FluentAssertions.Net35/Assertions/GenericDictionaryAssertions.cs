@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Assertions
 {
     /// <summary>
@@ -321,7 +323,7 @@ namespace FluentAssertions.Assertions
             foreach (var key in expected.Keys)
             {
                 Execute.Verification
-                    .ForCondition(Subject[key].Equals(expected[key]))
+                    .ForCondition(Subject[key].IsSameOrEqualTo(expected[key]))
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected " + Verification.SubjectNameOr("dictionary") +
                         " to be equal to {0}{reason}, but {1} differs at key {2}.", expected, Subject, key);
