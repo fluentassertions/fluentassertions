@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-
-using FluentAssertions.EventMonitoring;
+using FluentAssertions.Events;
 using FluentAssertions.Formatting;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

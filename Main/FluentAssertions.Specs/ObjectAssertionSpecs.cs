@@ -3,12 +3,11 @@ using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-
-using FluentAssertions.Assertions;
-
+using FluentAssertions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using FluentAssertions.Common;
+using ObjectAssertions = FluentAssertions.Assertions.ObjectAssertions;
 
 namespace FluentAssertions.Specs
 {

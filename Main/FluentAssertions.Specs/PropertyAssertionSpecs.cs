@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using FluentAssertions.Assertions;
-using FluentAssertions.Assertions.Structural;
 using FluentAssertions.Common;
+using FluentAssertions.Primitives;
 using FluentAssertions.Specs;
-
+using FluentAssertions.Structural;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.specs

@@ -1,7 +1,5 @@
 ﻿using System;
 
-using FluentAssertions.Assertions;
-
 namespace FluentAssertions.Common
 {
     /// <summary>

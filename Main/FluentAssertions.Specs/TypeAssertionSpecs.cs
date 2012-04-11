@@ -3,10 +3,10 @@ using System;
 #if WINRT
 using System.Reflection;
 #endif
-
-using FluentAssertions.Assertions;
-
+using FluentAssertions.Primitives;
+using FluentAssertions.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ObjectAssertions = FluentAssertions.Assertions.ObjectAssertions;
 
 namespace FluentAssertions.specs
 {

@@ -1,6 +1,6 @@
 using System;
-
-using FluentAssertions.Assertions;
+using FluentAssertions.Execution;
+using FluentAssertions.Numeric;
 
 namespace FluentAssertions
 {

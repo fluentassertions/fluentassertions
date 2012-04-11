@@ -5,10 +5,14 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 
 using System.Xml.Linq;
-
-using FluentAssertions.Assertions;
-using FluentAssertions.Assertions.Structural;
+using FluentAssertions.Collections;
 using FluentAssertions.Common;
+using FluentAssertions.Numeric;
+using FluentAssertions.Primitives;
+using FluentAssertions.Specialized;
+using FluentAssertions.Structural;
+using FluentAssertions.Types;
+using FluentAssertions.Xml;
 
 namespace FluentAssertions
 {

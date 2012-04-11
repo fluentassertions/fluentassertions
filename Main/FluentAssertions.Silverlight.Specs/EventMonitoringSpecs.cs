@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 
-using FluentAssertions.Assertions;
-
+using FluentAssertions.Events;
+using FluentAssertions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using FluentAssertions.EventMonitoring;
 
 namespace FluentAssertions.Silverlight.Specs
 {

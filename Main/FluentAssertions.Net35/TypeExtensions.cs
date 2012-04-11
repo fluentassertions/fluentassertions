@@ -3,8 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Linq;
-
-using FluentAssertions.Assertions;
+using FluentAssertions.Types;
 
 namespace FluentAssertions
 {
