@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+
 using FluentAssertions.Execution;
 
 #if WINRT
@@ -336,6 +339,40 @@ namespace FluentAssertions.Numeric
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected value {0} to be between {1} and {2}{reason}, but it was not.",
                     Subject, minimumValue, maximumValue);
+
+            return new AndConstraint<NumericAssertions<T>>(this);
+        }
+        /// <summary>
+        /// Asserts that a value is one of the specified <paramref name="validValues"/>.
+        /// </summary>
+        /// <param name="validValues">
+        /// The values that are valid.
+        /// </param>
+        public AndConstraint<NumericAssertions<T>> BeOneOf(params T[] validValues)
+        {
+            return BeOneOf(validValues, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that a value is one of the specified <paramref name="validValues"/>.
+        /// </summary>
+        /// <param name="validValues">
+        /// The values that are valid.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public AndConstraint<NumericAssertions<T>> BeOneOf(IEnumerable<T> validValues, string reason,
+            params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(validValues.Contains((T)Subject))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected value {0} to be one of {1}{reason}, but it was not.", Subject, validValues);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
