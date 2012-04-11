@@ -332,7 +332,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value {0} to be one of {{4, 5}}, but it was not.", value));
+                .WithMessage(string.Format("Expected value to be one of {{4, 5}}, but found {0}.", value));
         }
 
         [TestMethod]
@@ -352,7 +352,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             string message =
-                string.Format("Expected value {0} to be one of {{4, 5}} because those are the valid values, but it was not.",
+                string.Format("Expected value to be one of {{4, 5}} because those are the valid values, but found {0}.",
                     value);
 
             action.ShouldThrow<AssertFailedException>().WithMessage(message);

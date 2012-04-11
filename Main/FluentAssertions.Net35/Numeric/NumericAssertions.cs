@@ -372,7 +372,7 @@ namespace FluentAssertions.Numeric
             Execute.Verification
                 .ForCondition(validValues.Contains((T)Subject))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected value {0} to be one of {1}{reason}, but it was not.", Subject, validValues);
+                .FailWith("Expected value to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
