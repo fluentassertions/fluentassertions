@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using FluentAssertions.Execution;
+
+using System.Linq;
 
 namespace FluentAssertions.Primitives
 {
@@ -46,6 +49,40 @@ namespace FluentAssertions.Primitives
         public AndConstraint<StringAssertions> Be(string expected, string reason, params object [] reasonArgs)
         {
             new StringEqualityValidator(Subject, expected, StringComparison.CurrentCulture, reason, reasonArgs).Validate();
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="string"/> is one of the specified <paramref name="validValues"/>.
+        /// </summary>
+        /// <param name="validValues">
+        /// The values that are valid.
+        /// </param>
+        public AndConstraint<StringAssertions> BeOneOf(params string[] validValues)
+        {
+            return BeOneOf(validValues, String.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="string"/> is one of the specified <paramref name="validValues"/>.
+        /// </summary>
+        /// <param name="validValues">
+        /// The values that are valid.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> BeOneOf(IEnumerable<string> validValues, string reason, params object[] reasonArgs)
+        {
+            Execute.Verification
+                .ForCondition(validValues.Contains(Subject))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected value to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
