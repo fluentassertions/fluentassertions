@@ -4,8 +4,6 @@ using FluentAssertions.Common;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using FluentAssertions.Assertions;
-
 namespace FluentAssertions.specs
 {
     [TestClass]

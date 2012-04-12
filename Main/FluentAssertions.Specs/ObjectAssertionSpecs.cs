@@ -7,7 +7,6 @@ using FluentAssertions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using FluentAssertions.Common;
-using ObjectAssertions = FluentAssertions.Assertions.ObjectAssertions;
 
 namespace FluentAssertions.Specs
 {
@@ -384,7 +383,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()
+        public void Then_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -405,8 +404,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             const string expectedMessage =
-                "Expected type to be [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions.*]" +
-                    ", but found [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions*].";
+                "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions.*]" +
+                    ", but found [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
         }

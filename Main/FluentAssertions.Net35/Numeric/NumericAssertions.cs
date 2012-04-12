@@ -8,7 +8,6 @@ using FluentAssertions.Execution;
 #if WINRT
 using System.Reflection;
 using System.Reflection.RuntimeExtensions;
-using System.Linq;
 #endif
 
 namespace FluentAssertions.Numeric
@@ -366,7 +365,7 @@ namespace FluentAssertions.Numeric
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public AndConstraint<NumericAssertions<T>> BeOneOf(IEnumerable<T> validValues, string reason,
+        public AndConstraint<NumericAssertions<T>> BeOneOf(IEnumerable<T> validValues, string reason = "",
             params object[] reasonArgs)
         {
             Execute.Verification

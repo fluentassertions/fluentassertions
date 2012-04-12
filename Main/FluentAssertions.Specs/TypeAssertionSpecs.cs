@@ -6,7 +6,6 @@ using System.Reflection;
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ObjectAssertions = FluentAssertions.Assertions.ObjectAssertions;
 
 namespace FluentAssertions.specs
 {
@@ -91,7 +90,7 @@ namespace FluentAssertions.specs
 
             Type typeFromThisAssembly = typeof(ObjectAssertions);
 #if !WINRT
-            Type typeFromOtherAssembly = typeof (TypeAssertions).Assembly.GetType("FluentAssertions.Assertions.ObjectAssertions");
+            Type typeFromOtherAssembly = typeof(TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 #else
             Type typeFromOtherAssembly =
                 typeof (TypeAssertions).GetTypeInfo().Assembly.GetType("FluentAssertions.Assertions.ObjectAssertions");
@@ -110,9 +109,9 @@ namespace FluentAssertions.specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             const string expectedMessage =
-                "Expected type to be [FluentAssertions.Assertions.ObjectAssertions, FluentAssertions*]" +
+                "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*]" +
                     " because we want to test the error message, but found " +
-                        "[FluentAssertions.Assertions.ObjectAssertions, FluentAssertions*].";
+                        "[FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
         }
@@ -400,7 +399,7 @@ namespace FluentAssertions.specs
     #endregion
 }
 
-namespace FluentAssertions.Assertions
+namespace FluentAssertions.Primitives
 {
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 

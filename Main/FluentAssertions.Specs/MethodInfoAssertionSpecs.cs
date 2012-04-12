@@ -1,6 +1,4 @@
 ﻿using System;
-
-using FluentAssertions.Assertions;
 using FluentAssertions.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

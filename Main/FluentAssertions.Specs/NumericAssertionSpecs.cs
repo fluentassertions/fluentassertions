@@ -1,7 +1,5 @@
 using System;
 
-using FluentAssertions.Assertions;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs

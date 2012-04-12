@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using FakeItEasy;
 
 
-using FluentAssertions.Assertions;
 using FluentAssertions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

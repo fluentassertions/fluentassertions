@@ -9,8 +9,6 @@ using Internal.Other.Test.Common;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using FluentAssertions.Assertions;
-
 namespace FluentAssertions.specs
 {
     [TestClass]

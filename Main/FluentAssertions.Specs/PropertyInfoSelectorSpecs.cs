@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-using FluentAssertions.Assertions;
 using Internal.Main.Test;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

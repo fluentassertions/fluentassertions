@@ -77,7 +77,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<StringAssertions> BeOneOf(IEnumerable<string> validValues, string reason, params object[] reasonArgs)
+        public AndConstraint<StringAssertions> BeOneOf(IEnumerable<string> validValues, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(validValues.Contains(Subject))

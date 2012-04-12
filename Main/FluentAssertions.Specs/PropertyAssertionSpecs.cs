@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-using FluentAssertions.Assertions;
 using FluentAssertions.Common;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specs;
