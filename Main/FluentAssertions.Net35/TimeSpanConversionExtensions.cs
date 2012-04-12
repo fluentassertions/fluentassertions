@@ -1,6 +1,7 @@
 ﻿using System;
+using FluentAssertions.Common;
 
-namespace FluentAssertions.Common
+namespace FluentAssertions
 {
     /// <summary>
     /// Extension methods on <see cref="int"/> to allow for a more fluent way of specifying a <see cref="TimeSpan"/>.

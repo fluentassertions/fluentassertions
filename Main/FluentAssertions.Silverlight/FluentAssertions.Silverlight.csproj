@@ -120,26 +120,20 @@
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\FluentDateTimeExtensions.cs">
-      <Link>Common\FluentDateTimeExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\Inflector.cs">
       <Link>Common\Inflector.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\ObjectAlreadyTrackedException.cs">
       <Link>Common\ObjectAlreadyTrackedException.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\TimeSpanConversionExtensions.cs">
-      <Link>Common\TimeSpanConversionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\UniqueObjectTracker.cs">
       <Link>Common\UniqueObjectTracker.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\EventMonitoringExtensions.cs">
+      <Link>EventMonitoringExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Events\EventHandlerFactory.cs">
       <Link>Events\EventHandlerFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Events\EventMonitoringExtensions.cs">
-      <Link>Events\EventMonitoringExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Events\EventRecorder.cs">
       <Link>Events\EventRecorder.cs</Link>
@@ -158,6 +152,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\Verification.cs">
       <Link>Execution\Verification.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\FluentDateTimeExtensions.cs">
+      <Link>FluentDateTimeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\DateTimeValueFormatter.cs">
       <Link>Formatting\DateTimeValueFormatter.cs</Link>
@@ -305,6 +302,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\TryConversionEqualityStep.cs">
       <Link>Structural\TryConversionEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\TimeSpanConversionExtensions.cs">
+      <Link>TimeSpanConversionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\TypeExtensions.cs">
       <Link>TypeExtensions.cs</Link>

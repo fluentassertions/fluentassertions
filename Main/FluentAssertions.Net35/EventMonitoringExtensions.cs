@@ -6,13 +6,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Events;
 using FluentAssertions.Execution;
 
 #if WINRT
 using System.Reflection.RuntimeExtensions;
 #endif
 
-namespace FluentAssertions.Events
+namespace FluentAssertions
 {
     /// <summary>
     ///   Provides extension methods for monitoring and querying events.
