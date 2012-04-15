@@ -57,12 +57,6 @@
     <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
       <Link>Common\Extensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\ObjectAlreadyTrackedException.cs">
-      <Link>Common\ObjectAlreadyTrackedException.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\UniqueObjectTracker.cs">
-      <Link>Common\UniqueObjectTracker.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoringExtensions.cs">
       <Link>EventMonitoringExtensions.cs</Link>
     </Compile>

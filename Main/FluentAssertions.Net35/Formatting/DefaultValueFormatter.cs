@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-
 #if WINRT
 using System.Reflection.RuntimeExtensions;
 #endif
-
-using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
@@ -37,9 +34,9 @@ namespace FluentAssertions.Formatting
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
-        /// <param name="uniqueObjectTracker">
-        /// An object that is passed through recursive calls and which should be used to detect circular references
-        /// in the object graph that is being converted to a string representation.</param>
+        /// <param name="processedObjects">
+        /// A collection of objects that 
+        /// </param>
         /// <param name="nestedPropertyLevel">
         ///     The level of nesting for the supplied value. This is used for indenting the format string for objects that have
         ///     no <see cref="object.ToString()"/> override.
@@ -47,7 +44,7 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public string ToString(object value, UniqueObjectTracker uniqueObjectTracker, int nestedPropertyLevel = 0)
+        public string ToString(object value, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
             if (value.GetType() == typeof (object))
             {
@@ -56,16 +53,15 @@ namespace FluentAssertions.Formatting
 
             if (HasDefaultToStringImplementation(value))
             {
-                try
+                if (!processedObjects.Contains(value))
                 {
-                    uniqueObjectTracker.Track(value);
+                    processedObjects.Add(value);
+                    return GetTypeAndPublicPropertyValues(value, nestedPropertyLevel, processedObjects);
                 }
-                catch (ObjectAlreadyTrackedException)
+                else
                 {
                     return string.Format("{{Cyclic reference to type {0} detected}}", value.GetType());
                 }
-
-                return GetTypeAndPublicPropertyValues(value, nestedPropertyLevel, uniqueObjectTracker);
             }
 
             return value.ToString();
@@ -76,10 +72,10 @@ namespace FluentAssertions.Formatting
             return value.ToString().Equals(value.GetType().FullName);
         }
 
-        private string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel, UniqueObjectTracker uniqueObjectTracker)
+        private string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel, IList<object> processedObjects)
         {
             var builder = new StringBuilder();
-            
+
             if (nestedPropertyLevel == RootLevel)
             {
                 builder.AppendLine();
@@ -98,7 +94,7 @@ namespace FluentAssertions.Formatting
 #endif
             foreach (var propertyInfo in properties.OrderBy(pi => pi.Name))
             {
-                builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1, uniqueObjectTracker));
+                builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1, processedObjects));
             }
 
             builder.AppendFormat("{0}}}", CreateWhitespaceForLevel(nestedPropertyLevel));
@@ -106,7 +102,7 @@ namespace FluentAssertions.Formatting
             return builder.ToString();
         }
 
-        private string GetPropertyValueTextFor(object value, PropertyInfo propertyInfo, int nextPropertyNestingLevel, UniqueObjectTracker uniqueObjectTracker)
+        private string GetPropertyValueTextFor(object value, PropertyInfo propertyInfo, int nextPropertyNestingLevel, IList<object> processedObjects)
         {
             object propertyValue;
 
@@ -114,7 +110,7 @@ namespace FluentAssertions.Formatting
             {
                 propertyValue = propertyInfo.GetValue(value, null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 propertyValue = string.Format("[Property '{0}' threw an exception: '{1}']", propertyInfo.Name, ex.Message);
             }
@@ -122,12 +118,12 @@ namespace FluentAssertions.Formatting
             return string.Format("{0}{1} = {2}",
                 CreateWhitespaceForLevel(nextPropertyNestingLevel),
                 propertyInfo.Name,
-                Formatter.ToString(propertyValue, uniqueObjectTracker, nextPropertyNestingLevel));
+                Formatter.ToString(propertyValue, processedObjects, nextPropertyNestingLevel));
         }
 
         private string CreateWhitespaceForLevel(int level)
         {
-            return new string(' ', level * SpacesPerIndentionLevel);
+            return new string(' ', level*SpacesPerIndentionLevel);
         }
     }
 }

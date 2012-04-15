@@ -112,8 +112,6 @@
     <Compile Include="Structural\StructuralEqualityContext.cs" />
     <Compile Include="Structural\ReferenceEqualityStep.cs" />
     <Compile Include="Structural\TryConversionEqualityStep.cs" />
-    <Compile Include="Common\Inflector.cs" />
-    <Compile Include="Common\UniqueObjectTracker.cs" />
     <Compile Include="NumericAssertionsExtensions.cs" />
     <Compile Include="Types\PropertyInfoAssertions.cs" />
     <Compile Include="Types\PropertyInfoSelector.cs" />
@@ -129,7 +127,6 @@
     <Compile Include="FluentDateTimeExtensions.cs" />
     <Compile Include="Primitives\NullableSimpleTimeSpanAssertions.cs" />
     <Compile Include="Primitives\SimpleTimeSpanAssertions.cs" />
-    <Compile Include="Common\ObjectAlreadyTrackedException.cs" />
     <Compile Include="TimeSpanConversionExtensions.cs" />
     <Compile Include="Primitives\ReferenceTypeAssertions.cs" />
     <Compile Include="Primitives\BooleanAssertions.cs" />

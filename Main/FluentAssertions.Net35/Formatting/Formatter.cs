@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using FluentAssertions.Common;
-
 namespace FluentAssertions.Formatting
 {
     /// <summary>
@@ -41,16 +39,16 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public static string ToString(object value, UniqueObjectTracker uniqueObjectTracker = null, int nestedPropertyLevel = 0)
+        public static string ToString(object value, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            if (uniqueObjectTracker == null)
+            if (processedObjects == null)
             {
-                uniqueObjectTracker = new UniqueObjectTracker();
+                processedObjects = new List<object>();
             }
 
             var firstFormatterThatCanHandleValue = formatters.First(f => f.CanHandle(value));
 
-            return firstFormatterThatCanHandleValue.ToString(value, uniqueObjectTracker, nestedPropertyLevel);
+            return firstFormatterThatCanHandleValue.ToString(value, processedObjects, nestedPropertyLevel);
         }
 
         /// <summary>
@@ -64,9 +62,9 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public static string ToStringLine(object value, UniqueObjectTracker uniqueObjectTracker = null, int nestedPropertyLevel = 0)
+        public static string ToStringLine(object value, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            return Environment.NewLine + ToString(value, uniqueObjectTracker, nestedPropertyLevel);
+            return Environment.NewLine + ToString(value, processedObjects, nestedPropertyLevel);
         }
     }
 }
