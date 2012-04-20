@@ -5,7 +5,7 @@ using FluentAssertions.Formatting;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FluentAssertions.specs
+namespace FluentAssertions.Specs
 {
     [TestClass]
     public class EventAssertionSpecs
@@ -29,7 +29,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <FluentAssertions.specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
+                "Object <FluentAssertions.Specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
                     "Use the MonitorEvents() extension method to start monitoring events.");
         }
 
@@ -50,7 +50,7 @@ namespace FluentAssertions.specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Object <FluentAssertions.specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
+                "Object <FluentAssertions.Specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
                     "Use the MonitorEvents() extension method to start monitoring events.");
         }
 

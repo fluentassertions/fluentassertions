@@ -3,7 +3,7 @@
 using FluentAssertions.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FluentAssertions.specs
+namespace FluentAssertions.Specs
 {
     [TestClass]
     public class PropertyInfoAssertionSpecs
@@ -69,9 +69,9 @@ namespace FluentAssertions.specs
                 .WithMessage("Expected all selected properties" +
                     " to be virtual because we want to test the error message," +
                         " but the following properties are not virtual:\r\n" +
-                            "String FluentAssertions.specs.ClassWithNonVirtualPublicProperties.PublicVirtualProperty\r\n" +
-                                "String FluentAssertions.specs.ClassWithNonVirtualPublicProperties.InternalVirtualProperty\r\n" +
-                                    "String FluentAssertions.specs.ClassWithNonVirtualPublicProperties.ProtectedVirtualProperty");
+                            "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicVirtualProperty\r\n" +
+                                "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.InternalVirtualProperty\r\n" +
+                                    "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.ProtectedVirtualProperty");
         }
 
         [TestMethod]
@@ -134,11 +134,11 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected all selected properties to be decorated with" +
-                    " FluentAssertions.specs.DummyPropertyAttribute because we want to test the error message," +
+                    " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
                         " but the following properties are not:\r\n" +
-                            "String FluentAssertions.specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicVirtualProperty\r\n" +
-                                "String FluentAssertions.specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalVirtualProperty\r\n" +
-                                    "String FluentAssertions.specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedVirtualProperty");
+                            "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicVirtualProperty\r\n" +
+                                "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalVirtualProperty\r\n" +
+                                    "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedVirtualProperty");
         }
     }
 

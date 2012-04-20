@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
-using FluentAssertions.Common;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specs;
 using FluentAssertions.Structural;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FluentAssertions.specs
+namespace FluentAssertions.Specs
 {
     [TestClass]
     public class PropertyAssertionSpecs
@@ -82,7 +80,7 @@ namespace FluentAssertions.specs
 
             var other = new
             {
-                Name = (string)null
+                Name = (string) null
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -105,12 +103,18 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Values = new[] {1, 2, 3}
+                Values = new[]
+                {
+                    1, 2, 3
+                }
             };
 
             var other = new
             {
-                Values = new[] {1, 4, 3}
+                Values = new[]
+                {
+                    1, 4, 3
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -558,6 +562,66 @@ namespace FluentAssertions.specs
             action.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_an_interface_hierarchy_is_used_it_should_include_all_inherited_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            ICar subject = new Car
+            {
+                VehicleId = 1,
+                Wheels = 4
+            };
+
+            ICar expected = new Car
+            {
+                VehicleId = 99999, 
+                Wheels = 4
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldHave().AllProperties().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property VehicleId*99999*but*1*", ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
+        public void When_an_interface_reference_is_compared_it_should_ignore_other_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IVehicle expected = new Car
+            {
+                VehicleId = 1, 
+                Wheels = 4
+            };
+            
+            IVehicle actual = new Car
+            {
+                VehicleId = 1, 
+                Wheels = 99999
+            };
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => actual.ShouldHave().AllProperties().EqualTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
         #endregion
 
         #region Nested property validation
@@ -679,7 +743,7 @@ namespace FluentAssertions.specs
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected property Level to be*Level1Dto*Level2*, but found <null>.", ComparisonMode.Wildcard);
         }
-        
+
         [TestMethod]
         public void When_not_all_the_properties_of_the_nested_object_exist_on_the_expected_object_it_should_throw()
         {
@@ -797,7 +861,7 @@ namespace FluentAssertions.specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected property Level.Level.Text to be *A wrong text value*but \r\n\"Level2\" is too short.", 
+                    "Expected property Level.Level.Text to be *A wrong text value*but \r\n\"Level2\" is too short.",
                     ComparisonMode.Wildcard);
         }
 
@@ -839,7 +903,7 @@ namespace FluentAssertions.specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected property Level.Root to be*but it contains a cyclic reference.",
-                ComparisonMode.Wildcard);
+                    ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -1036,8 +1100,8 @@ namespace FluentAssertions.specs
             var subject = new
             {
                 Customers = "Jane, John"
-            }; 
-            
+            };
+
             var expected = new
             {
                 Customers = new[]
@@ -1050,7 +1114,7 @@ namespace FluentAssertions.specs
                     },
                 }
             };
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -1174,7 +1238,10 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Bytes = new byte[] { 1, 2, 3, 4 },
+                Bytes = new byte[]
+                {
+                    1, 2, 3, 4
+                },
                 Object = new
                 {
                     A = 1,
@@ -1184,7 +1251,10 @@ namespace FluentAssertions.specs
 
             var expected = new
             {
-                Bytes = new byte[] { 1, 2, 3, 4 },
+                Bytes = new byte[]
+                {
+                    1, 2, 3, 4
+                },
                 Object = new
                 {
                     A = 1,
@@ -1215,14 +1285,26 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
-                new Customer {Name = "Jane", Age = 24, Id = 2}
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane", Age = 24, Id = 2
+                }
             };
 
             var expectation = new List<Customer>
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
-                new Customer {Name = "Jane", Age = 24, Id = 2}
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane", Age = 24, Id = 2
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1244,14 +1326,26 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             Customer[] subject = new[]
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
-                new Customer {Name = "Jane", Age = 24, Id = 2}
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane", Age = 24, Id = 2
+                }
             };
 
             IEnumerable<Customer> expectation = new Collection<Customer>
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
-                new Customer {Name = "Jane", Age = 24, Id = 2}
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane", Age = 24, Id = 2
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1273,14 +1367,26 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
-                new Customer {Name = "Jane", Age = 24, Id = 2}
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane", Age = 24, Id = 2
+                }
             };
 
             var expectation = new List<Customer>
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
-                new Customer {Name = "Jane", Age = 30, Id = 2}
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane", Age = 30, Id = 2
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1303,13 +1409,22 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
-                new Customer {Name = "Jane", Age = 24, Id = 2}
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane", Age = 24, Id = 2
+                }
             };
 
             var expectation = new List<Customer>
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1332,13 +1447,22 @@ namespace FluentAssertions.specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
             };
 
             var expectation = new List<Customer>
             {
-                new Customer {Name = "John", Age = 27, Id = 1},
-                new Customer {Name = "Jane", Age = 24, Id = 2}
+                new Customer
+                {
+                    Name = "John", Age = 27, Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane", Age = 24, Id = 2
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1372,7 +1496,7 @@ namespace FluentAssertions.specs
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage("Subject is a collection and cannot be compared with a non-collection type.");
         }
-        
+
         #endregion
 
         public class ClassOne
@@ -1476,7 +1600,7 @@ namespace FluentAssertions.specs
                 return true;
             }
 
-            if (((object)a == null) || ((object)b == null))
+            if (((object) a == null) || ((object) b == null))
             {
                 return false;
             }
@@ -1555,6 +1679,30 @@ namespace FluentAssertions.specs
     {
         public string Text { get; set; }
         public CyclicRootDto Root { get; set; }
+    }
+
+    #endregion
+
+    #region Interfaces for verifying inheritance of properties
+
+    public class Car : Vehicle, ICar
+    {
+        public int Wheels { get; set; }
+    }
+
+    public class Vehicle : IVehicle
+    {
+        public int VehicleId { get; set; }
+    }
+
+    public interface ICar : IVehicle
+    {
+        int Wheels { get; set; }
+    }
+
+    public interface IVehicle
+    {
+        int VehicleId { get; set; }
     }
 
     #endregion

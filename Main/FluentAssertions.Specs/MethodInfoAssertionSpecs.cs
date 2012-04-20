@@ -2,7 +2,7 @@
 using FluentAssertions.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FluentAssertions.specs
+namespace FluentAssertions.Specs
 {
     [TestClass]
     public class MethodInfoAssertionSpecs
@@ -68,9 +68,9 @@ namespace FluentAssertions.specs
                 .WithMessage("Expected all selected methods" +
                     " to be virtual because we want to test the error message," +
                         " but the following methods are not virtual:\r\n" +
-                            "Void FluentAssertions.specs.ClassWithNonVirtualPublicMethods.PublicDoNothing\r\n" +
-                                "Void FluentAssertions.specs.ClassWithNonVirtualPublicMethods.InternalDoNothing\r\n" +
-                                    "Void FluentAssertions.specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
+                            "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing\r\n" +
+                                "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.InternalDoNothing\r\n" +
+                                    "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
 
         [TestMethod]
@@ -133,11 +133,11 @@ namespace FluentAssertions.specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected all selected methods to be decorated with" +
-                    " FluentAssertions.specs.DummyMethodAttribute because we want to test the error message," +
+                    " FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
                         " but the following methods are not:\r\n" +
-                            "Void FluentAssertions.specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
-                                "Void FluentAssertions.specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
-                                    "Void FluentAssertions.specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
+                            "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
+                                "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
+                                    "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
     }
 

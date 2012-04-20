@@ -3,7 +3,7 @@
 using FluentAssertions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FluentAssertions.specs
+namespace FluentAssertions.Specs
 {
     [TestClass]
     public class ComparableSpecs
