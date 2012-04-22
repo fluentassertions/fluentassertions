@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using FluentAssertions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
@@ -518,6 +518,54 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to be equal to {1, 2, 3}, but found empty collection.");
         }
+
+        [TestMethod] 
+        public void When_all_items_match_according_to_a_predicate_it_should_succeed() 
+        { 
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+           var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" }; 
+           var expected = new List<string> { "One", "Two", "Three", "Four" }; 
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => actual.Should().Equal(expected,
+                (a, e) => string.Equals(a, e, StringComparison.CurrentCultureIgnoreCase));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_any_item_does_not_match_according_to_a_predicate_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" };
+            var expected = new List<string> { "One", "Two", "Three", "Five" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => actual.Should().Equal(expected,
+                (a, e) => string.Equals(a, e, StringComparison.CurrentCultureIgnoreCase));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*equal to*, but*differs at index 3.", ComparisonMode.Wildcard);
+        } 
+
+        #endregion
+
+        #region Not Be Equal
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_not_equal_to_a_different_collection()

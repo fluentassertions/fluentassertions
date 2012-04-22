@@ -9,7 +9,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Collections
 {
     /// <summary>
-    /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expected state.
+    /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expectation state.
     /// </summary>
     [DebuggerNonUserCode]
     public class GenericCollectionAssertions<T> : CollectionAssertions<IEnumerable<T>, GenericCollectionAssertions<T>>
@@ -23,17 +23,34 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the collection contains the specified item.
+        /// Asserts that two collections contain the same items in the same order, where equality is determined using a 
+        /// predicate.
         /// </summary>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected)
+        /// <param name="expectation">
+        /// The collection to compare the subject with.
+        /// </param>
+        /// <param name="predicate">
+        /// A predicate the is used to determine whether two objects should be treated as equal.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// </param>
+        public AndConstraint<GenericCollectionAssertions<T>> Equal(
+            IEnumerable<T> expectation, Func<T, T, bool> predicate, string reason = "", params object[] reasonArgs)
         {
-            return Contain(expected, string.Empty);
+            AssertEquality(Subject, expectation, predicate, reason, reasonArgs);
+
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
         }
 
         /// <summary>
         /// Asserts that the collection contains the specified item.
         /// </summary>
-        /// <param name="expected">The expected item.</param>
+        /// <param name="expected">The expectation item.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -41,7 +58,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected, string reason, params object[] reasonArgs)
+        public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected, string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -59,13 +76,12 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
         }
-
         
         /// <summary>
         /// Asserts that the collection contains some extra items in addition to the original items.
         /// </summary>
-        /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expected items.</param>
-        /// <param name="additionalExpectedItems">Additional items that are expected to be contained by the collection.</param>
+        /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
+        /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
         public AndConstraint<GenericCollectionAssertions<T>> Contain(IEnumerable<T> expectedItemsList,
             params T [] additionalExpectedItems)
         {
@@ -79,15 +95,6 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection contains at least one item that matches the predicate.
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate)
-        {
-            return Contain(predicate, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the collection contains at least one item that matches the predicate.
-        /// </summary>
-        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -95,7 +102,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonArgs)
+        public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -118,15 +125,6 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection only contains items that match a predicate.
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
-        public AndConstraint<GenericCollectionAssertions<T>> OnlyContain(Expression<Func<T, bool>> predicate)
-        {
-            return OnlyContain(predicate, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the collection only contains items that match a predicate.
-        /// </summary>
-        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -135,7 +133,7 @@ namespace FluentAssertions.Collections
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> OnlyContain(
-            Expression<Func<T, bool>> predicate, string reason, params object[] reasonArgs)
+            Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
 
@@ -161,15 +159,6 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection does not contain any items that match the predicate.
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
-        public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate)
-        {
-            return NotContain(predicate, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the collection does not contain any items that match the predicate.
-        /// </summary>
-        /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -177,7 +166,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate, string reason, params object[] reasonArgs)
+        public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
