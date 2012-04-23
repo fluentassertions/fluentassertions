@@ -34,12 +34,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WinRT.Spec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net45", "FluentAssertions.Net45\FluentAssertions.Net45.csproj", "{81D1792F-3C87-49CF-A502-9F232FF3719C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net45.Specs", "FluentAssertions.Net45.Specs\FluentAssertions.Net45.Specs.csproj", "{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccLocalPath0 = .
 		SccLocalPath1 = FluentAssertions.Net40
 		SccLocalPath10 = FluentAssertions.Net45
+		SccLocalPath11 = FluentAssertions.Net45.Specs
 		SccLocalPath2 = FluentAssertions.Net35
 		SccLocalPath3 = FluentAssertions.Silverlight
 		SccLocalPath4 = FluentAssertions.Specs
@@ -48,9 +51,10 @@ Global
 		SccLocalPath7 = FluentAssertions.WindowsPhone.Specs
 		SccLocalPath8 = FluentAssertions.WinRT
 		SccLocalPath9 = FluentAssertions.WinRT.Specs
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccProjectName1 = FluentAssertions.Net40
 		SccProjectName10 = FluentAssertions.Net45
+		SccProjectName11 = FluentAssertions.Net45.Specs
 		SccProjectName2 = FluentAssertions.Net35
 		SccProjectName3 = FluentAssertions.Silverlight
 		SccProjectName4 = FluentAssertions.Specs
@@ -61,6 +65,7 @@ Global
 		SccProjectName9 = FluentAssertions.WinRT.Specs
 		SccProjectTopLevelParentUniqueName1 = FluentAssertions.sln
 		SccProjectTopLevelParentUniqueName10 = FluentAssertions.sln
+		SccProjectTopLevelParentUniqueName11 = FluentAssertions.sln
 		SccProjectTopLevelParentUniqueName2 = FluentAssertions.sln
 		SccProjectTopLevelParentUniqueName3 = FluentAssertions.sln
 		SccProjectTopLevelParentUniqueName4 = FluentAssertions.sln
@@ -71,6 +76,7 @@ Global
 		SccProjectTopLevelParentUniqueName9 = FluentAssertions.sln
 		SccProjectUniqueName1 = FluentAssertions.Net40\\FluentAssertions.Net40.csproj
 		SccProjectUniqueName10 = FluentAssertions.Net45\\FluentAssertions.Net45.csproj
+		SccProjectUniqueName11 = FluentAssertions.Net45.Specs\\FluentAssertions.Net45.Specs.csproj
 		SccProjectUniqueName2 = FluentAssertions.Net35\\FluentAssertions.Net35.csproj
 		SccProjectUniqueName3 = FluentAssertions.Silverlight\\FluentAssertions.Silverlight.csproj
 		SccProjectUniqueName4 = FluentAssertions.Specs\\FluentAssertions.Specs.csproj
@@ -107,6 +113,10 @@ Global
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81D1792F-3C87-49CF-A502-9F232FF3719C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81D1792F-3C87-49CF-A502-9F232FF3719C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81D1792F-3C87-49CF-A502-9F232FF3719C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -142,6 +152,7 @@ Global
 		{11E362B9-2A11-4452-AD28-1F8AC14AE87B} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{135391A1-B669-423F-8D8C-04B60DCFB8B1} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{81D1792F-3C87-49CF-A502-9F232FF3719C} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{B41571A3-A982-40E1-8308-7B70F5DE9CA2} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{CE8A220A-FAA6-469D-B9B8-5F1834685861} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
