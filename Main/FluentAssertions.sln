@@ -5,8 +5,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		BuildRelease.bat = BuildRelease.bat
 		FluentAssertions.snk = FluentAssertions.snk
-		FluentAssertions2.vsmdi = FluentAssertions2.vsmdi
-		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		SolutionInfo.cs = SolutionInfo.cs
 	EndProjectSection
 EndProject
@@ -86,9 +84,6 @@ Global
 		SccProjectUniqueName8 = FluentAssertions.WinRT\\FluentAssertions.WinRT.csproj
 		SccProjectUniqueName9 = FluentAssertions.WinRT.Specs\\FluentAssertions.WinRT.Specs.csproj
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs05
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = FluentAssertions2.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
