@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using FluentAssertions.Common;
-
 namespace FluentAssertions.Formatting
 {
     internal class DateTimeValueFormatter : IValueFormatter
@@ -20,15 +18,15 @@ namespace FluentAssertions.Formatting
         /// A collection of objects that 
         /// </param>
         /// <param name="nestedPropertyLevel">
-        ///     The level of nesting for the supplied value. This is used for indenting the format string for objects that have
-        ///     no <see cref="object.ToString()"/> override.
+        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
+        /// no <see cref="object.ToString()"/> override.
         /// </param>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
         public string ToString(object value, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            var dateTime = (DateTime)value;
+            var dateTime = (DateTime) value;
 
             var fragments = new List<string>();
 
@@ -39,7 +37,8 @@ namespace FluentAssertions.Formatting
 
             if (HasTime(dateTime))
             {
-                fragments.Add(dateTime.ToString("HH:mm:ss"));
+                string format = (HasMilliSeconds(dateTime)) ? "HH:mm:ss.fff" : "HH:mm:ss";
+                fragments.Add(dateTime.ToString(format));
             }
 
             return "<" + string.Join(" ", fragments.ToArray()) + ">";
@@ -53,6 +52,11 @@ namespace FluentAssertions.Formatting
         private static bool HasDate(DateTime dateTime)
         {
             return (dateTime.Day != 1) || (dateTime.Month != 1) || (dateTime.Year != 1);
+        }
+
+        private static bool HasMilliSeconds(DateTime dateTime)
+        {
+            return (dateTime.Millisecond > 0);
         }
     }
 }
