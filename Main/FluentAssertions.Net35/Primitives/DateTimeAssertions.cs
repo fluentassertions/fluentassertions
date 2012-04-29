@@ -27,14 +27,6 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that the current <see cref="DateTime"/> is exactly equal to the <paramref name="expected"/> value.
         /// </summary>
-        public AndConstraint<DateTimeAssertions> Be(DateTime expected)
-        {
-            return Be(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> is exactly equal to the <paramref name="expected"/> value.
-        /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -43,7 +35,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Be(DateTime expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> Be(DateTime expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value == expected)
@@ -58,15 +50,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> is not equal to the <paramref name="unexpected"/> value.
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
-        public AndConstraint<DateTimeAssertions> NotBe(DateTime unexpected)
-        {
-            return NotBe(unexpected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> is not equal to the <paramref name="unexpected"/> value.
-        /// </summary>
-        /// <param name="unexpected">The unexpected value</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -74,7 +57,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotBe(DateTime unexpected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> NotBe(DateTime unexpected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value != unexpected)
@@ -85,12 +68,37 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> is before the specified value.
+        /// Asserts that the current <see cref="DateTime"/> is within the specified number of milliseconds (default = 20 ms)
+        /// from the specified <paramref name="nearbyTime"/> value.
         /// </summary>
-        /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be before.</param>
-        public AndConstraint<DateTimeAssertions> BeBefore(DateTime expected)
+        /// <remarks>
+        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
+        /// use <see cref="Be"/>.
+        /// </remarks>
+        /// <param name="nearbyTime">
+        /// The expected time to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The maximum amount of milliseconds which the two values may differ.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> BeCloseTo(DateTime nearbyTime, int precision = 20, string reason = "", params object[] reasonArgs)
         {
-            return BeBefore(expected, String.Empty);
+           DateTime minimumValue = nearbyTime.AddMilliseconds(-precision);
+           DateTime maximumValue = nearbyTime.AddMilliseconds(precision);
+
+           Execute.Verification
+               .ForCondition((Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
+               .BecauseOf(reason, reasonArgs)
+               .FailWith("Expected datetime to be within {0} ms from {1}{reason}, but found {2}.", precision, nearbyTime, Subject.Value);
+
+           return new AndConstraint<DateTimeAssertions>(this);
         }
 
         /// <summary>
@@ -104,7 +112,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeBefore(DateTime expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> BeBefore(DateTime expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(expected) < 0)
@@ -118,15 +126,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> is either on, or before the specified value.
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be on or before.</param>
-        public AndConstraint<DateTimeAssertions> BeOnOrBefore(DateTime expected)
-        {
-            return BeOnOrBefore(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> is either on, or before the specified value.
-        /// </summary>
-        /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be on or before.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -134,7 +133,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeOnOrBefore(DateTime expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> BeOnOrBefore(DateTime expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(expected) <= 0)
@@ -148,15 +147,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> is after the specified value.
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be after.</param>
-        public AndConstraint<DateTimeAssertions> BeAfter(DateTime expected)
-        {
-            return BeAfter(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> is after the specified value.
-        /// </summary>
-        /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be after.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -164,7 +154,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeAfter(DateTime expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> BeAfter(DateTime expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(expected) > 0)
@@ -178,15 +168,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> is either on, or after the specified value.
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be on or after.</param>
-        public AndConstraint<DateTimeAssertions> BeOnOrAfter(DateTime expected)
-        {
-            return BeOnOrAfter(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> is either on, or after the specified value.
-        /// </summary>
-        /// <param name="expected">The <see cref="DateTime"/> that the current value is expected to be on or after.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -194,7 +175,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeOnOrAfter(DateTime expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> BeOnOrAfter(DateTime expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.CompareTo(expected) >= 0)
@@ -208,15 +189,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> year.
         /// </summary>
         /// <param name="expected">The expected year of the current value.</param>
-        public AndConstraint<DateTimeAssertions> HaveYear(int expected)
-        {
-            return HaveYear(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> year.
-        /// </summary>
-        /// <param name="expected">The expected year of the current value.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -224,7 +196,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveYear(int expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> HaveYear(int expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.Year == expected)
@@ -238,15 +210,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> month.
         /// </summary>
         /// <param name="expected">The expected month of the current value.</param>
-        public AndConstraint<DateTimeAssertions> HaveMonth(int expected)
-        {
-            return HaveMonth(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> month.
-        /// </summary>
-        /// <param name="expected">The expected month of the current value.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -254,7 +217,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveMonth(int expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> HaveMonth(int expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.Month == expected)
@@ -268,15 +231,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> day.
         /// </summary>
         /// <param name="expected">The expected day of the current value.</param>
-        public AndConstraint<DateTimeAssertions> HaveDay(int expected)
-        {
-            return HaveDay(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> day.
-        /// </summary>
-        /// <param name="expected">The expected day of the current value.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -284,7 +238,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveDay(int expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> HaveDay(int expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.Day == expected)
@@ -298,15 +252,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> hour.
         /// </summary>
         /// <param name="expected">The expected hour of the current value.</param>
-        public AndConstraint<DateTimeAssertions> HaveHour(int expected)
-        {
-            return HaveHour(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> hour.
-        /// </summary>
-        /// <param name="expected">The expected hour of the current value.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -314,7 +259,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveHour(int expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> HaveHour(int expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.Hour == expected)
@@ -328,15 +273,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> minute.
         /// </summary>
         /// <param name="expected">The expected minutes of the current value.</param>
-        public AndConstraint<DateTimeAssertions> HaveMinute(int expected)
-        {
-            return HaveMinute(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> minute.
-        /// </summary>
-        /// <param name="expected">The expected minutes of the current value.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -344,7 +280,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveMinute(int expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> HaveMinute(int expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.Minute == expected)
@@ -358,15 +294,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> second.
         /// </summary>
         /// <param name="expected">The expected seconds of the current value.</param>
-        public AndConstraint<DateTimeAssertions> HaveSecond(int expected)
-        {
-            return HaveSecond(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> second.
-        /// </summary>
-        /// <param name="expected">The expected seconds of the current value.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -374,7 +301,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> HaveSecond(int expected, string reason, params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> HaveSecond(int expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Value.Second == expected)
@@ -434,7 +361,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="TimeSpanAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
+        /// Returns a <see cref="TimeSpanAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>  
         /// differs at maximum the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.
         /// </summary>
         /// <param name="timeSpan">
