@@ -3,16 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
-
 using System.Xml.Linq;
 using FluentAssertions.Collections;
-using FluentAssertions.Common;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
 using FluentAssertions.Structural;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
+
+#if NET45
+using System.Threading.Tasks;
+#endif
 
 namespace FluentAssertions
 {
@@ -90,17 +92,27 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that the <paramref name="action"/> throws an exception.
         /// </summary>
+        /// <param name="action">A reference to the method or property.</param>
         /// <typeparam name="TException">
         /// The type of the exception it should throw.
         /// </typeparam>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action) 
+        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason = "", params object[] reasonArgs) 
             where TException : Exception
         {
-            return ShouldThrow<TException>(action, String.Empty);
+            return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonArgs);
         }
+
+#if NET45
 
         /// <summary>
         /// Asserts that the <paramref name="action"/> throws an exception.
@@ -119,22 +131,13 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason, params object[] reasonArgs) 
+        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Func<Task> asyncAction, string reason = "", params object[] reasonArgs) 
             where TException : Exception
         {
-            return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonArgs);
+            return new AsyncFunctionAssertions(asyncAction).ShouldThrow<TException>(reason, reasonArgs);
         }
 
-        /// <summary>
-        /// Asserts that the <paramref name="action"/> does not throw a particular exception.
-        /// </summary>
-        /// <typeparam name="TException">
-        /// The type of the exception it should not throw. Any other exceptions are ignored and will satisfy the assertion.
-        /// </typeparam>
-        public static void ShouldNotThrow<TException>(this Action action)
-        {
-            ShouldNotThrow<TException>(action, String.Empty);
-        }
+#endif
 
         /// <summary>
         /// Asserts that the <paramref name="action"/> does not throw a particular exception.
@@ -150,7 +153,7 @@ namespace FluentAssertions
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public static void ShouldNotThrow<TException>(this Action action, string reason, params object[] reasonArgs)
+        public static void ShouldNotThrow<TException>(this Action action, string reason = "", params object[] reasonArgs)
         {
             new ActionAssertions(action).ShouldNotThrow<TException>(reason, reasonArgs);
         }
@@ -158,14 +161,6 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that the <paramref name="action"/> does not throw any exception at all.
         /// </summary>
-        public static void ShouldNotThrow(this Action action)
-        {
-            ShouldNotThrow(action, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <paramref name="action"/> does not throw any exception at all.
-        /// </summary>
         /// <param name="action">The current method or property.</param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
@@ -174,7 +169,7 @@ namespace FluentAssertions
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public static void ShouldNotThrow(this Action action, string reason, params object[] reasonArgs)
+        public static void ShouldNotThrow(this Action action, string reason = "", params object[] reasonArgs)
         {
             new ActionAssertions(action).ShouldNotThrow(reason, reasonArgs);
         }

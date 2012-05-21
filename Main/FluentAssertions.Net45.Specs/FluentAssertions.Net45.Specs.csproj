@@ -177,6 +177,7 @@
     <Compile Include="..\FluentAssertions.Specs\XElementFormatterSpecs.cs">
       <Link>XElementFormatterSpecs.cs</Link>
     </Compile>
+    <Compile Include="AsyncFunctionExceptionAssertionSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
