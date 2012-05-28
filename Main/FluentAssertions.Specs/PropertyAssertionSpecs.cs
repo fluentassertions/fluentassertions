@@ -126,7 +126,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Values[1] to be 4, but found 2.");
+                "Expected property Values*1, 4, 3}*but*1, 2, 3*differs at index 1.", 
+                ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -1310,7 +1311,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldHave().AllProperties().EqualTo(expectation);
+            Action action = () => subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1351,7 +1352,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldHave().AllProperties().EqualTo(expectation);
+            Action action = () => subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1392,7 +1393,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldHave().AllProperties().EqualTo(expectation);
+            Action action = () => subject.ShouldHave().AllProperties().IncludingNestedObjects().EqualTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

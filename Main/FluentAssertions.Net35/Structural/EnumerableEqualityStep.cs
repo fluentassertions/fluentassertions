@@ -32,7 +32,7 @@ namespace FluentAssertions.Structural
 
             AssertCollectionsHaveEqualLength(context, subject, expectation);
 
-            if (context.IsRoot || context.Recursive)
+            if (context.IsRoot || context.Config.Recurse)
             {
                 EnumerateElements(context, subject, expectation, parent);
             }

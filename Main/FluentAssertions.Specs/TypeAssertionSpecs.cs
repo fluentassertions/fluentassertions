@@ -93,7 +93,7 @@ namespace FluentAssertions.Specs
             Type typeFromOtherAssembly = typeof(TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 #else
             Type typeFromOtherAssembly =
-                typeof (TypeAssertions).GetTypeInfo().Assembly.GetType("FluentAssertions.Assertions.ObjectAssertions");
+                Type.GetType("FluentAssertions.Primitives.ObjectAssertions,FluentAssertions");
 #endif
 
 

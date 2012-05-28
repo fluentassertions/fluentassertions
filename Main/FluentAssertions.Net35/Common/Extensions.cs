@@ -170,7 +170,7 @@ namespace FluentAssertions.Common
 #if !WINRT
                 .GetProperties(PublicPropertiesFlag)
 #else
-                .GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic)
+                .GetRuntimeProperties().Where(p => (p.GetMethod != null) && !p.GetMethod.IsStatic)
 #endif
                 .Any();
         }
@@ -229,13 +229,50 @@ namespace FluentAssertions.Common
         public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)
         {
             var query =
-                from propertyInfo in typeToReflect.GetRuntimeProperties()
+                from propertyInfo in GetProperties(typeToReflect)
                 let getMethod = propertyInfo.GetMethod
                 where (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsStatic
                 where (filter == null) || filter.Contains(propertyInfo.Name)
                 select propertyInfo;
 
             return query.ToList();
+        }
+
+        private static IEnumerable<PropertyInfo> GetProperties(Type typeToReflect)
+        {
+            if (typeToReflect.GetTypeInfo().IsInterface)
+            {
+                var propertyInfos = new List<PropertyInfo>();
+
+                var considered = new List<Type>();
+                var queue = new Queue<Type>();
+                considered.Add(typeToReflect);
+                queue.Enqueue(typeToReflect);
+
+                while (queue.Count > 0)
+                {
+                    var subType = queue.Dequeue();
+                    foreach (var subInterface in subType.GetTypeInfo().ImplementedInterfaces)
+                    {
+                        if (considered.Contains(subInterface)) continue;
+
+                        considered.Add(subInterface);
+                        queue.Enqueue(subInterface);
+                    }
+
+                    IEnumerable<PropertyInfo> newPropertyInfos = subType
+                        .GetRuntimeProperties()
+                        .Where(x => !propertyInfos.Contains(x));
+
+                    propertyInfos.InsertRange(0, newPropertyInfos);
+                }
+
+                return propertyInfos.ToArray();
+            }
+            else
+            {
+                return typeToReflect.GetRuntimeProperties();
+            }
         }
 #endif
 

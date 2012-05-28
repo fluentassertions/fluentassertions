@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using FluentAssertions.Execution;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
 {
     internal class StructuralEqualityContext
     {
-        private IList<string> includedProperties = new List<string>();
-        private IList<string> excludedProperties = new List<string>();
+        private ComparisonConfiguration config = ComparisonConfiguration.Default;
+
         private IList<object> processedObjects = new List<object>();
 
         public StructuralEqualityContext()
         {
             PropertyPath = "";
-            PropertySelection = PropertySelection.None;
         }
 
         public object Subject { get; set; }
@@ -25,38 +27,19 @@ namespace FluentAssertions.Structural
 
         public object[] ReasonArgs { get; set; }
 
+        public ComparisonConfiguration Config
+        {
+            get { return config; }
+        }
+
         public bool IsRoot
         {
             get { return (PropertyPath.Length == 0); }
         }
 
-        public PropertySelection PropertySelection { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether it should continue comparing (collections of objects) that
-        /// the <see cref="OtherObject"/> refers to.
-        /// </summary>
-        public bool Recursive { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating how cyclic references that are encountered while comparing (collections of)
-        /// objects should be handled.
-        /// </summary>
-        public CyclicReferenceHandling CyclicReferenceHandling { get; set; }
-
         public Type CompileTimeType { get; set; }
 
         public string PropertyPath { get; set; }
-
-        public IEnumerable<string> IncludedProperties
-        {
-            get { return includedProperties; }
-        }
-
-        public IList<string> ExcludedProperties
-        {
-            get { return excludedProperties; }
-        }
 
         public bool ContainsCyclicReference
         {
@@ -68,19 +51,28 @@ namespace FluentAssertions.Structural
             get { return Execute.Verification.BecauseOf(Reason, ReasonArgs); }
         }
 
-        public void ExcludeProperty(string propertyName)
+        public IEnumerable<PropertyInfo> SelectedProperties
         {
-            excludedProperties.Add(propertyName);
-        }
+            get
+            {
+                IEnumerable<PropertyInfo> properties = new List<PropertyInfo>();
 
-        public void IncludeProperty(string propertyName)
-        {
-            includedProperties.Add(propertyName);
+                foreach (var selectionRule in config.SelectionRules)
+                {
+                    properties = selectionRule.SelectProperties(properties, new TypeInfo
+                    {
+                        DeclaredType = CompileTimeType,
+                        RuntimeType = Subject.GetType()
+                    });
+                }
+
+                return properties;
+            }
         }
 
         public void HandleCyclicReference()
         {
-            if (CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
+            if (config.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
             {
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
@@ -98,17 +90,122 @@ namespace FluentAssertions.Structural
             {
                 Subject = subject,
                 Expectation = expectation,
+                config = config,
                 PropertyPath = propertyPath,
                 Reason = Reason,
                 ReasonArgs = ReasonArgs,
-                Recursive = true,
-                PropertySelection = PropertySelection,
                 CompileTimeType = (subject != null) ? subject.GetType() : null,
-                CyclicReferenceHandling = CyclicReferenceHandling,
-                includedProperties = includedProperties,
-                excludedProperties = excludedProperties,
                 processedObjects = processedObjects.Concat(new[] {Subject}).ToList()
             };
+        }
+
+        public PropertyInfo FindMatchFor(PropertyInfo propertyInfo)
+        {
+            PropertyInfo matchingProperty = null;
+
+            foreach (var rule in config.MatchingRules)
+            {
+                matchingProperty = rule.Match(propertyInfo, Expectation, PropertyPath);
+                if (matchingProperty != null)
+                {
+                    break;
+                }
+            }
+
+            return matchingProperty;
+        }
+    }
+
+    public class ComparisonConfiguration
+    {
+        private readonly List<ISelectionRule> selectionRules =  new List<ISelectionRule>();
+        private readonly List<IMatchingRule> matchingRules = new List<IMatchingRule>();
+        private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
+        
+        public List<ISelectionRule> SelectionRules
+        {
+            get { return selectionRules; }
+        }
+
+        public List<IMatchingRule> MatchingRules
+        {
+            get { return matchingRules; }
+        }
+
+        public bool Recurse { get; set; }
+
+        public static ComparisonConfiguration Default
+        {
+            get
+            {
+                var config = new ComparisonConfiguration();
+                config.AddRule(new MustMatchByNameRule());
+
+                return config;
+            }
+        }
+
+        public CyclicReferenceHandling CyclicReferenceHandling
+        {
+            get { return cyclicReferenceHandling; }
+        }
+
+        public void IncludeAllDeclaredProperties()
+        {
+            ClearAllSelectionRules();
+            AddRule(new AllDeclaredPublicPropertiesSelectionRule());
+        }
+
+        private void ClearAllSelectionRules()
+        {
+            selectionRules.Clear();
+        }
+
+        public void IncludeAllRuntimeProperties()
+        {
+            ClearAllSelectionRules();
+            AddRule(new AllRuntimePublicPropertiesSelectionRule());
+        }
+
+        public void TryMatchByName()
+        {
+            ClearAllMatchingRules();
+            matchingRules.Add(new TryMatchByNameRule());
+        }
+
+        private void ClearAllMatchingRules()
+        {
+            matchingRules.Clear();
+        }
+
+        public void Recursive()
+        {
+            Recurse = true;
+        }
+
+        public void IgnoreCyclicReferences()
+        {
+            cyclicReferenceHandling = CyclicReferenceHandling.Ignore;
+        }
+
+        public void Ignore<T>(Expression<Func<T, object>> propertyExpression)
+        {
+            AddRule(new IgnorePropertySelectionRule(propertyExpression.GetPropertyInfo()));
+        }
+
+        public void Include<T>(Expression<Func<T, object>> propertyExpression)
+        {
+            AddRule(new IncludePropertySelectionRule(propertyExpression.GetPropertyInfo()));
+        }
+
+        public void AddRule(ISelectionRule selectionRule)
+        {
+            selectionRules.Add(selectionRule);
+        }
+
+        public void AddRule(IMatchingRule matchingRule)
+        {
+            matchingRules.Add(matchingRule);
         }
     }
 }

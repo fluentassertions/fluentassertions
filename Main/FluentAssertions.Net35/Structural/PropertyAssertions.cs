@@ -28,7 +28,7 @@ namespace FluentAssertions.Structural
         /// </summary>
         public PropertyAssertions<T> AllProperties()
         {
-            context.PropertySelection = PropertySelection.AllCompileTimePublic;
+            context.Config.IncludeAllDeclaredProperties();
             return this;
         }
 
@@ -38,7 +38,7 @@ namespace FluentAssertions.Structural
         /// </summary>
         public PropertyAssertions<T> AllRuntimeProperties()
         {
-            context.PropertySelection = PropertySelection.AllRuntimePublic;
+            context.Config.IncludeAllRuntimeProperties();
             return this;
         }
 
@@ -48,7 +48,8 @@ namespace FluentAssertions.Structural
         /// </summary>
         public PropertyAssertions<T> SharedProperties()
         {
-            context.PropertySelection = PropertySelection.OnlyShared;
+            context.Config.IncludeAllDeclaredProperties();
+            context.Config.TryMatchByName();
             return this;
         }
 
@@ -62,8 +63,13 @@ namespace FluentAssertions.Structural
         public PropertyAssertions<T> IncludingNestedObjects(
             CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException)
         {
-            context.Recursive = true;
-            context.CyclicReferenceHandling = cyclicReferenceHandling;
+            context.Config.Recursive();
+
+            if (cyclicReferenceHandling == CyclicReferenceHandling.Ignore)
+            {
+                context.Config.IgnoreCyclicReferences();
+            }
+
             return this;
         }
 
@@ -75,11 +81,11 @@ namespace FluentAssertions.Structural
         /// <param name="propertyExpressions">Optional list of additional property expressions to exclude.</param>
         public PropertyAssertions<T> AllPropertiesBut(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
         {
-            context.PropertySelection = PropertySelection.AllCompileTimePublic;
+            context.Config.AddRule(new AllDeclaredPublicPropertiesSelectionRule());
 
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                context.ExcludeProperty(expression.GetPropertyInfo().Name);
+                context.Config.Ignore(expression);
             }
 
             return this;
@@ -94,7 +100,7 @@ namespace FluentAssertions.Structural
         {
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                context.ExcludeProperty(expression.GetPropertyInfo().Name);
+                context.Config.Ignore(expression);
             }
 
             return this;
@@ -110,7 +116,7 @@ namespace FluentAssertions.Structural
         {
             foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
             {
-                context.IncludeProperty(expression.GetPropertyInfo().Name);
+                context.Config.Include(expression);
             }
 
             return this;
