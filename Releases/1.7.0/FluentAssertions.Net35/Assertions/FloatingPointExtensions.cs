@@ -49,7 +49,7 @@ namespace FluentAssertions.Assertions
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected value to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<float>(expectedValue);
+            var nonNullableAssertions = new NumericAssertions<float>((float) parent.Subject);
             nonNullableAssertions.BeApproximately(expectedValue, precision, reason, reasonArgs);
 
             return new AndConstraint<NumericAssertions<float?>>(parent);
@@ -147,7 +147,7 @@ namespace FluentAssertions.Assertions
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected value to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<double>(expectedValue);
+            var nonNullableAssertions = new NumericAssertions<double>((double) parent.Subject);
             BeApproximately(nonNullableAssertions, expectedValue, precision, reason, reasonArgs);
 
             return new AndConstraint<NumericAssertions<double?>>(parent);
