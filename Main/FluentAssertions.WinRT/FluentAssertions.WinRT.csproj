@@ -225,6 +225,15 @@
     <Compile Include="..\FluentAssertions.Net35\Specialized\ExecutionTimeAssertions.cs">
       <Link>Specialized\ExecutionTimeAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\AllDeclaredPublicPropertiesSelectionRule.cs">
+      <Link>Structural\AllDeclaredPublicPropertiesSelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\AllRuntimePublicPropertiesSelectionRule.cs">
+      <Link>Structural\AllRuntimePublicPropertiesSelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\ComparisonConfiguration.cs">
+      <Link>Structural\ComparisonConfiguration.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\ComplexTypeEqualityStep.cs">
       <Link>Structural\ComplexTypeEqualityStep.cs</Link>
     </Compile>
@@ -240,8 +249,26 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\FinalEqualityStep.cs">
       <Link>Structural\FinalEqualityStep.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\IgnorePropertySelectionRule.cs">
+      <Link>Structural\IgnorePropertySelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\IMatchingRule.cs">
+      <Link>Structural\IMatchingRule.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\IncludePropertySelectionRule.cs">
+      <Link>Structural\IncludePropertySelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\ISelectionRule.cs">
+      <Link>Structural\ISelectionRule.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityStep.cs">
       <Link>Structural\IStructuralEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityValidator.cs">
+      <Link>Structural\IStructuralEqualityValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\MustMatchByNameRule.cs">
+      <Link>Structural\MustMatchByNameRule.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\PropertyAssertions.cs">
       <Link>Structural\PropertyAssertions.cs</Link>
@@ -263,6 +290,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\TryConversionEqualityStep.cs">
       <Link>Structural\TryConversionEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\TryMatchByNameRule.cs">
+      <Link>Structural\TryMatchByNameRule.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\TimeSpanConversionExtensions.cs">
       <Link>TimeSpanConversionExtensions.cs</Link>

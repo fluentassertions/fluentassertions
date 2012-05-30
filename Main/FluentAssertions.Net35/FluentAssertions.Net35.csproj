@@ -91,6 +91,9 @@
     </Compile>
     <Compile Include="Specialized\ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
+    <Compile Include="Structural\AllDeclaredPublicPropertiesSelectionRule.cs" />
+    <Compile Include="Structural\AllRuntimePublicPropertiesSelectionRule.cs" />
+    <Compile Include="Structural\ComparisonConfiguration.cs" />
     <Compile Include="Structural\ComplexTypeEqualityStep.cs" />
     <Compile Include="Structural\EnumerableEqualityStep.cs" />
     <Compile Include="Numeric\ComparableTypeAssertions.cs" />
@@ -100,7 +103,14 @@
     <Compile Include="Primitives\GuidAssertions.cs" />
     <Compile Include="Structural\DateTimeEqualityStep.cs" />
     <Compile Include="Structural\FinalEqualityStep.cs" />
+    <Compile Include="Structural\IgnorePropertySelectionRule.cs" />
+    <Compile Include="Structural\IMatchingRule.cs" />
+    <Compile Include="Structural\IncludePropertySelectionRule.cs" />
+    <Compile Include="Structural\ISelectionRule.cs" />
     <Compile Include="Structural\IStructuralEqualityStep.cs" />
+    <Compile Include="Structural\IStructuralEqualityValidator.cs" />
+    <Compile Include="Structural\MustMatchByNameRule.cs" />
+    <Compile Include="Structural\TryMatchByNameRule.cs" />
     <Compile Include="Types\MethodInfoAssertions.cs" />
     <Compile Include="Types\MethodInfoSelector.cs" />
     <Compile Include="Primitives\NullableGuidAssertions.cs" />
