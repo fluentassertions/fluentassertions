@@ -31,14 +31,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type is equal to the specified <typeparamref name="TExpected"/> type.
         /// </summary>
-        public AndConstraint<TypeAssertions> Be<TExpected>()
-        {
-            return Be<TExpected>(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current type is equal to the specified <typeparamref name="TExpected"/> type.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -46,7 +38,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TypeAssertions> Be<TExpected>(string reason, params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> Be<TExpected>(string reason = "", params object[] reasonArgs)
         {
             return Be(typeof(TExpected), reason, reasonArgs);
         }
@@ -55,15 +47,6 @@ namespace FluentAssertions.Types
         /// Asserts that the current type is equal to the specified <paramref name="expected"/> type.
         /// </summary>
         /// <param name="expected">The expected type</param>
-        public AndConstraint<TypeAssertions> Be(Type expected)
-        {
-            return Be(expected, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current type is equal to the specified <paramref name="expected"/> type.
-        /// </summary>
-        /// <param name="expected">The expected type</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -71,7 +54,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TypeAssertions> Be(Type expected, string reason, params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> Be(Type expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject == expected)
@@ -111,14 +94,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type is not equal to the specified <typeparamref name="TUnexpected"/> type.
         /// </summary>
-        public AndConstraint<TypeAssertions> NotBe<TUnexpected>()
-        {
-            return NotBe<TUnexpected>(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current type is not equal to the specified <typeparamref name="TUnexpected"/> type.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -126,7 +101,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TypeAssertions> NotBe<TUnexpected>(string reason, params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> NotBe<TUnexpected>(string reason = "", params object[] reasonArgs)
         {
             return NotBe(typeof(TUnexpected), reason, reasonArgs);
         }
@@ -135,15 +110,6 @@ namespace FluentAssertions.Types
         /// Asserts that the current type is not equal to the specified <paramref name="unexpected"/> type.
         /// </summary>
         /// <param name="unexpected">The unexpected type</param>
-        public AndConstraint<TypeAssertions> NotBe(Type unexpected)
-        {
-            return NotBe(unexpected, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current type is not equal to the specified <paramref name="unexpected"/> type.
-        /// </summary>
-        /// <param name="unexpected">The unexpected type</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -151,7 +117,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TypeAssertions> NotBe(Type unexpected, string reason, params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> NotBe(Type unexpected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject != unexpected)
@@ -164,14 +130,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
-        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>()
-        {
-            return BeDecoratedWith<TAttribute>(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -179,7 +137,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(string reason, params object [] reasonArgs)
+        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(IsDecoratedWith<TAttribute>(Subject))

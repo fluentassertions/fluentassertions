@@ -30,14 +30,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected properties are virtual.
         /// </summary>
-        public AndConstraint<PropertyInfoAssertions> BeVirtual()
-        {
-            return BeVirtual(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the selected properties are virtual.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -45,7 +37,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeVirtual(string reason, params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeVirtual(string reason = "", params object[] reasonArgs)
         {
             IEnumerable<PropertyInfo> nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
@@ -76,14 +68,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected methods are decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
-        public AndConstraint<PropertyInfoAssertions> BeDecoratedWith<TAttribute>()
-        {
-            return BeDecoratedWith<TAttribute>(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the selected methods are decorated with the specified <typeparamref name="TAttribute"/>.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -91,7 +75,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeDecoratedWith<TAttribute>(string reason, params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
         {
             IEnumerable<PropertyInfo> propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 

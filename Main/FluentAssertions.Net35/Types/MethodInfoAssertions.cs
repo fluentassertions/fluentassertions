@@ -30,14 +30,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected methods are virtual.
         /// </summary>
-        public AndConstraint<MethodInfoAssertions> BeVirtual()
-        {
-            return BeVirtual(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the selected methods are virtual.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -45,7 +37,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<MethodInfoAssertions> BeVirtual(string reason, params object[] reasonArgs)
+        public AndConstraint<MethodInfoAssertions> BeVirtual(string reason = "", params object[] reasonArgs)
         {
             IEnumerable<MethodInfo> nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
 
@@ -71,14 +63,6 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected methods are decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
-        public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>()
-        {
-            return BeDecoratedWith<TAttribute>(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the selected methods are decorated with the specified <typeparamref name="TAttribute"/>.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -86,7 +70,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(string reason, params object[] reasonArgs)
+        public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
         {
             IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>();
 
