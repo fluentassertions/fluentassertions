@@ -3,10 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-#if WINRT
-using System.Reflection;
-#endif
-
 namespace FluentAssertions.Types
 {
     /// <summary>

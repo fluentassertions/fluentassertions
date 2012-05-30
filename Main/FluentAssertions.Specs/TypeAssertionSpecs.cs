@@ -314,7 +314,7 @@ namespace FluentAssertions.Specs
         #region BeDecoratedWith
 
         [TestMethod]
-        public void When_type_is_decorated_with_a_specific_attribute_and_it_is_it_should_succeed()
+        public void When_type_is_decorated_with_expected_attribute_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -334,7 +334,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_decorated_with_an_attribute_and_it_is_not_it_should_throw()
+        public void When_type_is_not_decorated_with_expected_attribute_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -354,7 +354,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_decorated_with_an_attribute_and_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_type_is_not_decorated_with_expected_attribute_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange

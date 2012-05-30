@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
+
+using FluentAssertions.Types;
 
 using Internal.Main.Test;
 using Internal.Other.Test;
@@ -29,7 +30,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types().ThatDeriveFrom<SomeBaseClass>();
+            IEnumerable<Type> types = AllTypes.From(assembly).ThatDeriveFrom<SomeBaseClass>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -54,7 +55,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            var types = assembly.Types().ThatDeriveFrom<SomeGenericBaseClass<int>>();
+            TypeSelector types = AllTypes.From(assembly).ThatDeriveFrom<SomeGenericBaseClass<int>>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -76,12 +77,11 @@ namespace FluentAssertions.Specs
             Assembly assembly = typeof(ClassImplementingSomeInterface).GetTypeInfo().Assembly;
 #endif
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types().ThatImplement<ISomeInterface>();
-            
+            IEnumerable<Type> types = AllTypes.From(assembly).ThatImplement<ISomeInterface>();
+
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
@@ -106,8 +106,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types().ThatAreDecoratedWith<SomeAttribute>();
-            
+            IEnumerable<Type> types = AllTypes.From(assembly).ThatAreDecoratedWith<SomeAttribute>();
+
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
@@ -132,8 +132,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types().ThatAreInNamespace("Internal.Other.Test");
-            
+            IEnumerable<Type> types = AllTypes.From(assembly).ThatAreInNamespace("Internal.Other.Test");
+
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types().ThatAreUnderNamespace("Internal.Other.Test");
+            IEnumerable<Type> types = AllTypes.From(assembly).ThatAreUnderNamespace("Internal.Other.Test");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -183,10 +183,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable<Type> types = assembly.Types()
-                    .ThatAreDecoratedWith<SomeAttribute>()
-                    .ThatImplement<ISomeInterface>()
-                    .ThatAreInNamespace("Internal.Main.Test");
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreDecoratedWith<SomeAttribute>()
+                .ThatImplement<ISomeInterface>()
+                .ThatAreInNamespace("Internal.Main.Test");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert

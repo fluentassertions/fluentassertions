@@ -320,6 +320,9 @@
     <Compile Include="..\FluentAssertions.Net35\TypeExtensions.cs">
       <Link>TypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Types\AllTypes.cs">
+      <Link>Types\AllTypes.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Types\MethodInfoAssertions.cs">
       <Link>Types\MethodInfoAssertions.cs</Link>
     </Compile>

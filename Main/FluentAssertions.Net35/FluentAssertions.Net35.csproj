@@ -111,6 +111,7 @@
     <Compile Include="Structural\IStructuralEqualityValidator.cs" />
     <Compile Include="Structural\MustMatchByNameRule.cs" />
     <Compile Include="Structural\TryMatchByNameRule.cs" />
+    <Compile Include="Types\AllTypes.cs" />
     <Compile Include="Types\MethodInfoAssertions.cs" />
     <Compile Include="Types\MethodInfoSelector.cs" />
     <Compile Include="Primitives\NullableGuidAssertions.cs" />
