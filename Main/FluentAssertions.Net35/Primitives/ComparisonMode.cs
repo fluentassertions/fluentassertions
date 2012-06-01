@@ -1,6 +1,8 @@
 ﻿using FluentAssertions.Specialized;
 
-namespace FluentAssertions.Primitives
+// ReSharper disable CheckNamespace
+namespace FluentAssertions
+// ReSharper restore CheckNamespace
 {
     /// <summary>
     /// Defines the way <see cref="ExceptionAssertions{TException}.WithMessage(string)"/> compares the expected exception 
