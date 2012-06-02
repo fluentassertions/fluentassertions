@@ -60,9 +60,6 @@
     <Compile Include="..\FluentAssertions.Net35\EventMonitoringExtensions.cs">
       <Link>EventMonitoringExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Events\EventHandlerFactory.cs">
-      <Link>Events\EventHandlerFactory.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Events\EventRecorder.cs">
       <Link>Events\EventRecorder.cs</Link>
     </Compile>
@@ -75,41 +72,11 @@
     <Compile Include="..\FluentAssertions.Net35\Events\RecordedEvent.cs">
       <Link>Events\RecordedEvent.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\AssertionHelper.cs">
-      <Link>Execution\AssertionHelper.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\Execute.cs">
       <Link>Execution\Execute.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\FallbackTestFramework.cs">
-      <Link>Execution\FallbackTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\GallioTestFramework.cs">
-      <Link>Execution\GallioTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\ITestFramework.cs">
-      <Link>Execution\ITestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\LateBoundTestFramework.cs">
-      <Link>Execution\LateBoundTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\MbUnitTestFramework.cs">
-      <Link>Execution\MbUnitTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\MSpecFramework.cs">
-      <Link>Execution\MSpecFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\MSTestFramework.cs">
-      <Link>Execution\MSTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\NUnitTestFramework.cs">
-      <Link>Execution\NUnitTestFramework.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\Verification.cs">
       <Link>Execution\Verification.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\XUnitTestFramework.cs">
-      <Link>Execution\XUnitTestFramework.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\FluentDateTimeExtensions.cs">
       <Link>FluentDateTimeExtensions.cs</Link>
@@ -333,9 +300,17 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SDKReference Include="MSTestFramework, Version=11.0">
+      <Name>MSTest for Managed Projects</Name>
+    </SDKReference>
+    <SDKReference Include="TestPlatform, Version=11.0">
+      <Name>Microsoft Visual Studio Test Core</Name>
+    </SDKReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v11.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

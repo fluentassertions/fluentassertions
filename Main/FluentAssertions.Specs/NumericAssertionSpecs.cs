@@ -1,6 +1,10 @@
 using System;
 
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
@@ -19,10 +23,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_negative_value_to_be_positive()
         {
-            (-1D).Should().BePositive();
+            Action act = () => (-1D).Should().BePositive();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -41,10 +46,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_positive_value_to_be_negative()
         {
-            1.Should().BeNegative();
+            Action act = () => 1.Should().BeNegative();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -67,10 +73,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_equal_to_different_value()
         {
-            1.Should().Be(2);
+            Action act = () => 1.Should().Be(2);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -129,10 +136,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_not_equal_to_the_same_value()
         {
-            1.Should().NotBe(1);
+            Action act = () => 1.Should().NotBe(1);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -155,17 +163,19 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_greater_than_greater_value()
         {
-            2.Should().BeGreaterThan(3);
+            Action act = () => 2.Should().BeGreaterThan(3);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_greater_than_same_value()
         {
-            2.Should().BeGreaterThan(2);
+            Action act = () => 2.Should().BeGreaterThan(2);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -190,10 +200,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_greater_or_equal_to_greater_value()
         {
-            2.Should().BeGreaterOrEqualTo(3);
+            Action act = () => 2.Should().BeGreaterOrEqualTo(3);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -216,17 +227,19 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_less_than_smaller_value()
         {
-            2.Should().BeLessThan(1);
+            Action act = () => 2.Should().BeLessThan(1);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_less_than_same_value()
         {
-            2.Should().BeLessThan(2);
+            Action act = () => 2.Should().BeLessThan(2);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -251,10 +264,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_less_or_equal_to_smaller_value()
         {
-            2.Should().BeLessOrEqualTo(1);
+            Action act = () => 2.Should().BeLessOrEqualTo(1);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]

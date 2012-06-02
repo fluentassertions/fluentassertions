@@ -71,8 +71,8 @@
     <Compile Include="..\FluentAssertions.Specs\DefaultValueFormatterSpecs.cs">
       <Link>DefaultValueFormatterSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Specs\ExceptionAssertionSpecs.cs">
-      <Link>ExceptionAssertionSpecs.cs</Link>
+    <Compile Include="..\FluentAssertions.Specs\EventAssertionSpecs.cs">
+      <Link>EventAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\ExecutionTimeAssertionsSpecs.cs">
       <Link>ExecutionTimeAssertionsSpecs.cs</Link>

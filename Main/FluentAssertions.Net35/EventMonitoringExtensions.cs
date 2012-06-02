@@ -9,9 +9,6 @@ using FluentAssertions.Common;
 using FluentAssertions.Events;
 using FluentAssertions.Execution;
 
-#if WINRT
-using System.Reflection.RuntimeExtensions;
-#endif
 
 namespace FluentAssertions
 {
@@ -25,7 +22,7 @@ namespace FluentAssertions
 
         private static readonly EventRecordersMap eventRecordersMap = new EventRecordersMap();
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINRT
         /// <summary>
         ///   Starts monitoring an object for its events.
         /// </summary>
@@ -59,16 +56,12 @@ namespace FluentAssertions
             return recorders;
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINRT
         private static EventRecorder[] BuildRecorders(object eventSource)
         {
             var recorders =
                 eventSource.GetType()
-#if !WINRT
                 .GetEvents()
-#else
-                .GetRuntimeEvents().Where(e => !e.AddMethod.IsStatic)
-#endif
                 .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
 
             if (!recorders.Any())
@@ -99,7 +92,7 @@ namespace FluentAssertions
         }
 #endif
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !WINRT
         /// <summary>
         /// Asserts that an object has raised a particular event at least once.
         /// </summary>
@@ -189,11 +182,7 @@ namespace FluentAssertions
             if (eventRecorder == null)
             {
                 string typeName = null;
-#if !WINRT
                 typeName = eventSource.GetType().Name;
-#else
-                typeName = eventSource.GetType().GetTypeInfo().Name;
-#endif
                 throw new InvalidOperationException(string.Format(
                     "Type <{0}> does not expose an event named \"{1}\".", typeName, eventName));
             }

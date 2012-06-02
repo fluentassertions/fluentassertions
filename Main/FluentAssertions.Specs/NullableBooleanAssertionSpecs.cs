@@ -1,6 +1,10 @@
 using System;
 
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
@@ -15,11 +19,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_nullable_boolean_value_without_a_value_to_have_a_value()
         {
             bool? nullableBoolean = null;
-            nullableBoolean.Should().HaveValue();
+            Action act = () => nullableBoolean.Should().HaveValue();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -40,11 +45,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_nullable_boolean_value_with_a_value_to_be_null()
         {
             bool? nullableBoolean = true;
-            nullableBoolean.Should().NotHaveValue();
+            Action act = () => nullableBoolean.Should().NotHaveValue();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]

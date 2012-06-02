@@ -5,10 +5,6 @@ using System.Linq;
 
 using FluentAssertions.Execution;
 
-#if WINRT
-using System.Reflection;
-using System.Reflection.RuntimeExtensions;
-#endif
 
 namespace FluentAssertions.Numeric
 {

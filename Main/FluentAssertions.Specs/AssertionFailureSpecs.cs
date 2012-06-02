@@ -1,12 +1,15 @@
 ﻿using System;
 
-#if WINRT
 using System.Reflection;
-#endif
 
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {

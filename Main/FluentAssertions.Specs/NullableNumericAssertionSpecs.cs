@@ -1,6 +1,11 @@
 using System;
 using FluentAssertions.Primitives;
+
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
@@ -15,11 +20,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_have_a_value()
         {
             int? nullableInteger = null;
-            nullableInteger.Should().HaveValue();
+            Action act = () => nullableInteger.Should().HaveValue();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -40,11 +46,13 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
         {
             int? nullableInteger = 1;
-            nullableInteger.Should().NotHaveValue();
+            
+            Action act = () => nullableInteger.Should().NotHaveValue();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -85,12 +93,14 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_nullable_numeric_value_equals_a_different_value()
         {
             int? nullableIntegerA = 1;
             int? nullableIntegerB = 2;
-            nullableIntegerA.Should().Be(nullableIntegerB);
+
+            Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]

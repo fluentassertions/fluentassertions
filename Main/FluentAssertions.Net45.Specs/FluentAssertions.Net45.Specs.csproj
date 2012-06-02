@@ -90,6 +90,9 @@
     <Compile Include="..\FluentAssertions.Specs\DateTimeFormatterSpecs.cs">
       <Link>DateTimeFormatterSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\EventAssertionSpecs.cs">
+      <Link>EventAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\ExceptionAssertionSpecs.cs">
       <Link>ExceptionAssertionSpecs.cs</Link>
     </Compile>

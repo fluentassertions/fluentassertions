@@ -3,13 +3,20 @@ using System.ComponentModel;
 using FluentAssertions.Events;
 using FluentAssertions.Formatting;
 
+
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
     [TestClass]
     public class EventAssertionSpecs
     {
+#if !WINRT
+
         #region Should(Not)Raise
 
         [TestMethod]
@@ -52,25 +59,6 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<InvalidOperationException>().WithMessage(
                 "Object <FluentAssertions.Specs.EventAssertionSpecs+EventRaisingClass> is not being monitored for events or has already been garbage collected. " +
                     "Use the MonitorEvents() extension method to start monitoring events.");
-        }
-
-        [TestMethod]
-        public void When_monitoring_a_null_object_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            EventRaisingClass subject = null;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.MonitorEvents();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage("Cannot monitor the events of a <null> object.");
         }
 
         [TestMethod]
@@ -320,6 +308,8 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+#endif
+
         #region Should(Not)RaisePropertyChanged events
 
         [TestMethod]
@@ -456,6 +446,25 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region General Checks
+
+        [TestMethod]
+        public void When_monitoring_a_null_object_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            EventRaisingClass subject = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.MonitorEvents();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<NullReferenceException>().WithMessage("Cannot monitor the events of a <null> object.");
+        }
 
         [TestMethod]
         public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected()

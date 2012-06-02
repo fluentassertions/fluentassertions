@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-#if WINRT
-using System.Reflection.RuntimeExtensions;
-#endif
 
 namespace FluentAssertions.Formatting
 {

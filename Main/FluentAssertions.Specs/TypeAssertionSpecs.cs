@@ -5,7 +5,12 @@ using System.Reflection;
 #endif
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
+
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {

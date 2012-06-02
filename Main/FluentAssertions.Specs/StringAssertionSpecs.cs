@@ -1,6 +1,10 @@
 ﻿using System;
 
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
@@ -1269,10 +1273,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_non_empty_string_to_be_empty()
         {
-            "ABC".Should().BeEmpty();
+            Action act = () => "ABC".Should().BeEmpty();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -1311,10 +1316,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_empty_string_to_be_filled()
         {
-            "".Should().NotBeEmpty();
+            Action act = () => "".Should().NotBeEmpty();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -1329,7 +1335,7 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Length
-
+        
         [TestMethod]
         public void Should_succeed_when_asserting_string_length_to_be_equal_to_the_same_value()
         {
@@ -1337,10 +1343,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_string_length_to_be_equal_to_different_value()
         {
-            "ABC".Should().HaveLength(1);
+            Action act = () => "ABC".Should().HaveLength(1);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]

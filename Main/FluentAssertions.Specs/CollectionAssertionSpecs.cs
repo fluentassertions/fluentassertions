@@ -2,7 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using FluentAssertions.Primitives;
+
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
@@ -105,11 +110,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
         {
             IEnumerable collection = new [] { 1, 2, 3 };
-            collection.Should().HaveCount(4);
+            Action act = () => collection.Should().HaveCount(4);
+
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -238,11 +244,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_collection_with_items_is_empty()
         {
             IEnumerable collection = new [] { 1, 2, 3 };
-            collection.Should().BeEmpty();
+            Action act = () => collection.Should().BeEmpty();
+
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -272,11 +279,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void When_asserting_collection_without_items_is_not_empty_it_should_fail()
         {
             IEnumerable collection = new int[0];
-            collection.Should().NotBeEmpty();
+            Action act = () => collection.Should().NotBeEmpty();
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -1444,7 +1451,6 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type()
         {
             IEnumerable collection = new List<object>
@@ -1452,7 +1458,10 @@ namespace FluentAssertions.Specs
                 1,
                 "2"
             };
-            collection.Should().ContainItemsAssignableTo<string>();
+            
+            Action act = () => collection.Should().ContainItemsAssignableTo<string>();
+
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]

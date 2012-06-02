@@ -1,6 +1,10 @@
 ﻿using System;
 
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
@@ -61,11 +65,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_nullable_guid_value_with_a_value_to_be_null()
         {
             Guid? nullableGuid = Guid.NewGuid();
-            nullableGuid.Should().NotHaveValue();
+            Action act = () => nullableGuid.Should().NotHaveValue();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]

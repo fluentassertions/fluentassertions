@@ -5,7 +5,11 @@ using System.Text;
 
 using FluentAssertions.Common;
 
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
@@ -23,10 +27,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_negative_value_to_be_positive()
         {
-            OneSecondNegative.Should().BePositive();
+            Action act = () => OneSecondNegative.Should().BePositive();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -45,10 +50,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_positive_value_to_be_negative()
         {
-            OneSecond.Should().BeNegative();
+            Action act = () => OneSecond.Should().BeNegative();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -67,10 +73,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_equal_to_different_value()
         {
-            OneSecond.Should().Be(TwoSeconds);
+            Action act = () => OneSecond.Should().Be(TwoSeconds);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -89,10 +96,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_not_equal_to_the_same_value()
         {
-            OneSecond.Should().NotBe(OneSecond);
+            Action act = () => OneSecond.Should().NotBe(OneSecond);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -111,17 +119,19 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_greater_than_greater_value()
         {
-            OneSecond.Should().BeGreaterThan(TwoSeconds);
+            Action act = () => OneSecond.Should().BeGreaterThan(TwoSeconds);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_greater_than_same_value()
         {
-            TwoSeconds.Should().BeGreaterThan(TwoSeconds);
+            Action act = () => TwoSeconds.Should().BeGreaterThan(TwoSeconds);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -146,10 +156,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_greater_or_equal_to_greater_value()
         {
-            OneSecond.Should().BeGreaterOrEqualTo(TwoSeconds);
+            Action act = () => OneSecond.Should().BeGreaterOrEqualTo(TwoSeconds);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -168,17 +179,19 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_less_than_smaller_value()
         {
-            TwoSeconds.Should().BeLessThan(OneSecond);
+            Action act = () => TwoSeconds.Should().BeLessThan(OneSecond);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_less_than_same_value()
         {
-            TwoSeconds.Should().BeLessThan(TwoSeconds);
+            Action act = () => TwoSeconds.Should().BeLessThan(TwoSeconds);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -203,10 +216,11 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AssertFailedException))]
         public void Should_fail_when_asserting_value_to_be_less_or_equal_to_smaller_value()
         {
-            TwoSeconds.Should().BeLessOrEqualTo(OneSecond);
+            Action act = () => TwoSeconds.Should().BeLessOrEqualTo(OneSecond);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]

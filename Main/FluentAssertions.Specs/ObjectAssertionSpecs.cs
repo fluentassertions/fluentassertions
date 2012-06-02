@@ -4,7 +4,12 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using FluentAssertions.Primitives;
+
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 using FluentAssertions.Common;
 
@@ -267,11 +272,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_non_null_object_to_be_null()
         {
             var someObject = new object();
-            someObject.Should().BeNull();
+            Action act = () => someObject.Should().BeNull();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -302,11 +308,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_null_object_not_to_be_null()
         {
             object someObject = null;
-            someObject.Should().NotBeNull();
+            Action act = () => someObject.Should().NotBeNull();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]

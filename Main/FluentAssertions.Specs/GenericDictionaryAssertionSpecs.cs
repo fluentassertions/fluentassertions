@@ -2,7 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 using System.Linq;
 
@@ -112,7 +116,6 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_dictionary_has_a_count_that_is_different_from_the_number_of_items()
         {
             var dictionary = new Dictionary<int, string>
@@ -121,7 +124,10 @@ namespace FluentAssertions.Specs
                 { 2, "Two" },
                 { 3, "Three" }
             };
-            dictionary.Should().HaveCount(4);
+
+            Action act = () => dictionary.Should().HaveCount(4);
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -271,14 +277,16 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void Should_fail_when_asserting_dictionary_with_items_is_empty()
         {
             var dictionary = new Dictionary<int, string>
             {
                 { 1, "One" }
             };
-            dictionary.Should().BeEmpty();
+
+            Action act = () => dictionary.Should().BeEmpty();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]
@@ -314,11 +322,13 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        [ExpectedException(typeof (AssertFailedException))]
         public void When_asserting_dictionary_without_items_is_not_empty_it_should_fail()
         {
             var dictionary = new Dictionary<int, string>();
-            dictionary.Should().NotBeEmpty();
+
+            Action act = () => dictionary.Should().NotBeEmpty();
+            act.ShouldThrow<AssertFailedException>();
+
         }
 
         [TestMethod]

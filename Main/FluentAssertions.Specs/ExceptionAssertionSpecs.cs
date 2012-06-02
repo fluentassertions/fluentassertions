@@ -1,9 +1,7 @@
-﻿#if !WINRT
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 using FakeItEasy;
-
 
 using FluentAssertions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -868,5 +866,3 @@ namespace FluentAssertions.Specs
         public string Property { get; set; }
     }
 }
-
-#endif

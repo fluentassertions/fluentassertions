@@ -4,9 +4,6 @@ using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
 
-#if WINRT
-using System.Reflection.RuntimeExtensions;
-#endif
 
 namespace FluentAssertions.Structural
 {

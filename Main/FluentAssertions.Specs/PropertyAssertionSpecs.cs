@@ -4,7 +4,12 @@ using System.Collections.ObjectModel;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specs;
 using FluentAssertions.Structural;
+
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
