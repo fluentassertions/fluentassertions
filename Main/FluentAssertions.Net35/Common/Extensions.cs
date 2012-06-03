@@ -283,9 +283,14 @@ namespace FluentAssertions.Common
 
     internal static class TypeExtensions
     {
+        /// <summary>
+        /// Determines whether two <see cref="PropertyInfo"/> objects refer to the same property.
+        /// </summary>
         public static bool IsEquivalentTo(this PropertyInfo property, PropertyInfo otherProperty)
         {
-            return (property.DeclaringType == otherProperty.DeclaringType) && (property.Name == otherProperty.Name);
+            return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
+                otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) && 
+                (property.Name == otherProperty.Name);
         }
     }
 }
