@@ -7,13 +7,8 @@ using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
 {
-    internal static class Extensions
+    internal static class ExpressionExtensions
     {
-#if !WINRT
-        private const BindingFlags PublicPropertiesFlag =
-            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-#endif
-
         public static PropertyInfo GetPropertyInfo<T>(this Expression<Func<T, object>> expression)
         {
             if (ReferenceEquals(expression, null))
@@ -56,7 +51,10 @@ namespace FluentAssertions.Common
 
             return null;
         }
+    }
 
+    internal static class StringExtensions
+    {
         /// <summary>
         /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>
         /// string anymore, including the exact casing.
@@ -90,8 +88,25 @@ namespace FluentAssertions.Common
         {
             int length = Math.Min(value.Length - index, 3);
 
-            return string.Format("{0} (index {1})", Formatter.ToString(value.Substring(index, length)), index);
+            return String.Format("{0} (index {1})", Formatter.ToString(value.Substring(index, length)), index);
         }
+
+        /// <summary>
+        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
+        /// </summary>
+        public static string Escape(this string value)
+        {
+            return value.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r").Replace("{", "{{").Replace(
+                "}", "}}");
+        }
+    }
+
+    internal static class ObjectExtensions
+    {
+#if !WINRT
+        private const BindingFlags PublicPropertiesFlag =
+            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+#endif
 
         public static bool IsSameOrEqualTo(this object actual, object expected)
         {
@@ -117,27 +132,6 @@ namespace FluentAssertions.Common
                 (actualType.GetTypeInfo().IsAssignableFrom(expectedType.GetTypeInfo()))
 #endif
                 ;
-        }
-
-        /// <summary>
-        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
-        /// </summary>
-        public static string FirstLine(this string value)
-        {
-            string[] lines = value.Split(new[]
-            {
-                Environment.NewLine
-            }, StringSplitOptions.RemoveEmptyEntries);
-            return lines.First();
-        }
-
-        /// <summary>
-        /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
-        /// </summary>
-        public static string Escape(this string value)
-        {
-            return value.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r").Replace("{", "{{").Replace(
-                "}", "}}");
         }
 
         public static bool Implements<TInterface>(this Type type)
@@ -284,6 +278,14 @@ namespace FluentAssertions.Common
                     .SingleOrDefault(pi => pi.Name == propertyName);
 
             return property;
+        }
+    }
+
+    internal static class TypeExtensions
+    {
+        public static bool IsEquivalentTo(this PropertyInfo property, PropertyInfo otherProperty)
+        {
+            return (property.DeclaringType == otherProperty.DeclaringType) && (property.Name == otherProperty.Name);
         }
     }
 }

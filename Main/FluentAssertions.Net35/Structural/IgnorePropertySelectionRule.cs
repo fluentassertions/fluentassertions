@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
 {
@@ -15,7 +16,7 @@ namespace FluentAssertions.Structural
 
         public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, TypeInfo info)
         {
-            return properties.Where(pi => pi != propertyInfo).ToArray();
+            return properties.Where(pi => !pi.IsEquivalentTo(propertyInfo)).ToArray();
         }
     }
 }

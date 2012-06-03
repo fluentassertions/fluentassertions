@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
 {
@@ -16,7 +18,7 @@ namespace FluentAssertions.Structural
         {
             var props = new List<PropertyInfo>(properties);
 
-            if (!props.Contains(propertyInfo))
+            if (!props.Any(p => p.IsEquivalentTo(propertyInfo)))
             {
                 props.Add(propertyInfo);
             }
