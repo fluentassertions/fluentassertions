@@ -65,23 +65,20 @@ namespace FluentAssertions.Common
                 .Any();
         }
 
-
-#if !WINRT
         public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)
         {
             var query =
-                from propertyInfo in GetProperties(typeToReflect, PublicPropertiesFlag)
-                let getMethod = propertyInfo.GetGetMethod(true)
-                where (getMethod != null) && !getMethod.IsPrivate
+                from propertyInfo in GetPropertiesFromHierarchy(typeToReflect)
+                where HasNonPrivateGetter(propertyInfo)
                 where (filter == null) || filter.Contains(propertyInfo.Name)
                 select propertyInfo;
 
             return query.ToArray();
         }
 
-        private static IEnumerable<PropertyInfo> GetProperties(Type typeToReflect, BindingFlags bindingFlags)
+        private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect)
         {
-            if (typeToReflect.IsInterface)
+            if (IsInterface(typeToReflect))
             {
                 var propertyInfos = new List<PropertyInfo>();
 
@@ -93,7 +90,7 @@ namespace FluentAssertions.Common
                 while (queue.Count > 0)
                 {
                     var subType = queue.Dequeue();
-                    foreach (var subInterface in subType.GetInterfaces())
+                    foreach (var subInterface in GetInterfaces(subType))
                     {
                         if (considered.Contains(subInterface)) continue;
 
@@ -101,7 +98,7 @@ namespace FluentAssertions.Common
                         queue.Enqueue(subInterface);
                     }
 
-                    PropertyInfo[] typeProperties = subType.GetProperties(bindingFlags);
+                    IEnumerable<PropertyInfo> typeProperties = GetPublicProperties(subType);
 
                     IEnumerable<PropertyInfo> newPropertyInfos = typeProperties.Where(x => !propertyInfos.Contains(x));
 
@@ -112,61 +109,46 @@ namespace FluentAssertions.Common
             }
             else
             {
-                return typeToReflect.GetProperties(bindingFlags);
+                return GetPublicProperties(typeToReflect);
             }
         }
 
+        private static bool IsInterface(Type typeToReflect)
+        {
+#if !WINRT
+            return typeToReflect.IsInterface;
 #else
-        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)
-        {
-            var query =
-                from propertyInfo in GetProperties(typeToReflect)
-                let getMethod = propertyInfo.GetMethod
-                where (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsStatic
-                where (filter == null) || filter.Contains(propertyInfo.Name)
-                select propertyInfo;
-
-            return query.ToList();
-        }
-
-        private static IEnumerable<PropertyInfo> GetProperties(Type typeToReflect)
-        {
-            if (typeToReflect.GetTypeInfo().IsInterface)
-            {
-                var propertyInfos = new List<PropertyInfo>();
-
-                var considered = new List<Type>();
-                var queue = new Queue<Type>();
-                considered.Add(typeToReflect);
-                queue.Enqueue(typeToReflect);
-
-                while (queue.Count > 0)
-                {
-                    var subType = queue.Dequeue();
-                    foreach (var subInterface in subType.GetTypeInfo().ImplementedInterfaces)
-                    {
-                        if (considered.Contains(subInterface)) continue;
-
-                        considered.Add(subInterface);
-                        queue.Enqueue(subInterface);
-                    }
-
-                    IEnumerable<PropertyInfo> newPropertyInfos = subType
-                        .GetRuntimeProperties()
-                        .Where(x => !propertyInfos.Contains(x));
-
-                    propertyInfos.InsertRange(0, newPropertyInfos);
-                }
-
-                return propertyInfos.ToArray();
-            }
-            else
-            {
-                return typeToReflect.GetRuntimeProperties();
-            }
-        }
+            return typeToReflect.GetTypeInfo().IsInterface;
 #endif
+        }
 
+        private static IEnumerable<Type> GetInterfaces(Type type)
+        {
+#if !WINRT
+            return type.GetInterfaces();
+#else
+            return type.GetTypeInfo().ImplementedInterfaces;
+#endif
+        }
 
+        private static IEnumerable<PropertyInfo> GetPublicProperties(Type type)
+        {
+#if !WINRT
+            return type.GetProperties(PublicPropertiesFlag);
+#else
+            return type.GetRuntimeProperties();
+#endif
+        }
+
+        private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
+        {
+#if !WINRT
+            var getMethod = propertyInfo.GetGetMethod(true);
+            return (getMethod != null) && !getMethod.IsPrivate;
+#else
+            var getMethod = propertyInfo.GetMethod;
+            return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsStatic;
+#endif
+        }
     }
 }
