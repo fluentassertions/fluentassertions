@@ -89,6 +89,9 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\ObjectExtensions.cs" />
+    <Compile Include="Common\StringExtensions.cs" />
+    <Compile Include="Common\TypeExtensions.cs" />
     <Compile Include="Specialized\ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
     <Compile Include="Structural\AllDeclaredPublicPropertiesSelectionRule.cs" />
@@ -142,7 +145,7 @@
     <Compile Include="Primitives\ReferenceTypeAssertions.cs" />
     <Compile Include="Primitives\BooleanAssertions.cs" />
     <Compile Include="Collections\CollectionAssertions.cs" />
-    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\ExpressionExtensions.cs" />
     <Compile Include="EventMonitoringExtensions.cs" />
     <Compile Include="Events\EventRecorder.cs" />
     <Compile Include="Events\EventHandlerFactory.cs" />

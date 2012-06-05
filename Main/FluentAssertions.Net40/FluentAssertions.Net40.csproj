@@ -76,8 +76,17 @@
     <Compile Include="..\FluentAssertions.Net35\Collections\NonGenericCollectionAssertions.cs">
       <Link>Collections\NonGenericCollectionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\Extensions.cs">
-      <Link>Common\Extensions.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Common\ExpressionExtensions.cs">
+      <Link>Common\ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\ObjectExtensions.cs">
+      <Link>Common\ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\StringExtensions.cs">
+      <Link>Common\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\TypeExtensions.cs">
+      <Link>Common\TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoringExtensions.cs">
       <Link>EventMonitoringExtensions.cs</Link>
