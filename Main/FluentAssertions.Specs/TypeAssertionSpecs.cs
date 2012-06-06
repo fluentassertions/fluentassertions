@@ -364,7 +364,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithoutAttribute = typeof (ClassWithoutAttribute);
+            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -382,12 +382,83 @@ namespace FluentAssertions.Specs
                         "was not found.");
         }
 
+        [TestMethod]
+        public void When_type_is_decorated_with_expected_attribute_without_specifying_any_property_expectations_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should()
+                    .BeDecoratedWith(AnAttribute
+                        .OfType<DummyClassAttribute>());
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_type_is_decorated_with_expected_attribute_with_the_expected_properties_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should()
+                    .BeDecoratedWith(AnAttribute
+                        .OfType<DummyClassAttribute>()
+                        .WithProperty(a => a.Name, "Expected")
+                        .WithProperty(a => a.Enabled, true));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_type_is_decorated_with_expected_attribute_that_has_an_unexpected_property_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should()
+                    .BeDecoratedWith(AnAttribute
+                        .OfType<DummyClassAttribute>()
+                        .WithProperty(a => a.Name, "Unexpected"));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to be decorated with " +
+                    "FluentAssertions.Specs.DummyClassAttribute (Name = \"Unexpected\"), but found (Name = \"Expected\").");
+        }
+
         #endregion
     }
 
     #region Internal classes used in unit tests
 
-    [DummyClass]
+    [DummyClass("Expected", true)]
     public class ClassWithAttribute
     {
     }
@@ -399,6 +470,14 @@ namespace FluentAssertions.Specs
     [AttributeUsage(AttributeTargets.Class)]
     public class DummyClassAttribute : Attribute
     {
+        public string Name { get; set; }
+        public bool Enabled { get; set; }
+
+        public DummyClassAttribute(string name, bool enabled)
+        {
+            Name = name;
+            Enabled = enabled;
+        }
     }
 
     #endregion

@@ -334,6 +334,12 @@
     <Compile Include="..\FluentAssertions.Net35\Types\AllTypes.cs">
       <Link>Types\AllTypes.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Types\AnAttribute.cs">
+      <Link>Types\AnAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Types\AttributeConstraints.cs">
+      <Link>Types\AttributeConstraints.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Types\MethodInfoAssertions.cs">
       <Link>Types\MethodInfoAssertions.cs</Link>
     </Compile>

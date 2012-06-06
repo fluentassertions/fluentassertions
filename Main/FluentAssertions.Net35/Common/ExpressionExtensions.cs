@@ -6,7 +6,7 @@ namespace FluentAssertions.Common
 {
     internal static class ExpressionExtensions
     {
-        public static PropertyInfo GetPropertyInfo<T>(this Expression<Func<T, object>> expression)
+        public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
             if (ReferenceEquals(expression, null))
             {
@@ -27,7 +27,7 @@ namespace FluentAssertions.Common
             return propertyInfo;
         }
 
-        private static PropertyInfo AttemptToGetPropertyInfoFromPropertyExpression<T>(Expression<Func<T, object>> expression)
+        private static PropertyInfo AttemptToGetPropertyInfoFromPropertyExpression<T, TValue>(Expression<Func<T, TValue>> expression)
         {
             var memberExpression = expression.Body as MemberExpression;
             if (memberExpression != null)
@@ -38,7 +38,7 @@ namespace FluentAssertions.Common
             return null;
         }
 
-        private static PropertyInfo AttemptToGetPropertyInfoFromCastExpression<T>(Expression<Func<T, object>> expression)
+        private static PropertyInfo AttemptToGetPropertyInfoFromCastExpression<T, TValue>(Expression<Func<T, TValue>> expression)
         {
             var castExpression = expression.Body as UnaryExpression;
             if (castExpression != null)
