@@ -131,7 +131,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
+        /// Asserts that the current <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -152,11 +152,11 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the <see cref="Type"/> is decorated with an attribute that matches the
-        /// specified <paramref name="attributePredicate"/>.
+        /// Asserts that the current <see cref="Type"/> is decorated with an attribute of type <typeparamref name="TAttribute"/>
+        /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
         /// </summary>
-        /// <param name="attributePredicate">
-        /// The predicate to match the attribute against.
+        /// <param name="isMatchingAttributePredicate">
+        /// The predicate that will be used to match the attribute against.
         /// </param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -165,30 +165,30 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(Expression<Func<TAttribute, bool>> attributePredicate,
-            string reason = "", params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string reason = "", params object[] reasonArgs)
         {
             BeDecoratedWith<TAttribute>(reason, reasonArgs);
 
             Execute.Verification
-                .ForCondition(HasMatchingAttribute(attributePredicate))
+                .ForCondition(HasMatchingAttribute(isMatchingAttributePredicate))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
-                    Subject, typeof(TAttribute), attributePredicate.Body);
+                    Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 
 
             return new AndConstraint<TypeAssertions>(this);
         }
 
-        private bool HasMatchingAttribute<TAttribute>(Expression<Func<TAttribute, bool>> attributePredicate)
+        private bool HasMatchingAttribute<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
         {
             bool hasMatch = false;
             IEnumerable<TAttribute> attributes = GetCustomAttributes<TAttribute>(Subject);
 
-            Func<TAttribute, bool> compiledPredicate = attributePredicate.Compile();
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
             foreach (TAttribute attribute in attributes)
             {
-                hasMatch = compiledPredicate(attribute);
+                hasMatch = isMatchingAttribute(attribute);
                 if (hasMatch)
                 {
                     break;

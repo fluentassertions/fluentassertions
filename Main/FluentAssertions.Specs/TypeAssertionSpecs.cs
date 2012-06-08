@@ -1,13 +1,15 @@
 using System;
+
+using FluentAssertions.Primitives;
+using FluentAssertions.Types;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 #if WINRT
 using System.Reflection;
 #endif
-using FluentAssertions.Primitives;
-using FluentAssertions.Types;
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #endif
 
@@ -24,14 +26,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type sameType = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type sameType = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().Be(sameType);
+                type.Should().Be(sameType);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -45,14 +47,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type differentType = typeof (ClassWithoutAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type differentType = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().Be(differentType);
+                type.Should().Be(differentType);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -66,14 +68,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type differentType = typeof (ClassWithoutAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type differentType = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().Be(differentType, "because we want to test the error {0}", "message");
+                type.Should().Be(differentType, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -81,7 +83,7 @@ namespace FluentAssertions.Specs
 
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected type to be FluentAssertions.Specs.ClassWithoutAttribute" +
-                " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                    " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
         }
 
         [TestMethod]
@@ -93,15 +95,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
-            Type typeFromThisAssembly = typeof (ObjectAssertions);
+            Type typeFromThisAssembly = typeof(ObjectAssertions);
 #if !WINRT
             Type typeFromOtherAssembly =
-                typeof (TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
+                typeof(TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 #else
             Type typeFromOtherAssembly =
                 Type.GetType("FluentAssertions.Primitives.ObjectAssertions,FluentAssertions");
 #endif
-
 
 #pragma warning restore 436
 
@@ -109,16 +110,16 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         typeFromThisAssembly.Should().Be(typeFromOtherAssembly, "because we want to test the error {0}",
-                                                          "message");
+                typeFromThisAssembly.Should().Be(typeFromOtherAssembly, "because we want to test the error {0}",
+                    "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             const string expectedMessage =
                 "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*]" +
-                " because we want to test the error message, but found " +
-                "[FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
+                    " because we want to test the error message, but found " +
+                        "[FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
         }
@@ -129,13 +130,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().Be<ClassWithAttribute>();
+                type.Should().Be<ClassWithAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -149,13 +150,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().Be<ClassWithoutAttribute>();
+                type.Should().Be<ClassWithoutAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -169,13 +170,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().Be<ClassWithoutAttribute>("because we want to test the error {0}", "message");
+                type.Should().Be<ClassWithoutAttribute>("because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -183,7 +184,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected type to be FluentAssertions.Specs.ClassWithoutAttribute because we want to test " +
-                    "the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                        "the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
         }
 
         #endregion
@@ -196,14 +197,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type otherType = typeof (ClassWithoutAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type otherType = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().NotBe(otherType);
+                type.Should().NotBe(otherType);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -217,14 +218,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type sameType = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type sameType = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().NotBe(sameType);
+                type.Should().NotBe(sameType);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -238,21 +239,21 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type sameType = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type sameType = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().NotBe(sameType, "because we want to test the error {0}", "message");
+                type.Should().NotBe(sameType, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*]" +
-                             " because we want to test the error message.", ComparisonMode.Wildcard);
+                    " because we want to test the error message.", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -261,13 +262,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().NotBe<ClassWithoutAttribute>();
+                type.Should().NotBe<ClassWithoutAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -281,13 +282,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().NotBe<ClassWithAttribute>();
+                type.Should().NotBe<ClassWithAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -301,13 +302,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         type.Should().NotBe<ClassWithAttribute>("because we want to test the error {0}", "message");
+                type.Should().NotBe<ClassWithAttribute>("because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -315,7 +316,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*] because we want to test " +
-                    "the error message.", ComparisonMode.Wildcard);
+                        "the error message.", ComparisonMode.Wildcard);
         }
 
         #endregion
@@ -328,13 +329,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithAttribute = typeof (ClassWithAttribute);
+            Type typeWithAttribute = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         typeWithAttribute.Should().BeDecoratedWith<DummyClassAttribute>();
+                typeWithAttribute.Should().BeDecoratedWith<DummyClassAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -348,13 +349,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithoutAttribute = typeof (ClassWithoutAttribute);
+            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>();
+                typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -368,23 +369,23 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithoutAttribute = typeof (ClassWithoutAttribute);
+            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>(
-                             "because we want to test the error {0}",
-                             "message");
+                typeWithoutAttribute.Should().BeDecoratedWith<DummyClassAttribute>(
+                    "because we want to test the error {0}",
+                    "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutAttribute to be decorated with " +
-                             "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
-                             "was not found.");
+                    "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
+                        "was not found.");
         }
 
         [TestMethod]
@@ -393,14 +394,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithAttribute = typeof (ClassWithAttribute);
+            Type typeWithAttribute = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         typeWithAttribute.Should()
-                             .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.Enabled));
+                typeWithAttribute.Should()
+                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.Enabled));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -414,22 +415,22 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithAttribute = typeof (ClassWithAttribute);
+            Type typeWithAttribute = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                         typeWithAttribute.Should()
-                             .BeDecoratedWith<DummyClassAttribute>(a => a.Name == "Unexpected");
+                typeWithAttribute.Should()
+                    .BeDecoratedWith<DummyClassAttribute>(a => a.Name == "Unexpected");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to be decorated with " +
-                             "FluentAssertions.Specs.DummyClassAttribute that matches (a.Name == \"Unexpected\"), " +
-                             "but no matching attribute was found.");
+                    "FluentAssertions.Specs.DummyClassAttribute that matches (a.Name == \"Unexpected\"), " +
+                        "but no matching attribute was found.");
         }
 
         #endregion
