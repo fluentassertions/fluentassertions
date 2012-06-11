@@ -176,26 +176,14 @@ namespace FluentAssertions.Types
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 
-
             return new AndConstraint<TypeAssertions>(this);
         }
 
         private bool HasMatchingAttribute<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
         {
-            bool hasMatch = false;
-            IEnumerable<TAttribute> attributes = GetCustomAttributes<TAttribute>(Subject);
-
             Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-            foreach (TAttribute attribute in attributes)
-            {
-                hasMatch = isMatchingAttribute(attribute);
-                if (hasMatch)
-                {
-                    break;
-                }
-            }
 
-            return hasMatch;
+            return GetCustomAttributes<TAttribute>(Subject).Any(isMatchingAttribute);
         }
 
         private static bool IsDecoratedWith<TAttribute>(Type type)
