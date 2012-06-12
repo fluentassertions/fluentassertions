@@ -3,14 +3,11 @@ using System;
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 #if WINRT
 using System.Reflection;
-#endif
-#if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
-
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
 namespace FluentAssertions.Specs

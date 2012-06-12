@@ -12,7 +12,7 @@ using FluentAssertions.Structural;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 
-#if NET45
+#if NET45 || WINRT
 using System.Threading.Tasks;
 #endif
 
@@ -112,7 +112,7 @@ namespace FluentAssertions
             return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonArgs);
         }
 
-#if NET45
+#if NET45 || WINRT
 
         /// <summary>
         /// Asserts that the <paramref name="action"/> throws an exception.

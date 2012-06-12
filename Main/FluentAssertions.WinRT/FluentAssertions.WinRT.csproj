@@ -306,6 +306,9 @@
     <Compile Include="..\FluentAssertions.Net35\Xml\XElementAssertions.cs">
       <Link>Xml\XElementAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net45\Specialized\AsyncFunctionAssertions.cs">
+      <Link>Specialized\AsyncFunctionAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
