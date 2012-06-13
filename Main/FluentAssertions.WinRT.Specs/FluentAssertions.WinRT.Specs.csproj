@@ -50,6 +50,9 @@
     <SDKReference Include="TestPlatform, Version=11.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net45.Specs\AsyncFunctionExceptionAssertionSpecs.cs">
+      <Link>AsyncFunctionExceptionAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\AssertionFailureSpecs.cs">
       <Link>AssertionFailureSpecs.cs</Link>
     </Compile>

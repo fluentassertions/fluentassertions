@@ -2,9 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using FluentAssertions.Primitives;
-
+#if WINRT
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Net45.Specs
 {
@@ -92,14 +94,23 @@ namespace FluentAssertions.Net45.Specs
         {
             await Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(5500);
+                Sleep(5500);
                 throw new TException();
             });
         }
 
         public async Task SucceedAsync()
         {
-            await Task.Factory.StartNew(() => Thread.Sleep(500));
+            await Task.Factory.StartNew(() => Sleep(500));
+        }
+
+        private static void Sleep(int timeout)
+        {
+#if WINRT
+            new ManualResetEvent(false).WaitOne(timeout);
+#else
+            Thread.Sleep(5500);
+#endif
         }
     }
 }
