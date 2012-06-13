@@ -7,6 +7,9 @@ using FluentAssertions.Primitives;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using FluentAssertions;
+
 #endif
 
 namespace FluentAssertions.Specs
@@ -1379,6 +1382,80 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to contain \"string4\" in order because we're checking how it reacts to a null subject, but found <null>.");
+        }
+
+        #endregion
+
+        #region (Not) be in order
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_ordered_collection_are_ordered_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().BeInOrder();
+        }
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_unordered_collection_are_ordered_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 5, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().BeInOrder("because numbers are ordered");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected collection to have all items in order because numbers are ordered," +
+                    " but found {1, 5, 3} where item at index 2 is in wrong order."); ;
+        }
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_unordered_collection_are_not_in_order_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 5, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().NotBeInOrder();
+        }
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_ordered_collection_are_not_in_order_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().NotBeInOrder("because numbers are not ordered");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect collection to have all items in order because numbers are not ordered," +
+                    " but found {1, 2, 2, 3}."); ;
         }
 
         #endregion
