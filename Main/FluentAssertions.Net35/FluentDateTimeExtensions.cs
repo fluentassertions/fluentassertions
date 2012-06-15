@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace FluentAssertions
 {
@@ -17,6 +18,7 @@ namespace FluentAssertions
     /// 3.March(2011).At(09, 30)
     /// </example>
     /// <seealso cref="TimeSpanConversionExtensions"/>
+    [DebuggerNonUserCode]
     public static class FluentDateTimeExtensions
    {
        /// <summary>
