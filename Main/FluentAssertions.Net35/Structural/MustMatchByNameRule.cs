@@ -8,7 +8,7 @@ namespace FluentAssertions.Structural
     {
         public PropertyInfo Match(PropertyInfo subjectProperty, object expectation, string propertyPath)
         {
-            PropertyInfo compareeProperty = expectation.FindProperty(subjectProperty.Name);
+            PropertyInfo compareeProperty = expectation.GetType().FindProperty(subjectProperty.Name);
 
             if (compareeProperty == null)
             {

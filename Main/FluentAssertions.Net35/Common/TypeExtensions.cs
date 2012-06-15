@@ -18,7 +18,7 @@ namespace FluentAssertions.Common
         public static bool IsEquivalentTo(this PropertyInfo property, PropertyInfo otherProperty)
         {
             return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
-                    otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) && 
+                    otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) &&
                    (property.Name == otherProperty.Name);
         }
 
@@ -35,7 +35,7 @@ namespace FluentAssertions.Common
 
         public static bool Implements<TInterface>(this Type type)
         {
-            return Implements(type, typeof(TInterface));
+            return Implements(type, typeof (TInterface));
         }
 
         public static bool Implements(this Type type, Type expectedBaseType)
@@ -51,7 +51,7 @@ namespace FluentAssertions.Common
 
         public static bool IsComplexType(this Type type)
         {
-            return HasProperties(type) && (type.Namespace != typeof(int).Namespace);
+            return HasProperties(type) && (type.Namespace != typeof (int).Namespace);
         }
 
         private static bool HasProperties(Type type)
@@ -65,7 +65,28 @@ namespace FluentAssertions.Common
                 .Any();
         }
 
-        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)
+
+        /// <summary>
+        /// Finds the property by a particular name.
+        /// </summary>
+        /// <returns>
+        /// Returns <c>null</c> if no such property exists.
+        /// </returns>
+        public static PropertyInfo FindProperty(this Type type, string propertyName)
+        {
+            PropertyInfo property =
+#if !WINRT
+                type.GetProperties(PublicPropertiesFlag)
+#else
+                type.GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic)
+#endif
+                    .SingleOrDefault(pi => pi.Name == propertyName);
+
+            return property;
+        }
+
+        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect,
+                                                                        IEnumerable<string> filter = null)
         {
             var query =
                 from propertyInfo in GetPropertiesFromHierarchy(typeToReflect)

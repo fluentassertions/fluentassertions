@@ -7,7 +7,7 @@ namespace FluentAssertions.Structural
     {
         public PropertyInfo Match(PropertyInfo subjectProperty, object expectation, string propertyPath)
         {
-            return expectation.FindProperty(subjectProperty.Name);
+            return expectation.GetType().FindProperty(subjectProperty.Name);
         }
     }
 }
