@@ -6,7 +6,7 @@ namespace FluentAssertions.Structural
 {
     public class MustMatchByNameRule : IMatchingRule
     {
-        public PropertyInfo Match(PropertyInfo subjectProperty, object expectation, string propertyPath)
+        public PropertyInfo FindMatch(PropertyInfo subjectProperty, object expectation, string propertyPath)
         {
             PropertyInfo compareeProperty = expectation.GetType().FindProperty(subjectProperty.Name);
 

@@ -103,7 +103,7 @@ namespace FluentAssertions.Structural
 
             foreach (var rule in config.MatchingRules)
             {
-                matchingProperty = rule.Match(propertyInfo, Expectation, PropertyPath);
+                matchingProperty = rule.FindMatch(propertyInfo, Expectation, PropertyPath);
                 if (matchingProperty != null)
                 {
                     break;
