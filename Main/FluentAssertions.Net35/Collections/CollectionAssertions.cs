@@ -597,7 +597,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection has all elements in ascending order. Elements are compared
+        /// Expects the current collection to have all elements in ascending order. Elements are compared
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="reason">
@@ -613,7 +613,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection has all elements in descending order. Elements are compared
+        /// Expects the current collection to have all elements in descending order. Elements are compared
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="reason">
@@ -629,16 +629,9 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection has all elements in descending order. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// Expects the current collection to have all elements in the specified <paramref name="expectedOrder"/>.
+        /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
         private AndConstraint<TAssertions> BeInOrder(SortOrder expectedOrder, string reason = "", params object[] reasonArgs)
         {
             string sortOrder = (expectedOrder == SortOrder.Ascending) ? "ascending" : "descending";
@@ -675,7 +668,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection does not have all elements in order. Elements are compared
+        /// Asserts the current collection does not have all elements in ascending order. Elements are compared
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="reason">
@@ -685,16 +678,46 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeInOrder(string reason = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotBeAscendingInOrder(string reason = "", params object[] reasonArgs)
         {
+            return NotBeInOrder(SortOrder.Ascending, reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts the current collection does not have all elements in descending order. Elements are compared
+        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeDescendingInOrder(string reason = "", params object[] reasonArgs)
+        {
+            return NotBeInOrder(SortOrder.Descending, reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts the current collection does not have all elements in ascending order. Elements are compared
+        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        private AndConstraint<TAssertions> NotBeInOrder(SortOrder order, string reason = "", params object[] reasonArgs)
+        {
+            string sortOrder = (order == SortOrder.Ascending) ? "ascending" : "descending";
+
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect collection to have all items in order{reason}, but found {1}.", Subject);
+                    .FailWith("Did not expect collection to have all items in " + sortOrder + " order{reason}, but found {1}.", Subject);
             }
 
-            object[] orderedItems = Subject.Cast<object>().OrderBy(item => item).ToArray();
+            object[] orderedItems = (order == SortOrder.Ascending)
+                ? Subject.Cast<object>().OrderBy(item => item).ToArray()
+                : Subject.Cast<object>().OrderByDescending(item => item).ToArray();
+
             object[] actualItems = Subject.Cast<object>().ToArray();
 
             bool itemsAreUnordered = actualItems
@@ -705,7 +728,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect collection to have all items in order{reason}, but found {0}.", Subject);
+                    .FailWith("Did not expect collection to have all items in " + sortOrder + " order{reason}, but found {0}.", Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
