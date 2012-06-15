@@ -1389,9 +1389,9 @@ namespace FluentAssertions.Specs
         #region (Not) be in order
 
         [TestMethod]
-        public void When_asserting_the_items_in_an_ordered_collection_are_ordered_it_should_succeed()
+        public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_ordered_ascending_it_should_succeed()
         {
-            //-----------------------------------------------------------------------------------------------------------
+            //-----------------------------------------------------------------------------------------------------------      
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection = new[] { 1, 2, 2, 3 };
@@ -1399,11 +1399,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().BeInOrder();
+            collection.Should().BeInAscendingOrder();
         }
 
         [TestMethod]
-        public void When_asserting_the_items_in_an_unordered_collection_are_ordered_it_should_throw()
+        public void When_asserting_the_items_in_an_unordered_collection_are_ordered_ascending_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1413,13 +1413,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().BeInOrder("because numbers are ordered");
+            Action action = () => collection.Should().BeInAscendingOrder("because numbers are ordered");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to have all items in order because numbers are ordered," +
+                .WithMessage("Expected collection to have all items in ascending order because numbers are ordered," +
                     " but found {1, 5, 3} where item at index 2 is in wrong order."); ;
         }
 
@@ -1455,7 +1455,42 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage("Did not expect collection to have all items in order because numbers are not ordered," +
-                    " but found {1, 2, 2, 3}."); ;
+                    " but found {1, 2, 2, 3}.");
+        }
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------      
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { "z", "y", "x" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().BeInDescendingOrder();
+        }
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { "z", "x", "y" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().BeInDescendingOrder("because letters are ordered");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected collection to have all items in descending order because letters are ordered," +
+                    " but found {\"z\", \"x\", \"y\"} where item at index 2 is in wrong order.");
         }
 
         #endregion

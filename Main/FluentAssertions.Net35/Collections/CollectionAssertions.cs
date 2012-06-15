@@ -596,7 +596,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection has all elements in order. Elements are compared
+        /// Expects the current collection has all elements in ascending order. Elements are compared
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="reason">
@@ -606,13 +606,13 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> BeInOrder(string reason = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> BeInAscendingOrder(string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to have all items in order{reason}, but found {1}.", Subject);
+                    .FailWith("Expected collection to have all items in ascending order{reason}, but found {1}.", Subject);
             }
 
             var orderedItems = Subject.Cast<object>().OrderBy(item => item).ToArray();
@@ -628,7 +628,47 @@ namespace FluentAssertions.Collections
                     .BecauseOf(reason, reasonArgs)
                     .ForCondition(actualItem.IsSameOrEqualTo(orderedItem))
                     .FailWith("Expected " + Verification.SubjectNameOr("collection") +
-                        " to have all items in order{reason}, but found {0} where item at index {1} is in wrong order.",
+                        " to have all items in ascending order{reason}, but found {0} where item at index {1} is in wrong order.",
+                        Subject, indexOfActualItem);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Expects the current collection has all elements in descending order. Elements are compared
+        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeInDescendingOrder(string reason = "", params object[] reasonArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected collection to have all items in descending order{reason}, but found {1}.", Subject);
+            }
+
+            var orderedItems = Subject.Cast<object>().OrderByDescending(item => item).ToArray();
+            var actualItems = Subject.Cast<object>().ToArray();
+
+            for (int index = 0; index < actualItems.Length; index++)
+            {
+                object orderedItem = orderedItems[index];
+                object actualItem = actualItems[index];
+                int indexOfActualItem = Array.IndexOf(actualItems, orderedItem);
+
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .ForCondition(actualItem.IsSameOrEqualTo(orderedItem))
+                    .FailWith("Expected " + Verification.SubjectNameOr("collection") +
+                        " to have all items in descending order{reason}, but found {0} where item at index {1} is in wrong order.",
                         Subject, indexOfActualItem);
             }
 
