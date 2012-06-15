@@ -977,6 +977,88 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        /// <summary>
+        /// Asserts that the collection shares one or more items with the specified <paramref name="otherCollection"/>.
+        /// </summary>
+        /// <param name="otherCollection">The <see cref="IEnumerable"/> with the expected shared items.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TAssertions> IntersectWith(IEnumerable otherCollection, string reason = "",
+            params object[] reasonArgs)
+        {
+            if (otherCollection == null)
+            {
+                throw new NullReferenceException("Cannot verify intersection against a <null> collection.");
+            }
+
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected collection to intersect with {0}{reason}, but found {1}.", otherCollection, Subject);
+            }
+
+            IEnumerable<object> otherItems = otherCollection.Cast<object>();
+            IEnumerable<object> sharedItems = Subject.Cast<object>().Intersect(otherItems);
+
+            if (!sharedItems.Any())
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith(
+                        "Expected collection to intersect with {0}{reason}, but {1} does not contain any shared items.",
+                        otherCollection, Subject);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the collection does not share any items with the specified <paramref name="otherCollection"/>.
+        /// </summary>
+        /// <param name="otherCollection">The <see cref="IEnumerable"/> to compare to.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotIntersectWith(IEnumerable otherCollection, string reason = "",
+            params object[] reasonArgs)
+        {
+            if (otherCollection == null)
+            {
+                throw new NullReferenceException("Cannot verify intersection against a <null> collection.");
+            }
+
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Did not expect collection to intersect with {0}{reason}, but found {1}.", otherCollection, Subject);
+            }
+
+            IEnumerable<object> otherItems = otherCollection.Cast<object>();
+            IEnumerable<object> sharedItems = Subject.Cast<object>().Intersect(otherItems);
+
+            if (sharedItems.Any())
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith(
+                        "Did not expect collection to intersect with {0}{reason}, but found the following shared items {1}.",
+                        otherCollection, sharedItems);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
     }
 
     internal enum SortOrder

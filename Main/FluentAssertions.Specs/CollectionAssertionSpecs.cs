@@ -1530,6 +1530,85 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region (Not) Intersect
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_two_intersecting_collections_intersect_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------      
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable otherCollection = new[] { 3, 4, 5 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().IntersectWith(otherCollection);
+        }
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_two_non_intersecting_collections_intersect_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------      
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable otherCollection = new[] { 4, 5 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().IntersectWith(otherCollection, "they should share items");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected collection to intersect with {4, 5} because they should share items," +
+                    " but {1, 2, 3} does not contain any shared items.");
+        }
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_two_non_intersecting_collections_do_not_intersect_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------      
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable otherCollection = new[] { 4, 5 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().NotIntersectWith(otherCollection);
+        }
+
+        [TestMethod]
+        public void When_asserting_the_items_in_an_two_intersecting_collections_do_not_intersect_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------      
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable otherCollection = new[] { 2, 3, 4 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => collection.Should().NotIntersectWith(otherCollection, "they should not share items");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect collection to intersect with {2, 3, 4} because they should not share items," +
+                    " but found the following shared items {2, 3}.");
+        }
+
+        #endregion
+
+
         #region Not Contain Nulls
 
         [TestMethod]
