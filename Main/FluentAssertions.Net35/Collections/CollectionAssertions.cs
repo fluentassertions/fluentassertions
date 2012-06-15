@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -204,7 +205,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected collection to not contain nulls{reason}, but found {0}.", Subject);
             }
 
-            var values = Subject.Cast<object>().ToArray();
+            object[] values = Subject.Cast<object>().ToArray();
             for (int index = 0; index < values.Length; index++)
             {
                 if (ReferenceEquals(values[index], null))
@@ -328,7 +329,7 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException("unexpected", "Cannot compare collection with <null>.");
             }
 
-            var actualitems = Subject.Cast<object>().ToList();
+            List<object> actualitems = Subject.Cast<object>().ToList();
 
             if (actualitems.SequenceEqual(unexpected.Cast<object>()))
             {
@@ -374,8 +375,8 @@ namespace FluentAssertions.Collections
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected collection to be equivalent to {0}{reason}, but found {1}.", expected, Subject);
 
-            var expectedItems = expected.Cast<object>().ToList();
-            var actualItems = Subject.Cast<object>().ToList();
+            List<object> expectedItems = expected.Cast<object>().ToList();
+            List<object> actualItems = Subject.Cast<object>().ToList();
 
             Execute.Verification
                 .ForCondition(AreEquivalent(expectedItems, actualItems))
@@ -440,15 +441,15 @@ namespace FluentAssertions.Collections
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected collection to contain element assignable to type {0}{reason}, but found {1}.",
-                        typeof (T),
+                        typeof(T),
                         Subject);
             }
 
             int index = 0;
-            foreach (var item in Subject)
+            foreach (object item in Subject)
             {
 #if !WINRT
-                if (!typeof (T).IsAssignableFrom(item.GetType()))
+                if (!typeof(T).IsAssignableFrom(item.GetType()))
 #else
                 if(!typeof(T).GetTypeInfo().IsAssignableFrom(item.GetType().GetTypeInfo()))
 #endif
@@ -457,7 +458,7 @@ namespace FluentAssertions.Collections
                         .BecauseOf(reason, reasonArgs)
                         .FailWith(
                             "Expected only items of type {0} in collection{reason}, but item {1} at index {2} is of type {3}.",
-                            typeof (T), item, index, item.GetType());
+                            typeof(T), item, index, item.GetType());
                 }
 
                 ++index;
@@ -520,7 +521,7 @@ namespace FluentAssertions.Collections
             }
             else
             {
-                var missingItems = expectedObjects.Except(Subject.Cast<object>());
+                IEnumerable<object> missingItems = expectedObjects.Except(Subject.Cast<object>());
                 if (missingItems.Any())
                 {
                     if (expectedObjects.Count() > 1)
@@ -570,8 +571,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected collection to contain {0} in order{reason}, but found {1}.", expected, Subject);
             }
 
-            var expectedItems = expected.Cast<object>().ToArray();
-            var actualItems = Subject.Cast<object>().ToArray();
+            object[] expectedItems = expected.Cast<object>().ToArray();
+            object[] actualItems = Subject.Cast<object>().ToArray();
 
             for (int index = 0; index < expectedItems.Length; index++)
             {
@@ -608,31 +609,7 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> BeInAscendingOrder(string reason = "", params object[] reasonArgs)
         {
-            if (ReferenceEquals(Subject, null))
-            {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to have all items in ascending order{reason}, but found {1}.", Subject);
-            }
-
-            var orderedItems = Subject.Cast<object>().OrderBy(item => item).ToArray();
-            var actualItems = Subject.Cast<object>().ToArray();
-
-            for (int index = 0; index < actualItems.Length; index++)
-            {
-                object orderedItem = orderedItems[index];
-                object actualItem = actualItems[index];
-                int indexOfActualItem = Array.IndexOf(actualItems, orderedItem);
-
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .ForCondition(actualItem.IsSameOrEqualTo(orderedItem))
-                    .FailWith("Expected " + Verification.SubjectNameOr("collection") +
-                        " to have all items in ascending order{reason}, but found {0} where item at index {1} is in wrong order.",
-                        Subject, indexOfActualItem);
-            }
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return BeInOrder(SortOrder.Ascending, reason, reasonArgs);
         }
 
         /// <summary>
@@ -648,15 +625,36 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> BeInDescendingOrder(string reason = "", params object[] reasonArgs)
         {
+            return BeInOrder(SortOrder.Descending, reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Expects the current collection has all elements in descending order. Elements are compared
+        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        private AndConstraint<TAssertions> BeInOrder(SortOrder expectedOrder, string reason = "", params object[] reasonArgs)
+        {
+            string sortOrder = (expectedOrder == SortOrder.Ascending) ? "ascending" : "descending";
+
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to have all items in descending order{reason}, but found {1}.", Subject);
+                    .FailWith("Expected collection to have all items in " + sortOrder + " order{reason}, but found {1}.", Subject);
             }
 
-            var orderedItems = Subject.Cast<object>().OrderByDescending(item => item).ToArray();
-            var actualItems = Subject.Cast<object>().ToArray();
+            object[] orderedItems = (expectedOrder == SortOrder.Ascending)
+                ? Subject.Cast<object>().OrderBy(item => item).ToArray()
+                : Subject.Cast<object>().OrderByDescending(item => item).ToArray();
+
+            object[] actualItems = Subject.Cast<object>().ToArray();
 
             for (int index = 0; index < actualItems.Length; index++)
             {
@@ -668,7 +666,8 @@ namespace FluentAssertions.Collections
                     .BecauseOf(reason, reasonArgs)
                     .ForCondition(actualItem.IsSameOrEqualTo(orderedItem))
                     .FailWith("Expected " + Verification.SubjectNameOr("collection") +
-                        " to have all items in descending order{reason}, but found {0} where item at index {1} is in wrong order.",
+                        " to have all items in " + sortOrder +
+                            " order{reason}, but found {0} where item at index {1} is in wrong order.",
                         Subject, indexOfActualItem);
             }
 
@@ -695,8 +694,8 @@ namespace FluentAssertions.Collections
                     .FailWith("Did not expect collection to have all items in order{reason}, but found {1}.", Subject);
             }
 
-            var orderedItems = Subject.Cast<object>().OrderBy(item => item).ToArray();
-            var actualItems = Subject.Cast<object>().ToArray();
+            object[] orderedItems = Subject.Cast<object>().OrderBy(item => item).ToArray();
+            object[] actualItems = Subject.Cast<object>().ToArray();
 
             bool itemsAreUnordered = actualItems
                 .Where((actualItem, index) => !actualItem.IsSameOrEqualTo(orderedItems[index]))
@@ -739,10 +738,10 @@ namespace FluentAssertions.Collections
                         Subject);
             }
 
-            var expectedItems = expectedSuperset.Cast<object>();
-            var actualItems = Subject.Cast<object>();
+            IEnumerable<object> expectedItems = expectedSuperset.Cast<object>();
+            IEnumerable<object> actualItems = Subject.Cast<object>();
 
-            var excessItems = actualItems.Except(expectedItems);
+            IEnumerable<object> excessItems = actualItems.Except(expectedItems);
 
             if (excessItems.Any())
             {
@@ -775,8 +774,8 @@ namespace FluentAssertions.Collections
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Cannot assert a <null> collection against a subset.");
 
-            var expectedItems = unexpectedSuperset.Cast<object>();
-            var actualItems = Subject.Cast<object>().ToArray();
+            IEnumerable<object> expectedItems = unexpectedSuperset.Cast<object>();
+            object[] actualItems = Subject.Cast<object>().ToArray();
 
             if (actualItems.Intersect(expectedItems).Count() == actualItems.Count())
             {
@@ -900,7 +899,7 @@ namespace FluentAssertions.Collections
 
             if (index < enumerable.Count())
             {
-                var actual = Subject.Cast<object>().ElementAt(index);
+                object actual = Subject.Cast<object>().ElementAt(index);
 
                 Execute.Verification
                     .ForCondition(actual.Equals(element))
@@ -955,5 +954,11 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+    }
+
+    internal enum SortOrder
+    {
+        Ascending,
+        Descending
     }
 }
