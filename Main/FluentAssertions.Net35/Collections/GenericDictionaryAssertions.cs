@@ -32,14 +32,6 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that the current dictionary has not been initialized yet with an actual dictionary.
         /// </summary>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeNull()
-        {
-            return BeNull(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary has not been initialized yet with an actual dictionary.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -47,7 +39,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeNull(string reason, params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeNull(string reason = "", params object [] reasonArgs)
         {
             if (!ReferenceEquals(Subject, null))
             {
@@ -62,14 +54,6 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that the current dictionary has been initialized with an actual dictionary.
         /// </summary>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeNull()
-        {
-            return NotBeNull(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary has been initialized with an actual dictionary.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -77,7 +61,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeNull(string reason, params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeNull(string reason = "", params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -97,15 +81,6 @@ namespace FluentAssertions.Collections
         /// Asserts that the number of items in the dictionary matches the supplied <paramref name="expected" /> amount.
         /// </summary>
         /// <param name="expected">The expected number of items.</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(int expected)
-        {
-            return HaveCount(expected, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the number of items in the dictionary matches the supplied <paramref name="expected" /> amount.
-        /// </summary>
-        /// <param name="expected">The expected number of items.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -113,8 +88,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(int expected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(int expected,
+            string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -137,15 +112,6 @@ namespace FluentAssertions.Collections
         /// Asserts that the number of items in the dictionary matches a condition stated by a predicate.
         /// </summary>
         /// <param name="countPredicate">The predicate which must be statisfied by the amount of items.</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(Expression<Func<int, bool>> countPredicate)
-        {
-            return HaveCount(countPredicate, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the number of items in the dictionary matches a condition stated by a predicate.
-        /// </summary>
-        /// <param name="countPredicate">The predicate which must be statisfied by the amount of items.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -154,7 +120,7 @@ namespace FluentAssertions.Collections
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCount(Expression<Func<int, bool>> countPredicate,
-            string reason, params object [] reasonArgs)
+            string reason = "", params object[] reasonArgs)
         {
             if (countPredicate == null)
             {
@@ -190,14 +156,6 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that the dictionary does not contain any items.
         /// </summary>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeEmpty()
-        {
-            return BeEmpty(String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the dictionary does not contain any items.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -205,7 +163,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeEmpty(string reason, params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeEmpty(string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -225,14 +183,6 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that the dictionary contains at least 1 item.
         /// </summary>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeEmpty()
-        {
-            return NotBeEmpty(String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the dictionary contains at least 1 item.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -240,7 +190,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeEmpty(string reason,
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeEmpty(string reason = "",
             params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -268,17 +218,6 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected dictionary</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Equal(IDictionary<TKey, TValue> expected)
-        {
-            return Equal(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary contains all the same key-value pairs as the
-        /// specified <paramref name="expected"/> dictionary. Keys and values are compared using
-        /// their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">The expected dictionary</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -286,8 +225,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Equal(IDictionary<TKey, TValue> expected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Equal(IDictionary<TKey, TValue> expected,
+            string reason = "", params object [] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -338,17 +277,6 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected dictionary</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotEqual(IDictionary<TKey, TValue> unexpected)
-        {
-            return NotEqual(unexpected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts the current dictionary not to contain all the same key-value pairs as the
-        /// specified <paramref name="unexpected"/> dictionary. Keys and values are compared using
-        /// their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="unexpected">The unexpected dictionary</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -357,8 +285,7 @@ namespace FluentAssertions.Collections
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotEqual(IDictionary<TKey, TValue> unexpected,
-            string reason,
-            params object [] reasonArgs)
+            string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -398,16 +325,6 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected key</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKey(TKey expected)
-        {
-            return ContainKey(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the dictionary contains the specified key. Keys are compared using
-        /// their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">The expected key</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -415,8 +332,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKey(TKey expected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKey(TKey expected,
+            string reason = "", params object [] reasonArgs)
         {
             return ContainKeys(new [] { expected }, reason, reasonArgs);
         }
@@ -426,7 +343,7 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected keys</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(params TKey [] expected)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(params TKey[] expected)
         {
             return ContainKeys(expected, String.Empty);
         }
@@ -443,8 +360,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(IEnumerable<TKey> expected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(IEnumerable<TKey> expected,
+            string reason, params object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -496,16 +413,6 @@ namespace FluentAssertions.Collections
         /// Keys are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected key</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKey(TKey unexpected)
-        {
-            return NotContainKey(unexpected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary does not contain the specified <paramref name="unexpected" /> key.
-        /// Keys are compared using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="unexpected">The unexpected key</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -513,8 +420,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKey(TKey unexpected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKey(TKey unexpected,
+            string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -542,16 +449,6 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected value</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValue(TValue expected)
-        {
-            return ContainValue(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the dictionary contains the specified value. Values are compared using
-        /// their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">The expected value</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -559,8 +456,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValue(TValue expected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValue(TValue expected,
+            string reason = "", params object[] reasonArgs)
         {
             return ContainValues(new [] { expected }, reason, reasonArgs);
         }
@@ -570,7 +467,7 @@ namespace FluentAssertions.Collections
         /// their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected values</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValues(params TValue [] expected)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValues(params TValue[] expected)
         {
             return ContainValues(expected, String.Empty);
         }
@@ -587,8 +484,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValues(IEnumerable<TValue> expected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValues(IEnumerable<TValue> expected,
+            string reason = "", params object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -640,16 +537,6 @@ namespace FluentAssertions.Collections
         /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValue(TValue unexpected)
-        {
-            return NotContainValue(unexpected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary does not contain the specified <paramref name="unexpected" /> value.
-        /// Values are compared using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="unexpected">The unexpected value</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -657,8 +544,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValue(TValue unexpected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValue(TValue unexpected,
+            string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -686,16 +573,6 @@ namespace FluentAssertions.Collections
         /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected <see cref="KeyValuePair{TKey,TValue}"/></param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(KeyValuePair<TKey, TValue> expected)
-        {
-            return Contain(expected.Key, expected.Value);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary contains the specified <paramref name="expected"/>.
-        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">The expected <see cref="KeyValuePair{TKey,TValue}"/></param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -703,8 +580,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(KeyValuePair<TKey, TValue> expected, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(KeyValuePair<TKey, TValue> expected,
+            string reason = "", params object[] reasonArgs)
         {
             return Contain(expected.Key, expected.Value, reason, reasonArgs);
         }
@@ -715,17 +592,6 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="key">The key for which to validate the value</param>
         /// <param name="value">The value to validate</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(TKey key, TValue value)
-        {
-            return Contain(key, value, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary contains the specified <paramref name="value" /> for the supplied <paramref
-        /// name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="key">The key for which to validate the value</param>
-        /// <param name="value">The value to validate</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -733,8 +599,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(TKey key, TValue value, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> Contain(TKey key, TValue value,
+            string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -773,16 +639,6 @@ namespace FluentAssertions.Collections
         /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="item">The unexpected <see cref="KeyValuePair{TKey,TValue}"/></param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(KeyValuePair<TKey, TValue> item)
-        {
-            return NotContain(item.Key, item.Value);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary does not contain the specified <paramref name="item"/>.
-        /// Keys and values are compared using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="item">The unexpected <see cref="KeyValuePair{TKey,TValue}"/></param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -790,8 +646,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(KeyValuePair<TKey, TValue> item, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(KeyValuePair<TKey, TValue> item,
+            string reason = "", params object[] reasonArgs)
         {
             return NotContain(item.Key, item.Value, reason, reasonArgs);
         }
@@ -802,17 +658,6 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="key">The key for which to validate the value</param>
         /// <param name="value">The value to validate</param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(TKey key, TValue value)
-        {
-            return NotContain(key, value, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary does not contain the specified <paramref name="value" /> for the
-        /// supplied <paramref name="key" />. Values are compared using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="key">The key for which to validate the value</param>
-        /// <param name="value">The value to validate</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -820,8 +665,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(TKey key, TValue value, string reason,
-            params object [] reasonArgs)
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContain(TKey key, TValue value,
+            string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
