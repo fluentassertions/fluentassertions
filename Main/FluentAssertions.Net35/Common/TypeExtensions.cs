@@ -67,7 +67,7 @@ namespace FluentAssertions.Common
 
 
         /// <summary>
-        /// Finds the property by a particular name.
+        /// Finds the property by a case-sensitive name.
         /// </summary>
         /// <returns>
         /// Returns <c>null</c> if no such property exists.
