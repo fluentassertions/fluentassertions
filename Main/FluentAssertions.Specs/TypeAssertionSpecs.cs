@@ -398,7 +398,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.Enabled));
+                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -419,14 +419,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 typeWithAttribute.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => a.Name == "Unexpected");
+                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to be decorated with " +
-                    "FluentAssertions.Specs.DummyClassAttribute that matches (a.Name == \"Unexpected\"), " +
+                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\") AndAlso a.IsEnabled), " +
                         "but no matching attribute was found.");
         }
 
@@ -448,12 +448,12 @@ namespace FluentAssertions.Specs
     public class DummyClassAttribute : Attribute
     {
         public string Name { get; set; }
-        public bool Enabled { get; set; }
+        public bool IsEnabled { get; set; }
 
-        public DummyClassAttribute(string name, bool enabled)
+        public DummyClassAttribute(string name, bool isEnabled)
         {
             Name = name;
-            Enabled = enabled;
+            IsEnabled = isEnabled;
         }
     }
 

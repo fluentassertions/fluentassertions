@@ -156,7 +156,7 @@ namespace FluentAssertions.Types
         /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
         /// </summary>
         /// <param name="isMatchingAttributePredicate">
-        /// The predicate that will be used to match the attribute against.
+        /// The predicate that the attribute must match.
         /// </param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
