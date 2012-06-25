@@ -416,6 +416,13 @@ namespace FluentAssertions.Primitives
                     .FailWith("Expected string {0} to end with {1}{reason}.", Subject, expected);
             }
 
+            if (Subject.Length < expected.Length)
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected string to end with {0}{reason}, but {1} is too short.", expected, Subject);
+            }
+
             Execute.Verification
                 .ForCondition(Subject.EndsWith(expected))
                 .BecauseOf(reason, reasonArgs)
@@ -463,6 +470,13 @@ namespace FluentAssertions.Primitives
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected string {0} to end with equivalent of {1}{reason}.", Subject, expected);
+            }
+
+            if (Subject.Length < expected.Length)
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected string to end with equivalent of {0}{reason}, but {1} is too short.", expected, Subject);
             }
 
             Execute.Verification

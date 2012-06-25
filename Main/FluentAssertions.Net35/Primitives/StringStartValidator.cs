@@ -36,6 +36,14 @@ namespace FluentAssertions.Primitives
             }
         }
 
+        protected override void ValidateAgainstLengthDifferences()
+        {
+            if (subject.Length < expected.Length)
+            {
+                verification.FailWith(ExpectationDescription + "but {1} is too short.", expected, subject);
+            }
+        }
+
         protected override void ValidateAgainstMismatch()
         {
             bool isMismatch = !subject.StartsWith(expected, stringComparison);

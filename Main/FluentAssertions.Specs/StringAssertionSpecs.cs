@@ -637,6 +637,23 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_string_start_is_compared_with_string_that_is_longer_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().StartWith("ABCDEF");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string to start with " +
+                    "\"ABCDEF\", but " +
+                        "\"ABC\" is too short.");
+        }
+
+        [TestMethod]
         public void When_string_start_is_compared_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -705,6 +722,23 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot compare string end with empty string.");
+        }
+
+        [TestMethod]
+        public void When_string_ending_is_compared_with_string_that_is_longer_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().EndWith("00ABC");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string to end with " +
+                    "\"00ABC\", but " +
+                        "\"ABC\" is too short.");
         }
 
         [TestMethod]
@@ -796,6 +830,23 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_start_of_string_is_compared_with_equivalent_of_string_that_is_longer_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().StartWithEquivalent("abcdef");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string to start with equivalent of " +
+                    "\"abcdef\", but " +
+                        "\"ABC\" is too short.");
+        }
+
+        [TestMethod]
         public void When_string_start_is_compared_with_equivalent_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -864,6 +915,23 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentException>().WithMessage(
                 "Cannot compare string end equivalence with empty string.");
+        }
+
+        [TestMethod]
+        public void When_string_ending_is_compared_with_equivalent_of_string_that_is_longer_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "ABC".Should().EndWithEquivalent("00abc");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string to end with equivalent of " +
+                    "\"00abc\", but " +
+                        "\"ABC\" is too short.");
         }
 
         [TestMethod]

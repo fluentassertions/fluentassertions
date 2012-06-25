@@ -37,9 +37,7 @@ namespace FluentAssertions.Primitives
                 }
 
                 ValidateAgainstSuperfluousWhitespace();
-
                 ValidateAgainstLengthDifferences();
-
                 ValidateAgainstMismatch();
             }
         }
