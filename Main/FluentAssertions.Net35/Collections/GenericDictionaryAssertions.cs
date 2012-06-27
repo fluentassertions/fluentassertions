@@ -304,7 +304,7 @@ namespace FluentAssertions.Collections
 
             bool foundDifference = missingKeys.Any()
                 || additionalKeys.Any()
-                    || (Subject.Keys.Any(key => !Subject[key].Equals(unexpected[key])));
+                    || (Subject.Keys.Any(key => !Subject[key].IsSameOrEqualTo(unexpected[key])));
 
             if (!foundDifference)
             {
@@ -615,7 +615,7 @@ namespace FluentAssertions.Collections
                 TValue actual = Subject[key];
 
                 Execute.Verification
-                    .ForCondition(actual.Equals(value))
+                    .ForCondition(actual.IsSameOrEqualTo(value))
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected dictionary to contain value {0} at key {1}{reason}, but found {2}.", value, key, actual);
             }
@@ -681,7 +681,7 @@ namespace FluentAssertions.Collections
                 TValue actual = Subject[key];
 
                 Execute.Verification
-                    .ForCondition(!actual.Equals(value))
+                    .ForCondition(!actual.IsSameOrEqualTo(value))
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected dictionary not to contain value {0} at key {1}{reason}, but found it anyhow.", value, key);
             }

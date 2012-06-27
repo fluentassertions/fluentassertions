@@ -42,7 +42,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericCollectionAssertions<T>> Equal(
             IEnumerable<T> expectation, Func<T, T, bool> predicate, string reason = "", params object[] reasonArgs)
         {
-            AssertEquality(Subject, expectation, predicate, reason, reasonArgs);
+            AssertSubjectEquality(expectation, predicate, reason, reasonArgs);
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
         }

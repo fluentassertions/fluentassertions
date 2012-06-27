@@ -1270,6 +1270,20 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_collection_contains_null_value_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { 1, null, 2, "string" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().ContainInOrder(new object[] { 1, null, "string" });
+        }
+
+        [TestMethod]
         public void When_the_first_collection_contains_a_duplicate_item_without_affecting_the_order_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

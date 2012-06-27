@@ -243,12 +243,12 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> Equal(IEnumerable expected, string reason = "", params object[] reasonArgs)
         {
-            AssertEquality<object>(Subject, expected, (s, e) => s.IsSameOrEqualTo(e), reason, reasonArgs);
+            AssertSubjectEquality<object>(expected, (s, e) => s.IsSameOrEqualTo(e), reason, reasonArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected void AssertEquality<T>(IEnumerable subject, IEnumerable expectation, Func<T, T, bool> predicate,
+        protected void AssertSubjectEquality<T>(IEnumerable expectation, Func<T, T, bool> predicate,
             string reason = "", params object[] reasonArgs)
         {
             Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs);
@@ -576,8 +576,8 @@ namespace FluentAssertions.Collections
 
             for (int index = 0; index < expectedItems.Length; index++)
             {
-                object item = expectedItems[index];
-                actualItems = actualItems.SkipWhile(a => !a.Equals(item)).ToArray();
+                object expectedItem = expectedItems[index];
+                actualItems = actualItems.SkipWhile(actualItem => !actualItem.IsSameOrEqualTo(expectedItem)).ToArray();
                 if (actualItems.Any())
                 {
                     actualItems = actualItems.Skip(1).ToArray();
@@ -589,7 +589,7 @@ namespace FluentAssertions.Collections
                         .FailWith(
                             "Expected items {0} in ordered collection {1}{reason}, but {2} (index {3}) did not appear (in the right order).",
                             expected,
-                            Subject, item, index);
+                            Subject, expectedItem, index);
                 }
             }
 
@@ -925,7 +925,7 @@ namespace FluentAssertions.Collections
                 object actual = Subject.Cast<object>().ElementAt(index);
 
                 Execute.Verification
-                    .ForCondition(actual.Equals(element))
+                    .ForCondition(actual.IsSameOrEqualTo(element))
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {0} at index {1}{reason}, but found {2}.", element, index, actual);
             }

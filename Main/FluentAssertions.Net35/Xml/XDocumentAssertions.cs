@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.Xml.Linq;
 using FluentAssertions.Execution;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Xml
 {
     /// <summary>
@@ -48,7 +50,7 @@ namespace FluentAssertions.Xml
         public AndConstraint<XDocumentAssertions> Be(XDocument expected, string reason, params object [] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(Subject.Equals(expected))
+                .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML document to be {0}{reason}, but found {1}", expected, Subject);
 
@@ -79,6 +81,11 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected, string reason, params object [] reasonArgs)
         {
+            Execute.Verification
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect XML document to be {0}, but found <null>.", unexpected);
+
             Execute.Verification
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(reason, reasonArgs)
