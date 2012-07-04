@@ -29,7 +29,7 @@
 
             if (ReferenceEquals(context.Expectation, null))
             {
-                string propertyPath = context.PropertyPath;
+                string propertyPath = context.FullPropertyPath;
                 if (propertyPath.Length == 0)
                 {
                     propertyPath = "subject";

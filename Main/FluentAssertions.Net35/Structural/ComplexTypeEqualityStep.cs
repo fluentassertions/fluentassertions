@@ -52,8 +52,8 @@ namespace FluentAssertions.Structural
                 object expectation = matchingPropertyInfo.GetValue(context.Expectation, null);
                 object subject = propertyInfo.GetValue(context.Subject, null);
 
-                parent.AssertEquality(context.CreateNestedContext(subject, expectation,
-                    !context.IsRoot ? "." + propertyInfo.Name : "property " + propertyInfo.Name));
+                var nestedContext = context.CreateNested(propertyInfo, subject, expectation, "property ", propertyInfo.Name, ".");
+                parent.AssertEquality(nestedContext);
             }
         }
     }

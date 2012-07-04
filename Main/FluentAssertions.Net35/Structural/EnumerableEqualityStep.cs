@@ -50,13 +50,7 @@ namespace FluentAssertions.Structural
             {
                 for (int i = 0; i < subject.Length; i++)
                 {
-                    string childPropertyName = "[" + i + "]";
-                    if (context.PropertyPath.Length == 0)
-                    {
-                        childPropertyName = "item" + childPropertyName;
-                    }
-
-                    parent.AssertEquality(context.CreateNestedContext(subject[i], expectation[i], childPropertyName));
+                    parent.AssertEquality(context.CreateNested(subject[i], expectation[i], "item", "[" + i + "]"));
                 }
             }
         }
@@ -65,7 +59,7 @@ namespace FluentAssertions.Structural
         {
             context.Verification
                 .ForCondition(IsCollection(context.Expectation))
-                .FailWith((context.IsRoot ? "Subject" : context.PropertyPath) +
+                .FailWith((context.IsRoot ? "Subject" : context.FullPropertyPath) +
                         " is a collection and cannot be compared with a non-collection type.",
                     context.Subject, context.Subject.GetType().FullName);
         }
@@ -75,7 +69,7 @@ namespace FluentAssertions.Structural
             context.Verification
                 .ForCondition(subject.Length == expectation.Length)
                 .FailWith(
-                    "Expected " + (context.IsRoot ? "subject" : context.PropertyPath) +
+                    "Expected " + (context.IsRoot ? "subject" : context.FullPropertyPath) +
                         " to be a collection with {0} item(s){reason}, but found {1}.",
                     expectation.Length, subject.Length);
         }

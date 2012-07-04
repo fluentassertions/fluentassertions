@@ -96,6 +96,7 @@
     <Compile Include="AndConstraint.cs" />
     <Compile Include="Structural\AllDeclaredPublicPropertiesSelectionRule.cs" />
     <Compile Include="Structural\AllRuntimePublicPropertiesSelectionRule.cs" />
+    <Compile Include="Structural\ApplyAssertionRulesEqualityStep.cs" />
     <Compile Include="Structural\ComparisonConfiguration.cs" />
     <Compile Include="Structural\ComplexTypeEqualityStep.cs" />
     <Compile Include="Structural\EnumerableEqualityStep.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Primitives\GuidAssertions.cs" />
     <Compile Include="Structural\DateTimeEqualityStep.cs" />
     <Compile Include="Structural\FinalEqualityStep.cs" />
+    <Compile Include="Structural\IAssertionRule.cs" />
     <Compile Include="Structural\IgnorePropertySelectionRule.cs" />
     <Compile Include="Structural\IMatchingRule.cs" />
     <Compile Include="Structural\IncludePropertySelectionRule.cs" />

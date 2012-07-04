@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -7,10 +8,11 @@ namespace FluentAssertions.Structural
 {
     public class ComparisonConfiguration
     {
-        private readonly List<ISelectionRule> selectionRules =  new List<ISelectionRule>();
+        private readonly List<ISelectionRule> selectionRules = new List<ISelectionRule>();
         private readonly List<IMatchingRule> matchingRules = new List<IMatchingRule>();
+        private readonly List<IAssertionRule> assertionRules = new List<IAssertionRule>();
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
-        
+
         public List<ISelectionRule> SelectionRules
         {
             get { return selectionRules; }
@@ -19,6 +21,11 @@ namespace FluentAssertions.Structural
         public List<IMatchingRule> MatchingRules
         {
             get { return matchingRules; }
+        }
+
+        public List<IAssertionRule> AssertionRules
+        {
+            get { return assertionRules; }
         }
 
         public bool Recurse { get; set; }

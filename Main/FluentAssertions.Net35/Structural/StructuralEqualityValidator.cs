@@ -13,6 +13,7 @@ namespace FluentAssertions.Structural
         private readonly IStructuralEqualityStep[] steps = {
             new TryConversionEqualityStep(),
             new ReferenceEqualityStep(),
+            new ApplyAssertionRulesEqualityStep(), 
             new StringEqualityStep(),
             new DateTimeEqualityStep(),
             new EnumerableEqualityStep(),
@@ -26,7 +27,7 @@ namespace FluentAssertions.Structural
         {
             try
             {
-                Verification.SubjectName = context.PropertyPath;
+                Verification.SubjectName = context.FullPropertyPath;
 
                 if (!context.ContainsCyclicReference)
                 {

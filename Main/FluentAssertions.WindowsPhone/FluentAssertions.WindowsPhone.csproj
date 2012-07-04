@@ -243,6 +243,9 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\AllRuntimePublicPropertiesSelectionRule.cs">
       <Link>Structural\AllRuntimePublicPropertiesSelectionRule.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\ApplyAssertionRulesEqualityStep.cs">
+      <Link>Structural\ApplyAssertionRulesEqualityStep.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\ComparisonConfiguration.cs">
       <Link>Structural\ComparisonConfiguration.cs</Link>
     </Compile>
@@ -260,6 +263,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\FinalEqualityStep.cs">
       <Link>Structural\FinalEqualityStep.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\IAssertionRule.cs">
+      <Link>Structural\IAssertionRule.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\IgnorePropertySelectionRule.cs">
       <Link>Structural\IgnorePropertySelectionRule.cs</Link>

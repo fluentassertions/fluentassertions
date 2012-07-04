@@ -14,7 +14,7 @@ namespace FluentAssertions.Structural
 
         public StructuralEqualityContext()
         {
-            PropertyPath = "";
+            FullPropertyPath = "";
         }
 
         public object Subject { get; set; }
@@ -32,12 +32,21 @@ namespace FluentAssertions.Structural
 
         public bool IsRoot
         {
-            get { return (PropertyPath.Length == 0); }
+            get { return (FullPropertyPath.Length == 0); }
         }
 
         public Type CompileTimeType { get; set; }
 
-        public string PropertyPath { get; set; }
+        /// <summary>
+        /// Gets or sets the current property of the <see cref="Subject"/> that is being processed, or <c>null</c>
+        /// if <see cref="IsRoot"/> is <c>true</c>.
+        /// </summary>
+        public PropertyInfo CurrentProperty { get; set; }
+
+        /// <summary>
+        /// Gets the full path from the root object until the current property, separated by dots.
+        /// </summary>
+        public string FullPropertyPath { get; set; }
 
         public bool ContainsCyclicReference
         {
@@ -55,7 +64,7 @@ namespace FluentAssertions.Structural
             {
                 IEnumerable<PropertyInfo> properties = new List<PropertyInfo>();
 
-                foreach (var selectionRule in config.SelectionRules)
+                foreach (ISelectionRule selectionRule in config.SelectionRules)
                 {
                     properties = selectionRule.SelectProperties(properties, new TypeInfo
                     {
@@ -75,21 +84,32 @@ namespace FluentAssertions.Structural
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
                     .FailWith(
-                        "Expected " + PropertyPath + " to be {0}{reason}, but it contains a cyclic reference.",
+                        "Expected " + FullPropertyPath + " to be {0}{reason}, but it contains a cyclic reference.",
                         Expectation);
             }
         }
 
-        public StructuralEqualityContext CreateNestedContext(object subject, object expectation, string childPropertyName)
+        public StructuralEqualityContext CreateNested(
+            object subject, object expectation, 
+            string memberType, string memberDescription)
         {
-            string propertyPath = (PropertyPath.Length > 0) ? PropertyPath + childPropertyName : childPropertyName;
+            return CreateNested(CurrentProperty, subject, expectation, memberType, memberDescription, "");
+        }
+
+        public StructuralEqualityContext CreateNested(
+            PropertyInfo subjectProperty,
+            object subject, object expectation,
+            string memberType, string memberDescription, string separator)
+        {
+            string propertyPath = IsRoot ? memberType : FullPropertyPath + separator;
 
             return new StructuralEqualityContext
             {
+                CurrentProperty = subjectProperty,
                 Subject = subject,
                 Expectation = expectation,
                 config = config,
-                PropertyPath = propertyPath,
+                FullPropertyPath = propertyPath + memberDescription,
                 Reason = Reason,
                 ReasonArgs = ReasonArgs,
                 CompileTimeType = (subject != null) ? subject.GetType() : null,
@@ -99,18 +119,13 @@ namespace FluentAssertions.Structural
 
         public PropertyInfo FindMatchFor(PropertyInfo propertyInfo)
         {
-            PropertyInfo matchingProperty = null;
+            var query =
+                from rule in config.MatchingRules
+                let match = rule.Match(propertyInfo, Expectation, FullPropertyPath)
+                where match != null
+                select match;
 
-            foreach (var rule in config.MatchingRules)
-            {
-                matchingProperty = rule.Match(propertyInfo, Expectation, PropertyPath);
-                if (matchingProperty != null)
-                {
-                    break;
-                }
-            }
-
-            return matchingProperty;
+            return query.FirstOrDefault();
         }
     }
 }
