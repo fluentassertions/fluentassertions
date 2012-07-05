@@ -297,9 +297,6 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\ReferenceEqualityStep.cs">
       <Link>Structural\ReferenceEqualityStep.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\StringEqualityStep.cs">
-      <Link>Structural\StringEqualityStep.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\StructuralEqualityContext.cs">
       <Link>Structural\StructuralEqualityContext.cs</Link>
     </Compile>

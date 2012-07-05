@@ -122,7 +122,6 @@
     <Compile Include="Primitives\NullableGuidAssertions.cs" />
     <Compile Include="Numeric\NullableNumericAssertions.cs" />
     <Compile Include="Structural\PropertySelection.cs" />
-    <Compile Include="Structural\StringEqualityStep.cs" />
     <Compile Include="Structural\StructuralEqualityValidator.cs" />
     <Compile Include="Specialized\ExecutionTimeAssertions.cs" />
     <Compile Include="Structural\StructuralEqualityContext.cs" />

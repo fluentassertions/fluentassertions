@@ -24,9 +24,16 @@ namespace FluentAssertions.Structural
         /// </remarks>
         public bool Handle(StructuralEqualityContext context, IStructuralEqualityValidator parent)
         {
-            return
-                context.Config.AssertionRules.Any(
-                    rule => rule.AssertEquality(context.CurrentProperty, context.Subject, context.Expectation));
+            if (context.CurrentProperty != null)
+            {
+                var assertionContext =
+                    new AssertionContext(context.CurrentProperty, context.Subject, context.Expectation, context.Reason,
+                                         context.ReasonArgs);
+
+                return context.Config.AssertionRules.Any(rule => rule.AssertEquality(assertionContext));
+            }
+
+            return false;
         }
     }
 }
