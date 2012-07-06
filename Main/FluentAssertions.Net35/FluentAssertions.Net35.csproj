@@ -106,7 +106,6 @@
     <Compile Include="Structural\CyclicReferenceHandling.cs" />
     <Compile Include="Collections\GenericDictionaryAssertions.cs" />
     <Compile Include="Primitives\GuidAssertions.cs" />
-    <Compile Include="Structural\DateTimeEqualityStep.cs" />
     <Compile Include="Structural\FinalEqualityStep.cs" />
     <Compile Include="Structural\IAssertionRule.cs" />
     <Compile Include="Structural\IgnorePropertySelectionRule.cs" />

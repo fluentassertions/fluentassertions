@@ -14,7 +14,6 @@ namespace FluentAssertions.Structural
             new TryConversionEqualityStep(),
             new ReferenceEqualityStep(),
             new ApplyAssertionRulesEqualityStep(), 
-            new DateTimeEqualityStep(),
             new EnumerableEqualityStep(),
             new ComplexTypeEqualityStep(), 
             new FinalEqualityStep()

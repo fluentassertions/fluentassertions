@@ -285,9 +285,6 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\CyclicReferenceHandling.cs">
       <Link>Structural\CyclicReferenceHandling.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\DateTimeEqualityStep.cs">
-      <Link>Structural\DateTimeEqualityStep.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\EnumerableEqualityStep.cs">
       <Link>Structural\EnumerableEqualityStep.cs</Link>
     </Compile>

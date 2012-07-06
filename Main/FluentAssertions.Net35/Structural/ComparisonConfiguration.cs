@@ -27,6 +27,9 @@ namespace FluentAssertions.Structural
 
                 config.OverrideAssertionFor<string>(
                     ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
+                
+                config.OverrideAssertionFor<DateTime>(
+                    ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
 
                 return config;
             }
@@ -100,13 +103,13 @@ namespace FluentAssertions.Structural
 
         public void OverrideAssertionFor<TSubject>(Action<AssertionContext<TSubject>> action)
         {
-            assertionRules.Add(new AssertionRule<TSubject>(
+            assertionRules.Insert(0, new AssertionRule<TSubject>(
                 pi => pi.PropertyType.IsSameOrInherits(typeof (TSubject)), action));
         }
 
         public void OverrideAssertion<TSubject>(Func<PropertyInfo, bool> predicate, Action<AssertionContext<TSubject>> action)
         {
-            assertionRules.Add(new AssertionRule<TSubject>(predicate, action));
+            assertionRules.Insert(0, new AssertionRule<TSubject>(predicate, action));
         }
 
         private void ClearAllSelectionRules()
