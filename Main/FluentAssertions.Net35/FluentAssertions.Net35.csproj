@@ -97,6 +97,7 @@
     <Compile Include="Structural\AllDeclaredPublicPropertiesSelectionRule.cs" />
     <Compile Include="Structural\AllRuntimePublicPropertiesSelectionRule.cs" />
     <Compile Include="Structural\ApplyAssertionRulesEqualityStep.cs" />
+    <Compile Include="Structural\AssertionRule.cs" />
     <Compile Include="Structural\ComparisonConfiguration.cs" />
     <Compile Include="Structural\ComplexTypeEqualityStep.cs" />
     <Compile Include="Structural\EnumerableEqualityStep.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Structural\IMatchingRule.cs" />
     <Compile Include="Structural\IncludePropertySelectionRule.cs" />
     <Compile Include="Structural\ISelectionRule.cs" />
+    <Compile Include="Structural\IStructuralEqualityContext.cs" />
     <Compile Include="Structural\IStructuralEqualityStep.cs" />
     <Compile Include="Structural\IStructuralEqualityValidator.cs" />
     <Compile Include="Structural\MustMatchByNameRule.cs" />

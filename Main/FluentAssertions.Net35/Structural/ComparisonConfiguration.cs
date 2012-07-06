@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
@@ -25,7 +26,7 @@ namespace FluentAssertions.Structural
                 config.AddRule(new MustMatchByNameRule());
 
                 config.OverrideAssertionFor<string>(
-                    ctx => ((string)ctx.Subject).Should().Be(ctx.Expectation.ToString(), ctx.Reason, ctx.ReasonArgs));
+                    ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
 
                 return config;
             }
@@ -97,9 +98,15 @@ namespace FluentAssertions.Structural
             AddRule(new IncludePropertySelectionRule(propertyExpression.GetPropertyInfo()));
         }
 
-        private void OverrideAssertionFor<TSubject>(Action<AssertionContext> action)
+        public void OverrideAssertionFor<TSubject>(Action<AssertionContext<TSubject>> action)
         {
-            assertionRules.Add(new AssertionRule(pi => pi.PropertyType.IsSameOrInherits(typeof (TSubject)), action));
+            assertionRules.Add(new AssertionRule<TSubject>(
+                pi => pi.PropertyType.IsSameOrInherits(typeof (TSubject)), action));
+        }
+
+        public void OverrideAssertion<TSubject>(Func<PropertyInfo, bool> predicate, Action<AssertionContext<TSubject>> action)
+        {
+            assertionRules.Add(new AssertionRule<TSubject>(predicate, action));
         }
 
         private void ClearAllSelectionRules()

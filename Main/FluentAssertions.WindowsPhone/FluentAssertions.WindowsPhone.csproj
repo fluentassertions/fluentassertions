@@ -267,6 +267,9 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\IAssertionRule.cs">
       <Link>Structural\IAssertionRule.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\AssertionRule.cs">
+      <Link>Structural\AssertionRule.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\IgnorePropertySelectionRule.cs">
       <Link>Structural\IgnorePropertySelectionRule.cs</Link>
     </Compile>
@@ -278,6 +281,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\ISelectionRule.cs">
       <Link>Structural\ISelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityContext.cs">
+      <Link>Structural\IStructuralEqualityContext.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityStep.cs">
       <Link>Structural\IStructuralEqualityStep.cs</Link>

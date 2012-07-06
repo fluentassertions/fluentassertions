@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-
 namespace FluentAssertions.Structural
 {
     internal class ComplexTypeEqualityStep : IStructuralEqualityStep
@@ -14,7 +13,7 @@ namespace FluentAssertions.Structural
         public bool CanHandle(StructuralEqualityContext context)
         {
             return (context.Subject != null) &&
-                context.Subject.GetType().IsComplexType() && (context.IsRoot || context.Config.Recurse);
+                   context.Subject.GetType().IsComplexType() && (context.IsRoot || context.Config.Recurse);
         }
 
         /// <summary>
@@ -46,13 +45,9 @@ namespace FluentAssertions.Structural
         private void AssertPropertyEquality(StructuralEqualityContext context, IStructuralEqualityValidator parent,
             PropertyInfo propertyInfo)
         {
-            PropertyInfo matchingPropertyInfo = context.FindMatchFor(propertyInfo);
-            if (matchingPropertyInfo != null)
+            var nestedContext = context.CreateForNestedProperty(propertyInfo);
+            if (nestedContext != null)
             {
-                object expectation = matchingPropertyInfo.GetValue(context.Expectation, null);
-                object subject = propertyInfo.GetValue(context.Subject, null);
-
-                var nestedContext = context.CreateNested(propertyInfo, subject, expectation, "property ", propertyInfo.Name, ".");
                 parent.AssertEquality(nestedContext);
             }
         }

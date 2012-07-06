@@ -50,7 +50,7 @@ namespace FluentAssertions.Structural
             {
                 for (int i = 0; i < subject.Length; i++)
                 {
-                    parent.AssertEquality(context.CreateNested(subject[i], expectation[i], "item", "[" + i + "]"));
+                    parent.AssertEquality(context.CreateForCollectionItem(i, subject[i], expectation[i]));
                 }
             }
         }

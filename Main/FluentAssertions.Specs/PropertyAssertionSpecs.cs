@@ -352,7 +352,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Type to be \"36\", but \"A\" is too short.");
+                .WithMessage("Expected property Type to be*Int32*, but found*String*", ComparisonMode.Wildcard);
         }
 
         #endregion
@@ -1130,7 +1130,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*property Customers to be*Customer[]*, but*Jane, John*short*",
+                .WithMessage("*property Customers to be*Customer[]*, but*System.String*",
                     ComparisonMode.Wildcard);
         }
 
