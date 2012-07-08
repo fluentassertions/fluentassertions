@@ -10,20 +10,17 @@ namespace FluentAssertions.Structural
     {
         #region Private Definitions
 
-        private ComparisonConfiguration config = ComparisonConfiguration.Default;
         private IList<object> processedObjects = new List<object>();
 
         #endregion
 
-        public StructuralEqualityContext()
+        public StructuralEqualityContext(IComparisonConfiguration config)
         {
+            Config = config;
             FullPropertyPath = "";
         }
 
-        public ComparisonConfiguration Config
-        {
-            get { return config; }
-        }
+        public IComparisonConfiguration Config { get; private set; }
 
         /// <summary>
         /// Gets or sets the current property of the <see cref="Subject"/> that is being processed, or <c>null</c>
@@ -92,7 +89,7 @@ namespace FluentAssertions.Structural
             {
                 IEnumerable<PropertyInfo> properties = new List<PropertyInfo>();
 
-                foreach (ISelectionRule selectionRule in config.SelectionRules)
+                foreach (ISelectionRule selectionRule in Config.SelectionRules)
                 {
                     properties = selectionRule.SelectProperties(properties, new TypeInfo
                     {
@@ -107,7 +104,7 @@ namespace FluentAssertions.Structural
 
         internal void HandleCyclicReference()
         {
-            if (config.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
+            if (Config.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
             {
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
@@ -124,8 +121,8 @@ namespace FluentAssertions.Structural
             var matchingProperty = FindMatchFor(nestedProperty);
             if (matchingProperty != null)
             {
-                object subject = nestedProperty.GetValue(Subject, null);
-                object expectation = matchingProperty.GetValue(Expectation, null);
+                var subject = nestedProperty.GetValue(Subject, null);
+                var expectation = matchingProperty.GetValue(Expectation, null);
 
                 nestedContext = CreateNested(nestedProperty, subject, matchingProperty, expectation, "property ", nestedProperty.Name, ".");
             }
@@ -136,7 +133,7 @@ namespace FluentAssertions.Structural
         private PropertyInfo FindMatchFor(PropertyInfo propertyInfo)
         {
             var query =
-                from rule in config.MatchingRules
+                from rule in Config.MatchingRules
                 let match = rule.Match(propertyInfo, Expectation, FullPropertyPath)
                 where match != null
                 select match;
@@ -150,19 +147,18 @@ namespace FluentAssertions.Structural
         }
 
         private StructuralEqualityContext CreateNested(
-            PropertyInfo subjectProperty, object subject, 
+            PropertyInfo subjectProperty, object subject,
             PropertyInfo matchingProperty, object expectation,
             string memberType, string memberDescription, string separator)
         {
             string propertyPath = IsRoot ? memberType : FullPropertyPath + separator;
 
-            return new StructuralEqualityContext
+            return new StructuralEqualityContext(Config)
             {
                 SubjectProperty = subjectProperty,
                 MatchingExpectationProperty = matchingProperty,
                 Subject = subject,
                 Expectation = expectation,
-                config = config,
                 FullPropertyPath = propertyPath + memberDescription,
                 Reason = Reason,
                 ReasonArgs = ReasonArgs,

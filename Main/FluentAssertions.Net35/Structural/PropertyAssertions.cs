@@ -9,10 +9,10 @@ namespace FluentAssertions.Structural
     /// </summary>
     public class PropertyAssertions<T>
     {
-        private readonly StructuralEqualityContext context = new StructuralEqualityContext();
-        private T subject;
+        private readonly ComparisonConfiguration<T> config = ComparisonConfiguration<T>.Empty;
+        private readonly T subject;
 
-        internal protected PropertyAssertions(T subject)
+        protected internal PropertyAssertions(T subject)
         {
             if (ReferenceEquals(subject, null))
             {
@@ -27,7 +27,7 @@ namespace FluentAssertions.Structural
         /// </summary>
         public PropertyAssertions<T> AllProperties()
         {
-            context.Config.IncludeAllDeclaredProperties();
+            config.IncludeAllDeclaredProperties();
             return this;
         }
 
@@ -37,7 +37,7 @@ namespace FluentAssertions.Structural
         /// </summary>
         public PropertyAssertions<T> AllRuntimeProperties()
         {
-            context.Config.IncludeAllRuntimeProperties();
+            config.IncludeAllRuntimeProperties();
             return this;
         }
 
@@ -47,8 +47,8 @@ namespace FluentAssertions.Structural
         /// </summary>
         public PropertyAssertions<T> SharedProperties()
         {
-            context.Config.IncludeAllDeclaredProperties();
-            context.Config.TryMatchByName();
+            config.IncludeAllDeclaredProperties();
+            config.TryMatchByName();
             return this;
         }
 
@@ -62,11 +62,11 @@ namespace FluentAssertions.Structural
         public PropertyAssertions<T> IncludingNestedObjects(
             CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException)
         {
-            context.Config.Recursive();
+            config.Recursive();
 
             if (cyclicReferenceHandling == CyclicReferenceHandling.Ignore)
             {
-                context.Config.IgnoreCyclicReferences();
+                config.IgnoreCyclicReferences();
             }
 
             return this;
@@ -80,11 +80,11 @@ namespace FluentAssertions.Structural
         /// <param name="propertyExpressions">Optional list of additional property expressions to exclude.</param>
         public PropertyAssertions<T> AllPropertiesBut(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
         {
-            context.Config.AddRule(new AllDeclaredPublicPropertiesSelectionRule());
+            config.AddRule(new AllDeclaredPublicPropertiesSelectionRule());
 
-            foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
+            foreach (var expression in propertyExpressions.Concat(new[] {propertyExpression}))
             {
-                context.Config.Ignore(expression);
+                config.Exclude(expression);
             }
 
             return this;
@@ -97,9 +97,9 @@ namespace FluentAssertions.Structural
         /// <param name="propertyExpressions">Optional list of additional property expressions to exclude.</param>
         public PropertyAssertions<T> But(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
         {
-            foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
+            foreach (var expression in propertyExpressions.Concat(new[] {propertyExpression}))
             {
-                context.Config.Ignore(expression);
+                config.Exclude(expression);
             }
 
             return this;
@@ -113,9 +113,9 @@ namespace FluentAssertions.Structural
         /// <param name="propertyExpressions">Optional list of additional property expressions to include.</param>
         public PropertyAssertions<T> Properties(Expression<Func<T, object>> propertyExpression, params Expression<Func<T, object>>[] propertyExpressions)
         {
-            foreach (var expression in propertyExpressions.Concat(new[] { propertyExpression }))
+            foreach (var expression in propertyExpressions.Concat(new[] {propertyExpression}))
             {
-                context.Config.Include(expression);
+                config.Include(expression);
             }
 
             return this;
@@ -139,6 +139,7 @@ namespace FluentAssertions.Structural
         /// </param>
         public void EqualTo(object expectation, string reason = "", params object[] reasonArgs)
         {
+            var context = new StructuralEqualityContext(config);
             context.Subject = subject;
             context.Expectation = expectation;
             context.CompileTimeType = typeof (T);

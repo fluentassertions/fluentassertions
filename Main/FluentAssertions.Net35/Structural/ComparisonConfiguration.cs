@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Common;
+using System.Linq;
 
 namespace FluentAssertions.Structural
 {
-    public class ComparisonConfiguration
+    public interface IComparisonConfiguration
+    {
+        IEnumerable<ISelectionRule> SelectionRules { get; }
+        IEnumerable<IMatchingRule> MatchingRules { get; }
+        IEnumerable<IAssertionRule> AssertionRules { get; }
+        bool Recurse { get; set; }
+        CyclicReferenceHandling CyclicReferenceHandling { get; }
+    }
+
+    public class ComparisonConfiguration<TSubject> : IComparisonConfiguration
     {
         #region Private Definitions
 
@@ -17,35 +27,48 @@ namespace FluentAssertions.Structural
 
         #endregion
 
-        public static ComparisonConfiguration Default
+        private ComparisonConfiguration()
+        {
+            AddRule(new MustMatchByNameRule());
+
+            OverrideAssertionFor<string>(
+                ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
+
+            OverrideAssertionFor<DateTime>(
+                ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
+        }
+
+        public static ComparisonConfiguration<TSubject> Default
         {
             get
             {
-                var config = new ComparisonConfiguration();
-
-                config.AddRule(new MustMatchByNameRule());
-
-                config.OverrideAssertionFor<string>(
-                    ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
-                
-                config.OverrideAssertionFor<DateTime>(
-                    ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
+                var config = new ComparisonConfiguration<TSubject>();
+                config.Recursive();
+                config.IncludeAllDeclaredProperties();
 
                 return config;
             }
         }
+        
+        public static ComparisonConfiguration<TSubject> Empty
+        {
+            get
+            {
+                return new ComparisonConfiguration<TSubject>();
+            }
+        }
 
-        internal IEnumerable<ISelectionRule> SelectionRules
+        public IEnumerable<ISelectionRule> SelectionRules
         {
             get { return selectionRules; }
         }
 
-        internal IEnumerable<IMatchingRule> MatchingRules
+        public IEnumerable<IMatchingRule> MatchingRules
         {
             get { return matchingRules; }
         }
 
-        internal IEnumerable<IAssertionRule> AssertionRules
+        public IEnumerable<IAssertionRule> AssertionRules
         {
             get { return assertionRules; }
         }
@@ -57,79 +80,112 @@ namespace FluentAssertions.Structural
             get { return cyclicReferenceHandling; }
         }
 
-        public void IncludeAllDeclaredProperties()
+        public ComparisonConfiguration<TSubject> IncludeAllDeclaredProperties()
         {
             ClearAllSelectionRules();
             AddRule(new AllDeclaredPublicPropertiesSelectionRule());
+            return this;
         }
 
-        public void IncludeAllRuntimeProperties()
+        public ComparisonConfiguration<TSubject> IncludeAllRuntimeProperties()
         {
             ClearAllSelectionRules();
             AddRule(new AllRuntimePublicPropertiesSelectionRule());
+            return this;
         }
 
-        public void TryMatchByName()
+        public ComparisonConfiguration<TSubject> TryMatchByName()
         {
             ClearAllMatchingRules();
             matchingRules.Add(new TryMatchByNameRule());
+            return this;
         }
-        
-        public void MustMatchByName()
+
+        public ComparisonConfiguration<TSubject> MustMatchByName()
         {
             ClearAllMatchingRules();
             matchingRules.Add(new MustMatchByNameRule());
+            return this;
         }
 
-        public void Recursive()
+        public ComparisonConfiguration<TSubject> Recursive()
         {
             Recurse = true;
+            return this;
         }
 
-        public void IgnoreCyclicReferences()
+        public ComparisonConfiguration<TSubject> IgnoreCyclicReferences()
         {
             cyclicReferenceHandling = CyclicReferenceHandling.Ignore;
+            return this;
         }
 
-        public void Ignore<T>(Expression<Func<T, object>> propertyExpression)
+        /// <summary>
+        /// Excludes the specified property from the equality check.
+        /// </summary>
+        public ComparisonConfiguration<TSubject> Exclude(Expression<Func<TSubject, object>> propertyExpression)
         {
             AddRule(new IgnorePropertySelectionRule(propertyExpression.GetPropertyInfo()));
+            return this;
         }
 
-        public void Include<T>(Expression<Func<T, object>> propertyExpression)
+        /// <summary>
+        /// Includes the specified property in the equality check.
+        /// </summary>
+        /// <remarks>
+        /// This overrides the default behavior of including all declared properties.
+        /// </remarks>
+        public ComparisonConfiguration<TSubject> Include(Expression<Func<TSubject, object>> propertyExpression)
         {
+            RemoveSelectionRule<AllDeclaredPublicPropertiesSelectionRule>();
+            RemoveSelectionRule<AllRuntimePublicPropertiesSelectionRule>();
+
             AddRule(new IncludePropertySelectionRule(propertyExpression.GetPropertyInfo()));
+            return this;
         }
 
-        public void OverrideAssertionFor<TSubject>(Action<AssertionContext<TSubject>> action)
+        private void RemoveSelectionRule<T>() where T : ISelectionRule
         {
-            assertionRules.Insert(0, new AssertionRule<TSubject>(
-                pi => pi.PropertyType.IsSameOrInherits(typeof (TSubject)), action));
+            foreach (var selectionRule in selectionRules.OfType<T>().ToArray())
+            {
+                selectionRules.Remove(selectionRule);
+            }
         }
 
-        public void OverrideAssertion<TSubject>(Func<PropertyInfo, bool> predicate, Action<AssertionContext<TSubject>> action)
+        public ComparisonConfiguration<TSubject> OverrideAssertionFor<TPropertyType>(Action<AssertionContext<TPropertyType>> action)
         {
-            assertionRules.Insert(0, new AssertionRule<TSubject>(predicate, action));
+            assertionRules.Insert(0, new AssertionRule<TPropertyType>(
+                pi => pi.PropertyType.IsSameOrInherits(typeof(TPropertyType)), action));
+
+            return this;
         }
 
-        private void ClearAllSelectionRules()
+        public ComparisonConfiguration<TSubject> OverrideAssertion<TPropertyType>(Func<PropertyInfo, bool> predicate, Action<AssertionContext<TPropertyType>> action)
+        {
+            assertionRules.Insert(0, new AssertionRule<TPropertyType>(predicate, action));
+            return this;
+        }
+
+        public void ClearAllSelectionRules()
         {
             selectionRules.Clear();
         }
 
-        private void ClearAllMatchingRules()
+        public void ClearAllMatchingRules()
         {
             matchingRules.Clear();
         }
 
-        public void AddRule(ISelectionRule selectionRule)
+        public ComparisonConfiguration<TSubject> AddRule(ISelectionRule selectionRule)
         {
             selectionRules.Add(selectionRule);
+            return this;
         }
 
-        public void AddRule(IMatchingRule matchingRule)
+        public ComparisonConfiguration<TSubject> AddRule(IMatchingRule matchingRule)
         {
             matchingRules.Add(matchingRule);
+            return this;
         }
     }
 }

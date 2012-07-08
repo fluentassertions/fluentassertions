@@ -106,7 +106,8 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason = "", params object[] reasonArgs) 
+        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Action action, string reason = "",
+            params object[] reasonArgs)
             where TException : Exception
         {
             return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonArgs);
@@ -114,23 +115,23 @@ namespace FluentAssertions
 
 #if NET45 || WINRT
 
-        /// <summary>
-        /// Asserts that the <paramref name="action"/> throws an exception.
-        /// </summary>
-        /// <param name="action">A reference to the method or property.</param>
-        /// <typeparam name="TException">
-        /// The type of the exception it should throw.
-        /// </typeparam>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
-        /// </param>
-        /// <returns>
-        /// Returns an object that allows asserting additional members of the thrown exception.
-        /// </returns>
+    /// <summary>
+    /// Asserts that the <paramref name="action"/> throws an exception.
+    /// </summary>
+    /// <param name="action">A reference to the method or property.</param>
+    /// <typeparam name="TException">
+    /// The type of the exception it should throw.
+    /// </typeparam>
+    /// <param name="reason">
+    /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+    /// start with the word <i>because</i>, it is prepended to the message.
+    /// </param>
+    /// <param name="reasonArgs">
+    /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+    /// </param>
+    /// <returns>
+    /// Returns an object that allows asserting additional members of the thrown exception.
+    /// </returns>
         public static ExceptionAssertions<TException> ShouldThrow<TException>(this Func<Task> asyncAction, string reason = "", params object[] reasonArgs) 
             where TException : Exception
         {
@@ -181,8 +182,8 @@ namespace FluentAssertions
         public static Action Enumerating(this Func<IEnumerable> enumerable)
         {
             return () => ForceEnumeration(enumerable);
-        }        
-        
+        }
+
         /// <summary>
         /// Forces enumerating a collection. Should be used to assert that a method that uses the 
         /// <c>yield</c> keyword throws a particular exception.
@@ -194,7 +195,7 @@ namespace FluentAssertions
 
         private static void ForceEnumeration(Func<IEnumerable> enumerable)
         {
-            foreach (var item in enumerable())
+            foreach (object item in enumerable())
             {
                 // Do nothing
             }
@@ -433,14 +434,6 @@ namespace FluentAssertions
         {
             return new NullableSimpleTimeSpanAssertions(actualValue);
         }
-        
-        /// <summary>
-        /// Asserts that the properties of an object matches those of another object.
-        /// </summary>
-        public static PropertyAssertions<T> ShouldHave<T>(this T subject)
-        {
-            return new PropertyAssertions<T>(subject);
-        }
 
         /// <summary>
         /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
@@ -472,6 +465,95 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Asserts that the properties of an object matches those of another object.
+        /// </summary>
+        public static PropertyAssertions<T> ShouldHave<T>(this T subject)
+        {
+            return new PropertyAssertions<T>(subject);
+        }
+
+        /// <summary>
+        /// Asserts that an object is structurally equal to another object. 
+        /// </summary>
+        /// <remarks>
+        /// Objects are structurally equal when both object graphs have equally named properties with the same value, 
+        /// irrespective  of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// Notice that actual behavior is determined by the <see cref="ComparisonConfiguration{TSubject}.Default"/> instance of the 
+        /// <see cref="ComparisonConfiguration{TSubject}"/> class.
+        /// </remarks>
+        /// <param name="reason">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public static void ShouldBeStructurallyEqualTo<T>(this T subject, object expectation, string reason = "",
+            params object[] reasonArgs)
+        {
+            ShouldBeStructurallyEqualTo(subject, expectation, config => config, reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that an object is structurally equal to another object. 
+        /// </summary>
+        /// <remarks>
+        /// Objects are structurally equal when both object graphs have equally named properties with the same value, 
+        /// irrespective  of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// </remarks>
+        /// <param name="config">
+        /// A reference to the <see cref="ComparisonConfiguration{TSubject}.Default"/> configuration object that can be used 
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
+        /// <see cref="ComparisonConfiguration{TSubject}"/> class.
+        /// </param>
+        /// <param name="reason">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public static void ShouldBeStructurallyEqualTo<T>(this T subject, object expectation,
+            Func<ComparisonConfiguration<T>, ComparisonConfiguration<T>> config, string reason = "", params object[] reasonArgs)
+        {
+            var context = new StructuralEqualityContext(config(ComparisonConfiguration<T>.Default))
+            {
+                Subject = subject,
+                Expectation = expectation,
+                CompileTimeType = typeof (T),
+                Reason = reason,
+                ReasonArgs = reasonArgs
+            };
+
+            new StructuralEqualityValidator().AssertEquality(context);
+        }
+
+        public static void ShouldAllBeStructurallyEqualTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
+            string reason = "", params object[] reasonArgs)
+        {
+            ShouldAllBeStructurallyEqualTo(subject, expectation, config => config, reason, reasonArgs);
+        }
+
+        public static void ShouldAllBeStructurallyEqualTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
+            Func<ComparisonConfiguration<T>, ComparisonConfiguration<T>> config, string reason = "", params object[] reasonArgs)
+        {
+            var context = new StructuralEqualityContext(config(ComparisonConfiguration<T>.Default))
+            {
+                Subject = subject,
+                Expectation = expectation,
+                CompileTimeType = typeof (T),
+                Reason = reason,
+                ReasonArgs = reasonArgs
+            };
+
+            new StructuralEqualityValidator().AssertEquality(context);
+        }
+
+        /// <summary>
         /// Safely casts the specified object to the type specified through <typeparamref name="TTo"/>.
         /// </summary>
         /// <remarks>
@@ -480,7 +562,7 @@ namespace FluentAssertions
         /// <typeparam name="TTo"></typeparam>
         public static TTo As<TTo>(this object subject)
         {
-            return subject is TTo ? (TTo) subject : default(TTo);
+            return subject is TTo ? (TTo)subject : default(TTo);
         }
     }
 }
