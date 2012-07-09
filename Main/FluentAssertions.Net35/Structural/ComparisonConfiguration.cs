@@ -94,6 +94,10 @@ namespace FluentAssertions.Structural
             return this;
         }
 
+        /// <summary>
+        /// Tries to match the properties of the subject with equally named properties on the expectation. Ignores those 
+        /// properties that don't exist on the expectation.
+        /// </summary>
         public ComparisonConfiguration<TSubject> TryMatchByName()
         {
             ClearAllMatchingRules();
@@ -101,6 +105,10 @@ namespace FluentAssertions.Structural
             return this;
         }
 
+        /// <summary>
+        /// Requires the expectation to have properties which are equally named to properties on the subject.
+        /// </summary>
+        /// <returns></returns>
         public ComparisonConfiguration<TSubject> MustMatchByName()
         {
             ClearAllMatchingRules();
@@ -121,7 +129,7 @@ namespace FluentAssertions.Structural
         }
 
         /// <summary>
-        /// Excludes the specified property from the equality check.
+        /// Excludes the specified property from the equality assertion.
         /// </summary>
         public ComparisonConfiguration<TSubject> Exclude(Expression<Func<TSubject, object>> propertyExpression)
         {

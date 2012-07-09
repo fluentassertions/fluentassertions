@@ -1395,6 +1395,55 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_two_lists_only_differ_in_excluded_properties_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new List<Customer>
+            {
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 24,
+                    Id = 2
+                }
+            };
+
+            var expectation = new List<CustomerDto>
+            {
+                new CustomerDto
+                {
+                    Name = "John",
+                    Age = 27,
+                },
+                new CustomerDto
+                {
+                    Name = "Jane",
+                    Age = 30,
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldAllBeStructurallyEqualTo(expectation, config => config
+                .TryMatchByName()
+                .Exclude(c => c.Age));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_the_subject_contains_more_items_than_expected_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
