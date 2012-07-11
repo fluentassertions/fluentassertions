@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Linq;
 
 namespace FluentAssertions.Common
 {
@@ -49,38 +51,43 @@ namespace FluentAssertions.Common
             return null;
         }
 
-        public static string GetPropertyPath<T, P>(this Expression<Func<T, P>> expr)
+        /// <summary>
+        /// Gets a dotted path of property names representing the property expression. E.g. Parent.Child.Sibling.Name.
+        /// </summary>
+        public static string GetPropertyPath<TDeclaringType, TPropertyType>(
+            this Expression<Func<TDeclaringType, TPropertyType>> propertyExpression)
         {
-            MemberExpression me;
+            var segments = new List<string>();
+
+            MemberExpression member = GetMemberExpression(propertyExpression);
+            while (member != null)
+            {
+                segments.Add(member.Member.Name);
+
+                member = member.Expression as MemberExpression;
+            }
+            
+            return string.Join(".", segments.AsEnumerable().Reverse().ToArray());
+        }
+
+        private static MemberExpression GetMemberExpression<TDeclaringType, TPropertyType>(Expression<Func<TDeclaringType, TPropertyType>> expr)
+        {
+            MemberExpression member;
+            
             switch (expr.Body.NodeType)
             {
                 case ExpressionType.Convert:
                 case ExpressionType.ConvertChecked:
                     var ue = expr.Body as UnaryExpression;
-                    me = ((ue != null) ? ue.Operand : null) as MemberExpression;
+                    member = ((ue != null) ? ue.Operand : null) as MemberExpression;
                     break;
+                
                 default:
-                    me = expr.Body as MemberExpression;
+                    member = expr.Body as MemberExpression;
                     break;
             }
 
-            string path = "";
-
-            while (me != null)
-            {
-                string propertyName = me.Member.Name;
-
-                if (path.Length > 0)
-                {
-                    path = "." + path;
-                }
-
-                path = propertyName + path;
-
-                me = me.Expression as MemberExpression;
-            }
-
-            return path;
+            return member;
         }
     }
 }
