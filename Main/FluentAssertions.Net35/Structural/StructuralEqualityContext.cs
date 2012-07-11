@@ -17,7 +17,8 @@ namespace FluentAssertions.Structural
         public StructuralEqualityContext(IComparisonConfiguration config)
         {
             Config = config;
-            FullPropertyPath = "";
+            PropertyDescription = "";
+            PropertyPath = "";
         }
 
         public IComparisonConfiguration Config { get; private set; }
@@ -44,10 +45,12 @@ namespace FluentAssertions.Structural
         /// </summary>
         public object Expectation { get; internal set; }
 
+        public string PropertyPath { get; set; }
+
         /// <summary>
         /// Gets the full path from the root object until the current property, separated by dots.
         /// </summary>
-        public string FullPropertyPath { get; private set; }
+        public string PropertyDescription { get; private set; }
 
         /// <summary>
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
@@ -65,7 +68,7 @@ namespace FluentAssertions.Structural
         /// </summary>
         public bool IsRoot
         {
-            get { return (FullPropertyPath.Length == 0); }
+            get { return (PropertyDescription.Length == 0); }
         }
 
         public Type CompileTimeType { get; set; }
@@ -95,7 +98,7 @@ namespace FluentAssertions.Structural
                     {
                         DeclaredType = CompileTimeType,
                         RuntimeType = Subject.GetType(),
-                        PropertyPath = FullPropertyPath,
+                        PropertyPath = PropertyPath,
                     });
                 }
 
@@ -110,7 +113,7 @@ namespace FluentAssertions.Structural
                 Execute.Verification
                     .BecauseOf(Reason, ReasonArgs)
                     .FailWith(
-                        "Expected " + FullPropertyPath + " to be {0}{reason}, but it contains a cyclic reference.",
+                        "Expected " + PropertyDescription + " to be {0}{reason}, but it contains a cyclic reference.",
                         Expectation);
             }
         }
@@ -135,7 +138,7 @@ namespace FluentAssertions.Structural
         {
             var query =
                 from rule in Config.MatchingRules
-                let match = rule.Match(propertyInfo, Expectation, FullPropertyPath)
+                let match = rule.Match(propertyInfo, Expectation, PropertyDescription)
                 where match != null
                 select match;
 
@@ -152,7 +155,7 @@ namespace FluentAssertions.Structural
             PropertyInfo matchingProperty, object expectation,
             string memberType, string memberDescription, string separator)
         {
-            string propertyPath = IsRoot ? memberType : FullPropertyPath + separator;
+            string propertyPath = IsRoot ? memberType : PropertyDescription + separator;
 
             return new StructuralEqualityContext(Config)
             {
@@ -160,7 +163,8 @@ namespace FluentAssertions.Structural
                 MatchingExpectationProperty = matchingProperty,
                 Subject = subject,
                 Expectation = expectation,
-                FullPropertyPath = propertyPath + memberDescription,
+                PropertyPath = IsRoot ? memberDescription : PropertyPath + separator + memberDescription,
+                PropertyDescription = propertyPath + memberDescription,
                 Reason = Reason,
                 ReasonArgs = ReasonArgs,
                 CompileTimeType = (subject != null) ? subject.GetType() : null,

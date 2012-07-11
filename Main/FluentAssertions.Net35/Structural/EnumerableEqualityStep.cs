@@ -59,7 +59,7 @@ namespace FluentAssertions.Structural
         {
             context.Verification
                 .ForCondition(IsCollection(context.Expectation))
-                .FailWith((context.IsRoot ? "Subject" : context.FullPropertyPath) +
+                .FailWith((context.IsRoot ? "Subject" : context.PropertyDescription) +
                         " is a collection and cannot be compared with a non-collection type.",
                     context.Subject, context.Subject.GetType().FullName);
         }
@@ -69,7 +69,7 @@ namespace FluentAssertions.Structural
             context.Verification
                 .ForCondition(subject.Length == expectation.Length)
                 .FailWith(
-                    "Expected " + (context.IsRoot ? "subject" : context.FullPropertyPath) +
+                    "Expected " + (context.IsRoot ? "subject" : context.PropertyDescription) +
                         " to be a collection with {0} item(s){reason}, but found {1}.",
                     expectation.Length, subject.Length);
         }

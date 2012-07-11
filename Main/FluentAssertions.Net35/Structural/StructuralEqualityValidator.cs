@@ -25,7 +25,7 @@ namespace FluentAssertions.Structural
         {
             try
             {
-                Verification.SubjectName = context.FullPropertyPath;
+                Verification.SubjectName = context.PropertyDescription;
 
                 if (!context.ContainsCyclicReference)
                 {

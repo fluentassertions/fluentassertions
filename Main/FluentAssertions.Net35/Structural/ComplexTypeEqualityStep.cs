@@ -29,7 +29,7 @@ namespace FluentAssertions.Structural
         public bool Handle(StructuralEqualityContext context, IStructuralEqualityValidator parent)
         {
             IEnumerable<PropertyInfo> selectedProperties = context.SelectedProperties.ToArray();
-            if (!selectedProperties.Any())
+            if (context.IsRoot && !selectedProperties.Any())
             {
                 throw new InvalidOperationException("Please specify some properties to include in the comparison.");
             }

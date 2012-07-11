@@ -49,7 +49,7 @@ namespace FluentAssertions.Structural
         /// <summary>
         /// Gets the full path from the root object until the current property, separated by dots.
         /// </summary>
-        string FullPropertyPath { get;  }
+        string PropertyDescription { get;  }
 
         /// <summary>
         /// Gets a verification object associated with the current <see cref="Reason"/> and <see cref="ReasonArgs"/>.

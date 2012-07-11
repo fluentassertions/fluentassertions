@@ -42,7 +42,7 @@ namespace FluentAssertions.Structural
             {
                 context.Verification
                     .ForCondition(context.MatchingExpectationProperty.PropertyType.IsSameOrInherits(typeof(TSubject)))
-                    .FailWith("Expected " + context.FullPropertyPath + " to be a {0}{reason}, but found a {1}",
+                    .FailWith("Expected " + context.PropertyDescription + " to be a {0}{reason}, but found a {1}",
                               context.MatchingExpectationProperty.PropertyType, context.SubjectProperty.PropertyType);
 
                 action(new AssertionContext<TSubject>(

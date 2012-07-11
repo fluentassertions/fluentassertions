@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
 {
@@ -9,11 +11,11 @@ namespace FluentAssertions.Structural
     /// </summary>
     public class IgnorePropertySelectionRule : ISelectionRule
     {
-        private readonly string propertyPath;
+        private readonly string propertyPathToExclude;
 
-        public IgnorePropertySelectionRule(string propertyPath)
+        public IgnorePropertySelectionRule(string propertyPathToExclude)
         {
-            this.propertyPath = propertyPath;
+            this.propertyPathToExclude = propertyPathToExclude;
         }
 
         /// <summary>
@@ -30,7 +32,19 @@ namespace FluentAssertions.Structural
         /// </returns>
         public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, TypeInfo info)
         {
-            return properties.Where(pi => propertyPath != (info.PropertyPath + "." + pi.Name));
+            var indexQualifierRegex = new Regex(@"^\[\d+]");
+            string propertyPath = info.PropertyPath;
+
+            if (!indexQualifierRegex.IsMatch(propertyPathToExclude))
+            {
+                var match = indexQualifierRegex.Match(propertyPath);
+                if (match.Success)
+                {
+                    propertyPath = propertyPath.Substring(match.Length);
+                }
+            }
+
+            return properties.Where(pi => propertyPathToExclude != propertyPath.Combine(".", pi.Name)).ToArray();
         }
     }
 }

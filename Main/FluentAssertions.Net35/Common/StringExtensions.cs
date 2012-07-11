@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
@@ -48,6 +49,12 @@ namespace FluentAssertions.Common
         {
             return value.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r").Replace("{", "{{").Replace(
                 "}", "}}");
+        }
+
+        public static string Combine(this string @this, string separator, params string[] values)
+        {
+            var strings = new[] {@this}.Concat(values).Where(s => s.Length > 0).ToArray();
+            return string.Join(separator, strings);
         }
     }
 }
