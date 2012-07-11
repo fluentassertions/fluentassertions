@@ -39,6 +39,7 @@ namespace FluentAssertions.Structural
         /// Gets the actual runtime type of the subject.
         /// </summary>
         public Type RuntimeType { get; internal set; }
-    }
 
+        public string PropertyPath { get; set; }
+    }
 }

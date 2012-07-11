@@ -48,5 +48,39 @@ namespace FluentAssertions.Common
 
             return null;
         }
+
+        public static string GetPropertyPath<T, P>(this Expression<Func<T, P>> expr)
+        {
+            MemberExpression me;
+            switch (expr.Body.NodeType)
+            {
+                case ExpressionType.Convert:
+                case ExpressionType.ConvertChecked:
+                    var ue = expr.Body as UnaryExpression;
+                    me = ((ue != null) ? ue.Operand : null) as MemberExpression;
+                    break;
+                default:
+                    me = expr.Body as MemberExpression;
+                    break;
+            }
+
+            string path = "";
+
+            while (me != null)
+            {
+                string propertyName = me.Member.Name;
+
+                if (path.Length > 0)
+                {
+                    path = "." + path;
+                }
+
+                path = propertyName + path;
+
+                me = me.Expression as MemberExpression;
+            }
+
+            return path;
+        }
     }
 }

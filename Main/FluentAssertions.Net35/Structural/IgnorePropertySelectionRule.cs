@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
 {
@@ -10,11 +9,11 @@ namespace FluentAssertions.Structural
     /// </summary>
     public class IgnorePropertySelectionRule : ISelectionRule
     {
-        private readonly PropertyInfo propertyInfo;
+        private readonly string propertyPath;
 
-        public IgnorePropertySelectionRule(PropertyInfo propertyInfo)
+        public IgnorePropertySelectionRule(string propertyPath)
         {
-            this.propertyInfo = propertyInfo;
+            this.propertyPath = propertyPath;
         }
 
         /// <summary>
@@ -31,7 +30,7 @@ namespace FluentAssertions.Structural
         /// </returns>
         public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, TypeInfo info)
         {
-            return properties.Where(pi => !pi.IsEquivalentTo(propertyInfo)).ToArray();
+            return properties.Where(pi => propertyPath != (info.PropertyPath + "." + pi.Name));
         }
     }
 }

@@ -599,6 +599,51 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_a_deeply_nested_property_with_a_value_mismatch_is_excluded()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new Root
+            {
+                Text = "Root",
+                Level = new Level1
+                {
+                    Text = "Level1",
+                    Level = new Level2
+                    {
+                        Text = "Mismatch",
+                    }
+                }
+            };
+
+            var expected = new RootDto
+            {
+                Text = "Root",
+                Level = new Level1Dto
+                {
+                    Text = "Level1",
+                    Level = new Level2Dto
+                    {
+                        Text = "Level2",
+                    }
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeStructurallyEqualTo(expected, 
+                config => config.Exclude(r => r.Level.Level.Text));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+
         #endregion
 
         #region Nested property validation

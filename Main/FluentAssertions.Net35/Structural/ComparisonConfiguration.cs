@@ -133,7 +133,9 @@ namespace FluentAssertions.Structural
         /// </summary>
         public ComparisonConfiguration<TSubject> Exclude(Expression<Func<TSubject, object>> propertyExpression)
         {
-            AddRule(new IgnorePropertySelectionRule(propertyExpression.GetPropertyInfo()));
+            string propertyPath = propertyExpression.GetPropertyPath();
+
+            AddRule(new IgnorePropertySelectionRule(propertyPath));
             return this;
         }
 

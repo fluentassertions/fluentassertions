@@ -94,7 +94,8 @@ namespace FluentAssertions.Structural
                     properties = selectionRule.SelectProperties(properties, new TypeInfo
                     {
                         DeclaredType = CompileTimeType,
-                        RuntimeType = Subject.GetType()
+                        RuntimeType = Subject.GetType(),
+                        PropertyPath = FullPropertyPath,
                     });
                 }
 
