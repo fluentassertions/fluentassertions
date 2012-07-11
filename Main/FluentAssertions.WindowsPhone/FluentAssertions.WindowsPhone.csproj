@@ -246,8 +246,11 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\ApplyAssertionRulesEqualityStep.cs">
       <Link>Structural\ApplyAssertionRulesEqualityStep.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\ComparisonConfiguration.cs">
-      <Link>Structural\ComparisonConfiguration.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Structural\StructuralEqualityConfiguration.cs">
+      <Link>Structural\StructuralEqualityConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityConfiguration.cs">
+      <Link>Structural\IStructuralEqualityConfiguration.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\ComplexTypeEqualityStep.cs">
       <Link>Structural\ComplexTypeEqualityStep.cs</Link>
@@ -267,8 +270,8 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\AssertionRule.cs">
       <Link>Structural\AssertionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IgnorePropertySelectionRule.cs">
-      <Link>Structural\IgnorePropertySelectionRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Structural\ExcludePropertyByPathSelectionRule.cs">
+      <Link>Structural\ExcludePropertyByPathSelectionRule.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\IMatchingRule.cs">
       <Link>Structural\IMatchingRule.cs</Link>

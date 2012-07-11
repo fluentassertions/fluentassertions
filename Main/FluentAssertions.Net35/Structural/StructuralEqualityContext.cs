@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Execution;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
 {
@@ -14,14 +15,14 @@ namespace FluentAssertions.Structural
 
         #endregion
 
-        public StructuralEqualityContext(IComparisonConfiguration config)
+        public StructuralEqualityContext(IStructuralEqualityConfiguration config)
         {
             Config = config;
             PropertyDescription = "";
             PropertyPath = "";
         }
 
-        public IComparisonConfiguration Config { get; private set; }
+        public IStructuralEqualityConfiguration Config { get; private set; }
 
         /// <summary>
         /// Gets or sets the current property of the <see cref="Subject"/> that is being processed, or <c>null</c>
@@ -45,10 +46,13 @@ namespace FluentAssertions.Structural
         /// </summary>
         public object Expectation { get; internal set; }
 
+        /// <summary>
+        /// Gets the full path from the root object until the current property, separated by dots.
+        /// </summary>
         public string PropertyPath { get; set; }
 
         /// <summary>
-        /// Gets the full path from the root object until the current property, separated by dots.
+        /// Gets a textual description of the current property based on the <see cref="PropertyPath"/>.
         /// </summary>
         public string PropertyDescription { get; private set; }
 
@@ -163,7 +167,7 @@ namespace FluentAssertions.Structural
                 MatchingExpectationProperty = matchingProperty,
                 Subject = subject,
                 Expectation = expectation,
-                PropertyPath = IsRoot ? memberDescription : PropertyPath + separator + memberDescription,
+                PropertyPath = PropertyPath.Combine(memberDescription),
                 PropertyDescription = propertyPath + memberDescription,
                 Reason = Reason,
                 ReasonArgs = ReasonArgs,

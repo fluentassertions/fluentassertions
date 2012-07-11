@@ -51,10 +51,16 @@ namespace FluentAssertions.Common
                 "}", "}}");
         }
 
-        public static string Combine(this string @this, string separator, params string[] values)
+        /// <summary>
+        /// Joins a string with one or more other strings using a specified separator.
+        /// </summary>
+        /// <remarks>
+        /// Any string that is empty (including the original string) is ignored. 
+        /// </remarks>
+        public static string Combine(this string @this, params string[] values)
         {
             var strings = new[] {@this}.Concat(values).Where(s => s.Length > 0).ToArray();
-            return string.Join(separator, strings);
+            return string.Join(".", strings);
         }
     }
 }

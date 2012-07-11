@@ -9,7 +9,7 @@ namespace FluentAssertions.Structural
     /// </summary>
     public class PropertyAssertions<T>
     {
-        private readonly ComparisonConfiguration<T> config = ComparisonConfiguration<T>.Empty;
+        private readonly StructuralEqualityConfiguration<T> config = StructuralEqualityConfiguration<T>.Empty;
         private readonly T subject;
 
         protected internal PropertyAssertions(T subject)

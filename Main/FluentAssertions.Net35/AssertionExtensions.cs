@@ -480,8 +480,8 @@ namespace FluentAssertions
         /// irrespective  of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
         /// items in the collection are structurally equal. 
-        /// Notice that actual behavior is determined by the <see cref="ComparisonConfiguration{TSubject}.Default"/> instance of the 
-        /// <see cref="ComparisonConfiguration{TSubject}"/> class.
+        /// Notice that actual behavior is determined by the <see cref="StructuralEqualityConfiguration{TSubject}.Default"/> instance of the 
+        /// <see cref="StructuralEqualityConfiguration{TSubject}"/> class.
         /// </remarks>
         /// <param name="reason">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
@@ -506,9 +506,9 @@ namespace FluentAssertions
         /// items in the collection are structurally equal. 
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="ComparisonConfiguration{TSubject}.Default"/> configuration object that can be used 
+        /// A reference to the <see cref="StructuralEqualityConfiguration{TSubject}.Default"/> configuration object that can be used 
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="ComparisonConfiguration{TSubject}"/> class.
+        /// <see cref="StructuralEqualityConfiguration{TSubject}"/> class.
         /// </param>
         /// <param name="reason">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
@@ -518,9 +518,9 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public static void ShouldBeStructurallyEqualTo<T>(this T subject, object expectation,
-            Func<ComparisonConfiguration<T>, ComparisonConfiguration<T>> config, string reason = "", params object[] reasonArgs)
+            Func<StructuralEqualityConfiguration<T>, StructuralEqualityConfiguration<T>> config, string reason = "", params object[] reasonArgs)
         {
-            var context = new StructuralEqualityContext(config(ComparisonConfiguration<T>.Default))
+            var context = new StructuralEqualityContext(config(StructuralEqualityConfiguration<T>.Default))
             {
                 Subject = subject,
                 Expectation = expectation,
@@ -539,9 +539,9 @@ namespace FluentAssertions
         }
 
         public static void ShouldAllBeStructurallyEqualTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
-            Func<ComparisonConfiguration<T>, ComparisonConfiguration<T>> config, string reason = "", params object[] reasonArgs)
+            Func<StructuralEqualityConfiguration<T>, StructuralEqualityConfiguration<T>> config, string reason = "", params object[] reasonArgs)
         {
-            var context = new StructuralEqualityContext(config(ComparisonConfiguration<T>.Default))
+            var context = new StructuralEqualityContext(config(StructuralEqualityConfiguration<T>.Default))
             {
                 Subject = subject,
                 Expectation = expectation,
