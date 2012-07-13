@@ -8,7 +8,7 @@ namespace FluentAssertions.Structural
     /// Selection rule that adds all public properties of the subject based on its run-time type rather than its
     /// declared type.
     /// </summary>
-    public class AllRuntimePublicPropertiesSelectionRule : ISelectionRule
+    internal class AllRuntimePublicPropertiesSelectionRule : ISelectionRule
     {
         /// <summary>
         /// Adds or removes properties to/from the collection of subject properties that must be included while
@@ -16,15 +16,12 @@ namespace FluentAssertions.Structural
         /// </summary>
         /// <param name="properties">
         /// A collection of properties that was prepopulated by other selection rules. Can be empty.</param>
-        /// <param name="info">
-        /// Type info about the subject.
-        /// </param>
         /// <returns>
         /// The collection of properties after applying this rule. Can contain less or more than was passed in.
         /// </returns>
-        public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, TypeInfo info)
+        public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISelectionContext context)
         {
-            return info.RuntimeType.GetNonPrivateProperties();
+            return context.RuntimeType.GetNonPrivateProperties();
         }
     }
 }

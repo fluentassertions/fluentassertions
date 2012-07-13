@@ -9,7 +9,7 @@ namespace FluentAssertions.Structural
     /// <summary>
     /// Selection rule that removes a particular property from the structural comparison.
     /// </summary>
-    public class ExcludePropertyByPathSelectionRule : ISelectionRule
+    internal class ExcludePropertyByPathSelectionRule : ISelectionRule
     {
         private readonly string propertyPathToExclude;
 
@@ -23,16 +23,14 @@ namespace FluentAssertions.Structural
         /// comparing two objects for structural equality.
         /// </summary>
         /// <param name="properties">
-        /// A collection of properties that was prepopulated by other selection rules. Can be empty.</param>
-        /// <param name="info">
-        /// Type info about the subject.
+        /// A collection of properties that was prepopulated by other selection rules. Can be empty.
         /// </param>
         /// <returns>
         /// The collection of properties after applying this rule. Can contain less or more than was passed in.
         /// </returns>
-        public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, TypeInfo info)
+        public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISelectionContext context)
         {
-            string propertyPath = info.PropertyPath;
+            string propertyPath = context.PropertyPath;
             if (!ContainsIndexingQualifiers(propertyPathToExclude))
             {
                 propertyPath = RemoveInitialIndexQualifier(propertyPath);
@@ -43,7 +41,7 @@ namespace FluentAssertions.Structural
 
         private bool ContainsIndexingQualifiers(string path)
         {
-            return path.Contains("[") || path.Contains("]");
+            return path.Contains("[") && path.Contains("]");
         }
 
         private string RemoveInitialIndexQualifier(string propertyPath)

@@ -6,19 +6,8 @@ namespace FluentAssertions.Structural
     /// <summary>
     /// Provides information on a particular property during an assertion for structural equality of two object graphs.
     /// </summary>
-    public interface IStructuralEqualityContext
+    public interface IStructuralEqualityContext : ISelectionContext
     {
-        /// <summary>
-        /// Gets the information of the current property of the <see cref="Subject"/> that is being processed, or <c>null</c>
-        /// if <see cref="IsRoot"/> is <c>true</c>.
-        /// </summary>
-        PropertyInfo SubjectProperty { get; }
-
-        /// <summary>
-        /// Gets the value of the <see cref="SubjectProperty"/>
-        /// </summary>
-        object Subject { get; }
-
         /// <summary>
         /// Gets the property of the <see cref="Expectation"/> that was matched against the <see cref="SubjectProperty"/>, 
         /// or <c>null</c> if <see cref="IsRoot"/> is <c>true</c>.
@@ -42,18 +31,18 @@ namespace FluentAssertions.Structural
         object[] ReasonArgs { get;  }
 
         /// <summary>
+        /// Gets a verification object associated with the current <see cref="Reason"/> and <see cref="ReasonArgs"/>.
+        /// </summary>
+        Verification Verification { get; }
+
+        /// <summary>
         /// Gets a value indicating whether the current context represents the root of the object graph.
         /// </summary>
         bool IsRoot { get; }
 
         /// <summary>
-        /// Gets the full path from the root object until the current property, separated by dots.
+        /// Gets the value of the <see cref="ISelectionContext.PropertyInfo"/>
         /// </summary>
-        string PropertyDescription { get;  }
-
-        /// <summary>
-        /// Gets a verification object associated with the current <see cref="Reason"/> and <see cref="ReasonArgs"/>.
-        /// </summary>
-        Verification Verification { get; }
+        object Subject { get; }
     }
 }

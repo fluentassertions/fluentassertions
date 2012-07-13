@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -22,24 +21,6 @@ namespace FluentAssertions.Structural
         /// <returns>
         /// The collection of properties after applying this rule. Can contain less or more than was passed in.
         /// </returns>
-        IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, TypeInfo info);
-    }
-
-    /// <summary>
-    /// Represents detailed type information on the subject in a structural comparison.
-    /// </summary>
-    public class TypeInfo
-    {
-        /// <summary>
-        /// Gets the type of the subject as it was specified on the call to start the structural comparison.
-        /// </summary>
-        public Type DeclaredType { get; internal set; }
-
-        /// <summary>
-        /// Gets the actual runtime type of the subject.
-        /// </summary>
-        public Type RuntimeType { get; internal set; }
-
-        public string PropertyPath { get; set; }
+        IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISelectionContext context);
     }
 }

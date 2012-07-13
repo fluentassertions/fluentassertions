@@ -38,15 +38,15 @@ namespace FluentAssertions.Structural
         /// </returns>
         public bool AssertEquality(IStructuralEqualityContext context)
         {
-            if (predicate(context.SubjectProperty))
+            if (predicate(context.PropertyInfo))
             {
                 context.Verification
                     .ForCondition(context.MatchingExpectationProperty.PropertyType.IsSameOrInherits(typeof(TSubject)))
                     .FailWith("Expected " + context.PropertyDescription + " to be a {0}{reason}, but found a {1}",
-                              context.MatchingExpectationProperty.PropertyType, context.SubjectProperty.PropertyType);
+                              context.MatchingExpectationProperty.PropertyType, context.PropertyInfo.PropertyType);
 
                 action(new AssertionContext<TSubject>(
-                           context.SubjectProperty,
+                           context.PropertyInfo,
                            (TSubject) context.Subject, (TSubject) context.Expectation, context.Reason, context.ReasonArgs));
 
                 return true;

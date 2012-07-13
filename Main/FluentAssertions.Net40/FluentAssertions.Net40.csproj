@@ -268,9 +268,18 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\AssertionRule.cs">
       <Link>Structural\AssertionRule.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\ExcludePropertyByPredicateSelectionRule.cs">
+      <Link>Structural\ExcludePropertyByPredicateSelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\ISelectionContext.cs">
+      <Link>Structural\ISelectionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\NestedSelectionContext.cs">
+      <Link>Structural\NestedSelectionContext.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\StructuralEqualityConfiguration.cs">
       <Link>Structural\StructuralEqualityConfiguration.cs</Link>
-    </Compile>    
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityConfiguration.cs">
       <Link>Structural\IStructuralEqualityConfiguration.cs</Link>
     </Compile>

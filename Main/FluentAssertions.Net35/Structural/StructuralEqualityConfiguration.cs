@@ -120,13 +120,20 @@ namespace FluentAssertions.Structural
         }
 
         /// <summary>
-        /// Excludes the specified property from the equality assertion.
+        /// Excludes the specified (nested) property from the structural equality check.
         /// </summary>
         public StructuralEqualityConfiguration<TSubject> Exclude(Expression<Func<TSubject, object>> propertyExpression)
         {
-            string propertyPath = propertyExpression.GetPropertyPath();
+            AddRule(new ExcludePropertyByPathSelectionRule(propertyExpression.GetPropertyPath()));
+            return this;
+        }
 
-            AddRule(new ExcludePropertyByPathSelectionRule(propertyPath));
+        /// <summary>
+        /// Excludes a (nested) property based on a predicate from the structural equality check.
+        /// </summary>
+        public StructuralEqualityConfiguration<TSubject> Exclude(Func<ISelectionContext, bool> predicate)
+        {
+            AddRule(new ExcludePropertyByPredicateSelectionRule(predicate));
             return this;
         }
 

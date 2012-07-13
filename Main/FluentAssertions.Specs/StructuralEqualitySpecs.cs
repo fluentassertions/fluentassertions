@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using FluentAssertions.Structural;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
@@ -600,7 +599,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_deeply_nested_property_with_a_value_mismatch_is_excluded()
+        public void When_a_deeply_nested_property_with_a_value_mismatch_is_excluded_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -634,7 +633,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeStructurallyEqualTo(expected, 
+            Action act = () => subject.ShouldBeStructurallyEqualTo(expected,
                 config => config.Exclude(r => r.Level.Level.Text));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -643,6 +642,49 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_a_property_with_a_value_mismatch_is_excluded_using_a_predicate_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new Root
+            {
+                Text = "Root",
+                Level = new Level1
+                {
+                    Text = "Level1",
+                    Level = new Level2
+                    {
+                        Text = "Mismatch",
+                    }
+                }
+            };
+
+            var expected = new RootDto
+            {
+                Text = "Root",
+                Level = new Level1Dto
+                {
+                    Text = "Level1",
+                    Level = new Level2Dto
+                    {
+                        Text = "Level2",
+                    }
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeStructurallyEqualTo(expected, config =>
+                config.Exclude(ctx => ctx.PropertyPath == "Level.Level.Text"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
 
         #endregion
 
