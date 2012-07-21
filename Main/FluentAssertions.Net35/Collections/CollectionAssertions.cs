@@ -597,6 +597,57 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Expects the current collection to contain only a single item matching the specified <paramref name="predicate"/>.
+        /// </summary>
+        /// <param name="predicate">The predictes that will be used to find the matching items.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TAssertions> ContainSingle(Expression<Func<object, bool>> predicate,
+            string reason = "", params object[] reasonArgs)
+        {
+            string expectationPrefix =
+                string.Format("Expected collection to contain a single item matching {0}{{reason}}, ", predicate.Body);
+
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith(expectationPrefix + "but found {0}.", Subject);
+            }
+
+            object[] actualItems = Subject.Cast<object>().ToArray();
+            Execute.Verification
+                .ForCondition(actualItems.Any())
+                .BecauseOf(reason, reasonArgs)
+                .FailWith(expectationPrefix + "but the collection is empty.");
+
+            int count = actualItems.Count(predicate.Compile());
+            if (count == 0)
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith(expectationPrefix + "but no such item was found.");
+            }
+            else if (count > 1)
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith(expectationPrefix + "but " + count + " such items were found.");
+            }
+            else
+            {
+                // Exactly 1 item was expected
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Expects the current collection to have all elements in ascending order. Elements are compared
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
