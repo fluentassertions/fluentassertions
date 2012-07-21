@@ -6,7 +6,7 @@ namespace FluentAssertions.Structural
     /// <summary>
     /// Provides information on a particular property during an assertion for structural equality of two object graphs.
     /// </summary>
-    public interface IStructuralEqualityContext : ISelectionContext
+    public interface IStructuralEqualityContext : ISubjectInfo
     {
         /// <summary>
         /// Gets the property of the <see cref="Expectation"/> that was matched against the <see cref="SubjectProperty"/>, 

@@ -10,10 +10,10 @@ namespace FluentAssertions.Structural
     /// <typeparam name="TSubject">The type of the subject.</typeparam>
     public class AssertionRule<TSubject> : IAssertionRule
     {
-        private readonly Func<PropertyInfo, bool> predicate;
-        private readonly Action<AssertionContext<TSubject>> action;
+        private readonly Func<ISubjectInfo, bool> predicate;
+        private readonly Action<IAssertionContext<TSubject>> action;
 
-        public AssertionRule(Func<PropertyInfo, bool> predicate, Action<AssertionContext<TSubject>> action)
+        public AssertionRule(Func<ISubjectInfo, bool> predicate, Action<IAssertionContext<TSubject>> action)
         {
             this.predicate = predicate;
             this.action = action;
@@ -38,15 +38,14 @@ namespace FluentAssertions.Structural
         /// </returns>
         public bool AssertEquality(IStructuralEqualityContext context)
         {
-            if (predicate(context.PropertyInfo))
+            if (predicate(context))
             {
                 context.Verification
                     .ForCondition(context.MatchingExpectationProperty.PropertyType.IsSameOrInherits(typeof(TSubject)))
                     .FailWith("Expected " + context.PropertyDescription + " to be a {0}{reason}, but found a {1}",
                               context.MatchingExpectationProperty.PropertyType, context.PropertyInfo.PropertyType);
 
-                action(new AssertionContext<TSubject>(
-                           context.PropertyInfo,
+                action(new AssertionContext(context.PropertyInfo,
                            (TSubject) context.Subject, (TSubject) context.Expectation, context.Reason, context.ReasonArgs));
 
                 return true;
@@ -54,23 +53,23 @@ namespace FluentAssertions.Structural
 
             return false;
         }
-    }
 
-    public class AssertionContext<TSubject>
-    {
-        public AssertionContext(PropertyInfo subjectProperty, TSubject subject, TSubject expectation, string reason, object[] reasonArgs)
+        internal class AssertionContext : IAssertionContext<TSubject>
         {
-            SubjectProperty = subjectProperty;
-            Subject = subject;
-            Expectation = expectation;
-            Reason = reason;
-            ReasonArgs = reasonArgs;
-        }
+            public AssertionContext(PropertyInfo subjectProperty, TSubject subject, TSubject expectation, string reason, object[] reasonArgs)
+            {
+                SubjectProperty = subjectProperty;
+                Subject = subject;
+                Expectation = expectation;
+                Reason = reason;
+                ReasonArgs = reasonArgs;
+            }
 
-        public PropertyInfo SubjectProperty { get; private set; }
-        public TSubject Subject { get; private set; }
-        public TSubject Expectation { get; private set; }
-        public string Reason { get; set; }
-        public object[] ReasonArgs { get; set; }
+            public PropertyInfo SubjectProperty { get; private set; }
+            public TSubject Subject { get; private set; }
+            public TSubject Expectation { get; private set; }
+            public string Reason { get; set; }
+            public object[] ReasonArgs { get; set; }
+        }
     }
 }

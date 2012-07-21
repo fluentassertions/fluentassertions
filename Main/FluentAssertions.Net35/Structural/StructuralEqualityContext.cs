@@ -25,7 +25,7 @@ namespace FluentAssertions.Structural
         public IStructuralEqualityConfiguration Config { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="ISelectionContext.PropertyInfo" /> of the property that returned the current object, or 
+        /// Gets the <see cref="ISubjectInfo.PropertyInfo" /> of the property that returned the current object, or 
         /// <c>null</c> if the current object represents the root object.
         /// </summary>
         public PropertyInfo PropertyInfo { get; private set; }
@@ -41,13 +41,13 @@ namespace FluentAssertions.Structural
         public string PropertyDescription { get; private set; }
 
         /// <summary>
-        /// Gets the value of the <see cref="ISelectionContext.PropertyInfo" />
+        /// Gets the value of the <see cref="ISubjectInfo.PropertyInfo" />
         /// </summary>
         public object Subject { get; internal set; }
 
         /// <summary>
         /// Gets the property of the <see cref="IStructuralEqualityContext.Expectation" /> that was matched against the <see
-        /// cref="ISelectionContext.PropertyInfo" />, 
+        /// cref="ISubjectInfo.PropertyInfo" />, 
         /// or <c>null</c> if <see cref="IStructuralEqualityContext.IsRoot" /> is <c>true</c>.
         /// </summary>
         public PropertyInfo MatchingExpectationProperty { get; private set; }
@@ -78,7 +78,7 @@ namespace FluentAssertions.Structural
 
         /// <summary>
         /// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the 
-        /// same <see cref="Type"/> as the <see cref="ISelectionContext.RuntimeType"/> property does.
+        /// same <see cref="Type"/> as the <see cref="ISubjectInfo.RuntimeType"/> property does.
         /// </summary>
         public Type CompileTimeType { get; set; }
 

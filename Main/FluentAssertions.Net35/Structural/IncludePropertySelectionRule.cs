@@ -26,7 +26,7 @@ namespace FluentAssertions.Structural
         /// <returns>
         /// The collection of properties after applying this rule. Can contain less or more than was passed in.
         /// </returns>
-        public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISelectionContext context)
+        public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISubjectInfo context)
         {
             var props = new List<PropertyInfo>(properties);
 

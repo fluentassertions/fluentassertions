@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Reflection;
-using FluentAssertions.Common;
 using System.Linq;
+using System.Linq.Expressions;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
 {
@@ -40,13 +39,10 @@ namespace FluentAssertions.Structural
                 return config;
             }
         }
-        
+
         public static StructuralEqualityConfiguration<TSubject> Empty
         {
-            get
-            {
-                return new StructuralEqualityConfiguration<TSubject>();
-            }
+            get { return new StructuralEqualityConfiguration<TSubject>(); }
         }
 
         public IEnumerable<ISelectionRule> SelectionRules
@@ -131,7 +127,7 @@ namespace FluentAssertions.Structural
         /// <summary>
         /// Excludes a (nested) property based on a predicate from the structural equality check.
         /// </summary>
-        public StructuralEqualityConfiguration<TSubject> Exclude(Func<ISelectionContext, bool> predicate)
+        public StructuralEqualityConfiguration<TSubject> Exclude(Func<ISubjectInfo, bool> predicate)
         {
             AddRule(new ExcludePropertyByPredicateSelectionRule(predicate));
             return this;
@@ -154,21 +150,36 @@ namespace FluentAssertions.Structural
 
         private void RemoveSelectionRule<T>() where T : ISelectionRule
         {
-            foreach (var selectionRule in selectionRules.OfType<T>().ToArray())
+            foreach (T selectionRule in selectionRules.OfType<T>().ToArray())
             {
                 selectionRules.Remove(selectionRule);
             }
         }
 
-        public StructuralEqualityConfiguration<TSubject> OverrideAssertionFor<TPropertyType>(Action<AssertionContext<TPropertyType>> action)
+        public StructuralEqualityConfiguration<TSubject> OverrideAssertionFor<TPropertyType>(
+            Action<IAssertionContext<TPropertyType>> action)
         {
             assertionRules.Insert(0, new AssertionRule<TPropertyType>(
-                pi => pi.PropertyType.IsSameOrInherits(typeof(TPropertyType)), action));
+                info => info.RuntimeType.IsSameOrInherits(typeof (TPropertyType)), action));
 
             return this;
         }
 
-        public StructuralEqualityConfiguration<TSubject> OverrideAssertion<TPropertyType>(Func<PropertyInfo, bool> predicate, Action<AssertionContext<TPropertyType>> action)
+        /// <summary>
+        /// Overrides the way a particular subject of type <typeparamref name="TSubject"/> is compared with 
+        /// a matching property on the expectation object.
+        /// </summary>
+        /// <typeparam name="TPropertyType">
+        /// The type of the subject (property).
+        /// </typeparam>
+        /// <param name="predicate">
+        /// A predicate based on the <see cref="ISubjectInfo"/> of the subject that determines whether this override applies or not.
+        /// </param>
+        /// <param name="action">
+        /// The assertion to execute if the <paramref name="predicate"/> matches.
+        /// </param>
+        public StructuralEqualityConfiguration<TSubject> OverrideAssertion<TPropertyType>(Func<ISubjectInfo, bool> predicate,
+            Action<IAssertionContext<TPropertyType>> action)
         {
             assertionRules.Insert(0, new AssertionRule<TPropertyType>(predicate, action));
             return this;

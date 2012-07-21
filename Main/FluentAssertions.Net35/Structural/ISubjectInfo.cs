@@ -4,9 +4,9 @@ using System.Reflection;
 namespace FluentAssertions.Structural
 {
     /// <summary>
-    /// Provides details about the object on which a <see cref="ISelectionRule"/> is applied.
+    /// Provides details about the subject's root or nested property.
     /// </summary>
-    public interface ISelectionContext
+    public interface ISubjectInfo
     {
         /// <summary>
         /// Gets the <see cref="PropertyInfo"/> of the property that returned the current object, or <c>null</c> if the current

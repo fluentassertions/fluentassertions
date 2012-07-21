@@ -10,9 +10,9 @@ namespace FluentAssertions.Structural
     /// </summary>
     internal class ExcludePropertyByPredicateSelectionRule : ISelectionRule
     {
-        private readonly Func<ISelectionContext, bool> predicate;
+        private readonly Func<ISubjectInfo, bool> predicate;
 
-        public ExcludePropertyByPredicateSelectionRule(Func<ISelectionContext, bool> predicate)
+        public ExcludePropertyByPredicateSelectionRule(Func<ISubjectInfo, bool> predicate)
         {
             this.predicate = predicate;
         }
@@ -26,7 +26,7 @@ namespace FluentAssertions.Structural
        /// <returns>
         /// The collection of properties after applying this rule. Can contain less or more than was passed in.
         /// </returns>
-        public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISelectionContext context)
+        public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISubjectInfo context)
         {
             return properties.Where(p => !predicate(new NestedSelectionContext(context, p))).ToArray();
         }

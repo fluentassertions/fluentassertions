@@ -99,7 +99,8 @@
     <Compile Include="Structural\ApplyAssertionRulesEqualityStep.cs" />
     <Compile Include="Structural\AssertionRule.cs" />
     <Compile Include="Structural\ExcludePropertyByPredicateSelectionRule.cs" />
-    <Compile Include="Structural\ISelectionContext.cs" />
+    <Compile Include="Structural\IAssertionContext.cs" />
+    <Compile Include="Structural\ISubjectInfo.cs" />
     <Compile Include="Structural\IStructuralEqualityConfiguration.cs" />
     <Compile Include="Structural\NestedSelectionContext.cs" />
     <Compile Include="Structural\StructuralEqualityConfiguration.cs" />

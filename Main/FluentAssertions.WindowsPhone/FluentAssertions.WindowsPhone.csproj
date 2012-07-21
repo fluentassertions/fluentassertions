@@ -267,6 +267,9 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\IAssertionRule.cs">
       <Link>Structural\IAssertionRule.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\IAssertionContext.cs">
+      <Link>Structural\IAssertionContext.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\AssertionRule.cs">
       <Link>Structural\AssertionRule.cs</Link>
     </Compile>
@@ -285,8 +288,8 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\ISelectionRule.cs">
       <Link>Structural\ISelectionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\ISelectionContext.cs">
-      <Link>Structural\ISelectionContext.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Structural\IObjectInfo.cs">
+      <Link>Structural\IObjectInfo.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\NestedSelectionContext.cs">
       <Link>Structural\NestedSelectionContext.cs</Link>
