@@ -4,7 +4,10 @@ using System.Collections.Generic;
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
+using System.Linq.Expressions;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 #endif
 
 namespace FluentAssertions.Specs
@@ -12,6 +15,8 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class GenericCollectionAssertionsSpecs
     {
+        #region (Not) Contain
+
         [TestMethod]
         public void When_collection_does_not_contain_an_expected_item_matching_a_predicate_it_should_throw()
         {
@@ -159,7 +164,11 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection not to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
         }
-        
+
+        #endregion
+
+        #region Only Contain
+
         [TestMethod]
         public void When_a_collection_contains_items_not_matching_a_predicate_it_should_throw()
         {
@@ -218,5 +227,126 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow(); ;
         }
+
+        #endregion
+
+        #region Contain Single
+
+        [TestMethod]
+        public void When_a_collection_contains_a_single_item_matching_a_predicate_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle(item => (item == 2));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_empty_collection_contains_a_single_item_matching_a_predicate_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new int[0];
+            Expression<Func<int, bool>> expression = (item => (item == 2));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle(expression);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            string expectedMessage =
+                string.Format("Expected collection to contain a single item matching {0}, " +
+                    "but the collection is empty.", expression.Body);
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void When_asserting_a_null_collection_contains_a_single_item_matching_a_predicate_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = null;
+            Expression<Func<int, bool>> expression = (item => (item == 2));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle(expression);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            string expectedMessage =
+                string.Format("Expected collection to contain a single item matching {0}, " +
+                    "but found <null>.", expression.Body);
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void When_non_empty_collection_does_not_contain_a_single_item_matching_a_predicate_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 3 };
+            Expression<Func<int, bool>> expression = (item => (item == 2));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle(expression);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            string expectedMessage =
+                string.Format("Expected collection to contain a single item matching {0}, " +
+                    "but no such item was found.", expression.Body);
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void When_non_empty_collection_contains_more_than_a_single_item_matching_a_predicate_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 2, 2, 2, 3 };
+            Expression<Func<int, bool>> expression = (item => (item == 2));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle(expression);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            string expectedMessage =
+                string.Format("Expected collection to contain a single item matching {0}, " +
+                    "but 3 such items were found.", expression.Body);
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        #endregion
     }
 }
