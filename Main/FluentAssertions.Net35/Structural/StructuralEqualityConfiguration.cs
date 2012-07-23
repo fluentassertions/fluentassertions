@@ -6,6 +6,10 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
 {
+    /// <summary>
+    /// Is responsible for the exact run-time behavior of a structural equality comparison.
+    /// </summary>
+    /// <typeparam name="TSubject">The type of the subject.</typeparam>
     public class StructuralEqualityConfiguration<TSubject> : IStructuralEqualityConfiguration
     {
         #region Private Definitions
@@ -21,52 +25,80 @@ namespace FluentAssertions.Structural
         {
             AddRule(new MustMatchByNameRule());
 
-            OverrideAssertionFor<string>(
+            WhenTypeIs<string>().Use(
                 ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
 
-            OverrideAssertionFor<DateTime>(
+            WhenTypeIs<DateTime>().Use(
                 ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
         }
 
+        /// <summary>
+        /// Gets a configuration that compares all declared properties of the subject with equally named properties of the expectation,
+        /// and includes the entire object graph. The names of the properties between the subject and expectation must match.
+        /// </summary>
         public static StructuralEqualityConfiguration<TSubject> Default
         {
             get
             {
                 var config = new StructuralEqualityConfiguration<TSubject>();
-                config.Recursive();
+                config.Recurse();
                 config.IncludeAllDeclaredProperties();
 
                 return config;
             }
         }
 
+        /// <summary>
+        /// Gets a configuration that by default doesn't include any of the subject's properties and doesn't consider any nested objects
+        /// or collections.
+        /// </summary>
         public static StructuralEqualityConfiguration<TSubject> Empty
         {
             get { return new StructuralEqualityConfiguration<TSubject>(); }
         }
 
+        /// <summary>
+        /// Gets an ordered collection of selection rules that define what properties are included.
+        /// </summary>
         public IEnumerable<ISelectionRule> SelectionRules
         {
             get { return selectionRules; }
         }
 
+        /// <summary>
+        /// Gets an ordered collection of matching rules that determine which subject properties are matched with which
+        /// expectation properties.
+        /// </summary>
         public IEnumerable<IMatchingRule> MatchingRules
         {
             get { return matchingRules; }
         }
 
+        /// <summary>
+        /// Gets an ordered collection of assertion rules that determine how subject properties are compared for equality with
+        /// expectation properties.
+        /// </summary>
         public IEnumerable<IAssertionRule> AssertionRules
         {
             get { return assertionRules; }
         }
 
-        public bool Recurse { get; set; }
+        /// <summary>
+        /// Gets value indicating whether the equality check will include nested collections and complex types.
+        /// </summary>
+        public bool IsRecursive { get; private set; }
 
+        /// <summary>
+        /// Gets value indicating how cyclic references should be handled. By default, it will throw an exception.
+        /// </summary>
         public CyclicReferenceHandling CyclicReferenceHandling
         {
             get { return cyclicReferenceHandling; }
         }
 
+        /// <summary>
+        /// Adds all public properties of the subject as far as they are defined on the declared type. 
+        /// </summary>
         public StructuralEqualityConfiguration<TSubject> IncludeAllDeclaredProperties()
         {
             ClearAllSelectionRules();
@@ -74,6 +106,9 @@ namespace FluentAssertions.Structural
             return this;
         }
 
+        /// <summary>
+        /// Adds all public properties of the subject based on its run-time type rather than its declared type.
+        /// </summary>
         public StructuralEqualityConfiguration<TSubject> IncludeAllRuntimeProperties()
         {
             ClearAllSelectionRules();
@@ -100,18 +135,6 @@ namespace FluentAssertions.Structural
         {
             ClearAllMatchingRules();
             matchingRules.Add(new MustMatchByNameRule());
-            return this;
-        }
-
-        public StructuralEqualityConfiguration<TSubject> Recursive()
-        {
-            Recurse = true;
-            return this;
-        }
-
-        public StructuralEqualityConfiguration<TSubject> IgnoreCyclicReferences()
-        {
-            cyclicReferenceHandling = CyclicReferenceHandling.Ignore;
             return this;
         }
 
@@ -148,6 +171,47 @@ namespace FluentAssertions.Structural
             return this;
         }
 
+        /// <summary>
+        /// Allows overriding the way structural equality is applied to (nested) objects of tyoe <typeparamref name="TSubjectType"/>
+        /// </summary>
+        public Restriction<TSubjectType> WhenTypeIs<TSubjectType>()
+        {
+            return new Restriction<TSubjectType>(info => info.RuntimeType.IsSameOrInherits(typeof(TSubjectType)), this);
+        }
+
+        /// <summary>
+        /// Allows overriding the way structural equality is applied to particular properties.
+        /// </summary>
+        /// <param name="predicate">
+        /// A predicate based on the <see cref="ISubjectInfo"/> of the subject that is used to identify the property for which the
+        /// override applies.
+        /// </param>
+        public Restriction When(Func<ISubjectInfo, bool> predicate)
+        {
+            return new Restriction(predicate, this);
+        }
+
+        /// <summary>
+        /// Causes the structural equality check to include nested collections and complex types.
+        /// </summary>
+        public StructuralEqualityConfiguration<TSubject> Recurse()
+        {
+            IsRecursive = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Causes the structural equality check to ignore any cyclic references.
+        /// </summary>
+        /// <remarks>
+        /// By default, cyclic references within the object graph will cause an exception to be thrown.
+        /// </remarks>
+        public StructuralEqualityConfiguration<TSubject> IgnoreCyclicReferences()
+        {
+            cyclicReferenceHandling = CyclicReferenceHandling.Ignore;
+            return this;
+        }
+
         private void RemoveSelectionRule<T>() where T : ISelectionRule
         {
             foreach (T selectionRule in selectionRules.OfType<T>().ToArray())
@@ -156,55 +220,86 @@ namespace FluentAssertions.Structural
             }
         }
 
-        public StructuralEqualityConfiguration<TSubject> OverrideAssertionFor<TPropertyType>(
-            Action<IAssertionContext<TPropertyType>> action)
-        {
-            assertionRules.Insert(0, new AssertionRule<TPropertyType>(
-                info => info.RuntimeType.IsSameOrInherits(typeof (TPropertyType)), action));
-
-            return this;
-        }
-
         /// <summary>
-        /// Overrides the way a particular subject of type <typeparamref name="TSubject"/> is compared with 
-        /// a matching property on the expectation object.
+        /// Clears all selection rules, including those that were added by default.
         /// </summary>
-        /// <typeparam name="TPropertyType">
-        /// The type of the subject (property).
-        /// </typeparam>
-        /// <param name="predicate">
-        /// A predicate based on the <see cref="ISubjectInfo"/> of the subject that determines whether this override applies or not.
-        /// </param>
-        /// <param name="action">
-        /// The assertion to execute if the <paramref name="predicate"/> matches.
-        /// </param>
-        public StructuralEqualityConfiguration<TSubject> OverrideAssertion<TPropertyType>(Func<ISubjectInfo, bool> predicate,
-            Action<IAssertionContext<TPropertyType>> action)
-        {
-            assertionRules.Insert(0, new AssertionRule<TPropertyType>(predicate, action));
-            return this;
-        }
-
         public void ClearAllSelectionRules()
         {
             selectionRules.Clear();
         }
 
+        /// <summary>
+        /// Clears all matching rules, including those that were added by default.
+        /// </summary>
         public void ClearAllMatchingRules()
         {
             matchingRules.Clear();
         }
 
+        /// <summary>
+        /// Adds a selection rule to the ones allready added by default.
+        /// </summary>
         public StructuralEqualityConfiguration<TSubject> AddRule(ISelectionRule selectionRule)
         {
             selectionRules.Add(selectionRule);
             return this;
         }
 
+        /// <summary>
+        /// Adds a matching rule to the ones allready added by default.
+        /// </summary>
         public StructuralEqualityConfiguration<TSubject> AddRule(IMatchingRule matchingRule)
         {
             matchingRules.Add(matchingRule);
             return this;
+        }
+
+        /// <summary>
+        /// Defines additional overrides when used with <see cref="StructuralEqualityConfiguration{TSubject}.When"/>
+        /// </summary>
+        public class Restriction
+        {
+            private readonly Func<ISubjectInfo, bool> predicate;
+            private readonly StructuralEqualityConfiguration<TSubject> config;
+
+            internal Restriction(Func<ISubjectInfo, bool> predicate, StructuralEqualityConfiguration<TSubject> config)
+            {
+                this.predicate = predicate;
+                this.config = config;
+            }
+
+            /// <param name="action">
+            /// The assertion to execute for the predicate.
+            /// </param>
+            public StructuralEqualityConfiguration<TSubject> Use<T>(Action<IAssertionContext<T>> action)
+            {
+                config.assertionRules.Insert(0, new AssertionRule<T>(predicate, action));
+                return config;
+            }
+        }
+
+        /// <summary>
+        /// Defines additional overrides when used with <see cref="StructuralEqualityConfiguration{TSubject}.When"/>
+        /// </summary>
+        public class Restriction<T>
+        {
+            private readonly Func<ISubjectInfo, bool> predicate;
+            private readonly StructuralEqualityConfiguration<TSubject> config;
+
+            internal Restriction(Func<ISubjectInfo, bool> predicate, StructuralEqualityConfiguration<TSubject> config)
+            {
+                this.predicate = predicate;
+                this.config = config;
+            }
+
+            /// <param name="action">
+            /// The assertion to execute for the predicate.
+            /// </param>
+            public StructuralEqualityConfiguration<TSubject> Use(Action<IAssertionContext<T>> action)
+            {
+                config.assertionRules.Insert(0, new AssertionRule<T>(predicate, action));
+                return config;
+            }
         }
     }
 }

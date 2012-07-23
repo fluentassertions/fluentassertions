@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
-using System.Linq.Expressions;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 #endif
 
 namespace FluentAssertions.Specs

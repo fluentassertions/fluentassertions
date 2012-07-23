@@ -13,7 +13,7 @@ namespace FluentAssertions.Structural
         public bool CanHandle(StructuralEqualityContext context)
         {
             return (context.Subject != null) &&
-                   context.Subject.GetType().IsComplexType() && (context.IsRoot || context.Config.Recurse);
+                   context.Subject.GetType().IsComplexType() && (context.IsRoot || context.Config.IsRecursive);
         }
 
         /// <summary>

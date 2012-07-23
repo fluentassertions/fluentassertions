@@ -687,7 +687,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_an_assertion_is_overridden_for_a_predicate_it_should_use_that_predicate()
+        public void When_an_assertion_is_overridden_for_a_predicate_it_should_use_the_provided_action()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -705,10 +705,45 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeStructurallyEqualTo(expectation, config => config
+                .When(info => info.PropertyPath.EndsWith("Date"))
+                .Use<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000)));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }        
+        
+        [TestMethod]
+        public void When_an_assertion_is_overridden_for_all_types_it_should_use_the_provided_action_for_all_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Date = 21.July(2012).At(11, 8, 59),
+                Nested = new
+                {
+                    NestedDate = 14.July(2012).At(12, 59, 59)
+                }
+            };
+
+            var expectation = new
+            {
+                Date = 21.July(2012).At(11, 9, 0),
+                Nested = new
+                {
+                    NestedDate = 14.July(2012).At(13, 0, 0)
+                }
+            };
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeStructurallyEqualTo(expectation, 
-                config => config.OverrideAssertion<DateTime>(
-                    info => info.PropertyPath.EndsWith("Date"), 
-                    ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000)));
+                config => config.WhenTypeIs<DateTime>().Use(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000)));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

@@ -62,7 +62,7 @@ namespace FluentAssertions.Structural
         public PropertyAssertions<T> IncludingNestedObjects(
             CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException)
         {
-            config.Recursive();
+            config.Recurse();
 
             if (cyclicReferenceHandling == CyclicReferenceHandling.Ignore)
             {
