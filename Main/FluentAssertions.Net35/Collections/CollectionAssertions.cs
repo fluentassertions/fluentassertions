@@ -549,6 +549,16 @@ namespace FluentAssertions.Collections
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
+        public AndConstraint<TAssertions> ContainInOrder(params object[] expected)
+        {
+            return ContainInOrder(expected, "");
+        }
+
+        /// <summary>
+        /// Expects the current collection to contain the specified elements in the exact same order. Elements are compared
+        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
