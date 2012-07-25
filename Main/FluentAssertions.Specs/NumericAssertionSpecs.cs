@@ -435,6 +435,8 @@ namespace FluentAssertions.Specs
 
         #region Floating Point
 
+        #region float
+
         [TestMethod]
         public void When_asserting_that_a_float_value_is_equal_to_a_different_value_it_should_throw()
         {
@@ -512,7 +514,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             float difference = Math.Abs(value - 3.14F);
-            
+
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
                 "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}.",
                 value, 3.14F, 0.001F, difference));
@@ -556,6 +558,10 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
                 "Expected value to approximate {0} +/- {1}, but it was <null>.", 3.14, 0.001));
         }
+
+        #endregion
+
+        #region double
 
         [TestMethod]
         public void When_asserting_that_a_double_value_is_equal_to_a_different_value_it_should_throw()
@@ -616,7 +622,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
                 "Expected {0}, but found <null>.", 3.5));
         }
-        
+
         [TestMethod]
         public void When_double_is_not_approximating_a_range_it_should_throw()
         {
@@ -634,7 +640,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             double difference = Math.Abs(value - 3.14);
-            
+
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
                 "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}.",
                 value, 3.14, 0.001, difference));
@@ -658,6 +664,73 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+
+        #endregion
+
+        #region decimal
+
+        [TestMethod]
+        public void When_asserting_that_a_decimal_value_is_equal_to_a_different_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            decimal value = 3.5m;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => value.Should().Be(3.4m, "we want to test the error message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format("Expected {0} because we want to test the error message, but found {1}.",
+                    3.4m, value));
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_decimal_value_is_equal_to_the_same_value_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            decimal value = 3.5m;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => value.Should().Be(3.5m);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_null_decimal_value_is_equal_to_some_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            decimal? value = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => value.Should().Be(3.5m);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format("Expected {0}, but found <null>.", 3.5));
+        }
+
+        #endregion
+
 
         #endregion
 

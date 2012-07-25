@@ -320,6 +320,24 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
+        /// current <see cref="decimal"/>.
+        /// </summary>
+        public static NumericAssertions<decimal> Should(this decimal actualValue)
+        {
+            return new NumericAssertions<decimal>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableNumericAssertions{T}"/> object that can be used to assert the
+        /// current nullable <see cref="decimal"/>.
+        /// </summary>
+        public static NullableNumericAssertions<decimal> Should(this decimal? actualValue)
+        {
+            return new NullableNumericAssertions<decimal>(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NumericAssertions{T}"/> object that can be used to assert the
         /// current <see cref="byte"/>.
         /// </summary>
         public static NumericAssertions<byte> Should(this byte actualValue)
