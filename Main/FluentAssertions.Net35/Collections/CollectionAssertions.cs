@@ -40,7 +40,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {0} item(s){reason}, but found {1}.", expected, Subject);
+                    .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found <null>.", expected);
             }
 
             int actualCount = Subject.Cast<object>().Count();
@@ -48,7 +48,7 @@ namespace FluentAssertions.Collections
             Execute.Verification
                 .ForCondition(actualCount == expected)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {0} item(s){reason}, but found {1}.", expected, actualCount);
+                .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found {1}.", expected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -76,7 +76,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
+                    .FailWith("Expected {context:collection} to contain {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
             }
 
             Func<int, bool> compiledPredicate = countPredicate.Compile();
@@ -87,7 +87,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection {0} to have a count {1}{reason}, but count is {2}.",
+                    .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
                         Subject, countPredicate.Body, actualCount);
             }
 
@@ -110,7 +110,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to be empty{reason}, but found {0}.", Subject);
+                    .FailWith("Expected {context:collection} to be empty{reason}, but found {0}.", Subject);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -118,7 +118,7 @@ namespace FluentAssertions.Collections
             Execute.Verification
                 .ForCondition(!enumerable.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected no items{reason}, but found {0}.", enumerable.Count());
+                .FailWith("Expected {context:collection} to be empty{reason}, but found {0}.", enumerable.Count());
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -139,7 +139,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection not to be empty{reason}, but found {0}.", Subject);
+                    .FailWith("Expected {context:collection} not to be empty{reason}, but found {0}.", Subject);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -147,7 +147,7 @@ namespace FluentAssertions.Collections
             Execute.Verification
                 .ForCondition(enumerable.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected one or more items{reason}.");
+                .FailWith("Expected {context:collection} not to be empty{reason}.");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -168,7 +168,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to only have unique items{reason}, but found {0}.", Subject);
+                    .FailWith("Expected {context:collection} to only have unique items{reason}, but found {0}.", Subject);
             }
 
             IGrouping<object, object> groupWithMultipleItems = Subject.Cast<object>()
@@ -179,7 +179,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected only unique items{reason}, but item {0} was found multiple times.",
+                    .FailWith("Expected {context:collection} to only have unique items{reason}, but item {0} is not unique.",
                         groupWithMultipleItems.Key);
             }
 
@@ -202,7 +202,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to not contain nulls{reason}, but found {0}.", Subject);
+                    .FailWith("Expected {context:collection} not to contain nulls{reason}, but collection is <null>.");
             }
 
             object[] values = Subject.Cast<object>().ToArray();
@@ -212,7 +212,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
-                        .FailWith("Expected no <null> in collection{reason}, but found one at index {0}.", index);
+                        .FailWith("Expected {context:collection} not to contain nulls{reason}, but found one at index {0}.", index);
                 }
             }
 
@@ -255,12 +255,12 @@ namespace FluentAssertions.Collections
 
             if (ReferenceEquals(Subject, null))
             {
-                verification.FailWith("Expected collections to be equal{reason}, but found {0}.", Subject);
+                verification.FailWith("Expected {context:collection} to be equal{reason}, but found <null>.");
             }
 
             if (expectation == null)
             {
-                throw new ArgumentNullException("expected", "Cannot compare collection with <null>.");
+                throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
             }
 
             T[] expectedItems = expectation.Cast<T>().ToArray();
@@ -272,8 +272,8 @@ namespace FluentAssertions.Collections
             {
                 verification
                     .ForCondition((index < actualItems.Length) && predicate(actualItems[index], expectedItems[index]))
-                    .FailWith("Expected " + Verification.SubjectNameOr("collection") +
-                        " to be equal to {0}{reason}, but {1} differs at index {2}.", expectation, Subject, index);
+                    .FailWith("Expected {context:collection} to be equal to {0}{reason}, but {1} differs at index {2}.", 
+                    expectation, Subject, index);
             }
         }
 
@@ -286,18 +286,17 @@ namespace FluentAssertions.Collections
 
                 if (actualItems.Length == 0)
                 {
-                    verification.FailWith("Expected " + Verification.SubjectNameOr("collection") +
-                        " to be equal to {0}{reason}, but found empty collection.", expected);
+                    verification.FailWith("Expected {context:collection} to be equal to {0}{reason}, but found empty collection.", 
+                        expected);
                 }
                 else if (actualItems.Length < expectedItems.Length)
                 {
-                    verification.FailWith("Expected " + Verification.SubjectNameOr("collection") +
-                        " to be equal to {0}{reason}, but {1} contains {2} item(s) less.", expected, Subject, delta);
+                    verification.FailWith("Expected {context:collection} to be equal to {0}{reason}, but {1} contains {2} item(s) less.", 
+                        expected, Subject, delta);
                 }
                 else if (actualItems.Length > expectedItems.Length)
                 {
-                    verification.FailWith("Expected " + Verification.SubjectNameOr("collection") +
-                        " to be equal to {0}{reason}, but {1} contains {2} item(s) too many.",
+                    verification.FailWith("Expected {context:collection} to be equal to {0}{reason}, but {1} contains {2} item(s) too many.",
                         expected, Subject, delta);
                 }
             }
@@ -321,7 +320,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collections not to be equal{reason}, but found {0}.", Subject);
+                    .FailWith("Expected collections not to be equal{reason}, but found <null>.");
             }
 
             if (unexpected == null)
@@ -373,7 +372,7 @@ namespace FluentAssertions.Collections
             Execute.Verification
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected collection to be equivalent to {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:collection} to be equivalent to {0}{reason}, but found <null>.", expected);
 
             List<object> expectedItems = expected.Cast<object>().ToList();
             List<object> actualItems = Subject.Cast<object>().ToList();
@@ -381,7 +380,7 @@ namespace FluentAssertions.Collections
             Execute.Verification
                 .ForCondition(AreEquivalent(expectedItems, actualItems))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected collection {0} to be equivalent to {1}{reason}.", actualItems, expectedItems);
+                .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}.", actualItems, expectedItems);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -410,14 +409,14 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collections not to be equivalent{reason}, but found {0}.", Subject);
+                    .FailWith("Expected {context:collection} not to be equivalent{reason}, but found <null>.");
             }
 
             if (AreEquivalent(unexpected.Cast<object>(), Subject.Cast<object>()))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection {0} not be equivalent with collection {1}{reason}.", Subject,
+                    .FailWith("Expected {context:collection} {0} not be equivalent with collection {1}{reason}.", Subject,
                         unexpected);
             }
 
@@ -434,15 +433,14 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string reason, params object[] reasonArgs)
+        public AndConstraint<TAssertions> ContainItemsAssignableTo<T>(string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to contain element assignable to type {0}{reason}, but found {1}.",
-                        typeof(T),
-                        Subject);
+                    .FailWith("Expected {context:collection} to contain element assignable to type {0}{reason}, but found <null>.",
+                        typeof(T));
             }
 
             int index = 0;
@@ -457,7 +455,7 @@ namespace FluentAssertions.Collections
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
                         .FailWith(
-                            "Expected only items of type {0} in collection{reason}, but item {1} at index {2} is of type {3}.",
+                            "Expected {context:collection} to contain only items of type {0}{reason}, but item {1} at index {2} is of type {3}.",
                             typeof(T), item, index, item.GetType());
                 }
 
@@ -507,7 +505,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to contain {0}{reason}, but found {1}.", expected, Subject);
+                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found <null>.", expected);
             }
 
             if (expected is string)
@@ -516,7 +514,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
-                        .FailWith("Expected collection {0} to contain {1}{reason}.", Subject, expected);
+                        .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
                 }
             }
             else
@@ -528,14 +526,14 @@ namespace FluentAssertions.Collections
                     {
                         Execute.Verification
                             .BecauseOf(reason, reasonArgs)
-                            .FailWith("Expected collection {0} to contain {1}{reason}, but could not find {2}.", Subject,
+                            .FailWith("Expected {context:collection} {0} to contain {1}{reason}, but could not find {2}.", Subject,
                                 expected, missingItems);
                     }
                     else
                     {
                         Execute.Verification
                             .BecauseOf(reason, reasonArgs)
-                            .FailWith("Expected collection {0} to contain {1}{reason}.", Subject,
+                            .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject,
                                 expected.Cast<object>().First());
                     }
                 }
@@ -578,7 +576,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to contain {0} in order{reason}, but found {1}.", expected, Subject);
+                    .FailWith("Expected {context:collection} to contain {0} in order{reason}, but found <null>.", expected);
             }
 
             object[] expectedItems = expected.Cast<object>().ToArray();
@@ -597,9 +595,8 @@ namespace FluentAssertions.Collections
                     Execute.Verification
                         .BecauseOf(reason, reasonArgs)
                         .FailWith(
-                            "Expected items {0} in ordered collection {1}{reason}, but {2} (index {3}) did not appear (in the right order).",
-                            expected,
-                            Subject, expectedItem, index);
+                            "Expected {context:collection} {0} to contain items {1} in order{reason}, but {2} (index {3}) did not appear (in the right order).",
+                            Subject, expected, expectedItem, index);
                 }
             }
 
@@ -650,7 +647,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to have all items in " + sortOrder + " order{reason}, but found {1}.", Subject);
+                    .FailWith("Expected {context:collection} to have all items in " + sortOrder + " order{reason}, but found {1}.", Subject);
             }
 
             object[] orderedItems = (expectedOrder == SortOrder.Ascending)
@@ -668,8 +665,7 @@ namespace FluentAssertions.Collections
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
                     .ForCondition(actualItem.IsSameOrEqualTo(orderedItem))
-                    .FailWith("Expected " + Verification.SubjectNameOr("collection") +
-                        " to have all items in " + sortOrder +
+                    .FailWith("Expected {context:collection} to have all items in " + sortOrder +
                             " order{reason}, but found {0} where item at index {1} is in wrong order.",
                         Subject, indexOfActualItem);
             }
@@ -721,7 +717,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect collection to have all items in " + sortOrder + " order{reason}, but found {1}.", Subject);
+                    .FailWith("Did not expect {context:collection} to have all items in " + sortOrder + " order{reason}, but found {1}.", Subject);
             }
 
             object[] orderedItems = (order == SortOrder.Ascending)
@@ -738,7 +734,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect collection to have all items in " + sortOrder + " order{reason}, but found {0}.", Subject);
+                    .FailWith("Did not expect {context:collection} to have all items in " + sortOrder + " order{reason}, but found {0}.", Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -767,7 +763,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to be a subset of {0}{reason}, but found {1}.", expectedSuperset,
+                    .FailWith("Expected {context:collection} to be a subset of {0}{reason}, but found {1}.", expectedSuperset,
                         Subject);
             }
 
@@ -781,7 +777,7 @@ namespace FluentAssertions.Collections
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
                     .FailWith(
-                        "Expected collection to be a subset of {0}{reason}, but items {1} are not part of the superset.",
+                        "Expected {context:collection} to be a subset of {0}{reason}, but items {1} are not part of the superset.",
                         expectedSuperset, excessItems);
             }
 
@@ -814,7 +810,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect collection {0} to be a subset of {1}{reason}.", actualItems, expectedItems);
+                    .FailWith("Did not expect {context:collection} {0} to be a subset of {1}{reason}.", actualItems, expectedItems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -843,7 +839,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to have the same count as {0}{reason}, but found {1}.",
+                    .FailWith("Expected {context:collection} to have the same count as {0}{reason}, but found {1}.",
                         otherCollection,
                         Subject);
             }
@@ -856,7 +852,7 @@ namespace FluentAssertions.Collections
             Execute.Verification
                 .ForCondition(actualCount == expectedCount)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected collection to have {0} item(s){reason}, but found {1}.", expectedCount, actualCount);
+                .FailWith("Expected {context:collection} to have {0} item(s){reason}, but found {1}.", expectedCount, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -877,7 +873,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to be <null>{reason}, but found {0}.", Subject);
+                    .FailWith("Expected {context:collection} to be <null>{reason}, but found {0}.", Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -899,7 +895,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection not to be <null>{reason}.");
+                    .FailWith("Expected {context:collection} not to be <null>{reason}.");
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -925,7 +921,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to have element at index {0}{reason}, but found {1}.", index, Subject);
+                    .FailWith("Expected {context:collection} to have element at index {0}{reason}, but found {1}.", index, Subject);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -950,14 +946,6 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection only contains items that are assignable to the type <typeparamref name="T" />.
-        /// </summary>
-        public AndConstraint<TAssertions> ContainItemsAssignableTo<T>()
-        {
-            return ContainItemsAssignableTo<T>(String.Empty);
-        }
-
-        /// <summary>
         /// Asserts that the current collection does not contain the supplied <paramref name="unexpected" /> item.
         /// </summary>
         /// <param name="unexpected">The element that is not expected to be in the collection</param>
@@ -974,7 +962,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection not to contain element {0}{reason}, but found {1}.", unexpected,
+                    .FailWith("Expected {context:collection} not to contain element {0}{reason}, but found {1}.", unexpected,
                         Subject);
             }
 
@@ -982,7 +970,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Collection {0} should not contain {1}{reason}, but found it anyhow.", Subject, unexpected);
+                    .FailWith("{context:Collection} {0} should not contain {1}{reason}, but found it anyhow.", Subject, unexpected);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -1011,7 +999,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to intersect with {0}{reason}, but found {1}.", otherCollection, Subject);
+                    .FailWith("Expected {context:collection} to intersect with {0}{reason}, but found {1}.", otherCollection, Subject);
             }
 
             IEnumerable<object> otherItems = otherCollection.Cast<object>();
@@ -1022,7 +1010,7 @@ namespace FluentAssertions.Collections
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
                     .FailWith(
-                        "Expected collection to intersect with {0}{reason}, but {1} does not contain any shared items.",
+                        "Expected {context:collection} to intersect with {0}{reason}, but {1} does not contain any shared items.",
                         otherCollection, Subject);
             }
 
@@ -1052,7 +1040,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect collection to intersect with {0}{reason}, but found {1}.", otherCollection, Subject);
+                    .FailWith("Did not expect {context:collection} to intersect with {0}{reason}, but found {1}.", otherCollection, Subject);
             }
 
             IEnumerable<object> otherItems = otherCollection.Cast<object>();
@@ -1063,7 +1051,7 @@ namespace FluentAssertions.Collections
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
                     .FailWith(
-                        "Did not expect collection to intersect with {0}{reason}, but found the following shared items {1}.",
+                        "Did not expect {context:collection} to intersect with {0}{reason}, but found the following shared items {1}.",
                         otherCollection, sharedItems);
             }
 

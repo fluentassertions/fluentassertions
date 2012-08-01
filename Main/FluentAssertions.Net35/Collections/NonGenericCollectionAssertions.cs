@@ -22,16 +22,6 @@ namespace FluentAssertions.Collections
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">An object, or <see cref="IEnumerable"/> of objects that are expected to be in the collection.</param>
-        public AndConstraint<NonGenericCollectionAssertions> Contain(object expected)
-        {
-            return Contain(expected, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the current collection contains the specified <paramref name="expected"/> object. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
-        /// </summary>
-        /// <param name="expected">An object, or <see cref="IEnumerable"/> of objects that are expected to be in the collection.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -39,7 +29,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<NonGenericCollectionAssertions> Contain(object expected, string reason,
+        public AndConstraint<NonGenericCollectionAssertions> Contain(object expected, string reason = "",
             params object [] reasonArgs)
         {
             if (expected is IEnumerable)

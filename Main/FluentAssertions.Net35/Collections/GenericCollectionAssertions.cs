@@ -64,14 +64,14 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to contain {0}{reason}, but found {1}.", expected, Subject);
+                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", expected, Subject);
             }
 
             if (!Subject.Contains(expected))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection {0} to contain {1}{reason}.", Subject, expected);
+                    .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -108,14 +108,14 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
+                    .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
             }
 
             if (!Subject.Any(item => predicate.Compile()(item)))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Collection {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
+                    .FailWith("{context:Collection} {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -140,7 +140,7 @@ namespace FluentAssertions.Collections
             Execute.Verification
                 .ForCondition(Subject.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected collection to contain only items matching {0}{reason}, but the collection is empty.",
+                .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but the collection is empty.",
                     predicate.Body);
             
             IEnumerable<T> mismatchingItems = Subject.Where(item => !compiledPredicate(item));
@@ -148,7 +148,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection to contain only items matching {0}{reason}, but {1} do(es) not match.",
+                    .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but {1} do(es) not match.",
                         predicate.Body, mismatchingItems);
             }
 
@@ -172,14 +172,14 @@ namespace FluentAssertions.Collections
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected collection not to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
+                    .FailWith("Expected {context:collection} not to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
             }
 
             if (Subject.Any(item => predicate.Compile()(item)))
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Collection {0} should not have any items matching {1}{reason}.", Subject, predicate.Body);
+                    .FailWith("{context:Collection} {0} should not have any items matching {1}{reason}.", Subject, predicate.Body);
             }
 
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -201,7 +201,7 @@ namespace FluentAssertions.Collections
             string reason = "", params object[] reasonArgs)
         {
             string expectationPrefix =
-                string.Format("Expected collection to contain a single item matching {0}{{reason}}, ", predicate.Body);
+                string.Format("Expected {{context:collection}} to contain a single item matching {0}{{reason}}, ", predicate.Body);
 
             if (ReferenceEquals(Subject, null))
             {

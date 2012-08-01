@@ -262,7 +262,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected dictionary to have (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -299,7 +299,7 @@ namespace FluentAssertions.Specs
             var assertions = dictionary.Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected no items because we want to test the failure message, but found 1.");
+                .WithMessage("Expected dictionary to not have any items because we want to test the failure message, but found 1.");
         }
 
         [TestMethod]

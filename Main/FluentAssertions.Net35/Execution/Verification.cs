@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
@@ -150,10 +151,11 @@ namespace FluentAssertions.Execution
             {
                 if (!succeeded)
                 {
-                    var message = ReplaceReasonTag(failureMessage);
-                    string exceptionMessage = BuildExceptionMessage(message, failureArgs);
+                    string message = ReplaceReasonTag(failureMessage);
+                    message = ReplaceContextTag(message);
+                    message = BuildExceptionMessage(message, failureArgs);
 
-                    AssertionHelper.Throw(exceptionMessage);
+                    AssertionHelper.Throw(message);
                 }
             }
             finally
@@ -181,6 +183,12 @@ namespace FluentAssertions.Execution
             message = message.Replace(ReasonTag, "{0}");
 
             return message;
+        }
+
+        private string ReplaceContextTag(string message)
+        {
+            var regex = new Regex(@"(?:\{context\:)(\w+)\}");
+            return regex.Replace(message, string.IsNullOrEmpty(SubjectName) ? "$1" : SubjectName);
         }
 
         private static string IncrementAllFormatSpecifiers(string message)
