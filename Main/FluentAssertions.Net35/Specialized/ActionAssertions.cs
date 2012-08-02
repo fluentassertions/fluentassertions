@@ -30,7 +30,7 @@ namespace FluentAssertions.Specialized
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason, object[] reasonArgs)
+        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason = "", params object[] reasonArgs)
             where TException : Exception
         {
             Exception exception = null;
@@ -68,7 +68,7 @@ namespace FluentAssertions.Specialized
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public void ShouldNotThrow<TException>(string reason, object[] reasonArgs)
+        public void ShouldNotThrow<TException>(string reason = "", params object[] reasonArgs)
         {
             Exception exception = null;
 
@@ -101,7 +101,7 @@ namespace FluentAssertions.Specialized
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public void ShouldNotThrow(string reason, object[] reasonArgs)
+        public void ShouldNotThrow(string reason = "", params object[] reasonArgs)
         {
             try
             {

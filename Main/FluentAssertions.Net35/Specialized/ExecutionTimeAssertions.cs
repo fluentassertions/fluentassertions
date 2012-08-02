@@ -35,17 +35,6 @@ namespace FluentAssertions.Specialized
         /// <param name="maxDuration">
         /// The maximum allowed duration.
         /// </param>
-        public void ShouldNotExceed(TimeSpan maxDuration)
-        {
-            ShouldNotExceed(maxDuration, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the execution time of the operation does not exceed a specified amount of time.
-        /// </summary>
-        /// <param name="maxDuration">
-        /// The maximum allowed duration.
-        /// </param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -53,7 +42,7 @@ namespace FluentAssertions.Specialized
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public void ShouldNotExceed(TimeSpan maxDuration, string reason, params object[] reasonArgs)
+        public void ShouldNotExceed(TimeSpan maxDuration, string reason = "", params object[] reasonArgs)
         {
             if (executionTime > maxDuration)
             {
