@@ -237,7 +237,7 @@ namespace FluentAssertions.Structural
         }
 
         /// <summary>
-        /// Adds a selection rule to the ones allready added by default.
+        /// Adds a selection rule to the ones allready added by default and which is evaluated after all existing rules.
         /// </summary>
         public StructuralEqualityConfiguration<TSubject> AddRule(ISelectionRule selectionRule)
         {
@@ -246,11 +246,20 @@ namespace FluentAssertions.Structural
         }
 
         /// <summary>
-        /// Adds a matching rule to the ones allready added by default.
+        /// Adds a matching rule to the ones allready added by default and which is evaluated before all existing rules.
         /// </summary>
         public StructuralEqualityConfiguration<TSubject> AddRule(IMatchingRule matchingRule)
         {
-            matchingRules.Add(matchingRule);
+            matchingRules.Insert(0, matchingRule);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a matching rule to the ones allready added by default and which is evaluated before all existing rules
+        /// </summary>
+        public StructuralEqualityConfiguration<TSubject> AddRule(IAssertionRule assertionRule)
+        {
+            assertionRules.Insert(0, assertionRule);
             return this;
         }
 

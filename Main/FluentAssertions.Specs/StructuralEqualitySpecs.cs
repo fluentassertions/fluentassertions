@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reflection;
+using FluentAssertions.Structural;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace FluentAssertions.Specs
 {
@@ -1701,6 +1704,139 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        #endregion
+
+        #region Custom Rules
+
+        [TestMethod]
+        public void When_a_selection_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NameId = "123",
+                SomeValue = "hello"
+            };
+
+            var expected = new
+            {
+                SomeValue = "hello"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeStructurallyEqualTo(
+                expected, 
+                config => config.AddRule(new ExcludeForeignKeysSelectionRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+       
+        internal class ExcludeForeignKeysSelectionRule : ISelectionRule
+        {
+            public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISubjectInfo context)
+            {
+                return properties.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
+            }
+        }
+
+        [TestMethod]
+        public void When_a_matching_rule_is_added_it_should_preceed_all_existing_rules()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NameId = "123",
+                SomeValue = "hello"
+            };
+
+            var expected = new
+            {
+                Name = "123",
+                SomeValue = "hello"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeStructurallyEqualTo(
+                expected,
+                config => config.AddRule(new ForeignKeyMatchingRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+       
+        internal class ForeignKeyMatchingRule : IMatchingRule
+        {
+            public PropertyInfo Match(PropertyInfo subjectProperty, object expectation, string propertyPath)
+            {
+                string name = subjectProperty.Name;
+                if (name.EndsWith("Id"))
+                {
+                    name = name.Replace("Id", "");
+                }
+
+                return expectation.GetType().GetProperty(name);
+            }
+        }
+
+
+        [TestMethod]
+        public void When_an_assertion_rule_is_added_it_should_preceed_all_existing_rules()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Created = 8.July(2012).At(22, 9)
+            };
+
+            var expected = new
+            {
+                Created = 8.July(2012).At(22, 10)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeStructurallyEqualTo(
+                expected,
+                config => config.AddRule(new RelaxingDateTimeAssertionRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+       
+        internal class RelaxingDateTimeAssertionRule : IAssertionRule
+        {
+            public bool AssertEquality(IStructuralEqualityContext context)
+            {
+                if (context.Subject is DateTime)
+                {
+                    ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1000*60);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         #endregion
