@@ -160,6 +160,9 @@
     <Compile Include="..\FluentAssertions.Net35\Formatting\Formatter.cs">
       <Link>Formatting\Formatter.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\GuidValueFormatter.cs">
+      <Link>Formatting\GuidValueFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\IValueFormatter.cs">
       <Link>Formatting\IValueFormatter.cs</Link>
     </Compile>

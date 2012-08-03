@@ -187,7 +187,7 @@ namespace FluentAssertions.Execution
 
         private string ReplaceContextTag(string message)
         {
-            var regex = new Regex(@"(?:\{context\:)(\w+)\}");
+            var regex = new Regex(@"(?:\{context\:)([\w|\s]+)\}");
             return regex.Replace(message, string.IsNullOrEmpty(SubjectName) ? "$1" : SubjectName);
         }
 

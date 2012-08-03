@@ -25,14 +25,6 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that the <see cref="Guid"/> is <see cref="Guid.Empty"/>.
         /// </summary>
-        public AndConstraint<GuidAssertions> BeEmpty()
-        {
-            return BeEmpty(String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="Guid"/> is <see cref="Guid.Empty"/>.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -40,12 +32,12 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GuidAssertions> BeEmpty(string reason, params object[] reasonArgs)
+        public AndConstraint<GuidAssertions> BeEmpty(string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition((Subject.HasValue) && (Subject.Value == Guid.Empty))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected empty GUID{reason}, but found {0}.", Subject);
+                .FailWith("Expected empty Guid{reason}, but found {0}.", Subject);
 
             return new AndConstraint<GuidAssertions>(this);
         }
@@ -53,14 +45,6 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that the <see cref="Guid"/> is not <see cref="Guid.Empty"/>.
         /// </summary>
-        public AndConstraint<GuidAssertions> NotBeEmpty()
-        {
-            return NotBeEmpty(String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="Guid"/> is not <see cref="Guid.Empty"/>.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -68,12 +52,12 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GuidAssertions> NotBeEmpty(string reason, params object[] reasonArgs)
+        public AndConstraint<GuidAssertions> NotBeEmpty(string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition((Subject.HasValue) && (Subject.Value != Guid.Empty))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect empty GUID{reason}.");
+                .FailWith("Did not expect empty Guid{reason}.");
 
             return new AndConstraint<GuidAssertions>(this);
         }
@@ -85,24 +69,6 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that the <see cref="Guid"/> is equal to the <paramref name="expected"/> GUID.
         /// </summary>
-        /// <param name="expected">The expected value to compare the actual value with.</param>
-        public AndConstraint<GuidAssertions> Be(Guid expected)
-        {
-            return Be(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="Guid"/> is equal to the <paramref name="expected"/> GUID.
-        /// </summary>
-        /// <param name="expected">The expected <see cref="string"/> value to compare the actual value with.</param>
-        public AndConstraint<GuidAssertions> Be(string expected)
-        {
-            return Be(expected, String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="Guid"/> is equal to the <paramref name="expected"/> GUID.
-        /// </summary>
         /// <param name="expected">The expected <see cref="string"/> value to compare the actual value with.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -111,7 +77,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GuidAssertions> Be(string expected, string reason, params object[] reasonArgs)
+        public AndConstraint<GuidAssertions> Be(string expected, string reason = "", params object[] reasonArgs)
         {
             var expectedGuid = new Guid(expected);
             return Be(expectedGuid, reason, reasonArgs);
@@ -128,23 +94,14 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GuidAssertions> Be(Guid expected, string reason, params object[] reasonArgs)
+        public AndConstraint<GuidAssertions> Be(Guid expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.Equals(expected))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected GUID to be {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<GuidAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="Guid"/> is not equal to the <paramref name="unexpected"/> GUID.
-        /// </summary>
-        /// <param name="unexpected">The unexpected value to compare the actual value with.</param>
-        public AndConstraint<GuidAssertions> NotBe(Guid unexpected)
-        {
-            return NotBe(unexpected, String.Empty);
         }
 
         /// <summary>
@@ -158,12 +115,12 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GuidAssertions> NotBe(Guid unexpected, string reason, params object[] reasonArgs)
+        public AndConstraint<GuidAssertions> NotBe(Guid unexpected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect GUID to be {0}{reason}.", Subject);
+                .FailWith("Did not expect {context:Guid} to be {0}{reason}.", Subject);
 
             return new AndConstraint<GuidAssertions>(this);
         }

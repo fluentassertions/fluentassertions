@@ -64,7 +64,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected DateTime to be <2012-03-11> because we want to test the failure message, but found <2012-03-10>.");
+                    "Expected date and time to be <2012-03-11>*failure message, but found <2012-03-10>.", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect DateTime to be <2012-03-10> because we want to test the failure message.");
+                .WithMessage("Did not expect date and time to be <2012-03-10> because we want to test the failure message.");
         }
 
         #endregion
@@ -172,7 +172,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected datetime to be within 20 ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
         }
 
         [TestMethod]
@@ -194,7 +194,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected datetime to be within 20 ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
+                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
         }
 
         [TestMethod]
@@ -239,7 +239,7 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.BeBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected a date/time before <{0}> because we want to test the failure message, but found <{1}>.",
+                    "Expected a date and time before <{0}> because we want to test the failure message, but found <{1}>.",
                     Yesterday.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
         }
 
@@ -270,7 +270,7 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.BeOnOrBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected a date/time on or before <{0}> because we want to test the failure message, but found <{1}>.",
+                    "Expected a date and time on or before <{0}> because we want to test the failure message, but found <{1}>.",
                     Yesterday.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
         }
 
@@ -295,7 +295,7 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.BeAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected a date/time after <{0}> because we want to test the failure message, but found <{1}>.",
+                    "Expected a date and time after <{0}> because we want to test the failure message, but found <{1}>.",
                     Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
         }
 
@@ -326,7 +326,7 @@ namespace FluentAssertions.Specs
             assertions.Invoking(x => x.BeOnOrAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected a date/time on or after <{0}> because we want to test the failure message, but found <{1}>.",
+                    "Expected a date and time on or after <{0}> because we want to test the failure message, but found <{1}>.",
                     Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
         }
 

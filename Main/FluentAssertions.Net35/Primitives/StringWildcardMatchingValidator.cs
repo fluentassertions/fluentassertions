@@ -45,7 +45,7 @@ namespace FluentAssertions.Primitives
             {
                 var builder = new StringBuilder();
                 builder.Append(Negate ? "Did not expect " : "Expected ");
-                builder.Append(Verification.SubjectNameOr("string"));
+                builder.Append("{context:string}");
                 builder.Append(IgnoreCase ? " to match the equivalent of" : " to match");
                 builder.Append(" {0}{reason}, ");
 

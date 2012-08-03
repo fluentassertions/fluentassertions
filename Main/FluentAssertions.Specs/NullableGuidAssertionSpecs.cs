@@ -92,7 +92,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected GUID to be 55555555-ffff-eeee-dddd-444444444444 because we want to test the failure message, but found <null>.");
+                "Expected Guid to be {55555555-ffff-eeee-dddd-444444444444} because we want to test the failure message, but found <null>.");
         }
 
         [TestMethod]
@@ -133,7 +133,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect a value because we want to test the failure message, but found 11111111-aaaa-bbbb-cccc-999999999999.");
+                .WithMessage("Did not expect a value because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
         }
 
         [TestMethod]
@@ -155,7 +155,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected GUID to be 11111111-aaaa-bbbb-cccc-999999999999 because we want to test the failure message, but found <null>.");
+                "Expected Guid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message, but found <null>.");
         }
 
         [TestMethod]

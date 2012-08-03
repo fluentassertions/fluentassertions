@@ -59,7 +59,7 @@ namespace FluentAssertions.Primitives
             get
             {
                 string predicateDescription = IgnoreCase ? "be equivalent to" : "be";
-                return "Expected " + Verification.SubjectNameOr("string") + " to " + predicateDescription + " {0}{reason}, ";
+                return "Expected {context:string} to " + predicateDescription + " {0}{reason}, ";
             }
         }
 

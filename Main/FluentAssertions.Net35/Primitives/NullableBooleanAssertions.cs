@@ -18,14 +18,6 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that a nullable boolean value is not <c>null</c>.
         /// </summary>
-        public AndConstraint<NullableBooleanAssertions> HaveValue()
-        {
-            return HaveValue(String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that a nullable boolean value is not <c>null</c>.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -33,7 +25,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>      
-        public AndConstraint<NullableBooleanAssertions> HaveValue(string reason, params object[] reasonArgs)
+        public AndConstraint<NullableBooleanAssertions> HaveValue(string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject.HasValue)
@@ -46,14 +38,6 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that a nullable boolean value is <c>null</c>.
         /// </summary>
-        public AndConstraint<NullableBooleanAssertions> NotHaveValue()
-        {
-            return NotHaveValue(String.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that a nullable boolean value is <c>null</c>.
-        /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -61,7 +45,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>      
-        public AndConstraint<NullableBooleanAssertions> NotHaveValue(string reason, params object[] reasonArgs)
+        public AndConstraint<NullableBooleanAssertions> NotHaveValue(string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(!Subject.HasValue)
@@ -75,15 +59,6 @@ namespace FluentAssertions.Primitives
         /// Asserts that the value is equal to the specified <paramref name="expected"/> value.
         /// </summary>
         /// <param name="expected">The expected value</param>
-        public AndConstraint<BooleanAssertions> Be(bool? expected)
-        {
-            return Be(expected, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the value is equal to the specified <paramref name="expected"/> value.
-        /// </summary>
-        /// <param name="expected">The expected value</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -91,7 +66,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<BooleanAssertions> Be(bool? expected, string reason, params object[] reasonArgs)
+        public AndConstraint<BooleanAssertions> Be(bool? expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
                 .ForCondition(Subject == expected)

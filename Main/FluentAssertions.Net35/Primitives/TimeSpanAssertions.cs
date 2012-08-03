@@ -52,17 +52,6 @@ namespace FluentAssertions.Primitives
         /// <param name="target">
         /// The <see cref="DateTime"/> to compare the subject with.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Before(DateTime target)
-        {
-            return Before(target, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that a <see cref="DateTime"/> occurs a specified amount of time before another <see cref="DateTime"/>.
-        /// </summary>
-        /// <param name="target">
-        /// The <see cref="DateTime"/> to compare the subject with.
-        /// </param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -70,7 +59,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason, params object [] reasonArgs)
+        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason = "", params object [] reasonArgs)
         {
             var actual = target.Subtract(subject.Value);
 
@@ -93,17 +82,6 @@ namespace FluentAssertions.Primitives
         /// <param name="target">
         /// The <see cref="DateTime"/> to compare the subject with.
         /// </param>
-        public AndConstraint<DateTimeAssertions> After(DateTime target)
-        {
-            return After(target, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that a <see cref="DateTime"/> occurs a specified amount of time after another <see cref="DateTime"/>.
-        /// </summary>
-        /// <param name="target">
-        /// The <see cref="DateTime"/> to compare the subject with.
-        /// </param>
         /// <param name="reason">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
@@ -111,7 +89,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason, params object [] reasonArgs)
+        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason = "", params object [] reasonArgs)
         {
             var actual = subject.Value.Subtract(target);
 

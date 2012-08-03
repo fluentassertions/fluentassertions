@@ -94,7 +94,7 @@ namespace FluentAssertions.Net45.Specs
         {
             await Task.Factory.StartNew(() =>
             {
-                Sleep(5500);
+                Sleep(500);
                 throw new TException();
             });
         }
@@ -109,7 +109,7 @@ namespace FluentAssertions.Net45.Specs
 #if WINRT
             new ManualResetEvent(false).WaitOne(timeout);
 #else
-            Thread.Sleep(5500);
+            Thread.Sleep(500);
 #endif
         }
     }

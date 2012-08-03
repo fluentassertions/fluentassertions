@@ -15,6 +15,7 @@ namespace FluentAssertions.Formatting
         private static readonly List<IValueFormatter> formatters = new List<IValueFormatter>
         {
             new NullValueFormatter(),
+            new GuidValueFormatter(),
             new DateTimeValueFormatter(),
             new TimeSpanValueFormatter(),
             new NumericValueFormatter(),

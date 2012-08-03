@@ -197,7 +197,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected reference to object \r\n{ UserName = JohnDoe } because " + 
+                    "Expected object to refer to \r\n{ UserName = JohnDoe } because " + 
                     "they are the same, but found object \r\n{ Name = John Doe }.");
         }
 

@@ -1,14 +1,20 @@
-﻿using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FluentAssertions.Formatting
 {
-    internal class EnumerableValueFormatter : IValueFormatter
+    public class GuidValueFormatter : IValueFormatter
     {
+        /// <summary>
+        /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <returns>
+        /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
+        /// </returns>
         public bool CanHandle(object value)
         {
-            return value is IEnumerable;
+            return value is Guid;
         }
 
         /// <summary>
@@ -27,15 +33,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public string ToString(object value, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            var enumerable = ((IEnumerable)value).Cast<object>().ToArray();
-            if (enumerable.Any())
-            {
-                return "{" + string.Join(", ", enumerable.Select(o => Formatter.ToString(o, processedObjects, nestedPropertyLevel)).ToArray()) + "}";
-            }
-            else
-            {
-                return "{empty}";
-            }
+            return "{" + value + "}";
         }
     }
 }

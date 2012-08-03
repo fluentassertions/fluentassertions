@@ -92,6 +92,7 @@
     <Compile Include="Common\ObjectExtensions.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\TypeExtensions.cs" />
+    <Compile Include="Formatting\GuidValueFormatter.cs" />
     <Compile Include="Specialized\ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
     <Compile Include="Structural\AllDeclaredPublicPropertiesSelectionRule.cs" />
