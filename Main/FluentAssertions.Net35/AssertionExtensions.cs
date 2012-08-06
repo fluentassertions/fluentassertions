@@ -538,7 +538,7 @@ namespace FluentAssertions
         public static void ShouldBeStructurallyEqualTo<T>(this T subject, object expectation,
             Func<StructuralEqualityConfiguration<T>, StructuralEqualityConfiguration<T>> config, string reason = "", params object[] reasonArgs)
         {
-            var context = new StructuralEqualityContext(config(StructuralEqualityConfiguration<T>.Default))
+            var context = new StructuralEqualityContext(config(StructuralEqualityConfiguration<T>.Default()))
             {
                 Subject = subject,
                 Expectation = expectation,
@@ -559,7 +559,7 @@ namespace FluentAssertions
         public static void ShouldAllBeStructurallyEqualTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
             Func<StructuralEqualityConfiguration<T>, StructuralEqualityConfiguration<T>> config, string reason = "", params object[] reasonArgs)
         {
-            var context = new StructuralEqualityContext(config(StructuralEqualityConfiguration<T>.Default))
+            var context = new StructuralEqualityContext(config(StructuralEqualityConfiguration<T>.Default()))
             {
                 Subject = subject,
                 Expectation = expectation,

@@ -23,5 +23,17 @@ namespace FluentAssertions.Structural
         {
             return context.CompileTimeType.GetNonPrivateProperties();
         }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            return "Select all declared properties";
+        }
     }
 }

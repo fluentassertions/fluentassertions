@@ -45,5 +45,17 @@ namespace FluentAssertions.Structural
 
             return compareeProperty;
         }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            return "Match property by name (or throw)";
+        }
     }
 }

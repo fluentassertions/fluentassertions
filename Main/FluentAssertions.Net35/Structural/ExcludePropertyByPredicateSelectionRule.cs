@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace FluentAssertions.Structural
@@ -11,10 +12,12 @@ namespace FluentAssertions.Structural
     internal class ExcludePropertyByPredicateSelectionRule : ISelectionRule
     {
         private readonly Func<ISubjectInfo, bool> predicate;
+        private readonly string description;
 
-        public ExcludePropertyByPredicateSelectionRule(Func<ISubjectInfo, bool> predicate)
+        public ExcludePropertyByPredicateSelectionRule(Expression<Func<ISubjectInfo, bool>> predicate)
         {
-            this.predicate = predicate;
+            description = predicate.Body.ToString();
+            this.predicate = predicate.Compile();
         }
 
         /// <summary>
@@ -29,6 +32,18 @@ namespace FluentAssertions.Structural
         public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISubjectInfo context)
         {
             return properties.Where(p => !predicate(new NestedSelectionContext(context, p))).ToArray();
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            return "Exclude property when " + description;
         }
     }
 }

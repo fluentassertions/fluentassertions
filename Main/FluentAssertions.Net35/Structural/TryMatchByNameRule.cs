@@ -34,5 +34,17 @@ namespace FluentAssertions.Structural
         {
             return expectation.GetType().FindProperty(subjectProperty.Name);
         }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            return "Try to match property by name";
+        }
     }
 }

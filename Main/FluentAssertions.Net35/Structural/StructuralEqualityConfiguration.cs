@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
@@ -14,9 +15,16 @@ namespace FluentAssertions.Structural
     {
         #region Private Definitions
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<ISelectionRule> selectionRules = new List<ISelectionRule>();
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IMatchingRule> matchingRules = new List<IMatchingRule>();
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IAssertionRule> assertionRules = new List<IAssertionRule>();
+        
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
 
         #endregion
@@ -36,26 +44,23 @@ namespace FluentAssertions.Structural
         /// Gets a configuration that compares all declared properties of the subject with equally named properties of the expectation,
         /// and includes the entire object graph. The names of the properties between the subject and expectation must match.
         /// </summary>
-        public static StructuralEqualityConfiguration<TSubject> Default
+        public static Func<StructuralEqualityConfiguration<TSubject>> Default = () =>
         {
-            get
-            {
-                var config = new StructuralEqualityConfiguration<TSubject>();
-                config.Recurse();
-                config.IncludeAllDeclaredProperties();
+            var config = new StructuralEqualityConfiguration<TSubject>();
+            config.Recurse();
+            config.IncludeAllDeclaredProperties();
 
-                return config;
-            }
-        }
+            return config;
+        };
 
         /// <summary>
         /// Gets a configuration that by default doesn't include any of the subject's properties and doesn't consider any nested objects
         /// or collections.
         /// </summary>
-        public static StructuralEqualityConfiguration<TSubject> Empty
+        public static Func<StructuralEqualityConfiguration<TSubject>> Empty = () =>
         {
-            get { return new StructuralEqualityConfiguration<TSubject>(); }
-        }
+            return new StructuralEqualityConfiguration<TSubject>();
+        };
 
         /// <summary>
         /// Gets an ordered collection of selection rules that define what properties are included.
@@ -150,7 +155,7 @@ namespace FluentAssertions.Structural
         /// <summary>
         /// Excludes a (nested) property based on a predicate from the structural equality check.
         /// </summary>
-        public StructuralEqualityConfiguration<TSubject> Exclude(Func<ISubjectInfo, bool> predicate)
+        public StructuralEqualityConfiguration<TSubject> Exclude(Expression<Func<ISubjectInfo, bool>> predicate)
         {
             AddRule(new ExcludePropertyByPredicateSelectionRule(predicate));
             return this;
