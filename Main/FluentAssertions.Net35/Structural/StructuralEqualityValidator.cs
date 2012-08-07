@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using FluentAssertions.Execution;
 
@@ -9,13 +10,14 @@ namespace FluentAssertions.Structural
     internal class StructuralEqualityValidator : IStructuralEqualityValidator
     {
         #region Private Definitions
-        
-        private readonly IStructuralEqualityStep[] steps = {
+
+        private readonly IStructuralEqualityStep[] steps =
+        {
             new TryConversionEqualityStep(),
             new ReferenceEqualityStep(),
-            new ApplyAssertionRulesEqualityStep(), 
+            new ApplyAssertionRulesEqualityStep(),
             new EnumerableEqualityStep(),
-            new ComplexTypeEqualityStep(), 
+            new ComplexTypeEqualityStep(),
             new FinalEqualityStep()
         };
 
@@ -25,8 +27,18 @@ namespace FluentAssertions.Structural
         {
             try
             {
-                Verification.SubjectName = context.PropertyDescription;
+                AssertEqualityUsing(context);
+            }
+            catch (Exception exc)
+            {
+                Execute.Verification.FailWith(exc.Message + "\n" + context.Config);
+            }
+        }
 
+        public void AssertEqualityUsing(StructuralEqualityContext context)
+        {
+            ExecuteUsingSubjectName(context.PropertyDescription, () =>
+            {
                 if (!context.ContainsCyclicReference)
                 {
                     foreach (IStructuralEqualityStep strategy in steps.Where(s => s.CanHandle(context)))
@@ -37,10 +49,19 @@ namespace FluentAssertions.Structural
                         }
                     }
                 }
-                else 
+                else
                 {
                     context.HandleCyclicReference();
                 }
+            });
+        }
+
+        private void ExecuteUsingSubjectName(string subjectName, Action action)
+        {
+            try
+            {
+                Verification.SubjectName = subjectName;
+                action();
             }
             finally
             {

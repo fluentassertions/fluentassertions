@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Structural
@@ -290,6 +291,36 @@ namespace FluentAssertions.Structural
                 config.assertionRules.Insert(0, new AssertionRule<T>(predicate, action));
                 return config;
             }
+        }
+        
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            var builder = new StringBuilder();
+            
+            builder.AppendLine("\nUsing configuration:");
+            foreach (var rule in selectionRules)
+            {
+                builder.AppendLine("- " + rule);
+            }
+            
+            foreach (var rule in matchingRules)
+            {
+                builder.AppendLine("- " + rule);
+            }
+            
+            foreach (var rule in assertionRules)
+            {
+                builder.AppendLine("- " + rule);
+            }
+            
+            return builder.ToString();
         }
 
         /// <summary>

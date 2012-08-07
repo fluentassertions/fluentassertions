@@ -48,7 +48,7 @@ namespace FluentAssertions.Structural
             var nestedContext = context.CreateForNestedProperty(propertyInfo);
             if (nestedContext != null)
             {
-                parent.AssertEquality(nestedContext);
+                parent.AssertEqualityUsing(nestedContext);
             }
         }
     }
