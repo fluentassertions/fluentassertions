@@ -69,7 +69,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string to be \"AB\", but \"ABC\" is too long.");
+                "Expected string to be \"AB\" with a length of 2, but \"ABC\" has a length of 3.");
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string to be \"ABC\", but \"AB\" is too short.");
+                "Expected string to be \"ABC\" with a length of 3, but \"AB\" has a length of 2.");
         }
 
         [TestMethod]
@@ -648,9 +648,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string to start with " +
-                    "\"ABCDEF\", but " +
-                        "\"ABC\" is too short.");
+                "Expected string to start with \"ABCDEF\", but \"ABC\" is too short.");
         }
 
         [TestMethod]
@@ -1075,7 +1073,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string to be equivalent to \"\", but \"ABC\" is too long.");
+                "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3.");
         }
 
         [TestMethod]
@@ -1090,7 +1088,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string to be equivalent to \"ABCD\", but \"AB\" is too short.");
+                "Expected string to be equivalent to \"ABCD\" with a length of 4, but \"AB\" has a length of 2", ComparisonMode.StartWith);
         }
 
         [TestMethod]

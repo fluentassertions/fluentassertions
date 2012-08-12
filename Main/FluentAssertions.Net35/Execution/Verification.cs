@@ -11,7 +11,7 @@ namespace FluentAssertions.Execution
     /// </summary>
     public class Verification
     {
-        private readonly char[] blanks = new[] { '\r', '\n', ' ', '\t' };
+        private readonly char[] blanks = new[] {'\r', '\n', ' ', '\t'};
 
         /// <summary>
         /// Represents the phrase that can be used in <see cref="FailWith"/> as a placeholder for the reason of an assertion.
@@ -20,7 +20,9 @@ namespace FluentAssertions.Execution
 
         #region Private Definitions
 
-        [ThreadStatic] private static string subjectName;
+        [ThreadStatic]
+        private static string subjectName;
+
         private string reason;
         private bool succeeded;
         private bool useLineBreaks;
@@ -98,7 +100,7 @@ namespace FluentAssertions.Execution
             return this;
         }
 
-        private string SanitizeReason(string reason, object [] reasonArgs)
+        private string SanitizeReason(string reason, object[] reasonArgs)
         {
             if (!string.IsNullOrEmpty(reason))
             {
@@ -145,7 +147,7 @@ namespace FluentAssertions.Execution
         /// </remarks>
         /// <param name="failureMessage">The format string that represents the failure message.</param>
         /// <param name="failureArgs">Optional arguments for the <paramref name="failureMessage"/></param>
-        public void FailWith(string failureMessage, params object [] failureArgs)
+        public void FailWith(string failureMessage, params object[] failureArgs)
         {
             try
             {
@@ -204,7 +206,7 @@ namespace FluentAssertions.Execution
             return message;
         }
 
-        private string BuildExceptionMessage(string failureMessage, object [] failureArgs)
+        private string BuildExceptionMessage(string failureMessage, object[] failureArgs)
         {
             var values = new List<string>();
             if (!string.IsNullOrEmpty(reason))
@@ -212,9 +214,10 @@ namespace FluentAssertions.Execution
                 values.Add(reason);
             }
 
-            values.AddRange(failureArgs.Select(a => useLineBreaks ? Formatter.ToStringLine(a) : Formatter.ToString(a)));
+            values.AddRange(failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)));
 
-            return string.Format(failureMessage, values.ToArray()).Replace("{{{{", "{{").Replace("}}}}", "}}");
+            string formattedMessage = values.Any() ? string.Format(failureMessage, values.ToArray()) : failureMessage;
+            return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
         }
     }
 }

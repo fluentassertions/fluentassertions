@@ -49,7 +49,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
-                    "Expected exception message to be \r\n\"some message\", but \r\n\"some\" is too short.");
+                    "Expected exception message to be \r\n\"some message\" with a length of 12, but \r\n\"some\" has a length of 4.");
             }
         }
 
@@ -201,9 +201,8 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                Assert.AreEqual(
-                    "Expected exception message to be \"message2\", but \"\" is too short.",
-                    ex.Message);
+                ex.Message.Should().Match(
+                    "Expected exception message to be \"message2\"*, but \"\"*.");
             }
         }
 
@@ -234,9 +233,8 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                Assert.AreEqual(
-                    "Expected exception message to be \r\n\"message2\", but \r\n\"message2\\r\\nParameter name: someParam\" is too long.",
-                    ex.Message);
+                ex.Message.Should().Match(
+                    "Expected exception message to be \r\n\"message2\"*, but \r\n\"message2\\r\\nParameter name: someParam\"*.");
             }
         }
 
@@ -608,7 +606,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
-                    "Expected inner*\r\n\"expected message\" because IFoo.Do should do just that, but*");
+                    "Expected inner*\r\n\"expected message\"*because IFoo.Do should do just that, but*");
             }
         }
 

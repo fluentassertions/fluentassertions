@@ -24,7 +24,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            string result = formatter.ToString(new DateTime(1973, 9, 20));
+            string result = formatter.ToString(new DateTime(1973, 9, 20), false);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -45,7 +45,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             DateTime emptyDate = 1.January(0001);
             var dateTime = emptyDate.At(08, 20, 01);
-            string result = formatter.ToString(dateTime);
+            string result = formatter.ToString(dateTime, false);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -65,7 +65,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             var dateTime = 1.May(2012).At(20, 15, 30, 318);
-            string result = formatter.ToString(dateTime);
+            string result = formatter.ToString(dateTime, false);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -85,7 +85,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             var dateTime = 1.May(2012).At(20, 15, 30);
-            string result = formatter.ToString(dateTime);
+            string result = formatter.ToString(dateTime, false);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

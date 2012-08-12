@@ -1,6 +1,5 @@
 using System;
 using FluentAssertions.Common;
-using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
 {
@@ -9,7 +8,7 @@ namespace FluentAssertions.Primitives
         private readonly StringComparison stringComparison;
 
         public StringStartValidator(string subject, string expected, StringComparison stringComparison, string reason,
-            object [] reasonArgs) :
+            object[] reasonArgs) :
                 base(subject, expected, reason, reasonArgs)
         {
             this.stringComparison = stringComparison;
@@ -20,7 +19,7 @@ namespace FluentAssertions.Primitives
             get
             {
                 string predicateDescription = IgnoreCase ? "start with equivalent of" : "start with";
-                return "Expected {context:string} to " + predicateDescription + " {0}{reason}, ";
+                return "Expected {context:string} to " + predicateDescription + " ";
             }
         }
 
@@ -32,7 +31,7 @@ namespace FluentAssertions.Primitives
 #if !WINRT
                     (stringComparison == StringComparison.InvariantCultureIgnoreCase) ||
 #endif
-                        (stringComparison == StringComparison.OrdinalIgnoreCase);
+                    (stringComparison == StringComparison.OrdinalIgnoreCase);
             }
         }
 
@@ -40,7 +39,7 @@ namespace FluentAssertions.Primitives
         {
             if (subject.Length < expected.Length)
             {
-                verification.FailWith(ExpectationDescription + "but {1} is too short.", expected, subject);
+                verification.FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject);
             }
         }
 
@@ -52,7 +51,7 @@ namespace FluentAssertions.Primitives
                 int indexOfMismatch = subject.IndexOfFirstMismatch(expected, stringComparison);
 
                 verification.FailWith(
-                    ExpectationDescription + "but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
+                    ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
                     expected, subject);
             }
         }

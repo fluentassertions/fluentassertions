@@ -30,7 +30,7 @@ namespace FluentAssertions.Specs
                      <endDate />
                   </configuration>");
 
-            string result = formatter.ToString(document);
+            string result = formatter.ToString(document, false);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -51,7 +51,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var document = new XDocument();
 
-            string result = formatter.ToString(document);
+            string result = formatter.ToString(document, false);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

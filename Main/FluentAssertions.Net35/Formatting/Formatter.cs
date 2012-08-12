@@ -40,32 +40,15 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public static string ToString(object value, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
+        public static string ToString(object value, bool useLineBreaks = false, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
             if (processedObjects == null)
             {
                 processedObjects = new List<object>();
             }
 
-            var firstFormatterThatCanHandleValue = formatters.First(f => f.CanHandle(value));
-
-            return firstFormatterThatCanHandleValue.ToString(value, processedObjects, nestedPropertyLevel);
-        }
-
-        /// <summary>
-        /// Returns a human-readable representation of a particular object that starts on a new line.
-        /// </summary>
-        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
-        /// <param name="nestedPropertyLevel">
-        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
-        /// no <see cref="object.ToString()"/> override.
-        /// </param>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
-        public static string ToStringLine(object value, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
-        {
-            return Environment.NewLine + ToString(value, processedObjects, nestedPropertyLevel);
+            IValueFormatter firstFormatterThatCanHandleValue = formatters.First(f => f.CanHandle(value));
+            return firstFormatterThatCanHandleValue.ToString(value, useLineBreaks, processedObjects, nestedPropertyLevel);
         }
     }
 }

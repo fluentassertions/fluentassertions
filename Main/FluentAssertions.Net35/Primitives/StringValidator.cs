@@ -46,7 +46,7 @@ namespace FluentAssertions.Primitives
         {
             if (((expected == null) && (subject != null)) || ((expected != null) && (subject == null)))
             {
-                verification.FailWith(ExpectationDescription + "but found {1}.", expected, subject);
+                verification.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
             }
         }
 
