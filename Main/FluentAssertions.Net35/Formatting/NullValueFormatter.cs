@@ -2,7 +2,7 @@
 
 namespace FluentAssertions.Formatting
 {
-    internal class NullValueFormatter : IValueFormatter
+    public class NullValueFormatter : IValueFormatter
     {
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.

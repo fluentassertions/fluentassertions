@@ -171,5 +171,16 @@ namespace FluentAssertions.Common
             return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsStatic;
 #endif
         }
+
+        /// <summary>
+        /// Determines whether the specified method has been annotated with a specific attribute.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasAttribute<TAttribute>(this MethodInfo method) where TAttribute : Attribute
+        {
+            return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
+        }
     }
 }

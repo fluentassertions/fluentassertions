@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 
-using FluentAssertions.Common;
-
 namespace FluentAssertions.Formatting
 {
-    internal class ExpressionValueFormatter : IValueFormatter
+    public class ExpressionValueFormatter : IValueFormatter
     {
+        /// <summary>
+        /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <returns>
+        /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
+        /// </returns>
         public bool CanHandle(object value)
         {
             return value is Expression;
@@ -28,7 +33,8 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
+        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null,
+            int nestedPropertyLevel = 0)
         {
             return value.ToString().Replace(" = ", " == ");
         }

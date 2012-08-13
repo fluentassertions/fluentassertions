@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
-using FluentAssertions.Common;
-
 namespace FluentAssertions.Formatting
 {
-    internal class XDocumentValueFormatter : IValueFormatter
+    public class XDocumentValueFormatter : IValueFormatter
     {
         public bool CanHandle(object value)
         {
@@ -27,9 +25,10 @@ namespace FluentAssertions.Formatting
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
+        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null,
+            int nestedPropertyLevel = 0)
         {
-            var document = (XDocument) value;
+            var document = (XDocument)value;
 
             return (document.Root != null)
                 ? FormatDocumentWithRoot(document)

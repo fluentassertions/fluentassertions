@@ -53,6 +53,71 @@ namespace FluentAssertions.Specs
             result.Should().Contain("Property 'ThrowingProperty' threw an exception");
         }
 
+#if !WINRT
+
+        #region Attribute Based Formatting
+
+        [TestMethod]
+        public void When_a_custom_formatter_exists_in_the_current_assembly_it_should_override_the_default_formatters()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SomeClassWithCustomFormatter
+            {
+                Property = "SomeValue"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(subject);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().Be("Property = SomeValue");
+        }
+
+        public class SomeClassWithCustomFormatter
+        {
+            public string Property { get; set; }
+
+            public override string ToString()
+            {
+                return "The value of my property is " + Property;
+            }
+        }
+
+        public class SomeOtherClassWithCustomFormatter
+        {
+            public string Property { get; set; }
+
+            public override string ToString()
+            {
+                return "The value of my property is " + Property;
+            }
+        }
+
+        public static class CustomFormatter
+        {
+            [ValueFormatter]
+            public static string Foo(SomeClassWithCustomFormatter value)
+            {
+                return "Property = " + value.Property;
+            }
+
+            [ValueFormatter]
+            public static string Foo(SomeOtherClassWithCustomFormatter value)
+            {
+                Assert.Fail("Should never be called");
+                return "";
+            }
+        }
+
+        #endregion
+
+#endif
     }
 
     internal class ExceptionThrowingClass
@@ -71,7 +136,12 @@ namespace FluentAssertions.Specs
         }
 
         private static readonly Node _default = new Node();
-        public static Node Default { get { return _default; } }
+
+        public static Node Default
+        {
+            get { return _default; }
+        }
+
         public List<Node> Children { get; set; }
     }
 }

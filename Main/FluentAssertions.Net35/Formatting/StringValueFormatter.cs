@@ -4,7 +4,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
-    internal class StringValueFormatter : IValueFormatter
+    public class StringValueFormatter : IValueFormatter
     {
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.

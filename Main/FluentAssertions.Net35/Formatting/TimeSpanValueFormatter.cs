@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FluentAssertions.Formatting
 {
-    internal class TimeSpanValueFormatter : IValueFormatter
+    public class TimeSpanValueFormatter : IValueFormatter
     {
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.

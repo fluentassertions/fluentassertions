@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FluentAssertions.Formatting
 {
-    internal class DefaultValueFormatter : IValueFormatter
+    public class DefaultValueFormatter : IValueFormatter
     {
         #region Private Definitions
 

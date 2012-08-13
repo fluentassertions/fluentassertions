@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace FluentAssertions.Formatting
 {
-    internal class XAttributeValueFormatter : IValueFormatter
+    public class XAttributeValueFormatter : IValueFormatter
     {
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.

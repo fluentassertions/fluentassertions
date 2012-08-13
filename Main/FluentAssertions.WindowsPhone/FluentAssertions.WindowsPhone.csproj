@@ -249,6 +249,9 @@
     <Compile Include="..\FluentAssertions.Net35\Structural\ApplyAssertionRulesEqualityStep.cs">
       <Link>Structural\ApplyAssertionRulesEqualityStep.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Structural\ISubjectInfo.cs">
+      <Link>Structural\ISubjectInfo.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\StructuralEqualityConfiguration.cs">
       <Link>Structural\StructuralEqualityConfiguration.cs</Link>
     </Compile>
@@ -290,9 +293,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\ISelectionRule.cs">
       <Link>Structural\ISelectionRule.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IObjectInfo.cs">
-      <Link>Structural\IObjectInfo.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Structural\NestedSelectionContext.cs">
       <Link>Structural\NestedSelectionContext.cs</Link>
