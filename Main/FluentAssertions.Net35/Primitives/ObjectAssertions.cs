@@ -186,7 +186,6 @@ namespace FluentAssertions.Primitives
             stream.Position = 0;
             return binaryFormatter.Deserialize(stream);
         }
-#endif
 
         /// <summary>
         /// Asserts that an object can be serialized and deserialized using the XML serializer and that it stills retains
@@ -227,5 +226,6 @@ namespace FluentAssertions.Primitives
             stream.Position = 0;
             return binaryFormatter.Deserialize(stream);
         }
+#endif
     }
 }

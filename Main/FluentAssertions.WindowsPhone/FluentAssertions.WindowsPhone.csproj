@@ -129,6 +129,9 @@
     <Compile Include="..\FluentAssertions.Net35\FluentDateTimeExtensions.cs">
       <Link>FluentDateTimeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\AttributeBasedFormatter.cs">
+      <Link>Formatting\AttributeBasedFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\DateTimeValueFormatter.cs">
       <Link>Formatting\DateTimeValueFormatter.cs</Link>
     </Compile>
@@ -161,6 +164,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\TimeSpanValueFormatter.cs">
       <Link>Formatting\TimeSpanValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\ValueFormatterAttribute.cs">
+      <Link>Formatting\ValueFormatterAttribute.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\XAttributeValueFormatter.cs">
       <Link>Formatting\XAttributeValueFormatter.cs</Link>

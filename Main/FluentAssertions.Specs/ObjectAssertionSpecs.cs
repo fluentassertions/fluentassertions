@@ -644,8 +644,6 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-#endif
-
         #region BeXmlSerializable
 
         [TestMethod]
@@ -755,6 +753,8 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+#endif
+
     }
 
     internal class ClassWithCustomEqualMethod
