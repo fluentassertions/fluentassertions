@@ -118,9 +118,9 @@ namespace FluentAssertions
 #if NET45 || WINRT
 
     /// <summary>
-    /// Asserts that the <paramref name="action"/> throws an exception.
+    /// Asserts that the <paramref name="asyncAction"/> throws an exception.
     /// </summary>
-    /// <param name="action">A reference to the method or property.</param>
+    /// <param name="asyncAction">A reference to the method or property.</param>
     /// <typeparam name="TException">
     /// The type of the exception it should throw.
     /// </typeparam>
