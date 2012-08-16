@@ -194,7 +194,7 @@ namespace FluentAssertions.Structural
                 MatchingExpectationProperty = matchingProperty,
                 Subject = subject,
                 Expectation = expectation,
-                PropertyPath = PropertyPath.Combine(memberDescription),
+                PropertyPath = PropertyPath.Combine(memberDescription, separator),
                 PropertyDescription = propertyPath + memberDescription,
                 Reason = Reason,
                 ReasonArgs = ReasonArgs,

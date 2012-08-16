@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Linq;
 
 namespace FluentAssertions.Common
 {
@@ -15,7 +15,7 @@ namespace FluentAssertions.Common
                 throw new NullReferenceException("Expected a property expression, but found <null>.");
             }
 
-            PropertyInfo propertyInfo = AttemptToGetPropertyInfoFromCastExpression(expression);
+            var propertyInfo = AttemptToGetPropertyInfoFromCastExpression(expression);
             if (propertyInfo == null)
             {
                 propertyInfo = AttemptToGetPropertyInfoFromPropertyExpression(expression);
@@ -29,12 +29,13 @@ namespace FluentAssertions.Common
             return propertyInfo;
         }
 
-        private static PropertyInfo AttemptToGetPropertyInfoFromPropertyExpression<T, TValue>(Expression<Func<T, TValue>> expression)
+        private static PropertyInfo AttemptToGetPropertyInfoFromPropertyExpression<T, TValue>(
+            Expression<Func<T, TValue>> expression)
         {
             var memberExpression = expression.Body as MemberExpression;
             if (memberExpression != null)
             {
-                return (PropertyInfo) memberExpression.Member;
+                return (PropertyInfo)memberExpression.Member;
             }
 
             return null;
@@ -45,7 +46,7 @@ namespace FluentAssertions.Common
             var castExpression = expression.Body as UnaryExpression;
             if (castExpression != null)
             {
-                return (PropertyInfo) ((MemberExpression) castExpression.Operand).Member;
+                return (PropertyInfo)((MemberExpression)castExpression.Operand).Member;
             }
 
             return null;
@@ -58,36 +59,48 @@ namespace FluentAssertions.Common
             this Expression<Func<TDeclaringType, TPropertyType>> propertyExpression)
         {
             var segments = new List<string>();
+            Expression node = propertyExpression;
 
-            MemberExpression member = GetMemberExpression(propertyExpression);
-            while (member != null)
+            while (node != null)
             {
-                segments.Add(member.Member.Name);
+                switch (node.NodeType)
+                {
+                    case ExpressionType.Lambda:
+                        node = ((LambdaExpression)node).Body;
+                        break;
 
-                member = member.Expression as MemberExpression;
+                    case ExpressionType.Convert:
+                    case ExpressionType.ConvertChecked:
+                        var unaryExpression = (UnaryExpression)node;
+                        node = unaryExpression.Operand;
+                        break;
+                    
+                    case ExpressionType.MemberAccess:
+                        var memberExpression = (MemberExpression)node;
+                        node = memberExpression.Expression;
+                        
+                        segments.Add(memberExpression.Member.Name);
+                        break;
+
+                    case ExpressionType.ArrayIndex:
+                        var binaryExpression = (BinaryExpression)node;
+                        var constantExpression = (ConstantExpression)binaryExpression.Right;
+                        node = binaryExpression.Left;
+
+                        segments.Add("[" + constantExpression.Value + "]");
+                        break;
+
+                    case ExpressionType.Parameter:
+                        node = null;
+                        break;
+
+                    default:
+                        throw new ArgumentException(
+                            "Expression {" + propertyExpression.Body + "} is not a valid property expression");
+                }
             }
-            
-            return string.Join(".", segments.AsEnumerable().Reverse().ToArray());
-        }
 
-        private static MemberExpression GetMemberExpression<TDeclaringType, TPropertyType>(Expression<Func<TDeclaringType, TPropertyType>> expr)
-        {
-            MemberExpression member;
-            
-            switch (expr.Body.NodeType)
-            {
-                case ExpressionType.Convert:
-                case ExpressionType.ConvertChecked:
-                    var ue = expr.Body as UnaryExpression;
-                    member = ((ue != null) ? ue.Operand : null) as MemberExpression;
-                    break;
-                
-                default:
-                    member = expr.Body as MemberExpression;
-                    break;
-            }
-
-            return member;
+            return string.Join(".", segments.AsEnumerable().Reverse().ToArray()).Replace(".[", "[");
         }
     }
 }

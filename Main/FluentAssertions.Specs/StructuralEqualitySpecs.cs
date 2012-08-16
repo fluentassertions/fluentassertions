@@ -307,6 +307,62 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_a_deeply_nested_property_of_a_collection_with_an_invalid_value_is_excluded_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Text = "Root",
+                Level = new
+                {
+                    Text = "Level1",
+                    Level = new
+                    {
+                        Text = "Level2",
+                    },
+                    Collection = new[]
+                    {
+                        new { Number = 1, Text = "Text"},
+                        new { Number = 2, Text = "Actual"}
+                    }
+                }
+            };
+
+            var expected = new
+            {
+                Text = "Root",
+                Level = new
+                {
+                    Text = "Level1",
+                    Level = new
+                    {
+                        Text = "Level2",
+                    },
+                    Collection = new[]
+                    {
+                        new { Number = 1, Text = "Text"},
+                        new { Number = 2, Text = "Expected"}
+                    }
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeStructurallyEqualTo(expected, config => config.
+                    Exclude(x => x.Level.Collection[1].Number).
+                    Exclude(x => x.Level.Collection[1].Text)
+            );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_a_property_with_a_value_mismatch_is_excluded_using_a_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

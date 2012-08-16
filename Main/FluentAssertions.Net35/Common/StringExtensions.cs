@@ -57,10 +57,10 @@ namespace FluentAssertions.Common
         /// <remarks>
         /// Any string that is empty (including the original string) is ignored. 
         /// </remarks>
-        public static string Combine(this string @this, params string[] values)
+        public static string Combine(this string @this, string other, string separator = ".")
         {
-            var strings = new[] {@this}.Concat(values).Where(s => s.Length > 0).ToArray();
-            return string.Join(".", strings);
+            var strings = new[] { @this }.Concat(new[] {other}).Where(s => s.Length > 0).ToArray();
+            return string.Join(separator, strings);
         }
     }
 }
