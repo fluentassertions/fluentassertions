@@ -1,56 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  
-  <Identity Name="5ee1b27f-229d-4c8b-9125-fdd30e070e79"
-            Publisher="CN=Oren"
-            Version="1.0.0.0" />
-  
+  <Identity Name="5ee1b27f-229d-4c8b-9125-fdd30e070e79" Publisher="CN=Dennis" Version="1.0.0.0" />
   <Properties>
     <DisplayName>FluentAssertions.WinRT.Specs</DisplayName>
     <PublisherDisplayName>Oren</PublisherDisplayName>
     <Logo>Images\UnitTestStoreLogo.png</Logo>
     <Description>FluentAssertions.WinRT.Specs</Description>
   </Properties>
-  
   <Prerequisites>
     <OSMinVersion>6.2</OSMinVersion>
     <OSMaxVersionTested>6.2</OSMaxVersionTested>
   </Prerequisites>
-  
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-  
   <Applications>
-    <Application Id="vstest.executionengine.App" 
-        Executable="vstest.executionengine.appcontainer.exe" 
-        EntryPoint="vstest.executionengine.App">
-        <VisualElements 
-            DisplayName="NoUIEntryPoints"
-            Logo="Images\UnitTestLogo.png"
-            SmallLogo="Images\UnitTestSmallLogo.png"
-            Description="vstest.executionengine.App"
-            ForegroundText="light"
-            BackgroundColor="#0084FF">
-            <SplashScreen Image="Images\UnitTestSplashScreen.png" />
-        </VisualElements>
+    <Application Id="vstest.executionengine.App" Executable="vstest.executionengine.appcontainer.exe" EntryPoint="vstest.executionengine.App">
+      <VisualElements DisplayName="NoUIEntryPoints" Logo="Images\UnitTestLogo.png" SmallLogo="Images\UnitTestSmallLogo.png" Description="vstest.executionengine.App" ForegroundText="light" BackgroundColor="#0084FF">
+        <SplashScreen Image="Images\UnitTestSplashScreen.png" />
+      </VisualElements>
     </Application>
-
-    <Application Id="vstest.executionengine.x86.App" 
-        Executable="vstest.executionengine.appcontainer.x86.exe" 
-        EntryPoint="vstest.executionengine.x86.App">
-        <VisualElements 
-            DisplayName="NoUIEntryPoints"
-            Logo="Images\UnitTestLogo.png"
-            SmallLogo="Images\UnitTestSmallLogo.png"
-            Description="vstest.executionengine.x86.App"
-            ForegroundText="light"
-            BackgroundColor="#0084FF">
-            <SplashScreen Image="Images\UnitTestSplashScreen.png" />
-        </VisualElements>
+    <Application Id="vstest.executionengine.x86.App" Executable="vstest.executionengine.appcontainer.x86.exe" EntryPoint="vstest.executionengine.x86.App">
+      <VisualElements DisplayName="NoUIEntryPoints" Logo="Images\UnitTestLogo.png" SmallLogo="Images\UnitTestSmallLogo.png" Description="vstest.executionengine.x86.App" ForegroundText="light" BackgroundColor="#0084FF">
+        <SplashScreen Image="Images\UnitTestSplashScreen.png" />
+      </VisualElements>
     </Application>
   </Applications>
-  
-
-  
 </Package>

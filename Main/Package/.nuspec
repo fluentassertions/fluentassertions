@@ -6,7 +6,10 @@
     <version>2.0.0-beta</version>
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen, Martin Opdam</authors>
-    <description>A very extensive set of extension methods for .NET 3.5, 4.0, 4.5, Silverlight 4.0 and 5.0, WinRT and WP7 that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit test.</description> 
+    <description>
+      A very extensive set of extension methods for .NET 3.5, 4.0, 4.5 (both for desktop apps and Windows Store Apps), 
+      Silverlight 4.0/5.0 and Windows Phone 7.5 that allow you to more naturally specify the expected outcome of a TDD or 
+      BDD-style unit test.</description> 
     <language>en-US</language>
     <licenseUrl>http://fluentassertions.codeplex.com/license</licenseUrl>    
     <projectUrl>http://fluentassertions.codeplex.com</projectUrl>
