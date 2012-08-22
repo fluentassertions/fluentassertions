@@ -60,16 +60,10 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight">
-      <HintPath>..\SharedBinaries\WindowsPhone\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Net" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
@@ -122,6 +116,12 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\Execute.cs">
       <Link>Execution\Execute.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Execution\ITestFramework.cs">
+      <Link>Execution\ITestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Execution\LateBoundTestFramework.cs">
+      <Link>Execution\LateBoundTestFramework.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\Verification.cs">
       <Link>Execution\Verification.cs</Link>
@@ -372,15 +372,11 @@
     <Compile Include="..\FluentAssertions.Net35\Xml\XElementAssertions.cs">
       <Link>Xml\XElementAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Silverlight\Execution\AssertionHelper.cs">
-      <Link>Execution\AssertionHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Silverlight\SpecificationMismatchException.cs">
-      <Link>SpecificationMismatchException.cs</Link>
-    </Compile>
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Execution\AssertionHelper.cs" />
+    <Compile Include="Execution\WindowsPhoneTestFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

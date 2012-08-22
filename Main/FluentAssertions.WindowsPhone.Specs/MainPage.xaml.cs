@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Silverlight.Testing;
 
@@ -14,7 +15,13 @@ namespace FluentAssertions.WindowsPhone.Specs
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            var testPage = UnitTestSystem.CreateTestPage() as IMobileTestPage;
+            var testSettings = UnitTestSystem.CreateDefaultSettings();
+
+            testSettings.TestAssemblies.Add(Assembly.GetExecutingAssembly());
+            testSettings.ShowTagExpressionEditor = false;
+            testSettings.StartRunImmediately = true;
+            
+            var testPage = UnitTestSystem.CreateTestPage(testSettings) as IMobileTestPage;
             BackKeyPress += (x, xe) => xe.Cancel = testPage.NavigateBack();
             (Application.Current.RootVisual as PhoneApplicationFrame).Content = testPage; 
         }

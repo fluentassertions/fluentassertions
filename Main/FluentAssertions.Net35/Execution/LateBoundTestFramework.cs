@@ -29,7 +29,7 @@ namespace FluentAssertions.Execution
         {
             get
             {
-                assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == AssemblyName);
+                assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName.StartsWith(AssemblyName + ","));
                 return (assembly != null);
             }
         }
