@@ -153,9 +153,6 @@
     <Compile Include="..\FluentAssertions.Specs\StringAssertionSpecs.cs">
       <Link>StringAssertionSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Specs\StructuralEqualitySpecs.cs">
-      <Link>StructuralEqualitySpecs.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Specs\TimeSpanFormatterSpecs.cs">
       <Link>TimeSpanFormatterSpecs.cs</Link>
     </Compile>

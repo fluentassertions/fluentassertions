@@ -492,6 +492,8 @@ namespace FluentAssertions
             return new PropertyAssertions<T>(subject);
         }
 
+#if !WINDOWS_PHONE
+
         /// <summary>
         /// Asserts that an object is structurally equal to another object. 
         /// </summary>
@@ -572,6 +574,8 @@ namespace FluentAssertions
 
             new StructuralEqualityValidator().AssertEquality(context);
         }
+
+#endif
 
         /// <summary>
         /// Safely casts the specified object to the type specified through <typeparamref name="TTo"/>.
