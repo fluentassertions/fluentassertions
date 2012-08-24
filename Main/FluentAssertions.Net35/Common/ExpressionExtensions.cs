@@ -15,11 +15,8 @@ namespace FluentAssertions.Common
                 throw new NullReferenceException("Expected a property expression, but found <null>.");
             }
 
-            var propertyInfo = AttemptToGetPropertyInfoFromCastExpression(expression);
-            if (propertyInfo == null)
-            {
-                propertyInfo = AttemptToGetPropertyInfoFromPropertyExpression(expression);
-            }
+            var propertyInfo = AttemptToGetPropertyInfoFromCastExpression(expression) ??
+                AttemptToGetPropertyInfoFromPropertyExpression(expression);
 
             if (propertyInfo == null)
             {

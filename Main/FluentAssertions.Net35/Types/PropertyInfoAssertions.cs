@@ -105,7 +105,7 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionFor(PropertyInfo property)
         {
-            string propTypeName = null;
+            string propTypeName;
 #if !WINRT
             propTypeName = property.PropertyType.Name;
 #else

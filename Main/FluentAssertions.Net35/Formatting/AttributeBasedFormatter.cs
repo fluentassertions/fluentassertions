@@ -54,15 +54,7 @@ namespace FluentAssertions.Formatting
 
         public MethodInfo[] Formatters
         {
-            get
-            {
-                if (formatters == null)
-                {
-                    formatters = FindCustomFormatters();
-                }
-
-                return formatters;
-            }
+            get { return formatters ?? (formatters = FindCustomFormatters()); }
         }
 
         private MethodInfo[] FindCustomFormatters()

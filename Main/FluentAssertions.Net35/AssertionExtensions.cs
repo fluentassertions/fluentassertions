@@ -484,6 +484,7 @@ namespace FluentAssertions
             return new PropertyInfoAssertions(propertyInfoSelector.ToArray());
         }
 
+#if !WINDOWS_PHONE
         /// <summary>
         /// Asserts that the properties of an object matches those of another object.
         /// </summary>
@@ -492,7 +493,6 @@ namespace FluentAssertions
             return new PropertyAssertions<T>(subject);
         }
 
-#if !WINDOWS_PHONE
 
         /// <summary>
         /// Asserts that an object is structurally equal to another object. 

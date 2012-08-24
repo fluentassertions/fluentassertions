@@ -352,8 +352,8 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeStructurallyEqualTo(expected, config => config.
-                    Exclude(x => x.Level.Collection.First().Number).
-                    Exclude(x => x.Level.Collection.First().Text)
+                    Exclude(x => x.Level.Collection[1].Number).
+                    Exclude(x => x.Level.Collection[1].Text)
             );
 
             //-----------------------------------------------------------------------------------------------------------

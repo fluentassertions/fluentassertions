@@ -426,8 +426,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to be decorated with " +
-                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\") && a.IsEnabled), " +
-                        "but no matching attribute was found.");
+                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
+                        "but no matching attribute was found.", ComparisonMode.Wildcard);
         }
 
         #endregion

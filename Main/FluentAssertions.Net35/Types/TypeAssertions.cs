@@ -76,7 +76,7 @@ namespace FluentAssertions.Types
         /// </returns>
         private static string GetFailureMessageIfTypesAreDifferent(Type actual, Type expected)
         {
-            if (actual.Equals(expected))
+            if (actual == expected)
             {
                 return "";
             }

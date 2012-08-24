@@ -42,7 +42,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> Be(T expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(ReferenceEquals(Subject, expected) || ((!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) == 0)))
+                .ForCondition(Subject.Equals(expected) || (Subject.CompareTo(expected) == 0))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 

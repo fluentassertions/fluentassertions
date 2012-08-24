@@ -100,7 +100,7 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionFor(MethodInfo method)
         {
-            string returnTypeName = null;
+            string returnTypeName;
 #if !WINRT
             returnTypeName = method.ReturnType.Name;
 #else

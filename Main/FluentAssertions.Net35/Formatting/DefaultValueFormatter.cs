@@ -87,7 +87,7 @@ namespace FluentAssertions.Formatting
             builder.AppendLine(type.FullName);
             builder.AppendLine(CreateWhitespaceForLevel(nestedPropertyLevel) + "{");
 
-            IEnumerable<PropertyInfo> properties = null;
+            IEnumerable<PropertyInfo> properties;
 #if !WINRT
             properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 #else

@@ -300,7 +300,7 @@ namespace FluentAssertions
             EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
             if (eventRecorder == null)
             {
-                string name = null;
+                string name;
 #if !WINRT
                 name = eventSource.GetType().Name;
 #else
