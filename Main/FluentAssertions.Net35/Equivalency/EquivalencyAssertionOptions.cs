@@ -34,12 +34,12 @@ namespace FluentAssertions.Equivalency
         private EquivalencyAssertionOptions()
         {
             Using(new MustMatchByNameRule());
+            
+            Using<string>(ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs)).
+                WhenTypeIs<string>();
 
-            WhenTypeIs<string>().Using(
-                ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
-
-            WhenTypeIs<DateTime>().Using(
-                ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
+            Using<DateTime>(
+                ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs)).WhenTypeIs<DateTime>();
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace FluentAssertions.Equivalency
         /// or collections.
         /// </summary>
         public static Func<EquivalencyAssertionOptions<TSubject>> Empty =
-            () => { return new EquivalencyAssertionOptions<TSubject>(); };
+            () => new EquivalencyAssertionOptions<TSubject>();
 
         /// <summary>
         /// Gets an ordered collection of selection rules that define what properties are included.
@@ -176,24 +176,12 @@ namespace FluentAssertions.Equivalency
             return this;
         }
 
-        /// <summary>
-        /// Allows overriding the way structural equality is applied to (nested) objects of tyoe <typeparamref name="TPropertyType"/>
-        /// </summary>
-        public Restriction<TPropertyType> WhenTypeIs<TPropertyType>()
-        {
-            return new Restriction<TPropertyType>(info => info.RuntimeType.IsSameOrInherits(typeof(TPropertyType)), this);
-        }
-
-        /// <summary>
-        /// Allows overriding the way structural equality is applied to particular properties.
-        /// </summary>
-        /// <param name="predicate">
-        /// A predicate based on the <see cref="ISubjectInfo"/> of the subject that is used to identify the property for which the
-        /// override applies.
+        /// <param name="action">
+        /// The assertion to execute when the predicate is met.
         /// </param>
-        public Restriction When(Func<ISubjectInfo, bool> predicate)
+        public Restriction<TProperty> Using<TProperty>(Action<IAssertionContext<TProperty>> action)
         {
-            return new Restriction(predicate, this);
+            return new Restriction<TProperty>(this, action);
         }
 
         /// <summary>
@@ -301,48 +289,37 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Defines additional overrides when used with <see cref="EquivalencyAssertionOptions{TSubject}.When"/>
         /// </summary>
-        public class Restriction
+        public class Restriction<TProperty>
         {
-            private readonly Func<ISubjectInfo, bool> predicate;
-            private readonly EquivalencyAssertionOptions<TSubject> config;
+            private readonly Action<IAssertionContext<TProperty>> action;
+            private readonly EquivalencyAssertionOptions<TSubject> options;
 
-            internal Restriction(Func<ISubjectInfo, bool> predicate, EquivalencyAssertionOptions<TSubject> config)
+            public Restriction(EquivalencyAssertionOptions<TSubject> options, Action<IAssertionContext<TProperty>> action)
             {
-                this.predicate = predicate;
-                this.config = config;
+                this.options = options;
+                this.action = action;
             }
 
-            /// <param name="action">
-            /// The assertion to execute for the predicate.
+            /// <summary>
+            /// Allows overriding the way structural equality is applied to (nested) objects of tyoe <typeparamref name="TPropertyType"/>
+            /// </summary>
+            public EquivalencyAssertionOptions<TSubject> WhenTypeIs<TPropertyType>()
+            {
+                When(info => info.RuntimeType.IsSameOrInherits(typeof(TPropertyType)));
+                return options;
+            }
+
+            /// <summary>
+            /// Allows overriding the way structural equality is applied to particular properties.
+            /// </summary>
+            /// <param name="predicate">
+            /// A predicate based on the <see cref="ISubjectInfo"/> of the subject that is used to identify the property for which the
+            /// override applies.
             /// </param>
-            public EquivalencyAssertionOptions<TSubject> Using<T>(Action<IAssertionContext<T>> action)
+            public EquivalencyAssertionOptions<TSubject> When(Func<ISubjectInfo, bool> predicate)
             {
-                config.assertionRules.Insert(0, new AssertionRule<T>(predicate, action));
-                return config;
-            }
-        }
-
-        /// <summary>
-        /// Defines additional overrides when used with <see cref="EquivalencyAssertionOptions{TSubject}.When"/>
-        /// </summary>
-        public class Restriction<TPropertyType>
-        {
-            private readonly Func<ISubjectInfo, bool> predicate;
-            private readonly EquivalencyAssertionOptions<TSubject> config;
-
-            internal Restriction(Func<ISubjectInfo, bool> predicate, EquivalencyAssertionOptions<TSubject> config)
-            {
-                this.predicate = predicate;
-                this.config = config;
-            }
-
-            /// <param name="action">
-            /// The assertion to execute for the predicate.
-            /// </param>
-            public EquivalencyAssertionOptions<TSubject> Using(Action<IAssertionContext<TPropertyType>> action)
-            {
-                config.assertionRules.Insert(0, new AssertionRule<TPropertyType>(predicate, action));
-                return config;
+                options.Using(new AssertionRule<TProperty>(predicate, action));
+                return options;
             }
         }
     }

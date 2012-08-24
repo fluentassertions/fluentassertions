@@ -767,8 +767,8 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeEquivalentTo(expectation, options => options
-                .When(info => info.PropertyPath.EndsWith("Date"))
-                .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000)));
+                .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+                .When(info => info.PropertyPath.EndsWith("Date")));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -804,7 +804,9 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeEquivalentTo(expectation, options => 
-                options.WhenTypeIs<DateTime>().Using(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000)));
+                options
+                .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+                .WhenTypeIs<DateTime>());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
