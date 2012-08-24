@@ -6,11 +6,11 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
+using FluentAssertions.Equivalency;
 using FluentAssertions.Formatting;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
-using FluentAssertions.Structural;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 
@@ -495,15 +495,15 @@ namespace FluentAssertions
 
 
         /// <summary>
-        /// Asserts that an object is structurally equal to another object. 
+        /// Asserts that an object is equivalent to another object. 
         /// </summary>
         /// <remarks>
-        /// Objects are structurally equal when both object graphs have equally named properties with the same value, 
-        /// irrespective  of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
+        /// Objects are equivalent when both object graphs have equally named properties with the same value, 
+        /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
         /// items in the collection are structurally equal. 
-        /// Notice that actual behavior is determined by the <see cref="StructuralEqualityConfiguration{TSubject}.Default"/> instance of the 
-        /// <see cref="StructuralEqualityConfiguration{TSubject}"/> class.
+        /// Notice that actual behavior is determined by the <see cref="EquivalencyAssertionOptions{TSubject}.Default"/> instance of the 
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class.
         /// </remarks>
         /// <param name="reason">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
@@ -512,25 +512,25 @@ namespace FluentAssertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public static void ShouldBeStructurallyEqualTo<T>(this T subject, object expectation, string reason = "",
+        public static void ShouldBeEquivalentTo<T>(this T subject, object expectation, string reason = "",
             params object[] reasonArgs)
         {
-            ShouldBeStructurallyEqualTo(subject, expectation, config => config, reason, reasonArgs);
+            ShouldBeEquivalentTo(subject, expectation, config => config, reason, reasonArgs);
         }
 
         /// <summary>
-        /// Asserts that an object is structurally equal to another object. 
+        /// Asserts that an object is equivalent to another object. 
         /// </summary>
         /// <remarks>
-        /// Objects are structurally equal when both object graphs have equally named properties with the same value, 
-        /// irrespective  of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
+        /// Objects are equivalent when both object graphs have equally named properties with the same value, 
+        /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
         /// items in the collection are structurally equal. 
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="StructuralEqualityConfiguration{TSubject}.Default"/> configuration object that can be used 
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}.Default"/> configuration object that can be used 
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="StructuralEqualityConfiguration{TSubject}"/> class.
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class.
         /// </param>
         /// <param name="reason">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
@@ -539,10 +539,10 @@ namespace FluentAssertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public static void ShouldBeStructurallyEqualTo<T>(this T subject, object expectation,
-            Func<StructuralEqualityConfiguration<T>, StructuralEqualityConfiguration<T>> config, string reason = "", params object[] reasonArgs)
+        public static void ShouldBeEquivalentTo<T>(this T subject, object expectation,
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string reason = "", params object[] reasonArgs)
         {
-            var context = new StructuralEqualityContext(config(StructuralEqualityConfiguration<T>.Default()))
+            var context = new EquivalencyValidationContext(config(EquivalencyAssertionOptions<T>.Default()))
             {
                 Subject = subject,
                 Expectation = expectation,
@@ -551,19 +551,19 @@ namespace FluentAssertions
                 ReasonArgs = reasonArgs
             };
 
-            new StructuralEqualityValidator().AssertEquality(context);
+            new EquivalencyValidator().AssertEquality(context);
         }
 
-        public static void ShouldAllBeStructurallyEqualTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
+        public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
             string reason = "", params object[] reasonArgs)
         {
-            ShouldAllBeStructurallyEqualTo(subject, expectation, config => config, reason, reasonArgs);
+            ShouldAllBeEquivalentTo(subject, expectation, config => config, reason, reasonArgs);
         }
 
-        public static void ShouldAllBeStructurallyEqualTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
-            Func<StructuralEqualityConfiguration<T>, StructuralEqualityConfiguration<T>> config, string reason = "", params object[] reasonArgs)
+        public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string reason = "", params object[] reasonArgs)
         {
-            var context = new StructuralEqualityContext(config(StructuralEqualityConfiguration<T>.Default()))
+            var context = new EquivalencyValidationContext(config(EquivalencyAssertionOptions<T>.Default()))
             {
                 Subject = subject,
                 Expectation = expectation,
@@ -572,7 +572,7 @@ namespace FluentAssertions
                 ReasonArgs = reasonArgs
             };
 
-            new StructuralEqualityValidator().AssertEquality(context);
+            new EquivalencyValidator().AssertEquality(context);
         }
 
 #endif

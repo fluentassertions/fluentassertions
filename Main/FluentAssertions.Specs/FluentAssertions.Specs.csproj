@@ -113,7 +113,7 @@
     <Compile Include="PropertyAssertionSpecs.cs" />
     <Compile Include="SimpleTimeSpanAssertionSpecs.cs" />
     <Compile Include="StringAssertionSpecs.cs" />
-    <Compile Include="StructuralEqualitySpecs.cs" />
+    <Compile Include="EquivalencySpecs.cs" />
     <Compile Include="ThrowAssertionsSpecs.cs" />
     <Compile Include="TimeSpanConversionExtensionSpecs.cs" />
     <Compile Include="TimeSpanFormatterSpecs.cs" />

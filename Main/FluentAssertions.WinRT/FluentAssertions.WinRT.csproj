@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿s<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -211,95 +211,95 @@
     <Compile Include="..\FluentAssertions.Net35\Specialized\ExecutionTimeAssertions.cs">
       <Link>Specialized\ExecutionTimeAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\AllDeclaredPublicPropertiesSelectionRule.cs">
-      <Link>Structural\AllDeclaredPublicPropertiesSelectionRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\AllDeclaredPublicPropertiesSelectionRule.cs">
+      <Link>Equivalency\AllDeclaredPublicPropertiesSelectionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\AllRuntimePublicPropertiesSelectionRule.cs">
-      <Link>Structural\AllRuntimePublicPropertiesSelectionRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\AllRuntimePublicPropertiesSelectionRule.cs">
+      <Link>Equivalency\AllRuntimePublicPropertiesSelectionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\ApplyAssertionRulesEqualityStep.cs">
-      <Link>Structural\ApplyAssertionRulesEqualityStep.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\ApplyAssertionRulesEquivalencyStep.cs">
+      <Link>Equivalency\ApplyAssertionRulesEquivalencyStep.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\AssertionRule.cs">
-      <Link>Structural\AssertionRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\AssertionRule.cs">
+      <Link>Equivalency\AssertionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\ExcludePropertyByPredicateSelectionRule.cs">
-      <Link>Structural\ExcludePropertyByPredicateSelectionRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\ExcludePropertyByPredicateSelectionRule.cs">
+      <Link>Equivalency\ExcludePropertyByPredicateSelectionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IAssertionContext.cs">
-      <Link>Structural\IAssertionContext.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\IAssertionContext.cs">
+      <Link>Equivalency\IAssertionContext.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\ISubjectInfo.cs">
-      <Link>Structural\ISubjectInfo.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\ISubjectInfo.cs">
+      <Link>Equivalency\ISubjectInfo.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\NestedSelectionContext.cs">
-      <Link>Structural\NestedSelectionContext.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\NestedSelectionContext.cs">
+      <Link>Equivalency\NestedSelectionContext.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\StructuralEqualityConfiguration.cs">
-      <Link>Structural\StructuralEqualityConfiguration.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\EquivalencyAssertionOptions.cs">
+      <Link>Equivalency\EquivalencyAssertionOptions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityConfiguration.cs">
-      <Link>Structural\IStructuralEqualityConfiguration.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\IEquivalencyAssertionOptions.cs">
+      <Link>Equivalency\IEquivalencyAssertionOptions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\ComplexTypeEqualityStep.cs">
-      <Link>Structural\ComplexTypeEqualityStep.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\ComplexTypeEquivalencyStep.cs">
+      <Link>Equivalency\ComplexTypeEquivalencyStep.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\CyclicReferenceHandling.cs">
-      <Link>Structural\CyclicReferenceHandling.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\CyclicReferenceHandling.cs">
+      <Link>Equivalency\CyclicReferenceHandling.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\EnumerableEqualityStep.cs">
-      <Link>Structural\EnumerableEqualityStep.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\EnumerableEquivalencyStep.cs">
+      <Link>Equivalency\EnumerableEquivalencyStep.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\FinalEqualityStep.cs">
-      <Link>Structural\FinalEqualityStep.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\SimpleEqualityEquivalencyStep.cs">
+      <Link>Equivalency\SimpleEqualityEquivalencyStep.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IAssertionRule.cs">
-      <Link>Structural\IAssertionRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\IAssertionRule.cs">
+      <Link>Equivalency\IAssertionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\ExcludePropertyByPathSelectionRule.cs">
-      <Link>Structural\ExcludePropertyByPathSelectionRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\ExcludePropertyByPathSelectionRule.cs">
+      <Link>Equivalency\ExcludePropertyByPathSelectionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IMatchingRule.cs">
-      <Link>Structural\IMatchingRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\IMatchingRule.cs">
+      <Link>Equivalency\IMatchingRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IncludePropertySelectionRule.cs">
-      <Link>Structural\IncludePropertySelectionRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\IncludePropertySelectionRule.cs">
+      <Link>Equivalency\IncludePropertySelectionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\ISelectionRule.cs">
-      <Link>Structural\ISelectionRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\ISelectionRule.cs">
+      <Link>Equivalency\ISelectionRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityContext.cs">
-      <Link>Structural\IStructuralEqualityContext.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\IEquivalencyValidationContext.cs">
+      <Link>Equivalency\IEquivalencyValidationContext.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityStep.cs">
-      <Link>Structural\IStructuralEqualityStep.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\IEquivalencyStep.cs">
+      <Link>Equivalency\IEquivalencyStep.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\IStructuralEqualityValidator.cs">
-      <Link>Structural\IStructuralEqualityValidator.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\IEquivalencyValidator.cs">
+      <Link>Equivalency\IEquivalencyValidator.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\MustMatchByNameRule.cs">
-      <Link>Structural\MustMatchByNameRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\MustMatchByNameRule.cs">
+      <Link>Equivalency\MustMatchByNameRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\PropertyAssertions.cs">
-      <Link>Structural\PropertyAssertions.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\PropertyAssertions.cs">
+      <Link>Equivalency\PropertyAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\PropertySelection.cs">
-      <Link>Structural\PropertySelection.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\PropertySelection.cs">
+      <Link>Equivalency\PropertySelection.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\ReferenceEqualityStep.cs">
-      <Link>Structural\ReferenceEqualityStep.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\ReferenceEqualityEquivalencyStep.cs">
+      <Link>Equivalency\ReferenceEqualityEquivalencyStep.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\StructuralEqualityContext.cs">
-      <Link>Structural\StructuralEqualityContext.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\EquivalencyValidationContext.cs">
+      <Link>Equivalency\EquivalencyValidationContext.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\StructuralEqualityValidator.cs">
-      <Link>Structural\StructuralEqualityValidator.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\EquivalencyValidator.cs">
+      <Link>Equivalency\EquivalencyValidator.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\TryConversionEqualityStep.cs">
-      <Link>Structural\TryConversionEqualityStep.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\TryConversionEquivalencyStep.cs">
+      <Link>Equivalency\TryConversionEquivalencyStep.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Structural\TryMatchByNameRule.cs">
-      <Link>Structural\TryMatchByNameRule.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\TryMatchByNameRule.cs">
+      <Link>Equivalency\TryMatchByNameRule.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\TimeSpanConversionExtensions.cs">
       <Link>TimeSpanConversionExtensions.cs</Link>

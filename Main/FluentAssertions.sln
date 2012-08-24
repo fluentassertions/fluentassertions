@@ -34,11 +34,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net45", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net45.Specs", "FluentAssertions.Net45.Specs\FluentAssertions.Net45.Specs.csproj", "{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneApp1", "PhoneApp1\PhoneApp1.csproj", "{27BB8D7E-1685-4CB7-8D42-E0C726030F37}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 13
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs05
 		SccLocalPath0 = .
@@ -86,10 +84,6 @@ Global
 		SccProjectTopLevelParentUniqueName11 = FluentAssertions.sln
 		SccProjectName11 = FluentAssertions.Net45.Specs
 		SccLocalPath11 = FluentAssertions.Net45.Specs
-		SccProjectUniqueName12 = PhoneApp1\\PhoneApp1.csproj
-		SccProjectTopLevelParentUniqueName12 = FluentAssertions.sln
-		SccProjectName12 = PhoneApp1
-		SccLocalPath12 = PhoneApp1
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,12 +137,6 @@ Global
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27BB8D7E-1685-4CB7-8D42-E0C726030F37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27BB8D7E-1685-4CB7-8D42-E0C726030F37}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27BB8D7E-1685-4CB7-8D42-E0C726030F37}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{27BB8D7E-1685-4CB7-8D42-E0C726030F37}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27BB8D7E-1685-4CB7-8D42-E0C726030F37}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27BB8D7E-1685-4CB7-8D42-E0C726030F37}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +153,5 @@ Global
 		{16EA57DA-8A0C-4804-BBDF-E9289C87E4E0} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
-		{27BB8D7E-1685-4CB7-8D42-E0C726030F37} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 	EndGlobalSection
 EndGlobal
