@@ -173,7 +173,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected value*to approximate 1 +/- 0,1, but it differed by*", ComparisonMode.Wildcard);
+                .WithMessage(string.Format(
+                    "Expected value*to approximate {0} +/- {1}, but it differed by*", 1, 0.1), ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -213,7 +214,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected value*to approximate 1 +/- 0,1, but it differed by*", ComparisonMode.Wildcard);
+                .WithMessage(string.Format(
+                "Expected value*to approximate {0} +/- {1}, but it differed by*", 1, 0.1), ComparisonMode.Wildcard);
         }
 
         #endregion

@@ -18,8 +18,6 @@ namespace FluentAssertions.WindowsPhone.Specs
             var testSettings = UnitTestSystem.CreateDefaultSettings();
 
             testSettings.TestAssemblies.Add(Assembly.GetExecutingAssembly());
-            testSettings.ShowTagExpressionEditor = false;
-            testSettings.StartRunImmediately = true;
             
             var testPage = UnitTestSystem.CreateTestPage(testSettings) as IMobileTestPage;
             BackKeyPress += (x, xe) => xe.Cancel = testPage.NavigateBack();

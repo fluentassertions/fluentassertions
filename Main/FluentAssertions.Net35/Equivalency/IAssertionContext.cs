@@ -6,7 +6,7 @@ namespace FluentAssertions.Equivalency
     /// Provides the required information for executing an equality assertion between a subject and an expectation.
     /// </summary>
     /// <typeparam name="TSubject">The type of the subject.</typeparam>
-    public interface IAssertionContext<out TSubject>
+    public interface IAssertionContext<TSubject>
     {
         /// <summary>
         /// Gets the <see cref="PropertyInfo"/> of the property that returned the current object, or <c>null</c> if the current

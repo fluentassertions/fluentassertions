@@ -16,6 +16,7 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class PropertyAssertionSpecs
     {
+#if !WINDOWS_PHONE && !WINRT
         #region Property Comparison
 
         [TestMethod]
@@ -1504,6 +1505,8 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+
+#endif
 
         public class ClassOne
         {

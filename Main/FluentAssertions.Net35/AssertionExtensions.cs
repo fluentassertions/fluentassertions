@@ -484,7 +484,8 @@ namespace FluentAssertions
             return new PropertyInfoAssertions(propertyInfoSelector.ToArray());
         }
 
-#if !WINDOWS_PHONE
+#if !WINDOWS_PHONE && !WINRT
+
         /// <summary>
         /// Asserts that the properties of an object matches those of another object.
         /// </summary>
@@ -493,7 +494,8 @@ namespace FluentAssertions
             return new PropertyAssertions<T>(subject);
         }
 
-
+#endif
+        
         /// <summary>
         /// Asserts that an object is equivalent to another object. 
         /// </summary>
@@ -575,7 +577,6 @@ namespace FluentAssertions
             new EquivalencyValidator().AssertEquality(context);
         }
 
-#endif
 
         /// <summary>
         /// Safely casts the specified object to the type specified through <typeparamref name="TTo"/>.
