@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
@@ -129,6 +130,10 @@ namespace FluentAssertions.Formatting
                 return ex.Types;
             }
             catch (NotSupportedException)
+            {
+                return new Type[0];
+            }
+            catch (FileNotFoundException)
             {
                 return new Type[0];
             }
