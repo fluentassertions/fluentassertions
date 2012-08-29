@@ -13,13 +13,25 @@ namespace FluentAssertions.Types
     [DebuggerNonUserCode]
     public class PropertyInfoAssertions
     {
+        private bool assertingSingleProperty;
+
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
         public IEnumerable<PropertyInfo> SubjectProperties { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyInfoAssertions"/> class.
+        /// Initializes a new instance of the <see cref="PropertyInfoAssertions"/> class, for a single <see cref="PropertyInfo"/>.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        public PropertyInfoAssertions(PropertyInfo property)
+        {
+            assertingSingleProperty = true;
+            SubjectProperties = new[] { property };
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyInfoAssertions"/> class, for a number of <see cref="PropertyInfo"/> objects.
         /// </summary>
         /// <param name="properties">The properties.</param>
         public PropertyInfoAssertions(IEnumerable<PropertyInfo> properties)
@@ -41,11 +53,16 @@ namespace FluentAssertions.Types
         {
             IEnumerable<PropertyInfo> nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
+            string failureMessage = assertingSingleProperty
+                ? "Expected property " + GetDescriptionsFor(new[] { SubjectProperties.Single() }) +
+                    " to be virtual{reason}, but it is not virtual."
+                : "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:\r\n" +
+                    GetDescriptionsFor(nonVirtualProperties);
+
             Execute.Verification
                 .ForCondition(!nonVirtualProperties.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected properties to be virtual{reason}, but the following properties are" +
-                    " not virtual:\r\n" + GetDescriptionsFor(nonVirtualProperties));
+                .FailWith(failureMessage);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -79,11 +96,16 @@ namespace FluentAssertions.Types
         {
             IEnumerable<PropertyInfo> propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
+            string failureMessage = assertingSingleProperty
+                ? "Expected property " + GetDescriptionsFor(new[] { SubjectProperties.Single() }) +
+                    " to be decorated with {0}{reason}, but that attribute was not found."
+                : "Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:\r\n" +
+                    GetDescriptionsFor(propertiesWithoutAttribute);
+
             Execute.Verification
                 .ForCondition(!propertiesWithoutAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected properties to be decorated with {0}{reason}, but the" +
-                    " following properties are not:\r\n" + GetDescriptionsFor(propertiesWithoutAttribute), typeof(TAttribute));
+                .FailWith(failureMessage, typeof(TAttribute));
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
