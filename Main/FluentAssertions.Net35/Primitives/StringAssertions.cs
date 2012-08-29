@@ -366,6 +366,45 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that a string does not end with the exact specified <paramref name="unexpected"/> value,
+        /// including the casing and any leading or trailing whitespace.
+        /// </summary>
+        /// <param name="unexpected">The string that the subject is not expected to end with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotEndWith(string unexpected, string reason = "", params object[] reasonArgs)
+        {
+            if (unexpected == null)
+            {
+                throw new NullReferenceException("Cannot compare end of string with <null>.");
+            }
+
+            if (unexpected.Length == 0)
+            {
+                throw new ArgumentException("Cannot compare end of string with empty string.");
+            }
+
+            if (Subject == null)
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected string not to end with {0}{reason}, but found {1}.", unexpected, Subject);
+            }
+
+            Execute.Verification
+                .ForCondition(!Subject.EndsWith(unexpected))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect string to end with {0}{reason}, but found {1}.", unexpected, Subject);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that a string ends with the specified <paramref name="expected"/>,
         /// including any leading or trailing whitespace, with the exception of the casing.
         /// </summary>
