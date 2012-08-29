@@ -13,7 +13,7 @@ namespace FluentAssertions.Types
     [DebuggerNonUserCode]
     public class PropertyInfoAssertions
     {
-        private bool assertingSingleProperty;
+        private readonly bool assertingSingleProperty;
 
         /// <summary>
         /// Gets the object which value is being asserted.
@@ -23,7 +23,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyInfoAssertions"/> class, for a single <see cref="PropertyInfo"/>.
         /// </summary>
-        /// <param name="properties">The properties.</param>
+        /// <param name="property">The property to assert.</param>
         public PropertyInfoAssertions(PropertyInfo property)
         {
             assertingSingleProperty = true;
@@ -33,7 +33,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyInfoAssertions"/> class, for a number of <see cref="PropertyInfo"/> objects.
         /// </summary>
-        /// <param name="properties">The properties.</param>
+        /// <param name="properties">The properties to assert.</param>
         public PropertyInfoAssertions(IEnumerable<PropertyInfo> properties)
         {
             SubjectProperties = properties;

@@ -469,6 +469,16 @@ namespace FluentAssertions
         /// current <see cref="MethodInfoSelector"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
+        public static MethodInfoAssertions Should(this MethodInfo methodInfo)
+        {
+            return new MethodInfoAssertions(methodInfo);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="MethodInfoAssertions"/> object that can be used to assert the methods returned by the
+        /// current <see cref="MethodInfoSelector"/>.
+        /// </summary>
+        /// <seealso cref="TypeAssertions"/>
         public static MethodInfoAssertions Should(this MethodInfoSelector methodSelector)
         {
             return new MethodInfoAssertions(methodSelector.ToArray());
