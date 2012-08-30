@@ -13,6 +13,8 @@ namespace FluentAssertions.Types
     [DebuggerNonUserCode]
     public class MethodInfoAssertions
     {
+        private readonly bool assertingSingleMethod;
+
         /// <summary>
         /// Gets the object which value is being asserted.
         /// </summary>
@@ -21,7 +23,17 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodInfoAssertions"/> class.
         /// </summary>
-        /// <param name="methods">The methods.</param>
+        /// <param name="methodInfo">The method to assert.</param>
+        public MethodInfoAssertions(MethodInfo methodInfo)
+        {
+            assertingSingleMethod = true;
+            SubjectMethods = new[] { methodInfo };
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodInfoAssertions"/> class.
+        /// </summary>
+        /// <param name="methodInfo">The methods to assert.</param>
         public MethodInfoAssertions(IEnumerable<MethodInfo> methods)
         {
             SubjectMethods = methods;
@@ -41,11 +53,16 @@ namespace FluentAssertions.Types
         {
             IEnumerable<MethodInfo> nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
 
+            string failureMessage = assertingSingleMethod
+                ? "Expected method " + GetDescriptionsFor(new[] { SubjectMethods.Single() }) +
+                    " to be virtual{reason}, but it is not virtual."
+                : "Expected all selected methods to be virtual{reason}, but the following methods are" + " not virtual:\r\n" +
+                    GetDescriptionsFor(nonVirtualMethods);
+
             Execute.Verification
                 .ForCondition(!nonVirtualMethods.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected methods to be virtual{reason}, but the following methods are" +
-                    " not virtual:\r\n" + GetDescriptionsFor(nonVirtualMethods));
+                .FailWith(failureMessage);
 
             return new AndConstraint<MethodInfoAssertions>(this);
         }
@@ -74,11 +91,16 @@ namespace FluentAssertions.Types
         {
             IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>();
 
+            string failureMessage = assertingSingleMethod
+                ? "Expected method " + GetDescriptionsFor(new[] { SubjectMethods.Single() }) +
+                    " to be decorated with {0}{reason}, but that attribute was not found."
+                : "Expected all selected methods to be decorated with {0}{reason}, but the" + " following methods are not:\r\n" +
+                    GetDescriptionsFor(methodsWithoutAttribute);
+
             Execute.Verification
                 .ForCondition(!methodsWithoutAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected methods to be decorated with {0}{reason}, but the" +
-                    " following methods are not:\r\n" + GetDescriptionsFor(methodsWithoutAttribute), typeof(TAttribute));
+                .FailWith(failureMessage, typeof(TAttribute));
 
             return new AndConstraint<MethodInfoAssertions>(this);
         }
