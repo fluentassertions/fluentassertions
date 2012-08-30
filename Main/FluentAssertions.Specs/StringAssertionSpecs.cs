@@ -177,7 +177,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected string to be \r\n\"0987654321\", but \r\n\"1234567890\" differs near \"123\" (index 0).");
         }
-        
+
         [TestMethod]
         public void When_two_strings_differ_and_one_of_them_is_multiline_it_should_display_both_strings_on_separate_line()
         {
@@ -318,7 +318,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => value.Should().BeOneOf(new [] { "def", "xyz" }, "because those are the valid values");
+            Action action = () => value.Should().BeOneOf(new[] { "def", "xyz" }, "because those are the valid values");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -369,7 +369,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected string to match \r\n\"h*earth!\" because that's the universal greeting, but \r\n\"hello world!\" does not match.");
         }
-        
+
         [TestMethod]
         public void When_a_string_does_match_a_wildcard_pattern_it_should_not_throw()
         {
@@ -387,8 +387,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }        
-        
+        }
+
         [TestMethod]
         public void When_a_string_does_not_match_a_wildcard_pattern_with_escaped_markers_it_should_throw()
         {
@@ -407,8 +407,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected string to match \r\n\"What\\? Are you deaf\\?\", but \r\n\"What! Are you deaf!\" does not match.");
-        }        
-        
+        }
+
         [TestMethod]
         public void When_a_string_does_match_a_wildcard_pattern_but_differs_in_casing_it_should_throw()
         {
@@ -451,7 +451,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_a_string_does_match_a_pattern_but_it_shouldnt_it_should_throw()
         {
@@ -470,7 +470,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect string to match \r\n\"*world*\" because that's illegal, " + 
+                .WithMessage("Did not expect string to match \r\n\"*world*\" because that's illegal, " +
                 "but \r\n\"hello world\" matches.");
         }
 
@@ -495,10 +495,10 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string to match the equivalent of \r\n\"h*earth!\" " + 
+                "Expected string to match the equivalent of \r\n\"h*earth!\" " +
                 "because that's the universal greeting, but \r\n\"hello world!\" does not match.");
         }
-        
+
         [TestMethod]
         public void When_a_string_does_match_the_equivalent_of_a_wildcard_pattern_it_should_not_throw()
         {
@@ -516,7 +516,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }        
+        }
 
         #endregion
 
@@ -540,7 +540,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_a_string_does_match_the_equivalent_of_a_pattern_but_it_shouldnt_it_should_throw()
         {
@@ -559,7 +559,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect string to match the equivalent of \r\n\"*world*\" because that's illegal, " + 
+                .WithMessage("Did not expect string to match the equivalent of \r\n\"*world*\" because that's illegal, " +
                 "but \r\n\"hello WORLD\" matches.");
         }
 
@@ -570,7 +570,21 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_asserting_string_starts_with_the_same_value_it_should_not_throw()
         {
-            "ABC".Should().StartWith("AB");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().StartWith("AB");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
         }
 
         [TestMethod]
@@ -669,6 +683,114 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Not start With
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_some_value_and_it_does_not_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotStartWith("ABCDEF");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_some_value_but_it_does_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotStartWith("AB");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect string to start with \"AB\", but found \"ABC\".");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_null_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                value.Should().NotStartWith(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<NullReferenceException>()
+                .WithMessage("Cannot compare start of string with <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_an_empty_string_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                value.Should().NotStartWith("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>()
+                .WithMessage("Cannot compare start of string with empty string.");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_some_value_but_the_actual_value_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                someString.Should().NotStartWith("ABC");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected string not to start with \"ABC\", but found <null>.");
+        }
+
+        #endregion
+
         #region End With
 
         [TestMethod]
@@ -753,6 +875,114 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected string <null> to end with \"ABC\".");
+        }
+
+        #endregion
+
+        #region Not end With
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_some_value_and_it_does_not_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotEndWith("WXYZ");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_some_value_but_it_does_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotEndWith("YZ");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect string to end with \"YZ\", but found \"XYZ\".");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_null_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                value.Should().NotEndWith(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<NullReferenceException>()
+                .WithMessage("Cannot compare end of string with <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_an_empty_string_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "XYZ";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                value.Should().NotEndWith("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>()
+                .WithMessage("Cannot compare end of string with empty string.");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_some_value_but_the_actual_value_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                someString.Should().NotEndWith("XYZ");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected string not to end with \"XYZ\", but found <null>.");
         }
 
         #endregion
@@ -988,7 +1218,7 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<ArgumentException>()
                 .WithMessage("Cannot assert string containment against <null>.");
         }
-        
+
         [TestMethod]
         public void When_containment_is_asserted_against_an_empty_string_it_should_throw()
         {
@@ -1148,7 +1378,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => "a".Should().NotContain("A");
- 
+
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -1268,7 +1498,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         #endregion
 
         #region Contain Equivalent Of
@@ -1327,7 +1557,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<ArgumentException>()
                 .WithMessage("Cannot assert string containment against an empty string.");
         }
-        
+
         #endregion
 
         #region (Not) Empty
@@ -1401,7 +1631,7 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Length
-        
+
         [TestMethod]
         public void Should_succeed_when_asserting_string_length_to_be_equal_to_the_same_value()
         {
