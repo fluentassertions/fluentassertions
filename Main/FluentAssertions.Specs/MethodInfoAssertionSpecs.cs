@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reflection;
-
 using FluentAssertions.Types;
 
 #if WINRT
@@ -14,98 +12,6 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class MethodInfoAssertionSpecs
     {
-        #region MethodInfo assertions
-
-        [TestMethod]
-        public void When_asserting_a_method_is_virtual_and_it_is_it_should_succeed()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsVirtual).GetMethod("PublicVirtualDoNothing");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                methodInfo.Should().BeVirtual();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_asserting_a_method_is_virtual_but_it_is_not_it_should_throw_with_descriptive_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithNonVirtualPublicMethods).GetMethod("PublicDoNothing");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                methodInfo.Should().BeVirtual("we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing" +
-                    " to be virtual because we want to test the error message," +
-                    " but it is not virtual.");
-        }
-
-        [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_attribute_and_it_is_it_should_succeed()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethod("PublicDoNothing");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_an_attribute_but_it_is_not_it_should_throw_with_descriptive_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetMethod("PublicDoNothing");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>("because we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing to be decorated with " +
-                    "FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
-                    " but that attribute was not found.");
-        }
-
-        #endregion
-
-        #region MethodInfoSelector assertions
-
         [TestMethod]
         public void When_asserting_methods_are_virtual_and_they_are_it_should_succeed()
         {
@@ -166,14 +72,14 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected all selected methods" +
                     " to be virtual because we want to test the error message," +
-                    " but the following methods are not virtual:\r\n" +
-                    "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing\r\n" +
-                    "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.InternalDoNothing\r\n" +
-                    "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
+                        " but the following methods are not virtual:\r\n" +
+                            "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing\r\n" +
+                                "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.InternalDoNothing\r\n" +
+                                    "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
 
         [TestMethod]
-        public void When_asserting_methods_are_decorated_with_attribute_and_they_are_it_should_succeed()
+        public void When_asserting_methods_are_decorated_with_attribute_and_it_is_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -193,7 +99,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_methods_are_decorated_with_attribute_but_they_are_not_it_should_throw()
+        public void When_asserting_methods_are_decorated_with_attribute_and_they_are_not_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -214,7 +120,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_methods_are_decorated_with_attribute_but_they_are_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_methods_are_decorated_with_attribute_and_they_are_not_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -233,13 +139,11 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected all selected methods to be decorated with" +
                     " FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
-                    " but the following methods are not:\r\n" +
-                    "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
-                    "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
-                    "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
+                        " but the following methods are not:\r\n" +
+                            "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
+                                "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
+                                    "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
-
-        #endregion
     }
 
     #region Internal classes used in unit tests
