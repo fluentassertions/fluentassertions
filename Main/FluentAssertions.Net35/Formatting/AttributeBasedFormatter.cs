@@ -129,6 +129,10 @@ namespace FluentAssertions.Formatting
             {
                 return ex.Types;
             }
+            catch (TypeLoadException)
+            {
+                return new Type[0];
+            }
             catch (NotSupportedException)
             {
                 return new Type[0];
