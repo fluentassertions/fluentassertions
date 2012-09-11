@@ -263,8 +263,8 @@ namespace FluentAssertions.Numeric
             Execute.Verification
                 .ForCondition((Subject.CompareTo(minimumValue) >= 0) && (Subject.CompareTo(maximumValue) <= 0))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected value {0} to be between {1} and {2}{reason}, but it was not.",
-                    Subject, minimumValue, maximumValue);
+                .FailWith("Expected value to be between {0} and {1}{reason}, but found {2}.",
+                    minimumValue, maximumValue, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }

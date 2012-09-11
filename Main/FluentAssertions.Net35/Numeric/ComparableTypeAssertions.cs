@@ -185,8 +185,8 @@ namespace FluentAssertions.Numeric
             Execute.Verification
                 .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected object {0} to be between {1} and {2}{reason}.",
-                    Subject, minimumValue, maximumValue);
+                .FailWith("Expected object to be between {0} and {1}{reason}, but found {2}.",
+                    minimumValue, maximumValue, Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -206,7 +206,7 @@ namespace FluentAssertions.Numeric
             Execute.Verification
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value{reason}.");
+                .FailWith("Expected a value{reason}, but found {0}.", Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
         }
@@ -224,7 +224,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<ComparableTypeAssertions<T>> BeNull(string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(!ReferenceEquals(Subject, null))
+                .ForCondition(ReferenceEquals(Subject, null))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 

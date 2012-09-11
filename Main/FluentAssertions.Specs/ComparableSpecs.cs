@@ -21,15 +21,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "Hello"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "Hello"
-            };
+            var subject = new ComparableClass<string>("Hello");
+            var other = new ComparableClass<string>("Hello");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -43,15 +36,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "Hello"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "Hi"
-            };
+            var subject = new ComparableClass<string>("Hello");
+            var other = new ComparableClass<string>("Hi");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -73,15 +59,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "Hello"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "Hello"
-            };
+            var subject = new ComparableClass<string>("Hello");
+            var other = new ComparableClass<string>("Hello");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -104,15 +83,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "Hello"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "Hi"
-            };
+            var subject = new ComparableClass<string>("Hello");
+            var other = new ComparableClass<string>("Hi");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -127,6 +99,140 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region BeNull / NotBeNull
+
+        [TestMethod]
+        public void When_assertion_an_instance_to_be_null_and_it_is_null_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            ComparableClass<string> subject = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => 
+                subject.Should().BeNull();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_assertion_an_instance_to_be_null_and_it_is_not_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ComparableClass<string>("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => 
+                subject.Should().BeNull();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Did not expect a value*, but found *.", ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
+        public void When_assertion_an_instance_not_to_be_null_and_it_is_not_null_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ComparableClass<string>("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                subject.Should().NotBeNull();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_assertion_an_instance_not_to_be_null_and_it_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            ComparableClass<string> subject = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                subject.Should().NotBeNull();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected a value*, but found *.", ComparisonMode.Wildcard);
+        }
+
+        #endregion
+
+        #region BeInRange
+
+        [TestMethod]
+        public void When_assertion_an_instance_to_be_in_a_certain_range_and_it_is_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ComparableClass<int>(1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                subject.Should().BeInRange(new ComparableClass<int>(1), new ComparableClass<int>(2));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_assertion_an_instance_to_be_in_a_certain_range_but_it_is_not_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ComparableClass<int>(3);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                subject.Should().BeInRange(new ComparableClass<int>(1), new ComparableClass<int>(2));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected object to be between*and*, but found *.", ComparisonMode.Wildcard);
+        }
+
+        #endregion
+
         #region Be Less Than
 
         [TestMethod]
@@ -135,15 +241,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "City"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "World"
-            };
+            var subject = new ComparableClass<string>("City");
+            var other = new ComparableClass<string>("World");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -162,15 +261,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "World"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "City"
-            };
+            var subject = new ComparableClass<string>("World");
+            var other = new ComparableClass<string>("City");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -196,15 +288,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "World"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "City"
-            };
+            var subject = new ComparableClass<string>("World");
+            var other = new ComparableClass<string>("City");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -226,15 +311,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "World"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "World"
-            };
+            var subject = new ComparableClass<string>("World");
+            var other = new ComparableClass<string>("World");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -253,15 +331,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "City"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "World"
-            };
+            var subject = new ComparableClass<string>("City");
+            var other = new ComparableClass<string>("World");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -284,15 +355,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "efg"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "abc"
-            };
+            var subject = new ComparableClass<string>("efg");
+            var other = new ComparableClass<string>("abc");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -311,15 +375,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "abc"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "def"
-            };
+            var subject = new ComparableClass<string>("abc");
+            var other = new ComparableClass<string>("def");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -345,15 +402,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "abc"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "def"
-            };
+            var subject = new ComparableClass<string>("abc");
+            var other = new ComparableClass<string>("def");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -375,15 +425,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "def"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "def"
-            };
+            var subject = new ComparableClass<string>("def");
+            var other = new ComparableClass<string>("def");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -402,15 +445,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass
-            {
-                Value = "xyz"
-            };
-
-            var other = new ComparableClass
-            {
-                Value = "abc"
-            };
+            var subject = new ComparableClass<string>("xyz");
+            var other = new ComparableClass<string>("abc");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -424,16 +460,26 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-
     }
 
-    public class ComparableClass : IComparable<ComparableClass>
+    public class ComparableClass<T> : IComparable<ComparableClass<T>>
+        where T : IComparable
     {
-        public string Value { get; set; }
+        public T Value { get; set; }
 
-        public int CompareTo(ComparableClass other)
+        public ComparableClass(T value)
+        {
+            Value = value;
+        }
+
+        public int CompareTo(ComparableClass<T> other)
         {
             return Value.CompareTo(other.Value);
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
         }
     }
 }
