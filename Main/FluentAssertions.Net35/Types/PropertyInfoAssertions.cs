@@ -13,7 +13,7 @@ namespace FluentAssertions.Types
     [DebuggerNonUserCode]
     public class PropertyInfoAssertions
     {
-        private readonly bool assertingSingleProperty;
+        private readonly bool isAssertingSingleProperty;
 
         /// <summary>
         /// Gets the object which value is being asserted.
@@ -26,7 +26,7 @@ namespace FluentAssertions.Types
         /// <param name="property">The property to assert.</param>
         public PropertyInfoAssertions(PropertyInfo property)
         {
-            assertingSingleProperty = true;
+            isAssertingSingleProperty = true;
             SubjectProperties = new[] { property };
         }
 
@@ -53,7 +53,7 @@ namespace FluentAssertions.Types
         {
             IEnumerable<PropertyInfo> nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
-            string failureMessage = assertingSingleProperty
+            string failureMessage = isAssertingSingleProperty
                 ? "Expected property " + GetDescriptionsFor(new[] { SubjectProperties.Single() }) +
                     " to be virtual{reason}, but it is not virtual."
                 : "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:\r\n" +
@@ -96,7 +96,7 @@ namespace FluentAssertions.Types
         {
             IEnumerable<PropertyInfo> propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
-            string failureMessage = assertingSingleProperty
+            string failureMessage = isAssertingSingleProperty
                 ? "Expected property " + GetDescriptionsFor(new[] { SubjectProperties.Single() }) +
                     " to be decorated with {0}{reason}, but that attribute was not found."
                 : "Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:\r\n" +

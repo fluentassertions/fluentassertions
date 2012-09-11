@@ -13,7 +13,7 @@ namespace FluentAssertions.Types
     [DebuggerNonUserCode]
     public class MethodInfoAssertions
     {
-        private readonly bool assertingSingleMethod;
+        private readonly bool isAssertingSingleMethod;
 
         /// <summary>
         /// Gets the object which value is being asserted.
@@ -26,7 +26,7 @@ namespace FluentAssertions.Types
         /// <param name="methodInfo">The method to assert.</param>
         public MethodInfoAssertions(MethodInfo methodInfo)
         {
-            assertingSingleMethod = true;
+            isAssertingSingleMethod = true;
             SubjectMethods = new[] { methodInfo };
         }
 
@@ -53,7 +53,7 @@ namespace FluentAssertions.Types
         {
             IEnumerable<MethodInfo> nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
 
-            string failureMessage = assertingSingleMethod
+            string failureMessage = isAssertingSingleMethod
                 ? "Expected method " + GetDescriptionsFor(new[] { SubjectMethods.Single() }) +
                     " to be virtual{reason}, but it is not virtual."
                 : "Expected all selected methods to be virtual{reason}, but the following methods are" + " not virtual:\r\n" +
@@ -91,7 +91,7 @@ namespace FluentAssertions.Types
         {
             IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>();
 
-            string failureMessage = assertingSingleMethod
+            string failureMessage = isAssertingSingleMethod
                 ? "Expected method " + GetDescriptionsFor(new[] { SubjectMethods.Single() }) +
                     " to be decorated with {0}{reason}, but that attribute was not found."
                 : "Expected all selected methods to be decorated with {0}{reason}, but the" + " following methods are not:\r\n" +
