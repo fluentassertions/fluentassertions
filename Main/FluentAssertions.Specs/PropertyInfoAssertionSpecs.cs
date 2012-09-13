@@ -14,98 +14,6 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class PropertyInfoAssertionSpecs
     {
-        #region PropertyInfo assertions
-
-        [TestMethod]
-        public void When_asserting_a_property_is_virtual_and_it_is_it_should_succeed()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetProperty("PublicVirtualProperty");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfo.Should().BeVirtual();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_asserting_a_property_are_virtual_but_it_is_not_it_should_throw_with_descriptive_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetProperty("PublicNonVirtualProperty");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfo.Should().BeVirtual("we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
-                    " to be virtual because we want to test the error message," +
-                        " but it is not virtual.");
-        }
-
-        [TestMethod]
-        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_it_should_succeed()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_it_should_throw_with_descriptive_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property String " +
-                    "FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                    "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
-        }
-
-        #endregion
-
-        #region PropertyInfoSelector assertions
-
         [TestMethod]
         public void When_asserting_properties_are_virtual_and_they_are_it_should_succeed()
         {
@@ -238,8 +146,6 @@ namespace FluentAssertions.Specs
                                 "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty\r\n" +
                                     "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
         }
-
-        #endregion
     }
 
     #region Internal classes used in unit tests

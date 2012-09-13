@@ -301,7 +301,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value {0} to be between {1} and {2} because that's the valid range, but it was not.", value, 4, 5));
+                "Expected value to be between {0} and {1} because that's the valid range, but found {2}.", 4, 5, value));
         }
         
         [TestMethod]
