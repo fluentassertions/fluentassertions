@@ -16,11 +16,6 @@ namespace FluentAssertions.Types
         private readonly bool isAssertingSingleMethod;
 
         /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public IEnumerable<MethodInfo> SubjectMethods { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MethodInfoAssertions"/> class.
         /// </summary>
         /// <param name="methodInfo">The method to assert.</param>
@@ -38,6 +33,11 @@ namespace FluentAssertions.Types
         {
             SubjectMethods = methods;
         }
+
+        /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
+        public IEnumerable<MethodInfo> SubjectMethods { get; private set; }
 
         /// <summary>
         /// Asserts that the selected methods are virtual.
