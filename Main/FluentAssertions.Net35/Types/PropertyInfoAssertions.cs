@@ -62,8 +62,7 @@ namespace FluentAssertions.Types
             Execute.Verification
                 .ForCondition(!nonVirtualProperties.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected properties to be virtual{reason}, but the following properties are" +
-                    " not virtual:\r\n" + GetDescriptionsFor(nonVirtualProperties));
+                .FailWith(failureMessage);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -106,8 +105,7 @@ namespace FluentAssertions.Types
             Execute.Verification
                 .ForCondition(!propertiesWithoutAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected all selected properties to be decorated with {0}{reason}, but the" +
-                    " following properties are not:\r\n" + GetDescriptionsFor(propertiesWithoutAttribute), typeof(TAttribute));
+                .FailWith(failureMessage, typeof(TAttribute));
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
