@@ -3,11 +3,10 @@ using System.Reflection;
 
 using FluentAssertions.Types;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
-
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
 namespace FluentAssertions.Specs
@@ -23,7 +22,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsVirtual).GetRuntimeMethod("PublicVirtualDoNothing", new Type[0]);
+#else
             MethodInfo methodInfo = typeof(ClassWithAllMethodsVirtual).GetMethod("PublicVirtualDoNothing");
+#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -43,7 +46,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            MethodInfo methodInfo = typeof(ClassWithNonVirtualPublicMethods).GetRuntimeMethod("PublicDoNothing", new Type[0]);
+#else
             MethodInfo methodInfo = typeof(ClassWithNonVirtualPublicMethods).GetMethod("PublicDoNothing");
+#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -66,7 +73,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetRuntimeMethod("PublicDoNothing", new Type[0]);
+#else
             MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethod("PublicDoNothing");
+#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -86,7 +97,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetMethod("PublicDoNothing");
+#if WINRT
+            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetRuntimeMethod("PublicDoNothing", new Type[0]);
+#else
+             MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetMethod("PublicDoNothing");
+#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

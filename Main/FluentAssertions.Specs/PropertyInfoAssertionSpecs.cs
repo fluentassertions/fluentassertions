@@ -22,7 +22,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetRuntimeProperty("PublicVirtualProperty");
+#else
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetProperty("PublicVirtualProperty");
+#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -42,7 +46,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetRuntimeProperty("PublicNonVirtualProperty");
+#else
             PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetProperty("PublicNonVirtualProperty");
+#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -65,7 +73,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
+#else
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
+#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -85,7 +97,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
+#else
             PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
+#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
