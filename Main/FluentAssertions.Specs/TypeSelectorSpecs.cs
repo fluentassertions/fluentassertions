@@ -64,7 +64,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            types.Should()
+            types.ToArray().Should()
                 .HaveCount(1)
                 .And.Contain(typeof(ClassDerivedFromSomeGenericBaseClass));
         }

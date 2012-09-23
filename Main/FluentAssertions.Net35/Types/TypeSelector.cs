@@ -28,6 +28,15 @@ namespace FluentAssertions.Types
             this.types = types.ToList();
         }
 
+
+        /// <summary>
+        /// The resulting <see cref="Type"/> objects.
+        /// </summary>
+        public Type[] ToArray()
+        {
+            return types.ToArray();
+        }
+
         /// <summary>
         /// Determines whether a type is a subclass of another type, but NOT the same type.
         /// </summary>

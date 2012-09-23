@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace FluentAssertions.Common
@@ -11,6 +12,27 @@ namespace FluentAssertions.Common
         private const BindingFlags PublicPropertiesFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 #endif
+
+        public static bool HasMatchingAttribute<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+
+            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
+        }
+
+        public static bool IsDecoratedWith<TAttribute>(this Type type)
+        {
+            return GetCustomAttributes<TAttribute>(type).Any();
+        }
+
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type)
+        {
+#if !WINRT
+            return type.GetCustomAttributes(false).OfType<TAttribute>();
+#else
+            return type.GetTypeInfo().GetCustomAttributes(false).OfType<TAttribute>();
+#endif
+        }
 
         /// <summary>
         /// Determines whether two <see cref="PropertyInfo"/> objects refer to the same property.

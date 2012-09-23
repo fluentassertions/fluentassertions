@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Linq.Expressions;
+
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 #if WINRT
@@ -142,7 +142,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
         {
             Execute.Verification
-                .ForCondition(IsDecoratedWith<TAttribute>(Subject))
+                .ForCondition(Subject.IsDecoratedWith<TAttribute>())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1}{reason}, but the attribute was not found.",
                     Subject, typeof (TAttribute));
@@ -170,33 +170,12 @@ namespace FluentAssertions.Types
             BeDecoratedWith<TAttribute>(reason, reasonArgs);
 
             Execute.Verification
-                .ForCondition(HasMatchingAttribute(isMatchingAttributePredicate))
+                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 
             return new AndConstraint<TypeAssertions>(this);
-        }
-
-        private bool HasMatchingAttribute<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
-        {
-            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
-
-            return GetCustomAttributes<TAttribute>(Subject).Any(isMatchingAttribute);
-        }
-
-        private static bool IsDecoratedWith<TAttribute>(Type type)
-        {
-            return GetCustomAttributes<TAttribute>(type).Any();
-        }
-
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type)
-        {
-#if !WINRT
-            return type.GetCustomAttributes(false).OfType<TAttribute>();
-#else
-            return type.GetTypeInfo().GetCustomAttributes(false).OfType<TAttribute>();
-#endif
         }
     }
 }
