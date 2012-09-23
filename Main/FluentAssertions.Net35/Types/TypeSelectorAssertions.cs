@@ -6,6 +6,8 @@ using System.Linq.Expressions;
 
 using FluentAssertions.Execution;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Types
 {
     /// <summary>
@@ -41,7 +43,7 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
         {
             IEnumerable<Type> typesWithoutAttribute = Subject
-                .Where(type => !TypeExtensions.IsDecoratedWith<TAttribute>(type))
+                .Where(type => !type.IsDecoratedWith<TAttribute>())
                 .ToArray();
 
             Execute.Verification

@@ -380,6 +380,9 @@
     <Compile Include="..\FluentAssertions.Net35\Types\TypeSelector.cs">
       <Link>Types\TypeSelector.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Types\TypeSelectorAssertions.cs">
+      <Link>Types\TypeSelectorAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Xml\XAttributeAssertions.cs">
       <Link>Xml\XAttributeAssertions.cs</Link>
     </Compile>
