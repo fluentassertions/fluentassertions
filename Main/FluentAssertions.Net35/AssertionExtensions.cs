@@ -465,6 +465,15 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
+        /// current <see cref="Type"/>.
+        /// </summary>
+        public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
+        {
+            return new TypeSelectorAssertions(typeSelector.ToArray());
+        }
+
+        /// <summary>
         /// Returns a <see cref="MethodInfoAssertions"/> object that can be used to assert the current <see cref="MethodInfo"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
