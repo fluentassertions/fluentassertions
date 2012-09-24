@@ -4,8 +4,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
-using FluentAssertions.Execution;
+#if WINRT
+using System.Reflection;
+#endif
 
+using FluentAssertions.Execution;
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Types

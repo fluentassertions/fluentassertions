@@ -438,7 +438,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var types = new TypeSelector(new[] { typeof(ClassWithAttribute) });
+            var types = new TypeSelector(new[]
+            {
+#if !WINRT
+                typeof (ClassWithAttribute)
+#else
+                typeof(ClassWithAttribute).GetTypeInfo()
+#endif
+            });
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -460,9 +467,15 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
+#if !WINRT
                 typeof(ClassWithAttribute),
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
+#else
+                typeof(ClassWithAttribute).GetTypeInfo(),
+                typeof(ClassWithoutAttribute).GetTypeInfo(),
+                typeof(OtherClassWithoutAttribute).GetTypeInfo()
+#endif
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -489,9 +502,15 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
+#if !WINRT
                 typeof(ClassWithAttribute),
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
+#else
+                typeof(ClassWithAttribute).GetTypeInfo(),
+                typeof(ClassWithoutAttribute).GetTypeInfo(),
+                typeof(OtherClassWithoutAttribute).GetTypeInfo()
+#endif
             });
 
             //-------------------------------------------------------------------------------------------------------------------

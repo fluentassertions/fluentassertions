@@ -34,7 +34,11 @@ namespace FluentAssertions.Types
         /// </summary>
         public Type[] ToArray()
         {
+#if !WINRT            
             return types.ToArray();
+#else
+            return types.Select(t => t.AsType()).ToArray();
+#endif
         }
 
         /// <summary>
