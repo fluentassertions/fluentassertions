@@ -81,8 +81,8 @@ namespace FluentAssertions.Types
                 return "";
             }
 
-            string expectedType = expected.FullName;
-            string actualType = actual.FullName;
+            string expectedType = (expected != null) ? expected.FullName : "<null>";
+            string actualType = (actual != null) ? actual.FullName : "<null>";
 
             if (expectedType == actualType)
             {

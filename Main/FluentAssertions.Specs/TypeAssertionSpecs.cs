@@ -84,6 +84,52 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_asserting_equality_of_a_type_but_the_type_is_null_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type nullType = null;
+            Type someType = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                nullType.Should().Be(someType, "because we want to test the error message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected type to be FluentAssertions.Specs.ClassWithAttribute" +
+                    " because we want to test the error message, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_equality_of_a_type_with_null_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type someType = typeof(ClassWithAttribute);
+            Type nullType = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                someType.Should().Be(nullType, "because we want to test the error message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected type to be <null>" +
+                    " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+        }
+
+        [TestMethod]
         public void When_type_is_equal_to_same_type_from_different_assembly_it_should_throw_with_assembly_qualified_name
             ()
         {
