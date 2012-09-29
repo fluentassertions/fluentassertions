@@ -165,9 +165,9 @@ pip-log.txt
 #NCrunch
 *.ncrunchsolution
 
-#############   
-# PROJECT SPECIFIC   
-#############   
+#############
+# PROJECT SPECIFIC
+#############
 *.nupkg
 */package/Lib/
 Main/FluentAssertions/*/AppPackages/**
