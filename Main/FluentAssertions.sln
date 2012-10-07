@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
 		Package\.nuspec = Package\.nuspec
@@ -36,56 +36,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net45.Specs", "FluentAssertions.Net45.Specs\FluentAssertions.Net45.Specs.csproj", "{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs05
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = FluentAssertions.Net40\\FluentAssertions.Net40.csproj
-		SccProjectTopLevelParentUniqueName1 = FluentAssertions.sln
-		SccProjectName1 = FluentAssertions.Net40
-		SccLocalPath1 = FluentAssertions.Net40
-		SccProjectUniqueName2 = FluentAssertions.Net35\\FluentAssertions.Net35.csproj
-		SccProjectTopLevelParentUniqueName2 = FluentAssertions.sln
-		SccProjectName2 = FluentAssertions.Net35
-		SccLocalPath2 = FluentAssertions.Net35
-		SccProjectUniqueName3 = FluentAssertions.Silverlight\\FluentAssertions.Silverlight.csproj
-		SccProjectTopLevelParentUniqueName3 = FluentAssertions.sln
-		SccProjectName3 = FluentAssertions.Silverlight
-		SccLocalPath3 = FluentAssertions.Silverlight
-		SccProjectUniqueName4 = FluentAssertions.Specs\\FluentAssertions.Specs.csproj
-		SccProjectTopLevelParentUniqueName4 = FluentAssertions.sln
-		SccProjectName4 = FluentAssertions.Specs
-		SccLocalPath4 = FluentAssertions.Specs
-		SccProjectUniqueName5 = FluentAssertions.Silverlight.Specs\\FluentAssertions.Silverlight.Specs.csproj
-		SccProjectTopLevelParentUniqueName5 = FluentAssertions.sln
-		SccProjectName5 = FluentAssertions.Silverlight.Specs
-		SccLocalPath5 = FluentAssertions.Silverlight.Specs
-		SccProjectUniqueName6 = FluentAssertions.WindowsPhone\\FluentAssertions.WindowsPhone.csproj
-		SccProjectTopLevelParentUniqueName6 = FluentAssertions.sln
-		SccProjectName6 = FluentAssertions.WindowsPhone
-		SccLocalPath6 = FluentAssertions.WindowsPhone
-		SccProjectUniqueName7 = FluentAssertions.WindowsPhone.Specs\\FluentAssertions.WindowsPhone.Specs.csproj
-		SccProjectTopLevelParentUniqueName7 = FluentAssertions.sln
-		SccProjectName7 = FluentAssertions.WindowsPhone.Specs
-		SccLocalPath7 = FluentAssertions.WindowsPhone.Specs
-		SccProjectUniqueName8 = FluentAssertions.WinRT\\FluentAssertions.WinRT.csproj
-		SccProjectTopLevelParentUniqueName8 = FluentAssertions.sln
-		SccProjectName8 = FluentAssertions.WinRT
-		SccLocalPath8 = FluentAssertions.WinRT
-		SccProjectUniqueName9 = FluentAssertions.WinRT.Specs\\FluentAssertions.WinRT.Specs.csproj
-		SccProjectTopLevelParentUniqueName9 = FluentAssertions.sln
-		SccProjectName9 = FluentAssertions.WinRT.Specs
-		SccLocalPath9 = FluentAssertions.WinRT.Specs
-		SccProjectUniqueName10 = FluentAssertions.Net45\\FluentAssertions.Net45.csproj
-		SccProjectTopLevelParentUniqueName10 = FluentAssertions.sln
-		SccProjectName10 = FluentAssertions.Net45
-		SccLocalPath10 = FluentAssertions.Net45
-		SccProjectUniqueName11 = FluentAssertions.Net45.Specs\\FluentAssertions.Net45.Specs.csproj
-		SccProjectTopLevelParentUniqueName11 = FluentAssertions.sln
-		SccProjectName11 = FluentAssertions.Net45.Specs
-		SccLocalPath11 = FluentAssertions.Net45.Specs
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
