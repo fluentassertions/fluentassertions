@@ -6,6 +6,9 @@
     <version>2.0.0</version>
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen, Martin Opdam</authors>
+    <summary>
+      Fluent methods for asserting the result of TDD/BDD specs for .NET 3.5/4.0/4.5 (Desktop and Windows Store), SL 4/5, WP7 (Mango). Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio and MSpec.
+    </summary>
     <description>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or 
       BDD-style unit test. Runs on .NET 3.5, 4.0 and 4.5 (Desktop and Windows Store), Silverlight 4 and 5 and Windows Phone 7.5. Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio and MSpec.
