@@ -21,8 +21,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("Hello");
-            var other = new ComparableClass<string>("Hello");
+            var subject = new ComparableOfString("Hello");
+            var other = new ComparableOfString("Hello");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -36,8 +36,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("Hello");
-            var other = new ComparableClass<string>("Hi");
+            var subject = new ComparableOfString("Hello");
+            var other = new ComparableOfString("Hi");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -59,8 +59,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("Hello");
-            var other = new ComparableClass<string>("Hello");
+            var subject = new ComparableOfString("Hello");
+            var other = new ComparableOfString("Hello");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -83,8 +83,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("Hello");
-            var other = new ComparableClass<string>("Hi");
+            var subject = new ComparableOfString("Hello");
+            var other = new ComparableOfString("Hi");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -107,7 +107,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            ComparableClass<string> subject = null;
+            ComparableOfString subject = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -127,7 +127,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("");
+            var subject = new ComparableOfString("");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -149,7 +149,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("");
+            var subject = new ComparableOfString("");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -169,7 +169,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            ComparableClass<string> subject = null;
+            ComparableOfString subject = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -195,13 +195,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<int>(1);
+            var subject = new ComparableOfInt(1);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                subject.Should().BeInRange(new ComparableClass<int>(1), new ComparableClass<int>(2));
+                subject.Should().BeInRange(new ComparableOfInt(1), new ComparableOfInt(2));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -215,13 +215,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<int>(3);
+            var subject = new ComparableOfInt(3);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                subject.Should().BeInRange(new ComparableClass<int>(1), new ComparableClass<int>(2));
+                subject.Should().BeInRange(new ComparableOfInt(1), new ComparableOfInt(2));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -241,8 +241,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("City");
-            var other = new ComparableClass<string>("World");
+            var subject = new ComparableOfString("City");
+            var other = new ComparableOfString("World");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -261,8 +261,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("World");
-            var other = new ComparableClass<string>("City");
+            var subject = new ComparableOfString("World");
+            var other = new ComparableOfString("City");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -288,8 +288,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("World");
-            var other = new ComparableClass<string>("City");
+            var subject = new ComparableOfString("World");
+            var other = new ComparableOfString("City");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -311,8 +311,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("World");
-            var other = new ComparableClass<string>("World");
+            var subject = new ComparableOfString("World");
+            var other = new ComparableOfString("World");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -331,8 +331,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("City");
-            var other = new ComparableClass<string>("World");
+            var subject = new ComparableOfString("City");
+            var other = new ComparableOfString("World");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -355,8 +355,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("efg");
-            var other = new ComparableClass<string>("abc");
+            var subject = new ComparableOfString("efg");
+            var other = new ComparableOfString("abc");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -375,8 +375,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("abc");
-            var other = new ComparableClass<string>("def");
+            var subject = new ComparableOfString("abc");
+            var other = new ComparableOfString("def");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -402,8 +402,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("abc");
-            var other = new ComparableClass<string>("def");
+            var subject = new ComparableOfString("abc");
+            var other = new ComparableOfString("def");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -425,8 +425,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("def");
-            var other = new ComparableClass<string>("def");
+            var subject = new ComparableOfString("def");
+            var other = new ComparableOfString("def");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -445,8 +445,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ComparableClass<string>("xyz");
-            var other = new ComparableClass<string>("abc");
+            var subject = new ComparableOfString("xyz");
+            var other = new ComparableOfString("abc");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -462,17 +462,36 @@ namespace FluentAssertions.Specs
         #endregion
     }
 
-    public class ComparableClass<T> : IComparable<ComparableClass<T>>
-        where T : IComparable
+    public class ComparableOfString : IComparable<ComparableOfString>
     {
-        public T Value { get; set; }
+        public string Value { get; set; }
 
-        public ComparableClass(T value)
+        public ComparableOfString(string value)
         {
             Value = value;
         }
 
-        public int CompareTo(ComparableClass<T> other)
+        public int CompareTo(ComparableOfString other)
+        {
+            return Value.CompareTo(other.Value);
+        }
+
+        public override string ToString()
+        {
+            return Value;
+        }
+    }
+
+    public class ComparableOfInt : IComparable<ComparableOfInt>
+    {
+        public int Value { get; set; }
+
+        public ComparableOfInt(int value)
+        {
+            Value = value;
+        }
+
+        public int CompareTo(ComparableOfInt other)
         {
             return Value.CompareTo(other.Value);
         }
@@ -482,4 +501,5 @@ namespace FluentAssertions.Specs
             return Value.ToString();
         }
     }
+
 }
