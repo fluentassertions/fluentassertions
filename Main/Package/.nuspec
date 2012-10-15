@@ -3,7 +3,7 @@
   <metadata> 
     <id>FluentAssertions</id>
     <title>Fluent Assertions</title>
-    <version>2.0.0</version>
+    <version>2.0.0.1</version>
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen, Martin Opdam</authors>
     <summary>
@@ -85,4 +85,7 @@
       <frameworkAssembly assemblyName="System.Xml.Linq"  />
     </frameworkAssemblies>
   </metadata>
+  <files>
+    <file src="lib\**\*.*" target="lib" exclude="**\*.pri;**\winrt45\microsoft*.dll"/>
+  </files>
 </package>
