@@ -204,7 +204,7 @@ namespace FluentAssertions.Xml
             XElement root = Subject.Root;
 
             Execute.Verification
-                .ForCondition((root != null) && root.Name == expected)
+                .ForCondition((root != null) && (root.Name == expected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML document to have root element \"" + expected.ToString().Escape() + "\"{reason}" +
                     ", but found {0}.", Subject);
