@@ -389,13 +389,85 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            string expectedMessage = string.Format("Expected XML document to have root element <unknown>" +
+            string expectedMessage = string.Format("Expected XML document to have root element \"unknown\"" +
                 " because we want to test the failure message" +
                     ", but found {0}.", Formatter.ToString(document));
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
 
+        [TestMethod]
+        public void When_asserting_document_has_root_element_with_ns_and_it_does_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(
+                @"<parent xmlns='http://www.example.com/2012/test'>
+                    <child/>
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().HaveRoot(XName.Get("parent", "http://www.example.com/2012/test"));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_document_has_root_element_with_ns_but_it_does_not_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().HaveRoot(XName.Get("unknown", "http://www.example.com/2012/test"));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_document_has_root_element_with_ns_but_it_does_not_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().HaveRoot(XName.Get("unknown", "http://www.example.com/2012/test"), "because we want to test the failure message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            string expectedMessage = string.Format("Expected XML document to have root element \"{{http://www.example.com/2012/test}}unknown\"" +
+                " because we want to test the failure message" +
+                    ", but found {0}.", Formatter.ToString(document));
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
         #endregion
 
         #region HaveElement
@@ -466,7 +538,81 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            string expectedMessage = string.Format("Expected XML document {0} to have root element with child <unknown>" +
+            string expectedMessage = string.Format("Expected XML document {0} to have root element with child \"unknown\"" +
+                " because we want to test the failure message" +
+                    ", but no such child element was found.", Formatter.ToString(document));
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void When_asserting_document_has_root_with_child_element_with_ns_and_it_does_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(
+                @"<parent xmlns:test='http://www.example.org/2012/test'>
+                    <test:child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().HaveElement(XName.Get("child", "http://www.example.org/2012/test"));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_document_has_root_with_child_element_with_ns_but_it_does_not_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().HaveElement(XName.Get("unknown", "http://www.example.org/2012/test"));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_document_has_root_with_child_element_with_ns_but_it_does_not_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().HaveElement(XName.Get("unknown", "http://www.example.org/2012/test"),
+                "because we want to test the failure message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            string expectedMessage = string.Format("Expected XML document {0} to have root element with child \"{{http://www.example.org/2012/test}}unknown\"" +
                 " because we want to test the failure message" +
                     ", but no such child element was found.", Formatter.ToString(document));
 

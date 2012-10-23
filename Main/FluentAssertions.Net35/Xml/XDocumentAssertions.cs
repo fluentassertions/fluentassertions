@@ -165,6 +165,16 @@ namespace FluentAssertions.Xml
         /// <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">The name of the expected root element of the current document.</param>
+        public AndConstraint<XDocumentAssertions> HaveRoot(XName expected)
+        {
+            return HaveRoot(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XDocument"/> has a root element with the specified
+        /// <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">The name of the expected root element of the current document.</param>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -174,12 +184,29 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> HaveRoot(string expected, string reason, params object[] reasonArgs)
         {
+            return HaveRoot(XNamespace.None + expected, reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XDocument"/> has a root element with the specified
+        /// <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">The full name <see cref="XName"/> of the expected root element of the current document.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> HaveRoot(XName expected, string reason, params object[] reasonArgs)
+        {
             XElement root = Subject.Root;
 
             Execute.Verification
                 .ForCondition((root != null) && root.Name == expected)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML document to have root element <" + expected + ">{reason}" +
+                .FailWith("Expected XML document to have root element \"" + expected.ToString().Escape() + "\"{reason}" +
                     ", but found {0}.", Subject);
 
             return new AndConstraint<XDocumentAssertions>(this);
@@ -202,6 +229,18 @@ namespace FluentAssertions.Xml
         /// child element with the specified <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">
+        /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> HaveElement(XName expected)
+        {
+            return HaveElement(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a direct
+        /// child element with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
         /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
         /// </param>
         /// <param name="reason">
@@ -213,16 +252,36 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> HaveElement(string expected, string reason, params object[] reasonArgs)
         {
+            return HaveElement(XNamespace.None + expected, reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="XDocument.Root"/> element of the current <see cref="XDocument"/> has a direct
+        /// child element with the specified <paramref name="expected"/> name.
+        /// </summary>
+        /// <param name="expected">
+        /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> HaveElement(XName expected, string reason, params object[] reasonArgs)
+        {
+            string expectedText = expected.ToString().Escape();
             Execute.Verification
                 .ForCondition(Subject.Root != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML document {0} to have root element with child <" + expected + ">{reason}" +
+                .FailWith("Expected XML document {0} to have root element with child \"" + expectedText + "\"{reason}" +
                     ", but XML document has no Root element.", Subject);
 
             Execute.Verification
                 .ForCondition(Subject.Root.Element(expected) != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML document {0} to have root element with child <" + expected + ">{reason}" +
+                .FailWith("Expected XML document {0} to have root element with child \"" + expectedText + "\"{reason}" +
                     ", but no such child element was found.", Subject);
 
             return new AndConstraint<XDocumentAssertions>(this);
