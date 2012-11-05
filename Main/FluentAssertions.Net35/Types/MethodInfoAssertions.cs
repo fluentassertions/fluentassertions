@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Execution;
 
@@ -89,7 +90,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
         {
-            IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>();
+            IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(attr => true);
 
             string failureMessage = isAssertingSingleMethod
                 ? "Expected method " + GetDescriptionsFor(new[] { SubjectMethods.Single() }) +
@@ -105,14 +106,47 @@ namespace FluentAssertions.Types
             return new AndConstraint<MethodInfoAssertions>(this);
         }
 
-        private MethodInfo[] GetMethodsWithout<TAttribute>()
+        /// <summary>
+        /// Asserts that the selected methods are decorated with an attribute of type <typeparamref name="TAttribute"/>
+        /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
+        /// </summary>
+        /// <param name="isMatchingAttributePredicate">
+        /// The predicate that the attribute must match.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(
+            Func<TAttribute, bool> isMatchingAttributePredicate,  string reason = "", params object[] reasonArgs)
         {
-            return SubjectMethods.Where(method => !IsDecoratedWith<TAttribute>(method)).ToArray();
+            IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(isMatchingAttributePredicate);
+
+            string failureMessage = isAssertingSingleMethod
+                ? "Expected method " + GetDescriptionsFor(new[] { SubjectMethods.Single() }) +
+                    " to be decorated with {0}{reason}, but that attribute was not found."
+                : "Expected all selected methods to be decorated with {0}{reason}, but the" + " following methods are not:\r\n" +
+                    GetDescriptionsFor(methodsWithoutAttribute);
+
+            Execute.Verification
+                .ForCondition(!methodsWithoutAttribute.Any())
+                .BecauseOf(reason, reasonArgs)
+                .FailWith(failureMessage, typeof(TAttribute));
+
+            return new AndConstraint<MethodInfoAssertions>(this);
         }
 
-        private static bool IsDecoratedWith<TAttribute>(MethodInfo method)
+        private MethodInfo[] GetMethodsWithout<TAttribute>(Func<TAttribute, bool> isMatchingPredicate)
         {
-            return method.GetCustomAttributes(false).OfType<TAttribute>().Any();
+            return SubjectMethods.Where(method => !IsDecoratedWith(method, isMatchingPredicate)).ToArray();
+        }
+
+        private static bool IsDecoratedWith<TAttribute>(MethodInfo method, Func<TAttribute, bool> isMatchingPredicate)
+        {
+            return method.GetCustomAttributes(false).OfType<TAttribute>().Any(isMatchingPredicate);
         }
 
         private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)
