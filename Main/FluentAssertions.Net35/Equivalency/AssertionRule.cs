@@ -1,6 +1,8 @@
 using System;
 using System.Reflection;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
