@@ -141,6 +141,10 @@ namespace FluentAssertions.Formatting
             {
                 return new Type[0];
             }
+            catch (FileLoadException)
+            {
+                return new Type[0];
+            }
         }
 #endif
     }

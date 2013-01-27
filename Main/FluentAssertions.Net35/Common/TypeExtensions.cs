@@ -87,7 +87,6 @@ namespace FluentAssertions.Common
                 .Any();
         }
 
-
         /// <summary>
         /// Finds the property by a case-sensitive name.
         /// </summary>
@@ -203,6 +202,15 @@ namespace FluentAssertions.Common
         public static bool HasAttribute<TAttribute>(this MethodInfo method) where TAttribute : Attribute
         {
             return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
+        }
+
+        public static MethodInfo GetMethodNamed(this Type type, string methodName)
+        {
+#if WINRT
+            return type.GetRuntimeMethod(methodName, new Type[0]);
+#else
+            return type.GetMethod(methodName);
+#endif
         }
     }
 }

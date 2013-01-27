@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
+using FluentAssertions.Common;
 using FluentAssertions.Types;
 
 #if WINRT
@@ -22,11 +23,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsVirtual).GetRuntimeMethod("PublicVirtualDoNothing", new Type[0]);
-#else
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsVirtual).GetMethod("PublicVirtualDoNothing");
-#endif
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsVirtual).GetMethodNamed("PublicVirtualDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -46,11 +43,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            MethodInfo methodInfo = typeof(ClassWithNonVirtualPublicMethods).GetRuntimeMethod("PublicDoNothing", new Type[0]);
-#else
-            MethodInfo methodInfo = typeof(ClassWithNonVirtualPublicMethods).GetMethod("PublicDoNothing");
-#endif
+            MethodInfo methodInfo = typeof(ClassWithNonVirtualPublicMethods).GetMethodNamed("PublicDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -73,11 +66,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetRuntimeMethod("PublicDoNothing", new Type[0]);
-#else
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethod("PublicDoNothing");
-#endif
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -97,17 +86,57 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetRuntimeMethod("PublicDoNothing", new Type[0]);
-#else
-             MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetMethod("PublicDoNothing");
-#endif
+            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected method Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing to be decorated with " +
+                        "FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
+                        " but that attribute was not found.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_method_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothing");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>(d => d.Filter);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_method_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothing");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().BeDecoratedWith<DummyMethodAttribute>(d => !d.Filter, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -295,7 +324,7 @@ namespace FluentAssertions.Specs
 
     internal class ClassWithAllMethodsDecoratedWithDummyAttribute
     {
-        [DummyMethod]
+        [DummyMethod(Filter = true)]
         public void PublicDoNothing()
         {
         }
