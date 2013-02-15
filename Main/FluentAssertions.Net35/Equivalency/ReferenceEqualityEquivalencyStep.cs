@@ -40,7 +40,7 @@
                         context.Subject);
             }
 
-            return !ReferenceEquals(context.Subject, null) && context.Subject.Equals(context.Expectation);
+            return false;
         }
     }
 }
