@@ -48,7 +48,7 @@ namespace FluentAssertions.Common
         {
             return (actualType == expectedType) ||
 #if !WINRT
-                   (expectedType.IsSubclassOf(actualType))
+                   (actualType.IsAssignableFrom(expectedType))
 #else
                    (actualType.GetTypeInfo().IsAssignableFrom(expectedType.GetTypeInfo()))
 #endif

@@ -610,6 +610,32 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             subject.ShouldBeEquivalentTo(other);
         }
+        
+        [TestMethod]
+        public void When_two_objects_have_the_same_nullable_property_values_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Age = 36,
+                Birthdate = (DateTime?)(new DateTime(1973, 9, 20)),
+                Name = "Dennis"
+            };
+
+            var other = new
+            {
+                Age = 36,
+                Birthdate = (DateTime?)new DateTime(1973, 9, 20),
+                Name = "Dennis"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            subject.ShouldBeEquivalentTo(other);
+        }
 
         [TestMethod]
         public void When_two_objects_have_the_same_properties_but_a_different_value_it_should_throw()
