@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
@@ -26,6 +27,12 @@ namespace FluentAssertions.Execution
         private string reason;
         private bool succeeded;
         private bool useLineBreaks;
+
+        [ThreadStatic]
+        private static bool isCollecting;
+
+        [ThreadStatic]
+        private static List<string> failureMessages;
 
         #endregion
 
@@ -57,12 +64,33 @@ namespace FluentAssertions.Execution
             set { subjectName = value; }
         }
 
-        /// <summary>
-        /// Gets the name or identifier of the current subject, or a default value if the subject is not known.
-        /// </summary>
-        public static string SubjectNameOr(string defaultName)
+        public static void StartCollecting()
         {
-            return string.IsNullOrEmpty(SubjectName) ? defaultName : SubjectName;
+            isCollecting = true;
+        }
+
+        public static void StopCollecting()
+        {
+            isCollecting = false;
+            FailureMessages.Clear();
+        }
+
+        public static void ThrowIfAny(string context)
+        {
+            isCollecting = false;
+            if (HasFailures)
+            {
+                string message = string.Join(Environment.NewLine, FailureMessages.ToArray()) + 
+                    Environment.NewLine + 
+                    context;
+
+                AssertionHelper.Throw(message);
+            }
+        }
+
+        public static bool HasFailures
+        {
+            get { return FailureMessages.Any(); }
         }
 
         /// <summary>
@@ -72,15 +100,6 @@ namespace FluentAssertions.Execution
         public Verification ForCondition(bool condition)
         {
             succeeded = condition;
-            return this;
-        }
-
-        /// <summary>
-        /// Specify a predicate that with the condition that must be satisfied.
-        /// </summary>
-        public Verification ForCondition(Func<bool> condition)
-        {
-            succeeded = condition();
             return this;
         }
 
@@ -147,7 +166,7 @@ namespace FluentAssertions.Execution
         /// </remarks>
         /// <param name="failureMessage">The format string that represents the failure message.</param>
         /// <param name="failureArgs">Optional arguments for the <paramref name="failureMessage"/></param>
-        public void FailWith(string failureMessage, params object[] failureArgs)
+        public bool FailWith(string failureMessage, params object[] failureArgs)
         {
             try
             {
@@ -157,8 +176,17 @@ namespace FluentAssertions.Execution
                     message = ReplaceContextTag(message);
                     message = BuildExceptionMessage(message, failureArgs);
 
-                    AssertionHelper.Throw(message);
+                    if (!isCollecting)
+                    {
+                        AssertionHelper.Throw(message);
+                    }
+                    else
+                    {
+                        FailureMessages.Add(message);
+                    }
                 }
+
+                return succeeded;
             }
             finally
             {
@@ -175,16 +203,13 @@ namespace FluentAssertions.Execution
 
         private static string ReplaceReasonTagWithFormatSpecification(string failureMessage)
         {
-            if (!failureMessage.Contains(ReasonTag))
+            if (failureMessage.Contains(ReasonTag))
             {
-                throw new InvalidOperationException(
-                    @"Reason is specified through 'BecauseOf(...)', but format string does not contain a placeholder for the reason!");
+                string message = IncrementAllFormatSpecifiers(failureMessage);
+                return message.Replace(ReasonTag, "{0}");
             }
-
-            string message = IncrementAllFormatSpecifiers(failureMessage);
-            message = message.Replace(ReasonTag, "{0}");
-
-            return message;
+            
+            return failureMessage;
         }
 
         private string ReplaceContextTag(string message)
@@ -218,6 +243,19 @@ namespace FluentAssertions.Execution
 
             string formattedMessage = values.Any() ? string.Format(failureMessage, values.ToArray()) : failureMessage;
             return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
+        }
+
+        private static List<string> FailureMessages
+        {
+            get
+            {
+                if (failureMessages == null)
+                {
+                    failureMessages = new List<string>();
+                }
+
+                return failureMessages;
+            }
         }
     }
 }

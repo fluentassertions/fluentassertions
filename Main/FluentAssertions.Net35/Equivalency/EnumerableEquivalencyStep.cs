@@ -51,7 +51,10 @@ namespace FluentAssertions.Equivalency
             {
                 for (int i = 0; i < subject.Length; i++)
                 {
-                    parent.AssertEqualityUsing(context.CreateForCollectionItem(i, subject[i], expectation[i]));
+                    if ((subject.Length > i) && (expectation.Length > i))
+                    {
+                        parent.AssertEqualityUsing(context.CreateForCollectionItem(i, subject[i], expectation[i]));
+                    }
                 }
             }
         }

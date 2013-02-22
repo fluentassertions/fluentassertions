@@ -537,7 +537,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<InvalidOperationException>().WithMessage(
                 "Please specify some properties to include in the comparison", ComparisonMode.StartWith);
         }
 

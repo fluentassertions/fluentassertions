@@ -42,13 +42,16 @@ namespace FluentAssertions.Equivalency
         {
             if (predicate(context))
             {
-                context.Verification
+                bool succeeded = context.Verification
                     .ForCondition(context.MatchingExpectationProperty.PropertyType.IsSameOrInherits(typeof(TSubject)))
                     .FailWith("Expected " + context.PropertyDescription + " to be a {0}{reason}, but found a {1}",
                         context.MatchingExpectationProperty.PropertyType, context.PropertyInfo.PropertyType);
 
-                action(new AssertionContext(context.PropertyInfo,
-                    (TSubject)context.Subject, (TSubject)context.Expectation, context.Reason, context.ReasonArgs));
+                if (succeeded)
+                {
+                    action(new AssertionContext(context.PropertyInfo,
+                        (TSubject)context.Subject, (TSubject)context.Expectation, context.Reason, context.ReasonArgs));
+                }
 
                 return true;
             }

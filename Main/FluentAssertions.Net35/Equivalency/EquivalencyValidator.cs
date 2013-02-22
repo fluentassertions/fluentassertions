@@ -13,14 +13,14 @@ namespace FluentAssertions.Equivalency
         #region Private Definitions
 
         private readonly IEquivalencyStep[] steps =
-            {
-                new TryConversionEquivalencyStep(),
-                new ReferenceEqualityEquivalencyStep(),
-                new ApplyAssertionRulesEquivalencyStep(),
-                new EnumerableEquivalencyStep(),
-                new ComplexTypeEquivalencyStep(),
-                new SimpleEqualityEquivalencyStep()
-            };
+        {
+            new TryConversionEquivalencyStep(),
+            new ReferenceEqualityEquivalencyStep(),
+            new ApplyAssertionRulesEquivalencyStep(),
+            new EnumerableEquivalencyStep(),
+            new ComplexTypeEquivalencyStep(),
+            new SimpleEqualityEquivalencyStep()
+        };
 
         #endregion
 
@@ -28,11 +28,15 @@ namespace FluentAssertions.Equivalency
         {
             try
             {
+                Verification.StartCollecting();
                 AssertEqualityUsing(context);
+
+                Verification.ThrowIfAny(context.Config.ToString());
             }
-            catch (Exception exc)
+            catch (Exception)
             {
-                Execute.Verification.FailWith(exc.Message + "\n" + context.Config);
+                Verification.StopCollecting();
+                throw;
             }
         }
 

@@ -35,9 +35,10 @@
                     propertyPath = "subject";
                 }
 
-                context.Verification
-                    .FailWith("Expected " + propertyPath + " to be {0}{reason}, but found {1}.", context.Expectation,
-                        context.Subject);
+                context.Verification.FailWith(
+                    "Expected " + propertyPath + " to be {0}{reason}, but found {1}.", context.Expectation, context.Subject);
+
+                return true;
             }
 
             return false;

@@ -29,25 +29,30 @@ namespace FluentAssertions.Primitives
         {
             if ((expected != null) || (subject != null))
             {
-                ValidateAgainstNulls();
-
-                if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
+                if (ValidateAgainstNulls())
                 {
-                    verification = verification.UsingLineBreaks;
-                }
 
-                ValidateAgainstSuperfluousWhitespace();
-                ValidateAgainstLengthDifferences();
-                ValidateAgainstMismatch();
+                    if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
+                    {
+                        verification = verification.UsingLineBreaks;
+                    }
+
+                    ValidateAgainstSuperfluousWhitespace();
+                    ValidateAgainstLengthDifferences();
+                    ValidateAgainstMismatch();
+                }
             }
         }
 
-        private void ValidateAgainstNulls()
+        private bool ValidateAgainstNulls()
         {
             if (((expected == null) && (subject != null)) || ((expected != null) && (subject == null)))
             {
                 verification.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
+                return false;
             }
+
+            return true;
         }
 
         private bool IsLongOrMultiline(string value)

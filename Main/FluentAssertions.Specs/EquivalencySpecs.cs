@@ -16,8 +16,51 @@ namespace FluentAssertions.Specs
         #region Selection Rules
 
         [TestMethod]
-        public void When_specific_properties_of_a_subject_are_compared_with_another_object_it_should_ignore_the_other_properties
-            ()
+        public void When_expectation_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected subject to be <null>, but found { }", ComparisonMode.StartWith);
+        }
+
+        [TestMethod]
+        public void When_subject_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            SomeDto subject = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(new
+            {
+            });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected object to be*, but found <null>*", ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
+        public void When_specific_properties_have_been_specified_it_should_ignore_the_other_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -50,7 +93,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_property_is_compared_but_a_nonproperty_is_specified_it_should_throw()
+        public void When_a_non_property_expression_is_provided_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -70,7 +113,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_subject_property_lambda_is_null_it_should_throw()
+        public void When_null_is_provided_as_property_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -90,7 +133,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_all_properties_but_one_match_and_that_is_expected_it_should_not_throw()
+        public void When_only_the_excluded_property_doesnt_match_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -116,7 +159,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_comparing_objects_by_their_shared_properties_and_all_match_it_should_not_throw()
+        public void When_all_shared_properties_match_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -150,7 +193,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_comparing_anonymous_objects_by_their_shared_properties_and_one_property_does_not_match_it_should_throw()
+        public void When_a_property_shared_by_anonymous_types_doesnt_match_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -177,7 +220,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_subject_has_a_write_only_property_it_should_ignore_that_property()
+        public void When_a_property_is_write_only_it_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -202,6 +245,37 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_property_is_private_it_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new Customer("MyPassword")
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John",
+            };
+
+            var other = new Customer("SomeOtherPassword")
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(other);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
@@ -236,7 +310,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_an_interface_reference_is_compared_it_should_ignore_other_properties()
+        public void When_a_reference_to_an_interface_is_provided_it_should_only_include_those_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -408,12 +482,8 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        #endregion
-
-        #region Matching Rules
-
         [TestMethod]
-        public void When_subject_has_a_property_not_available_in_expected_object_it_should_throw()
+        public void When_subject_has_a_property_not_available_on_expected_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -437,81 +507,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Subject has property City that the other object does not have", ComparisonMode.StartWith);
-        }
-
-        [TestMethod]
-        public void When_subjects_properties_are_compared_to_null_object_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new
-            {
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(null);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected subject to be <null>, but found { }", ComparisonMode.StartWith);
-        }
-
-        [TestMethod]
-        public void When_subject_is_null_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            SomeDto subject = null;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(new
-            {
-            });
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object to be*, but found <null>*", ComparisonMode.Wildcard);
-        }
-
-        [TestMethod]
-        public void When_comparing_objects_it_should_ignore_private_properties()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new Customer("MyPassword")
-            {
-                Age = 36,
-                Birthdate = new DateTime(1973, 9, 20),
-                Name = "John",
-            };
-
-            var other = new Customer("SomeOtherPassword")
-            {
-                Age = 36,
-                Birthdate = new DateTime(1973, 9, 20),
-                Name = "John"
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
         }
 
         [TestMethod]
@@ -541,6 +536,49 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected property Type to be*Int32*, but found*String*", ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
+        public void When_multiple_properties_mismatch_it_should_report_all_of_them()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Property1 = "A",
+                Property2 = "B",
+                SubType1 = new
+                {
+                    SubProperty1 = "C",
+                    SubProperty2 = "D",
+                }
+            };
+
+            var other = new
+            {
+                Property1 = "1",
+                Property2 = "2",
+                SubType1 = new
+                {
+                    SubProperty1 = "3",
+                    SubProperty2 = "D",
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(other);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("*property Property1 to be \"1\", but \"A\" differs near \"A\"*", ComparisonMode.Wildcard)
+                .WithMessage("*property Property2 to be \"2\", but \"B\" differs near \"B\"*", ComparisonMode.Wildcard)
+                .WithMessage("*property SubType1.SubProperty1 to be \"3\", but \"C\" differs near \"C\"*", ComparisonMode.Wildcard);
         }
 
         #endregion
