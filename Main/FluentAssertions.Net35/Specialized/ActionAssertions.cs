@@ -49,7 +49,6 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
 
-
             Execute.Verification
                 .ForCondition(exception is TException)
                 .BecauseOf(reason, reasonArgs)

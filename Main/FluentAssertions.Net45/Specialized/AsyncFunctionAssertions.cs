@@ -32,7 +32,7 @@ namespace FluentAssertions.Specialized
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason, object[] reasonArgs)
+        public ExceptionAssertions<TException> ShouldThrow<TException>(string reason = "", params object[] reasonArgs)
             where TException : Exception
         {
             Exception exception = null;
@@ -58,6 +58,66 @@ namespace FluentAssertions.Specialized
                 .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), exception);
 
             return new ExceptionAssertions<TException>((TException)exception);            
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Func{Task}"/> does not throw any exception.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public void ShouldNotThrow(string reason = "", params object[] reasonArgs)
+        {
+            try
+            {
+                Task task = Subject();
+                task.Wait();
+            }
+            catch (Exception aggregateException)
+            {
+                Exception exception = aggregateException.InnerException;
+
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
+                        exception.GetType(), exception.Message);
+            }
+        }
+        
+        /// <summary>
+        /// Asserts that the current <see cref="Func{Task}"/> does not throw an exception of type <typeparamref name="TException"/>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public void ShouldNotThrow<TException>(string reason = "", params object[] reasonArgs)
+        {
+            try
+            {
+                Task task = Subject();
+                task.Wait();
+            }
+            catch (Exception aggregateException)
+            {
+                Exception exception = aggregateException.InnerException;
+
+                if (exception != null)
+                {
+                    Execute.Verification
+                           .ForCondition(!(exception is TException))
+                           .BecauseOf(reason, reasonArgs)
+                           .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
+                                     typeof (TException), exception.Message);
+                }
+            }
         }
     }
 }
