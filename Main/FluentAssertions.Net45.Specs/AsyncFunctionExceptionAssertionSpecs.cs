@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 #if WINRT
@@ -19,15 +18,15 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var slowObject = new SlowClass();
+            var asyncObject = new AsyncClass();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
             {
-                Func<Task> slowFunction = async () => { await slowObject.ThrowAsync<ArgumentException>(); };
-                slowFunction.ShouldThrow<ArgumentException>();
+                Func<Task> asyncFunction = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
+                asyncFunction.ShouldThrow<ArgumentException>();
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -42,15 +41,15 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var slowObject = new SlowClass();
+            var asyncObject = new AsyncClass();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
             {
-                Func<Task> slowFunction = async () => { await slowObject.SucceedAsync(); };
-                slowFunction.ShouldThrow<InvalidOperationException>();
+                Func<Task> asyncFunction = async () => { await asyncObject.SucceedAsync(); };
+                asyncFunction.ShouldThrow<InvalidOperationException>();
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -67,15 +66,15 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var slowObject = new SlowClass();
+            var asyncObject = new AsyncClass();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
             {
-                Func<Task> slowFunction = async () => { await slowObject.ThrowAsync<ArgumentException>(); };
-                slowFunction.ShouldThrow<InvalidOperationException>();
+                Func<Task> asyncFunction = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
+                asyncFunction.ShouldThrow<InvalidOperationException>();
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -92,15 +91,15 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var slowObject = new SlowClass();
+            var asyncObject = new AsyncClass();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
             {
-                Func<Task> slowFunction = async () => { await slowObject.SucceedAsync(); };
-                slowFunction.ShouldNotThrow();
+                Func<Task> asyncFunction = async () => { await asyncObject.SucceedAsync(); };
+                asyncFunction.ShouldNotThrow();
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -115,15 +114,15 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var slowObject = new SlowClass();
+            var asyncObject = new AsyncClass();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
             {
-                Func<Task> slowFunction = async () => { await slowObject.ThrowAsync<ArgumentException>(); };
-                slowFunction.ShouldNotThrow();
+                Func<Task> asyncFunction = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
+                asyncFunction.ShouldNotThrow();
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -140,15 +139,15 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var slowObject = new SlowClass();
+            var asyncObject = new AsyncClass();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
             {
-                Func<Task> slowFunction = async () => { await slowObject.ThrowAsync<ArgumentException>(); };
-                slowFunction.ShouldNotThrow<InvalidOperationException>();
+                Func<Task> asyncFunction = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
+                asyncFunction.ShouldNotThrow<InvalidOperationException>();
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -163,15 +162,15 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var slowObject = new SlowClass();
+            var asyncObject = new AsyncClass();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
             {
-                Func<Task> slowFunction = async () => { await slowObject.SucceedAsync(); };
-                slowFunction.ShouldNotThrow<InvalidOperationException>();
+                Func<Task> asyncFunction = async () => { await asyncObject.SucceedAsync(); };
+                asyncFunction.ShouldNotThrow<InvalidOperationException>();
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -186,15 +185,15 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var slowObject = new SlowClass();
+            var asyncObject = new AsyncClass();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
             {
-                Func<Task> slowFunction = async () => { await slowObject.ThrowAsync<ArgumentException>(); };
-                slowFunction.ShouldNotThrow<ArgumentException>();
+                Func<Task> asyncFunction = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
+                asyncFunction.ShouldNotThrow<ArgumentException>();
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -206,30 +205,20 @@ namespace FluentAssertions.Net45.Specs
         }
     }
 
-    internal class SlowClass
+    internal class AsyncClass
     {
         public async Task ThrowAsync<TException>()
             where TException : Exception, new()
         {
             await Task.Factory.StartNew(() =>
             {
-                Sleep(500);
                 throw new TException();
             });
         }
 
         public async Task SucceedAsync()
         {
-            await Task.Factory.StartNew(() => Sleep(500));
-        }
-
-        private static void Sleep(int timeout)
-        {
-#if WINRT
-            new ManualResetEvent(false).WaitOne(timeout);
-#else
-            Thread.Sleep(timeout);
-#endif
+            await Task.FromResult(0);
         }
     }
 }
