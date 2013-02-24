@@ -64,21 +64,31 @@ namespace FluentAssertions.Execution
             set { subjectName = value; }
         }
 
+        /// <summary>
+        /// Prevents <see cref="FailWith"/> from throwing exceptions and collecting them until <see cref="StopCollecting"/>
+        /// or <see cref="ThrowIfAny"/> is called.
+        /// </summary>
         public static void StartCollecting()
         {
             isCollecting = true;
         }
 
+        /// <summary>
+        /// Discards any failures that happened since calling <see cref="StartCollecting"/> and switches back to the direct throwing mode.
+        /// </summary>
         public static void StopCollecting()
         {
             isCollecting = false;
             FailureMessages.Clear();
         }
 
+        /// <summary>
+        /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
+        /// </summary>
         public static void ThrowIfAny(string context)
         {
             isCollecting = false;
-            if (HasFailures)
+            if (FailureMessages.Any())
             {
                 string message = string.Join(Environment.NewLine, FailureMessages.ToArray()) + 
                     Environment.NewLine + 
@@ -86,11 +96,6 @@ namespace FluentAssertions.Execution
 
                 AssertionHelper.Throw(message);
             }
-        }
-
-        public static bool HasFailures
-        {
-            get { return FailureMessages.Any(); }
         }
 
         /// <summary>
