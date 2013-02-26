@@ -100,6 +100,9 @@
     <Compile Include="..\FluentAssertions.Net35\Common\TypeExtensions.cs">
       <Link>Common\TypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\DictionaryEquivalencyStep.cs">
+      <Link>Equivalency\DictionaryEquivalencyStep.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\EventMonitoringExtensions.cs">
       <Link>EventMonitoringExtensions.cs</Link>
     </Compile>
@@ -391,8 +394,6 @@
   <ItemGroup>
     <Folder Include="Assertions\Events\" />
     <Folder Include="Assertions\Structural\" />
-    <Folder Include="EventMonitoring\" />
-    <Folder Include="Frameworks\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />

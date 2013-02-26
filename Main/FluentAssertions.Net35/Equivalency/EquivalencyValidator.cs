@@ -17,6 +17,7 @@ namespace FluentAssertions.Equivalency
             new TryConversionEquivalencyStep(),
             new ReferenceEqualityEquivalencyStep(),
             new ApplyAssertionRulesEquivalencyStep(),
+            new DictionaryEquivalencyStep(),
             new EnumerableEquivalencyStep(),
             new ComplexTypeEquivalencyStep(),
             new SimpleEqualityEquivalencyStep()
