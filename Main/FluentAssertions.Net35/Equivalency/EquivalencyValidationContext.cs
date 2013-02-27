@@ -182,6 +182,11 @@ namespace FluentAssertions.Equivalency
             return CreateNested(PropertyInfo, subject, MatchingExpectationProperty, expectation, "item", "[" + index + "]", "");
         }
 
+        public EquivalencyValidationContext CreateForDictionaryItem(object key, object subject, object expectation)
+        {
+            return CreateNested(PropertyInfo, subject, MatchingExpectationProperty, expectation, "pair", "[" + key + "]", "");
+        }
+
         private EquivalencyValidationContext CreateNested(
             PropertyInfo subjectProperty, object subject,
             PropertyInfo matchingProperty, object expectation,

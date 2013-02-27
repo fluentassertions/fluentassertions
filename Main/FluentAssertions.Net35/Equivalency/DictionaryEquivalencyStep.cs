@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections;
 
 namespace FluentAssertions.Equivalency
 {
@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context)
         {
-            return context.Subject.GetType().GetGenericTypeDefinition() == typeof(Dictionary<,>);
+            return (context.Subject is IDictionary);
         }
 
         /// <summary>
@@ -24,7 +24,22 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
         {
-            throw new System.NotImplementedException();
+            var subject = (IDictionary)context.Subject;
+            var expectation = (IDictionary)context.Expectation;
+
+            foreach (object key in subject.Keys)
+            {
+                if (context.Config.IsRecursive)
+                {
+                    parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
+                }
+                else
+                {
+                    subject[key].Should().Be(expectation[key], context.Reason, context.ReasonArgs);
+                }
+            }
+
+            return true;
         }
     }
 }
