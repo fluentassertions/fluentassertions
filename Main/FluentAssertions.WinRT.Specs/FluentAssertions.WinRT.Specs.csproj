@@ -16,7 +16,7 @@
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <PackageCertificateThumbprint>7D859C097A012AD7E0028B9F9B4C316B03466DB3</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>E1E390F94271E93B4BEE802FC59087FB4BDF54B8</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>FluentAssertions.WinRT.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

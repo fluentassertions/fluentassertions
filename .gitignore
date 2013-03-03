@@ -172,3 +172,5 @@ pip-log.txt
 */package/Lib/
 Main/FluentAssertions/*/AppPackages/**
 *.appx*
+**/AppPackages/*
+*/AppPackages/*
