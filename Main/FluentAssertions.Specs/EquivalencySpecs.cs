@@ -1868,6 +1868,73 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+
+        [TestMethod]
+        public void When_the_other_property_is_not_a_dictionary_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = "I am a string"
+            };
+
+            var subject = new
+            {
+                Customers = new Dictionary<string, string>
+                {
+                    {"Key2", "Value2"},
+                    {"Key1", "Value1"}
+                }
+            };
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+               .WithMessage("property*Customers*dictionary*non-dictionary*", ComparisonMode.Wildcard);
+        }
+        
+        [TestMethod]
+        public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = new Dictionary<string, string>
+                {
+                    {"Key1", "Value1"},
+                    {"Key2", "Value2"}
+                }
+            };
+
+            var subject = new
+            {
+                Customers = new Dictionary<string, string>
+                {
+                    {"Key1", "Value1"},
+                }
+            };
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*", ComparisonMode.Wildcard);
+        }
         
         #endregion
 

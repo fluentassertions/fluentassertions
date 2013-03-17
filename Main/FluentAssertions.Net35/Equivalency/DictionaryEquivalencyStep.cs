@@ -25,21 +25,42 @@ namespace FluentAssertions.Equivalency
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
         {
             var subject = (IDictionary)context.Subject;
-            var expectation = (IDictionary)context.Expectation;
+            var expectation = context.Expectation as IDictionary;
 
-            foreach (object key in subject.Keys)
+            if (PreconditionsAreMet(context, expectation, subject))
             {
-                if (context.Config.IsRecursive)
+                foreach (object key in subject.Keys)
                 {
-                    parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
-                }
-                else
-                {
-                    subject[key].Should().Be(expectation[key], context.Reason, context.ReasonArgs);
+                    if (context.Config.IsRecursive)
+                    {
+                        parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
+                    }
+                    else
+                    {
+                        subject[key].Should().Be(expectation[key], context.Reason, context.ReasonArgs);
+                    }
                 }
             }
 
             return true;
+        }
+
+        private static bool PreconditionsAreMet(EquivalencyValidationContext context, IDictionary expectation, IDictionary subject)
+        {
+            bool success = context.Verification
+                .ForCondition(expectation != null)
+                .FailWith((context.IsRoot ? "Subject" : context.PropertyDescription) +
+                                      " is a dictionary and cannot be compared with a non-dictionary type.");
+
+            if (success)
+            {
+                success = context.Verification
+                    .ForCondition(subject.Keys.Count == expectation.Keys.Count)
+                    .FailWith("Expected " + (context.IsRoot ? "Subject" : context.PropertyDescription) +
+                                     " to be a dictionary with {0} item(s), but it only contains {1} item(s).",
+                                     expectation.Keys.Count, subject.Keys.Count);
+            }
+            return success;
         }
     }
 }
