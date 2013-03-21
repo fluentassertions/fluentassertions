@@ -10,10 +10,14 @@
     <AssemblyName>FluentAssertions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -247,6 +251,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Primitives\StringStartValidator.cs">
       <Link>Primitives\StringStartValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Primitives\NegatedStringStartValidator.cs">
+      <Link>Primitives\NegatedStringStartValidator.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Primitives\StringValidator.cs">
       <Link>Primitives\StringValidator.cs</Link>

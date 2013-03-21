@@ -145,6 +145,7 @@
     <Compile Include="Types\PropertyInfoAssertions.cs" />
     <Compile Include="Types\PropertyInfoSelector.cs" />
     <Compile Include="Primitives\StringEqualityValidator.cs" />
+    <Compile Include="Primitives\NegatedStringStartValidator.cs" />
     <Compile Include="Primitives\StringStartValidator.cs" />
     <Compile Include="Primitives\StringValidator.cs" />
     <Compile Include="Primitives\StringWildcardMatchingValidator.cs" />

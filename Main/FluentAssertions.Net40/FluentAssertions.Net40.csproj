@@ -254,6 +254,9 @@
     <Compile Include="..\FluentAssertions.Net35\Primitives\StringStartValidator.cs">
       <Link>Primitives\StringStartValidator.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Primitives\NegatedStringStartValidator.cs">
+      <Link>Primitives\NegatedStringStartValidator.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Primitives\StringValidator.cs">
       <Link>Primitives\StringValidator.cs</Link>
     </Compile>
