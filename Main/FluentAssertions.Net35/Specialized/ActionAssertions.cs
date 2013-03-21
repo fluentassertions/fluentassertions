@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specialized
 {
@@ -8,17 +9,12 @@ namespace FluentAssertions.Specialized
     /// Contains a number of methods to assert that an <see cref="Action"/> yields the expected result.
     /// </summary>
     [DebuggerNonUserCode]
-    public class ActionAssertions
+    public class ActionAssertions : ReferenceTypeAssertions<Action, ActionAssertions>
     {
         protected internal ActionAssertions(Action subject)
         {
             Subject = subject;
         }
-
-        /// <summary>
-        /// Gets the <see cref="Action"/> that is being asserted.
-        /// </summary>
-        public Action Subject { get; private set; }
 
         /// <summary>
         /// Asserts that the current <see cref="Action"/> throws an exception of type <typeparamref name="TException"/>.
@@ -113,6 +109,14 @@ namespace FluentAssertions.Specialized
                     .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
                         exception.GetType(), exception.Message);
             }
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "action"; }
         }
     }
 }

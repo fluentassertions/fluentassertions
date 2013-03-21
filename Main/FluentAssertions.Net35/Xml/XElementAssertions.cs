@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Xml
 {
@@ -9,7 +10,7 @@ namespace FluentAssertions.Xml
     /// Contains a number of methods to assert that an <see cref="XElement"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class XElementAssertions
+    public class XElementAssertions : ReferenceTypeAssertions<XElement, XElementAssertions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="XElementAssertions" /> class.
@@ -18,11 +19,6 @@ namespace FluentAssertions.Xml
         {
             Subject = xElement;
         }
-
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public XElement Subject { get; private set; }
 
         /// <summary>
         /// Asserts that the current <see cref="XElement"/> equals the <paramref name="expected"/> element.
@@ -82,62 +78,6 @@ namespace FluentAssertions.Xml
                 .ForCondition(!Subject.Name.Equals(unexpected.Name))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element not to be {0}{reason}.", unexpected);
-
-            return new AndConstraint<XElementAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XElement"/> is <c>null</c>.
-        /// </summary>
-        public AndConstraint<XElementAssertions> BeNull()
-        {
-            return BeNull(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XElement"/> is <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<XElementAssertions> BeNull(string reason, params object[] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML element to be <null>{reason}, but found {0}.", Subject);
-
-            return new AndConstraint<XElementAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XElement"/> is not <c>null</c>.
-        /// </summary>
-        public AndConstraint<XElementAssertions> NotBeNull()
-        {
-            return NotBeNull(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XElement"/> is not <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<XElementAssertions> NotBeNull(string reason, params object[] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect XML element to be <null>{reason}.");
 
             return new AndConstraint<XElementAssertions>(this);
         }
@@ -276,6 +216,14 @@ namespace FluentAssertions.Xml
                         ", but no such child element was found.", Subject);
 
             return new AndConstraint<XElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "XML element"; }
         }
     }
 }

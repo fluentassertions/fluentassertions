@@ -297,7 +297,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .Where(e => e.Message.StartsWith("Expected <null> because we want to test the failure message, but found System.Object"));
+                .Where(e => e.Message.StartsWith(
+                    "Expected object to be <null> because we want to test the failure message, but found System.Object"));
         }
 
         [TestMethod]
@@ -323,7 +324,7 @@ namespace FluentAssertions.Specs
             var assertions = someObject.Should();
             assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected non-null value because we want to test the failure message, but found <null>.");
+                .WithMessage("Expected object not to be <null> because we want to test the failure message.");
         }
 
         #endregion
@@ -471,7 +472,7 @@ namespace FluentAssertions.Specs
                 x => x.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected to be assignable to {1} because we want to test the failure message, but {0} does not implement {1}",
+                    "Expected object to be assignable to {1} because we want to test the failure message, but {0} does not implement {1}",
                     typeof (DummyImplementingClass), typeof (DateTime)));
         }
 

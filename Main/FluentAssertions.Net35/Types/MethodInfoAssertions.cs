@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Types
 {
@@ -12,7 +13,7 @@ namespace FluentAssertions.Types
     /// Contains assertions for the <see cref="MethodInfo"/> objects returned by the parent <see cref="MethodInfoSelector"/>.
     /// </summary>
     [DebuggerNonUserCode]
-    public class MethodInfoAssertions
+    public class MethodInfoAssertions : ReferenceTypeAssertions<MethodInfo, MethodInfoAssertions>
     {
         private readonly bool isAssertingSingleMethod;
 
@@ -164,6 +165,14 @@ namespace FluentAssertions.Types
 #endif
 
             return string.Format("{0} {1}.{2}", returnTypeName, method.DeclaringType, method.Name);
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "method"; }
         }
     }
 }

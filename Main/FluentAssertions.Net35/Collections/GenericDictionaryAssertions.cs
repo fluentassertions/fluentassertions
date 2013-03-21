@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Collections
 {
@@ -12,7 +13,8 @@ namespace FluentAssertions.Collections
     /// Contains a number of methods to assert that an <see cref="IDictionary{TKey,TValue}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class GenericDictionaryAssertions<TKey, TValue>
+    public class GenericDictionaryAssertions<TKey, TValue> : 
+        ReferenceTypeAssertions<IDictionary<TKey, TValue>, GenericDictionaryAssertions<TKey, TValue>>
     {
         protected internal GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary)
         {
@@ -21,59 +23,6 @@ namespace FluentAssertions.Collections
                 Subject = dictionary;
             }
         }
-
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public IDictionary<TKey, TValue> Subject { get; private set; }
-
-        #region BeNull
-
-        /// <summary>
-        /// Asserts that the current dictionary has not been initialized yet with an actual dictionary.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> BeNull(string reason = "", params object [] reasonArgs)
-        {
-            if (!ReferenceEquals(Subject, null))
-            {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {context:dictionary} to be <null>{reason}, but found {0}.", Subject);
-            }
-
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the current dictionary has been initialized with an actual dictionary.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotBeNull(string reason = "", params object [] reasonArgs)
-        {
-            if (ReferenceEquals(Subject, null))
-            {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {context:dictionary} not to be <null>{reason}.");
-            }
-
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
-        }
-
-        #endregion
 
         #region HaveCount
 
@@ -690,5 +639,13 @@ namespace FluentAssertions.Collections
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "dictionary"; }
+        }
     }
 }

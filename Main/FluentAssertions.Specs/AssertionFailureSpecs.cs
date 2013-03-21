@@ -114,6 +114,11 @@ namespace FluentAssertions.Specs
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected it to fail{reason}");
             }
+
+            protected override string Context
+            {
+                get { return "test"; }
+            }
         }
     }
 }

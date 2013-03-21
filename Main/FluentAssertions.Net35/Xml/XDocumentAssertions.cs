@@ -3,14 +3,15 @@ using System.Xml.Linq;
 using FluentAssertions.Execution;
 
 using FluentAssertions.Common;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Xml
 {
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="XDocument"/> is in the expected state.
     /// </summary>
-    [DebuggerNonUserCode]
-    public class XDocumentAssertions
+    [DebuggerNonUserCode] 
+    public class XDocumentAssertions : ReferenceTypeAssertions<XDocument, XDocumentAssertions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="XDocumentAssertions" /> class.
@@ -19,11 +20,6 @@ namespace FluentAssertions.Xml
         {
             Subject = document;
         }
-
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public XDocument Subject { get; private set; }
 
         /// <summary>
         /// Asserts that the current <see cref="XDocument"/> equals the <paramref name="expected"/> document,
@@ -90,62 +86,6 @@ namespace FluentAssertions.Xml
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect XML document to be {0}{reason}.", unexpected);
-
-            return new AndConstraint<XDocumentAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XDocument"/> is <c>null</c>.
-        /// </summary>
-        public AndConstraint<XDocumentAssertions> BeNull()
-        {
-            return BeNull(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XDocument"/> is <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<XDocumentAssertions> BeNull(string reason, params object [] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML document to be <null>{reason}, but found {0}.", Subject);
-
-            return new AndConstraint<XDocumentAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XDocument"/> is not <c>null</c>.
-        /// </summary>
-        public AndConstraint<XDocumentAssertions> NotBeNull()
-        {
-            return NotBeNull(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XDocument"/> is not <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<XDocumentAssertions> NotBeNull(string reason, params object [] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect XML document to be <null>{reason}.");
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -285,6 +225,14 @@ namespace FluentAssertions.Xml
                     ", but no such child element was found.", Subject);
 
             return new AndConstraint<XDocumentAssertions>(this);
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "XML document"; }
         }
     }
 }

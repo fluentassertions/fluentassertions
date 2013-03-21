@@ -105,46 +105,6 @@ namespace FluentAssertions.Primitives
             return new AndConstraint<ObjectAssertions>(this);
         }
 
-        /// <summary>
-        /// Asserts that the object is <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<ObjectAssertions> BeNull(string reason = "", params object[] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected <null>{reason}, but found {0}.", Subject);
-
-            return new AndConstraint<ObjectAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the object is not <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<ObjectAssertions> NotBeNull(string reason = "", params object[] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected non-null value{reason}, but found <null>.");
-
-            return new AndConstraint<ObjectAssertions>(this);
-        }
-
 #if !SILVERLIGHT && !WINRT
 
         /// <summary>
@@ -227,5 +187,13 @@ namespace FluentAssertions.Primitives
             return binaryFormatter.Deserialize(stream);
         }
 #endif
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "object"; }
+        }
     }
 }

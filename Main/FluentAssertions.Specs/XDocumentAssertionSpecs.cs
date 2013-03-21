@@ -315,7 +315,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect XML document to be <null>" +
+                .WithMessage("Expected XML document not to be <null>" +
                     " because we want to test the failure message.");
         }
 
