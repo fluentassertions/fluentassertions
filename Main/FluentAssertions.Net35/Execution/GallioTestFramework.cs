@@ -82,9 +82,8 @@ namespace FluentAssertions.Execution
         {
             get
             {
-                assembly = AppDomain.CurrentDomain
-                    .GetAssemblies()
-                    .FirstOrDefault(a => a.GetName().Name == AssemblyName);
+                assembly = AppDomain.CurrentDomain.GetAssemblies()
+                    .FirstOrDefault(a => a.GetName().Name.Equals(AssemblyName, StringComparison.InvariantCultureIgnoreCase));
 
                 return (assembly != null);
             }
