@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 #if WINRT
 using System.Reflection;
@@ -15,7 +16,7 @@ namespace FluentAssertions.Types
     /// Contains a number of methods to assert that a <see cref="Type"/> meets certain expectations.
     /// </summary>
     [DebuggerNonUserCode]
-    public class TypeAssertions
+    public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object" /> class.
@@ -24,11 +25,6 @@ namespace FluentAssertions.Types
         {
             Subject = type;
         }
-
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public Type Subject { get; private set; }
 
         /// <summary>
         /// Asserts that the current type is equal to the specified <typeparamref name="TExpected"/> type.
@@ -176,6 +172,14 @@ namespace FluentAssertions.Types
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 
             return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "type"; }
         }
     }
 }

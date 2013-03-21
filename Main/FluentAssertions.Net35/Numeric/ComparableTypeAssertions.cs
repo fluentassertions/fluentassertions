@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Numeric
 {
@@ -8,7 +9,7 @@ namespace FluentAssertions.Numeric
     /// Contains a number of methods to assert that an <see cref="IComparable{T}"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class ComparableTypeAssertions<T>
+    public class ComparableTypeAssertions<T> : ReferenceTypeAssertions<IComparable<T>, ComparableTypeAssertions<T>>
     {
         private const int Equal = 0;
 
@@ -16,11 +17,6 @@ namespace FluentAssertions.Numeric
         {
             Subject = value;
         }
-
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public IComparable<T> Subject { get; private set; }
 
         /// <summary>
         /// Asserts that the subject is considered equal to another object according to the implementation of <see cref="IComparable{T}"/>.
@@ -192,43 +188,11 @@ namespace FluentAssertions.Numeric
         }
 
         /// <summary>
-        /// Asserts that a nullable numeric value is not <c>null</c>.
+        /// Returns the type of the subject the assertion applies on.
         /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
-        /// </param>      
-        public AndConstraint<ComparableTypeAssertions<T>> NotBeNull(string reason = "", params object[] reasonArgs)
+        protected override string Context
         {
-            Execute.Verification
-                .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected a value{reason}, but found {0}.", Subject);
-
-            return new AndConstraint<ComparableTypeAssertions<T>>(this);
-        }
-
-        /// <summary>
-        /// Asserts that a nullable numeric value is <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
-        /// </param>  
-        public AndConstraint<ComparableTypeAssertions<T>> BeNull(string reason = "", params object[] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
-
-            return new AndConstraint<ComparableTypeAssertions<T>>(this);
+            get { return "object"; }
         }
     }
 }

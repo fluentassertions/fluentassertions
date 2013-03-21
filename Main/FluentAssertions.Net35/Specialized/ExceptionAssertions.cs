@@ -289,6 +289,14 @@ namespace FluentAssertions.Specialized
                     subject.Should().Match(expectation, reason, reasonArgs));
         }
 
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "exception"; }
+        }
+
         private class ExceptionMessageAssertion
         {
             private readonly string subjectName;

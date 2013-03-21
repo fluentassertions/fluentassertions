@@ -11,7 +11,7 @@ namespace FluentAssertions.Primitives
     /// Contains a number of methods to assert that a <see cref="string"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class StringAssertions
+    public class StringAssertions : ReferenceTypeAssertions<string, StringAssertions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object" /> class.
@@ -20,11 +20,6 @@ namespace FluentAssertions.Primitives
         {
             Subject = value;
         }
-
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public string Subject { get; private set; }
 
         /// <summary>
         /// Asserts that a string is exactly the same as another string, including the casing and any leading or trailing whitespace.
@@ -562,46 +557,6 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string is <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<StringAssertions> BeNull(string reason = "", params object[] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(Subject == null)
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected string to be <null>{reason}, but found {0}.", Subject);
-
-            return new AndConstraint<StringAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that a string is not <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<StringAssertions> NotBeNull(string reason = "", params object[] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(Subject != null)
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected string not to be <null>{reason}.");
-
-            return new AndConstraint<StringAssertions>(this);
-        }
-
-        /// <summary>
         /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/>.
         /// </summary>
         /// <param name="reason">
@@ -684,6 +639,14 @@ namespace FluentAssertions.Primitives
         private static bool IsBlank(string value)
         {
             return (value == null) || string.IsNullOrEmpty(value.Trim());
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "string"; }
         }
     }
 }

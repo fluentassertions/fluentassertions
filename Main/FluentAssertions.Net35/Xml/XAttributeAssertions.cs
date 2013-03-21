@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Xml.Linq;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Xml
 {
@@ -8,7 +9,7 @@ namespace FluentAssertions.Xml
     /// Contains a number of methods to assert that an <see cref="XAttribute"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class XAttributeAssertions
+    public class XAttributeAssertions : ReferenceTypeAssertions<XAttribute, XAttributeAssertions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="XAttributeAssertions" /> class.
@@ -17,11 +18,6 @@ namespace FluentAssertions.Xml
         {
             Subject = attribute;
         }
-
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public XAttribute Subject { get; private set; }
 
         /// <summary>
         /// Asserts that the current <see cref="XAttribute"/> equals the <paramref name="expected"/> attribute.
@@ -85,61 +81,6 @@ namespace FluentAssertions.Xml
             return new AndConstraint<XAttributeAssertions>(this);
         }
 
-        /// <summary>
-        /// Asserts that the <see cref="XAttribute"/> is <c>null</c>.
-        /// </summary>
-        public AndConstraint<XAttributeAssertions> BeNull()
-        {
-            return BeNull(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XAttribute"/> is <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<XAttributeAssertions> BeNull(string reason, params object [] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected XML attribute to be <null>{reason}, but found {0}.", Subject);
-
-            return new AndConstraint<XAttributeAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XAttribute"/> is not <c>null</c>.
-        /// </summary>
-        public AndConstraint<XAttributeAssertions> NotBeNull()
-        {
-            return NotBeNull(string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that the <see cref="XAttribute"/> is not <c>null</c>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<XAttributeAssertions> NotBeNull(string reason, params object [] reasonArgs)
-        {
-            Execute.Verification
-                .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect XML attribute to be <null>{reason}.");
-
-            return new AndConstraint<XAttributeAssertions>(this);
-        }
 
         /// <summary>
         /// Asserts that the current <see cref="XAttribute"/> has the specified <paramref name="expected"/> value.
@@ -170,6 +111,14 @@ namespace FluentAssertions.Xml
                     Subject.Name, expected, Subject.Value);
 
             return new AndConstraint<XAttributeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "XML attribute"; }
         }
     }
 }

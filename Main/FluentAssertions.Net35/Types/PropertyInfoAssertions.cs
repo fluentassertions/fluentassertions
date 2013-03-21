@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Types
 {
@@ -11,7 +12,7 @@ namespace FluentAssertions.Types
     /// Contains assertions for the <see cref="PropertyInfo"/> objects returned by the parent <see cref="PropertyInfoSelector"/>.
     /// </summary>
     [DebuggerNonUserCode]
-    public class PropertyInfoAssertions
+    public class PropertyInfoAssertions : ReferenceTypeAssertions<PropertyInfo, PropertyInfoAssertions>
     {
         private readonly bool isAssertingSingleProperty;
 
@@ -134,6 +135,14 @@ namespace FluentAssertions.Types
             propTypeName = property.PropertyType.GetTypeInfo().Name;
 #endif
             return string.Format("{0} {1}.{2}", propTypeName, property.DeclaringType, property.Name);
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "property info"; }
         }
     }
 }

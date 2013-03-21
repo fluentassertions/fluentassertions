@@ -140,7 +140,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Did not expect a value*, but found *.", ComparisonMode.Wildcard);
+                    "Expected object to be <null>, but found*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -182,7 +182,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected a value*, but found *.", ComparisonMode.Wildcard);
+                    "Expected object not to be <null>.", ComparisonMode.Wildcard);
         }
 
         #endregion

@@ -858,50 +858,6 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection has not been initialized yet with an actual collection.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<TAssertions> BeNull(string reason = "", params object[] reasonArgs)
-        {
-            if (!ReferenceEquals(Subject, null))
-            {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {context:collection} to be <null>{reason}, but found {0}.", Subject);
-            }
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
-        /// Asserts that the current collection has been initialized with an actual collection.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<TAssertions> NotBeNull(string reason = "", params object[] reasonArgs)
-        {
-            if (ReferenceEquals(Subject, null))
-            {
-                Execute.Verification
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {context:collection} not to be <null>{reason}.");
-            }
-
-            return new AndConstraint<TAssertions>((TAssertions)this);
-        }
-
-        /// <summary>
         /// Asserts that the current collection has the supplied <paramref name="element" /> at the 
         /// supplied <paramref name="index" />.
         /// </summary>
@@ -1056,6 +1012,14 @@ namespace FluentAssertions.Collections
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "collection"; }
         }
     }
 
