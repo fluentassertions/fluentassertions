@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
 using FluentAssertions.Equivalency;
-using FluentAssertions.Formatting;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
