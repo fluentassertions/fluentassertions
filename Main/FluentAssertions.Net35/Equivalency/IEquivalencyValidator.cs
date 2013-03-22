@@ -1,6 +1,6 @@
 namespace FluentAssertions.Equivalency
 {
-    internal interface IEquivalencyValidator
+    public interface IEquivalencyValidator
     {
         void AssertEqualityUsing(EquivalencyValidationContext context);
     }

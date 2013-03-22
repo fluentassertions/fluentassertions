@@ -5,7 +5,7 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Provides the run-time details of the <see cref="EquivalencyAssertionOptions{TSubject}" /> class.
     /// </summary>
-    internal interface IEquivalencyAssertionOptions
+    public interface IEquivalencyAssertionOptions
     {
         /// <summary>
         /// Gets an ordered collection of selection rules that define what properties are included.

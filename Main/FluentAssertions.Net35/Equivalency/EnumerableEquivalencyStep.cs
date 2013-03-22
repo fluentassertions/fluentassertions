@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class EnumerableEquivalencyStep : IEquivalencyStep
+    public class EnumerableEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.

@@ -7,7 +7,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class ComplexTypeEquivalencyStep : IEquivalencyStep
+    public class ComplexTypeEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
@@ -28,7 +28,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
+        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
         {
             IEnumerable<PropertyInfo> selectedProperties = context.SelectedProperties.ToArray();
             if (context.IsRoot && !selectedProperties.Any())

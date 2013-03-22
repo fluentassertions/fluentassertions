@@ -1,6 +1,6 @@
 namespace FluentAssertions.Equivalency
 {
-    internal class SimpleEqualityEquivalencyStep : IEquivalencyStep
+    public class SimpleEqualityEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
@@ -20,7 +20,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator)
+        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator)
         {
             context.Subject.Should().Be(context.Expectation, context.Reason, context.ReasonArgs);
 

@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class DictionaryEquivalencyStep : IEquivalencyStep
+    public class DictionaryEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
+        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
         {
             var subject = (IDictionary)context.Subject;
             var expectation = context.Expectation as IDictionary;

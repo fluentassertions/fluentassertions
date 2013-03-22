@@ -5,7 +5,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class TryConversionEquivalencyStep : IEquivalencyStep
+    public class TryConversionEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
@@ -25,7 +25,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator)
+        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator)
         {
             if (!ReferenceEquals(context.Expectation, null) && !ReferenceEquals(context.Subject, null)
                 && !context.Subject.GetType().IsSameOrInherits(context.Expectation.GetType()))

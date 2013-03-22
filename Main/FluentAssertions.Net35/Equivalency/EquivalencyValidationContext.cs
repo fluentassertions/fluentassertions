@@ -8,7 +8,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class EquivalencyValidationContext : IEquivalencyValidationContext
+    public class EquivalencyValidationContext : IEquivalencyValidationContext
     {
         #region Private Definitions
 

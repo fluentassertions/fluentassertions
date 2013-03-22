@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using FluentAssertions.Execution;
@@ -8,11 +9,11 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Is responsible for validating the equality of one or more properties of a subject with another object.
     /// </summary>
-    internal class EquivalencyValidator : IEquivalencyValidator
+    public class EquivalencyValidator : IEquivalencyValidator
     {
         #region Private Definitions
 
-        private readonly IEquivalencyStep[] steps =
+        private readonly List<IEquivalencyStep> steps = new List<IEquivalencyStep>() 
         {
             new TryConversionEquivalencyStep(),
             new ReferenceEqualityEquivalencyStep(),
@@ -24,6 +25,14 @@ namespace FluentAssertions.Equivalency
         };
 
         #endregion
+
+        /// <summary>
+        /// Returns the steps that are executed in the order of appearance during an equivalency test.
+        /// </summary>
+        public IList<IEquivalencyStep> Steps
+        {
+            get { return steps; }
+        }
 
         public void AssertEquality(EquivalencyValidationContext context)
         {

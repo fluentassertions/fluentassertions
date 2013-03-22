@@ -1,6 +1,9 @@
 namespace FluentAssertions.Equivalency
 {
-    internal interface IEquivalencyStep
+    /// <summary>
+    /// Defines a step in the process of comparing two object graphs for structural equivalency.
+    /// </summary>
+    public interface IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
