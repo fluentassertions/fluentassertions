@@ -99,6 +99,7 @@
     <Compile Include="Equivalency\DictionaryEquivalencyStep.cs" />
     <Compile Include="Formatting\AttributeBasedFormatter.cs" />
     <Compile Include="Formatting\GuidValueFormatter.cs" />
+    <Compile Include="Formatting\PropertyInfoFormatter.cs" />
     <Compile Include="Formatting\ValueFormatterAttribute.cs" />
     <Compile Include="Specialized\ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />

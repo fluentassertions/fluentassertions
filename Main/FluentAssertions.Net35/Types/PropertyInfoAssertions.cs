@@ -68,6 +68,29 @@ namespace FluentAssertions.Types
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the selected properties have a setter.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> BeWritable(string reason = "", params object[] reasonArgs)
+        {
+            foreach (var property in SubjectProperties)
+            {
+                Execute.Verification
+                       .ForCondition(property.CanWrite)
+                       .BecauseOf(reason, reasonArgs)
+                       .FailWith("Expected {context:property} {0} to have a setter{reason}.", property);
+            }
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
         private PropertyInfo[] GetAllNonVirtualPropertiesFromSelection()
         {
             var query = 

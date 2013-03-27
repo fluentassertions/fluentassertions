@@ -3,6 +3,7 @@ using System.Reflection;
 
 using FluentAssertions.Types;
 
+
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -17,7 +18,7 @@ namespace FluentAssertions.Specs
         #region PropertyInfo assertions
 
         [TestMethod]
-        public void When_asserting_a_property_is_virtual_and_it_is_it_should_succeed()
+        public void When_a_virtual_property_is_expected_to_be_virtual_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -41,7 +42,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_property_are_virtual_but_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_a_non_virtual_property_is_expected_to_be_virtual_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -62,9 +63,10 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
-                    " to be virtual because we want to test the error message," +
-                        " but it is not virtual.");
+               .WithMessage(
+                   "Expected property String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
+                       " to be virtual because we want to test the error message," +
+                       " but it is not virtual.");
         }
 
         [TestMethod]
@@ -100,7 +102,8 @@ namespace FluentAssertions.Specs
 #if WINRT
             PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
+            PropertyInfo propertyInfo =
+                typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -113,9 +116,9 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property String " +
-                    "FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                    "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
+               .WithMessage("Expected property String " +
+                   "FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                   "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
         }
 
         #endregion
@@ -126,7 +129,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var propertyInfoSelector = new PropertyInfoSelector(typeof (ClassWithAllPropertiesVirtual));
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesVirtual));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -161,7 +164,8 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -178,12 +182,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected all selected properties" +
-                    " to be virtual because we want to test the error message," +
-                        " but the following properties are not virtual:\r\n" +
-                            "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty\r\n" +
-                                "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty\r\n" +
-                                    "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
+               .WithMessage("Expected all selected properties" +
+                   " to be virtual because we want to test the error message," +
+                   " but the following properties are not virtual:\r\n" +
+                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
         }
 
         [TestMethod]
@@ -228,7 +232,8 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -239,18 +244,67 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfoSelector.Should().BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
+                propertyInfoSelector.Should()
+                                    .BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected all selected properties to be decorated with" +
-                    " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
-                        " but the following properties are not:\r\n" +
-                            "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty\r\n" +
-                                "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty\r\n" +
-                                    "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
+               .WithMessage("Expected all selected properties to be decorated with" +
+                   " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
+                   " but the following properties are not:\r\n" +
+                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
+        }
+
+        [TestMethod]
+        public void When_a_read_only_property_is_expected_to_be_writable_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperty).GetRuntimeProperty("ReadOnlyProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperty).GetProperty("ReadOnlyProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().BeWritable("that's required");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property ReadOnlyProperty to have a setter because that's required.");
+        }
+        
+        [TestMethod]
+        public void When_a_read_write_property_is_expected_to_be_writable_it_should_not_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperty).GetRuntimeProperty("ReadWriteProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperty).GetProperty("ReadWriteProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().BeWritable("that's required");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
         }
     }
 
@@ -277,6 +331,12 @@ namespace FluentAssertions.Specs
         internal string InternalNonVirtualProperty { get; set; }
 
         protected string ProtectedNonVirtualProperty { get; set; }
+    }
+
+    internal class ClassWithReadOnlyProperty
+    {
+        public string ReadOnlyProperty { get { return ""; } }
+        public string ReadWriteProperty { get { return ""; } set { } }
     }
 
     internal class ClassWithAllPropertiesDecoratedWithDummyAttribute

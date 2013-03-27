@@ -200,6 +200,9 @@
     <Compile Include="..\FluentAssertions.Net35\Formatting\NumericValueFormatter.cs">
       <Link>Formatting\NumericValueFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\PropertyInfoFormatter.cs">
+      <Link>Formatting\PropertyInfoFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\StringValueFormatter.cs">
       <Link>Formatting\StringValueFormatter.cs</Link>
     </Compile>

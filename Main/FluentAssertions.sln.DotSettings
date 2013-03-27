@@ -1,0 +1,30 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Shortcut/@EntryValue">aaa</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Text/@EntryValue">        [TestMethod]&#xD;
+        public void When_$when$_it_should_$end$()&#xD;
+        {&#xD;
+            //-------------------------------------------------------------------------------------------------------------------&#xD;
+            // Arrange&#xD;
+            //-------------------------------------------------------------------------------------------------------------------&#xD;
+            $END$&#xD;
+&#xD;
+            //-------------------------------------------------------------------------------------------------------------------&#xD;
+            // Act&#xD;
+            //-------------------------------------------------------------------------------------------------------------------&#xD;
+            &#xD;
+&#xD;
+            //-------------------------------------------------------------------------------------------------------------------&#xD;
+            // Assert&#xD;
+            //-------------------------------------------------------------------------------------------------------------------&#xD;
+        }</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Reformat/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Applicability/=Live/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Scope/=C3001E7C0DA78E4487072B7E050D86C5/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Scope/=C3001E7C0DA78E4487072B7E050D86C5/Type/@EntryValue">InCSharpFile</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Scope/=C3001E7C0DA78E4487072B7E050D86C5/CustomProperties/=minimumLanguageVersion/@EntryIndexedValue">2.0</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Field/=when/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Field/=when/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Field/=end/@KeyIndexDefined">True</s:Boolean>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=BECCDFA378C91C47A1E26A409C010E78/Field/=end/Order/@EntryValue">1</s:Int64></wpf:ResourceDictionary>

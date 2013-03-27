@@ -16,6 +16,7 @@ namespace FluentAssertions.Formatting
 #if !WINRT
             new AttributeBasedFormatter(),
 #endif
+            new PropertyInfoFormatter(),
             new NullValueFormatter(),
             new GuidValueFormatter(),
             new DateTimeValueFormatter(),
