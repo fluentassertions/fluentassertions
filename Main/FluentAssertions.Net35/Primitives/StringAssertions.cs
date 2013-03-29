@@ -446,7 +446,7 @@ namespace FluentAssertions.Primitives
             {
                 Execute.Verification
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected string {0} to end with equivalent of {1}{reason}.", Subject, expected);
+                    .FailWith("Expected string that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
             }
 
             if (Subject.Length < expected.Length)
@@ -459,7 +459,46 @@ namespace FluentAssertions.Primitives
             Execute.Verification
                 .ForCondition(Subject.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected string {0} to end with equivalent of {1}{reason}.", Subject, expected);
+                .FailWith("Expected string that ends with equivalent of {0}{reason}, but found {1}.", expected, Subject);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not end with the specified <paramref name="unexpected"/>,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="unexpected">The string that the subject is not expected to end with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotEndWithEquivalentOf(string unexpected, string reason = "", params object[] reasonArgs)
+        {
+            if (unexpected == null)
+            {
+                throw new NullReferenceException("Cannot compare end of string with <null>.");
+            }
+
+            if (unexpected.Length == 0)
+            {
+                throw new ArgumentException("Cannot compare end of string with empty string.");
+            }
+
+            if (Subject == null)
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected string that does not end with equivalent of {0}, but found {1}.", unexpected, Subject);
+            }
+
+            Execute.Verification
+                .ForCondition(!Subject.EndsWith(unexpected, StringComparison.CurrentCultureIgnoreCase))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected string that does not end with equivalent of {0}{reason}, but found {1}.", unexpected, Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }

@@ -1209,7 +1209,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string \"ABC\" to end with equivalent of \"ab\" because it should end.");
+                "Expected string that ends with equivalent of \"ab\" because it should end, but found \"ABC\".");
         }
 
         [TestMethod]
@@ -1272,7 +1272,110 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string <null> to end with equivalent of \"abC\".");
+                "Expected string that ends with equivalent of \"abC\", but found <null>.");
+        }
+
+        #endregion
+
+        #region Not End With Equivalent
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_equivalent_of_a_value_and_it_does_not_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotEndWithEquivalentOf("aB");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_equivalent_of_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotEndWithEquivalentOf("Bc", "because of some reason");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string that does not end with equivalent of \"Bc\" because of some reason, but found \"ABC\".");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_equivalent_of_a_value_that_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotEndWithEquivalentOf(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<NullReferenceException>().WithMessage(
+                "Cannot compare end of string with <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_equivalent_of_a_value_that_is_empty_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotEndWithEquivalentOf("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<ArgumentException>().WithMessage(
+                "Cannot compare end of string with empty string.");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_end_with_equivalent_of_a_value_and_actual_value_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+            Action act = () => someString.Should().NotEndWithEquivalentOf("Abc");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string that does not end with equivalent of \"Abc\", but found <null>.");
         }
 
         #endregion
