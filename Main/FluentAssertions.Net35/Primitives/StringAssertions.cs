@@ -305,6 +305,35 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that a string does not start with the specified <paramref name="unexpected"/> value,
+        /// including any leading or trailing whitespace, with the exception of the casing.
+        /// </summary>
+        /// <param name="unexpected">The string that the subject is not expected to start with.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotStartWithEquivalentOf(string unexpected, string reason = "", params object[] reasonArgs)
+        {
+            if (unexpected == null)
+            {
+                throw new NullReferenceException("Cannot compare start of string with <null>.");
+            }
+
+            if (unexpected.Length == 0)
+            {
+                throw new ArgumentException("Cannot compare start of string with empty string.");
+            }
+
+            new NegatedStringStartValidator(Subject, unexpected, StringComparison.CurrentCultureIgnoreCase, reason, reasonArgs).Validate();
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that a string ends exactly with the specified <paramref name="expected"/>,
         /// including the casing and any leading or trailing whitespace.
         /// </summary>

@@ -723,7 +723,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string that does not start with \"AB\" because of some reason, but it did.");
+                "Expected string that does not start with \"AB\" because of some reason, but found \"ABC\".");
         }
 
         [TestMethod]
@@ -1078,6 +1078,113 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected string to start with equivalent of \"AbC\", but found <null>.");
+        }
+
+        #endregion
+
+        #region Not Start With Equivalent
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_equivalent_of_a_value_and_it_does_not_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => 
+                value.Should().NotStartWithEquivalentOf("Bc");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_equivalent_of_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotStartWithEquivalentOf("aB", "because of some reason");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string that does not start with equivalent of \"aB\" because of some reason, but found \"ABC\".");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_equivalent_of_a_value_that_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotStartWithEquivalentOf(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<NullReferenceException>().WithMessage(
+                "Cannot compare start of string with <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_equivalent_of_a_value_that_is_empty_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string value = "ABC";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                value.Should().NotStartWithEquivalentOf("");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<ArgumentException>().WithMessage(
+                "Cannot compare start of string with empty string.");
+        }
+
+        [TestMethod]
+        public void When_asserting_string_does_not_start_with_equivalent_of_a_value_and_actual_value_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string someString = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => someString.Should().NotStartWithEquivalentOf("ABC");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected string that does not start with equivalent of \"ABC\", but found <null>.");
         }
 
         #endregion
