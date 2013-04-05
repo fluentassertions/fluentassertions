@@ -65,7 +65,7 @@ namespace FluentAssertions.Formatting
         {
             var query =
                 from type in AllTypes
-				where type != null
+                where type != null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
                 where method.HasAttribute<ValueFormatterAttribute>()
