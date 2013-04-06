@@ -38,15 +38,16 @@ namespace FluentAssertions.Equivalency
         {
             try
             {
-                Verification.StartCollecting();
+                var verificationContext = new CollectingVerificationContext();
+                Verification.Context = verificationContext;
+
                 AssertEqualityUsing(context);
 
-                Verification.ThrowIfAny(context.Config.ToString());
+                verificationContext.ThrowIfAny(context.Config.ToString());
             }
-            catch (Exception)
+            finally
             {
-                Verification.StopCollecting();
-                throw;
+                Verification.Context = null;
             }
         }
 

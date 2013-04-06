@@ -6,6 +6,7 @@ using System.Reflection;
 using FluentAssertions.Equivalency;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Linq;
 
 namespace FluentAssertions.Specs
@@ -404,8 +405,8 @@ namespace FluentAssertions.Specs
                     },
                     Collection = new[]
                     {
-                        new { Number = 1, Text = "Text"},
-                        new { Number = 2, Text = "Actual"}
+                        new { Number = 1, Text = "Text" },
+                        new { Number = 2, Text = "Actual" }
                     }
                 }
             };
@@ -422,8 +423,8 @@ namespace FluentAssertions.Specs
                     },
                     Collection = new[]
                     {
-                        new { Number = 1, Text = "Text"},
-                        new { Number = 2, Text = "Expected"}
+                        new { Number = 1, Text = "Text" },
+                        new { Number = 2, Text = "Expected" }
                     }
                 }
             };
@@ -432,9 +433,9 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeEquivalentTo(expected, options => options.
-                    Excluding(x => x.Level.Collection[1].Number).
-                    Excluding(x => x.Level.Collection[1].Text)
-            );
+                Excluding(x => x.Level.Collection[1].Number).
+                Excluding(x => x.Level.Collection[1].Text)
+                );
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -639,7 +640,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_different_enumerables_contain_the_same_structural_equal_objects_it_should_succeed()
+        public void When_two_different_collections_contain_the_same_structurally_equal_objects_in_any_order_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -664,16 +665,16 @@ namespace FluentAssertions.Specs
             {
                 new Customer
                 {
+                    Name = "Jane",
+                    Age = 24,
+                    Id = 2
+                },
+                new Customer
+                {
                     Name = "John",
                     Age = 27,
                     Id = 1
                 },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -734,7 +735,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                  .WithMessage("Expected*item[1].Age*30*24*", ComparisonMode.Wildcard);
+                .WithMessage("Expected*item[1].Age*30*24*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -827,7 +828,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                  .WithMessage("Expected subject to be a collection with 1 item(s), but found 2*", ComparisonMode.Wildcard);
+                .WithMessage("Expected subject to be a collection with 1 item(s), but found 2*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -871,7 +872,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                  .WithMessage("*subject to be a collection with 2 item(s), but found 1*", ComparisonMode.Wildcard);
+                .WithMessage("*subject to be a collection with 2 item(s), but found 1*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -891,7 +892,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                  .WithMessage("Subject is a collection and cannot be compared with a non-collection type", ComparisonMode.StartWith);
+                .WithMessage("Subject is a collection and cannot be compared with a non-collection type", ComparisonMode.StartWith);
         }
 
         #endregion
@@ -923,7 +924,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             subject.ShouldBeEquivalentTo(other);
         }
-        
+
         [TestMethod]
         public void When_two_objects_have_the_same_nullable_property_values_it_should_succeed()
         {
@@ -1139,7 +1140,7 @@ namespace FluentAssertions.Specs
             {
                 Date = 14.July(2012).At(13, 0, 0)
             };
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -1151,8 +1152,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }        
-        
+        }
+
         [TestMethod]
         public void When_an_assertion_is_overridden_for_all_types_it_should_use_the_provided_action_for_all_properties()
         {
@@ -1176,14 +1177,14 @@ namespace FluentAssertions.Specs
                     NestedDate = 14.July(2012).At(13, 0, 0)
                 }
             };
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, options => 
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, options =>
                 options
-                .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
-                .WhenTypeIs<DateTime>());
+                    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+                    .WhenTypeIs<DateTime>());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1274,7 +1275,8 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected property Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5)", ComparisonMode.StartWith);
+                    "Expected property Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5)",
+                    ComparisonMode.StartWith);
         }
 
         [TestMethod]
@@ -1345,7 +1347,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Subject has property Level.OtherProperty that the other object does not have", ComparisonMode.Substring);
+                .WithMessage("Subject has property Level.OtherProperty that the other object does not have",
+                    ComparisonMode.Substring);
         }
 
         [TestMethod]
@@ -1554,7 +1557,7 @@ namespace FluentAssertions.Specs
         #region Nested Enumerables
 
         [TestMethod]
-        public void When_a_collection_property_contains_objects_with_matching_properties_it_should_not_throw()
+        public void When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1565,15 +1568,15 @@ namespace FluentAssertions.Specs
                 {
                     new Customer
                     {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                    new Customer
-                    {
                         Age = 32,
                         Birthdate = 31.July(1978),
                         Name = "Jane"
+                    },
+                    new Customer
+                    {
+                        Age = 38,
+                        Birthdate = 20.September(1973),
+                        Name = "John"
                     }
                 }
             };
@@ -1844,8 +1847,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key2", "Value2"},
-                    {"Key1", "Value1"}
+                    { "Key2", "Value2" },
+                    { "Key1", "Value1" }
                 }
             };
 
@@ -1853,11 +1856,11 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"},
-                    {"Key2", "Value2"}
+                    { "Key1", "Value1" },
+                    { "Key2", "Value2" }
                 }
             };
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -1884,11 +1887,11 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key2", "Value2"},
-                    {"Key1", "Value1"}
+                    { "Key2", "Value2" },
+                    { "Key1", "Value1" }
                 }
             };
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -1898,9 +1901,9 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-               .WithMessage("property*Customers*dictionary*non-dictionary*", ComparisonMode.Wildcard);
+                .WithMessage("property*Customers*dictionary*non-dictionary*", ComparisonMode.Wildcard);
         }
-        
+
         [TestMethod]
         public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw()
         {
@@ -1911,8 +1914,8 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"},
-                    {"Key2", "Value2"}
+                    { "Key1", "Value1" },
+                    { "Key2", "Value2" }
                 }
             };
 
@@ -1920,10 +1923,10 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"},
+                    { "Key1", "Value1" },
                 }
             };
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -1935,7 +1938,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*", ComparisonMode.Wildcard);
         }
-        
+
         #endregion
 
         #region Custom Rules
@@ -1961,7 +1964,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeEquivalentTo(
-                expected, 
+                expected,
                 options => options.Using(new ExcludeForeignKeysSelectionRule()));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1969,7 +1972,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-       
+
         internal class ExcludeForeignKeysSelectionRule : ISelectionRule
         {
             public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISubjectInfo context)
@@ -2008,7 +2011,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-       
+
         internal class ForeignKeyMatchingRule : IMatchingRule
         {
             public PropertyInfo Match(PropertyInfo subjectProperty, object expectation, string propertyPath)
@@ -2022,7 +2025,6 @@ namespace FluentAssertions.Specs
                 return expectation.GetType().GetProperty(name);
             }
         }
-
 
         [TestMethod]
         public void When_an_assertion_rule_is_added_it_should_preceed_all_existing_rules()
@@ -2052,14 +2054,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-       
+
         internal class RelaxingDateTimeAssertionRule : IAssertionRule
         {
             public bool AssertEquality(IEquivalencyValidationContext context)
             {
                 if (context.Subject is DateTime)
                 {
-                    ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1000*60);
+                    ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1000 * 60);
                     return true;
                 }
                 else

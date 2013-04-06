@@ -1,5 +1,10 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
@@ -25,52 +30,84 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
         {
-            AssertExpectationIsCollection(context);
-
-            var subject = ((IEnumerable)context.Subject).Cast<object>().ToArray();
-            var expectation = ((IEnumerable)context.Expectation).Cast<object>().ToArray();
-
-            AssertCollectionsHaveEqualLength(context, subject, expectation);
-
-            if (context.IsRoot || context.Config.IsRecursive)
+            if (AssertExpectationIsCollection(context))
             {
-                EnumerateElements(context, subject, expectation, parent);
-            }
-            else
-            {
-                subject.Should().Equal(expectation, context.Reason, context.ReasonArgs);
+                var subject = ((IEnumerable)context.Subject).Cast<object>().ToArray();
+                var expectation = ((IEnumerable)context.Expectation).Cast<object>().ToArray();
+
+                if (AssertCollectionsHaveEqualLength(context, subject, expectation))
+                {
+                    if (context.IsRoot || context.Config.IsRecursive)
+                    {
+                        EnumerateElements(context, subject, expectation, parent);
+                    }
+                    else
+                    {
+                        subject.Should().Equal(expectation, context.Reason, context.ReasonArgs);
+                    }
+                }
+
             }
 
             return true;
         }
 
-        private void EnumerateElements(EquivalencyValidationContext context, object[] subject, object[] expectation,
+        private void EnumerateElements(EquivalencyValidationContext context, object[] subjects, object[] expectations,
             IEquivalencyValidator parent)
         {
-            if (!subject.SequenceEqual(expectation))
+            if (!subjects.SequenceEqual(expectations))
             {
-                for (int i = 0; i < subject.Length; i++)
+                for (int index = 0; index < expectations.Length; index++)
                 {
-                    if ((subject.Length > i) && (expectation.Length > i))
+                    var oldContext = Verification.Context;
+
+                    var results = new Dictionary<int, CollectingVerificationContext>();
+                    for (int subjectIndex = 0; subjectIndex < subjects.Length; subjectIndex++)
                     {
-                        parent.AssertEqualityUsing(context.CreateForCollectionItem(i, subject[i], expectation[i]));
+                        object subject = subjects[subjectIndex];
+                        var tmpContext = new CollectingVerificationContext();
+                        Verification.Context = tmpContext;
+
+                        parent.AssertEqualityUsing(context.CreateForCollectionItem(index, subject, expectations[index]));
+
+                        results[subjectIndex] = tmpContext;
+
+                        if (!tmpContext.HasFailures)
+                        {
+                            break;
+                        }
+                    }
+
+                    Verification.Context = oldContext;
+
+                    if (results.All(v => v.Value.HasFailures))
+                    {
+                        int fewestFailures = results.Values.Min(r => r.FailureCount);
+                        var bestResults = results.Where(r => r.Value.FailureCount == fewestFailures).ToArray();
+
+                        var bestMatch = (bestResults.Any(r => r.Key == index)) ? bestResults.Single(r => r.Key == index) : bestResults.First();
+
+                        foreach (var failure in bestMatch.Value.Failures)
+                        {
+                            Verification.Context.HandleFailure(failure);
+                        }
                     }
                 }
             }
         }
 
-        private static void AssertExpectationIsCollection(EquivalencyValidationContext context)
+        private static bool AssertExpectationIsCollection(EquivalencyValidationContext context)
         {
-            context.Verification
+            return context.Verification
                 .ForCondition(IsCollection(context.Expectation))
                 .FailWith((context.IsRoot ? "Subject" : context.PropertyDescription) +
                     " is a collection and cannot be compared with a non-collection type.",
                     context.Subject, context.Subject.GetType().FullName);
         }
 
-        private static void AssertCollectionsHaveEqualLength(EquivalencyValidationContext context, object[] subject, object[] expectation)
+        private static bool AssertCollectionsHaveEqualLength(EquivalencyValidationContext context, object[] subject, object[] expectation)
         {
-            context.Verification
+            return context.Verification
                 .ForCondition(subject.Length == expectation.Length)
                 .FailWith(
                     "Expected " + (context.IsRoot ? "subject" : context.PropertyDescription) +

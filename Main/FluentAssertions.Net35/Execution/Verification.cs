@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -12,15 +13,15 @@ namespace FluentAssertions.Execution
     /// </summary>
     public class Verification
     {
-        private readonly char[] blanks = new[] {'\r', '\n', ' ', '\t'};
+        #region Private Definitions
+
+        private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
 
         /// <summary>
         /// Represents the phrase that can be used in <see cref="FailWith"/> as a placeholder for the reason of an assertion.
         /// </summary>
         public const string ReasonTag = "{reason}";
-
-        #region Private Definitions
-
+        
         [ThreadStatic]
         private static string subjectName;
 
@@ -29,10 +30,13 @@ namespace FluentAssertions.Execution
         private bool useLineBreaks;
 
         [ThreadStatic]
-        private static bool isCollecting;
+        private static IVerificationContext context;
 
-        [ThreadStatic]
-        private static List<string> failureMessages;
+        internal static IVerificationContext Context
+        {
+            get { return context ?? new DefaultVerificationContext(); }
+            set { context = value; }
+        }
 
         #endregion
 
@@ -62,40 +66,6 @@ namespace FluentAssertions.Execution
         {
             get { return subjectName; }
             set { subjectName = value; }
-        }
-
-        /// <summary>
-        /// Prevents <see cref="FailWith"/> from throwing exceptions and collecting them until <see cref="StopCollecting"/>
-        /// or <see cref="ThrowIfAny"/> is called.
-        /// </summary>
-        public static void StartCollecting()
-        {
-            isCollecting = true;
-        }
-
-        /// <summary>
-        /// Discards any failures that happened since calling <see cref="StartCollecting"/> and switches back to the direct throwing mode.
-        /// </summary>
-        public static void StopCollecting()
-        {
-            isCollecting = false;
-            FailureMessages.Clear();
-        }
-
-        /// <summary>
-        /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
-        /// </summary>
-        public static void ThrowIfAny(string context)
-        {
-            isCollecting = false;
-            if (FailureMessages.Any())
-            {
-                string message = string.Join(Environment.NewLine, FailureMessages.ToArray()) + 
-                    Environment.NewLine + 
-                    context;
-
-                AssertionHelper.Throw(message);
-            }
         }
 
         /// <summary>
@@ -181,14 +151,7 @@ namespace FluentAssertions.Execution
                     message = ReplaceContextTag(message);
                     message = BuildExceptionMessage(message, failureArgs);
 
-                    if (!isCollecting)
-                    {
-                        AssertionHelper.Throw(message);
-                    }
-                    else
-                    {
-                        FailureMessages.Add(message);
-                    }
+                    Context.HandleFailure(message);
                 }
 
                 return succeeded;
@@ -249,18 +212,65 @@ namespace FluentAssertions.Execution
             string formattedMessage = values.Any() ? string.Format(failureMessage, values.ToArray()) : failureMessage;
             return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
         }
+    }
 
-        private static List<string> FailureMessages
+    internal interface IVerificationContext
+    {
+        bool HasFailures { get; }
+
+        void HandleFailure(string message);
+    }
+
+    internal class CollectingVerificationContext : IVerificationContext
+    {
+        private readonly List<string> failureMessages = new List<string>();
+
+        /// <summary>
+        /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
+        /// </summary>
+        public void ThrowIfAny(string context)
         {
-            get
+            if (failureMessages.Any())
             {
-                if (failureMessages == null)
-                {
-                    failureMessages = new List<string>();
-                }
+                string message = string.Join(Environment.NewLine, failureMessages.ToArray()) +
+                    Environment.NewLine +
+                    context;
 
-                return failureMessages;
+                AssertionHelper.Throw(message);
             }
+        }
+
+        public bool HasFailures
+        {
+            get { return failureMessages.Any(); }
+        }
+
+        public int FailureCount
+        {
+            get { return failureMessages.Count; }
+        }
+
+        public IEnumerable<string> Failures
+        {
+            get { return failureMessages; }
+        }
+
+        public void HandleFailure(string message)
+        {
+            failureMessages.Add(message);
+        }
+    }
+
+    internal class DefaultVerificationContext : IVerificationContext
+    {
+        public bool HasFailures
+        {
+            get { return false; }
+        }
+
+        public void HandleFailure(string message)
+        {
+            AssertionHelper.Throw(message);
         }
     }
 }
