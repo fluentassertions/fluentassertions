@@ -3,7 +3,7 @@
   <metadata> 
     <id>FluentAssertions</id>
     <title>Fluent Assertions</title>
-    <version>2.0.0.1</version>
+    <version>2.0.1</version>
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen, Martin Opdam</authors>
     <summary>
@@ -19,6 +19,9 @@
     <tags>MSTest xUnit NUnit MSpec Gallio MbUnit TDD BDD Fluent Silverlight</tags>
     <copyright>Copyright Dennis Doomen 2010-2012</copyright>
     <releaseNotes>
+      What's new in 2.0.1
+      * Small bug-fix to better intercept and/or prevent exceptions while scanning for methods annotated with [ValueFormatter]
+      
       What are the major features
       * Added support for .NET 4.5, Windows Phone 7.5 and .NET for Windows Store Apps
       * Added support for MBUnit and the Gallio framework

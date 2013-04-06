@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
+
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
@@ -13,7 +13,7 @@ namespace FluentAssertions.Formatting
     /// </summary>
     public class AttributeBasedFormatter : IValueFormatter
     {
-        private MethodInfo[] formatters = null;
+        private MethodInfo[] formatters;
 
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
@@ -45,7 +45,10 @@ namespace FluentAssertions.Formatting
         public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
             MethodInfo method = GetFormatter(value);
-            return (string)method.Invoke(null, new[] { value});
+            return (string)method.Invoke(null, new[]
+            {
+                value
+            });
         }
 
         private MethodInfo GetFormatter(object value)
@@ -62,6 +65,7 @@ namespace FluentAssertions.Formatting
         {
             var query =
                 from type in AllTypes
+                where type != null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
                 where method.HasAttribute<ValueFormatterAttribute>()
@@ -116,7 +120,19 @@ namespace FluentAssertions.Formatting
 #else
         private static IEnumerable<Type> AllTypes
         {
-            get { return AppDomain.CurrentDomain.GetAssemblies().SelectMany(GetExportedTypes).ToArray(); }
+            get
+            {
+                return AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .Where(a => !IsDynamic(a))
+                    .SelectMany(GetExportedTypes).ToArray();
+            }
+        }
+
+        static bool IsDynamic(Assembly assembly)
+        {
+            return (assembly is System.Reflection.Emit.AssemblyBuilder) ||
+                (assembly.GetType().FullName == "System.Reflection.Emit.InternalAssemblyBuilder");
         }
 
         private static IEnumerable<Type> GetExportedTypes(Assembly assembly)
@@ -129,15 +145,7 @@ namespace FluentAssertions.Formatting
             {
                 return ex.Types;
             }
-            catch (TypeLoadException)
-            {
-                return new Type[0];
-            }
-            catch (NotSupportedException)
-            {
-                return new Type[0];
-            }
-            catch (FileNotFoundException)
+            catch (Exception)
             {
                 return new Type[0];
             }
