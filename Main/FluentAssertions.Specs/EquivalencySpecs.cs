@@ -739,6 +739,56 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_no_collection_item_matches_it_should_report_the_closest_match()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new List<Customer>
+            {
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 30,
+                    Id = 2
+                }
+            };
+
+            var expectation = new List<Customer>
+            {
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 30,
+                    Id = 2
+                },
+                new Customer
+                {
+                    Name = "John",
+                    Age = 28,
+                    Id = 1
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*item[1].Age*28*27*", ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
         public void When_two_lists_only_differ_in_excluded_properties_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
