@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -145,11 +146,11 @@ namespace FluentAssertions.Formatting
             {
                 return ex.Types;
             }
-            catch (Exception)
+            catch (FileLoadException)
             {
                 return new Type[0];
             }
-            catch (FileLoadException)
+            catch (Exception)
             {
                 return new Type[0];
             }
