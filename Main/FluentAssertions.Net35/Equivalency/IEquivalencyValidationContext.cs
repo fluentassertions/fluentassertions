@@ -34,7 +34,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a verification object associated with the current <see cref="Reason"/> and <see cref="ReasonArgs"/>.
         /// </summary>
-        Verification Verification { get; }
+        Verifier Verification { get; }
 
         /// <summary>
         /// Gets a value indicating whether the current context represents the root of the object graph.

@@ -117,7 +117,7 @@ namespace FluentAssertions.Equivalency
         ///   Gets a verification object associated with the current <see cref="IEquivalencyValidationContext.Reason" /> and <see
         ///    cref="IEquivalencyValidationContext.ReasonArgs" />.
         /// </summary>
-        public Verification Verification
+        public Verifier Verification
         {
             get { return Execute.Verification.BecauseOf(Reason, ReasonArgs); }
         }

@@ -38,8 +38,8 @@ namespace FluentAssertions.Equivalency
         {
             try
             {
-                var verificationContext = new CollectingVerificationContext();
-                Verification.Context = verificationContext;
+                var verificationContext = new CollectingVerificationStrategy();
+                Verifier.Strategy = verificationContext;
 
                 AssertEqualityUsing(context);
 
@@ -47,7 +47,7 @@ namespace FluentAssertions.Equivalency
             }
             finally
             {
-                Verification.Context = null;
+                Verifier.Strategy = null;
             }
         }
 
@@ -76,12 +76,12 @@ namespace FluentAssertions.Equivalency
         {
             try
             {
-                Verification.SubjectName = subjectName;
+                Verifier.SubjectName = subjectName;
                 action();
             }
             finally
             {
-                Verification.SubjectName = null;
+                Verifier.SubjectName = null;
             }
         }
     }

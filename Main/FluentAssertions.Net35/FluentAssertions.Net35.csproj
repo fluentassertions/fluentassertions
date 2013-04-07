@@ -97,6 +97,9 @@
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\TypeExtensions.cs" />
     <Compile Include="Equivalency\DictionaryEquivalencyStep.cs" />
+    <Compile Include="Execution\CollectingVerificationStrategy.cs" />
+    <Compile Include="Execution\DefaultVerificationStrategy.cs" />
+    <Compile Include="Execution\IVerificationStrategy.cs" />
     <Compile Include="Formatting\AttributeBasedFormatter.cs" />
     <Compile Include="Formatting\GuidValueFormatter.cs" />
     <Compile Include="Formatting\PropertyInfoFormatter.cs" />
@@ -207,7 +210,7 @@
     <Compile Include="Execution\MSpecFramework.cs" />
     <Compile Include="Execution\MSTestFramework.cs" />
     <Compile Include="Execution\NUnitTestFramework.cs" />
-    <Compile Include="Execution\Verification.cs" />
+    <Compile Include="Execution\Verifier.cs" />
     <Compile Include="Execution\XUnitTestFramework.cs" />
   </ItemGroup>
   <ItemGroup>

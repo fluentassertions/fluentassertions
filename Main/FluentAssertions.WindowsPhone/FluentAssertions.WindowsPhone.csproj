@@ -121,17 +121,26 @@
     <Compile Include="..\FluentAssertions.Net35\Events\RecordedEvent.cs">
       <Link>Events\RecordedEvent.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Execution\CollectingVerificationStrategy.cs">
+      <Link>Execution\CollectingVerificationStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Execution\DefaultVerificationStrategy.cs">
+      <Link>Execution\DefaultVerificationStrategy.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\Execute.cs">
       <Link>Execution\Execute.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\ITestFramework.cs">
       <Link>Execution\ITestFramework.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Execution\IVerificationStrategy.cs">
+      <Link>Execution\IVerificationStrategy.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\LateBoundTestFramework.cs">
       <Link>Execution\LateBoundTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\Verification.cs">
-      <Link>Execution\Verification.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Execution\Verifier.cs">
+      <Link>Execution\Verifier.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\FluentDateTimeExtensions.cs">
       <Link>FluentDateTimeExtensions.cs</Link>

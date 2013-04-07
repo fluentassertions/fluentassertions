@@ -59,14 +59,14 @@ namespace FluentAssertions.Equivalency
             {
                 for (int index = 0; index < expectations.Length; index++)
                 {
-                    var oldContext = Verification.Context;
+                    var oldContext = Verifier.Strategy;
 
-                    var results = new Dictionary<int, CollectingVerificationContext>();
+                    var results = new Dictionary<int, CollectingVerificationStrategy>();
                     for (int subjectIndex = 0; subjectIndex < subjects.Length; subjectIndex++)
                     {
                         object subject = subjects[subjectIndex];
-                        var tmpContext = new CollectingVerificationContext();
-                        Verification.Context = tmpContext;
+                        var tmpContext = new CollectingVerificationStrategy();
+                        Verifier.Strategy = tmpContext;
 
                         parent.AssertEqualityUsing(context.CreateForCollectionItem(index, subject, expectations[index]));
 
@@ -78,7 +78,7 @@ namespace FluentAssertions.Equivalency
                         }
                     }
 
-                    Verification.Context = oldContext;
+                    Verifier.Strategy = oldContext;
 
                     if (results.All(v => v.Value.HasFailures))
                     {
@@ -89,7 +89,7 @@ namespace FluentAssertions.Equivalency
 
                         foreach (var failure in bestMatch.Value.Failures)
                         {
-                            Verification.Context.HandleFailure(failure);
+                            Verifier.Strategy.HandleFailure(failure);
                         }
                     }
                 }
