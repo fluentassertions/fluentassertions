@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Equivalency
+﻿using FluentAssertions.Execution;
+
+namespace FluentAssertions.Equivalency
 {
     public class ReferenceEqualityEquivalencyStep : IEquivalencyStep
     {
@@ -35,7 +37,7 @@
                     propertyPath = "subject";
                 }
 
-                context.Verification.FailWith(
+                VerificationScope.Current.FailWith(
                     "Expected " + propertyPath + " to be {0}{reason}, but found {1}.", context.Expectation, context.Subject);
 
                 return true;

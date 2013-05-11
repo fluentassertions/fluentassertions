@@ -113,15 +113,6 @@ namespace FluentAssertions.Equivalency
             get { return processedObjects.Contains(Subject); }
         }
 
-        /// <summary>
-        ///   Gets a verification object associated with the current <see cref="IEquivalencyValidationContext.Reason" /> and <see
-        ///    cref="IEquivalencyValidationContext.ReasonArgs" />.
-        /// </summary>
-        public VerificationScope Verification
-        {
-            get { return Execute.Verification.BecauseOf(Reason, ReasonArgs); }
-        }
-
         internal IEnumerable<PropertyInfo> SelectedProperties
         {
             get

@@ -1,7 +1,5 @@
 using System.Reflection;
 
-using FluentAssertions.Execution;
-
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
@@ -30,11 +28,6 @@ namespace FluentAssertions.Equivalency
         /// Zero or more objects to format using the placeholders in <see cref="Reason"/>.
         /// </summary>
         object[] ReasonArgs { get; }
-
-        /// <summary>
-        /// Gets a verification object associated with the current <see cref="Reason"/> and <see cref="ReasonArgs"/>.
-        /// </summary>
-        VerificationScope Verification { get; }
 
         /// <summary>
         /// Gets a value indicating whether the current context represents the root of the object graph.

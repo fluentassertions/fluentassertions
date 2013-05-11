@@ -40,6 +40,7 @@ namespace FluentAssertions.Equivalency
             {
                 scope.AddContext("subject", context.SubjectDescription);
                 scope.AddContext("configuration", context.Config.ToString());
+                scope.BecauseOf(context.Reason, context.ReasonArgs);
 
                 AssertEqualityUsing(context);
             }

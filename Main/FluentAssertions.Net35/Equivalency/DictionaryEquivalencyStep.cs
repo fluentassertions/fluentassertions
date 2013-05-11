@@ -1,5 +1,7 @@
 using System.Collections;
 
+using FluentAssertions.Execution;
+
 namespace FluentAssertions.Equivalency
 {
     public class DictionaryEquivalencyStep : IEquivalencyStep
@@ -47,13 +49,13 @@ namespace FluentAssertions.Equivalency
 
         private static bool PreconditionsAreMet(EquivalencyValidationContext context, IDictionary expectation, IDictionary subject)
         {
-            bool success = context.Verification
+            bool success = VerificationScope.Current
                 .ForCondition(expectation != null)
                 .FailWith(context.SubjectDescription + " is a dictionary and cannot be compared with a non-dictionary type.");
 
             if (success)
             {
-                success = context.Verification
+                success = VerificationScope.Current
                     .ForCondition(subject.Keys.Count == expectation.Keys.Count)
                     .FailWith("Expected " + context.SubjectDescription + 
                         " to be a dictionary with {0} item(s), but it only contains {1} item(s).",

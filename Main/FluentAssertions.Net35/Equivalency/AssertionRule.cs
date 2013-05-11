@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
@@ -42,7 +43,7 @@ namespace FluentAssertions.Equivalency
         {
             if (predicate(context))
             {
-                bool succeeded = context.Verification
+                bool succeeded = VerificationScope.Current
                     .ForCondition(context.MatchingExpectationProperty.PropertyType.IsSameOrInherits(typeof(TSubject)))
                     .FailWith("Expected " + context.PropertyDescription + " to be a {0}{reason}, but found a {1}",
                         context.MatchingExpectationProperty.PropertyType, context.PropertyInfo.PropertyType);
