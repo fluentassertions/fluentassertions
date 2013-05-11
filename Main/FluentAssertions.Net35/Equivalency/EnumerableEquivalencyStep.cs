@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 using FluentAssertions.Execution;
 
@@ -30,94 +28,119 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
         {
-            if (AssertExpectationIsCollection(context))
+            if (ExpectationIsCollection(context.Expectation, context.SubjectDescription))
             {
-                var subject = ((IEnumerable)context.Subject).Cast<object>().ToArray();
-                var expectation = ((IEnumerable)context.Expectation).Cast<object>().ToArray();
-
-                if (AssertCollectionsHaveEqualLength(context, subject, expectation))
+                var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
-                    if (context.IsRoot || context.Config.IsRecursive)
-                    {
-                        EnumerateElements(context, subject, expectation, parent);
-                    }
-                    else
-                    {
-                        subject.Should().Equal(expectation, context.Reason, context.ReasonArgs);
-                    }
-                }
+                    Recursive = context.IsRoot || context.Config.IsRecursive,
+                    SubjectDescription = context.SubjectDescription,
+                };
 
+                validator.Validate((IEnumerable)context.Subject, (IEnumerable)context.Expectation);
             }
 
             return true;
         }
 
-        private void EnumerateElements(EquivalencyValidationContext context, object[] subjects, object[] expectations,
-            IEquivalencyValidator parent)
+        private static bool ExpectationIsCollection(object expectation, string subjectDescription)
         {
-            if (!subjects.SequenceEqual(expectations))
-            {
-                for (int index = 0; index < expectations.Length; index++)
-                {
-                    var oldContext = Verifier.Strategy;
-
-                    var results = new Dictionary<int, CollectingVerificationStrategy>();
-                    for (int subjectIndex = 0; subjectIndex < subjects.Length; subjectIndex++)
-                    {
-                        object subject = subjects[subjectIndex];
-                        var tmpContext = new CollectingVerificationStrategy();
-                        Verifier.Strategy = tmpContext;
-
-                        parent.AssertEqualityUsing(context.CreateForCollectionItem(index, subject, expectations[index]));
-
-                        results[subjectIndex] = tmpContext;
-
-                        if (!tmpContext.HasFailures)
-                        {
-                            break;
-                        }
-                    }
-
-                    Verifier.Strategy = oldContext;
-
-                    if (results.All(v => v.Value.HasFailures))
-                    {
-                        int fewestFailures = results.Values.Min(r => r.FailureCount);
-                        var bestResults = results.Where(r => r.Value.FailureCount == fewestFailures).ToArray();
-
-                        var bestMatch = (bestResults.Any(r => r.Key == index)) ? bestResults.Single(r => r.Key == index) : bestResults.First();
-
-                        foreach (var failure in bestMatch.Value.Failures)
-                        {
-                            Verifier.Strategy.HandleFailure(failure);
-                        }
-                    }
-                }
-            }
-        }
-
-        private static bool AssertExpectationIsCollection(EquivalencyValidationContext context)
-        {
-            return context.Verification
-                .ForCondition(IsCollection(context.Expectation))
-                .FailWith((context.IsRoot ? "Subject" : context.PropertyDescription) +
-                    " is a collection and cannot be compared with a non-collection type.",
-                    context.Subject, context.Subject.GetType().FullName);
-        }
-
-        private static bool AssertCollectionsHaveEqualLength(EquivalencyValidationContext context, object[] subject, object[] expectation)
-        {
-            return context.Verification
-                .ForCondition(subject.Length == expectation.Length)
-                .FailWith(
-                    "Expected " + (context.IsRoot ? "subject" : context.PropertyDescription) +
-                        " to be a collection with {0} item(s){reason}, but found {1}.",
-                    expectation.Length, subject.Length);
+            return VerificationScope.Current
+                .ForCondition(IsCollection(expectation))
+                .FailWith(subjectDescription + " is a collection and cannot be compared with a non-collection type.");
         }
 
         private static bool IsCollection(object value)
         {
             return (!(value is string) && (value is IEnumerable));
+        }
+    }
+
+    internal class EnumerableEquivalencyValidator
+    {
+        private readonly IEquivalencyValidator parent;
+        private readonly EquivalencyValidationContext context;
+
+        public EnumerableEquivalencyValidator(IEquivalencyValidator parent, EquivalencyValidationContext context)
+        {
+            this.parent = parent;
+            this.context = context;
+            Recursive = false;
+            SubjectDescription = "subject";
+        }
+
+        public bool Recursive { get; set; }
+
+        public string SubjectDescription { get; set; }
+
+        public void Validate(IEnumerable subject, IEnumerable expectation)
+        {
+            if (HaveSameLength(subject, expectation))
+            {
+                AssertElementsAreEquivalent(subject, expectation);
+            }
+        }
+
+        private bool HaveSameLength(IEnumerable subject, IEnumerable expectation)
+        {
+            int subjectLength = subject.Cast<object>().Count();
+            int expectationLength = expectation.Cast<object>().Count();
+
+            return VerificationScope.Current
+                .ForCondition(subjectLength == expectationLength)
+                .FailWith("Expected " + SubjectDescription + " to be a collection with {0} item(s){reason}, but found {1}.",
+                    expectationLength, subjectLength);
+        }
+
+        private void AssertElementsAreEquivalent(IEnumerable subject, IEnumerable expectation)
+        {
+            if (Recursive)
+            {
+                AssertElementGraphEquivalency(subject.Cast<object>().ToArray(), expectation.Cast<object>().ToArray());
+            }
+            else
+            {
+                subject.Should().Equal(expectation);
+            }
+        }
+
+        private void AssertElementGraphEquivalency(object[] subjects, object[] expectations)
+        {
+            for (int index = 0; index < expectations.Length; index++)
+            {
+                var results = new Dictionary<int, IEnumerable<string>>();
+                for (int subjectIndex = 0; subjectIndex < subjects.Length; subjectIndex++)
+                {
+                    using (var scope = new VerificationScope())
+                    {
+                        parent.AssertEqualityUsing(context.CreateForCollectionItem(index, subjects[subjectIndex],
+                            expectations[index]));
+
+                        string[] failures = scope.Discard();
+
+                        results[subjectIndex] = failures;
+
+                        if (!failures.Any())
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                if (results.All(v => v.Value.Any()))
+                {
+                    int fewestFailures = results.Values.Min(r => r.Count());
+                    var bestResults = results.Where(r => r.Value.Count() == fewestFailures).ToArray();
+
+                    var bestMatch = (bestResults.Any(r => r.Key == index))
+                        ? bestResults.Single(r => r.Key == index)
+                        : bestResults.First();
+
+                    foreach (string failure in bestMatch.Value)
+                    {
+                        VerificationScope.Current.FailWith(failure);
+                    }
+                }
+            }
         }
     }
 }

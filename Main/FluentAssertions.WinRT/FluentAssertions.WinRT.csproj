@@ -107,8 +107,8 @@
     <Compile Include="..\FluentAssertions.Net35\Execution\IVerificationStrategy.cs">
       <Link>Execution\IVerificationStrategy.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\Verifier.cs">
-      <Link>Execution\Verifier.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Execution\VerificationScope.cs">
+      <Link>Execution\VerificationScope.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\FluentDateTimeExtensions.cs">
       <Link>FluentDateTimeExtensions.cs</Link>

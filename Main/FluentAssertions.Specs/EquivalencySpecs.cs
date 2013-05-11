@@ -1951,7 +1951,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("property*Customers*dictionary*non-dictionary*", ComparisonMode.Wildcard);
+                .WithMessage("Property*Customers*dictionary*non-dictionary*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]

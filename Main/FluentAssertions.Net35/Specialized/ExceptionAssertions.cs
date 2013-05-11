@@ -79,7 +79,7 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, ComparisonMode comparisonMode,
             string reason = "", params object[] reasonArgs)
         {
-            Verifier verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
+            VerificationScope verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
             verification.ForCondition(Subject != null).FailWith(
                 "Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
@@ -170,7 +170,7 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage,
             ComparisonMode comparisonMode, string reason, params object[] reasonArgs)
         {
-            Verifier verification = Execute.Verification
+            VerificationScope verification = Execute.Verification
                 .BecauseOf(reason, reasonArgs)
                 .UsingLineBreaks;
 
@@ -312,12 +312,12 @@ namespace FluentAssertions.Specialized
             {
                 try
                 {
-                    Verifier.SubjectName = subjectName;
+                    VerificationScope.SubjectName = subjectName;
                     assertion(actual, expectation, reason, reasonArgs);
                 }
                 finally
                 {
-                    Verifier.SubjectName = null;
+                    VerificationScope.SubjectName = null;
                 }
             }
         }

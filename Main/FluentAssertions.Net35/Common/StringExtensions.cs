@@ -62,5 +62,13 @@ namespace FluentAssertions.Common
             var strings = new[] { @this }.Concat(new[] {other}).Where(s => s.Length > 0).ToArray();
             return string.Join(separator, strings);
         }
+
+        /// <summary>
+        /// Changes the first character of a string to uppercase.
+        /// </summary>
+        public static string Capitalize(this string @this)
+        {
+            return @this.Substring(0, 1).ToUpper() + @this.Substring(1);
+        }
     }
 }

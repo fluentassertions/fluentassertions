@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
@@ -11,10 +11,13 @@ namespace FluentAssertions.Execution
     /// <summary>
     /// Provides a fluent API for verifying an arbitrary condition.
     /// </summary>
-    public class Verifier
+    public class VerificationScope : IDisposable
     {
         #region Private Definitions
 
+        private readonly IVerificationStrategy verificationStrategy;
+        private readonly Dictionary<string, string> contextData = new Dictionary<string, string>();
+        
         private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
 
         /// <summary>
@@ -30,32 +33,38 @@ namespace FluentAssertions.Execution
         private bool useLineBreaks;
 
         [ThreadStatic]
-        private static IVerificationStrategy strategy;
+        private static VerificationScope current;
 
-        internal static IVerificationStrategy Strategy
+        [ThreadStatic]
+        private static VerificationScope parentScope;
+
+        internal static VerificationScope Current
         {
-            get { return strategy ?? new DefaultVerificationStrategy(); }
-            set { strategy = value; }
+            get { return current ?? new VerificationScope(new DefaultVerificationStrategy()); }
+            set { current = value; }
         }
 
         #endregion
 
-        public static Verifier Current
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VerificationScope"/> class.
+        /// </summary>
+        internal VerificationScope() : this(new CollectingVerificationStrategy((current != null) ? current.verificationStrategy : null))
         {
-            get { return Strategy.GetCurrentVerifier(); }
+            parentScope = current;
+            current = this;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Verifier"/> class.
-        /// </summary>
-        internal Verifier()
+        private VerificationScope(IVerificationStrategy verificationStrategy)
         {
+            this.verificationStrategy = verificationStrategy;
+            parentScope = null;
         }
 
         /// <summary>
         /// Indicates that every argument passed into <see cref="FailWith"/> is displayed on a separate line.
         /// </summary>
-        public Verifier UsingLineBreaks
+        public VerificationScope UsingLineBreaks
         {
             get
             {
@@ -77,7 +86,7 @@ namespace FluentAssertions.Execution
         /// Specify the condition that must be satisfied.
         /// </summary>
         /// <param name="condition">If <c>true</c> the verification will be succesful.</param>
-        public Verifier ForCondition(bool condition)
+        public VerificationScope ForCondition(bool condition)
         {
             succeeded = condition;
             return this;
@@ -93,7 +102,7 @@ namespace FluentAssertions.Execution
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public Verifier BecauseOf(string reason, params object[] reasonArgs)
+        public VerificationScope BecauseOf(string reason, params object[] reasonArgs)
         {
             this.reason = SanitizeReason(reason, reasonArgs);
             return this;
@@ -156,7 +165,7 @@ namespace FluentAssertions.Execution
                     message = ReplaceContextTag(message);
                     message = BuildExceptionMessage(message, failureArgs);
 
-                    Strategy.HandleFailure(message);
+                    verificationStrategy.HandleFailure(message);
                 }
 
                 return succeeded;
@@ -215,7 +224,31 @@ namespace FluentAssertions.Execution
             values.AddRange(failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)));
 
             string formattedMessage = values.Any() ? string.Format(failureMessage, values.ToArray()) : failureMessage;
-            return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
+            return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}").Capitalize();
+        }
+
+        public void AddContext(string key, string value)
+        {
+            contextData[key] = value;
+        }
+
+        /// <summary>
+        /// Discards and returns the failures that happened up to now.
+        /// </summary>
+        public string[] Discard()
+        {
+            return verificationStrategy.DiscardFailures().ToArray();
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Current = parentScope;
+            parentScope = null;
+
+            verificationStrategy.ThrowIfAny(contextData);
         }
     }
 }

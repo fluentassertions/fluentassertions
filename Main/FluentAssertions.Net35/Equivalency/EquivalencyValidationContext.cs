@@ -117,7 +117,7 @@ namespace FluentAssertions.Equivalency
         ///   Gets a verification object associated with the current <see cref="IEquivalencyValidationContext.Reason" /> and <see
         ///    cref="IEquivalencyValidationContext.ReasonArgs" />.
         /// </summary>
-        public Verifier Verification
+        public VerificationScope Verification
         {
             get { return Execute.Verification.BecauseOf(Reason, ReasonArgs); }
         }
@@ -135,6 +135,14 @@ namespace FluentAssertions.Equivalency
 
                 return properties;
             }
+        }
+
+        /// <summary>
+        /// Gets a description of the subject as seen from the current context.
+        /// </summary>
+        public string SubjectDescription
+        {
+            get { return IsRoot ? "subject" : PropertyDescription; }
         }
 
         internal void HandleCyclicReference()

@@ -8,9 +8,9 @@
         /// <summary>
         /// Gets an object that wraps and executes a conditional or unconditional verification.
         /// </summary>
-        public static Verifier Verification
+        public static VerificationScope Verification
         {
-            get { return Verifier.Current; }
+            get { return VerificationScope.Current; }
         }
     }
 }

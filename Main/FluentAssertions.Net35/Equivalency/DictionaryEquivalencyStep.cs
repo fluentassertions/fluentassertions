@@ -49,15 +49,14 @@ namespace FluentAssertions.Equivalency
         {
             bool success = context.Verification
                 .ForCondition(expectation != null)
-                .FailWith((context.IsRoot ? "Subject" : context.PropertyDescription) +
-                                      " is a dictionary and cannot be compared with a non-dictionary type.");
+                .FailWith(context.SubjectDescription + " is a dictionary and cannot be compared with a non-dictionary type.");
 
             if (success)
             {
                 success = context.Verification
                     .ForCondition(subject.Keys.Count == expectation.Keys.Count)
-                    .FailWith("Expected " + (context.IsRoot ? "Subject" : context.PropertyDescription) +
-                                     " to be a dictionary with {0} item(s), but it only contains {1} item(s).",
+                    .FailWith("Expected " + context.SubjectDescription + 
+                        " to be a dictionary with {0} item(s), but it only contains {1} item(s).",
                                      expectation.Keys.Count, subject.Keys.Count);
             }
             return success;

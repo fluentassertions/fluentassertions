@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
     {
         #region Private Definitions
 
-        private readonly List<IEquivalencyStep> steps = new List<IEquivalencyStep>() 
+        private readonly List<IEquivalencyStep> steps = new List<IEquivalencyStep>()
         {
             new TryConversionEquivalencyStep(),
             new ReferenceEqualityEquivalencyStep(),
@@ -27,7 +27,7 @@ namespace FluentAssertions.Equivalency
         #endregion
 
         /// <summary>
-        /// Returns the steps that are executed in the order of appearance during an equivalency test.
+        /// Provides access the list of steps that are executed in the order of appearance during an equivalency test.
         /// </summary>
         public IList<IEquivalencyStep> Steps
         {
@@ -36,18 +36,12 @@ namespace FluentAssertions.Equivalency
 
         public void AssertEquality(EquivalencyValidationContext context)
         {
-            try
+            using (var scope = new VerificationScope())
             {
-                var verificationContext = new CollectingVerificationStrategy();
-                Verifier.Strategy = verificationContext;
+                scope.AddContext("subject", context.SubjectDescription);
+                scope.AddContext("configuration", context.Config.ToString());
 
                 AssertEqualityUsing(context);
-
-                verificationContext.ThrowIfAny(context.Config.ToString());
-            }
-            finally
-            {
-                Verifier.Strategy = null;
             }
         }
 
@@ -76,12 +70,12 @@ namespace FluentAssertions.Equivalency
         {
             try
             {
-                Verifier.SubjectName = subjectName;
+                VerificationScope.SubjectName = subjectName;
                 action();
             }
             finally
             {
-                Verifier.SubjectName = null;
+                VerificationScope.SubjectName = null;
             }
         }
     }

@@ -251,7 +251,7 @@ namespace FluentAssertions.Collections
         protected void AssertSubjectEquality<T>(IEnumerable expectation, Func<T, T, bool> predicate,
             string reason = "", params object[] reasonArgs)
         {
-            Verifier verification = Execute.Verification.BecauseOf(reason, reasonArgs);
+            VerificationScope verification = Execute.Verification.BecauseOf(reason, reasonArgs);
 
             if (ReferenceEquals(Subject, null))
             {
@@ -277,7 +277,7 @@ namespace FluentAssertions.Collections
             }
         }
 
-        private void AssertCollectionsHaveSameCount<T>(T[] expectedItems, T[] actualItems, Verifier verification)
+        private void AssertCollectionsHaveSameCount<T>(T[] expectedItems, T[] actualItems, VerificationScope verification)
         {
             int delta = Math.Abs(expectedItems.Length - actualItems.Length);
             if (delta != 0)

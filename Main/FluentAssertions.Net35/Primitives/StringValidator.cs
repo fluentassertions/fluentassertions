@@ -12,7 +12,7 @@ namespace FluentAssertions.Primitives
 
         protected readonly string subject;
         protected readonly string expected;
-        protected Verifier verification;
+        protected VerificationScope verification;
         private const int HumanReadableLength = 8;
 
         #endregion

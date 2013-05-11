@@ -150,8 +150,8 @@
     <Compile Include="..\FluentAssertions.Net35\Execution\NUnitTestFramework.cs">
       <Link>Execution\NUnitTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\Verifier.cs">
-      <Link>Execution\Verifier.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\Execution\VerificationScope.cs">
+      <Link>Execution\VerificationScope.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\XUnitTestFramework.cs">
       <Link>Execution\XUnitTestFramework.cs</Link>

@@ -210,7 +210,7 @@
     <Compile Include="Execution\MSpecFramework.cs" />
     <Compile Include="Execution\MSTestFramework.cs" />
     <Compile Include="Execution\NUnitTestFramework.cs" />
-    <Compile Include="Execution\Verifier.cs" />
+    <Compile Include="Execution\VerificationScope.cs" />
     <Compile Include="Execution\XUnitTestFramework.cs" />
   </ItemGroup>
   <ItemGroup>
