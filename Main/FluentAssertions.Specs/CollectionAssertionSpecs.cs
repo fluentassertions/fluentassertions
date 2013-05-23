@@ -360,6 +360,14 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void Should_succeed_when_both_collections_are_null()
+        {
+            IEnumerable nullColl = null;
+
+            nullColl.Should().Equal(null);
+        }
+
+        [TestMethod]
         public void When_two_collections_containing_nulls_are_equal_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

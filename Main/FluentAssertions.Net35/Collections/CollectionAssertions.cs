@@ -253,7 +253,15 @@ namespace FluentAssertions.Collections
         {
             Verification verification = Execute.Verification.BecauseOf(reason, reasonArgs);
 
-            if (ReferenceEquals(Subject, null))
+            bool subjectIsNull = ReferenceEquals(Subject, null);
+            bool expectationIsNull = ReferenceEquals(expectation, null);
+
+            if (subjectIsNull && expectationIsNull)
+            {
+                return;
+            }
+
+            if (subjectIsNull)
             {
                 verification.FailWith("Expected {context:collection} to be equal{reason}, but found <null>.");
             }
