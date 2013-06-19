@@ -28,12 +28,11 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
         {
-            if (ExpectationIsCollection(context.Expectation, context.SubjectDescription))
+            if (ExpectationIsCollection(context.Expectation))
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
-                    Recursive = context.IsRoot || context.Config.IsRecursive,
-                    SubjectDescription = context.SubjectDescription,
+                    Recursive = context.IsRoot || context.Config.IsRecursive
                 };
 
                 validator.Validate((IEnumerable)context.Subject, (IEnumerable)context.Expectation);
@@ -42,11 +41,11 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool ExpectationIsCollection(object expectation, string subjectDescription)
+        private static bool ExpectationIsCollection(object expectation)
         {
             return VerificationScope.Current
                 .ForCondition(IsCollection(expectation))
-                .FailWith(subjectDescription + " is a collection and cannot be compared with a non-collection type.");
+                .FailWith("{context:Subject} is a collection and cannot be compared with a non-collection type.");
         }
 
         private static bool IsCollection(object value)
@@ -65,12 +64,9 @@ namespace FluentAssertions.Equivalency
             this.parent = parent;
             this.context = context;
             Recursive = false;
-            SubjectDescription = "subject";
         }
 
         public bool Recursive { get; set; }
-
-        public string SubjectDescription { get; set; }
 
         public void Validate(IEnumerable subject, IEnumerable expectation)
         {
@@ -87,7 +83,7 @@ namespace FluentAssertions.Equivalency
 
             return VerificationScope.Current
                 .ForCondition(subjectLength == expectationLength)
-                .FailWith("Expected " + SubjectDescription + " to be a collection with {0} item(s){reason}, but found {1}.",
+                .FailWith("Expected {context:subject} to be a collection with {0} item(s){reason}, but found {1}.",
                     expectationLength, subjectLength);
         }
 

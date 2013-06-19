@@ -38,7 +38,7 @@ namespace FluentAssertions.Equivalency
         {
             using (var scope = new VerificationScope())
             {
-                scope.AddContext("subject", context.SubjectDescription);
+                scope.AddContext("context", context.SubjectDescription);
                 scope.AddContext("configuration", context.Config.ToString());
                 scope.BecauseOf(context.Reason, context.ReasonArgs);
 
@@ -48,8 +48,6 @@ namespace FluentAssertions.Equivalency
 
         public void AssertEqualityUsing(EquivalencyValidationContext context)
         {
-            ExecuteUsingSubjectName(context.PropertyDescription, () =>
-            {
                 if (!context.ContainsCyclicReference)
                 {
                     foreach (IEquivalencyStep strategy in steps.Where(s => s.CanHandle(context)))
@@ -64,20 +62,6 @@ namespace FluentAssertions.Equivalency
                 {
                     context.HandleCyclicReference();
                 }
-            });
-        }
-
-        private void ExecuteUsingSubjectName(string subjectName, Action action)
-        {
-            try
-            {
-                VerificationScope.SubjectName = subjectName;
-                action();
-            }
-            finally
-            {
-                VerificationScope.SubjectName = null;
-            }
         }
     }
 }

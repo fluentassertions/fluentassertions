@@ -23,11 +23,8 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Represents the phrase that can be used in <see cref="FailWith"/> as a placeholder for the reason of an assertion.
         /// </summary>
-        public const string ReasonTag = "{reason}";
+        private const string ReasonTag = "{reason}";
         
-        [ThreadStatic]
-        private static string subjectName;
-
         private string reason;
         private bool succeeded;
         private bool useLineBreaks;
@@ -71,15 +68,6 @@ namespace FluentAssertions.Execution
                 useLineBreaks = true;
                 return this;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the name of the subject for the next verification.
-        /// </summary>
-        public static string SubjectName
-        {
-            get { return subjectName; }
-            set { subjectName = value; }
         }
 
         /// <summary>
@@ -197,7 +185,7 @@ namespace FluentAssertions.Execution
         private string ReplaceContextTag(string message)
         {
             var regex = new Regex(@"(?:\{context\:)([\w|\s]+)\}");
-            return regex.Replace(message, string.IsNullOrEmpty(SubjectName) ? "$1" : SubjectName);
+            return regex.Replace(message, contextData.ContainsKey("context") ? contextData["context"] : "$1");
         }
 
         private static string IncrementAllFormatSpecifiers(string message)

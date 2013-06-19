@@ -310,14 +310,11 @@ namespace FluentAssertions.Specialized
 
             public void Execute(string actual, string expectation, string reason, params object[] reasonArgs)
             {
-                try
+                using (var scope = new VerificationScope())
                 {
-                    VerificationScope.SubjectName = subjectName;
+                    scope.AddContext("context", subjectName);
+                    
                     assertion(actual, expectation, reason, reasonArgs);
-                }
-                finally
-                {
-                    VerificationScope.SubjectName = null;
                 }
             }
         }
