@@ -57,7 +57,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected object to be*, but found <null>*", ComparisonMode.Wildcard);
+                "Expected subject to be*, but found <null>*", ComparisonMode.Wildcard);
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-
+        
         [TestMethod]
         public void When_a_non_property_expression_is_provided_it_should_throw()
         {

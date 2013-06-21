@@ -31,14 +31,8 @@ namespace FluentAssertions.Equivalency
 
             if (ReferenceEquals(context.Expectation, null))
             {
-                string propertyPath = context.PropertyDescription;
-                if (propertyPath.Length == 0)
-                {
-                    propertyPath = "subject";
-                }
-
                 VerificationScope.Current.FailWith(
-                    "Expected " + propertyPath + " to be {0}{reason}, but found {1}.", context.Expectation, context.Subject);
+                    "Expected {context:subject} to be {0}{reason}, but found {1}.", context.Expectation, context.Subject);
 
                 return true;
             }

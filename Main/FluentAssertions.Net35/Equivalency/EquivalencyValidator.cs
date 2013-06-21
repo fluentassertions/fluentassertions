@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -38,7 +37,6 @@ namespace FluentAssertions.Equivalency
         {
             using (var scope = new VerificationScope())
             {
-                scope.AddContext("context", context.SubjectDescription);
                 scope.AddContext("configuration", context.Config.ToString());
                 scope.BecauseOf(context.Reason, context.ReasonArgs);
 
@@ -48,20 +46,22 @@ namespace FluentAssertions.Equivalency
 
         public void AssertEqualityUsing(EquivalencyValidationContext context)
         {
-                if (!context.ContainsCyclicReference)
+            VerificationScope.Current.AddContext("context", context.IsRoot ? "subject" : context.PropertyDescription);
+
+            if (!context.ContainsCyclicReference)
+            {
+                foreach (IEquivalencyStep strategy in steps.Where(s => s.CanHandle(context)))
                 {
-                    foreach (IEquivalencyStep strategy in steps.Where(s => s.CanHandle(context)))
+                    if (strategy.Handle(context, this))
                     {
-                        if (strategy.Handle(context, this))
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
-                else
-                {
-                    context.HandleCyclicReference();
-                }
+            }
+            else
+            {
+                context.HandleCyclicReference();
+            }
         }
     }
 }

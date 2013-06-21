@@ -47,7 +47,7 @@ namespace FluentAssertions.Equivalency
         private void AssertPropertyEquality(EquivalencyValidationContext context, IEquivalencyValidator parent,
             PropertyInfo propertyInfo)
         {
-            var nestedContext = context.CreateForNestedProperty(propertyInfo);
+            EquivalencyValidationContext nestedContext = context.CreateForNestedProperty(propertyInfo);
             if (nestedContext != null)
             {
                 parent.AssertEqualityUsing(nestedContext);

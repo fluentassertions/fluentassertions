@@ -150,7 +150,7 @@ namespace FluentAssertions.Execution
                 if (!succeeded)
                 {
                     string message = ReplaceReasonTag(failureMessage);
-                    message = ReplaceContextTag(message);
+                    message = ReplaceTags(message);
                     message = BuildExceptionMessage(message, failureArgs);
 
                     verificationStrategy.HandleFailure(message);
@@ -182,10 +182,14 @@ namespace FluentAssertions.Execution
             return failureMessage;
         }
 
-        private string ReplaceContextTag(string message)
+        private string ReplaceTags(string message)
         {
-            var regex = new Regex(@"(?:\{context\:)([\w|\s]+)\}");
-            return regex.Replace(message, contextData.ContainsKey("context") ? contextData["context"] : "$1");
+            var regex = new Regex(@"\{(?<key>\w+)\:(?<default>[\w|\s]+)\}");
+            return regex.Replace(message, match =>
+            {
+                string key = match.Groups["key"].Value;
+                return contextData.ContainsKey(key) ? contextData[key ] : match.Groups["default"].Value;
+            });
         }
 
         private static string IncrementAllFormatSpecifiers(string message)

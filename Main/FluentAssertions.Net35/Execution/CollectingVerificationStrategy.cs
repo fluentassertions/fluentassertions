@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace FluentAssertions.Execution
 {
@@ -41,11 +42,18 @@ namespace FluentAssertions.Execution
         {
             if (failureMessages.Any())
             {
-                string message = string.Join(Environment.NewLine, failureMessages.ToArray()) +
-                    Environment.NewLine +
-                    context;
+                var builder = new StringBuilder();
+                builder.AppendLine(string.Join(Environment.NewLine, failureMessages.ToArray()));
+                
+                if (context.Any())
+                {
+                    foreach (KeyValuePair<string, string> pair in context)
+                    {
+                        builder.AppendFormat("\nWith {0}:\n\"{1}\"", pair.Key, pair.Value);
+                    }
+                }
 
-                AssertionHelper.Throw(message);
+                AssertionHelper.Throw(builder.ToString());
             }
         }
 

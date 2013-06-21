@@ -128,14 +128,6 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        /// <summary>
-        /// Gets a description of the subject as seen from the current context.
-        /// </summary>
-        public string SubjectDescription
-        {
-            get { return IsRoot ? "subject" : PropertyDescription; }
-        }
-
         internal void HandleCyclicReference()
         {
             if (Config.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)

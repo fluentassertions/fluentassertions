@@ -108,8 +108,8 @@ namespace FluentAssertions.Equivalency
                 {
                     using (var scope = new VerificationScope())
                     {
-                        parent.AssertEqualityUsing(context.CreateForCollectionItem(index, subjects[subjectIndex],
-                            expectations[index]));
+                        parent.AssertEqualityUsing(context.CreateForCollectionItem(
+                            index, subjects[subjectIndex], expectations[index]));
 
                         string[] failures = scope.Discard();
 
