@@ -26,24 +26,22 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
         {
-            if (ExpectationIsCollection(context.Expectation))
+            if (AssertExpectationIsCollection(context.Expectation))
             {
-                EnumerableEquivalencyValidator validator = new EnumerableEquivalencyValidator(parent, context)
+                var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
                     Recursive = context.IsRoot || context.Config.IsRecursive
                 };
 
-                validator.Validate(
-                    ((IEnumerable) context.Subject).Cast<object>().ToArray(),
-                    ((IEnumerable) context.Expectation).Cast<object>().ToArray());
+                validator.Validate(ToArray(context.Subject), ToArray(context.Expectation));
             }
 
             return true;
         }
 
-        private static bool ExpectationIsCollection(object expectation)
+        private static bool AssertExpectationIsCollection(object expectation)
         {
-            return VerificationScope.Current
+            return AssertionScope.Current
                 .ForCondition(IsCollection(expectation))
                 .FailWith("{context:Subject} is a collection and cannot be compared with a non-collection type.");
         }
@@ -51,6 +49,11 @@ namespace FluentAssertions.Equivalency
         private static bool IsCollection(object value)
         {
             return (!(value is string) && (value is IEnumerable));
+        }
+
+        private object[] ToArray(object value)
+        {
+            return ((IEnumerable) value).Cast<object>().ToArray();
         }
     }
 
@@ -85,7 +88,7 @@ namespace FluentAssertions.Equivalency
 
         private bool AssertLengthEquality(int subjectLength, int expectationLength)
         {
-            return VerificationScope.Current
+            return AssertionScope.Current
                 .ForCondition(subjectLength == expectationLength)
                 .FailWith("Expected {context:subject} to be a collection with {0} item(s){reason}, but found {1}.",
                     expectationLength, subjectLength);
@@ -118,13 +121,13 @@ namespace FluentAssertions.Equivalency
 
             foreach (string failure in results.SelectClosestMatchFor(expectationIndex))
             {
-                VerificationScope.Current.FailWith(failure);
+                AssertionScope.Current.FailWith(failure);
             }
         }
 
         private string[] TryToMatch(object subject, object expectation, int index)
         {
-            using (var scope = new VerificationScope())
+            using (var scope = new AssertionScope())
             {
                 parent.AssertEqualityUsing(context.CreateForCollectionItem(index, subject, expectation));
 

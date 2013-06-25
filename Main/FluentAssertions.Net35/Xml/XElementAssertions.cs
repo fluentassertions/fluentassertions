@@ -42,7 +42,7 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> Be(XElement expected, string reason, params object [] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Name.Equals(expected.Name))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element to be {0}{reason}, but found {1}", expected, Subject);
@@ -74,7 +74,7 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string reason, params object [] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!Subject.Name.Equals(unexpected.Name))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element not to be {0}{reason}.", unexpected);
@@ -142,14 +142,14 @@ namespace FluentAssertions.Xml
             XAttribute attribute = Subject.Attribute(expectedName);
             string expectedText = expectedName.ToString().Escape();
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(attribute != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(
                     "Expected XML element to have attribute \"" + expectedText + "\" with value {0}{reason}, but found no such attribute in {1}",
                     expectedValue, Subject);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(attribute.Value == expectedValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(
@@ -209,7 +209,7 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> HaveElement(XName expected, string reason, params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Element(expected) != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element {0} to have child element \"" + expected.ToString().Escape() + "\"{reason}" +

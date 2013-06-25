@@ -65,7 +65,7 @@ namespace FluentAssertions.Primitives
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith(
                         "Expected date and/or time {0} to be " + predicate.DisplayText +
@@ -95,7 +95,7 @@ namespace FluentAssertions.Primitives
 
             if (!predicate.IsMatchedBy(actual, timeSpan))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith(
                         "Expected date and/or time {0} to be " + predicate.DisplayText +

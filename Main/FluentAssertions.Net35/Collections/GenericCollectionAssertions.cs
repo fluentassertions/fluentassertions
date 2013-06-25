@@ -62,14 +62,14 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", expected, Subject);
             }
 
             if (!Subject.Contains(expected))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
             }
@@ -106,14 +106,14 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
             }
 
             if (!Subject.Any(item => predicate.Compile()(item)))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("{context:Collection} {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
             }
@@ -137,7 +137,7 @@ namespace FluentAssertions.Collections
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but the collection is empty.",
@@ -146,7 +146,7 @@ namespace FluentAssertions.Collections
             IEnumerable<T> mismatchingItems = Subject.Where(item => !compiledPredicate(item));
             if (mismatchingItems.Any())
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but {1} do(es) not match.",
                         predicate.Body, mismatchingItems);
@@ -170,14 +170,14 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:collection} not to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
             }
 
             if (Subject.Any(item => predicate.Compile()(item)))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("{context:Collection} {0} should not have any items matching {1}{reason}.", Subject, predicate.Body);
             }
@@ -205,13 +205,13 @@ namespace FluentAssertions.Collections
 
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith(expectationPrefix + "but found {0}.", Subject);
             }
 
             T[] actualItems = Subject.ToArray();
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(actualItems.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(expectationPrefix + "but the collection is empty.");
@@ -219,13 +219,13 @@ namespace FluentAssertions.Collections
             int count = actualItems.Count(predicate.Compile());
             if (count == 0)
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith(expectationPrefix + "but no such item was found.");
             }
             else if (count > 1)
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith(expectationPrefix + "but " + count + " such items were found.");
             }

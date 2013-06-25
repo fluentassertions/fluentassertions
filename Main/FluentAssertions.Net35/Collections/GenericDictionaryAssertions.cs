@@ -42,14 +42,14 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {0} item(s){reason}, but found {1}.", expected, Subject);
             }
 
             int actualCount = Subject.Count;
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition((actualCount == expected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:dictionary} {0} to have {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
@@ -78,7 +78,7 @@ namespace FluentAssertions.Collections
 
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to have {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
             }
@@ -89,7 +89,7 @@ namespace FluentAssertions.Collections
 
             if (!compiledPredicate(actualCount))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} {0} to have a count {1}{reason}, but count is {2}.",
                         Subject, countPredicate.Body, actualCount);
@@ -116,12 +116,12 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to be empty{reason}, but found {0}.", Subject);
             }
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!Subject.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:dictionary} to not have any items{reason}, but found {0}.", Subject.Count);
@@ -144,12 +144,12 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} not to be empty{reason}, but found {0}.", Subject);
             }
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected one or more items{reason}, but found none.");
@@ -179,7 +179,7 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but found {1}.", expected, Subject);
             }
@@ -194,7 +194,7 @@ namespace FluentAssertions.Collections
 
             if (missingKeys.Any())
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but could not find keys {1}.", expected,
                         missingKeys);
@@ -202,7 +202,7 @@ namespace FluentAssertions.Collections
 
             if (additionalKeys.Any())
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but found additional keys {1}.", expected,
                         additionalKeys);
@@ -210,7 +210,7 @@ namespace FluentAssertions.Collections
 
             foreach (var key in expected.Keys)
             {
-                Execute.Verification
+                Execute.Assertion
                     .ForCondition(Subject[key].IsSameOrEqualTo(expected[key]))
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to be equal to {0}{reason}, but {1} differs at key {2}.", 
@@ -238,7 +238,7 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected dictionaries not to be equal{reason}, but found {0}.", Subject);
             }
@@ -257,7 +257,7 @@ namespace FluentAssertions.Collections
 
             if (!foundDifference)
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Did not expect dictionaries {0} and {1} to be equal{reason}.", unexpected, Subject);
             }
@@ -326,7 +326,7 @@ namespace FluentAssertions.Collections
 
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", expected, Subject);
             }
@@ -336,14 +336,14 @@ namespace FluentAssertions.Collections
             {
                 if (expectedKeys.Count() > 1)
                 {
-                    Execute.Verification
+                    Execute.Assertion
                         .BecauseOf(reason, reasonArgs)
                         .FailWith("Expected {context:dictionary} {0} to contain key {1}{reason}, but could not find {2}.", Subject,
                             expected, missingKeys);
                 }
                 else
                 {
-                    Execute.Verification
+                    Execute.Assertion
                         .BecauseOf(reason, reasonArgs)
                         .FailWith("Expected {context:dictionary} {0} to contain key {1}{reason}.", Subject,
                             expected.Cast<object>().First());
@@ -374,14 +374,14 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} not to contain key {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
             if (Subject.ContainsKey(unexpected))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("{context:Dictionary} {0} should not contain key {1}{reason}, but found it anyhow.", Subject, unexpected);
             }
@@ -450,7 +450,7 @@ namespace FluentAssertions.Collections
 
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to contain value {0}{reason}, but found {1}.", expected, Subject);
             }
@@ -460,14 +460,14 @@ namespace FluentAssertions.Collections
             {
                 if (expectedValues.Count() > 1)
                 {
-                    Execute.Verification
+                    Execute.Assertion
                         .BecauseOf(reason, reasonArgs)
                         .FailWith("Expected {context:dictionary} {0} to contain value {1}{reason}, but could not find {2}.", Subject,
                             expected, missingValues);
                 }
                 else
                 {
-                    Execute.Verification
+                    Execute.Assertion
                         .BecauseOf(reason, reasonArgs)
                         .FailWith("Expected {context:dictionary} {0} to contain value {1}{reason}.", Subject,
                             expected.Cast<object>().First());
@@ -498,14 +498,14 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} not to contain value {0}{reason}, but found {1}.", unexpected, Subject);
             }
 
             if (Subject.Values.Contains(unexpected))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("{context:Dictionary} {0} should not contain value {1}{reason}, but found it anyhow.", Subject, unexpected);
             }
@@ -553,7 +553,7 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but dictionary is {2}.", value, key,
                         Subject);
@@ -563,14 +563,14 @@ namespace FluentAssertions.Collections
             {
                 TValue actual = Subject[key];
 
-                Execute.Verification
+                Execute.Assertion
                     .ForCondition(actual.IsSameOrEqualTo(value))
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but found {2}.", value, key, actual);
             }
             else
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to contain value {0} at key {1}{reason}, but the key was not found.", value,
                         key);
@@ -619,7 +619,7 @@ namespace FluentAssertions.Collections
         {
             if (ReferenceEquals(Subject, null))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but dictionary is {2}.", value,
                         key, Subject);
@@ -629,7 +629,7 @@ namespace FluentAssertions.Collections
             {
                 TValue actual = Subject[key];
 
-                Execute.Verification
+                Execute.Assertion
                     .ForCondition(!actual.IsSameOrEqualTo(value))
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow.", value, key);

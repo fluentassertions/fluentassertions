@@ -132,7 +132,7 @@ namespace FluentAssertions.Equivalency
         {
             if (Config.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(Reason, ReasonArgs)
                     .FailWith(
                         "Expected " + PropertyDescription + " to be {0}{reason}, but it contains a cyclic reference.",

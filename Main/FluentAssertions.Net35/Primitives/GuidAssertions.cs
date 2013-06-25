@@ -34,7 +34,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<GuidAssertions> BeEmpty(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition((Subject.HasValue) && (Subject.Value == Guid.Empty))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected empty Guid{reason}, but found {0}.", Subject);
@@ -54,7 +54,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<GuidAssertions> NotBeEmpty(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition((Subject.HasValue) && (Subject.Value != Guid.Empty))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect empty Guid{reason}.");
@@ -96,7 +96,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<GuidAssertions> Be(Guid expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Equals(expected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
@@ -117,7 +117,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<GuidAssertions> NotBe(Guid unexpected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect {context:Guid} to be {0}{reason}.", Subject);

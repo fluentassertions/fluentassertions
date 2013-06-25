@@ -31,7 +31,7 @@ namespace FluentAssertions.Primitives
         /// </param>      
         public AndConstraint<NullableSimpleTimeSpanAssertions> HaveValue(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a value{reason}.");
@@ -51,7 +51,7 @@ namespace FluentAssertions.Primitives
         /// </param>      
         public AndConstraint<NullableSimpleTimeSpanAssertions> NotHaveValue(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);

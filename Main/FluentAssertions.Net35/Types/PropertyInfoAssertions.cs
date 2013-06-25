@@ -60,7 +60,7 @@ namespace FluentAssertions.Types
                 : "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:\r\n" +
                     GetDescriptionsFor(nonVirtualProperties);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!nonVirtualProperties.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage);
@@ -82,7 +82,7 @@ namespace FluentAssertions.Types
         {
             foreach (var property in SubjectProperties)
             {
-                Execute.Verification
+                Execute.Assertion
                        .ForCondition(property.CanWrite)
                        .BecauseOf(reason, reasonArgs)
                        .FailWith("Expected {context:property} {0} to have a setter{reason}.", property);
@@ -126,7 +126,7 @@ namespace FluentAssertions.Types
                 : "Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:\r\n" +
                     GetDescriptionsFor(propertiesWithoutAttribute);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!propertiesWithoutAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage, typeof(TAttribute));

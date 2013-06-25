@@ -49,13 +49,13 @@ namespace FluentAssertions.Equivalency
 
         private static bool PreconditionsAreMet(EquivalencyValidationContext context, IDictionary expectation, IDictionary subject)
         {
-            bool success = VerificationScope.Current
+            bool success = AssertionScope.Current
                 .ForCondition(expectation != null)
                 .FailWith("{context:subject} is a dictionary and cannot be compared with a non-dictionary type.");
 
             if (success)
             {
-                success = VerificationScope.Current
+                success = AssertionScope.Current
                     .ForCondition(subject.Keys.Count == expectation.Keys.Count)
                     .FailWith("Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s).",
                                      expectation.Keys.Count, subject.Keys.Count);

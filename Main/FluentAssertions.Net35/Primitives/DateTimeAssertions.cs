@@ -37,7 +37,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> Be(DateTime expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:date and time} to be {0}{reason}, but found {1}.",
@@ -59,7 +59,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> NotBe(DateTime unexpected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value != unexpected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect {context:date and time} to be {0}{reason}.", unexpected);
@@ -93,7 +93,7 @@ namespace FluentAssertions.Primitives
            DateTime minimumValue = nearbyTime.AddMilliseconds(-precision);
            DateTime maximumValue = nearbyTime.AddMilliseconds(precision);
 
-           Execute.Verification
+           Execute.Assertion
                .ForCondition((Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
                .BecauseOf(reason, reasonArgs)
                .FailWith("Expected {context:date and time} to be within {0} ms from {1}{reason}, but found {2}.", precision, nearbyTime, Subject.Value);
@@ -114,7 +114,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> BeBefore(DateTime expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) < 0)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a {context:date and time} before {0}{reason}, but found {1}.", expected, Subject.Value);
@@ -135,7 +135,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> BeOnOrBefore(DateTime expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) <= 0)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a {context:date and time} on or before {0}{reason}, but found {1}.", expected, Subject.Value);
@@ -156,7 +156,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> BeAfter(DateTime expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) > 0)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a {context:date and time} after {0}{reason}, but found {1}.", expected, Subject.Value);
@@ -177,7 +177,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> BeOnOrAfter(DateTime expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) >= 0)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a {context:date and time} on or after {0}{reason}, but found {1}.", expected, Subject.Value);
@@ -198,7 +198,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> HaveYear(int expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.Year == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected year {0}{reason}, but found {1}.", expected, Subject.Value.Year);
@@ -219,7 +219,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> HaveMonth(int expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.Month == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected month {0}{reason}, but found {1}.", expected, Subject.Value.Month);
@@ -240,7 +240,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> HaveDay(int expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.Day == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected day {0}{reason}, but found {1}.", expected, Subject.Value.Day);
@@ -261,7 +261,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> HaveHour(int expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.Hour == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected hour {0}{reason}, but found {1}.", expected, Subject.Value.Hour);
@@ -282,7 +282,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> HaveMinute(int expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.Minute == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected minute {0}{reason}, but found {1}.", expected, Subject.Value.Minute);
@@ -303,7 +303,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> HaveSecond(int expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Value.Second == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected second {0}{reason}, but found {1}.", expected, Subject.Value.Second);

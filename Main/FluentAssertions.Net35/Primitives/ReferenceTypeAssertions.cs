@@ -34,7 +34,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeNull(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                    .ForCondition(ReferenceEquals(Subject, null))
                    .BecauseOf(reason, reasonArgs)
                    .FailWith("Expected {context:" + Context + "} to be <null>{reason}, but found {0}.", Subject);
@@ -54,7 +54,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBeNull(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                    .ForCondition(!ReferenceEquals(Subject, null))
                    .BecauseOf(reason, reasonArgs)
                    .FailWith("Expected {context:" + Context + "} not to be <null>{reason}.");
@@ -89,7 +89,7 @@ namespace FluentAssertions.Primitives
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> BeAssignableTo<T>(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                    .ForCondition(
 #if !WINRT
                 typeof(T).IsAssignableFrom(Subject.GetType())
@@ -136,7 +136,7 @@ namespace FluentAssertions.Primitives
                 throw new NullReferenceException("Cannot match an object against a <null> predicate.");
             }
 
-            Execute.Verification
+            Execute.Assertion
                    .ForCondition(predicate.Compile()((T)Subject))
                    .BecauseOf(reason, reasonArgs)
                    .FailWith("Expected {0} to match {1}{reason}.", Subject, predicate.Body);

@@ -61,7 +61,7 @@ namespace FluentAssertions.Types
                 : "Expected all selected methods to be virtual{reason}, but the following methods are" + " not virtual:\r\n" +
                     GetDescriptionsFor(nonVirtualMethods);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!nonVirtualMethods.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage);
@@ -99,7 +99,7 @@ namespace FluentAssertions.Types
                 : "Expected all selected methods to be decorated with {0}{reason}, but the" + " following methods are not:\r\n" +
                     GetDescriptionsFor(methodsWithoutAttribute);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!methodsWithoutAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage, typeof(TAttribute));
@@ -132,7 +132,7 @@ namespace FluentAssertions.Types
                 : "Expected all selected methods to be decorated with {0}{reason}, but the" + " following methods are not:\r\n" +
                     GetDescriptionsFor(methodsWithoutAttribute);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!methodsWithoutAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage, typeof(TAttribute));

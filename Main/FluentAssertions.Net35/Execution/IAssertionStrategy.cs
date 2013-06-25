@@ -3,17 +3,17 @@
 namespace FluentAssertions.Execution
 {
     /// <summary>
-    /// Defines a strategy for handling failures in a <see cref="VerificationScope"/>.
+    /// Defines a strategy for handling failures in a <see cref="AssertionScope"/>.
     /// </summary>
-    internal interface IVerificationStrategy
+    internal interface IAssertionStrategy
     {
         /// <summary>
-        /// Returns the messages for the verification failures that happened until now.
+        /// Returns the messages for the assertion failures that happened until now.
         /// </summary>
         IEnumerable<string> FailureMessages { get; }
 
         /// <summary>
-        /// Instructs the strategy to handle a verification failure.
+        /// Instructs the strategy to handle a assertion failure.
         /// </summary>
         void HandleFailure(string message);
 

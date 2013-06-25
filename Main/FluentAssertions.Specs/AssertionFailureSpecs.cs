@@ -110,7 +110,7 @@ namespace FluentAssertions.Specs
         {
             public void AssertFail(string reason, params object [] reasonArgs)
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected it to fail{reason}");
             }

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace FluentAssertions.Execution
 {
-    internal class CollectingVerificationStrategy : IVerificationStrategy
+    internal class CollectingAssertionStrategy : IAssertionStrategy
     {
         private readonly List<string> failureMessages = new List<string>();
 
-        public CollectingVerificationStrategy(IVerificationStrategy parent)
+        public CollectingAssertionStrategy(IAssertionStrategy parent)
         {
             if (parent != null)
             {
@@ -18,7 +18,7 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Returns the messages for the verification failures that happened until now.
+        /// Returns the messages for the assertion failures that happened until now.
         /// </summary>
         public IEnumerable<string> FailureMessages
         {
@@ -58,7 +58,7 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Instructs the strategy to handle a verification failure.
+        /// Instructs the strategy to handle a assertion failure.
         /// </summary>
         public void HandleFailure(string message)
         {

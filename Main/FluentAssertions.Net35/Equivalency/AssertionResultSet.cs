@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Represents a collection of verification results obtained through a <see cref="VerificationScope"/>.
+    /// Represents a collection of assertion results obtained through a <see cref="AssertionScope"/>.
     /// </summary>
     internal class AssertionResultSet
     {
@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Adds the failures (if any) resulting from executing an assertion within a
-        ///  <see cref="VerificationScope"/> identified by a key. 
+        ///  <see cref="AssertionScope"/> identified by a key. 
         /// </summary>
         public void AddSet(int key, string[] failures)
         {

@@ -18,13 +18,13 @@ namespace FluentAssertions.Primitives
         {
             if ((expected.Length > subject.Length) && expected.TrimEnd().Equals(subject, comparisonMode))
             {
-                verification.FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.",
+                assertion.FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.",
                     expected, subject);
             }
 
             if ((subject.Length > expected.Length) && subject.TrimEnd().Equals(expected, comparisonMode))
             {
-                verification.FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected,
+                assertion.FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected,
                     subject);
             }
         }
@@ -33,7 +33,7 @@ namespace FluentAssertions.Primitives
         {
             if (subject.Length != expected.Length)
             {
-                verification.FailWith(
+                assertion.FailWith(
                     ExpectationDescription + "{0} with a length of {1}{reason}, but {2} has a length of {3}.", 
                     expected, expected.Length, subject, subject.Length);
             }
@@ -44,7 +44,7 @@ namespace FluentAssertions.Primitives
             int indexOfMismatch = subject.IndexOfFirstMismatch(expected, comparisonMode);
             if (indexOfMismatch != -1)
             {
-                verification.FailWith(
+                assertion.FailWith(
                     ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
                     expected, subject);
             }

@@ -45,7 +45,7 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> Be(XDocument expected, string reason, params object [] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML document to be {0}{reason}, but found {1}", expected, Subject);
@@ -77,12 +77,12 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> NotBe(XDocument unexpected, string reason, params object [] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect XML document to be {0}, but found <null>.", unexpected);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect XML document to be {0}{reason}.", unexpected);
@@ -143,7 +143,7 @@ namespace FluentAssertions.Xml
         {
             XElement root = Subject.Root;
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition((root != null) && (root.Name == expected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML document to have root element \"" + expected.ToString().Escape() + "\"{reason}" +
@@ -212,13 +212,13 @@ namespace FluentAssertions.Xml
         public AndConstraint<XDocumentAssertions> HaveElement(XName expected, string reason, params object[] reasonArgs)
         {
             string expectedText = expected.ToString().Escape();
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Root != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML document {0} to have root element with child \"" + expectedText + "\"{reason}" +
                     ", but XML document has no Root element.", Subject);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.Root.Element(expected) != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML document {0} to have root element with child \"" + expectedText + "\"{reason}" +

@@ -39,7 +39,7 @@ namespace FluentAssertions.Primitives
             bool isMatch = subject.StartsWith(expected, stringComparison);
             if (isMatch)
             {
-                verification.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
+                assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.",
                     expected, subject);
             }
         }

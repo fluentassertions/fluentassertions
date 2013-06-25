@@ -33,7 +33,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == Equal))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
@@ -56,7 +56,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> NotBe(T expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) != Equal)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect object to be equal to {0}{reason}.", expected);
@@ -79,7 +79,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeLessThan(T expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) < Equal)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected object {0} to be less than {1}{reason}.", Subject, expected);
@@ -102,7 +102,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeLessOrEqualTo(T expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) <= Equal)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected object {0} to be less or equal to {1}{reason}.", Subject, expected);
@@ -125,7 +125,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan(T expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) > Equal)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected object {0} to be greater than {1}{reason}.", Subject, expected);
@@ -148,7 +148,7 @@ namespace FluentAssertions.Numeric
         /// </param>
         public AndConstraint<ComparableTypeAssertions<T>> BeGreaterOrEqualTo(T expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) >= Equal)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected object {0} to be greater or equal to {1}{reason}.", Subject, expected);
@@ -178,7 +178,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<ComparableTypeAssertions<T>> BeInRange(T minimumValue, T maximumValue, string reason = "",
             params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected object to be between {0} and {1}{reason}, but found {2}.",

@@ -39,7 +39,7 @@ namespace FluentAssertions.Primitives
         {
             if (subject.Length < expected.Length)
             {
-                verification.FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject);
+                assertion.FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject);
             }
         }
 
@@ -50,7 +50,7 @@ namespace FluentAssertions.Primitives
             {
                 int indexOfMismatch = subject.IndexOfFirstMismatch(expected, stringComparison);
 
-                verification.FailWith(
+                assertion.FailWith(
                     ExpectationDescription + "{0}{reason}, but {1} differs near " + subject.IndexedSegmentAt(indexOfMismatch) + ".",
                     expected, subject);
             }

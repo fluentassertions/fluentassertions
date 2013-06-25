@@ -35,7 +35,7 @@ namespace FluentAssertions.Equivalency
 
         public void AssertEquality(EquivalencyValidationContext context)
         {
-            using (var scope = new VerificationScope())
+            using (var scope = new AssertionScope())
             {
                 scope.AddContext("configuration", context.Config.ToString());
                 scope.BecauseOf(context.Reason, context.ReasonArgs);
@@ -46,7 +46,7 @@ namespace FluentAssertions.Equivalency
 
         public void AssertEqualityUsing(EquivalencyValidationContext context)
         {
-            VerificationScope.Current.AddContext("context", context.IsRoot ? "subject" : context.PropertyDescription);
+            AssertionScope.Current.AddContext("context", context.IsRoot ? "subject" : context.PropertyDescription);
 
             if (!context.ContainsCyclicReference)
             {

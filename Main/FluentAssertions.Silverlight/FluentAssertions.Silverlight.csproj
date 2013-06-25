@@ -164,19 +164,19 @@
     <Compile Include="..\FluentAssertions.Net35\Events\RecordedEvent.cs">
       <Link>Events\RecordedEvent.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\CollectingVerificationStrategy.cs">
+    <Compile Include="..\FluentAssertions.Net35\Execution\CollectingAssertionStrategy.cs">
       <Link>Execution\CollectingVerificationStrategy.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\DefaultVerificationStrategy.cs">
+    <Compile Include="..\FluentAssertions.Net35\Execution\DefaultAssertionStrategy.cs">
       <Link>Execution\DefaultVerificationStrategy.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\Execute.cs">
       <Link>Execution\Execute.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\IVerificationStrategy.cs">
+    <Compile Include="..\FluentAssertions.Net35\Execution\IAssertionStrategy.cs">
       <Link>Execution\IVerificationStrategy.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\VerificationScope.cs">
+    <Compile Include="..\FluentAssertions.Net35\Execution\AssertionScope.cs">
       <Link>Execution\VerificationScope.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\FluentDateTimeExtensions.cs">

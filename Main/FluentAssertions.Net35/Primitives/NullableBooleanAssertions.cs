@@ -27,7 +27,7 @@ namespace FluentAssertions.Primitives
         /// </param>      
         public AndConstraint<NullableBooleanAssertions> HaveValue(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a value{reason}.");
@@ -47,7 +47,7 @@ namespace FluentAssertions.Primitives
         /// </param>      
         public AndConstraint<NullableBooleanAssertions> NotHaveValue(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
@@ -68,7 +68,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<BooleanAssertions> Be(bool? expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);

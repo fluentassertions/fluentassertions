@@ -49,7 +49,7 @@ namespace FluentAssertions.Types
                 .Where(type => !type.IsDecoratedWith<TAttribute>())
                 .ToArray();
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!typesWithoutAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected all types to be decorated with {0}{reason}," +
@@ -80,7 +80,7 @@ namespace FluentAssertions.Types
                 .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate))
                 .ToArray();
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!typesWithoutMatchingAttribute.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected all types to be decorated with {0} that matches {1}{reason}," +

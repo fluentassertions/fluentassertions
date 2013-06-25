@@ -40,7 +40,7 @@ namespace FluentAssertions.Equivalency
             {
                 string path = (propertyPath.Length > 0) ? propertyPath + "." : "property ";
 
-                Execute.Verification.FailWith(
+                Execute.Assertion.FailWith(
                     "Subject has " + path + subjectProperty.Name + " that the other object does not have.");
             }
 

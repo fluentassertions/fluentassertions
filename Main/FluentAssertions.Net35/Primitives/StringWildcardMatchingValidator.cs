@@ -15,12 +15,12 @@ namespace FluentAssertions.Primitives
         {
             if (!IsMatch && !Negate)
             {
-                verification.FailWith(ExpectationDescription + "but {1} does not match.", expected, subject);
+                assertion.FailWith(ExpectationDescription + "but {1} does not match.", expected, subject);
             }
 
             if (IsMatch && Negate)
             {
-                verification.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
+                assertion.FailWith(ExpectationDescription + "but {1} matches.", expected, subject);
             }
         }
 

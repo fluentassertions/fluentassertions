@@ -27,7 +27,7 @@ namespace FluentAssertions.Primitives
         /// </param>      
         public AndConstraint<NullableGuidAssertions> HaveValue(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected a value{reason}.");
@@ -47,7 +47,7 @@ namespace FluentAssertions.Primitives
         /// </param>      
         public AndConstraint<NullableGuidAssertions> NotHaveValue(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
@@ -68,7 +68,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<NullableGuidAssertions> Be(Guid? expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);

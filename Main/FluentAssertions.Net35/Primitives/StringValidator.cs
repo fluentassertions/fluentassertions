@@ -12,14 +12,14 @@ namespace FluentAssertions.Primitives
 
         protected readonly string subject;
         protected readonly string expected;
-        protected VerificationScope verification;
+        protected AssertionScope assertion;
         private const int HumanReadableLength = 8;
 
         #endregion
 
         protected StringValidator(string subject, string expected, string reason, object[] reasonArgs)
         {
-            verification = Execute.Verification.BecauseOf(reason, reasonArgs);
+            assertion = Execute.Assertion.BecauseOf(reason, reasonArgs);
 
             this.subject = subject;
             this.expected = expected;
@@ -34,7 +34,7 @@ namespace FluentAssertions.Primitives
 
                     if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
                     {
-                        verification = verification.UsingLineBreaks;
+                        assertion = assertion.UsingLineBreaks;
                     }
 
                     ValidateAgainstSuperfluousWhitespace();
@@ -48,7 +48,7 @@ namespace FluentAssertions.Primitives
         {
             if (((expected == null) && (subject != null)) || ((expected != null) && (subject == null)))
             {
-                verification.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
+                assertion.FailWith(ExpectationDescription + "{0}{reason}, but found {1}.", expected, subject);
                 return false;
             }
 

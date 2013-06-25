@@ -133,7 +133,7 @@ namespace FluentAssertions
 
             if (!eventRecorder.Any())
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", eventSource, eventName);
             }
@@ -189,7 +189,7 @@ namespace FluentAssertions
 
             if (eventRecorder.Any())
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", eventSource, eventName);
             }
@@ -238,7 +238,7 @@ namespace FluentAssertions
 
             if (!eventRecorder.Any())
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not.",
                     eventSource, PropertyChangedEventName, propertyName);
@@ -288,7 +288,7 @@ namespace FluentAssertions
 
             if (eventRecorder.Any(@event => GetAffectedPropertyName(@event) == propertyName))
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
                         eventSource, PropertyChangedEventName, propertyName);
@@ -333,7 +333,7 @@ namespace FluentAssertions
                 }
 
                 object actualSender = recordedEvent.Parameters.First();
-                Execute.Verification
+                Execute.Assertion
                     .ForCondition(ReferenceEquals(actualSender, expectedSender))
                     .FailWith("Expected sender {0}, but found {1}.", expectedSender, actualSender);
             }
@@ -355,7 +355,7 @@ namespace FluentAssertions
 
             if (!eventRecorder.Any(@event => compiledPredicate(@event.Parameters.OfType<T>().Single())))
             {
-                Execute.Verification
+                Execute.Assertion
                     .FailWith("Expected at least one event with arguments matching {0}, but found none.", predicate.Body);
             }
 

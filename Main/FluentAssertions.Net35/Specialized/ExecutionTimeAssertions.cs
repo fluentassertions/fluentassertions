@@ -46,7 +46,7 @@ namespace FluentAssertions.Specialized
         {
             if (executionTime > maxDuration)
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Execution of " + ActionDescription + " should not exceed {0}{reason}, but it required {1}",
                         maxDuration, executionTime);

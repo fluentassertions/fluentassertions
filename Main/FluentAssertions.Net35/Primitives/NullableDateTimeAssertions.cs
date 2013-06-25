@@ -31,7 +31,7 @@ namespace FluentAssertions.Primitives
         /// </param>      
         public AndConstraint<NullableDateTimeAssertions> HaveValue(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected variable to have a value{reason}, but found {0}", Subject);
@@ -51,7 +51,7 @@ namespace FluentAssertions.Primitives
         /// </param>      
         public AndConstraint<NullableDateTimeAssertions> NotHaveValue(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect variable to have a value{reason}, but found {0}", Subject);
@@ -72,7 +72,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeAssertions> Be(DateTime? expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);

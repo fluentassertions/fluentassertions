@@ -79,9 +79,9 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, ComparisonMode comparisonMode,
             string reason = "", params object[] reasonArgs)
         {
-            VerificationScope verification = Execute.Verification.BecauseOf(reason, reasonArgs).UsingLineBreaks;
+            AssertionScope assertion = Execute.Assertion.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
-            verification.ForCondition(Subject != null).FailWith(
+            assertion.ForCondition(Subject != null).FailWith(
                 "Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
 
             ExceptionMessageAssertion messageAssertion = outerMessageAssertions[comparisonMode];
@@ -108,24 +108,24 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string reason,
             params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof (TInnerException));
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.InnerException != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
                     typeof (TInnerException));
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.InnerException != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
                     typeof (TInnerException));
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.InnerException is TInnerException)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected inner {0}{reason}, but found {1}.", typeof (TInnerException), Subject.InnerException);
@@ -170,15 +170,15 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage,
             ComparisonMode comparisonMode, string reason, params object[] reasonArgs)
         {
-            VerificationScope verification = Execute.Verification
+            AssertionScope assertion = Execute.Assertion
                 .BecauseOf(reason, reasonArgs)
                 .UsingLineBreaks;
 
-            verification
+            assertion
                 .ForCondition(Subject != null)
                 .FailWith("Expected inner exception{reason}, but no exception was thrown.");
 
-            verification
+            assertion
                 .ForCondition(Subject.InnerException != null)
                 .FailWith("Expected inner exception{reason}, but the thrown exception has no inner exception.");
 
@@ -207,7 +207,7 @@ namespace FluentAssertions.Specialized
             string reason = "", params object[] reasonArgs)
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(condition((TException) Subject))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected exception where {0}{reason}, but the condition was not met by:\r\n\r\n{1}",
@@ -310,7 +310,7 @@ namespace FluentAssertions.Specialized
 
             public void Execute(string actual, string expectation, string reason, params object[] reasonArgs)
             {
-                using (var scope = new VerificationScope())
+                using (var scope = new AssertionScope())
                 {
                     scope.AddContext("context", subjectName);
                     

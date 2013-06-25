@@ -31,7 +31,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<ObjectAssertions> Be(object expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .BecauseOf(reason, reasonArgs)
                 .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .FailWith("Expected {context:object} to be {0}{reason}, but found {1}.", expected,
@@ -53,7 +53,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<ObjectAssertions> NotBe(object unexpected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
@@ -74,7 +74,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .UsingLineBreaks
                 .ForCondition(ReferenceEquals(Subject, expected))
                 .BecauseOf(reason, reasonArgs)
@@ -96,7 +96,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<ObjectAssertions> NotBeSameAs(object unexpected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .UsingLineBreaks
                 .ForCondition(!ReferenceEquals(Subject, unexpected))
                 .BecauseOf(reason, reasonArgs)
@@ -128,7 +128,7 @@ namespace FluentAssertions.Primitives
             }
             catch (Exception exc)
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:\r\n\r\n{1}", Subject,
                         exc.Message);
@@ -168,7 +168,7 @@ namespace FluentAssertions.Primitives
             }
             catch (Exception exc)
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:\r\n\r\n{1}", Subject,
                         exc.Message);

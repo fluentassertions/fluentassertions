@@ -31,7 +31,7 @@ namespace FluentAssertions.Equivalency
 
             if (ReferenceEquals(context.Expectation, null))
             {
-                VerificationScope.Current.FailWith(
+                AssertionScope.Current.FailWith(
                     "Expected {context:subject} to be {0}{reason}, but found {1}.", context.Expectation, context.Subject);
 
                 return true;

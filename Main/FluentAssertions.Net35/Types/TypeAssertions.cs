@@ -54,7 +54,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<TypeAssertions> Be(Type expected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(GetFailureMessageIfTypesAreDifferent(Subject, expected));
@@ -117,7 +117,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<TypeAssertions> NotBe(Type unexpected, string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject != unexpected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected type not to be [" + unexpected.AssemblyQualifiedName + "]{reason}.");
@@ -137,7 +137,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.IsDecoratedWith<TAttribute>())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1}{reason}, but the attribute was not found.",
@@ -165,7 +165,7 @@ namespace FluentAssertions.Types
         {
             BeDecoratedWith<TAttribute>(reason, reasonArgs);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",

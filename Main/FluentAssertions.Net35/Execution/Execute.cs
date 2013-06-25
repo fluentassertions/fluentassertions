@@ -6,11 +6,11 @@
     public static class Execute
     {
         /// <summary>
-        /// Gets an object that wraps and executes a conditional or unconditional verification.
+        /// Gets an object that wraps and executes a conditional or unconditional assertion.
         /// </summary>
-        public static VerificationScope Verification
+        public static AssertionScope Assertion
         {
-            get { return VerificationScope.Current; }
+            get { return AssertionScope.Current; }
         }
     }
 }

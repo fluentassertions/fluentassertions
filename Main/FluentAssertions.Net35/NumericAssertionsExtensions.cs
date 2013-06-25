@@ -30,7 +30,7 @@ namespace FluentAssertions
             float expectedValue, float precision, string reason = "",
             params object [] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected value to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
@@ -66,7 +66,7 @@ namespace FluentAssertions
 
             if (actualDifference > precision)
             {
-                Execute.Verification
+                Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected value {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.",
                         parent.Subject, expectedValue, precision, actualDifference);
@@ -96,7 +96,7 @@ namespace FluentAssertions
             double expectedValue, double precision, string reason = "",
             params object [] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected value to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
@@ -130,7 +130,7 @@ namespace FluentAssertions
         {
             double actualDifference = Math.Abs(expectedValue - (double) parent.Subject);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(actualDifference <= precision)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected value {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.",
@@ -160,7 +160,7 @@ namespace FluentAssertions
             decimal expectedValue, decimal precision, string reason = "",
             params object[] reasonArgs)
         {
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected value to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
@@ -194,7 +194,7 @@ namespace FluentAssertions
         {
             decimal actualDifference = Math.Abs(expectedValue - (decimal)parent.Subject);
 
-            Execute.Verification
+            Execute.Assertion
                 .ForCondition(actualDifference <= precision)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected value {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.",

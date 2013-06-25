@@ -2,10 +2,10 @@
 
 namespace FluentAssertions.Execution
 {
-    internal class DefaultVerificationStrategy : IVerificationStrategy
+    internal class DefaultAssertionStrategy : IAssertionStrategy
     {
         /// <summary>
-        /// Returns the messages for the verification failures that happened until now.
+        /// Returns the messages for the assertion failures that happened until now.
         /// </summary>
         public IEnumerable<string> FailureMessages
         {
@@ -16,7 +16,7 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Instructs the strategy to handle a verification failure.
+        /// Instructs the strategy to handle a assertion failure.
         /// </summary>
         public void HandleFailure(string message)
         {

@@ -9,13 +9,13 @@ using FluentAssertions.Formatting;
 namespace FluentAssertions.Execution
 {
     /// <summary>
-    /// Provides a fluent API for verifying an arbitrary condition.
+    /// Represents an implicit or explicit scope within which multiple assertions can be collected.
     /// </summary>
-    public class VerificationScope : IDisposable
+    public class AssertionScope : IDisposable
     {
         #region Private Definitions
 
-        private readonly IVerificationStrategy verificationStrategy;
+        private readonly IAssertionStrategy _assertionStrategy;
         private readonly Dictionary<string, string> contextData = new Dictionary<string, string>();
         
         private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
@@ -30,38 +30,38 @@ namespace FluentAssertions.Execution
         private bool useLineBreaks;
 
         [ThreadStatic]
-        private static VerificationScope current;
+        private static AssertionScope current;
 
         [ThreadStatic]
-        private static VerificationScope parentScope;
+        private static AssertionScope parentScope;
 
-        internal static VerificationScope Current
+        internal static AssertionScope Current
         {
-            get { return current ?? new VerificationScope(new DefaultVerificationStrategy()); }
+            get { return current ?? new AssertionScope(new DefaultAssertionStrategy()); }
             set { current = value; }
         }
 
         #endregion
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VerificationScope"/> class.
+        /// Initializes a new instance of the <see cref="AssertionScope"/> class.
         /// </summary>
-        internal VerificationScope() : this(new CollectingVerificationStrategy((current != null) ? current.verificationStrategy : null))
+        internal AssertionScope() : this(new CollectingAssertionStrategy((current != null) ? current._assertionStrategy : null))
         {
             parentScope = current;
             current = this;
         }
 
-        private VerificationScope(IVerificationStrategy verificationStrategy)
+        private AssertionScope(IAssertionStrategy _assertionStrategy)
         {
-            this.verificationStrategy = verificationStrategy;
+            this._assertionStrategy = _assertionStrategy;
             parentScope = null;
         }
 
         /// <summary>
         /// Indicates that every argument passed into <see cref="FailWith"/> is displayed on a separate line.
         /// </summary>
-        public VerificationScope UsingLineBreaks
+        public AssertionScope UsingLineBreaks
         {
             get
             {
@@ -73,8 +73,8 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Specify the condition that must be satisfied.
         /// </summary>
-        /// <param name="condition">If <c>true</c> the verification will be succesful.</param>
-        public VerificationScope ForCondition(bool condition)
+        /// <param name="condition">If <c>true</c> the assertion will be succesful.</param>
+        public AssertionScope ForCondition(bool condition)
         {
             succeeded = condition;
             return this;
@@ -90,7 +90,7 @@ namespace FluentAssertions.Execution
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public VerificationScope BecauseOf(string reason, params object[] reasonArgs)
+        public AssertionScope BecauseOf(string reason, params object[] reasonArgs)
         {
             this.reason = SanitizeReason(reason, reasonArgs);
             return this;
@@ -134,7 +134,7 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Define the failure message for the verification.
+        /// Define the failure message for the assertion.
         /// </summary>
         /// <remarks>
         /// If the <paramref name="failureMessage"/> contains the text "{reason}", this will be replaced by the reason as
@@ -153,7 +153,7 @@ namespace FluentAssertions.Execution
                     message = ReplaceTags(message);
                     message = BuildExceptionMessage(message, failureArgs);
 
-                    verificationStrategy.HandleFailure(message);
+                    _assertionStrategy.HandleFailure(message);
                 }
 
                 return succeeded;
@@ -229,7 +229,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public string[] Discard()
         {
-            return verificationStrategy.DiscardFailures().ToArray();
+            return _assertionStrategy.DiscardFailures().ToArray();
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace FluentAssertions.Execution
             Current = parentScope;
             parentScope = null;
 
-            verificationStrategy.ThrowIfAny(contextData);
+            _assertionStrategy.ThrowIfAny(contextData);
         }
     }
 }
