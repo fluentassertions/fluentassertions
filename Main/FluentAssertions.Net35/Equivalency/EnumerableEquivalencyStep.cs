@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -9,7 +7,7 @@ namespace FluentAssertions.Equivalency
     public class EnumerableEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
-        /// Gets a value indicating whether this step can handle the current subject and/or expectation.
+        /// Gets a value indicating whether this step can handle the verificationScope subject and/or expectation.
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context)
         {
@@ -30,12 +28,14 @@ namespace FluentAssertions.Equivalency
         {
             if (ExpectationIsCollection(context.Expectation))
             {
-                var validator = new EnumerableEquivalencyValidator(parent, context)
+                EnumerableEquivalencyValidator validator = new EnumerableEquivalencyValidator(parent, context)
                 {
                     Recursive = context.IsRoot || context.Config.IsRecursive
                 };
 
-                validator.Validate((IEnumerable)context.Subject, (IEnumerable)context.Expectation);
+                validator.Validate(
+                    ((IEnumerable) context.Subject).Cast<object>().ToArray(),
+                    ((IEnumerable) context.Expectation).Cast<object>().ToArray());
             }
 
             return true;
@@ -68,74 +68,67 @@ namespace FluentAssertions.Equivalency
 
         public bool Recursive { get; set; }
 
-        public void Validate(IEnumerable subject, IEnumerable expectation)
+        public void Validate(object[] subject, object[] expectation)
         {
-            if (HaveSameLength(subject, expectation))
+            if (AssertLengthEquality(subject.Length, expectation.Length))
             {
-                AssertElementsAreEquivalent(subject, expectation);
+                if (Recursive)
+                {
+                    AssertElementGraphEquivalency(subject, expectation);
+                }
+                else
+                {
+                    subject.Should().Equal(expectation);
+                }
             }
         }
 
-        private bool HaveSameLength(IEnumerable subject, IEnumerable expectation)
+        private bool AssertLengthEquality(int subjectLength, int expectationLength)
         {
-            int subjectLength = subject.Cast<object>().Count();
-            int expectationLength = expectation.Cast<object>().Count();
-
             return VerificationScope.Current
                 .ForCondition(subjectLength == expectationLength)
                 .FailWith("Expected {context:subject} to be a collection with {0} item(s){reason}, but found {1}.",
                     expectationLength, subjectLength);
         }
 
-        private void AssertElementsAreEquivalent(IEnumerable subject, IEnumerable expectation)
-        {
-            if (Recursive)
-            {
-                AssertElementGraphEquivalency(subject.Cast<object>().ToArray(), expectation.Cast<object>().ToArray());
-            }
-            else
-            {
-                subject.Should().Equal(expectation);
-            }
-        }
-
         private void AssertElementGraphEquivalency(object[] subjects, object[] expectations)
         {
             for (int index = 0; index < expectations.Length; index++)
             {
-                var results = new Dictionary<int, IEnumerable<string>>();
-                for (int subjectIndex = 0; subjectIndex < subjects.Length; subjectIndex++)
+                object expectation = expectations[index];
+
+                LooselyMatchAgainst(subjects, expectation, index);
+            }
+        }
+
+        private void LooselyMatchAgainst(object[] subjects, object expectation, int expectationIndex)
+        {
+            var results = new AssertionResultSet();
+
+            for (int index = 0; index < subjects.Length; index++)
+            {
+                object subject = subjects[index];
+
+                results.AddSet(index, TryToMatch(subject, expectation, expectationIndex));
+                if (results.ContainsSuccessfulSet)
                 {
-                    using (var scope = new VerificationScope())
-                    {
-                        parent.AssertEqualityUsing(context.CreateForCollectionItem(
-                            index, subjects[subjectIndex], expectations[index]));
-
-                        string[] failures = scope.Discard();
-
-                        results[subjectIndex] = failures;
-
-                        if (!failures.Any())
-                        {
-                            break;
-                        }
-                    }
+                    break;
                 }
+            }
 
-                if (results.All(v => v.Value.Any()))
-                {
-                    int fewestFailures = results.Values.Min(r => r.Count());
-                    var bestResults = results.Where(r => r.Value.Count() == fewestFailures).ToArray();
+            foreach (string failure in results.SelectClosestMatchFor(expectationIndex))
+            {
+                VerificationScope.Current.FailWith(failure);
+            }
+        }
 
-                    var bestMatch = (bestResults.Any(r => r.Key == index))
-                        ? bestResults.Single(r => r.Key == index)
-                        : bestResults.First();
+        private string[] TryToMatch(object subject, object expectation, int index)
+        {
+            using (var scope = new VerificationScope())
+            {
+                parent.AssertEqualityUsing(context.CreateForCollectionItem(index, subject, expectation));
 
-                    foreach (string failure in bestMatch.Value)
-                    {
-                        VerificationScope.Current.FailWith(failure);
-                    }
-                }
+                return scope.Discard();
             }
         }
     }

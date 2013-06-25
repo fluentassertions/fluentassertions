@@ -77,6 +77,9 @@
     <Compile Include="..\FluentAssertions.Net35\Common\TypeExtensions.cs">
       <Link>Common\TypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Equivalency\AssertionResultSet.cs">
+      <Link>Equivalency\AssertionResultSet.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Equivalency\DictionaryEquivalencyStep.cs">
       <Link>Equivalency\DictionaryEquivalencyStep.cs</Link>
     </Compile>
