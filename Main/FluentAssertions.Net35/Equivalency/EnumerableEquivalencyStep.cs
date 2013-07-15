@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -9,7 +10,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a value indicating whether this step can handle the verificationScope subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context)
+        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             return IsCollection(context.Subject);
         }
@@ -24,13 +25,13 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
+        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             if (AssertExpectationIsCollection(context.Expectation))
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
-                    Recursive = context.IsRoot || context.Config.IsRecursive
+                    Recursive = context.IsRoot || config.IsRecursive
                 };
 
                 validator.Validate(ToArray(context.Subject), ToArray(context.Expectation));
@@ -53,7 +54,7 @@ namespace FluentAssertions.Equivalency
 
         private object[] ToArray(object value)
         {
-            return ((IEnumerable) value).Cast<object>().ToArray();
+            return ((IEnumerable)value).Cast<object>().ToArray();
         }
     }
 
@@ -125,11 +126,11 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private string[] TryToMatch(object subject, object expectation, int index)
+        private string[] TryToMatch(object subject, object expectation, int expectationIndex)
         {
             using (var scope = new AssertionScope())
             {
-                parent.AssertEqualityUsing(context.CreateForCollectionItem(index, subject, expectation));
+                parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex, subject, expectation));
 
                 return scope.Discard();
             }

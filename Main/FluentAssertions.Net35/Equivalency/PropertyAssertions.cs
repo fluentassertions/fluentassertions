@@ -142,13 +142,16 @@ namespace FluentAssertions.Equivalency
         /// </param>
         public void EqualTo(object expectation, string reason = "", params object[] reasonArgs)
         {
-            var context = new EquivalencyValidationContext(config);
-            context.Subject = subject;
-            context.Expectation = expectation;
-            context.CompileTimeType = typeof(T);
-            context.Reason = reason;
-            context.ReasonArgs = reasonArgs;
-            new EquivalencyValidator().AssertEquality(context);
+            var context = new EquivalencyValidationContext
+            {
+                Subject = subject,
+                Expectation = expectation,
+                CompileTimeType = typeof (T),
+                Reason = reason,
+                ReasonArgs = reasonArgs
+            };
+
+            new EquivalencyValidator(config).AssertEquality(context);
         }
     }
 }

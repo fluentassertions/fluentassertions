@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
 {
@@ -38,7 +39,7 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
         /// </summary>
-        public void ThrowIfAny(IDictionary<string, string> context)
+        public void ThrowIfAny(IDictionary<string, object> context)
         {
             if (failureMessages.Any())
             {
@@ -47,9 +48,9 @@ namespace FluentAssertions.Execution
                 
                 if (context.Any())
                 {
-                    foreach (KeyValuePair<string, string> pair in context)
+                    foreach (KeyValuePair<string, object> pair in context)
                     {
-                        builder.AppendFormat("\nWith {0}:\n\"{1}\"", pair.Key, pair.Value);
+                        builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, Formatter.ToString(pair.Value));
                     }
                 }
 

@@ -312,7 +312,7 @@ namespace FluentAssertions.Specialized
             {
                 using (var scope = new AssertionScope())
                 {
-                    scope.AddContext("context", subjectName);
+                    scope.Add("context", subjectName);
                     
                     assertion(actual, expectation, reason, reasonArgs);
                 }

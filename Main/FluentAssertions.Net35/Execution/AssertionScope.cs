@@ -15,16 +15,16 @@ namespace FluentAssertions.Execution
     {
         #region Private Definitions
 
-        private readonly IAssertionStrategy _assertionStrategy;
-        private readonly Dictionary<string, string> contextData = new Dictionary<string, string>();
-        
+        private readonly IAssertionStrategy assertionStrategy;
+        private readonly Dictionary<string, object> contextData = new Dictionary<string, object>();
+
         private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
 
         /// <summary>
         /// Represents the phrase that can be used in <see cref="FailWith"/> as a placeholder for the reason of an assertion.
         /// </summary>
         private const string ReasonTag = "{reason}";
-        
+
         private string reason;
         private bool succeeded;
         private bool useLineBreaks;
@@ -33,7 +33,7 @@ namespace FluentAssertions.Execution
         private static AssertionScope current;
 
         [ThreadStatic]
-        private static AssertionScope parentScope;
+        private static AssertionScope parent;
 
         internal static AssertionScope Current
         {
@@ -46,16 +46,30 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Initializes a new instance of the <see cref="AssertionScope"/> class.
         /// </summary>
-        internal AssertionScope() : this(new CollectingAssertionStrategy((current != null) ? current._assertionStrategy : null))
+        internal AssertionScope() : this(new CollectingAssertionStrategy((current != null) ? current.assertionStrategy : null))
         {
-            parentScope = current;
+            parent = current;
             current = this;
+
+            AddParentContextData();
+        }
+
+        private void AddParentContextData()
+        {
+            if (parent != null)
+            {
+                foreach (KeyValuePair<string, object> pair in parent.contextData)
+                {
+                    var cloneable = pair.Value as ICloneable2;
+                    contextData.Add(pair.Key, (cloneable != null) ? cloneable.Clone() : pair.Value);
+                }
+            }
         }
 
         private AssertionScope(IAssertionStrategy _assertionStrategy)
         {
-            this._assertionStrategy = _assertionStrategy;
-            parentScope = null;
+            assertionStrategy = _assertionStrategy;
+            parent = null;
         }
 
         /// <summary>
@@ -153,7 +167,7 @@ namespace FluentAssertions.Execution
                     message = ReplaceTags(message);
                     message = BuildExceptionMessage(message, failureArgs);
 
-                    _assertionStrategy.HandleFailure(message);
+                    assertionStrategy.HandleFailure(message);
                 }
 
                 return succeeded;
@@ -178,7 +192,7 @@ namespace FluentAssertions.Execution
                 string message = IncrementAllFormatSpecifiers(failureMessage);
                 return message.Replace(ReasonTag, "{0}");
             }
-            
+
             return failureMessage;
         }
 
@@ -188,7 +202,14 @@ namespace FluentAssertions.Execution
             return regex.Replace(message, match =>
             {
                 string key = match.Groups["key"].Value;
-                return contextData.ContainsKey(key) ? contextData[key ] : match.Groups["default"].Value;
+                if ((key == "subject") || (key == "expectation"))
+                {
+                    return contextData.ContainsKey(key) ? Formatter.ToString(contextData[key]) : match.Groups["default"].Value;
+                }
+                else
+                {
+                    return contextData.ContainsKey(key) ? contextData[key].ToString() : match.Groups["default"].Value;
+                }
             });
         }
 
@@ -219,7 +240,7 @@ namespace FluentAssertions.Execution
             return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}").Capitalize();
         }
 
-        public void AddContext(string key, string value)
+        public void Add(string key, object value)
         {
             contextData[key] = value;
         }
@@ -229,7 +250,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public string[] Discard()
         {
-            return _assertionStrategy.DiscardFailures().ToArray();
+            return assertionStrategy.DiscardFailures().ToArray();
         }
 
         /// <summary>
@@ -237,10 +258,33 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void Dispose()
         {
-            Current = parentScope;
-            parentScope = null;
+            Current = parent;
+            parent = null;
 
-            _assertionStrategy.ThrowIfAny(contextData);
+            assertionStrategy.ThrowIfAny(contextData);
         }
+
+        /// <summary>
+        /// Gets data associated with the current scope and identified by <paramref name="key"/>.
+        /// </summary>
+        public T Get<T>(string key)
+        {
+            return (T)contextData[key];
+        }
+    }
+
+    /// <summary>
+    /// Custom version of ICloneable that works on all frameworks.
+    /// </summary>
+    public interface ICloneable2
+    {
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        object Clone();
     }
 }

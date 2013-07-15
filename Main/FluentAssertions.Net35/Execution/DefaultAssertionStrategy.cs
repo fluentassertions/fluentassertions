@@ -34,7 +34,7 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Will throw a combined exception for any failures have been collected since <see cref="StartCollecting"/> was called.
         /// </summary>
-        public void ThrowIfAny(IDictionary<string, string> context)
+        public void ThrowIfAny(IDictionary<string, object> context)
         {
             
         }

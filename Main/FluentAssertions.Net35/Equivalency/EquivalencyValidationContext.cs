@@ -1,29 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 using FluentAssertions.Common;
-using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
     public class EquivalencyValidationContext : IEquivalencyValidationContext
     {
-        #region Private Definitions
-
-        private IList<object> processedObjects = new List<object>();
-
-        #endregion
-
-        public EquivalencyValidationContext(IEquivalencyAssertionOptions config)
+        public EquivalencyValidationContext()
         {
-            Config = config;
             PropertyDescription = "";
             PropertyPath = "";
         }
-
-        public IEquivalencyAssertionOptions Config { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="ISubjectInfo.PropertyInfo" /> of the property that returned the current object, or 
@@ -99,83 +87,31 @@ namespace FluentAssertions.Equivalency
                 {
                     type = PropertyInfo.PropertyType;
                 }
-                else
-                {
-                    // Default
-                }
 
                 return type;
             }
         }
 
-        internal bool ContainsCyclicReference
+        internal EquivalencyValidationContext CreateForNestedProperty(PropertyInfo nestedProperty,
+            PropertyInfo matchingProperty)
         {
-            get { return processedObjects.Contains(Subject); }
-        }
+            object subject = nestedProperty.GetValue(Subject, null);
+            object expectation = matchingProperty.GetValue(Expectation, null);
 
-        internal IEnumerable<PropertyInfo> SelectedProperties
-        {
-            get
-            {
-                IEnumerable<PropertyInfo> properties = new List<PropertyInfo>();
-
-                foreach (ISelectionRule selectionRule in Config.SelectionRules)
-                {
-                    properties = selectionRule.SelectProperties(properties, this);
-                }
-
-                return properties;
-            }
-        }
-
-        internal void HandleCyclicReference()
-        {
-            if (Config.CyclicReferenceHandling == CyclicReferenceHandling.ThrowException)
-            {
-                Execute.Assertion
-                    .BecauseOf(Reason, ReasonArgs)
-                    .FailWith(
-                        "Expected " + PropertyDescription + " to be {0}{reason}, but it contains a cyclic reference.",
-                        Expectation);
-            }
-        }
-
-        internal EquivalencyValidationContext CreateForNestedProperty(PropertyInfo nestedProperty)
-        {
-            EquivalencyValidationContext nestedContext = null;
-
-            var matchingProperty = FindMatchFor(nestedProperty);
-            if (matchingProperty != null)
-            {
-                var subject = nestedProperty.GetValue(Subject, null);
-                var expectation = matchingProperty.GetValue(Expectation, null);
-
-                nestedContext = CreateNested(nestedProperty, subject, matchingProperty, expectation, "property ",
-                    nestedProperty.Name, ".");
-            }
-
-            return nestedContext;
-        }
-
-        private PropertyInfo FindMatchFor(PropertyInfo propertyInfo)
-        {
-            var query =
-                from rule in Config.MatchingRules
-                let match = rule.Match(propertyInfo, Expectation, PropertyDescription)
-                where match != null
-                select match;
-
-            return query.FirstOrDefault();
+            return CreateNested(nestedProperty, subject, matchingProperty, expectation, "property ",
+                nestedProperty.Name, ".");
         }
 
         public EquivalencyValidationContext CreateForCollectionItem(int index, object subject, object expectation)
         {
-            return CreateNested(PropertyInfo, subject, MatchingExpectationProperty, expectation, "item", "[" + index + "]", "");
+            return CreateNested(PropertyInfo, subject, MatchingExpectationProperty, expectation, "item",
+                "[" + index + "]", "");
         }
 
         public EquivalencyValidationContext CreateForDictionaryItem(object key, object subject, object expectation)
         {
-            return CreateNested(PropertyInfo, subject, MatchingExpectationProperty, expectation, "pair", "[" + key + "]", "");
+            return CreateNested(PropertyInfo, subject, MatchingExpectationProperty, expectation, "pair", "[" + key + "]",
+                "");
         }
 
         private EquivalencyValidationContext CreateNested(
@@ -185,7 +121,7 @@ namespace FluentAssertions.Equivalency
         {
             string propertyPath = IsRoot ? memberType : PropertyDescription + separator;
 
-            return new EquivalencyValidationContext(Config)
+            return new EquivalencyValidationContext
             {
                 PropertyInfo = subjectProperty,
                 MatchingExpectationProperty = matchingProperty,
@@ -196,7 +132,6 @@ namespace FluentAssertions.Equivalency
                 Reason = Reason,
                 ReasonArgs = ReasonArgs,
                 CompileTimeType = (subject != null) ? subject.GetType() : null,
-                processedObjects = processedObjects.Concat(new[] { Subject }).ToList()
             };
         }
     }

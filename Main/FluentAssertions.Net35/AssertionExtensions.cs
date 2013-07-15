@@ -606,7 +606,7 @@ namespace FluentAssertions
         public static void ShouldBeEquivalentTo<T>(this T subject, object expectation,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string reason = "", params object[] reasonArgs)
         {
-            var context = new EquivalencyValidationContext(config(EquivalencyAssertionOptions<T>.Default()))
+            var context = new EquivalencyValidationContext
             {
                 Subject = subject,
                 Expectation = expectation,
@@ -615,7 +615,7 @@ namespace FluentAssertions
                 ReasonArgs = reasonArgs
             };
 
-            new EquivalencyValidator().AssertEquality(context);
+            new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
         }
 
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
@@ -627,7 +627,7 @@ namespace FluentAssertions
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string reason = "", params object[] reasonArgs)
         {
-            var context = new EquivalencyValidationContext(config(EquivalencyAssertionOptions<T>.Default()))
+            var context = new EquivalencyValidationContext()
             {
                 Subject = subject,
                 Expectation = expectation,
@@ -636,7 +636,7 @@ namespace FluentAssertions
                 ReasonArgs = reasonArgs
             };
 
-            new EquivalencyValidator().AssertEquality(context);
+            new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
         }
 
 

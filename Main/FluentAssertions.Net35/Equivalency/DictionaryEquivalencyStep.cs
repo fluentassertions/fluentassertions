@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context)
+        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             return (context.Subject is IDictionary);
         }
@@ -24,7 +24,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent)
+        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             var subject = (IDictionary)context.Subject;
             var expectation = context.Expectation as IDictionary;
@@ -33,7 +33,7 @@ namespace FluentAssertions.Equivalency
             {
                 foreach (object key in subject.Keys)
                 {
-                    if (context.Config.IsRecursive)
+                    if (config.IsRecursive)
                     {
                         parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
                     }

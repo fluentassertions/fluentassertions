@@ -8,7 +8,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        bool CanHandle(EquivalencyValidationContext context);
+        bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config);
 
         /// <summary>
         /// Applies a step as part of the task to compare two objects for structural equality.
@@ -20,6 +20,6 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent);
+        bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config);
     }
 }
