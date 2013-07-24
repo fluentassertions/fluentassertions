@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 using FluentAssertions.Equivalency;
+using FluentAssertions.Execution;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -591,7 +593,7 @@ namespace FluentAssertions.Specs
         #region Collection Equivalence
 
         [TestMethod]
-        public void When_two_lists_contain_the_same_structural_equal_objects_it_should_succeed()
+        public void When_two_ordered_lists_are_structurally_equivalent_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -640,7 +642,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_different_collections_contain_the_same_structurally_equal_objects_in_any_order_it_should_succeed()
+        public void When_two_unordered_lists_are_structurally_equivalent_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -661,7 +663,7 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            IEnumerable<Customer> expectation = new Collection<Customer>
+            var expectation = new Collection<Customer>
             {
                 new Customer
                 {
@@ -686,6 +688,103 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_two_unordered_lists_are_structurally_equivalent_and_order_is_strict_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[]
+            {
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 24,
+                    Id = 2
+                }
+            };
+
+            var expectation = new Collection<Customer>
+            {
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 24,
+                    Id = 2
+                },
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                },
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options.WithStrictOrdering());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected item[0].Name*Jane*John*item[1].Name*John*Jane*", ComparisonMode.Wildcard);
+        }
+        
+        [TestMethod]
+        public void When_a_nested_collection_is_unordered_but_order_is_strict_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 1, 2, 3, 4, 5}
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            var expectation = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 5, 4, 3, 2, 1}
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                },
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options
+                .WithStrictOrderingFor(s => s.UnorderedCollection));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+                        action.ShouldThrow<AssertFailedException>()
+                            .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]
@@ -2162,6 +2261,156 @@ namespace FluentAssertions.Specs
             }
 
             public string SomeOtherProperty { get; set; }
+        }
+    }
+
+    [TestClass]
+    public class AssertionScopeSpecs
+    {
+        [TestMethod]
+        public void When_disposed_it_should_throw_any_failures()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope();
+            
+            AssertionScope.Current.FailWith("Failure1");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            try
+            {
+                act();
+            }
+            catch (Exception exception)
+            {
+                Assert.IsTrue(exception.Message.StartsWith("Failure1"));
+            }
+        }
+        
+        [TestMethod]
+        public void When_multiple_scopes_are_nested_it_should_throw_all_failures_from_the_outer_scope()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope();
+            
+            AssertionScope.Current.FailWith("Failure1");
+
+            using (var nestedScope = new AssertionScope())
+            {
+                nestedScope.FailWith("Failure2");
+
+                using (var deeplyNestedScope = new AssertionScope())
+                {
+                    deeplyNestedScope.FailWith("Failure3");
+                }
+            }
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            try
+            {
+                act();
+            }
+            catch (Exception exception)
+            {
+                Assert.IsTrue(exception.Message.Contains("Failure1"));
+                Assert.IsTrue(exception.Message.Contains("Failure2"));
+                Assert.IsTrue(exception.Message.Contains("Failure3"));
+            }
+        }
+
+        [TestMethod]
+        public void When_a_nested_scope_is_discarded_its_failures_should_also_be_discarded()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope();
+            
+            AssertionScope.Current.FailWith("Failure1");
+
+            using (var nestedScope = new AssertionScope())
+            {
+                nestedScope.FailWith("Failure2");
+
+                using (var deeplyNestedScope = new AssertionScope())
+                {
+                    deeplyNestedScope.FailWith("Failure3");
+                    deeplyNestedScope.Discard();
+                }
+            }
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            try
+            {
+                act();
+            }
+            catch (Exception exception)
+            {
+                Assert.IsTrue(exception.Message.Contains("Failure1"));
+                Assert.IsTrue(exception.Message.Contains("Failure2"));
+                Assert.IsFalse(exception.Message.Contains("Failure3"));
+            }
+        }
+
+        [TestMethod]
+        public void When_the_same_failure_is_handled_twice_or_more_it_should_still_report_it_once()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var scope = new AssertionScope();
+            
+            AssertionScope.Current.FailWith("Failure");
+            AssertionScope.Current.FailWith("Failure");
+
+            using (var nestedScope = new AssertionScope())
+            {
+                nestedScope.FailWith("Failure");
+                nestedScope.FailWith("Failure");
+            }
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = scope.Dispose;;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            try
+            {
+                act();
+            }
+            catch (Exception exception)
+            {
+                int matches = new Regex(".*Failure.*").Matches(exception.Message).Count;
+                
+                Assert.AreEqual(1, matches);
+            }
         }
     }
 }

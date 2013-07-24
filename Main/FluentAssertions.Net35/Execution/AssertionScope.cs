@@ -32,8 +32,7 @@ namespace FluentAssertions.Execution
         [ThreadStatic]
         private static AssertionScope current;
 
-        [ThreadStatic]
-        private static AssertionScope parent;
+        private AssertionScope parent;
 
         internal static AssertionScope Current
         {
@@ -50,7 +49,7 @@ namespace FluentAssertions.Execution
         {
             parent = current;
             current = this;
-
+            
             AddParentContextData();
         }
 
@@ -259,9 +258,20 @@ namespace FluentAssertions.Execution
         public void Dispose()
         {
             Current = parent;
-            parent = null;
 
-            assertionStrategy.ThrowIfAny(contextData);
+            if (parent != null)
+            {
+                foreach (string failureMessage in assertionStrategy.FailureMessages)
+                {
+                    parent.assertionStrategy.HandleFailure(failureMessage);
+                }
+
+                parent = null;
+            }
+            else
+            {
+                assertionStrategy.ThrowIfAny(contextData);
+            }
         }
 
         /// <summary>

@@ -31,10 +31,11 @@ namespace FluentAssertions.Equivalency
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
-                    Recursive = context.IsRoot || config.IsRecursive
+                    Recursive = context.IsRoot || config.IsRecursive,
+                    OrderingRules = config.OrderingRules
                 };
 
-                validator.Validate(ToArray(context.Subject), ToArray(context.Expectation));
+                validator.Execute(ToArray(context.Subject), ToArray(context.Expectation));
             }
 
             return true;
@@ -58,10 +59,17 @@ namespace FluentAssertions.Equivalency
         }
     }
 
+    /// <summary>
+    /// Executes a single equivalency assertion on two collections, optionally recursive and with or without strict ordering.
+    /// </summary>
     internal class EnumerableEquivalencyValidator
     {
+        #region Private Definitions
+
         private readonly IEquivalencyValidator parent;
         private readonly EquivalencyValidationContext context;
+
+        #endregion
 
         public EnumerableEquivalencyValidator(IEquivalencyValidator parent, EquivalencyValidationContext context)
         {
@@ -72,7 +80,9 @@ namespace FluentAssertions.Equivalency
 
         public bool Recursive { get; set; }
 
-        public void Validate(object[] subject, object[] expectation)
+        public OrderingRuleCollection OrderingRules { get; set; }
+
+        public void Execute(object[] subject, object[] expectation)
         {
             if (AssertLengthEquality(subject.Length, expectation.Length))
             {
@@ -101,7 +111,14 @@ namespace FluentAssertions.Equivalency
             {
                 object expectation = expectations[index];
 
-                LooselyMatchAgainst(subjects, expectation, index);
+                if (!OrderingRules.IsOrderingStrictFor(context))
+                {
+                    LooselyMatchAgainst(subjects, expectation, index);
+                }
+                else
+                {
+                    StrictlyMatchAgainst(subjects, expectation, index);
+                }
             }
         }
 
@@ -134,6 +151,11 @@ namespace FluentAssertions.Equivalency
 
                 return scope.Discard();
             }
+        }
+
+        private void StrictlyMatchAgainst(object[] subjects, object expectation, int expectationIndex)
+        {
+            parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex, subjects[expectationIndex], expectation));
         }
     }
 }

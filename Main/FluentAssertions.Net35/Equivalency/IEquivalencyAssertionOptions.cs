@@ -29,6 +29,15 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         bool IsRecursive { get; }
 
+        /// <summary>
+        /// Gets value indicating how cyclic references should be handled. By default, it will throw an exception.
+        /// </summary>
         CyclicReferenceHandling CyclicReferenceHandling { get; }
+
+        /// <summary>
+        /// Gets an ordered collection of rules that determine whether or not the order of collections is important. By default,
+        /// ordering is irrelevant.
+        /// </summary>
+        OrderingRuleCollection OrderingRules { get; }
     }
 }

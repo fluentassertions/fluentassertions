@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using FluentAssertions.Common;
 
@@ -29,6 +31,12 @@ namespace FluentAssertions.Equivalency
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private readonly OrderingRuleCollection orderingRules = new OrderingRuleCollection();
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private bool isRecursive;
+
         #endregion
 
         private EquivalencyAssertionOptions()
@@ -41,6 +49,13 @@ namespace FluentAssertions.Equivalency
             Using<DateTime>(
                 ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs)).WhenTypeIs<DateTime>();
         }
+
+        /// <summary>
+        /// Gets a configuration that by default doesn't include any of the subject's properties and doesn't consider any nested objects
+        /// or collections.
+        /// </summary>
+        public static Func<EquivalencyAssertionOptions<TSubject>> Empty =
+            () => new EquivalencyAssertionOptions<TSubject>();
 
         /// <summary>
         /// Gets a configuration that compares all declared properties of the subject with equally named properties of the expectation,
@@ -56,16 +71,9 @@ namespace FluentAssertions.Equivalency
         };
 
         /// <summary>
-        /// Gets a configuration that by default doesn't include any of the subject's properties and doesn't consider any nested objects
-        /// or collections.
-        /// </summary>
-        public static Func<EquivalencyAssertionOptions<TSubject>> Empty =
-            () => new EquivalencyAssertionOptions<TSubject>();
-
-        /// <summary>
         /// Gets an ordered collection of selection rules that define what properties are included.
         /// </summary>
-        public IEnumerable<ISelectionRule> SelectionRules
+        IEnumerable<ISelectionRule> IEquivalencyAssertionOptions.SelectionRules
         {
             get { return selectionRules; }
         }
@@ -74,7 +82,7 @@ namespace FluentAssertions.Equivalency
         /// Gets an ordered collection of matching rules that determine which subject properties are matched with which
         /// expectation properties.
         /// </summary>
-        public IEnumerable<IMatchingRule> MatchingRules
+        IEnumerable<IMatchingRule> IEquivalencyAssertionOptions.MatchingRules
         {
             get { return matchingRules; }
         }
@@ -83,20 +91,35 @@ namespace FluentAssertions.Equivalency
         /// Gets an ordered collection of assertion rules that determine how subject properties are compared for equality with
         /// expectation properties.
         /// </summary>
-        public IEnumerable<IAssertionRule> AssertionRules
+        IEnumerable<IAssertionRule> IEquivalencyAssertionOptions.AssertionRules
         {
             get { return assertionRules; }
         }
 
         /// <summary>
+        /// Gets an ordered collection of rules that determine whether or not the order of collections is important. By default,
+        /// ordering is irrelevant.
+        /// </summary>
+        OrderingRuleCollection IEquivalencyAssertionOptions.OrderingRules
+        {
+            get { return orderingRules; }
+        }
+
+        /// <summary>
         /// Gets value indicating whether the equality check will include nested collections and complex types.
         /// </summary>
-        public bool IsRecursive { get; private set; }
+        bool IEquivalencyAssertionOptions.IsRecursive
+        {
+            get
+            {
+                return isRecursive;
+            }
+        }
 
         /// <summary>
         /// Gets value indicating how cyclic references should be handled. By default, it will throw an exception.
         /// </summary>
-        public CyclicReferenceHandling CyclicReferenceHandling
+        CyclicReferenceHandling IEquivalencyAssertionOptions.CyclicReferenceHandling
         {
             get { return cyclicReferenceHandling; }
         }
@@ -189,7 +212,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> IncludingNestedObjects()
         {
-            IsRecursive = true;
+            isRecursive = true;
             return this;
         }
 
@@ -230,7 +253,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Adds a selection rule to the ones allready added by default and which is evaluated after all existing rules.
+        /// Adds a selection rule to the ones already added by default, and which is evaluated after all existing rules.
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Using(ISelectionRule selectionRule)
         {
@@ -239,7 +262,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Adds a matching rule to the ones allready added by default and which is evaluated before all existing rules.
+        /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Using(IMatchingRule matchingRule)
         {
@@ -248,11 +271,30 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Adds a matching rule to the ones allready added by default and which is evaluated before all existing rules
+        /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Using(IAssertionRule assertionRule)
         {
             assertionRules.Insert(0, assertionRule);
+            return this;
+        }
+
+        /// <summary>
+        /// Causes all collections to be compared in the order in which the items appear in the expectation.
+        /// </summary>
+        public EquivalencyAssertionOptions<TSubject> WithStrictOrdering()
+        {
+            orderingRules.Add(new MatchAllOrderingRule());
+            return this;
+        }
+
+        /// <summary>
+        /// Causes the collection identified by <paramref name="propertyExpression"/> to be compared in the order 
+        /// in which the items appear in the expectation.
+        /// </summary>
+        public EquivalencyAssertionOptions<TSubject> WithStrictOrderingFor(Expression<Func<TSubject, object>> propertyExpression)
+        {
+            orderingRules.Add(new PropertyPathOrderingRule(propertyExpression.GetPropertyPath()));
             return this;
         }
 
@@ -321,6 +363,126 @@ namespace FluentAssertions.Equivalency
                 options.Using(new AssertionRule<TProperty>(predicate, action));
                 return options;
             }
+        }
+    }
+
+    /// <summary>
+    /// Defines a rule that is used to determine whether the order of items in collections is relevant or not.
+    /// </summary>
+    public interface IOrderingRule
+    {
+        /// <summary>
+        /// Determines if ordering of the property refered to by the current <paramref name="subjectInfo"/> is relevant.
+        /// </summary>
+        bool AppliesTo(ISubjectInfo subjectInfo);
+    }
+
+    /// <summary>
+    /// An ordering rule that basically states that the order of items in all collections is important.
+    /// </summary>
+    public class MatchAllOrderingRule : IOrderingRule
+    {
+        /// <summary>
+        /// Determines if ordering of the property refered to by the current <paramref name="subjectInfo"/> is relevant.
+        /// </summary>
+        public bool AppliesTo(ISubjectInfo subjectInfo)
+        {
+            return true;
+        }
+    }
+
+    /// <summary>
+    /// Represents a rule for determining whether or not a certain collection within the object graph should be compared using
+    /// strict ordering.
+    /// </summary>
+    public class PropertyPathOrderingRule : IOrderingRule
+    {
+        private readonly string propertyPath;
+
+        public PropertyPathOrderingRule(string propertyPath)
+        {
+            this.propertyPath = propertyPath;
+        }
+
+        /// <summary>
+        /// Determines if ordering of the property refered to by the current <paramref name="subjectInfo"/> is relevant.
+        /// </summary>
+        public bool AppliesTo(ISubjectInfo subjectInfo)
+        {
+            string currentPropertyPath = subjectInfo.PropertyPath;
+            if (!ContainsIndexingQualifiers(propertyPath))
+            {
+                currentPropertyPath = RemoveInitialIndexQualifier(currentPropertyPath);
+            }
+
+            return currentPropertyPath.Equals(propertyPath, StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        private bool ContainsIndexingQualifiers(string path)
+        {
+            return path.Contains("[") && path.Contains("]");
+        }
+
+        private string RemoveInitialIndexQualifier(string sourcePath)
+        {
+            var indexQualifierRegex = new Regex(@"^\[\d+]\.");
+
+            if (!indexQualifierRegex.IsMatch(propertyPath))
+            {
+                var match = indexQualifierRegex.Match(sourcePath);
+                if (match.Success)
+                {
+                    sourcePath = sourcePath.Substring(match.Length);
+                }
+            }
+
+            return sourcePath;
+        }
+    }
+
+    /// <summary>
+    /// Collection of <see cref="PropertyPathOrderingRule"/>s.
+    /// </summary>
+    public class OrderingRuleCollection : IEnumerable<IOrderingRule>
+    {
+        private readonly List<IOrderingRule> rules = new List<IOrderingRule>();
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public IEnumerator<IOrderingRule> GetEnumerator()
+        {
+            return rules.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void Add(IOrderingRule rule)
+        {
+            rules.Add(rule);
+        }
+
+        /// <summary>
+        /// Determines whether the rules in this collection dictate strict ordering during the equivalency assertion on
+        /// the collection pointed to by <paramref name="subjectInfo"/>.
+        /// </summary>
+        public bool IsOrderingStrictFor(ISubjectInfo subjectInfo)
+        {
+            return rules.Any(r => r.AppliesTo(subjectInfo));
         }
     }
 }

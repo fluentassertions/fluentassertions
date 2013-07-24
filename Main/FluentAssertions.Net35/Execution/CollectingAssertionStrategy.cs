@@ -63,7 +63,10 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void HandleFailure(string message)
         {
-            failureMessages.Add(message);
+            if (!failureMessages.Contains(message))
+            {
+                failureMessages.Add(message);
+            }
         }
     }
 }
