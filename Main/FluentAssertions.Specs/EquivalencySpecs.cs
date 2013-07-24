@@ -783,8 +783,55 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-                        action.ShouldThrow<AssertFailedException>()
-                            .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*", ComparisonMode.Wildcard);
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*", ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
+        public void When_a_nested_collection_is_unordered_but_order_is_still_strict_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 1, 2, 3, 4, 5}
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            var expectation = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] { 5, 4, 3, 2, 1}
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                },
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options
+                .WithStrictOrderingFor(s => s.PropertyPath.Contains("UnorderedCollection")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]

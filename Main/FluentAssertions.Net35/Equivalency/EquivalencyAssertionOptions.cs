@@ -299,6 +299,16 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Causes the collection identified by the provided <paramref name="predicate"/> to be compared in the order 
+        /// in which the items appear in the expectation.
+        /// </summary>
+        public EquivalencyAssertionOptions<TSubject> WithStrictOrderingFor(Expression<Func<ISubjectInfo, bool>> predicate)
+        {
+            orderingRules.Add(new PredicateBasedOrderingRule(predicate));
+            return this;
+        }
+
+        /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         /// <returns>
@@ -363,6 +373,24 @@ namespace FluentAssertions.Equivalency
                 options.Using(new AssertionRule<TProperty>(predicate, action));
                 return options;
             }
+        }
+    }
+
+    public class PredicateBasedOrderingRule : IOrderingRule
+    {
+        private readonly Func<ISubjectInfo, bool> predicate;
+
+        public PredicateBasedOrderingRule(Expression<Func<ISubjectInfo, bool>> predicate)
+        {
+            this.predicate = predicate.Compile();
+        }
+
+        /// <summary>
+        /// Determines if ordering of the property refered to by the current <paramref name="subjectInfo"/> is relevant.
+        /// </summary>
+        public bool AppliesTo(ISubjectInfo subjectInfo)
+        {
+            return predicate(subjectInfo);
         }
     }
 
