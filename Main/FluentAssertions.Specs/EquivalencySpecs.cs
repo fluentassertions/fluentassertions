@@ -741,7 +741,7 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        public void When_a_nested_collection_is_unordered_but_order_is_strict_it_should_fail()
+        public void When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -788,7 +788,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_nested_collection_is_unordered_but_order_is_still_strict_it_should_fail()
+        public void When_an_unordered_collection_must_be_strict_using_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
