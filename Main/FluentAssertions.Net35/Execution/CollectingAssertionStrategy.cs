@@ -50,7 +50,7 @@ namespace FluentAssertions.Execution
                 {
                     foreach (KeyValuePair<string, object> pair in context)
                     {
-                        builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, Formatter.ToString(pair.Value));
+                        builder.AppendFormat("\nWith {0}:\n{1}", pair.Key, pair.Value);
                     }
                 }
 

@@ -319,7 +319,6 @@ namespace FluentAssertions.Equivalency
         {
             var builder = new StringBuilder();
 
-            builder.AppendLine("\nUsing configuration:");
             foreach (var rule in selectionRules)
             {
                 builder.AppendLine("- " + rule);
@@ -368,7 +367,7 @@ namespace FluentAssertions.Equivalency
             /// A predicate based on the <see cref="ISubjectInfo"/> of the subject that is used to identify the property for which the
             /// override applies.
             /// </param>
-            public EquivalencyAssertionOptions<TSubject> When(Func<ISubjectInfo, bool> predicate)
+            public EquivalencyAssertionOptions<TSubject> When(Expression<Func<ISubjectInfo, bool>> predicate)
             {
                 options.Using(new AssertionRule<TProperty>(predicate, action));
                 return options;

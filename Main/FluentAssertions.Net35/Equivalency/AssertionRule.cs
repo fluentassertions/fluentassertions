@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using System.Reflection;
 
 using FluentAssertions.Common;
@@ -15,11 +16,13 @@ namespace FluentAssertions.Equivalency
     {
         private readonly Func<ISubjectInfo, bool> predicate;
         private readonly Action<IAssertionContext<TSubject>> action;
+        private readonly string description;
 
-        public AssertionRule(Func<ISubjectInfo, bool> predicate, Action<IAssertionContext<TSubject>> action)
+        public AssertionRule(Expression<Func<ISubjectInfo, bool>> predicate, Action<IAssertionContext<TSubject>> action)
         {
-            this.predicate = predicate;
+            this.predicate = predicate.Compile();
             this.action = action;
+            description = "Invoke Action<" + typeof(TSubject).Name + "> when " + predicate.Body;
         }
 
         /// <summary>
@@ -58,6 +61,18 @@ namespace FluentAssertions.Equivalency
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            return description;
         }
 
         internal class AssertionContext : IAssertionContext<TSubject>

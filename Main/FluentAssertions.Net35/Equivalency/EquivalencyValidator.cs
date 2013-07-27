@@ -44,8 +44,8 @@ namespace FluentAssertions.Equivalency
         {
             using (var scope = new AssertionScope())
             {
-                scope.Add("configuration", config.ToString());
-                scope.Add("objects", new ObjectTracker(config.CyclicReferenceHandling));
+                scope.AddReportable("configuration", config.ToString());
+                scope.AddNonReportable("objects", new ObjectTracker(config.CyclicReferenceHandling));
 
                 scope.BecauseOf(context.Reason, context.ReasonArgs);
 
@@ -56,9 +56,9 @@ namespace FluentAssertions.Equivalency
         public void AssertEqualityUsing(EquivalencyValidationContext context)
         {
             AssertionScope scope = AssertionScope.Current;
-            scope.Add("context", context.IsRoot ? "subject" : context.PropertyDescription);
-            scope.Add("subject", context.Subject);
-            scope.Add("expectation", context.Expectation);
+            scope.AddNonReportable("context", context.IsRoot ? "subject" : context.PropertyDescription);
+            scope.AddNonReportable("subject", context.Subject);
+            scope.AddNonReportable("expectation", context.Expectation);
 
             var objectTracker = scope.Get<ObjectTracker>("objects");
 
