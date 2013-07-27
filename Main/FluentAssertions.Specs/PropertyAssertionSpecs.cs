@@ -132,7 +132,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Values*1, 4, 3}*but*1, 2, 3*differs at index 1*", 
+                "*property*{1, 2, 3} to be equivalent to {1, 4, 3}*", 
                 ComparisonMode.Wildcard);
         }
 

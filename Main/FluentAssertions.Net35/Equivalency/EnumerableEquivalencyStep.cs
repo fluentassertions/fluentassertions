@@ -92,7 +92,7 @@ namespace FluentAssertions.Equivalency
                 }
                 else
                 {
-                    subject.Should().Equal(expectation);
+                    subject.Should().BeEquivalentTo(expectation);
                 }
             }
         }
