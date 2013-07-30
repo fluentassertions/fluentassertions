@@ -18,7 +18,6 @@ namespace FluentAssertions.Collections
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="IEnumerable"/> is in the expected state.
     /// </summary>
-    [DebuggerNonUserCode]
     public abstract class CollectionAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
         where TAssertions : CollectionAssertions<TSubject, TAssertions>
         where TSubject : IEnumerable
@@ -377,11 +376,23 @@ namespace FluentAssertions.Collections
             List<object> expectedItems = expected.Cast<object>().ToList();
             List<object> actualItems = Subject.Cast<object>().ToList();
 
-            Execute.Assertion
-                .ForCondition(AreEquivalent(expectedItems, actualItems))
+            bool haveSameLength = Execute.Assertion
+                .ForCondition(actualItems.Count <= expectedItems.Count)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}.", actualItems, expectedItems);
+                .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but it contains too many items.",
+                    actualItems, expectedItems);
 
+            if (haveSameLength)
+            {
+                object[] missingItems = GetMissingItems(expectedItems, actualItems);
+                
+                Execute.Assertion
+                    .ForCondition(missingItems.Length == 0)
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but it misses {2}.",
+                        actualItems, expectedItems, missingItems);
+
+            }
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -412,12 +423,14 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} not to be equivalent{reason}, but found <null>.");
             }
 
-            if (AreEquivalent(unexpected.Cast<object>(), Subject.Cast<object>()))
+            IEnumerable<object> actualItems = Subject.Cast<object>();
+            IEnumerable<object> unexpectedItems = unexpected.Cast<object>();
+
+            if (actualItems.Intersect(unexpectedItems).Any() && (actualItems.Count() == unexpectedItems.Count()))
             {
                 Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {context:collection} {0} not be equivalent with collection {1}{reason}.", Subject,
-                        unexpected);
+                    .FailWith("Expected {context:collection} {0} not be equivalent with collection {1}{reason}.", Subject, unexpected);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -464,16 +477,28 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
-
-        private static bool AreEquivalent(IEnumerable<object> expectedItems, IEnumerable<object> actualItems)
+        
+        private static object[] GetMissingItems(IEnumerable<object> expectedItems, IEnumerable<object> actualItems)
         {
-            expectedItems = expectedItems.Distinct().ToArray();
-            actualItems = actualItems.Distinct().ToArray();
+            var missingItems = new List<object>();
+            List<object> subject = actualItems.ToList();
 
-            int expectedCount = expectedItems.Count();
+            while (expectedItems.Any())
+            {
+                object expectation = expectedItems.First();
+                if (subject.Contains(expectation))
+                {
+                    subject.Remove(expectation);
+                }
+                else
+                {
+                    missingItems.Add(expectation);
+                }
 
-            return (expectedItems.Intersect(actualItems).Count() == expectedCount) &&
-                (expectedCount == actualItems.Count());
+                expectedItems = expectedItems.Skip(1).ToArray();
+            }
+
+            return missingItems.ToArray();
         }
 
         /// <summary>

@@ -690,7 +690,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_collection_contain_same_elements_it_should_treat_it_as_equivalent()
+        public void When_a_collection_contains_same_elements_it_should_treat_it_as_equivalent()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -736,7 +736,28 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to be equivalent to {1, 2} because we treat all alike.");
+                "*collection {1, 2, 3} to be equivalent to {1, 2}*too many*", ComparisonMode.Wildcard);
+        }
+        
+        [TestMethod]
+        public void When_collections_with_duplicates_are_not_equivalent_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection1 = new [] { 1, 2, 3, 1 };
+            IEnumerable collection2 = new [] { 1, 2, 3, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().BeEquivalentTo(collection2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected collection {1, 2, 3, 1} to be equivalent to {1, 2, 3, 3}, but it misses {3}.");
         }
 
         [TestMethod]
@@ -757,7 +778,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to be equivalent to {empty}.");
+                "*collection {1, 2, 3} to be equivalent to {empty}, but*", ComparisonMode.Wildcard);
         }
         
         [TestMethod]
