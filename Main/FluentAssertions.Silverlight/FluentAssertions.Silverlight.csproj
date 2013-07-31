@@ -164,6 +164,9 @@
     <Compile Include="..\FluentAssertions.Net35\Events\RecordedEvent.cs">
       <Link>Events\RecordedEvent.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\ExceptionExtensions.cs">
+      <Link>ExceptionExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\CollectingAssertionStrategy.cs">
       <Link>Execution\CollectingVerificationStrategy.cs</Link>
     </Compile>

@@ -417,11 +417,16 @@
     <Compile Include="..\FluentAssertions.Net35\Xml\XElementAssertions.cs">
       <Link>Xml\XElementAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\ExceptionExtensionsNet40.cs">
+      <Link>ExceptionExtensionsNet40.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Specialized\AsyncFunctionAssertions.cs">
+      <Link>Specialized\AsyncFunctionAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Specialized\AsyncFunctionAssertions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FluentAssertions.snk">

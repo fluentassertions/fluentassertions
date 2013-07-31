@@ -98,6 +98,7 @@
     <Compile Include="Common\TypeExtensions.cs" />
     <Compile Include="Equivalency\AssertionResultSet.cs" />
     <Compile Include="Equivalency\DictionaryEquivalencyStep.cs" />
+    <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="Execution\CollectingAssertionStrategy.cs" />
     <Compile Include="Execution\DefaultAssertionStrategy.cs" />
     <Compile Include="Execution\IAssertionStrategy.cs" />

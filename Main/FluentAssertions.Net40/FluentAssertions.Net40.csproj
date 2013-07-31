@@ -422,7 +422,9 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="ExceptionExtensionsNet40.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specialized\AsyncFunctionAssertions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FluentAssertions.snk">
