@@ -1,12 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
+using FluentAssertions.Formatting;
 using FluentAssertions.Specialized;
 
 namespace FluentAssertions
 {
     public static class ExceptionExtensionsNet40
     {
+        private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
+
+        static ExceptionExtensionsNet40()
+        {
+            Formatter.AddFormatter(new AggregateExceptionFormatter());
+        }
+
         /// <summary>
         /// Asserts that the <paramref name="action"/> throws an exception.
         /// </summary>
@@ -28,7 +39,7 @@ namespace FluentAssertions
             params object[] reasonArgs)
             where TException : Exception
         {
-            return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonArgs);
+            return new ActionAssertions(action, extractor).ShouldThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -46,8 +57,9 @@ namespace FluentAssertions
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         public static void ShouldNotThrow<TException>(this Action action, string reason = "", params object[] reasonArgs)
+            where TException : Exception
         {
-            new ActionAssertions(action).ShouldNotThrow<TException>(reason, reasonArgs);
+            new ActionAssertions(action, extractor).ShouldNotThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -63,7 +75,7 @@ namespace FluentAssertions
         /// </param>
         public static void ShouldNotThrow(this Action action, string reason = "", params object[] reasonArgs)
         {
-            new ActionAssertions(action).ShouldNotThrow(reason, reasonArgs);
+            new ActionAssertions(action, extractor).ShouldNotThrow(reason, reasonArgs);
         }
 
         /// <summary>
@@ -83,10 +95,11 @@ namespace FluentAssertions
         /// <returns>
         /// Returns an object that allows asserting additional members of the thrown exception.
         /// </returns>
-        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Func<Task> asyncAction, string reason = "", params object[] reasonArgs)
+        public static ExceptionAssertions<TException> ShouldThrow<TException>(this Func<Task> asyncAction, string reason = "",
+            params object[] reasonArgs)
             where TException : Exception
         {
-            return new AsyncFunctionAssertions(asyncAction).ShouldThrow<TException>(reason, reasonArgs);
+            return new AsyncFunctionAssertions(asyncAction, extractor).ShouldThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -105,7 +118,7 @@ namespace FluentAssertions
         /// </param>
         public static void ShouldNotThrow<TException>(this Func<Task> asyncAction, string reason = "", params object[] reasonArgs)
         {
-            new AsyncFunctionAssertions(asyncAction).ShouldNotThrow<TException>(reason, reasonArgs);
+            new AsyncFunctionAssertions(asyncAction, extractor).ShouldNotThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -121,8 +134,78 @@ namespace FluentAssertions
         /// </param>
         public static void ShouldNotThrow(this Func<Task> asyncAction, string reason = "", params object[] reasonArgs)
         {
-            new AsyncFunctionAssertions(asyncAction).ShouldNotThrow(reason, reasonArgs);
+            new AsyncFunctionAssertions(asyncAction, extractor).ShouldNotThrow(reason, reasonArgs);
         }
- 
+    }
+
+    internal class AggregateExceptionExtractor : IExtractExceptions
+    {
+        public IEnumerable<T> OfType<T>(Exception actualException) where T : Exception
+        {
+            var exceptions = new List<T>();
+
+            var aggregateException = actualException as AggregateException;
+            if (aggregateException != null)
+            {
+                exceptions.AddRange(aggregateException.InnerExceptions.OfType<T>());
+            }
+            else if (actualException is T)
+            {
+                exceptions.Add((T)actualException);
+            }
+
+            return exceptions;
+        }
+    }
+
+    internal class AggregateExceptionFormatter : IValueFormatter
+    {
+        /// <summary>
+        /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <returns>
+        /// <c>true</c> if the current <see cref="IValueFormatter"/> can handle the specified value; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanHandle(object value)
+        {
+            return value is AggregateException;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <param name="value">The value for which to create a <see cref="System.String"/>.</param>
+        /// <param name="useLineBreaks"> </param>
+        /// <param name="processedObjects">
+        /// A collection of objects that 
+        /// </param>
+        /// <param name="nestedPropertyLevel">
+        /// The level of nesting for the supplied value. This is used for indenting the format string for objects that have
+        /// no <see cref="object.ToString()"/> override.
+        /// </param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
+        {
+            var exception = (AggregateException)value;
+            if (exception.InnerExceptions.Count == 1)
+            {
+                return "(aggregated) " + exception.InnerException.ToString();
+            }
+            else
+            {
+                var builder = new StringBuilder("(aggregated) exceptions ");
+
+                foreach (Exception innerException in exception.InnerExceptions)
+                {
+                    builder.AppendLine();
+                    builder.AppendLine(innerException.ToString());
+                }
+
+                return builder.ToString();
+            }
+        }
     }
 }

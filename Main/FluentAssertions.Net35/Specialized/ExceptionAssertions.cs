@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
+
+using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -11,7 +14,8 @@ namespace FluentAssertions.Specialized
     ///   Contains a number of methods to assert that an <see cref = "Exception" /> is in the correct state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class ExceptionAssertions<TException> : ReferenceTypeAssertions<Exception, ExceptionAssertions<TException>>
+    public class ExceptionAssertions<TException> :
+        ReferenceTypeAssertions<IEnumerable<TException>, ExceptionAssertions<TException>>
         where TException : Exception
     {
         private static readonly Dictionary<ComparisonMode, ExceptionMessageAssertion> outerMessageAssertions =
@@ -25,9 +29,9 @@ namespace FluentAssertions.Specialized
             SetupMessageAssertionRules();
         }
 
-        protected internal ExceptionAssertions(TException exception)
+        protected internal ExceptionAssertions(IEnumerable<TException> exceptions)
         {
-            Subject = exception;
+            Subject = exceptions;
         }
 
         /// <summary>
@@ -35,7 +39,15 @@ namespace FluentAssertions.Specialized
         /// </summary>
         public TException And
         {
-            get { return (TException) Subject; }
+            get { return Subject.First(); }
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "exception"; }
         }
 
         /// <summary>
@@ -55,9 +67,8 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string reason = "",
             params object[] reasonArgs)
         {
-            return WithMessage(expectedMessage, ComparisonMode.Exact, reason, reasonArgs);
+            return WithMessage(expectedMessage, ComparisonMode.Wildcard, reason, reasonArgs);
         }
-
 
         /// <summary>
         ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedMessage" />
@@ -81,11 +92,12 @@ namespace FluentAssertions.Specialized
         {
             AssertionScope assertion = Execute.Assertion.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
-            assertion.ForCondition(Subject != null).FailWith(
-                "Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
+            assertion
+                .ForCondition(Subject.Any())
+                .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
 
             ExceptionMessageAssertion messageAssertion = outerMessageAssertions[comparisonMode];
-            messageAssertion.Execute(Subject.Message, expectedMessage, reason, reasonArgs);
+            messageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedMessage, reason, reasonArgs);
 
             return this;
         }
@@ -111,24 +123,18 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Subject != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof (TInnerException));
+                .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof(TInnerException));
 
             Execute.Assertion
-                .ForCondition(Subject.InnerException != null)
+                .ForCondition(Subject.Any(e => e.InnerException != null))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
-                    typeof (TInnerException));
+                    typeof(TInnerException));
 
             Execute.Assertion
-                .ForCondition(Subject.InnerException != null)
+                .ForCondition(Subject.Any(e => e.InnerException is TInnerException))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
-                    typeof (TInnerException));
-
-            Execute.Assertion
-                .ForCondition(Subject.InnerException is TInnerException)
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof (TInnerException), Subject.InnerException);
+                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), Subject.First().InnerException);
 
             return this;
         }
@@ -155,7 +161,7 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string reason = "",
             params object[] reasonArgs)
         {
-            return WithInnerMessage(expectedInnerMessage, ComparisonMode.Exact, reason, reasonArgs);
+            return WithInnerMessage(expectedInnerMessage, ComparisonMode.Wildcard, reason, reasonArgs);
         }
 
         /// <summary>
@@ -175,14 +181,14 @@ namespace FluentAssertions.Specialized
                 .UsingLineBreaks;
 
             assertion
-                .ForCondition(Subject != null)
+                .ForCondition(Subject.Any())
                 .FailWith("Expected inner exception{reason}, but no exception was thrown.");
 
             assertion
-                .ForCondition(Subject.InnerException != null)
+                .ForCondition(Subject.Any(e => e.InnerException != null))
                 .FailWith("Expected inner exception{reason}, but the thrown exception has no inner exception.");
 
-            string subjectInnerMessage = Subject.InnerException.Message;
+            string[] subjectInnerMessage = Subject.Select(e => e.InnerException.Message).ToArray();
 
             ExceptionMessageAssertion messageAssertion = innerMessageAssertions[comparisonMode];
             messageAssertion.Execute(subjectInnerMessage, expectedInnerMessage, reason, reasonArgs);
@@ -208,7 +214,7 @@ namespace FluentAssertions.Specialized
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
             Execute.Assertion
-                .ForCondition(condition((TException) Subject))
+                .ForCondition(condition(Subject.First()))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected exception where {0}{reason}, but the condition was not met by:\r\n\r\n{1}",
                     exceptionExpression.Body, Subject);
@@ -218,103 +224,89 @@ namespace FluentAssertions.Specialized
 
         private static void SetupMessageAssertionRules()
         {
-            outerMessageAssertions[ComparisonMode.Exact] = new ExceptionMessageAssertion(
-                "exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().Be(expectation, reason, reasonArgs));
+            outerMessageAssertions[ComparisonMode.Exact] = new ExceptionMessageAssertion
+            {
+                Pattern = "{0}"
+            };
 
-            outerMessageAssertions[ComparisonMode.Equivalent] = new ExceptionMessageAssertion(
-                "equivalent of exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().BeEquivalentTo(expectation, reason, reasonArgs));
+            outerMessageAssertions[ComparisonMode.Equivalent] = new ExceptionMessageAssertion
+            {
+                Pattern = "{0}"
+            };
 
-            outerMessageAssertions[ComparisonMode.StartWith] = new ExceptionMessageAssertion(
-                "exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().StartWith(expectation, reason, reasonArgs));
+            outerMessageAssertions[ComparisonMode.Wildcard] = new ExceptionMessageAssertion
+            {
+                Pattern = "{0}"
+            };
 
-            outerMessageAssertions[ComparisonMode.StartWithEquivalent] = new ExceptionMessageAssertion(
-                "exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().StartWithEquivalent(expectation, reason, reasonArgs));
-
-            outerMessageAssertions[ComparisonMode.Substring] = new ExceptionMessageAssertion(
-                "exception message to contain",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().Contain(expectation, reason, reasonArgs));
-
-            outerMessageAssertions[ComparisonMode.EquivalentSubstring] = new ExceptionMessageAssertion(
-                "exception message to contain equivalent of",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().ContainEquivalentOf(expectation, reason, reasonArgs));
-
-            outerMessageAssertions[ComparisonMode.Wildcard] = new ExceptionMessageAssertion(
-                "exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().Match(expectation, reason, reasonArgs));
-
-            innerMessageAssertions[ComparisonMode.Exact] = new ExceptionMessageAssertion(
-                "inner exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().Be(expectation, reason, reasonArgs));
+            outerMessageAssertions[ComparisonMode.StartWith] = new ExceptionMessageAssertion
+            {
+                Pattern = "{0}*"
+            };
             
-            innerMessageAssertions[ComparisonMode.Equivalent] = new ExceptionMessageAssertion(
-                "inner exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().BeEquivalentTo(expectation, reason, reasonArgs));
+            outerMessageAssertions[ComparisonMode.StartWithEquivalent] = new ExceptionMessageAssertion
+            {
+                Pattern = "{0}*"
+            };
 
-            innerMessageAssertions[ComparisonMode.Substring] = new ExceptionMessageAssertion(
-                "inner exception message to contain",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().Contain(expectation, reason, reasonArgs));            
+            outerMessageAssertions[ComparisonMode.Substring] = new ExceptionMessageAssertion
+            {
+                Pattern = "*{0}*"
+            };
 
-            innerMessageAssertions[ComparisonMode.StartWith] = new ExceptionMessageAssertion(
-                "inner exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().StartWith(expectation, reason, reasonArgs));            
-            
-            innerMessageAssertions[ComparisonMode.StartWithEquivalent] = new ExceptionMessageAssertion(
-                "inner exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().StartWithEquivalent(expectation, reason, reasonArgs));            
-            
-            innerMessageAssertions[ComparisonMode.EquivalentSubstring] = new ExceptionMessageAssertion(
-                "inner exception message to contain equivalent of",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().ContainEquivalentOf(expectation, reason, reasonArgs));
+            outerMessageAssertions[ComparisonMode.EquivalentSubstring] = new ExceptionMessageAssertion
+            {
+                Pattern = "*{0}*"
+            };
 
-            innerMessageAssertions[ComparisonMode.Wildcard] = new ExceptionMessageAssertion(
-                "inner exception message",
-                (subject, expectation, reason, reasonArgs) =>
-                    subject.Should().Match(expectation, reason, reasonArgs));
-        }
+            foreach (KeyValuePair<ComparisonMode, ExceptionMessageAssertion> pair in outerMessageAssertions)
+            {
+                innerMessageAssertions[pair.Key] = new ExceptionMessageAssertion
+                {
+                    Context = "inner exception message",
+                    Pattern = pair.Value.Pattern
+                };
+            }
 
-        /// <summary>
-        /// Returns the type of the subject the assertion applies on.
-        /// </summary>
-        protected override string Context
-        {
-            get { return "exception"; }
         }
 
         private class ExceptionMessageAssertion
         {
-            private readonly string subjectName;
-            private readonly Action<string, string, string, object[]> assertion;
-
-            public ExceptionMessageAssertion(string subjectName, Action<string, string, string, object[]> assertion)
+            public ExceptionMessageAssertion()
             {
-                this.subjectName = subjectName;
-                this.assertion = assertion;
+                Context = "exception message";
             }
 
-            public void Execute(string actual, string expectation, string reason, params object[] reasonArgs)
+            public string Context { get; set; }
+            public string Pattern { get; set; }
+
+            public void Execute(IEnumerable<string> messages, string expectation, string reason, params object[] reasonArgs)
             {
-                using (var scope = new AssertionScope())
+                using (new AssertionScope())
                 {
-                    scope.AddNonReportable("context", subjectName);
-                    
-                    assertion(actual, expectation, reason, reasonArgs);
+                    var results = new AssertionResultSet();
+
+                    foreach (string message in messages)
+                    {
+                        using (var scope = new AssertionScope())
+                        {
+                            scope.AddNonReportable("context", Context);
+
+                            message.Should().MatchEquivalentOf(string.Format(Pattern, expectation), reason, reasonArgs);
+
+                            results.AddSet(message, scope.Discard());
+                        }
+
+                        if (results.ContainsSuccessfulSet)
+                        {
+                            break;
+                        }
+                    }
+
+                    foreach (string failure in results.SelectClosestMatchFor())
+                    {
+                        AssertionScope.Current.FailWith(failure);
+                    }
                 }
             }
         }

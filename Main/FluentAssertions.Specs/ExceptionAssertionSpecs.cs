@@ -49,7 +49,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().StartWith(
-                    "Expected exception message to be \r\n\"some message\" with a length of 12, but \r\n\"some\" has a length of 4");
+                    "Expected exception message to match the equivalent of \r\n\"some message\", but \r\n\"some\" does not.");
             }
         }
 
@@ -95,8 +95,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<Exception>()
-                .WithMessage("Expected exception message to start with \r\n\"Expected mes\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0)", 
-                ComparisonMode.StartWith);
+                .WithMessage("Expected exception message to match the equivalent of \r\n\"Expected mes*\", but \r\n\"OxpectOd message\" does not*");
         }
 
         [TestMethod]
@@ -141,8 +140,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<Exception>()
-                .WithMessage("Expected exception message to start with equivalent of \r\n\"expected mes\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0)", 
-                ComparisonMode.StartWith);
+                .WithMessage("Expected exception message to match the equivalent of \r\n\"expected mes*\", but \r\n\"OxpectOd message\" does not*");
         }
 
         [TestMethod]
@@ -171,8 +169,8 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                ex.Message.Should().StartWith(
-                    "Expected exception message to be \"message2\" because we want to test the failure message, but \"message1\" differs near \"1\" (index 7)");
+                ex.Message.Should().Match(
+                    "Expected exception message to match the equivalent of \"message2\" because we want to test the failure message, but \"message1\" does not*");
             }
         }
 
@@ -203,7 +201,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
-                    "Expected exception message to be \"message2\"*, but \"\"*");
+                    "Expected exception message to match the equivalent of \"message2\"*, but \"\"*");
             }
         }
 
@@ -235,7 +233,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match(
-                    "Expected exception message to be \r\n\"message2\"*, but \r\n\"message2\\r\\nParameter name: someParam\"*");
+                    "Expected exception message to match the equivalent of \r\n\"message2\"*, but \r\n\"message2\\r\\nParameter name: someParam\"*");
             }
         }
 
@@ -297,7 +295,6 @@ namespace FluentAssertions.Specs
                     "Expected System.InvalidOperationException because IFoo.Do should throw that one, but found System.ArgumentException");
 
                 ex.Message.Should().Contain(actualException.Message);
-                ex.Message.Should().Contain(actualException.StackTrace);
             }
         }
 
@@ -463,8 +460,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<Exception>()
-                .WithMessage("Expected inner exception message to start with \r\n\"Expected mes\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0)", 
-                ComparisonMode.StartWith);
+                .WithMessage("Expected inner exception message to match the equivalent of \r\n\"Expected mes*\", but \r\n\"OxpectOd message\" does not*");
         }
 
         [TestMethod]
@@ -509,8 +505,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<Exception>()
-                .WithMessage("Expected inner exception message to start with equivalent of \r\n\"expected mes\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0)", 
-                ComparisonMode.StartWith);
+                .WithMessage("Expected inner exception message to match the equivalent of \r\n\"expected mes*\", but \r\n\"OxpectOd message\" does not*");
         }
 
         [TestMethod]
@@ -535,8 +530,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected inner exception message to be equivalent to \r\n\"Expected message\", but \r\n\"OxpectOd message\" differs near \"Oxp\" (index 0)", 
-                ComparisonMode.StartWith);
+                .WithMessage("Expected inner exception message to match the equivalent of \r\n\"Expected message\", but \r\n\"OxpectOd message\" does not*");
         }
 
         [TestMethod]
@@ -781,7 +775,7 @@ namespace FluentAssertions.Specs
             action
                 .ShouldThrow<AssertFailedException>().WithMessage(
                     "Did not expect System.ArgumentException because we passed valid arguments, " +
-                        "but found one with message \"An exception was forced\".");
+                        "but found*with message \"An exception was forced\"*");
         }
 
         [TestMethod]
@@ -819,7 +813,7 @@ namespace FluentAssertions.Specs
             action
                 .ShouldThrow<AssertFailedException>().WithMessage(
                     "Did not expect any exception because we passed valid arguments, " +
-                        "but found a System.ArgumentException with message \"An exception was forced\".");
+                        "but found a System.ArgumentException with message \"An exception was forced\"*");
         }
 
         [TestMethod]

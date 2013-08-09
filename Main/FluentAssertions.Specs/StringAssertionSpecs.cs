@@ -367,7 +367,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected string to match \r\n\"h*earth!\" because that's the universal greeting, but \r\n\"hello world!\" does not match.");
+                .WithMessage("Expected string to match \r\n\"h*earth!\" because that's the universal greeting, but \r\n\"hello world!\" does not.");
         }
 
         [TestMethod]
@@ -406,7 +406,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected string to match \r\n\"What\\? Are you deaf\\?\", but \r\n\"What! Are you deaf!\" does not match.");
+                .WithMessage("Expected string to match \r\n\"What\\? Are you deaf\\?\", but \r\n\"What! Are you deaf!\" does not.");
         }
 
         [TestMethod]
@@ -426,7 +426,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected string to match \r\n\"*World*\", but \r\n\"hello world\" does not match.");
+                .WithMessage("Expected string to match \r\n\"*World*\", but \r\n\"hello world\" does not.");
         }
 
         #endregion
@@ -496,7 +496,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected string to match the equivalent of \r\n\"h*earth!\" " +
-                "because that's the universal greeting, but \r\n\"hello world!\" does not match.");
+                "because that's the universal greeting, but \r\n\"hello world!\" does not.");
         }
 
         [TestMethod]

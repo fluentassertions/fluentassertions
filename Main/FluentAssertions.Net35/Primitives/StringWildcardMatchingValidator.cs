@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.RegularExpressions;
-using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
 {
@@ -15,7 +14,7 @@ namespace FluentAssertions.Primitives
         {
             if (!IsMatch && !Negate)
             {
-                assertion.FailWith(ExpectationDescription + "but {1} does not match.", expected, subject);
+                assertion.FailWith(ExpectationDescription + "but {1} does not.", expected, subject);
             }
 
             if (IsMatch && Negate)
@@ -61,9 +60,6 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Gets or sets a value indicating whether the matching process should ignore any casing difference.
         /// </summary>
-        public bool IgnoreCase
-        {
-            get; set;
-        }
+        public bool IgnoreCase { get; set; }
     }
 }

@@ -80,9 +80,8 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected System.InvalidOperationException, but found System.ArgumentException",
-                    ComparisonMode.StartWith);
+                        action.ShouldThrow<AssertFailedException>()
+                            .WithMessage("Expected System.InvalidOperationException, but found*System.ArgumentException*");
         }
 
         [TestMethod]

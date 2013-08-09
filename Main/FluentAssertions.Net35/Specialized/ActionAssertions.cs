@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -11,8 +14,11 @@ namespace FluentAssertions.Specialized
     [DebuggerNonUserCode]
     public class ActionAssertions : ReferenceTypeAssertions<Action, ActionAssertions>
     {
-        protected internal ActionAssertions(Action subject)
+        private readonly IExtractExceptions extractor;
+
+        protected internal ActionAssertions(Action subject, IExtractExceptions extractor)
         {
+            this.extractor = extractor;
             Subject = subject;
         }
 
@@ -29,28 +35,20 @@ namespace FluentAssertions.Specialized
         public ExceptionAssertions<TException> ShouldThrow<TException>(string reason = "", params object[] reasonArgs)
             where TException : Exception
         {
-            Exception exception = null;
-
-            try
-            {
-                Subject();
-            }
-            catch (Exception actualException)
-            {
-                exception = actualException;
-            }
+            Exception actualException = InvokeSubjectWithInterception();
+            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
 
             Execute.Assertion
-                .ForCondition(exception != null)
+                .ForCondition(actualException != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
 
             Execute.Assertion
-                .ForCondition(exception is TException)
+                .ForCondition(expectedExceptions.Any())
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), exception);
+                .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), actualException);
 
-            return new ExceptionAssertions<TException>((TException)exception);            
+            return new ExceptionAssertions<TException>(expectedExceptions);            
         }
 
         /// <summary>
@@ -63,26 +61,17 @@ namespace FluentAssertions.Specialized
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public void ShouldNotThrow<TException>(string reason = "", params object[] reasonArgs)
+        public void ShouldNotThrow<TException>(string reason = "", params object[] reasonArgs) where TException : Exception
         {
-            Exception exception = null;
+            Exception actualException = InvokeSubjectWithInterception();
+            IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
 
-            try
-            {
-                Subject();
-            }
-            catch (Exception actualException)
-            {
-                exception = actualException;
-            }
-
-            if (exception != null)
+            if (actualException != null)
             {
                 Execute.Assertion
-                    .ForCondition(!(exception is TException))
+                    .ForCondition(!expectedExceptions.Any())
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
-                        typeof (TException), exception.Message);
+                    .FailWith("Did not expect {0}{reason}, but found {1}.", typeof (TException), actualException);
             }
         }
 
@@ -106,9 +95,23 @@ namespace FluentAssertions.Specialized
             {
                 Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
-                        exception.GetType(), exception.Message);
+                    .FailWith("Did not expect any exception{reason}, but found a {0}.", exception);
             }
+        }
+
+        private Exception InvokeSubjectWithInterception()
+        {
+            Exception actualException = null;
+
+            try
+            {
+                Subject();
+            }
+            catch (Exception exc)
+            {
+                actualException = exc;
+            }
+            return actualException;
         }
 
         /// <summary>
@@ -118,5 +121,10 @@ namespace FluentAssertions.Specialized
         {
             get { return "action"; }
         }
+    }
+
+    public interface IExtractExceptions
+    {
+        IEnumerable<T> OfType<T>(Exception actualException) where T : Exception ;
     }
 }

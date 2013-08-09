@@ -9,13 +9,13 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class AssertionResultSet
     {
-        private readonly Dictionary<int, string[]> set = new Dictionary<int, string[]>();
+        private readonly Dictionary<object, string[]> set = new Dictionary<object, string[]>();
 
         /// <summary>
         /// Adds the failures (if any) resulting from executing an assertion within a
         ///  <see cref="AssertionScope"/> identified by a key. 
         /// </summary>
-        public void AddSet(int key, string[] failures)
+        public void AddSet(object key, string[] failures)
         {
             set[key] = failures;
         }
@@ -28,12 +28,12 @@ namespace FluentAssertions.Equivalency
         ///  The closest match is the set that contains the least amount of failures, or no failures at all, and preferably 
         /// the set that is identified by the <paramref name="key"/>.        
         /// </remarks>
-        public string[] SelectClosestMatchFor(int key)
+        public string[] SelectClosestMatchFor(object key = null)
         {
             if (!ContainsSuccessfulSet)
             {
-                KeyValuePair<int, string[]> bestMatch = BestResultSets.Any(r => r.Key == key)
-                    ? BestResultSets.Single(r => r.Key == key)
+                KeyValuePair<object, string[]> bestMatch = BestResultSets.Any(r => r.Key.Equals(key))
+                    ? BestResultSets.Single(r => r.Key.Equals(key))
                     : BestResultSets.First();
 
                 return bestMatch.Value;
@@ -42,7 +42,7 @@ namespace FluentAssertions.Equivalency
             return new string[0];
         }
 
-        private KeyValuePair<int, string[]>[] BestResultSets
+        private KeyValuePair<object, string[]>[] BestResultSets
         {
             get
             {

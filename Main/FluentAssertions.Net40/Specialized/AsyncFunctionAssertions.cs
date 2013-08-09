@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 using FluentAssertions.Execution;
@@ -12,8 +17,11 @@ namespace FluentAssertions.Specialized
     [DebuggerNonUserCode]
     public class AsyncFunctionAssertions
     {
-        protected internal AsyncFunctionAssertions(Func<Task> subject)
+        private readonly IExtractExceptions extractor;
+
+        protected internal AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor)
         {
+            this.extractor = extractor;
             Subject = subject;
         }
 
@@ -35,17 +43,8 @@ namespace FluentAssertions.Specialized
         public ExceptionAssertions<TException> ShouldThrow<TException>(string reason = "", params object[] reasonArgs)
             where TException : Exception
         {
-            Exception exception = null;
-
-            try
-            {
-                Task task = Subject();
-                task.Wait();
-            }
-            catch (AggregateException aggregateException)
-            {
-                exception = aggregateException.InnerException;
-            }
+            Exception exception = InvokeSubjectWithInterception();
+            var exceptions = extractor.OfType<TException>(exception);
 
             Execute.Assertion
                 .ForCondition(exception != null)
@@ -53,11 +52,11 @@ namespace FluentAssertions.Specialized
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
 
             Execute.Assertion
-                .ForCondition(exception is TException)
+                .ForCondition(exceptions.Any())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), exception);
 
-            return new ExceptionAssertions<TException>((TException)exception);            
+            return new ExceptionAssertions<TException>(exceptions);            
         }
 
         /// <summary>
@@ -119,5 +118,24 @@ namespace FluentAssertions.Specialized
                 }
             }
         }
+
+        private Exception InvokeSubjectWithInterception()
+        {
+            Exception actualException = null;
+
+            try
+            {
+                Task task = Subject();
+                task.Wait();
+            }
+            catch (Exception exception)
+            {
+                actualException = exception;
+            }
+
+            return actualException;
+        }
+
+
     }
 }

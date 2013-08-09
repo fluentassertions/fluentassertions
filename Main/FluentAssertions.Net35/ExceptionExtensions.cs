@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using FluentAssertions.Specialized;
 
@@ -6,6 +7,8 @@ namespace FluentAssertions
 {
     public static class ExceptionExtensions
     {
+        private static readonly SimpleExceptionExtractor exceptionExtractor = new SimpleExceptionExtractor();
+
         /// <summary>
         /// Asserts that the <paramref name="action"/> throws an exception.
         /// </summary>
@@ -27,7 +30,7 @@ namespace FluentAssertions
             params object[] reasonArgs)
             where TException : Exception
         {
-            return new ActionAssertions(action).ShouldThrow<TException>(reason, reasonArgs);
+            return new ActionAssertions(action, exceptionExtractor).ShouldThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -44,9 +47,9 @@ namespace FluentAssertions
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public static void ShouldNotThrow<TException>(this Action action, string reason = "", params object[] reasonArgs)
+        public static void ShouldNotThrow<TException>(this Action action, string reason = "", params object[] reasonArgs) where TException : Exception
         {
-            new ActionAssertions(action).ShouldNotThrow<TException>(reason, reasonArgs);
+            new ActionAssertions(action, exceptionExtractor).ShouldNotThrow<TException>(reason, reasonArgs);
         }
 
         /// <summary>
@@ -62,7 +65,23 @@ namespace FluentAssertions
         /// </param>
         public static void ShouldNotThrow(this Action action, string reason = "", params object[] reasonArgs)
         {
-            new ActionAssertions(action).ShouldNotThrow(reason, reasonArgs);
+            new ActionAssertions(action, exceptionExtractor).ShouldNotThrow(reason, reasonArgs);
+        }
+    }
+
+    internal class SimpleExceptionExtractor : IExtractExceptions
+    {
+        public IEnumerable<T> OfType<T>(Exception actualException) where T : Exception
+        {
+            var exceptions = new List<T>();
+            
+            var item = actualException as T;
+            if (item != null)
+            {
+                exceptions.Add(item);
+            }
+
+            return exceptions;
         }
     }
 }
