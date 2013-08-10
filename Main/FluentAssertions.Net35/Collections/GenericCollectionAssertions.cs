@@ -23,6 +23,77 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that the number of items in the collection matches the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">The expected number of items in the collection.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<GenericCollectionAssertions<T>> HaveCount(int expected, string reason = "", params object[] reasonArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found <null>.", expected);
+            }
+
+            int actualCount = Subject.Count();
+
+            Execute.Verification
+                .ForCondition(actualCount == expected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found {1}.", expected, actualCount);
+
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the number of items in the collection matches a condition stated by the <paramref name="countPredicate"/>.
+        /// </summary>
+        /// <param name="countPredicate">A predicate that yields the number of items that is expected to be in the collection.</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<GenericCollectionAssertions<T>> HaveCount(Expression<Func<int, bool>> countPredicate, string reason = "",
+            params object[] reasonArgs)
+        {
+            if (countPredicate == null)
+            {
+                throw new NullReferenceException("Cannot compare collection count against a <null> predicate.");
+            }
+
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected {context:collection} to contain {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
+            }
+
+            Func<int, bool> compiledPredicate = countPredicate.Compile();
+
+            int actualCount = Subject.Count();
+
+            if (!compiledPredicate(actualCount))
+            {
+                Execute.Verification
+                    .BecauseOf(reason, reasonArgs)
+                    .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
+                        Subject, countPredicate.Body, actualCount);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+        }
+
+        /// <summary>
         /// Asserts that two collections contain the same items in the same order, where equality is determined using a 
         /// predicate.
         /// </summary>

@@ -277,6 +277,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_asserting_element_has_attribute_with_ns_and_specific_value_and_it_does_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "martin");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_asserting_element_has_attribute_with_specific_value_but_attribute_does_not_exist_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -289,6 +309,26 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 element.Should().HaveAttribute("age", "36");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveAttribute(XName.Get("age", "http://www.example.com/2012/test"), "36");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -314,9 +354,32 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected XML element to have attribute 'age' with value \"36\"" +
+                .WithMessage("Expected XML element to have attribute \"age\" with value \"36\"" +
                     " because we want to test the failure message" +
                         ", but found no such attribute in <user name=\\\"martin\\\" />");
+        }
+
+        [TestMethod]
+        public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_does_not_exist_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveAttribute(XName.Get("age", "http://www.example.com/2012/test"), "36", "because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected XML element to have attribute \"{http://www.example.com/2012/test}age\" with value \"36\"" +
+                    " because we want to test the failure message" +
+                        ", but found no such attribute in <user xmlns:a=\\\"http://www.example.com/2012/test\\\" a:name=\\\"martin\\\" />");
         }
 
         [TestMethod]
@@ -332,6 +395,26 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 element.Should().HaveAttribute("name", "dennis");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -357,7 +440,30 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected XML attribute 'name' to have value \"dennis\"" +
+                .WithMessage("Expected XML attribute \"name\" to have value \"dennis\"" +
+                    " because we want to test the failure message" +
+                        ", but found \"martin\".");
+        }
+
+        [TestMethod]
+        public void When_asserting_element_has_attribute_with_ns_and_specific_value_but_attribute_has_different_value_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(@"<user xmlns:a=""http://www.example.com/2012/test"" a:name=""martin"" />");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveAttribute(XName.Get("name", "http://www.example.com/2012/test"), "dennis", "because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected XML attribute \"{http://www.example.com/2012/test}name\" to have value \"dennis\"" +
                     " because we want to test the failure message" +
                         ", but found \"martin\".");
         }
@@ -389,6 +495,30 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+
+        [TestMethod]
+        public void When_asserting_element_has_child_element_with_ns_and_it_does_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(
+                @"<parent xmlns:c='http://www.example.com/2012/test'>
+                    <c:child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveElement(XName.Get("child", "http://www.example.com/2012/test"));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
         [TestMethod]
         public void When_asserting_element_has_child_element_but_it_does_not_it_should_fail()
         {
@@ -405,6 +535,29 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 element.Should().HaveElement("unknown");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_element_has_child_element_with_ns_but_it_does_not_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveElement(XName.Get("unknown", "http://www.example.com/2012/test"));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -432,7 +585,34 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            string expectedMessage = string.Format("Expected XML element {0} to have child element <unknown>" +
+            string expectedMessage = string.Format("Expected XML element {0} to have child element \"unknown\"" +
+                " because we want to test the failure message" +
+                    ", but no such child element was found.", Formatter.ToString(element));
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void When_asserting_element_has_child_element_with_ns_but_it_does_not_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(
+                @"<parent>
+                    <child />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().HaveElement(XName.Get("unknown", "http://www.example.com/2012/test"), "because we want to test the failure message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            string expectedMessage = string.Format("Expected XML element {0} to have child element \"{{http://www.example.com/2012/test}}unknown\"" +
                 " because we want to test the failure message" +
                     ", but no such child element was found.", Formatter.ToString(element));
 

@@ -1,6 +1,8 @@
 using System;
 using System.Globalization;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Equivalency
 {
     internal class TryConversionEquivalencyStep : IEquivalencyStep

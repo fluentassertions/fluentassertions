@@ -5,6 +5,8 @@ using System.Collections.Generic;
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
+using System.Collections.ObjectModel;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #endif
@@ -223,13 +225,93 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
+            Action act =
+                () => collection.Should().HaveCount(c => c < 3, "we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection to contain (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_counting_nongeneric_enumerable_it_should_enumerate()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new CountingNonGenericEnumerable(new[] {"1", "2", "3"});
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().HaveCount(3);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.GetEnumeratorCallCount.Should().Be(1); 
+        }
+
+        [TestMethod]
+        public void When_counting_nongeneric_collection_it_should_not_enumerate()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new CountingNonGenericCollection(new[]{1, 2, 3});
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().HaveCount(3);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.GetCountCallCount.Should().Be(1);
+            collection.GetEnumeratorCallCount.Should().Be(0);
+
+        }
+
+        [TestMethod]
+        public void When_counting_generic_enumerable_it_should_enumerate()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var enumerable = new CountingGenericEnumerable<int>(new[] {1, 2, 3});
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            enumerable.Should().HaveCount(3);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            enumerable.GetEnumeratorCallCount.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void When_counting_generic_collection_it_should_not_enumerate()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new CountingGenericCollection<int>(new[] {1, 2, 3});
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().HaveCount(3);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.GetCountCallCount.Should().Be(1);
+            collection.GetEnumeratorCallCount.Should().Be(0);
         }
 
         #endregion
@@ -2023,6 +2105,121 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+    }
+
+    internal class CountingNonGenericEnumerable : IEnumerable
+    {
+        private readonly IEnumerable _backingSet;
+
+        public CountingNonGenericEnumerable(IEnumerable backingSet)
+        {
+            _backingSet = backingSet;
+        }
+
+        public int GetEnumeratorCallCount { get; private set; }
+
+        public IEnumerator GetEnumerator()
+        {
+            GetEnumeratorCallCount++;
+            return _backingSet.GetEnumerator();
+        }
+    }
+
+    internal class CountingGenericEnumerable<TElement> : IEnumerable<TElement>
+    {
+        private readonly IEnumerable<TElement> _backingSet;
+
+        public CountingGenericEnumerable(IEnumerable<TElement> backingSet)
+        {
+            _backingSet = backingSet;
+            GetEnumeratorCallCount = 0;
+        }
+
+        public int GetEnumeratorCallCount { get; private set; }
+
+        public IEnumerator<TElement> GetEnumerator()
+        {
+            GetEnumeratorCallCount++;
+            return _backingSet.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    internal class CountingNonGenericCollection : ICollection
+    {
+        private readonly ICollection _backingSet;
+        private int _count;
+
+        public CountingNonGenericCollection(ICollection backingSet)
+        {
+            _backingSet = backingSet;
+        }
+
+        public int GetEnumeratorCallCount { get; private set; }
+        public IEnumerator GetEnumerator()
+        {
+            GetEnumeratorCallCount++;
+            return _backingSet.GetEnumerator();
+        }
+
+        public void CopyTo(Array array, int index) { throw new NotImplementedException(); }
+
+        public int GetCountCallCount { get; private set; }
+        public int Count
+        {
+            get
+            {
+                GetCountCallCount++;
+                return _backingSet.Count;
+            }
+        }
+
+        public object SyncRoot { get; private set; }
+        public bool IsSynchronized { get { return true; } }
+    }
+
+    internal class CountingGenericCollection<TElement> : ICollection<TElement>
+    {
+        private readonly ICollection<TElement> _backingSet;
+
+        public CountingGenericCollection(ICollection<TElement> backingSet)
+        {
+            _backingSet = backingSet;
+        }
+
+        public int GetEnumeratorCallCount { get; private set; }
+        public IEnumerator<TElement> GetEnumerator()
+        {
+            GetEnumeratorCallCount++;
+            return _backingSet.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void Add(TElement item) { throw new NotImplementedException(); }
+        public void Clear() { throw new NotImplementedException(); }
+        public bool Contains(TElement item) { throw new NotImplementedException(); }
+        public void CopyTo(TElement[] array, int arrayIndex) { throw new NotImplementedException(); }
+        public bool Remove(TElement item) { throw new NotImplementedException(); }
+
+        public int GetCountCallCount { get; private set; }
+        public int Count
+        {
+            get
+            {
+                GetCountCallCount++;
+                return _backingSet.Count;
+            }
+        }
+
+        public bool IsReadOnly { get; private set; }
     }
 
     internal class CustomEnumerable : IEnumerable

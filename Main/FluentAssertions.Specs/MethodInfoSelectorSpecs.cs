@@ -187,6 +187,7 @@ namespace FluentAssertions.Specs
     [AttributeUsage(AttributeTargets.Method)]
     public class DummyMethodAttribute : Attribute
     {
+        public bool Filter { get; set; }
     }
 
     #endregion
