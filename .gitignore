@@ -176,3 +176,5 @@ Main/FluentAssertions/*/AppPackages/**
 */AppPackages/*
 
 Main/UpgradeLog.htm
+/Main/FluentAssertions.sln.DotSettings
+/Main/UpgradeLog2.htm
