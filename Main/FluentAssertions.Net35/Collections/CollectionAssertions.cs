@@ -181,7 +181,15 @@ namespace FluentAssertions.Collections
         {
             AssertionScope assertion = Execute.Assertion.BecauseOf(reason, reasonArgs);
 
-            if (ReferenceEquals(Subject, null))
+            bool subjectIsNull = ReferenceEquals(Subject, null);
+            bool expectationIsNull = ReferenceEquals(expectation, null);
+
+            if (subjectIsNull && expectationIsNull)
+            {
+                return;
+            }
+
+            if (subjectIsNull)
             {
                 assertion.FailWith("Expected {context:collection} to be equal{reason}, but found <null>.");
             }
