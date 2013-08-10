@@ -407,7 +407,9 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Execution\AssertionHelper.cs" />
-    <Compile Include="Execution\WindowsPhoneTestFramework.cs" />
+    <Compile Include="Execution\WP75TestFramework.cs" />
+    <Compile Include="Execution\VS2012TestFramework.cs" />
+    <Compile Include="Execution\WP8TestFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
