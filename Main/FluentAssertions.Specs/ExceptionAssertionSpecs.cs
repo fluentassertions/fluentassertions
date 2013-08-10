@@ -813,7 +813,7 @@ namespace FluentAssertions.Specs
             action
                 .ShouldThrow<AssertFailedException>().WithMessage(
                     "Did not expect any exception because we passed valid arguments, " +
-                        "but found a System.ArgumentException with message \"An exception was forced\"*");
+                        "but found System.ArgumentException with message \"An exception was forced\"*");
         }
 
         [TestMethod]

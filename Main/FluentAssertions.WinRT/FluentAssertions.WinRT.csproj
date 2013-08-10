@@ -127,6 +127,9 @@
     <Compile Include="..\FluentAssertions.Net35\Formatting\EnumerableValueFormatter.cs">
       <Link>Formatting\EnumerableValueFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\ExceptionValueFormatter.cs">
+      <Link>Formatting\ExceptionValueFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\ExpressionValueFormatter.cs">
       <Link>Formatting\ExpressionValueFormatter.cs</Link>
     </Compile>
@@ -369,6 +372,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\ExceptionExtensionsNet40.cs">
       <Link>ExceptionExtensionsNet40.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Formatting\AggregateExceptionValueFormatter.cs">
+      <Link>Formatting\AggregateExceptionValueFormatter.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\Specialized\AsyncFunctionAssertions.cs">
       <Link>Specialized\AsyncFunctionAssertions.cs</Link>

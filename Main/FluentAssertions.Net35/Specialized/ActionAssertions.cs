@@ -95,7 +95,7 @@ namespace FluentAssertions.Specialized
             {
                 Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect any exception{reason}, but found a {0}.", exception);
+                    .FailWith("Did not expect any exception{reason}, but found {0}", exception);
             }
         }
 

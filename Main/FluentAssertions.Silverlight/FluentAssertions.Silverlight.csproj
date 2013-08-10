@@ -197,6 +197,9 @@
     <Compile Include="..\FluentAssertions.Net35\Formatting\EnumerableValueFormatter.cs">
       <Link>Formatting\EnumerableValueFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Formatting\ExceptionValueFormatter.cs">
+      <Link>Formatting\ExceptionValueFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\ExpressionValueFormatter.cs">
       <Link>Formatting\ExpressionValueFormatter.cs</Link>
     </Compile>
