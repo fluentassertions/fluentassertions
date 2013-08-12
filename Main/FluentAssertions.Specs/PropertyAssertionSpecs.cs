@@ -1552,20 +1552,27 @@ namespace FluentAssertions.Specs
 
     public class Customer : Entity
     {
-        private string Password { get; set; }
+        private string PrivateProperty { get; set; }
+
+        protected string ProtectedProperty { get; set; }
 
         public string Name { get; set; }
         public int Age { get; set; }
         public DateTime Birthdate { get; set; }
         public long Id { get; set; }
 
+        public void SetProtected(string value)
+        {
+            ProtectedProperty = value;
+        }
+
         public Customer()
         {
         }
 
-        public Customer(string password)
+        public Customer(string privateProperty)
         {
-            Password = password;
+            PrivateProperty = privateProperty;
         }
     }
 

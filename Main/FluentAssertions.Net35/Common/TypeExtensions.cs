@@ -106,8 +106,7 @@ namespace FluentAssertions.Common
             return property;
         }
 
-        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect,
-                                                                        IEnumerable<string> filter = null)
+        public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)
         {
             var query =
                 from propertyInfo in GetPropertiesFromHierarchy(typeToReflect)
@@ -185,11 +184,11 @@ namespace FluentAssertions.Common
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
         {
 #if !WINRT
-            var getMethod = propertyInfo.GetGetMethod(true);
-            return (getMethod != null) && !getMethod.IsPrivate;
+            MethodInfo getMethod = propertyInfo.GetGetMethod(true);
+            return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsFamily;
 #else
             var getMethod = propertyInfo.GetMethod;
-            return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsStatic;
+            return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsFamily && !getMethod.IsStatic;
 #endif
         }
 

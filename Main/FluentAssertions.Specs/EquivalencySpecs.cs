@@ -286,6 +286,41 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_a_property_is_protected_it_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new Customer
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John",
+            };
+
+            subject.SetProtected("ActualValue");
+
+            var expected = new Customer
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John"
+            };
+
+            expected.SetProtected("ExpectedValue");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_an_interface_hierarchy_is_used_it_should_include_all_inherited_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
