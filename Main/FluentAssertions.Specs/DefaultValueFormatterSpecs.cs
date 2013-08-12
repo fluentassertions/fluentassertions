@@ -53,6 +53,70 @@ namespace FluentAssertions.Specs
             result.Should().Contain("Property 'ThrowingProperty' threw an exception");
         }
 
+        [TestMethod]
+        public void When_the_object_is_a_generic_type_without_custom_string_representation_it_should_show_the_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var stuff = new List<Stuff<int>>
+            {
+                new Stuff<int>
+                {
+                    StuffId = 1,
+                    Description = "Stuff_1",
+                    Childs = new List<int> { 1, 2, 3, 4 }
+                },
+                new Stuff<int>
+                {
+                    StuffId = 2,
+                    Description = "Stuff_2",
+                    Childs = new List<int> { 1, 2, 3, 4 }
+                }
+            };
+
+            var expectedStuff = new List<Stuff<int>>
+            {
+                new Stuff<int>
+                {
+                    StuffId = 1,
+                    Description = "Stuff_1",
+                    Childs = new List<int> { 1, 2, 3, 4 }
+                },
+                new Stuff<int>
+                {
+                    StuffId = 2,
+                    Description = "WRONG_DESCRIPTION",
+                    Childs = new List<int> { 1, 2, 3, 4 }
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => stuff.Should().NotBeNull()
+                .And.Equal(expectedStuff, (t1, t2) => t1.StuffId == t2.StuffId && t1.Description == t2.Description);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*Childs =*")
+                .WithMessage("*Description =*")
+                .WithMessage("*StuffId =*");
+        }
+
+        public class BaseStuff
+        {
+            public int StuffId { get; set; }
+            public string Description { get; set; }
+        }
+
+        public class Stuff<TChild> : BaseStuff
+        {
+            public List<TChild> Childs { get; set; }
+        }
+
 #if !WINRT
 
         #region Attribute Based Formatting
