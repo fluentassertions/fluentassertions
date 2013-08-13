@@ -93,17 +93,20 @@ namespace FluentAssertions.Common
         /// <returns>
         /// Returns <c>null</c> if no such property exists.
         /// </returns>
-        public static PropertyInfo FindProperty(this Type type, string propertyName)
+        public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
         {
-            PropertyInfo property =
+            IEnumerable<PropertyInfo> properties =
 #if !WINRT
                 type.GetProperties(PublicPropertiesFlag)
 #else
                 type.GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic)
 #endif
-                    .SingleOrDefault(pi => pi.Name == propertyName);
-
-            return property;
+                    .Where(pi => pi.Name == propertyName)
+                    .ToList();
+            
+            return (properties.Count() > 1)
+                ? properties.SingleOrDefault(p => p.PropertyType == preferredType)
+                : properties.SingleOrDefault();
         }
 
         public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)

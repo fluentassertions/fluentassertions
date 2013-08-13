@@ -33,7 +33,7 @@ namespace FluentAssertions.Equivalency
         /// </returns>
         public PropertyInfo Match(PropertyInfo subjectProperty, object expectation, string propertyPath)
         {
-            return expectation.GetType().FindProperty(subjectProperty.Name);
+            return expectation.GetType().FindProperty(subjectProperty.Name, subjectProperty.PropertyType);
         }
 
         /// <summary>

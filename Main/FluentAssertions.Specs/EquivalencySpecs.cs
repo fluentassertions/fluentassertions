@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -8,8 +9,6 @@ using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using System.Linq;
 
 namespace FluentAssertions.Specs
 {
@@ -98,7 +97,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_a_non_property_expression_is_provided_it_should_throw()
         {
@@ -318,6 +317,57 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_property_is_hidden_in_a_derived_class_it_should_ignore_it()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new SubclassA<string> { Foo = "test" };
+            var expectation = new SubclassB<string> { Foo = "test" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldBeEquivalentTo(expectation);
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        public class BaseWithFoo
+        {
+            public object Foo { get; set; }
+        }
+
+        public class SubclassA<T> : BaseWithFoo
+        {
+            public new T Foo
+            {
+                get { return (T)base.Foo; }
+
+                set { base.Foo = value; }
+            }
+        }
+
+        public class D
+        {
+            public object Foo { get; set; }
+        }
+
+        public class SubclassB<T> : D
+        {
+            public new T Foo
+            {
+                get { return (T)base.Foo; }
+
+                set { base.Foo = value; }
+            }
         }
 
         [TestMethod]
@@ -774,7 +824,7 @@ namespace FluentAssertions.Specs
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected item[0].Name*Jane*John*item[1].Name*John*Jane*", ComparisonMode.Wildcard);
         }
-        
+
         [TestMethod]
         public void When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw()
         {
@@ -786,7 +836,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5}
+                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
                 },
                 new
                 {
@@ -800,7 +850,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1}
+                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
                 },
                 new
                 {
@@ -833,7 +883,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5}
+                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
                 },
                 new
                 {
@@ -847,7 +897,7 @@ namespace FluentAssertions.Specs
                 new
                 {
                     Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1}
+                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
                 },
                 new
                 {
@@ -2356,13 +2406,14 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var scope = new AssertionScope();
-            
+
             AssertionScope.Current.FailWith("Failure1");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = scope.Dispose;;
+            Action act = scope.Dispose;
+            ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2376,7 +2427,7 @@ namespace FluentAssertions.Specs
                 Assert.IsTrue(exception.Message.StartsWith("Failure1"));
             }
         }
-        
+
         [TestMethod]
         public void When_multiple_scopes_are_nested_it_should_throw_all_failures_from_the_outer_scope()
         {
@@ -2384,7 +2435,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var scope = new AssertionScope();
-            
+
             AssertionScope.Current.FailWith("Failure1");
 
             using (var nestedScope = new AssertionScope())
@@ -2400,7 +2451,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = scope.Dispose;;
+            Action act = scope.Dispose;
+            ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2424,7 +2476,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var scope = new AssertionScope();
-            
+
             AssertionScope.Current.FailWith("Failure1");
 
             using (var nestedScope = new AssertionScope())
@@ -2441,7 +2493,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = scope.Dispose;;
+            Action act = scope.Dispose;
+            ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2465,7 +2518,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var scope = new AssertionScope();
-            
+
             AssertionScope.Current.FailWith("Failure");
             AssertionScope.Current.FailWith("Failure");
 
@@ -2478,7 +2531,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = scope.Dispose;;
+            Action act = scope.Dispose;
+            ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2490,7 +2544,7 @@ namespace FluentAssertions.Specs
             catch (Exception exception)
             {
                 int matches = new Regex(".*Failure.*").Matches(exception.Message).Count;
-                
+
                 Assert.AreEqual(1, matches);
             }
         }
