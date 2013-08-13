@@ -62,15 +62,13 @@ namespace FluentAssertions
             float expectedValue, float precision, string reason = "",
             params object [] reasonArgs)
         {
-            float actualDifference = Math.Abs(expectedValue - (float) parent.Subject);
-
-            if (actualDifference > precision)
-            {
-                Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected value {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.",
-                        parent.Subject, expectedValue, precision, actualDifference);
-            }
+            float actualDifference = Math.Abs(expectedValue - (float)parent.Subject);
+            
+            Execute.Assertion
+                .ForCondition(actualDifference <= precision)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected value {0} to approximate {1} +/- {2}{reason}, but it differed by {3}.",
+                    parent.Subject, expectedValue, precision, actualDifference);
 
             return new AndConstraint<NumericAssertions<float>>(parent);
         }
