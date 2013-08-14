@@ -1541,7 +1541,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 5, 3 };
+            IEnumerable collection = new[] { 1, 6, 12, 15, 12, 17, 26 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1552,8 +1552,8 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to have all items in ascending order because numbers are ordered," +
-                    " but found {1, 5, 3} where item at index 2 is in wrong order."); ;
+                .WithMessage("Expected collection to contain items in ascending order because numbers are ordered," +
+                    " but found {1, 6, 12, 15, 12, 17, 26} where item at index 3 is in wrong order."); ;
         }
 
         [TestMethod]
@@ -1587,7 +1587,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect collection to have all items in ascending order because numbers are not ordered," +
+                .WithMessage("Did not expect collection to contain items in ascending order because numbers are not ordered," +
                     " but found {1, 2, 2, 3}.");
         }
 
@@ -1622,8 +1622,8 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to have all items in descending order because letters are ordered," +
-                    " but found {\"z\", \"x\", \"y\"} where item at index 2 is in wrong order.");
+                .WithMessage("Expected collection to contain items in descending order because letters are ordered," +
+                    " but found {\"z\", \"x\", \"y\"} where item at index 1 is in wrong order.");
         }
 
         [TestMethod]
@@ -1657,7 +1657,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect collection to have all items in descending order because numbers are not ordered," +
+                .WithMessage("Did not expect collection to contain items in descending order because numbers are not ordered," +
                     " but found {\"c\", \"b\", \"a\"}.");
         }
 

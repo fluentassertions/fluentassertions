@@ -609,27 +609,23 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected {context:collection} to have all items in " + sortOrder + " order{reason}, but found {1}.", Subject);
+                    .FailWith("Expected {context:collection} to contain items in " + sortOrder + " order{reason}, but found {1}.", Subject);
             }
-
-            object[] orderedItems = (expectedOrder == SortOrder.Ascending)
-                ? Subject.Cast<object>().OrderBy(item => item).ToArray()
-                : Subject.Cast<object>().OrderByDescending(item => item).ToArray();
 
             object[] actualItems = Subject.Cast<object>().ToArray();
 
-            for (int index = 0; index < actualItems.Length; index++)
-            {
-                object orderedItem = orderedItems[index];
-                object actualItem = actualItems[index];
-                int indexOfActualItem = Array.IndexOf(actualItems, orderedItem);
+            object[] orderedItems = (expectedOrder == SortOrder.Ascending)
+                ? actualItems.OrderBy(item => item).ToArray()
+                : actualItems.OrderByDescending(item => item).ToArray();
 
+            for (int index = 0; index < orderedItems.Length; index++)
+            {
                 Execute.Assertion
+                    .ForCondition(actualItems[index].IsSameOrEqualTo(orderedItems[index]))
                     .BecauseOf(reason, reasonArgs)
-                    .ForCondition(actualItem.IsSameOrEqualTo(orderedItem))
-                    .FailWith("Expected {context:collection} to have all items in " + sortOrder +
+                    .FailWith("Expected {context:collection} to contain items in " + sortOrder +
                             " order{reason}, but found {0} where item at index {1} is in wrong order.",
-                        Subject, indexOfActualItem);
+                        Subject, index);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -679,7 +675,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect {context:collection} to have all items in " + sortOrder + " order{reason}, but found {1}.", Subject);
+                    .FailWith("Did not expect {context:collection} to contain items in " + sortOrder + " order{reason}, but found {1}.", Subject);
             }
 
             object[] orderedItems = (order == SortOrder.Ascending)
@@ -696,7 +692,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
-                    .FailWith("Did not expect {context:collection} to have all items in " + sortOrder + " order{reason}, but found {0}.", Subject);
+                    .FailWith("Did not expect {context:collection} to contain items in " + sortOrder + " order{reason}, but found {0}.", Subject);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
