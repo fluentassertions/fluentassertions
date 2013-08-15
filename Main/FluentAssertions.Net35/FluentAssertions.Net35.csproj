@@ -62,7 +62,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Package\Lib\net35\FluentAssertions.xml</DocumentationFile>
-    <NoWarn>1591; 1572; 1573;1574</NoWarn>
+    <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugSymbols>true</DebugSymbols>
