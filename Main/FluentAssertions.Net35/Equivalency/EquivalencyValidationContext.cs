@@ -35,13 +35,6 @@ namespace FluentAssertions.Equivalency
         public object Subject { get; internal set; }
 
         /// <summary>
-        /// Gets the property of the <see cref="IEquivalencyValidationContext.Expectation" /> that was matched against the <see
-        /// cref="ISubjectInfo.PropertyInfo" />, 
-        /// or <c>null</c> if <see cref="IEquivalencyValidationContext.IsRoot" /> is <c>true</c>.
-        /// </summary>
-        public PropertyInfo MatchingExpectationProperty { get; private set; }
-
-        /// <summary>
         /// Gets the value of the <see cref="IEquivalencyValidationContext.MatchingExpectationProperty" />.
         /// </summary>
         public object Expectation { get; internal set; }
@@ -98,25 +91,24 @@ namespace FluentAssertions.Equivalency
             object subject = nestedProperty.GetValue(Subject, null);
             object expectation = matchingProperty.GetValue(Expectation, null);
 
-            return CreateNested(nestedProperty, subject, matchingProperty, expectation, "property ",
+            return CreateNested(nestedProperty, subject, expectation, "property ",
                 nestedProperty.Name, ".");
         }
 
         public EquivalencyValidationContext CreateForCollectionItem(int index, object subject, object expectation)
         {
-            return CreateNested(PropertyInfo, subject, MatchingExpectationProperty, expectation, "item",
+            return CreateNested(PropertyInfo, subject, expectation, "item",
                 "[" + index + "]", "");
         }
 
         public EquivalencyValidationContext CreateForDictionaryItem(object key, object subject, object expectation)
         {
-            return CreateNested(PropertyInfo, subject, MatchingExpectationProperty, expectation, "pair", "[" + key + "]",
+            return CreateNested(PropertyInfo, subject, expectation, "pair", "[" + key + "]",
                 "");
         }
 
         private EquivalencyValidationContext CreateNested(
-            PropertyInfo subjectProperty, object subject,
-            PropertyInfo matchingProperty, object expectation,
+            PropertyInfo subjectProperty, object subject, object expectation,
             string memberType, string memberDescription, string separator)
         {
             string propertyPath = IsRoot ? memberType : PropertyDescription + separator;
@@ -124,7 +116,6 @@ namespace FluentAssertions.Equivalency
             return new EquivalencyValidationContext
             {
                 PropertyInfo = subjectProperty,
-                MatchingExpectationProperty = matchingProperty,
                 Subject = subject,
                 Expectation = expectation,
                 PropertyPath = PropertyPath.Combine(memberDescription, separator),

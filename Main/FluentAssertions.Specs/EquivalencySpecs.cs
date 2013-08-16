@@ -1792,6 +1792,45 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_validating_nested_properties_that_are_null_it_should_not_throw_on_cyclic_references()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new CyclicRoot
+            {
+                Text = null,
+            };
+
+            actual.Level = new CyclicLevel1
+            {
+                Text = null,
+                Root = null,
+            };
+
+            var expectation = new CyclicRootDto
+            {
+                Text = null,
+            };
+
+            expectation.Level = new CyclicLevel1Dto
+            {
+                Text = null,
+                Root = null,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_two_objects_have_the_same_nested_objects_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

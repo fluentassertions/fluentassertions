@@ -8,12 +8,6 @@ namespace FluentAssertions.Equivalency
     public interface IEquivalencyValidationContext : ISubjectInfo
     {
         /// <summary>
-        /// Gets the property of the <see cref="Expectation"/> that was matched against the <see cref="SubjectProperty"/>, 
-        /// or <c>null</c> if <see cref="IsRoot"/> is <c>true</c>.
-        /// </summary>
-        PropertyInfo MatchingExpectationProperty { get; }
-
-        /// <summary>
         /// Gets the value of the <see cref="MatchingExpectationProperty"/>.
         /// </summary>
         object Expectation { get; }

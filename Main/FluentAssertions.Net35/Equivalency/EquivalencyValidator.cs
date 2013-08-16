@@ -1,6 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -87,7 +88,7 @@ namespace FluentAssertions.Equivalency
         private List<ObjectReference> references = new List<ObjectReference>();
 
         #endregion
-        
+
         public ObjectTracker(CyclicReferenceHandling handling)
         {
             this.handling = handling;
@@ -105,18 +106,21 @@ namespace FluentAssertions.Equivalency
         {
             bool isCyclic = false;
 
-            if (references.Contains(reference))
+            if (reference.IsReference)
             {
-                isCyclic = true;
-                if (handling == CyclicReferenceHandling.ThrowException)
+                if (references.Contains(reference))
                 {
-                    AssertionScope.Current.FailWith(
-                        "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
+                    isCyclic = true;
+                    if (handling == CyclicReferenceHandling.ThrowException)
+                    {
+                        AssertionScope.Current.FailWith(
+                            "Expected {context:subject} to be {expectation}{reason}, but it contains a cyclic reference.");
+                    }
                 }
-            }
-            else
-            {
-                references.Add(reference);
+                else
+                {
+                    references.Add(reference);
+                }
             }
 
             return isCyclic;
@@ -163,8 +167,8 @@ namespace FluentAssertions.Equivalency
         {
             var other = (ObjectReference)obj;
 
-            bool @equals = ReferenceEquals(@object, other.@object) && !string.Equals(propertyPath, other.propertyPath);
-            return @equals;
+            return ReferenceEquals(@object, other.@object) &&
+                   !string.Equals(propertyPath, other.propertyPath);
         }
 
         /// <summary>
@@ -178,8 +182,13 @@ namespace FluentAssertions.Equivalency
         {
             unchecked
             {
-                return (@object.GetHashCode()*397) ^ propertyPath.GetHashCode();
+                return (@object.GetHashCode() * 397) ^ propertyPath.GetHashCode();
             }
+        }
+
+        public bool IsReference
+        {
+            get { return !ReferenceEquals(@object, null) && @object.GetType().IsComplexType(); }
         }
     }
 }

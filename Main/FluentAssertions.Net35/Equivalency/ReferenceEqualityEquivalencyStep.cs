@@ -37,7 +37,7 @@ namespace FluentAssertions.Equivalency
                 return true;
             }
 
-            return false;
+            return !ReferenceEquals(context.Subject, null) && context.Subject.Equals(context.Expectation); 
         }
     }
 }

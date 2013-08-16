@@ -45,20 +45,20 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Initializes a new instance of the <see cref="AssertionScope"/> class.
         /// </summary>
-        internal AssertionScope() : this(new CollectingAssertionStrategy((current != null) ? current.assertionStrategy : null))
+        public AssertionScope() : this(new CollectingAssertionStrategy((current != null) ? current.assertionStrategy : null))
         {
             parent = current;
             current = this;
 
-            AddParentContextData();
-        }
-
-        private void AddParentContextData()
-        {
             if (parent != null)
             {
                 contextData.Add(parent.contextData);
             }
+        }
+
+        public AssertionScope(string context) : this()
+        {
+            AddNonReportable("context", context);
         }
 
         private AssertionScope(IAssertionStrategy _assertionStrategy)
@@ -193,7 +193,7 @@ namespace FluentAssertions.Execution
 
         private string ReplaceTags(string message)
         {
-            var regex = new Regex(@"\{(?<key>\w+)\:(?<default>[\w|\s]+)\}");
+            var regex = new Regex(@"\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}");
             return regex.Replace(message, match =>
             {
                 string key = match.Groups["key"].Value;
