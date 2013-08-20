@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using FluentAssertions.Common;
@@ -169,6 +170,7 @@ namespace FluentAssertions.Equivalency
             var other = (ObjectReference)obj;
 
             return ReferenceEquals(@object, other.@object) &&
+                (propertyPath.Length > 0) && 
                    other.propertyPath.StartsWith(propertyPath, StringComparison.CurrentCultureIgnoreCase);
         }
 
