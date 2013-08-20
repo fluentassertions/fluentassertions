@@ -1714,6 +1714,8 @@ namespace FluentAssertions.Specs
                     ComparisonMode.Wildcard);
         }
 
+        #region Cyclic References
+
         [TestMethod]
         public void When_validating_nested_properties_that_have_cyclic_references_it_should_throw()
         {
@@ -1724,6 +1726,7 @@ namespace FluentAssertions.Specs
             {
                 Text = "Root",
             };
+
             cyclicRoot.Level = new CyclicLevel1
             {
                 Text = "Level1",
@@ -1734,6 +1737,7 @@ namespace FluentAssertions.Specs
             {
                 Text = "Root",
             };
+
             cyclicRootDto.Level = new CyclicLevel1Dto
             {
                 Text = "Level1",
@@ -1829,6 +1833,47 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+        
+        [TestMethod]
+        public void When_the_graph_contains_the_same_value_object_it_should_not_be_treated_as_a_cyclic_reference()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new CyclicRootWithValueObject()
+            {
+                Object = new ValueObject("MyValue")
+            };
+
+            actual.Level = new CyclicLevelWithValueObject
+            {
+                Object = new ValueObject("MyValue"),
+                Root = null,
+            };
+
+            var expectation = new CyclicRootWithValueObject()
+            {
+                Object = new ValueObject("MyValue")
+            };
+
+            expectation.Level = new CyclicLevelWithValueObject
+            {
+                Object = new ValueObject("MyValue"),
+                Root = null,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        #endregion
 
         [TestMethod]
         public void When_two_objects_have_the_same_nested_objects_it_should_not_throw()

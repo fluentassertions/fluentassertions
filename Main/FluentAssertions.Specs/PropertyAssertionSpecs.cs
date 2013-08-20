@@ -1679,10 +1679,47 @@ namespace FluentAssertions.Specs
         public CyclicLevel1 Level { get; set; }
     }
 
+    public class CyclicRootWithValueObject
+    {
+        public ValueObject Object { get; set; }
+        public CyclicLevelWithValueObject Level { get; set; }
+    }
+
+    public class ValueObject
+    {
+        private readonly string value;
+
+        public ValueObject(string value)
+        {
+            this.value = value;
+        }
+
+        public string Value
+        {
+            get { return value; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ((ValueObject)obj).Value.Equals(Value);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+    }
+
     public class CyclicLevel1
     {
         public string Text { get; set; }
         public CyclicRoot Root { get; set; }
+    }
+
+    public class CyclicLevelWithValueObject
+    {
+        public ValueObject Object { get; set; }
+        public CyclicRootWithValueObject Root { get; set; }
     }
 
     public class CyclicRootDto
