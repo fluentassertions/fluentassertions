@@ -145,7 +145,9 @@ namespace FluentAssertions
                 var aggregateException = actualException as AggregateException;
                 if (aggregateException != null)
                 {
-                    exceptions.AddRange(aggregateException.InnerExceptions.OfType<T>());
+                    var flattenedExceptions = aggregateException.Flatten();
+                    
+                    exceptions.AddRange(flattenedExceptions.InnerExceptions.OfType<T>());
                 }
                 else if (actualException is T)
                 {
