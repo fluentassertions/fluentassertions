@@ -15,7 +15,9 @@ That’s why we designed Fluent Assertions to help you in this area. Not only by
 
 This will be reported as: 
     
-clip_image001[6] 
+	Expected string to be
+	"0987654321", but
+	"1234567890" differs near "123" (index 0).
 
 The fact that both strings are displayed on a separate line is on purpose and happens if any of them is longer than 8 characters. However, if that's not enough, all assertion methods take an optional formatted reason with placeholders, similarly to String.Format, that you can use to enrich the failure message. For instance, the assertion
 
@@ -23,7 +25,7 @@ The fact that both strings are displayed on a separate line is on purpose and ha
 
 will fail with: 
 
-clip_image002[6]
+	Collection {1, 2, 3} should have an item matching (item > 3) because at least 1 item should be larger than 3.
 
 Examples
 --------
