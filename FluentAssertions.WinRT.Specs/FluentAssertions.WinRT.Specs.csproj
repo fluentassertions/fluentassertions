@@ -20,7 +20,7 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <PackageCertificateThumbprint>7D859C097A012AD7E0028B9F9B4C316B03466DB3</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>EF62DAF1210432C81FABD9BFEF9EBAA1BE76CB29</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>FluentAssertions.WinRT.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,6 +49,7 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <!--A reference to the entire .Net Framework and Windows SDK are automatically included-->
     <SDKReference Include="MSTestFramework, Version=11.0" />
@@ -181,11 +182,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Images\UnitTestLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>false</Visible>
@@ -215,6 +211,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FluentAssertions.snk" />
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
     <None Include="FluentAssertions.WinRT.Specs_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v11.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
