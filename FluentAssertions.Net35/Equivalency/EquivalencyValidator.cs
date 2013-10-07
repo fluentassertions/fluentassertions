@@ -169,9 +169,12 @@ namespace FluentAssertions.Equivalency
         {
             var other = (ObjectReference)obj;
 
+            int firstDot = other.propertyPath.IndexOf(".");
+            string firstPartOfOtherPropertyPath = (firstDot >= 0) ? other.propertyPath.Substring(0, firstDot) : "";
+
             return ReferenceEquals(@object, other.@object) &&
                 (propertyPath.Length > 0) && 
-                   other.propertyPath.StartsWith(propertyPath, StringComparison.CurrentCultureIgnoreCase);
+                   firstPartOfOtherPropertyPath.Equals(propertyPath, StringComparison.CurrentCultureIgnoreCase);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -1913,6 +1914,70 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var logbook = new LogbookCode("SomeKey");
+
+            var logbookEntry = new LogbookEntryProjection
+            {
+                Logbook = logbook,
+                LogbookRelations = new []
+                {
+                    new LogbookRelation
+                    {
+                        Logbook = logbook
+                    }
+                }
+            };
+
+            var equivalentLogbookEntry = new LogbookEntryProjection
+            {
+                Logbook = logbook,
+                LogbookRelations = new[]
+                {
+                    new LogbookRelation
+                    {
+                        Logbook = logbook
+                    }
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => logbookEntry.ShouldBeEquivalentTo(equivalentLogbookEntry);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        internal class LogbookEntryProjection
+        {
+            public virtual LogbookCode Logbook { get; set; }
+            public virtual ICollection<LogbookRelation> LogbookRelations { get; set; }
+        }
+
+        internal class LogbookRelation
+        {
+            public virtual LogbookCode Logbook { get; set; }
+        }
+
+        internal class LogbookCode
+        {
+            public LogbookCode(string key)
+            {
+                Key = key;
+            }
+
+            public string Key { get; protected set; }
         }
 
         #endregion
