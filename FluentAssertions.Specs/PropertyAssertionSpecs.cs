@@ -909,7 +909,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level.Root to be*but it contains a cyclic reference*",
+                .WithMessage("Expected property Level.Root.Level to be*but it contains a cyclic reference*",
                     ComparisonMode.Wildcard);
         }
 
