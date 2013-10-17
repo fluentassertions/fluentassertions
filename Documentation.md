@@ -571,7 +571,7 @@ Extend one of the built-in classes such as CollectionAssertions<T> or ReferenceT
 
 	public static void BeWhatever<T>(this GenericCollectionAssertions<T> assertions, string reason, params object[] reasonArgs)
 	{ 
-	    Execute.Verification
+	    Execute.Assertion
 	       .ForCondition(somecondition)
 	       .BecauseOf(reason, reasonArgs)
 	       .FailWith("Expected object not to be {0}{reason}", null);
@@ -579,7 +579,7 @@ Extend one of the built-in classes such as CollectionAssertions<T> or ReferenceT
 
 Create a custom assertions class and use the Verification class to verify conditions and create comprehensive failure messages using the built-in formatters. Notice that error messages of custom assertion extensions can specify the {context} tag that is used to inject the property path in object graph comparisons. For instance, in the date/time assertions, this is used to display date and time. But when this assertion is used as part of a recursive object graph comparison, it will display the property path instead. You can use this special tag in your own extensions like this:
 
-	Execute.Verification
+	Execute.Assertion
 	    .ForCondition(Subject.Value == expected)
 	    .BecauseOf(reason, reasonArgs)
 	    .FailWith("Expected {context:date and time} to be {0}{reason}, but found {1}.", expected, subject.Value);
