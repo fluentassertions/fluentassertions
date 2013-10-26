@@ -106,6 +106,25 @@ namespace FluentAssertions.Specs
                 .WithMessage("*StuffId =*");
         }
 
+        [TestMethod]
+        public void When_the_to_string_override_throws_it_should_use_the_default_behavior()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new NullThrowingToStringImplementation();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(subject);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().Contain("SomeProperty");
+        }
+        
         public class BaseStuff
         {
             public int StuffId { get; set; }
@@ -189,6 +208,21 @@ namespace FluentAssertions.Specs
         public string ThrowingProperty
         {
             get { throw new InvalidOperationException(); }
+        }
+    }
+
+    internal class NullThrowingToStringImplementation
+    {
+        public NullThrowingToStringImplementation()
+        {
+            SomeProperty = "SomeProperty";
+        }
+
+        public string SomeProperty { get; set; }
+
+        public override string ToString()
+        {
+            return null;
         }
     }
 
