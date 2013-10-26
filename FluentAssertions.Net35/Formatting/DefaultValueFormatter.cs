@@ -70,7 +70,7 @@ namespace FluentAssertions.Formatting
 
         private static bool HasDefaultToStringImplementation(object value)
         {
-            return value.ToString().Equals(value.GetType().ToString());
+            return string.Equals(value.ToString(), value.GetType().ToString());
         }
 
         private string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel, IList<object> processedObjects)
