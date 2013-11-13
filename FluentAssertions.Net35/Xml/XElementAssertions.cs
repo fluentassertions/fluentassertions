@@ -83,6 +83,103 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="XElement"/> is equivalent to the <paramref name="expected"/> element,
+        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// </summary>
+        /// <param name="expected">The expected element</param>
+        public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected)
+        {
+            return BeEquivalentTo(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XElement"/> is equivalent to the <paramref name="expected"/> element,
+        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// </summary>
+        /// <param name="expected">The expected element</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected, string reason, params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(XNode.DeepEquals(Subject, expected))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected XML element {0} to be equivalent to {1}{reason}.",
+                    Subject, expected);
+
+            return new AndConstraint<XElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XElement"/> is not equivalent to the <paramref name="unexpected"/> element,
+        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">The unexpected element</param>
+        public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected)
+        {
+            return NotBeEquivalentTo(unexpected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XElement"/> is not equivalent to the <paramref name="unexpected"/> element,
+        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">The unexpected element</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string reason, params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!XNode.DeepEquals(Subject, unexpected))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect XML element {0} to be equivalent to {1}{reason}.",
+                    Subject, unexpected);
+
+            return new AndConstraint<XElementAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XElement"/> has the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        public AndConstraint<XElementAssertions> HaveValue(string expected)
+        {
+            return HaveValue(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XElement"/> has the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XElementAssertions> HaveValue(string expected, string reason, params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject.Value == expected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected XML element '{0}' to have value {1}{reason}, but found {2}.",
+                    Subject.Name, expected, Subject.Value);
+
+            return new AndConstraint<XElementAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="XElement"/> has an attribute with the specified <paramref name="expectedName"/>
         /// and <paramref name="expectedValue"/>.
         /// </summary>

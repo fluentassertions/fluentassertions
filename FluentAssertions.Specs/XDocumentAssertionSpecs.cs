@@ -192,6 +192,270 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region BeEquivalentTo / NotBeEquivalentTo
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_equivalent_to_the_same_xml_document_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = new XDocument();
+            var sameXDocument = document;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().BeEquivalentTo(sameXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_with_same_structure_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().BeEquivalentTo(otherXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_equivalent_to_a_xml_document_with_elements_missing_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /><child2 /></parent>");
+            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().BeEquivalentTo(otherXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_with_extra_elements_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse(@"<parent><child /><child2 /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().BeEquivalentTo(otherXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_elements_missing_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /><child2 /></parent>");
+            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().BeEquivalentTo(otherXDocument, "because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected XML document <parent>...</parent> to be equivalent to <parent>...</parent>" +
+                    " because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_with_extra_elements_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse(@"<parent><child /><child2 /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().BeEquivalentTo(otherXDocument, "because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected XML document <parent>...</parent> to be equivalent to <parent>...</parent>" +
+                    " because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_elements_missing_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /><child2 /></parent>");
+            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().NotBeEquivalentTo(otherXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_extra_elements_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse(@"<parent><child /><child2 /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().NotBeEquivalentTo(otherXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_same_structure_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().NotBeEquivalentTo(otherXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_not_equivalent_to_the_same_xml_document_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = new XDocument();
+            var sameXDocument = document;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().NotBeEquivalentTo(sameXDocument);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_same_structure_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /></parent>");
+            var otherXDocument = XDocument.Parse(@"<parent><child /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().NotBeEquivalentTo(otherXDocument, "because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect XML document <parent>...</parent> to be equivalent to <parent>...</parent>" +
+                    " because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_document_is_not_equivalent_to_the_same_xml_document_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(@"<parent><child /></parent>");
+            var sameXDocument = document;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                document.Should().NotBeEquivalentTo(sameXDocument, "because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect XML document <parent>...</parent> to be equivalent to <parent>...</parent>" +
+                    " because we want to test the failure message.");
+        }
+
+        #endregion
+
         #region BeNull / NotBeNull
 
         [TestMethod]
