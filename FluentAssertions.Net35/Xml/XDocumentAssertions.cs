@@ -4,6 +4,8 @@ using FluentAssertions.Execution;
 
 using FluentAssertions.Common;
 using FluentAssertions.Primitives;
+using System.Text;
+using System.IO;
 
 namespace FluentAssertions.Xml
 {
@@ -86,6 +88,72 @@ namespace FluentAssertions.Xml
                 .ForCondition(!Subject.Equals(unexpected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Did not expect XML document to be {0}{reason}.", unexpected);
+
+            return new AndConstraint<XDocumentAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XDocument"/> is equivalent to the <paramref name="expected"/> document,
+        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// </summary>
+        /// <param name="expected">The expected document</param>
+        public AndConstraint<XDocumentAssertions> BeEquivalentTo(XDocument expected)
+        {
+            return BeEquivalentTo(expected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XDocument"/> is equivalent to the <paramref name="expected"/> document,
+        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// </summary>
+        /// <param name="expected">The expected document</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> BeEquivalentTo(XDocument expected, string reason, params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(XNode.DeepEquals(Subject, expected))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected XML document {0} to be equivalent to {1}{reason}.",
+                    Subject, expected);
+
+            return new AndConstraint<XDocumentAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XDocument"/> is not equivalent to the <paramref name="unexpected"/> document,
+        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">The unexpected document</param>
+        public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected)
+        {
+            return NotBeEquivalentTo(unexpected, string.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="XDocument"/> is not equivalent to the <paramref name="unexpected"/> document,
+        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">The unexpected document</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected, string reason, params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!XNode.DeepEquals(Subject, unexpected))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Did not expect XML document {0} to be equivalent to {1}{reason}.",
+                    Subject, unexpected);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
