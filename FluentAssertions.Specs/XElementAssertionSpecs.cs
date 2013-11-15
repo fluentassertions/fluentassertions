@@ -56,8 +56,28 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected XML element to be {0}" +
-                    " because we want to test the failure message, but found {1}", otherElement, element));
+                .WithMessage("Expected XML element to be*other*because we want to test the failure message, but found *element*");
+        }
+
+        [TestMethod]
+        public void When_asserting_the_equality_of_an_xml_element_but_is_null_it_should_throw_appropriately()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            XElement actual = null;
+            var expected = new XElement("other");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().Be(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected XML element to be*other*, but found <null>.");
         }
 
         [TestMethod]
@@ -123,6 +143,26 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected XML element not to be <element />" +
                     " because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_the_inequality_of_an_xml_element_but_it_is_null_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            XElement actual = null;
+            var expected = new XElement("other");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().NotBe(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         #endregion
