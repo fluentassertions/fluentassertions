@@ -46,16 +46,20 @@ namespace FluentAssertions.Equivalency
         {
             if (predicate(context))
             {
-                bool succeeded = 
+                bool expectationisNull = ReferenceEquals(context.Expectation, null);
+
+                bool succeeded =
                     AssertionScope.Current
-                    .ForCondition(ReferenceEquals(context.Expectation, null) || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                    .FailWith("Expected " + context.PropertyDescription + " to be a {0}{reason}, but found a {1}",
-                        context.Expectation.GetType(), context.PropertyInfo.PropertyType);
+                        .ForCondition(expectationisNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
+                        .FailWith("Expected " + context.PropertyDescription + " to be a {0}{reason}, but found a {1}",
+                            !expectationisNull ? context.Expectation.GetType() : null, context.PropertyInfo.PropertyType);
 
                 if (succeeded)
                 {
+                    var expectation = (context.Expectation != null) ? (TSubject)context.Expectation : default(TSubject);
+
                     action(new AssertionContext(context.PropertyInfo,
-                        (TSubject)context.Subject, (TSubject)context.Expectation, context.Reason, context.ReasonArgs));
+                        (TSubject)context.Subject, expectation, context.Reason, context.ReasonArgs));
                 }
 
                 return true;

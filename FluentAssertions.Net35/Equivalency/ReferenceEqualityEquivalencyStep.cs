@@ -1,6 +1,4 @@
-﻿using FluentAssertions.Execution;
-
-namespace FluentAssertions.Equivalency
+﻿namespace FluentAssertions.Equivalency
 {
     public class ReferenceEqualityEquivalencyStep : IEquivalencyStep
     {
@@ -22,22 +20,10 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
+        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator,
+            IEquivalencyAssertionOptions config)
         {
-            if (ReferenceEquals(context.Subject, context.Expectation))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(context.Expectation, null))
-            {
-                AssertionScope.Current.FailWith(
-                    "Expected {context:subject} to be {0}{reason}, but found {1}.", context.Expectation, context.Subject);
-
-                return true;
-            }
-
-            return !ReferenceEquals(context.Subject, null) && context.Subject.Equals(context.Expectation); 
+            return ReferenceEquals(context.Subject, context.Expectation);
         }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -333,7 +332,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => subject.ShouldBeEquivalentTo(expectation);
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1474,6 +1472,32 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_a_nullable_property_is_overriden_with_a_custom_asserrtion_it_should_use_it()
+        {
+            var actual = new SimpleWithNullable
+            {
+                nullableIntegerProperty = 1,
+                strProperty = "I haz a string!"
+            };
+
+            var expected = new SimpleWithNullable
+            {
+                strProperty = "I haz a string!"
+            };
+
+            actual.ShouldBeEquivalentTo(expected,
+                opt => opt.Using<Int64>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<Int64>()
+                );
+        }
+
+        private class SimpleWithNullable
+        {
+            public Int64? nullableIntegerProperty { get; set; }
+
+            public string strProperty { get; set; }
+        }
+
         #endregion
 
         #region Nested Properties
@@ -1757,6 +1781,8 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected property RefOne.ValTwo to be 2, but found 3", ComparisonMode.StartWith);
         }
 
+        #endregion
+
         #region Cyclic References
 
         [TestMethod]
@@ -1876,7 +1902,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_the_graph_contains_the_same_value_object_it_should_not_be_treated_as_a_cyclic_reference()
         {
@@ -1917,7 +1943,9 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference()
+        public void
+            When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference
+            ()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1927,7 +1955,7 @@ namespace FluentAssertions.Specs
             var logbookEntry = new LogbookEntryProjection
             {
                 Logbook = logbook,
-                LogbookRelations = new []
+                LogbookRelations = new[]
                 {
                     new LogbookRelation
                     {
@@ -1979,8 +2007,6 @@ namespace FluentAssertions.Specs
 
             public string Key { get; protected set; }
         }
-
-        #endregion
 
         #endregion
 
