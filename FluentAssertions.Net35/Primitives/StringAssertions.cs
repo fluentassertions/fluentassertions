@@ -742,7 +742,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<StringAssertions> NotBeNullOrWhitespace(string reason = "", params object[] reasonArgs)
+        public AndConstraint<StringAssertions> NotBeNullOrWhiteSpace(string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!IsBlank(Subject))
@@ -762,10 +762,10 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        [Obsolete("This method is obsolete. Use NotBeNullOrWhitespace instead.")]
+        [Obsolete("This method is obsolete. Use NotBeNullOrWhiteSpace instead.")]
         public AndConstraint<StringAssertions> NotBeBlank(string reason = "", params object[] reasonArgs)
         {
-            return NotBeNullOrWhitespace(reason, reasonArgs);
+            return NotBeNullOrWhiteSpace(reason, reasonArgs);
         }
 
         /// <summary>
@@ -778,7 +778,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<StringAssertions> BeNullOrWhitespace(string reason = "", params object[] reasonArgs)
+        public AndConstraint<StringAssertions> BeNullOrWhiteSpace(string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(IsBlank(Subject))
@@ -798,10 +798,10 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        [Obsolete("This method is obsolete. Use BeNullOrWhitespace instead.")]
+        [Obsolete("This method is obsolete. Use BeNullOrWhiteSpace instead.")]
         public AndConstraint<StringAssertions> BeBlank(string reason = "", params object[] reasonArgs)
         {
-            return BeNullOrWhitespace(reason, reasonArgs);
+            return BeNullOrWhiteSpace(reason, reasonArgs);
         }
 
         private static bool IsBlank(string value)

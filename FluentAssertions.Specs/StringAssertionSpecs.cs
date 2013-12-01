@@ -1979,13 +1979,13 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_correctly_asserting_null_or_whitespace_it_should_not_throw()
         {
-            ((string)null).Should().BeNullOrWhitespace();
-            "".Should().BeNullOrWhitespace();
-            " ".Should().BeNullOrWhitespace();
-            "\n\r".Should().BeNullOrWhitespace();
+            ((string)null).Should().BeNullOrWhiteSpace();
+            "".Should().BeNullOrWhiteSpace();
+            " ".Should().BeNullOrWhiteSpace();
+            "\n\r".Should().BeNullOrWhiteSpace();
 
-            "a".Should().NotBeNullOrWhitespace();
-            " a ".Should().NotBeNullOrWhitespace();
+            "a".Should().NotBeNullOrWhiteSpace();
+            " a ".Should().NotBeNullOrWhiteSpace();
         }
 
         [TestMethod]
@@ -1995,7 +1995,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                " abc  ".Should().BeNullOrWhitespace();
+                " abc  ".Should().BeNullOrWhiteSpace();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2016,7 +2016,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                nullString.Should().NotBeNullOrWhitespace();
+                nullString.Should().NotBeNullOrWhiteSpace();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2032,7 +2032,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                "".Should().NotBeNullOrWhitespace();
+                "".Should().NotBeNullOrWhiteSpace();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2048,7 +2048,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                "   ".Should().NotBeNullOrWhitespace();
+                "   ".Should().NotBeNullOrWhiteSpace();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
