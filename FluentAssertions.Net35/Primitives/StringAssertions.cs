@@ -742,12 +742,48 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<StringAssertions> NotBeBlank(string reason = "", params object[] reasonArgs)
+        public AndConstraint<StringAssertions> NotBeNullOrWhitespace(string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!IsBlank(Subject))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected non-blank string{reason}, but found {0}.", Subject);
+                .FailWith("Expected string not to be <null> or whitespace{reason}, but found {0}.", Subject);
+
+            return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/> nor white space
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// </param>
+        [Obsolete("This method is obsolete. Use NotBeNullOrWhitespace instead.")]
+        public AndConstraint<StringAssertions> NotBeBlank(string reason = "", params object[] reasonArgs)
+        {
+            return NotBeNullOrWhitespace(reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/> or white space
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
+        /// </param>
+        public AndConstraint<StringAssertions> BeNullOrWhitespace(string reason = "", params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(IsBlank(Subject))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected string to be <null> or whitespace{reason}, but found {0}.", Subject);
 
             return new AndConstraint<StringAssertions>(this);
         }
@@ -762,14 +798,10 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
+        [Obsolete("This method is obsolete. Use BeNullOrWhitespace instead.")]
         public AndConstraint<StringAssertions> BeBlank(string reason = "", params object[] reasonArgs)
         {
-            Execute.Assertion
-                .ForCondition(IsBlank(Subject))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected blank string{reason}, but found {0}.", Subject);
-
-            return new AndConstraint<StringAssertions>(this);
+            return BeNullOrWhitespace(reason, reasonArgs);
         }
 
         private static bool IsBlank(string value)
