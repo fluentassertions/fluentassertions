@@ -119,7 +119,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_nullable_TimeSpan_value_equals_a_different_value()
+        public void When_asserting_a_nullable_TimeSpan_is_equal_to_a_different_nullable_TimeSpan_it_should_should_throw_appropriately()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -139,7 +139,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_nullable_TimeSpan_null_value_is_equal_to_another_value()
+        public void When_asserting_a_nullable_TimeSpan_is_equal_to_another_a_nullable_TimeSpan_but_it_is_null_it_should_fail_with_a_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -164,7 +164,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_nullable_TimeSpan_null_value_equals_null()
+        public void When_asserting_a_nullable_TimeSpan_is_equal_to_another_a_nullable_TimeSpan_and_both_are_null_it_should_succed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -184,7 +184,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_nullable_TimeSpan_value_equals_the_same_value()
+        public void When_asserting_a_nullable_TimeSpan_is_equal_to_the_same_nullable_TimeSpan_it_should_succed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
