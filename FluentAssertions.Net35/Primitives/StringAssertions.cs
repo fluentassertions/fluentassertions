@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using FluentAssertions.Execution;
 
 using System.Linq;
@@ -214,6 +215,54 @@ namespace FluentAssertions.Primitives
             validator.Validate();
 
             return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string matches a regular expression.
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> MatchRegex(string regularExpression, string reason = "", params object[] reasonArgs)
+        {
+          Execute.Assertion
+              .ForCondition(Regex.IsMatch(Subject, regularExpression))
+              .BecauseOf(reason, reasonArgs)
+              .UsingLineBreaks
+              .FailWith("Expected string to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
+
+          return new AndConstraint<StringAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not match a regular expression.
+        /// </summary>
+        /// <param name="regularExpression">
+        /// The regular expression with which the subject is matched.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<StringAssertions> NotMatchRegex(string regularExpression, string reason = "", params object[] reasonArgs)
+        {
+          Execute.Assertion
+              .ForCondition(!Regex.IsMatch(Subject, regularExpression))
+              .BecauseOf(reason, reasonArgs)
+              .UsingLineBreaks
+              .FailWith("Did not expect string to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
+
+          return new AndConstraint<StringAssertions>(this);
         }
 
         /// <summary>
