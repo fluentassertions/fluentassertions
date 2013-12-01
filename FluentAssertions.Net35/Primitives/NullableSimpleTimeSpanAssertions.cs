@@ -58,5 +58,27 @@ namespace FluentAssertions.Primitives
 
             return new AndConstraint<NullableSimpleTimeSpanAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that the value is equal to the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<NullableSimpleTimeSpanAssertions> Be(TimeSpan? expected, string reason = "",
+            params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject == expected)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
+
+            return new AndConstraint<NullableSimpleTimeSpanAssertions>(this);
+        }
     }
 }
