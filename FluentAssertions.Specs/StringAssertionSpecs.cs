@@ -1974,38 +1974,38 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region (Not) Blank
+        #region (Not) Null Or Whitespace
 
         [TestMethod]
-        public void Should_detect_blank_strings()
+        public void When_correctly_asserting_null_or_whitespace_it_should_not_throw()
         {
-            ((string)null).Should().BeBlank();
-            "".Should().BeBlank();
-            " ".Should().BeBlank();
-            "\n\r".Should().BeBlank();
+            ((string)null).Should().BeNullOrWhitespace();
+            "".Should().BeNullOrWhitespace();
+            " ".Should().BeNullOrWhitespace();
+            "\n\r".Should().BeNullOrWhitespace();
 
-            "a".Should().NotBeBlank();
-            " a ".Should().NotBeBlank();
+            "a".Should().NotBeNullOrWhitespace();
+            " a ".Should().NotBeNullOrWhitespace();
         }
 
         [TestMethod]
-        public void Should_throw_when_not_blank()
+        public void When_a_valid_string_is_expected_to_be_null_or_whitespace_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                " abc  ".Should().BeBlank();
+                " abc  ".Should().BeNullOrWhitespace();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected blank string, but found \" abc  \".");
+                .WithMessage("Expected string to be <null> or whitespace, but found \" abc  \".");
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_null_string_is_not_blank()
+        public void When_a_null_string_is_expected_to_not_be_null_or_whitespace_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2016,45 +2016,45 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                nullString.Should().NotBeBlank();
+                nullString.Should().NotBeNullOrWhitespace();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected non-blank string, but found <null>.");
+                .WithMessage("Expected string not to be <null> or whitespace, but found <null>.");
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_empty_string_is_not_blank()
+        public void When_an_empty_string_is_expected_to_not_be_null_or_whitespace_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                "".Should().NotBeBlank();
+                "".Should().NotBeNullOrWhitespace();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected non-blank string, but found \"\".");
+                .WithMessage("Expected string not to be <null> or whitespace, but found \"\".");
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_string_with_only_spaces_is_not_blank()
+        public void When_a_whitespace_string_is_expected_to_not_be_null_or_whitespace_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                "   ".Should().NotBeBlank();
+                "   ".Should().NotBeNullOrWhitespace();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected non-blank string, but found \"   \".");
+                .WithMessage("Expected string not to be <null> or whitespace, but found \"   \".");
         }
 
         #endregion
