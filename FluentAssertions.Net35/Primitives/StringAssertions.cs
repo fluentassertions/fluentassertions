@@ -232,8 +232,32 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> MatchRegex(string regularExpression, string reason = "", params object[] reasonArgs)
         {
+          if (regularExpression == null)
+          {
+            throw new NullReferenceException("Cannot match string against <null>.");
+          }
+
           Execute.Assertion
-              .ForCondition(Regex.IsMatch(Subject, regularExpression))
+              .ForCondition(!ReferenceEquals(Subject, null))
+              .UsingLineBreaks
+              .BecauseOf(reason, reasonArgs)
+              .FailWith("Expected string to match regex {0}{reason}, but it was <null>.", regularExpression);
+
+          bool isMatch;
+          try
+          {
+            isMatch = Regex.IsMatch(Subject, regularExpression);
+          }
+          catch (ArgumentException)
+          {
+            throw new ArgumentException(
+              string.Format(
+                "Cannot match string against \"{0}\" because it is not a valid regular expression.",
+                regularExpression));
+          }
+
+          Execute.Assertion
+              .ForCondition(isMatch)
               .BecauseOf(reason, reasonArgs)
               .UsingLineBreaks
               .FailWith("Expected string to match regex {0}{reason}, but {1} does not match.", regularExpression, Subject);
@@ -256,8 +280,32 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<StringAssertions> NotMatchRegex(string regularExpression, string reason = "", params object[] reasonArgs)
         {
+          if (regularExpression == null)
+          {
+            throw new NullReferenceException("Cannot match string against <null>.");
+          }
+
           Execute.Assertion
-              .ForCondition(!Regex.IsMatch(Subject, regularExpression))
+              .ForCondition(!ReferenceEquals(Subject, null))
+              .UsingLineBreaks
+              .BecauseOf(reason, reasonArgs)
+              .FailWith("Expected string to not match regex {0}{reason}, but it was <null>.", regularExpression);
+          
+          bool isMatch;
+          try
+          {
+            isMatch = Regex.IsMatch(Subject, regularExpression);
+          }
+          catch (ArgumentException)
+          {
+            throw new ArgumentException(
+              string.Format(
+                "Cannot match string against \"{0}\" because it is not a valid regular expression.",
+                regularExpression));
+          }
+
+          Execute.Assertion
+              .ForCondition(!isMatch)
               .BecauseOf(reason, reasonArgs)
               .UsingLineBreaks
               .FailWith("Did not expect string to match regex {0}{reason}, but {1} matches.", regularExpression, Subject);
