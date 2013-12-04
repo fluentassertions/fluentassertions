@@ -1502,19 +1502,19 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            string [] strings = null;
+            int[] ints = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => strings.Should().ContainInOrder("string4", "because we're checking how it reacts to a null subject");
+                () => ints.Should().ContainInOrder(new[] { 4 }, "because we're checking how it reacts to a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to contain \"string4\" in order because we're checking how it reacts to a null subject, but found <null>.");
+                "Expected collection to contain {4} in order because we're checking how it reacts to a null subject, but found <null>.");
         }
 
         #endregion
