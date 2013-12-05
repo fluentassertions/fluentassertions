@@ -93,6 +93,9 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\AppSettingsConfigurationStore.cs" />
+    <Compile Include="Common\Configuration.cs" />
+    <Compile Include="Common\IConfigurationStore.cs" />
     <Compile Include="Common\ObjectExtensions.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\TypeExtensions.cs" />

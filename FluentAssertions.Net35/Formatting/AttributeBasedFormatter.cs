@@ -156,5 +156,6 @@ namespace FluentAssertions.Formatting
             }
         }
 #endif
+
     }
 }

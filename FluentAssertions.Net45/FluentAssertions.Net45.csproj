@@ -80,8 +80,17 @@
     <Compile Include="..\FluentAssertions.Net35\Collections\NonGenericCollectionAssertions.cs">
       <Link>Collections\NonGenericCollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\AppSettingsConfigurationStore.cs">
+      <Link>Common\AppSettingsConfigurationStore.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\Configuration.cs">
+      <Link>Common\Configuration.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\ExpressionExtensions.cs">
       <Link>Common\ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\IConfigurationStore.cs">
+      <Link>Common\IConfigurationStore.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\ObjectExtensions.cs">
       <Link>Common\ObjectExtensions.cs</Link>

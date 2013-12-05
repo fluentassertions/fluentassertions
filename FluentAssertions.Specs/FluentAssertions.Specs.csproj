@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="AssertionFailureSpecs.cs" />
     <Compile Include="ComparableSpecs.cs" />
+    <Compile Include="ConfigurationSpecs.cs" />
     <Compile Include="DefaultValueFormatterSpecs.cs" />
     <Compile Include="FluentDateTimeSpecs.cs" />
     <Compile Include="GenericDictionaryAssertionSpecs.cs" />
@@ -165,6 +166,7 @@
       <Name>FluentAssertions.Net35</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
