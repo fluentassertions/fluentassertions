@@ -103,6 +103,9 @@
     <Compile Include="..\FluentAssertions.Specs\ExceptionAssertionSpecs.cs">
       <Link>ExceptionAssertionSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionOfStringSpecs.cs">
+      <Link>GenericCollectionAssertionOfStringSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionsSpecs.cs">
       <Link>GenericCollectionAssertionsSpecs.cs</Link>
     </Compile>

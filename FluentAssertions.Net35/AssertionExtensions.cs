@@ -180,6 +180,15 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Returns an <see cref="StringCollectionAssertions"/> object that can be used to assert the
+        /// current <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        public static StringCollectionAssertions Should(this IEnumerable<string> @this)
+        {
+            return new StringCollectionAssertions(@this);
+        }
+
+        /// <summary>
         /// Returns an <see cref="GenericDictionaryAssertions{TKey, TValue}"/> object that can be used to assert the
         /// current <see cref="IDictionary{TKey, TValue}"/>.
         /// </summary>

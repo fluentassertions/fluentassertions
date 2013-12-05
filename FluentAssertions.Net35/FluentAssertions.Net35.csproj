@@ -93,6 +93,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Collections\StringCollectionAssertions.cs" />
     <Compile Include="Common\ObjectExtensions.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\TypeExtensions.cs" />

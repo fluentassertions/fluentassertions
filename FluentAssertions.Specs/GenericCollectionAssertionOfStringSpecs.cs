@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class CollectionAssertionSpecs
+    public class GenericCollectionAssertionOfStringSpecs
     {
         #region Be Null
 
@@ -30,20 +30,6 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             someCollection.Should().BeNull();
-        }
-
-        [TestMethod]
-        public void When_a_custom_enumerable_implementation_is_expected_not_to_be_null_and_it_is_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var enumerable = new CustomEnumerable();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            enumerable.Should().NotBeNull();
         }
 
         [TestMethod]
@@ -107,14 +93,14 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_collection_has_a_count_that_equals_the_number_of_items()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             collection.Should().HaveCount(3);
         }
 
         [TestMethod]
         public void Should_fail_when_asserting_collection_has_a_count_that_is_different_from_the_number_of_items()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             Action act = () => collection.Should().HaveCount(4);
 
             act.ShouldThrow<AssertFailedException>();
@@ -126,7 +112,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -146,7 +132,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -160,7 +146,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -171,7 +157,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to have a count (c >= 4) because a minimum of 4 is required, but count is 3.");
+                "Expected collection {\"one\", \"two\", \"three\"} to have a count (c >= 4) because a minimum of 4 is required, but count is 3.");
         }
 
         [TestMethod]
@@ -180,7 +166,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -200,7 +186,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
+            IEnumerable<string> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -220,7 +206,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
+            IEnumerable<string> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -235,85 +221,6 @@ namespace FluentAssertions.Specs
                 "Expected collection to contain (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
-        [TestMethod]
-        public void When_counting_nongeneric_enumerable_it_should_enumerate()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var collection = new CountingNonGenericEnumerable(new[] {"1", "2", "3"});
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            collection.Should().HaveCount(3);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            collection.GetEnumeratorCallCount.Should().Be(1); 
-        }
-
-        [TestMethod]
-        public void When_counting_nongeneric_collection_it_should_not_enumerate()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var collection = new CountingNonGenericCollection(new[]{1, 2, 3});
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            collection.Should().HaveCount(3);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            collection.GetCountCallCount.Should().Be(1);
-            collection.GetEnumeratorCallCount.Should().Be(0);
-
-        }
-
-        [TestMethod]
-        public void When_counting_generic_enumerable_it_should_enumerate()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var enumerable = new CountingGenericEnumerable<int>(new[] {1, 2, 3});
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            enumerable.Should().HaveCount(3);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            enumerable.GetEnumeratorCallCount.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void When_counting_generic_collection_it_should_not_enumerate()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var collection = new CountingGenericCollection<int>(new[] {1, 2, 3});
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            collection.Should().HaveCount(3);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            collection.GetCountCallCount.Should().Be(1);
-            collection.GetEnumeratorCallCount.Should().Be(0);
-        }
-
         #endregion
 
         #region Be Empty
@@ -321,14 +228,14 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_collection_without_items_is_empty()
         {
-            IEnumerable collection = new int[0];
+            IEnumerable<string> collection = new string[0];
             collection.Should().BeEmpty();
         }
 
         [TestMethod]
         public void Should_fail_when_asserting_collection_with_items_is_empty()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             Action act = () => collection.Should().BeEmpty();
 
             act.ShouldThrow<AssertFailedException>();
@@ -337,7 +244,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_collection_with_items_is_empty()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             var assertions = collection.Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
@@ -347,23 +254,14 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_asserting_collection_with_items_is_not_empty_it_should_succeed()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
             collection.Should().NotBeEmpty();
-        }
-
-        [TestMethod]
-        public void When_asserting_collection_with_items_is_not_empty_it_should_enumerate_the_collection_only_once()
-        {
-            var trackingEnumerable = new TrackingTestEnumerable(1, 2, 3);
-            trackingEnumerable.Should().NotBeEmpty();
-
-            trackingEnumerable.Enumerator.LoopCount.Should().Be(1);
         }
 
         [TestMethod]
         public void When_asserting_collection_without_items_is_not_empty_it_should_fail()
         {
-            IEnumerable collection = new int[0];
+            IEnumerable<string> collection = new string[0];
             Action act = () => collection.Should().NotBeEmpty();
             act.ShouldThrow<AssertFailedException>();
         }
@@ -371,7 +269,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void When_asserting_collection_without_items_is_not_empty_it_should_fail_with_descriptive_message_()
         {
-            IEnumerable collection = new int[0];
+            IEnumerable<string> collection = new string[0];
             var assertions = collection.Should();
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
@@ -384,7 +282,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
+            IEnumerable<string> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -408,7 +306,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
+            IEnumerable<string> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -429,16 +327,16 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_collection()
         {
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 1, 2, 3 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
             collection1.Should().Equal(collection2);
         }
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_equal_to_the_same_list_of_elements()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
-            collection.Should().Equal(1, 2, 3);
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            collection.Should().Equal("one", "two", "three");
         }
 
         [TestMethod]
@@ -447,7 +345,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable nullColl = null;
+            IEnumerable<string> nullColl = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -486,8 +384,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 1, 2, 5 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -498,7 +396,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to {1, 2, 5} because we want to test the failure message, but {1, 2, 3} differs at index 2.");
+                "Expected collection to be equal to {\"one\", \"two\", \"five\"} because we want to test the failure message, but {\"one\", \"two\", \"three\"} differs at index 2.");
         }
 
         [TestMethod]
@@ -507,8 +405,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -519,7 +417,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to {1, 2} because we want to test the failure message, but {1, 2, 3} contains 1 item(s) too many.");
+                "Expected collection to be equal to {\"one\", \"two\"} because we want to test the failure message, but {\"one\", \"two\", \"three\"} contains 1 item(s) too many.");
         }
 
         [TestMethod]
@@ -528,8 +426,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 1, 2, 3, 4 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three", "four" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -540,28 +438,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to {1, 2, 3, 4} because we want to test the failure message, but {1, 2, 3} contains 1 item(s) less.");
-        }
-
-        [TestMethod]
-        public void When_two_multidimensional_collections_are_not_equal_and_it_should_format_the_collections_properly()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { new []{1, 2}, new[]{3, 4} };
-            IEnumerable collection2 = new [] { new []{5, 6}, new[]{7, 8} };
-            
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection1.Should().Equal(collection2);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to {{5, 6}, {7, 8}}, but {{1, 2}, {3, 4}} differs at index 0.");
+                "Expected collection to be equal to {\"one\", \"two\", \"three\", \"four\"} because we want to test the failure message, but {\"one\", \"two\", \"three\"} contains 1 item(s) less.");
         }
 
         [TestMethod]
@@ -570,8 +447,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
-            IEnumerable collection1 = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = null;
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -591,8 +468,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
-            IEnumerable collection1 = null;
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection1 = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -612,8 +489,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection1 = new int[0];
-            var collection2 = new [] { 1, 2, 3 };
+            var collection1 = new string[0];
+            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -624,7 +501,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equal to {1, 2, 3}, but found empty collection.");
+                "Expected collection to be equal to {\"one\", \"two\", \"three\"}, but found empty collection.");
         }
 
         [TestMethod] 
@@ -678,8 +555,8 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_collection_is_not_equal_to_a_different_collection()
         {
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 3, 1, 2 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "three", "one", "two" };
             collection1.Should()
                 .NotEqual(collection2);
         }
@@ -690,8 +567,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 1, 2, 3 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -702,7 +579,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect collections {1, 2, 3} and {1, 2, 3} to be equal.");
+                "Did not expect collections {\"one\", \"two\", \"three\"} and {\"one\", \"two\", \"three\"} to be equal.");
         }
 
         [TestMethod]
@@ -711,8 +588,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 1, 2, 3 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -723,7 +600,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect collections {1, 2, 3} and {1, 2, 3} to be equal because we want to test the failure message.");
+                "Did not expect collections {\"one\", \"two\", \"three\"} and {\"one\", \"two\", \"three\"} to be equal because we want to test the failure message.");
         }
 
 
@@ -733,8 +610,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
-            IEnumerable collection1 = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = null;
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -755,8 +632,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
-            IEnumerable collection1 = null;
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> collection1 = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -781,8 +658,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new[] { 1, 2, 3 };
-            IEnumerable collection2 = new[] { 3, 1, 2 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "three", "two", "one" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -796,27 +673,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().BeEquivalentTo(3, 1, 2);
-        }
-
-        [TestMethod]
-        public void When_character_collections_are_equivalent_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            char[] list1 = ("abc123ab").ToCharArray();
-            char[] list2 = ("abc123ab").ToCharArray();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            list1.Should().BeEquivalentTo(list2);
+            collection.Should().BeEquivalentTo("three", "two", "one");
         }
 
         [TestMethod]
@@ -825,8 +687,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 1, 2 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "one", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -837,7 +699,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "*collection {1, 2, 3} to be equivalent to {1, 2}*too many*", ComparisonMode.Wildcard);
+                "*collection {\"one\", \"two\", \"three\"} to be equivalent to {\"one\", \"two\"}*too many*", ComparisonMode.Wildcard);
         }
         
         [TestMethod]
@@ -846,8 +708,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3, 1 };
-            IEnumerable collection2 = new [] { 1, 2, 3, 3 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three", "one" };
+            IEnumerable<string> collection2 = new[] { "one", "two", "three", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -858,7 +720,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3, 1} to be equivalent to {1, 2, 3, 3}, but it misses {3}.");
+                "Expected collection {\"one\", \"two\", \"three\", \"one\"} to be equivalent to {\"one\", \"two\", \"three\", \"three\"}, but it misses {\"three\"}.");
         }
 
         [TestMethod]
@@ -867,8 +729,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subject = new [] { 1, 2, 3 };
-            IEnumerable otherCollection = new int[0];
+            IEnumerable<string> subject = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = new string[0];
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -879,7 +741,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "*collection {1, 2, 3} to be equivalent to {empty}, but*", ComparisonMode.Wildcard);
+                "*collection {\"one\", \"two\", \"three\"} to be equivalent to {empty}, but*", ComparisonMode.Wildcard);
         }
         
         [TestMethod]
@@ -888,8 +750,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subject = new int[0];
-            IEnumerable otherCollection = new int[0];
+            IEnumerable<string> subject = new string[0];
+            IEnumerable<string> otherCollection = new string[0];
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -908,8 +770,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = null;
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -929,8 +791,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
-            IEnumerable collection1 = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = null;
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -942,7 +804,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be equivalent to {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to be equivalent to {\"one\", \"two\", \"three\"} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [TestMethod]
@@ -951,8 +813,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 3, 1 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "three", "one" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -966,8 +828,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new [] { 3, 1, 2 };
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new[] { "three", "one", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -978,7 +840,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} not be equivalent with collection {3, 1, 2}.");
+                "Expected collection {\"one\", \"two\", \"three\"} not be equivalent with collection {\"three\", \"one\", \"two\"}.");
         }
 
         [TestMethod]
@@ -987,8 +849,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
-            IEnumerable collection1 = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = null;
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1010,8 +872,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = new int[0];
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = new string[0];
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1030,8 +892,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection1 = new [] { 1, 2, 3 };
-            IEnumerable collection2 = null;
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1055,8 +917,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subset = new [] { 1, 2 };
-            IEnumerable superset = new [] { 1, 2, 3 };
+            IEnumerable<string> subset = new [] { "one", "two" };
+            IEnumerable<string> superset = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1070,8 +932,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subset = new [] { 1, 2, 3, 6 };
-            IEnumerable superset = new [] { 1, 2, 4, 5 };
+            IEnumerable<string> subset = new [] { "one", "two", "three", "six" };
+            IEnumerable<string> superset = new [] { "one", "two", "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1082,8 +944,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be a subset of {1, 2, 4, 5} because we want to test the failure message, " +
-                    "but items {3, 6} are not part of the superset.");
+                "Expected collection to be a subset of {\"one\", \"two\", \"four\", \"five\"} because we want to test the failure message, " +
+                    "but items {\"three\", \"six\"} are not part of the superset.");
         }
 
         [TestMethod]
@@ -1092,8 +954,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subset = new int[0];
-            IEnumerable superset = new [] { 1, 2, 4, 5 };
+            IEnumerable<string> subset = new string[0];
+            IEnumerable<string> superset = new [] { "one", "two", "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1112,8 +974,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subset = new [] { 1, 2, 3 };
-            IEnumerable superset = null;
+            IEnumerable<string> subset = new [] { "one", "two", "three" };
+            IEnumerable<string> superset = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1133,8 +995,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subject = new [] { 1, 2, 4 };
-            IEnumerable otherSet = new [] { 1, 2, 3 };
+            IEnumerable<string> subject = new [] { "one", "two", "four" };
+            IEnumerable<string> otherSet = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1148,8 +1010,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subject = new int[] {};
-            IEnumerable otherSet = new [] { 1, 2, 3 };
+            IEnumerable<string> subject = new string[] {};
+            IEnumerable<string> otherSet = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1160,7 +1022,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect collection {empty} to be a subset of {1, 2, 3}.");
+                .WithMessage("Did not expect collection {empty} to be a subset of {\"one\", \"two\", \"three\"}.");
         }
 
         [TestMethod]
@@ -1169,8 +1031,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable subject = new [] { 1, 2 };
-            IEnumerable otherSet = new [] { 1, 2, 3 };
+            IEnumerable<string> subject = new [] { "one", "two" };
+            IEnumerable<string> otherSet = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1181,7 +1043,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Did not expect collection {1, 2} to be a subset of {1, 2, 3} because I'm mistaken.");
+                "Did not expect collection {\"one\", \"two\"} to be a subset of {\"one\", \"two\", \"three\"} because I'm mistaken.");
         }
 
         [TestMethod]
@@ -1190,8 +1052,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
-            IEnumerable collection1 = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = null;
+            IEnumerable<string> collection1 = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1203,7 +1065,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to be a subset of {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to be a subset of {\"one\", \"two\", \"three\"} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion
@@ -1213,15 +1075,15 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_collection_contains_an_item_from_the_collection()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
-            collection.Should().Contain(1);
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
+            collection.Should().Contain("one");
         }
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_contains_multiple_items_from_the_collection_in_any_order()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
-            collection.Should().Contain(new [] { 2, 1 });
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
+            collection.Should().Contain(new [] { "two", "one" });
         }
 
         [TestMethod]
@@ -1230,18 +1092,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().Contain(4, "because {0}", "we do");
+            Action act = () => collection.Should().Contain("four", "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to contain 4 because we do.");
+                "Expected collection {\"one\", \"two\", \"three\"} to contain \"four\" because we do.");
         }
 
         [TestMethod]
@@ -1250,18 +1112,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().Contain(new [] { 3, 4, 5 }, "because {0}", "we do");
+            Action act = () => collection.Should().Contain(new [] { "three", "four", "five" }, "because {0}", "we do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to contain {3, 4, 5} because we do, but could not find {4, 5}.");
+                "Expected collection {\"one\", \"two\", \"three\"} to contain {\"three\", \"four\", \"five\"} because we do, but could not find {\"four\", \"five\"}.");
         }
 
         [TestMethod]
@@ -1270,7 +1132,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1291,7 +1153,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_collection_does_not_contain_an_item_that_is_not_in_the_collection()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
             collection.Should().NotContain(4);
         }
 
@@ -1301,18 +1163,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().NotContain(1, "because we {0} like it", "don't");
+            Action act = () => collection.Should().NotContain("one", "because we {0} like it", "don't");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection {1, 2, 3} should not contain 1 because we don't like it, but found it anyhow.");
+                "Collection {\"one\", \"two\", \"three\"} should not contain \"one\" because we don't like it, but found it anyhow.");
         }
 
         [TestMethod]
@@ -1321,18 +1183,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<int> collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().NotContain(item => item == 2, "because {0}s are evil", 2);
+            Action act = () => collection.Should().NotContain(item => item == "two", "because {0}s are evil", "two");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection {1, 2, 3} should not have any items matching (item == 2) because 2s are evil.");
+                "Collection {\"one\", \"two\", \"three\"} should not have any items matching (item == \"two\") because twos are evil.");
         }
 
         [TestMethod]
@@ -1341,12 +1203,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<int> collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().NotContain(item => item == 4);
+            collection.Should().NotContain(item => item == "four");
         }
 
         [TestMethod]
@@ -1355,7 +1217,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
+            IEnumerable<string> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1380,12 +1242,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().ContainInOrder(1, 2, 3);
+            collection.Should().ContainInOrder("one", "two", "three");
         }
 
         [TestMethod]
@@ -1394,12 +1256,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new object[] { 1, null, 2, "string" };
+            IEnumerable<string> collection = new string[] { "one", null, "two", "string" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().ContainInOrder(new object[] { 1, null, "string" });
+            collection.Should().ContainInOrder(new string[] { "one", null, "string" });
         }
 
         [TestMethod]
@@ -1408,12 +1270,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3, 2 };
+            IEnumerable<string> collection = new [] { "one", "two", "three", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().ContainInOrder(1, 2, 3);
+            collection.Should().ContainInOrder("one", "two", "three");
         }
 
         [TestMethod]
@@ -1422,12 +1284,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 1, 2, 12, 2, 2 };
+            IEnumerable<string> collection = new [] { "one", "two", "one", "two", "twelve", "two", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().ContainInOrder(1, 2, 1, 2, 12, 2, 2 );
+            collection.Should().ContainInOrder("one", "two", "one", "two", "twelve", "two", "two" );
         }
 
         [TestMethod]
@@ -1436,18 +1298,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 1, 3, 12, 2, 2 };
+            IEnumerable<string> collection = new [] { "one", "two", "one", "three", "twelve", "two", "two" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().ContainInOrder( 1, 2, 1, 1, 2);
+            Action act = () => collection.Should().ContainInOrder( "one", "two", "one", "one", "two");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 1, 3, 12, 2, 2} to contain items {1, 2, 1, 1, 2} in order, but 1 (index 3) did not appear (in the right order).");
+                "Expected collection {\"one\", \"two\", \"one\", \"three\", \"twelve\", \"two\", \"two\"} to contain items {\"one\", \"two\", \"one\", \"one\", \"two\"} in order, but \"one\" (index 3) did not appear (in the right order).");
         }
 
         [TestMethod]
@@ -1456,13 +1318,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new [] { 1, 2, 3 }.Should().ContainInOrder(new [] { 3, 1 }, "because we said so");
+            Action act = () => new [] { "one", "two", "three" }.Should().ContainInOrder(new [] { "three", "one" }, "because we said so");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to contain items {3, 1} in order because we said so, but 1 (index 1) did not appear (in the right order).");
+                "Expected collection {\"one\", \"two\", \"three\"} to contain items {\"three\", \"one\"} in order because we said so, but \"one\" (index 1) did not appear (in the right order).");
         }
 
         [TestMethod]
@@ -1471,14 +1333,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new [] { 1, 2, 3 }.Should().ContainInOrder(new [] { 4, 1 }, "we failed");
+            Action act = () => new [] { "one", "two", "three" }.Should().ContainInOrder(new [] { "four", "one" }, "we failed");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} to contain items {4, 1} in order because we failed, " +
-                    "but 4 (index 0) did not appear (in the right order).");
+                "Expected collection {\"one\", \"two\", \"three\"} to contain items {\"four\", \"one\"} in order because we failed, " +
+                    "but \"four\" (index 0) did not appear (in the right order).");
         }
 
         [TestMethod]
@@ -1487,7 +1349,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new [] { 1, 2, 3 }.Should().ContainInOrder(null);
+            Action act = () => new [] { "one", "two", "three" }.Should().ContainInOrder(null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1502,163 +1364,19 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            int[] ints = null;
+            IEnumerable<string> strings = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => ints.Should().ContainInOrder(new[] { 4 }, "because we're checking how it reacts to a null subject");
+                () => strings.Should().ContainInOrder(new[] { "string4" }, "because we're checking how it reacts to a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to contain {4} in order because we're checking how it reacts to a null subject, but found <null>.");
-        }
-
-        #endregion
-
-        #region (Not) be in order
-
-        [TestMethod]
-        public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_ordered_ascending_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------      
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 2, 2, 3 };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            collection.Should().BeInAscendingOrder();
-        }
-
-        [TestMethod]
-        public void When_asserting_the_items_in_an_unordered_collection_are_ordered_ascending_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 6, 12, 15, 12, 17, 26 };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().BeInAscendingOrder("because numbers are ordered");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to contain items in ascending order because numbers are ordered," +
-                    " but found {1, 6, 12, 15, 12, 17, 26} where item at index 3 is in wrong order."); ;
-        }
-
-        [TestMethod]
-        public void When_asserting_the_items_in_an_unordered_collection_are_not_in_ascending_order_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 5, 3 };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            collection.Should().NotBeAscendingInOrder();
-        }
-
-        [TestMethod]
-        public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_not_in_ascending_order_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 2, 2, 3 };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().NotBeAscendingInOrder("because numbers are not ordered");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect collection to contain items in ascending order because numbers are not ordered," +
-                    " but found {1, 2, 2, 3}.");
-        }
-
-        [TestMethod]
-        public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------      
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { "z", "y", "x" };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            collection.Should().BeInDescendingOrder();
-        }
-
-        [TestMethod]
-        public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { "z", "x", "y" };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().BeInDescendingOrder("because letters are ordered");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to contain items in descending order because letters are ordered," +
-                    " but found {\"z\", \"x\", \"y\"} where item at index 1 is in wrong order.");
-        }
-
-        [TestMethod]
-        public void When_asserting_the_items_in_an_unordered_collection_are_not_in_descending_order_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { "x", "y", "x" };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            collection.Should().NotBeDescendingInOrder();
-        }
-
-        [TestMethod]
-        public void When_asserting_the_items_in_a_descending_ordered_collection_are_not_in_descending_order_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { "c", "b", "a" };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => collection.Should().NotBeDescendingInOrder("because numbers are not ordered");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect collection to contain items in descending order because numbers are not ordered," +
-                    " but found {\"c\", \"b\", \"a\"}.");
+                "Expected collection to contain {\"string4\"} in order because we're checking how it reacts to a null subject, but found <null>.");
         }
 
         #endregion
@@ -1671,8 +1389,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------      
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = new[] { 3, 4, 5 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = new[] { "three", "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1686,8 +1404,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------      
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = new[] { 4, 5 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = new[] { "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1698,8 +1416,8 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to intersect with {4, 5} because they should share items," +
-                    " but {1, 2, 3} does not contain any shared items.");
+                .WithMessage("Expected collection to intersect with {\"four\", \"five\"} because they should share items," +
+                    " but {\"one\", \"two\", \"three\"} does not contain any shared items.");
         }
 
         [TestMethod]
@@ -1708,8 +1426,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------      
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = new[] { 4, 5 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = new[] { "four", "five" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1723,8 +1441,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------      
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new[] { 1, 2, 3 };
-            IEnumerable otherCollection = new[] { 2, 3, 4 };
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = new[] { "two", "three", "four" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1735,8 +1453,8 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect collection to intersect with {2, 3, 4} because they should not share items," +
-                    " but found the following shared items {2, 3}.");
+                .WithMessage("Did not expect collection to intersect with {\"two\", \"three\", \"four\"} because they should not share items," +
+                    " but found the following shared items {\"two\", \"three\"}.");
         }
 
         #endregion
@@ -1749,7 +1467,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -1763,7 +1481,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { new object(), null };
+            IEnumerable<string> collection = new [] { "", null };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1783,7 +1501,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
+            IEnumerable<string> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1799,109 +1517,12 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Contain Items Assignable To
-
-        [TestMethod]
-        public void Should_succeed_when_asserting_collection_with_all_items_of_same_type_only_contains_item_of_one_type()
-        {
-            IEnumerable collection = new [] { "1", "2", "3" };
-            collection.Should().ContainItemsAssignableTo<string>();
-        }
-
-        [TestMethod]
-        public void Should_fail_when_asserting_collection_with_items_of_different_types_only_contains_item_of_one_type()
-        {
-            IEnumerable collection = new List<object>
-            {
-                1,
-                "2"
-            };
-            
-            Action act = () => collection.Should().ContainItemsAssignableTo<string>();
-
-            act.ShouldThrow<AssertFailedException>();
-        }
-
-        [TestMethod]
-        public void When_a_collection_contains_anything_other_than_strings_it_should_throw_and_report_details()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new List<object>
-            {
-                1,
-                "2"
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().ContainItemsAssignableTo<string>();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to contain only items of type System.String, but item 1 at index 0 is of type System.Int32.");
-        }
-
-        [TestMethod]
-        public void When_a_collection_contains_anything_other_than_strings_it_should_use_the_reason()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new List<object>
-            {
-                1,
-                "2"
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().ContainItemsAssignableTo<string>(
-                "because we want to test the failure {0}", "message");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage(
-                    "Expected collection to contain only items of type System.String because we want to test the failure message" +
-                        ", but item 1 at index 0 is of type System.Int32.");
-        }
-
-        [TestMethod]
-        public void When_asserting_collection_contains_item_assignable_to_against_null_collection_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should()
-                .ContainItemsAssignableTo<string>("because we want to test the behaviour with a null subject");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to contain element assignable to type System.String because we want to test the behaviour with a null subject, but found <null>.");
-        }
-
-        #endregion
-
         #region Only Have Unique Items
 
         [TestMethod]
         public void Should_succeed_when_asserting_collection_with_unique_items_contains_only_unique_items()
         {
-            IEnumerable collection = new [] { 1, 2, 3, 4 };
+            IEnumerable<string> collection = new [] { "one", "two", "three", "four" };
             collection.Should().OnlyHaveUniqueItems();
         }
 
@@ -1911,7 +1532,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1922,7 +1543,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to only have unique items because we don't like duplicates, but item 3 is not unique.");
+                "Expected collection to only have unique items because we don't like duplicates, but item \"three\" is not unique.");
         }
 
         [TestMethod]
@@ -1931,7 +1552,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
+            IEnumerable<string> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1956,12 +1577,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().HaveElementAt(1, 2);
+            collection.Should().HaveElementAt(1, "two");
         }
 
         [TestMethod]
@@ -1970,18 +1591,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().HaveElementAt(1, 3, "we put it {0}", "there");
+            Action act = () => collection.Should().HaveElementAt(1, "three", "we put it {0}", "there");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected 3 at index 1 because we put it there, but found 2.");
+                "Expected \"three\" at index 1 because we put it there, but found \"two\".");
         }
 
         [TestMethod]
@@ -1990,18 +1611,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().HaveElementAt(4, 3, "we put it {0}", "there");
+            Action act = () => collection.Should().HaveElementAt(4, "three", "we put it {0}", "there");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected 3 at index 4 because we put it there, but found no element.");
+                "Expected \"three\" at index 4 because we put it there, but found no element.");
         }
 
         [TestMethod]
@@ -2010,12 +1631,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
+            IEnumerable<string> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().HaveElementAt(1, 1,
+            Action act = () => collection.Should().HaveElementAt(1, "one",
                 "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2032,12 +1653,12 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_support_chaining_constraints_with_and()
         {
-            IEnumerable collection = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
             collection.Should()
                 .HaveCount(3)
                 .And
-                .HaveElementAt(1, 2)
-                .And.NotContain(4);
+                .HaveElementAt(1, "two")
+                .And.NotContain("four");
         }
 
         #endregion
@@ -2050,8 +1671,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable firstCollection = new [] { 1, 2, 3 };
-            IEnumerable secondCollection = new [] { 4, 5, 6 };
+            IEnumerable<string> firstCollection = new [] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new [] { "four", "five", "six" };
 
             var extensions = firstCollection.Should();
 
@@ -2067,8 +1688,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable firstCollection = new [] { 1, 2, 3 };
-            IEnumerable secondCollection = new [] { 4, 6 };
+            IEnumerable<string> firstCollection = new [] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new [] { "four", "six" };
 
             var extensions = firstCollection.Should();
 
@@ -2087,8 +1708,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            IEnumerable firstCollection = new [] { 1, 2, 3 };
-            IEnumerable secondCollection = new [] { 4, 6 };
+            IEnumerable<string> firstCollection = new [] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new [] { "four", "six" };
 
             var extensions = firstCollection.Should();
 
@@ -2107,8 +1728,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
-            IEnumerable collection1 = new [] { 1, 2, 3 };
+            IEnumerable<string> collection = null;
+            IEnumerable<string> collection1 = new [] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2120,7 +1741,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to have the same count as {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to have the same count as {\"one\", \"two\", \"three\"} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         [TestMethod]
@@ -2129,8 +1750,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
-            IEnumerable otherCollection = null;
+            IEnumerable<string> collection = new [] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2145,195 +1766,5 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-    }
-
-    internal class CountingNonGenericEnumerable : IEnumerable
-    {
-        private readonly IEnumerable _backingSet;
-
-        public CountingNonGenericEnumerable(IEnumerable backingSet)
-        {
-            _backingSet = backingSet;
-        }
-
-        public int GetEnumeratorCallCount { get; private set; }
-
-        public IEnumerator GetEnumerator()
-        {
-            GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
-        }
-    }
-
-    internal class CountingGenericEnumerable<TElement> : IEnumerable<TElement>
-    {
-        private readonly IEnumerable<TElement> _backingSet;
-
-        public CountingGenericEnumerable(IEnumerable<TElement> backingSet)
-        {
-            _backingSet = backingSet;
-            GetEnumeratorCallCount = 0;
-        }
-
-        public int GetEnumeratorCallCount { get; private set; }
-
-        public IEnumerator<TElement> GetEnumerator()
-        {
-            GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-    }
-
-    internal class CountingNonGenericCollection : ICollection
-    {
-        private readonly ICollection _backingSet;
-        private int _count;
-
-        public CountingNonGenericCollection(ICollection backingSet)
-        {
-            _backingSet = backingSet;
-        }
-
-        public int GetEnumeratorCallCount { get; private set; }
-        public IEnumerator GetEnumerator()
-        {
-            GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
-        }
-
-        public void CopyTo(Array array, int index) { throw new NotImplementedException(); }
-
-        public int GetCountCallCount { get; private set; }
-        public int Count
-        {
-            get
-            {
-                GetCountCallCount++;
-                return _backingSet.Count;
-            }
-        }
-
-        public object SyncRoot { get; private set; }
-        public bool IsSynchronized { get { return true; } }
-    }
-
-    internal class CountingGenericCollection<TElement> : ICollection<TElement>
-    {
-        private readonly ICollection<TElement> _backingSet;
-
-        public CountingGenericCollection(ICollection<TElement> backingSet)
-        {
-            _backingSet = backingSet;
-        }
-
-        public int GetEnumeratorCallCount { get; private set; }
-        public IEnumerator<TElement> GetEnumerator()
-        {
-            GetEnumeratorCallCount++;
-            return _backingSet.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public void Add(TElement item) { throw new NotImplementedException(); }
-        public void Clear() { throw new NotImplementedException(); }
-        public bool Contains(TElement item) { throw new NotImplementedException(); }
-        public void CopyTo(TElement[] array, int arrayIndex) { throw new NotImplementedException(); }
-        public bool Remove(TElement item) { throw new NotImplementedException(); }
-
-        public int GetCountCallCount { get; private set; }
-        public int Count
-        {
-            get
-            {
-                GetCountCallCount++;
-                return _backingSet.Count;
-            }
-        }
-
-        public bool IsReadOnly { get; private set; }
-    }
-
-    internal class CustomEnumerable : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            foreach (string s in new [] { "a", "b", "c" })
-            {
-                yield return s;
-            }
-        }
-    }
-
-    internal class TrackingTestEnumerable : IEnumerable
-    {
-        private readonly TrackingEnumerator enumerator;
-        private readonly int[] values;
-
-        public TrackingTestEnumerable(params int[] values)
-        {
-            this.values = values;
-            enumerator = new TrackingEnumerator(this.values);
-        }
-
-        public TrackingEnumerator Enumerator
-        {
-            get { return enumerator; }
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            enumerator.IncreaseEnumerationCount();
-            enumerator.Reset();
-            return enumerator;
-        }
-    }
-
-    internal class TrackingEnumerator : IEnumerator
-    {
-        private readonly int[] values;
-        private int loopCount;
-        private int index;
-
-        public TrackingEnumerator(int[] values)
-        {
-            index = -1;
-
-            this.values = values;
-        }
-
-        public int LoopCount
-        {
-            get { return loopCount; }
-        }
-
-        public void IncreaseEnumerationCount()
-        {
-            loopCount++;
-        }
-
-        public bool MoveNext()
-        {
-            index++;
-            return index < values.Length;
-        }
-
-        public void Reset()
-        {
-            index = -1;
-        }
-
-        public object Current
-        {
-            get { return values[index]; }
-        }
     }
 }

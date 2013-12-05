@@ -89,6 +89,9 @@
     <Compile Include="..\FluentAssertions.Specs\FluentDateTimeSpecs.cs">
       <Link>FluentDateTimeSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionOfStringSpecs.cs">
+      <Link>GenericCollectionAssertionOfStringSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionsSpecs.cs">
       <Link>GenericCollectionAssertionsSpecs.cs</Link>
     </Compile>
