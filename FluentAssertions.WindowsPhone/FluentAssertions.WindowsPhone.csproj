@@ -88,6 +88,9 @@
     <Compile Include="..\FluentAssertions.Net35\Collections\NonGenericCollectionAssertions.cs">
       <Link>Collections\NonGenericCollectionAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Collections\StringCollectionAssertions.cs">
+      <Link>Collections\StringCollectionAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\Configuration.cs">
       <Link>Common\Configuration.cs</Link>
     </Compile>
