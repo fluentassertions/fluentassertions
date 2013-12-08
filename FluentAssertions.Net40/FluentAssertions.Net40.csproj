@@ -70,6 +70,9 @@
     <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.Events.cs">
+      <Link>AssertionExtensions.Events.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Collections\CollectionAssertions.cs">
       <Link>Collections\CollectionAssertions.cs</Link>
     </Compile>
@@ -111,9 +114,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Equivalency\DictionaryEquivalencyStep.cs">
       <Link>Equivalency\DictionaryEquivalencyStep.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventMonitoringExtensions.cs">
-      <Link>EventMonitoringExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Events\EventHandlerFactory.cs">
       <Link>Events\EventHandlerFactory.cs</Link>
@@ -440,7 +440,7 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Formatting\AggregateExceptionValueFormatter.cs" />
-    <Compile Include="ExceptionExtensionsNet40.cs" />
+    <Compile Include="AssertionExtensions.Actions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specialized\AsyncFunctionAssertions.cs" />
   </ItemGroup>

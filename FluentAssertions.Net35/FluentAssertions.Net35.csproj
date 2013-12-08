@@ -102,7 +102,7 @@
     <Compile Include="Common\TypeExtensions.cs" />
     <Compile Include="Equivalency\AssertionResultSet.cs" />
     <Compile Include="Equivalency\DictionaryEquivalencyStep.cs" />
-    <Compile Include="ExceptionExtensions.cs" />
+    <Compile Include="AssertionExtensions.Actions.cs" />
     <Compile Include="Execution\CollectingAssertionStrategy.cs" />
     <Compile Include="Execution\DefaultAssertionStrategy.cs" />
     <Compile Include="Execution\IAssertionStrategy.cs" />
@@ -174,7 +174,7 @@
     <Compile Include="Primitives\BooleanAssertions.cs" />
     <Compile Include="Collections\CollectionAssertions.cs" />
     <Compile Include="Common\ExpressionExtensions.cs" />
-    <Compile Include="EventMonitoringExtensions.cs" />
+    <Compile Include="AssertionExtensions.Events.cs" />
     <Compile Include="Events\EventRecorder.cs" />
     <Compile Include="Events\EventHandlerFactory.cs" />
     <Compile Include="Events\IEventRecorder.cs" />

@@ -8,11 +8,11 @@ using FluentAssertions.Specialized;
 
 namespace FluentAssertions
 {
-    public static class ExceptionExtensionsNet40
+    public static partial class AssertionExtensions
     {
         private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
 
-        static ExceptionExtensionsNet40()
+        static AssertionExtensions()
         {
             Formatter.AddFormatter(new AggregateExceptionValueFormatter());
         }

@@ -5,7 +5,7 @@ using FluentAssertions.Specialized;
 
 namespace FluentAssertions
 {
-    public static class ExceptionExtensions
+    public static partial class AssertionExtensions
     {
         private static readonly SimpleExceptionExtractor exceptionExtractor = new SimpleExceptionExtractor();
 

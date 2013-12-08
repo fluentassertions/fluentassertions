@@ -15,8 +15,7 @@ namespace FluentAssertions
     /// <summary>
     ///   Provides extension methods for monitoring and querying events.
     /// </summary>
-    [DebuggerNonUserCode]
-    public static class EventMonitoringExtensions
+    public static partial class AssertionExtensions
     {
         private const string PropertyChangedEventName = "PropertyChanged";
 
