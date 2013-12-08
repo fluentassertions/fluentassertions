@@ -92,6 +92,7 @@
     <Compile Include="ConfigurationSpecs.cs" />
     <Compile Include="DefaultValueFormatterSpecs.cs" />
     <Compile Include="FluentDateTimeSpecs.cs" />
+    <Compile Include="GenericCollectionAssertionOfStringSpecs.cs" />
     <Compile Include="GenericDictionaryAssertionSpecs.cs" />
     <Compile Include="GuidAssertionSpecs.cs" />
     <Compile Include="MethodInfoSelectorSpecs.cs" />
