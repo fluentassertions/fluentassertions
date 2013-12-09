@@ -103,6 +103,9 @@
     <Compile Include="..\FluentAssertions.Net35\Common\ObjectExtensions.cs">
       <Link>Common\ObjectExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\Services.cs">
+      <Link>Common\Services.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Common\StringExtensions.cs">
       <Link>Common\StringExtensions.cs</Link>
     </Compile>
