@@ -1,4 +1,5 @@
 ﻿using FluentAssertions.Common;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions
 {
@@ -6,6 +7,7 @@ namespace FluentAssertions
     {
         static AssertionExtensions()
         {
+            Formatter.AddFormatter(new AggregateExceptionValueFormatter());
             Services.Configuration = new Configuration(new AppSettingsConfigurationStore());
         }
     }
