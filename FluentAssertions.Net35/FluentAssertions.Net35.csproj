@@ -93,11 +93,13 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="AssertionExtensions.Net35.cs" />
     <Compile Include="Collections\StringCollectionAssertions.cs" />
     <Compile Include="Common\AppSettingsConfigurationStore.cs" />
     <Compile Include="Common\Configuration.cs" />
     <Compile Include="Common\IConfigurationStore.cs" />
     <Compile Include="Common\ObjectExtensions.cs" />
+    <Compile Include="Common\Services.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\TypeExtensions.cs" />
     <Compile Include="Equivalency\AssertionResultSet.cs" />

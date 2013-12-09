@@ -25,7 +25,8 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return (value != null) && (GetFormatter(value) != null);
+            return (Services.Configuration.ValueFormatterDetection != ValueFormatterDetection.Disabled) && 
+                (value != null) && (GetFormatter(value) != null);
         }
 
         /// <summary>
