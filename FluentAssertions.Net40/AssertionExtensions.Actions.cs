@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using FluentAssertions.Formatting;
 using FluentAssertions.Specialized;
 
 namespace FluentAssertions
@@ -11,11 +10,6 @@ namespace FluentAssertions
     public static partial class AssertionExtensions
     {
         private static readonly AggregateExceptionExtractor extractor = new AggregateExceptionExtractor();
-
-        static AssertionExtensions()
-        {
-            Formatter.AddFormatter(new AggregateExceptionValueFormatter());
-        }
 
         /// <summary>
         /// Asserts that the <paramref name="action"/> throws an exception.
@@ -146,7 +140,7 @@ namespace FluentAssertions
                 if (aggregateException != null)
                 {
                     var flattenedExceptions = aggregateException.Flatten();
-                    
+
                     exceptions.AddRange(flattenedExceptions.InnerExceptions.OfType<T>());
                 }
                 else if (actualException is T)

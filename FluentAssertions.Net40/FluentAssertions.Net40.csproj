@@ -442,6 +442,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="AssertionExtensions.Net40.cs" />
     <Compile Include="Formatting\AggregateExceptionValueFormatter.cs" />
     <Compile Include="AssertionExtensions.Actions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
