@@ -418,6 +418,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="AssertionExtensions.WP7.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Execution\WP75TestFramework.cs" />
     <Compile Include="Execution\VS2012TestFramework.cs" />
