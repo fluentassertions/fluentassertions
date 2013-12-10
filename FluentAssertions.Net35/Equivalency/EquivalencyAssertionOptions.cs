@@ -45,9 +45,6 @@ namespace FluentAssertions.Equivalency
             
             Using<string>(ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs)).
                 WhenTypeIs<string>();
-
-            Using<DateTime>(
-                ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs)).WhenTypeIs<DateTime>();
         }
 
         /// <summary>
