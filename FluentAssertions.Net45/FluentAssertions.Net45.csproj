@@ -110,6 +110,9 @@
     <Compile Include="..\FluentAssertions.Net35\Common\TypeExtensions.cs">
       <Link>Common\TypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Common\ValueFormatterDetectionMode.cs">
+      <Link>Common\ValueFormatterDetectionMode.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Equivalency\AssertionResultSet.cs">
       <Link>Equivalency\AssertionResultSet.cs</Link>
     </Compile>

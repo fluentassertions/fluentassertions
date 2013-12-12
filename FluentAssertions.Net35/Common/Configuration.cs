@@ -4,44 +4,74 @@ namespace FluentAssertions.Common
 {
     internal class Configuration
     {
+        #region Private Definitions
+
         private readonly IConfigurationStore store;
         private string valueFormatterAssembly;
+        private ValueFormatterDetectionMode? valueFormatterDetectionMode;
 
-        public Configuration(IConfigurationStore store)
+        #endregion
+
+        /// <summary>
+        /// Gets the active configuration,
+        /// </summary>
+        public static Configuration Current
+        {
+            get { return Services.Configuration; }
+        }
+
+        internal Configuration(IConfigurationStore store)
         {
             this.store = store;
         }
 
-        public ValueFormatterDetection ValueFormatterDetection
+        /// <summary>
+        /// Gets or sets the mode on how Fluent Assertions will find custom implementations of 
+        /// <see cref="IValueFormatter"/>.
+        /// </summary>
+        public ValueFormatterDetectionMode ValueFormatterDetectionMode
         {
             get
             {
-                if (ValueFormatterAssembly != null)
+                if (!valueFormatterDetectionMode.HasValue)
                 {
-                    return ValueFormatterDetection.Specific;
-                }
-                else
-                {
-                    string setting = store.GetSetting("valueFormatters");
-                    if (!string.IsNullOrEmpty(setting))
-                    {
-                        try
-                        {
-                            return (ValueFormatterDetection)Enum.Parse(typeof(ValueFormatterDetection), setting, true);
-                        }
-                        catch (ArgumentException)
-                        {
-                            throw new InvalidOperationException(string.Format(
-                                "'{0}' is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan.",
-                                setting));
-                        }
-                    }
+                    valueFormatterDetectionMode = DetermineFormatterDetectionMode();
                 }
 
-                return ValueFormatterDetection.Disabled;
+                return valueFormatterDetectionMode.Value;
             }
+            set { valueFormatterDetectionMode = value; }
         }
 
+        private ValueFormatterDetectionMode DetermineFormatterDetectionMode()
+        {
+            if (ValueFormatterAssembly != null)
+            {
+                return ValueFormatterDetectionMode.Specific;
+            }
+
+            string setting = store.GetSetting("valueFormatters");
+            if (!string.IsNullOrEmpty(setting))
+            {
+                try
+                {
+                    return (ValueFormatterDetectionMode)Enum.Parse(typeof(ValueFormatterDetectionMode), setting, true);
+                }
+                catch (ArgumentException)
+                {
+                    throw new InvalidOperationException(string.Format(
+                        "'{0}' is not a valid option for detecting value formatters. Valid options include Disabled, Specific and Scan.",
+                        setting));
+                }
+            }
+
+            return ValueFormatterDetectionMode.Disabled;
+        }
+
+        /// <summary>
+        /// Gets or sets the assembly name to scan for custom value formatters in case <see cref="ValueFormatterDetectionMode"/>
+        /// is set to <see cref="ValueFormatterDetectionMode.Specific"/>.
+        /// </summary>
         public string ValueFormatterAssembly
         {
             get
@@ -57,13 +87,7 @@ namespace FluentAssertions.Common
 
                 return valueFormatterAssembly;
             }
+            set { valueFormatterAssembly = value; }
         }
-    }
-
-    internal enum ValueFormatterDetection
-    {
-        Disabled,
-        Specific,
-        Scan,
     }
 }

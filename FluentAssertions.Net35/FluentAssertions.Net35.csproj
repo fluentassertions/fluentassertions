@@ -102,6 +102,7 @@
     <Compile Include="Common\Services.cs" />
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\TypeExtensions.cs" />
+    <Compile Include="Common\ValueFormatterDetectionMode.cs" />
     <Compile Include="Equivalency\AssertionResultSet.cs" />
     <Compile Include="Equivalency\DictionaryEquivalencyStep.cs" />
     <Compile Include="AssertionExtensions.Actions.cs" />

@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FluentAssertions.Common
+﻿namespace FluentAssertions.Common
 {
+    /// <summary>
+    /// Maintains the framework-specific services.
+    /// </summary>
     internal static class Services
     {
         static Services()
         {
-            Configuration = new Configuration(new DefaultConfigurationStore());
+            Configuration = new Configuration(new NullConfigurationStore());
         }
 
         public static Configuration Configuration { get; set; }
     }
 
-    public class DefaultConfigurationStore : IConfigurationStore
+    internal class NullConfigurationStore : IConfigurationStore
     {
         public string GetSetting(string name)
         {
