@@ -87,7 +87,11 @@ namespace FluentAssertions.Common
 
                 return valueFormatterAssembly;
             }
-            set { valueFormatterAssembly = value; }
+            set
+            {
+                valueFormatterAssembly = value;
+                valueFormatterDetectionMode = null;
+            }
         }
     }
 }

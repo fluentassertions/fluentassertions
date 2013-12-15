@@ -89,7 +89,7 @@
   <ItemGroup>
     <Compile Include="AssertionFailureSpecs.cs" />
     <Compile Include="ComparableSpecs.cs" />
-    <Compile Include="DefaultValueFormatterSpecs.cs" />
+    <Compile Include="FormatterSpecs.cs" />
     <Compile Include="FluentDateTimeSpecs.cs" />
     <Compile Include="GenericCollectionAssertionOfStringSpecs.cs" />
     <Compile Include="GenericDictionaryAssertionSpecs.cs" />

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
 #if WINRT
@@ -11,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class DefaultValueFormatterSpecs
+    public class FormatterSpecs
     {
         [TestMethod]
         public void When_value_contains_cyclic_reference_it_should_create_descriptive_error_message()
@@ -138,14 +140,14 @@ namespace FluentAssertions.Specs
 
 #if !WINRT
 
-        #region Attribute Based Formatting
-
         [TestMethod]
-        public void When_a_custom_formatter_exists_in_the_current_assembly_it_should_override_the_default_formatters()
+        public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
+            Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
+            
             var subject = new SomeClassWithCustomFormatter
             {
                 Property = "SomeValue"
@@ -160,6 +162,78 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             result.Should().Be("Property = SomeValue");
+        }
+
+        [TestMethod]
+        public void When_no_custom_formatter_exists_in_the_specified_assembly_it_should_use_the_default()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+             Configuration.Current.ValueFormatterAssembly = "FluentAssertions";
+
+            var subject = new SomeClassWithCustomFormatter
+            {
+                Property = "SomeValue"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(subject);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().Be(subject.ToString());
+        }
+        
+        [TestMethod]
+        public void When_formatter_scanning_is_disabled_it_should_use_the_default_formatters()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Disabled;
+            
+            var subject = new SomeClassWithCustomFormatter
+            {
+                Property = "SomeValue"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(subject);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().Be(subject.ToString());
+        }
+        
+        [TestMethod]
+        public void When_no_formatter_scanning_is_configured_it_should_use_the_default_formatters()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Services.ResetToDefaults();
+            
+            var subject = new SomeClassWithCustomFormatter
+            {
+                Property = "SomeValue"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(subject);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().Be(subject.ToString());
         }
 
         public class SomeClassWithCustomFormatter
@@ -197,8 +271,6 @@ namespace FluentAssertions.Specs
                 return "";
             }
         }
-
-        #endregion
 
 #endif
     }

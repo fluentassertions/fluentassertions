@@ -77,9 +77,6 @@
     <Compile Include="..\FluentAssertions.Specs\DateTimeFormatterSpecs.cs">
       <Link>DateTimeFormatterSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Specs\DefaultValueFormatterSpecs.cs">
-      <Link>DefaultValueFormatterSpecs.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Specs\EventAssertionSpecs.cs">
       <Link>EventAssertionSpecs.cs</Link>
     </Compile>
@@ -88,6 +85,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\FluentDateTimeSpecs.cs">
       <Link>FluentDateTimeSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\FormatterSpecs.cs">
+      <Link>FormatterSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionOfStringSpecs.cs">
       <Link>GenericCollectionAssertionOfStringSpecs.cs</Link>

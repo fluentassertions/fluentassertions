@@ -7,6 +7,11 @@
     {
         static Services()
         {
+            ResetToDefaults();
+        }
+
+        public static void ResetToDefaults()
+        {
             Configuration = new Configuration(new NullConfigurationStore());
         }
 

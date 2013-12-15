@@ -15,6 +15,7 @@ namespace FluentAssertions.Formatting
     public class AttributeBasedFormatter : IValueFormatter
     {
         private MethodInfo[] formatters;
+        private ValueFormatterDetectionMode detectionMode = ValueFormatterDetectionMode.Disabled;
 
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
@@ -25,8 +26,12 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return 
-                (value != null) && (GetFormatter(value) != null);
+            return IsScanningEnabled && (value != null) && (GetFormatter(value) != null);
+        }
+
+        private static bool IsScanningEnabled
+        {
+            get { return (Configuration.Current.ValueFormatterDetectionMode != ValueFormatterDetectionMode.Disabled); }
         }
 
         /// <summary>
@@ -60,7 +65,21 @@ namespace FluentAssertions.Formatting
 
         public MethodInfo[] Formatters
         {
-            get { return formatters ?? (formatters = FindCustomFormatters()); }
+            get
+            {
+                HandleValueFormatterDetectionModeChanges();
+
+                return formatters ?? (formatters = FindCustomFormatters());
+            }
+        }
+
+        private void HandleValueFormatterDetectionModeChanges()
+        {
+            if (detectionMode != Configuration.Current.ValueFormatterDetectionMode)
+            {
+                detectionMode = Configuration.Current.ValueFormatterDetectionMode;
+                formatters = null;
+            }
         }
 
         private MethodInfo[] FindCustomFormatters()
@@ -83,6 +102,7 @@ namespace FluentAssertions.Formatting
             get
             {
                 return ((Assembly[])((dynamic)AppDomain.CurrentDomain).GetAssemblies())
+                    .Where(Applicable)
                     .SelectMany(GetExportedTypes).ToArray();
             }
         }
@@ -105,7 +125,13 @@ namespace FluentAssertions.Formatting
 #elif WINDOWS_PHONE
         private static IEnumerable<Type> AllTypes
         {
-            get { return AppDomain.CurrentDomain.GetAssemblies().SelectMany(GetExportedTypes).ToArray(); }
+            get
+            {
+                return AppDomain.CurrentDomain
+                    .GetAssemblies()
+                    .Where(Applicable)
+                    .SelectMany(GetExportedTypes).ToArray();
+            }
         }
 
         private static IEnumerable<Type> GetExportedTypes(Assembly assembly)
@@ -126,7 +152,7 @@ namespace FluentAssertions.Formatting
             {
                 return AppDomain.CurrentDomain
                     .GetAssemblies()
-                    .Where(a => !IsDynamic(a))
+                    .Where(a => Applicable(a) && !IsDynamic(a))
                     .SelectMany(GetExportedTypes).ToArray();
             }
         }
@@ -158,5 +184,14 @@ namespace FluentAssertions.Formatting
         }
 #endif
 
+        private static bool Applicable(Assembly assembly)
+        {
+            var configuration = Configuration.Current;
+            ValueFormatterDetectionMode mode = configuration.ValueFormatterDetectionMode;
+
+            return ((mode == ValueFormatterDetectionMode.Scan) || (
+                (mode == ValueFormatterDetectionMode.Specific) &&
+                assembly.GetName().Name.Equals(configuration.ValueFormatterAssembly, StringComparison.InvariantCultureIgnoreCase)));
+        }
     }
 }
