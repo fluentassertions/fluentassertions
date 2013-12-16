@@ -78,6 +78,26 @@ namespace FluentAssertions.Primitives
             Subject.GetType().Should().Be<T>(reason, reasonArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
+        }        
+        
+        /// <summary>
+        /// Asserts that the object is of the specified type <paramref name="expectedType"/>.
+        /// </summary>
+        /// <param name="expectedType">
+        /// The type that the subject is supposed to be of.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeOfType(Type expectedType, string reason = "", params object[] reasonArgs)
+        {
+            Subject.GetType().Should().Be(expectedType, reason, reasonArgs);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
