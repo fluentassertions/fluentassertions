@@ -107,6 +107,8 @@ namespace FluentAssertions.Equivalency
 
         private void AssertElementGraphEquivalency(object[] subjects, object[] expectations)
         {
+            matchedSubjectIndexes = new System.Collections.Generic.List<int>();
+
             for (int index = 0; index < expectations.Length; index++)
             {
                 object expectation = expectations[index];
@@ -122,18 +124,24 @@ namespace FluentAssertions.Equivalency
             }
         }
 
+        private System.Collections.Generic.List<int> matchedSubjectIndexes;
+
         private void LooselyMatchAgainst(object[] subjects, object expectation, int expectationIndex)
         {
             var results = new AssertionResultSet();
 
             for (int index = 0; index < subjects.Length; index++)
             {
-                object subject = subjects[index];
-
-                results.AddSet(index, TryToMatch(subject, expectation, expectationIndex));
-                if (results.ContainsSuccessfulSet)
+                if (!matchedSubjectIndexes.Contains(index))
                 {
-                    break;
+                    object subject = subjects[index];
+
+                    results.AddSet(index, TryToMatch(subject, expectation, expectationIndex));
+                    if (results.ContainsSuccessfulSet)
+                    {
+                        matchedSubjectIndexes.Add(index);
+                        break;
+                    }
                 }
             }
 
