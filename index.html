@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Fluentassertions by dennisdoomen</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Fluentassertions</h1>
+        <h2>Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test. We currently use it in all our internal and client projects, and it is used in many open-source projects. It runs on .NET 3.5, 4.0 and 4.5 (Desktop and Windows Store), Silverlight 4 and 5 and Windows Phone 7.5. And it supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio and MSpec.</h2>
+        <a href="https://github.com/dennisdoomen/fluentassertions" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="fluent-assertions" class="anchor" href="#fluent-assertions"><span class="octicon octicon-link"></span></a>Fluent Assertions</h1>
+
+<p>Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test. We currently use it in all our internal and client projects, and it is used in many open-source projects. It runs on .NET 3.5, 4.0 and 4.5 (Desktop and Windows Store), Silverlight 4 and 5 and Windows Phone 7.5. And it supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio and MSpec.</p>
+
+<h2>
+<a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why?</h2>
+
+<p>Nothing is more annoying then a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to "keep out of the debugger hell" and I can only agree with that.</p>
+
+<p>For instance, only test a single condition per test case. If you don't, and the first condition fails, the test engine will not even try to test the other conditions. But if any of the others fail, you'll be on your own to figure out which one. I often run into this problem when developers try to combine multiple related tests that test a member using different parameters into one test case. If you really need to do that, consider using a parameterized test that is being called by several clearly named test cases.</p>
+
+<p>That’s why we designed Fluent Assertions to help you in this area. Not only by using clearly named assertion methods, but also by making sure the failure message provides as much information as possible. Consider this example:</p>
+
+<pre><code>"1234567890".Should().Be("0987654321");
+</code></pre>
+
+<p>This will be reported as: </p>
+
+<pre><code>Expected string to be
+"0987654321", but
+"1234567890" differs near "123" (index 0).
+</code></pre>
+
+<p>The fact that both strings are displayed on a separate line is on purpose and happens if any of them is longer than 8 characters. However, if that's not enough, all assertion methods take an optional formatted reason with placeholders, similarly to String.Format, that you can use to enrich the failure message. For instance, the assertion</p>
+
+<pre><code>new[] { 1, 2, 3 }.Should().Contain(item =&gt; item &gt; 3, "at least {0} item should be larger than 3", 1);
+</code></pre>
+
+<p>will fail with: </p>
+
+<pre><code>Collection {1, 2, 3} should have an item matching (item &gt; 3) because at least 1 item should be larger than 3.
+</code></pre>
+
+<h2>
+<a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<p>To verify that a string begins, ends and contains a particular phrase.</p>
+
+<pre><code>string actual = "ABCDEFGHI";
+actual.Should().StartWith("AB").And.EndWith("HI").And.Contain("EF").And.HaveLength(9);
+</code></pre>
+
+<p>To verify that a collection contains a specified number of elements and that all elements match a predicate.</p>
+
+<pre><code>IEnumerable collection = new[] { 1, 2, 3 };
+collection.Should().HaveCount(4, "because we thought we put three items in the collection"))collection.Should().Contain(i =&gt; i &gt; 0);
+</code></pre>
+
+<p>The nice thing about the second failing example is that it will throw an exception with the message </p>
+
+<pre><code>"Expected &lt;4&gt; items because we thought we put three items in the collection, but found &lt;3&gt;." 
+</code></pre>
+
+<p>To verify that a particular business rule is enforced using exceptions.</p>
+
+<pre><code>var recipe = new RecipeBuilder()
+   .With(new IngredientBuilder().For("Milk").WithQuantity(200, Unit.Milliliters))
+   .Build();
+
+Action action = () =&gt; recipe.AddIngredient("Milk", 100, Unit.Spoon);
+
+action
+   .ShouldThrow&lt;RuleViolationException&gt;()
+   .WithMessage("change the unit of an existing ingredient", ComparisonMode.Substring)
+   .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuanity);
+</code></pre>
+
+<h2>
+<a name="whats-new" class="anchor" href="#whats-new"><span class="octicon octicon-link"></span></a>What’s new?</h2>
+
+<p><strong>May 20th, 2013</strong><br>
+Through a contribution on GitHub, Ufuk Hacıoğulları has added support for MonoTouch.  </p>
+
+<p><strong><em>March 3rd, 2013</em></strong><br>
+We've released a small bugfix on NuGet and CodePlex.</p>
+
+<p><strong>October 7th, 2012</strong><br>
+Version 2.0 is now out of beta.</p>
+
+<p><strong>August 25th, 2012</strong><br>
+Fluent Assertions 2.0, a major new version with support for .NET 4.5, Windows Phone and Windows Store Apps is in beta. Read all the details in this blog post.</p>
+
+<p><strong>January 13th, 2012</strong><br>
+A relatively small release. Read all about it in this blog post.</p>
+
+<p><strong>October 31st, 2011</strong><br>
+Another release with lots of bug fixes and small improvements and with great contributions by Martin Opdam and Urs Enzler. Download it here or get it through NuGet.</p>
+
+<h2>
+<a name="about-versioning" class="anchor" href="#about-versioning"><span class="octicon octicon-link"></span></a>About versioning</h2>
+
+<p>The version numbers of Fluent Assertions releases comply to the Semantic Versioning scheme. In other words, release 1.4.0 only adds backwards-compatible functionality and bug fixes compared to 1.3.0. Release 1.4.1 should only include bug fixes. And if we ever introduce breaking changes, the number increased to 2.0.0.</p>
+
+<h2>
+<a name="who-are-we" class="anchor" href="#who-are-we"><span class="octicon octicon-link"></span></a>Who are we?</h2>
+
+<p>We are a bunch of developers working for Aviva Solutions who highly value software quality, in particular  </p>
+
+<ul>
+<li>
+<a href="https://twitter.com/ddoomen">Dennis Doomen</a><br>
+</li>
+<li>Martin Opdam </li>
+</ul><p>If you have any comments or suggestions, please let us know via <a href="https://twitter.com/search?q=fluentassertions&amp;src=typd">twitter</a>, through the <a href="https://github.com/dennisdoomen/FluentAssertions/issues">issues</a> page, or through <a href="http://stackoverflow.com/questions/tagged/fluent-assertions">StackOverflow</a>.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/dennisdoomen/fluentassertions/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/dennisdoomen/fluentassertions/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/dennisdoomen/fluentassertions"></a> is maintained by <a href="https://github.com/dennisdoomen">dennisdoomen</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
