@@ -946,13 +946,28 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_is_not_equivalent_to_a_different_collection()
+        public void When_collection_is_not_equivalent_to_another_smaller_collection_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable collection1 = new [] { 1, 2, 3 };
             IEnumerable collection2 = new [] { 3, 1 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection1.Should().NotBeEquivalentTo(collection2);
+        }
+        
+        [TestMethod]
+        public void When_collection_is_not_equivalent_to_another_equally_sized_collection_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection1 = new [] { 1, 2, 3 };
+            IEnumerable collection2 = new [] { 3, 1, 4 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert

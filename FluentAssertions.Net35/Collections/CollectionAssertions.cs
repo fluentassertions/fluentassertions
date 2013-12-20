@@ -363,9 +363,12 @@ namespace FluentAssertions.Collections
             IEnumerable<object> actualItems = Subject.Cast<object>();
             IEnumerable<object> unexpectedItems = unexpected.Cast<object>();
 
-            if (actualItems.Intersect(unexpectedItems).Any() && (actualItems.Count() == unexpectedItems.Count()))
+            if (actualItems.Count() == unexpectedItems.Count())
             {
+                object[] missingItems = GetMissingItems(unexpectedItems, actualItems);
+
                 Execute.Assertion
+                    .ForCondition(missingItems.Length > 0)
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:collection} {0} not be equivalent with collection {1}{reason}.", Subject, unexpected);
             }
