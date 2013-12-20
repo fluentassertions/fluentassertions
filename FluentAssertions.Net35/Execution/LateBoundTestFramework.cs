@@ -68,10 +68,16 @@ namespace FluentAssertions.Execution
 
         private async Task<IEnumerable<Assembly>> GetAssemblyListAsync()
         {
-            string assemblyPath = ((dynamic)typeof(LateBoundTestFramework).GetTypeInfo().Assembly).Location;
-            string folderPath = Path.GetDirectoryName(assemblyPath);
+            StorageFolder folder = await TryToGetFolderFromAssemblyLocation();
+            if (folder == null)
+            {
+                folder = TryToGetFolderFromPackageLocation();
+            }
 
-            var folder = await StorageFolder.GetFolderFromPathAsync(folderPath);
+            if (folder == null)
+            {
+                throw new Exception("Could not determine the current directory to detect the test framework");
+            }
 
             IEnumerable<Assembly> assemblies = 
                 from file in await folder.GetFilesAsync() 
@@ -79,6 +85,33 @@ namespace FluentAssertions.Execution
                 select Assembly.Load(new AssemblyName() { Name = file.DisplayName });
             
             return assemblies.ToArray();
+        }
+
+        private StorageFolder TryToGetFolderFromPackageLocation()
+        {
+            try
+            {
+                return Windows.ApplicationModel.Package.Current.InstalledLocation;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private static async Task<StorageFolder> TryToGetFolderFromAssemblyLocation()
+        {
+            try
+            {
+                string assemblyPath = ((dynamic)typeof(LateBoundTestFramework).GetTypeInfo().Assembly).Location;
+                string folderPath = Path.GetDirectoryName(assemblyPath);
+                
+                return await StorageFolder.GetFolderFromPathAsync(folderPath);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 #endif
