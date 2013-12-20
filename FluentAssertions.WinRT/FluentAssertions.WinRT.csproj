@@ -131,6 +131,12 @@
     <Compile Include="..\FluentAssertions.Net35\Execution\AssertionScope.cs">
       <Link>Execution\VerificationScope.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Execution\ITestFramework.cs">
+      <Link>Execution\ITestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\Execution\LateBoundTestFramework.cs">
+      <Link>Execution\LateBoundTestFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\FluentDateTimeExtensions.cs">
       <Link>FluentDateTimeExtensions.cs</Link>
     </Compile>
@@ -400,6 +406,8 @@
     </Compile>
     <Compile Include="AssertionExtensions.WinRT.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />
+    <Compile Include="Execution\MSTestFramework.cs" />
+    <Compile Include="Execution\NUnitPclTestFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

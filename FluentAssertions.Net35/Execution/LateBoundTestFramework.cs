@@ -1,9 +1,14 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
 #if WINRT
+
+using Windows.Storage;
+using System.Threading.Tasks;
 using System.Collections.Generic;
+
 #endif
 
 namespace FluentAssertions.Execution
@@ -33,7 +38,7 @@ namespace FluentAssertions.Execution
 
                 assembly = AppDomain.CurrentDomain
                     .GetAssemblies()
-                    .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.InvariantCultureIgnoreCase));
+                    .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase));
 
                 return (assembly != null);
             }
@@ -44,6 +49,9 @@ namespace FluentAssertions.Execution
     }
 
 #if WINRT
+    /// <summary>
+    /// Simulates the AppDomain class that is not available in Windows Store apps.
+    /// </summary>
     internal sealed class AppDomain
     {
         public static AppDomain CurrentDomain { get; private set; }
@@ -58,22 +66,19 @@ namespace FluentAssertions.Execution
             return GetAssemblyListAsync().Result.ToArray();
         }
 
-        private async System.Threading.Tasks.Task<IEnumerable<Assembly>> GetAssemblyListAsync()
+        private async Task<IEnumerable<Assembly>> GetAssemblyListAsync()
         {
-            var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            string assemblyPath = ((dynamic)typeof(LateBoundTestFramework).GetTypeInfo().Assembly).Location;
+            string folderPath = Path.GetDirectoryName(assemblyPath);
 
-            List<Assembly> assemblies = new List<Assembly>();
-            foreach (Windows.Storage.StorageFile file in await folder.GetFilesAsync())
-            {
-                if (file.FileType == ".dll" || file.FileType == ".exe")
-                {
-                    AssemblyName name = new AssemblyName() { Name = file.DisplayName };
-                    Assembly asm = Assembly.Load(name);
-                    assemblies.Add(asm);
-                }
-            }
+            var folder = await StorageFolder.GetFolderFromPathAsync(folderPath);
 
-            return assemblies;
+            IEnumerable<Assembly> assemblies = 
+                from file in await folder.GetFilesAsync() 
+                where (file.FileType == ".dll") || (file.FileType == ".exe") 
+                select Assembly.Load(new AssemblyName() { Name = file.DisplayName });
+            
+            return assemblies.ToArray();
         }
     }
 #endif
