@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using FluentAssertions.Common;
+
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -59,18 +59,28 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason = "", params object [] reasonArgs)
+        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason = "", params object[] reasonArgs)
         {
-            var actual = target.Subtract(subject.Value);
+            bool success = Execute.Assertion
+                .ForCondition(subject.HasValue)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
+                          " {1} before {2}{reason}, but found a <null> DateTime.",
+                    subject, timeSpan, target);
 
-            if (!predicate.IsMatchedBy(actual, timeSpan))
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith(
-                        "Expected date and/or time {0} to be " + predicate.DisplayText +
+                var actual = target.Subtract(subject.Value);
+
+                if (!predicate.IsMatchedBy(actual, timeSpan))
+                {
+                    Execute.Assertion
+                        .BecauseOf(reason, reasonArgs)
+                        .FailWith(
+                            "Expected date and/or time {0} to be " + predicate.DisplayText +
                             " {1} before {2}{reason}, but it differs {3}.",
-                        subject, timeSpan, target, actual);
+                            subject, timeSpan, target, actual);
+                }
             }
 
             return new AndConstraint<DateTimeAssertions>(parentAssertions);
@@ -89,18 +99,28 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason = "", params object [] reasonArgs)
+        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason = "", params object[] reasonArgs)
         {
-            var actual = subject.Value.Subtract(target);
+            bool success = Execute.Assertion
+                .ForCondition(subject.HasValue)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
+                          " {1} after {2}{reason}, but found a <null> DateTime.",
+                    subject, timeSpan, target);
 
-            if (!predicate.IsMatchedBy(actual, timeSpan))
+            if (success)
             {
-                Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith(
-                        "Expected date and/or time {0} to be " + predicate.DisplayText +
+                var actual = subject.Value.Subtract(target);
+
+                if (!predicate.IsMatchedBy(actual, timeSpan))
+                {
+                    Execute.Assertion
+                        .BecauseOf(reason, reasonArgs)
+                        .FailWith(
+                            "Expected date and/or time {0} to be " + predicate.DisplayText +
                             " {1} after {2}{reason}, but it differs {3}.",
-                        subject, timeSpan, target, actual);
+                            subject, timeSpan, target, actual);
+                }
             }
 
             return new AndConstraint<DateTimeAssertions>(parentAssertions);
