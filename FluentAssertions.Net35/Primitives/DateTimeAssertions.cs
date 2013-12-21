@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using FluentAssertions.Common;
+
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -38,10 +38,10 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> Be(DateTime expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
-                .ForCondition(Subject.Value == expected)
+                .ForCondition(Subject.HasValue && (Subject.Value == expected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:date and time} to be {0}{reason}, but found {1}.",
-                    expected, Subject.Value);
+                    expected, Subject.HasValue ? Subject.Value : default(DateTime?));
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -88,17 +88,19 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> BeCloseTo(DateTime nearbyTime, int precision = 20, string reason = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> BeCloseTo(DateTime nearbyTime, int precision = 20, string reason = "",
+            params object[] reasonArgs)
         {
-           DateTime minimumValue = nearbyTime.AddMilliseconds(-precision);
-           DateTime maximumValue = nearbyTime.AddMilliseconds(precision);
+            DateTime minimumValue = nearbyTime.AddMilliseconds(-precision);
+            DateTime maximumValue = nearbyTime.AddMilliseconds(precision);
 
-           Execute.Assertion
-               .ForCondition((Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
-               .BecauseOf(reason, reasonArgs)
-               .FailWith("Expected {context:date and time} to be within {0} ms from {1}{reason}, but found {2}.", precision, nearbyTime, Subject.Value);
+            Execute.Assertion
+                .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {context:date and time} to be within {0} ms from {1}{reason}, but found {2}.", precision,
+                    nearbyTime, Subject.HasValue ? Subject.Value : default(DateTime?));
 
-           return new AndConstraint<DateTimeAssertions>(this);
+            return new AndConstraint<DateTimeAssertions>(this);
         }
 
         /// <summary>
@@ -202,7 +204,7 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.Value.Year == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected year {0}{reason}, but found {1}.", expected, Subject.Value.Year);
-            
+
             return new AndConstraint<DateTimeAssertions>(this);
         }
 
@@ -310,7 +312,7 @@ namespace FluentAssertions.Primitives
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="TimeSpanAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/>.

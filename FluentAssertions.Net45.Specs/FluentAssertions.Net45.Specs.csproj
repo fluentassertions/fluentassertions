@@ -124,9 +124,6 @@
     <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
       <Link>NullableBooleanAssertionSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Specs\NullableDateTimeAssertionSpecs.cs">
-      <Link>NullableDateTimeAssertionSpecs.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableGuidAssertionSpecs.cs">
       <Link>NullableGuidAssertionSpecs.cs</Link>
     </Compile>

@@ -108,7 +108,6 @@
     <Compile Include="ExecutionTimeAssertionsSpecs.cs" />
     <Compile Include="GenericCollectionAssertionsSpecs.cs" />
     <Compile Include="NullableBooleanAssertionSpecs.cs" />
-    <Compile Include="NullableDateTimeAssertionSpecs.cs" />
     <Compile Include="NullableNumericAssertionSpecs.cs" />
     <Compile Include="NullableSimpleTimeSpanAssertionSpecs.cs" />
     <Compile Include="NumericAssertionSpecs.cs" />
