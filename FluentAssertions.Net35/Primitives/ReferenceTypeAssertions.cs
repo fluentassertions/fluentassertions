@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 
 using FluentAssertions.Execution;
-
 #if WINRT
 using System.Reflection;
+
 #endif
 
 namespace FluentAssertions.Primitives
@@ -35,9 +35,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> BeNull(string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
-                   .ForCondition(ReferenceEquals(Subject, null))
-                   .BecauseOf(reason, reasonArgs)
-                   .FailWith("Expected {context:" + Context + "} to be <null>{reason}, but found {0}.", Subject);
+                .ForCondition(ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {context:" + Context + "} to be <null>{reason}, but found {0}.", Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -55,9 +55,9 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> NotBeNull(string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
-                   .ForCondition(!ReferenceEquals(Subject, null))
-                   .BecauseOf(reason, reasonArgs)
-                   .FailWith("Expected {context:" + Context + "} not to be <null>{reason}.");
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {context:" + Context + "} not to be <null>{reason}.");
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -75,11 +75,11 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeOfType<T>(string reason = "", params object[] reasonArgs)
         {
-            Subject.GetType().Should().Be<T>(reason, reasonArgs);
+            BeOfType(typeof(T), reason, reasonArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
-        }        
-        
+        }
+
         /// <summary>
         /// Asserts that the object is of the specified type <paramref name="expectedType"/>.
         /// </summary>
@@ -95,6 +95,11 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> BeOfType(Type expectedType, string reason = "", params object[] reasonArgs)
         {
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected type to be {0}{reason}, but found <null>.", expectedType);
+
             Subject.GetType().Should().Be(expectedType, reason, reasonArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -110,17 +115,17 @@ namespace FluentAssertions.Primitives
         public AndConstraint<TAssertions> BeAssignableTo<T>(string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
-                   .ForCondition(
+                .ForCondition(
 #if !WINRT
                 typeof(T).IsAssignableFrom(Subject.GetType())
 #else
                 typeof(T).GetTypeInfo().IsAssignableFrom(Subject.GetType().GetTypeInfo())
 #endif
                 )
-                   .BecauseOf(reason, reasonArgs)
-                   .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} does not implement {0}",
-                       typeof(T),
-                       Subject.GetType());
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} does not implement {0}",
+                    typeof(T),
+                    Subject.GetType());
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -157,9 +162,9 @@ namespace FluentAssertions.Primitives
             }
 
             Execute.Assertion
-                   .ForCondition(predicate.Compile()((T)Subject))
-                   .BecauseOf(reason, reasonArgs)
-                   .FailWith("Expected {0} to match {1}{reason}.", Subject, predicate.Body);
+                .ForCondition(predicate.Compile()((T)Subject))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {0} to match {1}{reason}.", Subject, predicate.Body);
 
             return new AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>>(this);
         }

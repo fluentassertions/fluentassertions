@@ -351,26 +351,6 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_object_type_is_different_than_expected_type_it_should_fail()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            var someObject = new object();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () => someObject.Should().BeOfType<int>();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected type to be System.Int32, but found System.Object.");
-        }
-
-        [TestMethod]
         public void When_object_type_is_different_than_expected_type_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -388,7 +368,29 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected type to be System.Int32 because they are of different type, but found System.Object.");
+        }        
+        
+        [TestMethod]
+        public void When_asserting_the_type_of_a_null_object_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            object someObject = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().BeOfType<int>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type to be System.Int32, but found <null>.");
         }
+
+
 
         [TestMethod]
         public void Then_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name()

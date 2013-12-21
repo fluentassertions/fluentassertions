@@ -55,6 +55,11 @@ namespace FluentAssertions.Types
         public AndConstraint<TypeAssertions> Be(Type expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected type to be {0}{reason}, but found <null>.", expected);
+
+            Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(GetFailureMessageIfTypesAreDifferent(Subject, expected));
