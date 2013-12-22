@@ -283,7 +283,7 @@ namespace FluentAssertions.Specs
         #region Be Close To
 
         [TestMethod]
-        public void When_datetime_is_less_then_but_close_to_another_value_it_should_throw()
+        public void When_datetime_is_less_then_but_close_to_another_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -303,7 +303,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_datetime_is_greater_then_but_close_to_another_value_it_should_throw()
+        public void When_datetime_is_greater_then_but_close_to_another_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

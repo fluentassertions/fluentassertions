@@ -196,5 +196,43 @@ namespace FluentAssertions.Primitives
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that the current <see cref="TimeSpan"/> is within the specified number of milliseconds (default = 20 ms)
+        /// from the specified <paramref name="nearbyTime"/> value.
+        /// </summary>
+        /// <remarks>
+        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
+        /// use <see cref="Be"/>.
+        /// </remarks>
+        /// <param name="expected"></param>
+        /// <param name="i"></param>
+        /// <param name="nearbyTime">
+        /// The expected time to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The maximum amount of milliseconds which the two values may differ.
+        /// </param>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<SimpleTimeSpanAssertions> BeCloseTo(TimeSpan nearbyTime, int precision = 20, string reason = "",
+            params object[] reasonArgs)
+        {
+            var minimumValue = new TimeSpan(nearbyTime.Days, nearbyTime.Hours, nearbyTime.Minutes, nearbyTime.Seconds, nearbyTime.Milliseconds - precision);
+            var maximumValue = new TimeSpan(nearbyTime.Days, nearbyTime.Hours, nearbyTime.Minutes, nearbyTime.Seconds, nearbyTime.Milliseconds + precision);
+
+            Execute.Assertion
+                .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("Expected {context:time} to be within {0} ms from {1}{reason}, but found {2}.", precision,
+                    nearbyTime, Subject.HasValue ? Subject.Value : default(TimeSpan?));
+
+            return new AndConstraint<SimpleTimeSpanAssertions>(this);
+        }
     }
 }
