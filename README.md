@@ -1,11 +1,26 @@
 Fluent Assertions
 ================
 
-Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test. We currently use it in all our internal and client projects, and it is used in many open-source projects. It runs on .NET 3.5, 4.0 and 4.5 (Desktop and Windows Store), Silverlight 4 and 5 and Windows Phone 7.5. And it supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio and MSpec.
+Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test. We currently use it in all our internal and client projects, and it is used in many open-source projects. It runs on the following frameworks:
+
+* .NET 3.5, 4.0 and 4.5
+* Windows Store for Windows 8
+* Silverlight 4 and 5
+* Windows Phone 7.5 and 8. 
+ 
+It supports the following unit test frameworks:
+
+* MSTest (Visual Studio 2010, Visual Studio 2012 Update 2 and Visual Studio 2013)
+* [NUnit](http://www.nunit.org/)
+* [XUnit](http://xunit.codeplex.com/)
+* [MBUnit](http://code.google.com/p/mb-unit/)
+* [Gallio](http://code.google.com/p/mb-unit/)
+* [NSpec](http://nspec.org/)
+* [MSpec](https://github.com/machine/machine.specifications)
 
 Why?
 ----
-Nothing is more annoying then a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to "keep out of the debugger hell" and I can only agree with that.
+Nothing is more annoying then a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to ["keep out of the debugger hell"](http://codebetter.com/jeremymiller/2005/08/18/testing-granularity-feedback-cycles-and-holistic-development/) and I can only agree with that.
 
 For instance, only test a single condition per test case. If you don't, and the first condition fails, the test engine will not even try to test the other conditions. But if any of the others fail, you'll be on your own to figure out which one. I often run into this problem when developers try to combine multiple related tests that test a member using different parameters into one test case. If you really need to do that, consider using a parameterized test that is being called by several clearly named test cases.
 
@@ -57,6 +72,9 @@ To verify that a particular business rule is enforced using exceptions.
 
 What’s new?
 -----------
+
+**August 28th, 2013**  
+Release 2.1 is a fact and introduces a few big improvements on the equivalency test. Read all about it [in this blog post](http://www.dennisdoomen.net/2013/08/it-took-almost-year-but-fluent.html). 
 
 **May 20th, 2013**      
 Through a contribution on GitHub, Ufuk Hacıoğulları has added support for MonoTouch.  
