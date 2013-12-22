@@ -1,6 +1,29 @@
+## Table of Contents ##
+* [Supported Test Frameworks](#supported-test-frameworks)
+* [Reference Types](#reference-types)
+* [Nullable Types](#nullable-types)
+* [Booleans](#booleans)
+* [Strings](#strings)
+* [Numeric Types and IComparable](#numeric-types-and-everything-else-that-implements-icomparable)
+* [Dates and times](#dates-and-times)
+* [Timespans](#timespans)
+* [Collections](#collections)
+* [Dictionaries](#dictionaries)
+* [Guids](#guids)
+* [Exceptions](#exceptions)
+* [Object graph comparison](#object-graph-comparison)
+* [Property Comparison (*obsolete*)](#property-comparison)
+* [Event Monitoring](#event-monitoring)
+* [Type, Method and property assertions](#type-method-and-property-assertions)
+* [XML](#xml-classes)
+* [Execution Time](#execution-time)
+* [Extensibility](#extensibility)
+
 ## Supported Test Frameworks ##
 
-Fluent Assertions supports MSTest, NUnit, XUnit, MSpec, MBUnit and the Gallio Framework. You can simply add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions. If, for some unknown reason, Fluent Assertions fails to find the assembly, try specifying the framework explicitly using a configuration setting in the project’s app.config. If it cannot find any of the supported frameworks, it will fall back to using a custom AssertFailedException exception class.
+Fluent Assertions supports MSTest, NUnit, XUnit, MSpec, NSpec, MBUnit and the Gallio Framework. You can simply add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions. 
+
+If, for some unknown reason, Fluent Assertions for .NET 3.5, 4.0 or 4.5 fails to find the assembly, try specifying the framework explicitly using a configuration setting in the project’s app.config. If it cannot find any of the supported frameworks, it will fall back to using a custom `AssertFailedException` exception class.
 
     <configuration>
       <appSettings>
@@ -79,14 +102,21 @@ Obviously you’ll find all the methods you would expect for string assertions.
 	theString.Should().Be("This is a String");
 	theString.Should().NotBe("This is another String");
 	theString.Should().BeEquivalentTo("THIS IS A STRING");
-	theString.Should().EndWith("a String");
-	theString.Should().EndWithEquivalent("a string");
+
 	theString.Should().Contain("is a");
 	theString.Should().NotContain("is a");
 	theString.Should().ContainEquivalentOf("WE DONT CARE ABOUT THE CASING");
 	theString.Should().NotContainEquivalentOf("HeRe ThE CaSiNg Is IgNoReD As WeLl");
+
 	theString.Should().StartWith("This");
+	theString.Should().NotStartWith("This");
 	theString.Should().StartWithEquivalent("this");
+	theString.Should().NotStartWithEquivalent("this");
+
+	theString.Should().EndWith("a String");
+	theString.Should().NotEndWith("a String");
+	theString.Should().EndWithEquivalent("a string");
+	theString.Should().NotEndWithEquivalent("a string");
 
 We even support wildcards. For instance, if you would like to assert that some email address is correct, use this:
 
@@ -120,8 +150,7 @@ If the casing of the input string is irrelevant, use this:
 	theByte.Should().Be(2);
 
 
-
-Notice that `Should().Be()` and `Should().NotBe()` are not available for floats and  doubles. As explained in  this article, floating point variables are inheritably inaccurate and should never be compared for equality. Instead, either use the Should().BeInRange() method or the following method specifically designed for floating point variables.
+Notice that `Should().Be()` and `Should().NotBe()` are not available for floats and  doubles. As explained in  this article, floating point variables are inheritably inaccurate and should never be compared for equality. Instead, either use the Should().BeInRange() method or the following method specifically designed for floating point or `decimal` variables.
 
 	float value = 3.1415927F;
 	value.Should().BeApproximately(3.14F, 0.001F);
@@ -289,7 +318,7 @@ The assertions you can do on Guids are simple. You can assert their equality to 
 
 ## Exceptions ##
 
-The following example verifies that the Foo() method throws an InvalidOperationException which Message property has a specific value.
+The following example verifies that the `Foo()` method throws an `InvalidOperationException` which `Message` property has a specific value.
 
 	subject.Invoking(y => y.Foo("Hello"))
 	     .ShouldThrow<InvalidOperationException>()
@@ -310,24 +339,17 @@ Notice that the example also verifies that the exception has a particular inner 
 	act.ShouldThrow<ArgumentNullException>()
      .And.ParamName.Should().Equal("message");
 
-An alternative syntax for doing the same is by chaining or more calls to the  Where() method introduced in version 1.4.0:
+An alternative syntax for doing the same is by chaining one or more calls to the `Where()` method introduced in version 1.4.0:
 
 	Action act = () => subject.Foo(null)); 
 	act.ShouldThrow<ArgumentNullException>().Where(e => e.Message.StartsWith(“did”));
 
-However, we discovered that testing the exception message for a substring is so common, that we introduced some specialized methods for that.
+However, we discovered that testing the exception message for a substring is so common, that we changed the default behavior of `WithMessage` to support wildcard expressions and match in a case-insensitive way.
 
 	Action act = () => subject.Foo(null)); 
 	act
 	  .ShouldThrow<ArgumentNullException>()
-	  .WithMessage(“did”, ComparisonMode.StartWith);
-
-Supported ComparisonModes are: Exact (the default), Equivalent,  StartWith, StartWithEquivalent, Substring,  EquivalentSubstring and Wildcard. The latter can be used if you really want to get in the nitty gritty and allows you to compare the message with a wildcard expression.
-
-	Action act = () => subject.Foo(null)); 
-	act
-	  .ShouldThrow<ArgumentNullException>()
-	  .WithMessage(“?did*”, ComparisonMode.Wildcard);
+	  .WithMessage(“?did*”);
 
 On the other hand, you may want to verify that no exceptions were thrown.
 
@@ -339,12 +361,12 @@ I know that a unit test will fail anyhow if an exception was thrown, but this sy
 	Action act = () => subject.Foo("Hello"));
 	act.ShouldNotThrow<InvalidOperationException>();
 
-If the method you are testing returns an IEnumerable or IEnumerable<T> and it uses the  yield keyword to construct that collection, just calling the method will not cause the effect you expected. Because the real work is not done until you actually iterate over that collection. you can use the Enumerating() extension method to force enumerating the collection like this.
+If the method you are testing returns an `IEnumerable` or `IEnumerable<T>` and it uses the `yield` keyword to construct that collection, just calling the method will not cause the effect you expected. Because the real work is not done until you actually iterate over that collection. you can use the Enumerating() extension method to force enumerating the collection like this.
 
 	Func<IEnumerable<char>> func = () => obj.SomeMethodThatUsesYield("blah");
 	func.Enumerating().ShouldThrow<ArgumentException>();
 
-You do have to use the Func<T> type instead of Action<T> then.
+You do have to use the `Func<T>` type instead of `Action<T>` then.
 
 On the other hand, you may want to verify that no exceptions were thrown.
 
@@ -358,28 +380,41 @@ If you want to verify that a specific exception is not thrown, and want to ignor
 	Action act = () => subject.Foo("Hello"));
 	act.ShouldNotThrow<InvalidOperationException>();
 
+.NET 4.0 and later includes the `AggregateException` which is typically thrown by code that runs through the Parallel Task Library or using the new `async` keyword. All of the above also works for exceptions that are aggregated, whether or not you are asserting on the actual `AggregateException` or any of its aggregated exceptions.
+
+Talking about the `async` keyword, you can also verify that an asynchronously executed method throws or doesn't throw an exception:
+
+	Func<Task> act = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
+    act.ShouldThrow<InvalidOperationException>();
+
+or
+
+	Func<Task> act = async () => { await asyncObject.SucceedAsync(); };
+    act.ShouldNotThrow();
+
+
 ## Object graph comparison ##
 
-Consider the class Order and its wire-transfer equivalent OrderDto (a so-called  DTO). Suppose also that an order has one or more Products and an associated Customer. Coincidentally, the  OrderDto will have one or more ProductDtos and a corresponding CustomerDto. Now if you want to make sure that all the properties of all the objects in the OrderDto object graph match the equally named properties of the Order object graph, you can do this. 
+Consider the class `Order` and its wire-transfer equivalent `OrderDto` (a so-called DTO). Suppose also that an order has one or more `Product`s and an associated `Customer`. Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresponding `CustomerDto`. Now if you want to make sure that all the properties of all the objects in the `OrderDto` object graph match the equally named properties of the `Order` object graph, you can do this. 
 
 	orderDto.ShouldBeEquivalentTo(order); 
 
-In contrast to the ShouldHave() extension method, the comparison is recursive by default and all properties of the OrderDto must be available on the  Order. If not, an exception is thrown. You can override this behavior in different ways. For instance, you may only want to include the properties both object graphs have:
+In contrast to the `ShouldHave()` extension method, the comparison is recursive by default and all properties of the `OrderDto` must be available on the  `Order`. If not, an exception is thrown. You can override this behavior in different ways. For instance, you may only want to include the properties both object graphs have:
 
 	orderDto.ShouldBeEquivalentTo(order, options => 
 	    options.ExcludingMissingProperties());
 
-You can also exclude certain (potentially deeply nested) properties using the  Excluding() method. 
+You can also exclude certain (potentially deeply nested) properties using the `Excluding()` method. 
 
 	orderDto.ShouldBeEquivalentTo(order, options => 
 	    options.Excluding(o => o.Customer.Name));
 
-Obviously, Excluding() and  ExcludingMissingProperties() can be combined. Maybe farfetched, but you may even decide to exclude a property on a particular nested object by its index. 
+Obviously, `Excluding()` and `ExcludingMissingProperties()` can be combined. Maybe farfetched, but you may even decide to exclude a property on a particular nested object by its index. 
 
 	orderDto.ShouldBeEquivalentTo(order, options => 
 	    options.Excluding(o => o.Products[1].Status)); 
 
-The Excluding() method on the options object also takes a lambda expression that offers a bit more flexibility for deciding what property to include. 
+The `Excluding()` method on the options object also takes a lambda expression that offers a bit more flexibility for deciding what property to include. 
 
 	orderDto.ShouldBeEquivalentTo(order, options => options 
 	    .Excluding(ctx => ctx.PropertyPath == "Level.Level.Text")); 
@@ -390,7 +425,23 @@ This expression has access to the property path, the property info and the subje
 	    .Including(o => o.OrderNumber)
 	    .Including(o => o.Date)); 
 
-**Overriding and collections**  
+
+**Collections and dictionaries**  
+The original `ShouldHave()` extension method does support collections, but it doesn’t allow you to influence the comparison based on the actual collection type, neither does it support (nested) dictionaries. The new extension method `ShouldAllBeEquivalentTo()` does support that so you can now take the 2nd example from the post and apply it on a collection of `OrderDtos`. 
+
+	orderDtos.ShouldAllBeEquivalentTo(orders, options => options.Excluding(o => o.Customer.Name)); 
+
+And did you know that Fluent Assertions will, by default, ignore the order of the items in the collections, regardless of whether the collection is at the root of the object graph or tucked away in a nested property? If the order is important, you can override the default behavior with the following option:
+
+	orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrdering());
+
+You can even tell FA to use strict ordering only for a particular collection or dictionary property, similar to how you exclude certain properties:
+
+	orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrderingFor(s => s.Products));
+
+Notice that for performance reasons, collections of bytes are still compared in exact order.
+
+**Overriding**  
 In addition to influencing the properties that are including in the comparison, you can also override the actual assertion operation that is executed on a particular property. 
 
 	orderDto.ShouldBeEquivalentTo(order, options => options
@@ -403,10 +454,6 @@ If you want to do this for all properties of a certain type, you can shorten the
 	    .Using<DateTime>(ctx => ctx.Date.Should().BeCloseTo(ctx.Date, 1000)) 
 	    .WhenTypeIs<DateTime>(); 
 
-The original ShouldHave() extension method does support collections now, but it doesn’t allow you to influence the comparison based on the actual collection type. The new extension method ShouldAllBeEquivalentTo() does support that so you can now take the 2nd example from the post and apply it on a collection of OrderDtos. 
-
-	orderDtos.ShouldAllBeEquivalentTo(orders, options => options.Excluding(o => o.Customer.Name)); 
-
 **Extensibility**  
 Internally the comparison process consists of three phases. 
 
@@ -414,18 +461,22 @@ Internally the comparison process consists of three phases.
 2. Find a matching property on the expectation object and decide what to do if it can’t find any.  
 3. Select the appropriate assertion method for the property’s type and execute it.  
 
-Each of these phases is executed by one or more implementations of  ISelectionRule, IMatchingRule and  IAssertionRule that are maintained by the EquivalencyAssertionOptions. The ExcludePropertyByPredicateSelectionRule for example, is added to the collection of selection rules when you use the Excluding(property expression) method on the options parameter of ShouldBeEquivalentTo(). Even the  Using().When() construct in the previous section is doing nothing more than inserting an AssertionRule<TSubject> in to the list of assertion rules. Creating your own rule is quite straightforward.
+Each of these phases is executed by one or more implementations of `ISelectionRule`, `IMatchingRule` and  `IAssertionRule` that are maintained by the `EquivalencyAssertionOptions`. 
+
+The `ExcludePropertyByPredicateSelectionRule` for example, is added to the collection of selection rules when you use the `Excluding(property expression)` method on the options parameter of `ShouldBeEquivalentTo()`. Even the `Using().When()` construct in the previous section is doing nothing more than inserting an `AssertionRule<TSubject>` in to the list of assertion rules. Creating your own rule is quite straightforward.
   
 1. Choose the appropriate phase that the rule should influence 
 2. Select the corresponding interface 
 3. Create a class that implements this interface 
-4. Add it to the ShouldBeEquivalentTo() call using the Using() method on the options parameters. 
+4. Add it to the `ShouldBeEquivalentTo()` call using the `Using()` method on the options parameters. 
 
 	subject.ShouldBeEquivalentTo(expected, options => options.Using(new ExcludeForeignKeysSelectionRule()));
 
+You can go even further because the entire execution plan is dictated by the collection of `IEquivalencyStep` objects exposed by the `Steps` property of the `EquivalencyValidator` class. You can reorder, remove or even add your own step. Check out the [code on GitHub](https://github.com/dennisdoomen/fluentassertions/blob/master/FluentAssertions.Net35/Equivalency/EquivalencyValidator.cs) for some ideas.
+
 ## Property Comparison ##
 
-Important Note: The new extension methods discussed in the previous section are going to supersede the old ShouldHave() method somewhere in a next major version. Internally the old methods are already using the new comparison engine, but new functionality will only be available through the new methods.
+**Important Note**: *The new extension methods discussed in the previous section are going to supersede the old* `ShouldHave()` *method somewhere in a next major version. Internally the old methods are already using the new comparison engine, but new functionality will only be available through the new methods.*
 
 You can assert the equality of entire objects by comparing their properties by name. This even works if the types of the properties differ but a built-in conversion exists (through the Convert class). This works for entire collections of objects as well, even if you use an interface or an anonymous type. It doesn't matter what kind of collection type you use, as long as it contains the same number of objects, and the object’s properties match.
 
@@ -489,7 +540,8 @@ Important Limitation: Due to limitations in Silverlight, Windows Phone and .NET 
 ## Type, Method and property assertions ##
 
 Recently, we have added a number of assertions on types and on methods and properties of types. These are rather technical assertions and, although we like our unit tests to read as functional specifications for the application, we still see a use for assertions on the members of a class. For example when you use policy injection on your classes and require its methods to be virtual. Forgetting to make a method virtual will avoid the policy injection mechanism from creating a proxy for it, but you will only notice the consequences at runtime. Therefore it can be useful to create a unit test that asserts such requirements on your classes. Some examples.
-typeof(MyPresentationModel).Should().BeDecoratedWith<SomeAttribute>();
+
+    typeof(MyPresentationModel).Should().BeDecoratedWith<SomeAttribute>();
 
 	MethodInfo method = GetMethod();
 	method.Should().BeVirtual();
@@ -497,13 +549,14 @@ typeof(MyPresentationModel).Should().BeDecoratedWith<SomeAttribute>();
 	PropertyInfo property = GetSomeProperty();
 	property.Should().BeVirtual().And.BeDecoratedWith<SomeAttribute>();
 
-You can also perform assertions on multiple methods or properties in a certain type by using the Methods() or Properties() extension methods and some optional filtering methods. Like this:
+You can also perform assertions on multiple methods or properties in a certain type by using the `Methods()` or `Properties()` extension methods and some optional filtering methods. Like this:
 
 	typeof(MyPresentationModel).Methods()
 	  .ThatArePublicOrInternal 
 	  .ThatReturnVoid
 	  .Should()
-	  .BeVirtual("because this is required to intercept exceptions");
+	  .BeVirtual("because this is required to intercept exceptions")
+	  .BeWritable();
 	
 	typeof(MyController).Methods()
 	  .ThatReturn<ActionResult>()
@@ -543,6 +596,11 @@ Fluent Assertions has support for assertions on several of the LINQ-to-XML class
 	
 	xElement.Should().HaveAttribute("age", "36");
 	xElement.Should().HaveElement("address");
+
+Those two last assertions also support `XName` parameters:
+
+	xElement.Should().HaveAttribute(XName.Get("age", "http://www.example.com/2012/test"), "36");
+	xElement.Should().HaveElement(XName.Get("address", "http://www.example.com/2012/test"));
 	
 	xAttribute.Should().HaveValue("Amsterdam");
 
@@ -564,20 +622,22 @@ Since it doesn’t make sense to do something like that in Silverlight, it is on
 
 ## Extensibility ##
 
+**Custom assertions**  
 Adding your own assertion extensions is quite straightforward and happens in my projects quite often. You have a few options though.
-Extend one of the built-in classes such as CollectionAssertions<T> or ReferenceTypeAssertions<T> and expose them through a custom static class with extension methods named Should(). 
 
-**Create extension methods that extend an assertion class:** 
+* Extend one of the built-in classes such as `CollectionAssertions<T>` or `ReferenceTypeAssertions<T>` and expose them through a custom static class with extension methods named `Should()`. 
 
-	public static void BeWhatever<T>(this GenericCollectionAssertions<T> assertions, string reason, params object[] reasonArgs)
-	{ 
-	    Execute.Assertion
-	       .ForCondition(somecondition)
-	       .BecauseOf(reason, reasonArgs)
-	       .FailWith("Expected object not to be {0}{reason}", null);
-	}
+* Create extension methods that extend an assertion class: 
 
-Create a custom assertions class and use the Verification class to verify conditions and create comprehensive failure messages using the built-in formatters. Notice that error messages of custom assertion extensions can specify the {context} tag that is used to inject the property path in object graph comparisons. For instance, in the date/time assertions, this is used to display date and time. But when this assertion is used as part of a recursive object graph comparison, it will display the property path instead. You can use this special tag in your own extensions like this:
+		public static void BeWhatever<T>(this GenericCollectionAssertions<T> assertions, string reason, params object[] reasonArgs)
+		{ 
+	    	Execute.Assertion
+	    	   .ForCondition(somecondition)
+	    	   .BecauseOf(reason, reasonArgs)
+	    	   .FailWith("Expected object not to be {0}{reason}", null);
+		}
+
+* Create a custom assertions class and use the `Assertion` class to verify conditions and create comprehensive failure messages using the built-in formatters. Notice that error messages of custom assertion extensions can specify the `{context}` tag that is used to inject the property path in object graph comparisons. For instance, in the date/time assertions, this is used to display date and time. But when this assertion is used as part of a recursive object graph comparison, it will display the property path instead. You can use this special tag in your own extensions like this:
 
 	Execute.Assertion
 	    .ForCondition(Subject.Value == expected)
@@ -585,13 +645,12 @@ Create a custom assertions class and use the Verification class to verify condit
 	    .FailWith("Expected {context:date and time} to be {0}{reason}, but found {1}.", expected, subject.Value);
 
 
-**Formatters**
-
+**Formatters**  
 In addition to writing your own extensions, you can influence the way data is formatted with these two techniques.
 
-* You can alter the list of IValueFormatter objects on the Formatter class with your own implementation of that interface. Just make sure your own formatter precedes any of the built-in ones.
+* You can alter the list of `IValueFormatter` objects on the Formatter class with your own implementation of that interface. Just make sure your own formatter precedes any of the built-in ones.
 
-* You can override the way Fluent Assertions formats objects in an error message by annotating a static method with the [ValueFormatter] attribute. If a class doesn’t override ToString(), the built-in  DefaultValueFormatter will render an object graph of that object. But you can now override that using a construct like this:
+* You can override the way Fluent Assertions formats objects in an error message by annotating a static method with the `[ValueFormatter]` attribute. If a class doesn’t override `ToString()`, the built-in `DefaultValueFormatter` will render an object graph of that object. But you can now override that using a construct like this:
 
 		public static class CustomFormatter
 		{    
