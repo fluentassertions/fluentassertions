@@ -23,7 +23,7 @@ namespace FluentAssertions.Primitives
         public TSubject Subject { get; protected set; }
 
         /// <summary>
-        /// Asserts that the current dictionary has not been initialized yet with an actual dictionary.
+        /// Asserts that the current object has not been initialized yet.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -43,7 +43,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the current dictionary has been initialized with an actual dictionary.
+        /// Asserts that the current object has been initialized.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
