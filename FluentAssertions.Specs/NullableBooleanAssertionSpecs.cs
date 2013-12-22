@@ -13,14 +13,14 @@ namespace FluentAssertions.Specs
     public class NullableBooleanAssertionSpecs
     {
         [TestMethod]
-        public void Should_succeed_when_asserting_nullable_boolean_value_with_a_value_to_have_a_value()
+        public void When_asserting_nullable_boolean_value_with_a_value_to_have_a_value_it_should_succeed()
         {
             bool? nullableBoolean = true;
             nullableBoolean.Should().HaveValue();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_nullable_boolean_value_without_a_value_to_have_a_value()
+        public void When_asserting_nullable_boolean_value_without_a_value_to_have_a_value_it_should_fail()
         {
             bool? nullableBoolean = null;
             Action act = () => nullableBoolean.Should().HaveValue();
@@ -29,7 +29,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_nullable_boolean_value_without_a_value_to_have_a_value()
+        public void When_asserting_nullable_boolean_value_without_a_value_to_have_a_value_it_should_fail_with_descriptive_message()
         {
             bool? nullableBoolean = null;
             var assertions = nullableBoolean.Should();
@@ -39,14 +39,14 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_nullable_boolean_value_without_a_value_to_be_null()
+        public void When_asserting_nullable_boolean_value_without_a_value_to_be_null_it_should_succeed()
         {
             bool? nullableBoolean = null;
             nullableBoolean.Should().NotHaveValue();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_nullable_boolean_value_with_a_value_to_be_null()
+        public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail()
         {
             bool? nullableBoolean = true;
             Action act = () => nullableBoolean.Should().NotHaveValue();
@@ -55,7 +55,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_nullable_boolean_value_with_a_value_to_be_null()
+        public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail_with_descriptive_message()
         {
             bool? nullableBoolean = true;
             var assertions = nullableBoolean.Should();
@@ -65,7 +65,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_boolean_null_value_is_false()
+        public void When_asserting_boolean_null_value_is_false_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -86,7 +86,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_boolean_null_value_is_true()
+        public void When_asserting_boolean_null_value_is_true_it_sShould_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -107,7 +107,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_boolean_null_value_to_be_equal_to_different_nullable_boolean()
+        public void When_asserting_boolean_null_value_to_be_equal_to_different_nullable_boolean_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -129,7 +129,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_boolean_null_value_to_be_equal_to_null()
+        public void When_asserting_boolean_null_value_to_be_equal_to_null_it_sShould_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
