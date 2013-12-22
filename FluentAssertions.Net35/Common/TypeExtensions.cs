@@ -201,7 +201,7 @@ namespace FluentAssertions.Common
         /// <returns>
         ///   <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
         /// </returns>
-        public static bool HasAttribute<TAttribute>(this MethodInfo method) where TAttribute : Attribute
+        public static bool HasAttribute<TAttribute>(this MemberInfo method) where TAttribute : Attribute
         {
             return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
         }

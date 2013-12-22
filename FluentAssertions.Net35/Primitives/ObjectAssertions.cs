@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -120,11 +121,30 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<ObjectAssertions> BeBinarySerializable(string reason = "", params object[] reasonArgs)
         {
+            return BeBinarySerializable<object>(options => options, reason, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains
+        /// the values of all properties.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<ObjectAssertions> BeBinarySerializable<T>(Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string reason = "", params object[] reasonArgs)
+        {
             try
             {
                 object deserializedObject = CreateCloneUsingBinarySerializer(Subject);
 
-                deserializedObject.ShouldHave().AllRuntimeProperties().EqualTo(Subject);
+                EquivalencyAssertionOptions<T> defaultOptions = EquivalencyAssertionOptions<T>.Empty()
+                      .IncludingAllRuntimeProperties();
+
+                ((T)deserializedObject).ShouldBeEquivalentTo(Subject, _ => options(defaultOptions));
             }
             catch (Exception exc)
             {
