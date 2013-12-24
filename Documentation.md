@@ -7,7 +7,7 @@
 * [Numeric Types and IComparable](numeric-types-and-everything-else-that-implements-icomparable)
 * [Dates and times](dates-and-times)
 * [Timespans](timespans)
-* [Collections](collections)
+* [Collections](#collections)
 * [Dictionaries](dictionaries)
 * [Guids](guids)
 * [Exceptions](exceptions)
@@ -210,6 +210,7 @@ FA also support a few dedicated methods that apply to  TimeSpans directly:
 	timespan.Should().BeGreaterThan(someOtherTimespan); 
 	timespan.Should().BeGreaterOrEqual(someOtherTimespan);
 
+<a name="collections"></a>
 ## Collections ##
 	IEnumerable collection = new[] { 1, 2, 5, 8 };
 	
