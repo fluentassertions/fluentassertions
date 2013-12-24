@@ -1,23 +1,23 @@
 ## Table of Contents ##
-* [Supported Test Frameworks](supported-test-frameworks)
-* [Reference Types](reference-types)
-* [Nullable Types](nullable-types)
-* [Booleans](booleans)
-* [Strings](strings)
-* [Numeric Types and IComparable](numeric-types-and-everything-else-that-implements-icomparable)
-* [Dates and times](dates-and-times)
-* [Timespans](timespans)
-* [Collections](collections)
-* [Dictionaries](dictionaries)
-* [Guids](guids)
-* [Exceptions](exceptions)
-* [Object graph comparison](object-graph-comparison)
-* [Property Comparison (*obsolete*)](property-comparison)
-* [Event Monitoring](event-monitoring)
-* [Type, Method and property assertions](type-method-and-property-assertions)
-* [XML](xml-classes)
-* [Execution Time](execution-time)
-* [Extensibility](extensibility)
+* [Supported Test Frameworks](#supported-test-frameworks)
+* [Reference Types](#reference-types)
+* [Nullable Types](#nullable-types)
+* [Booleans](#booleans)
+* [Strings](#strings)
+* [Numeric Types and IComparable](#numeric-types-and-everything-else-that-implements-icomparable)
+* [Dates and times](#dates-and-times)
+* [Timespans](#timespans)
+* [Collections](#collections)
+* [Dictionaries](#dictionaries)
+* [Guids](#guids)
+* [Exceptions](#exceptions)
+* [Object graph comparison](#object-graph-comparison)
+* [Property Comparison (*obsolete*)](#property-comparison)
+* [Event Monitoring](#event-monitoring)
+* [Type, Method and property assertions](#type-method-and-property-assertions)
+* [XML](#xml-classes)
+* [Execution Time](#execution-time)
+* [Extensibility](#extensibility)
 
 ## Supported Test Frameworks ##
 
@@ -32,14 +32,15 @@ If, for some unknown reason, Fluent Assertions for .NET 3.5, 4.0 or 4.5 fails to
       </appSettings>
     </configuration>
     
-## Reference Types ##
+## Basic assertions available to all types ##
 
     object theObject = null;
     theObject.Should().BeNull("because the value is null");
+    theObject.Should().NotBeNull();
      
     theObject = "whatever";
-    theObject.Should().BeOfType<String>("because a {0} is set", typeof(String));
-    theObject.Should().NotBeNull();
+    theObject.Should().BeOfType<string>("because a {0} is set", typeof(string));
+	theObject.Should().BeOfType(typeof(string), "because a {0} is set", typeof(string));	
     
     string otherObject = "whatever";
     theObject.Should().Be(otherObject, "because they have the same values");
@@ -93,8 +94,8 @@ For asserting whether a string is null, empty or contains whitespace only, you h
 	theString.Should().BeEmpty();
 	theString.Should().NotBeEmpty("because the string is not empty"); 
 	theString.Should().HaveLength(0);
-	theString.Should().BeBlank(); // either null, empty or whitespace only
-	theString.Should().NotBeBlank();
+	theString.Should().BeNullOrWhiteSpace(); // either null, empty or whitespace only
+	theString.Should().NotBeNullOrWhiteSpace();
 
 Obviously you’ll find all the methods you would expect for string assertions.
 
@@ -125,6 +126,11 @@ We even support wildcards. For instance, if you would like to assert that some e
 If the casing of the input string is irrelevant, use this:
 	
 	emailAddress.Should().MatchEquivalentOf(*@*.COM);
+
+And if wildcards aren't enough for you, you can always use some regular expression magic:
+
+	someString.Should().MatchRegex("h.*\\sworld.$");
+	subject.Should().NotMatchRegex(".*earth.*");
 
 ## Numeric types and everything else that implements IComparable<T\> ##
 
@@ -198,7 +204,7 @@ This can be particularly useful if your database truncates date/time values.
 
 ## Timespans ##
 
-FA also support a few dedicated methods that apply to  TimeSpans directly:
+FA also support a few dedicated methods that apply to (nullable) TimeSpans directly:
 
 	var timespan = new Timespan(12, 59, 59); 
 	timespan.Should().BePositive(); 
@@ -380,7 +386,7 @@ If you want to verify that a specific exception is not thrown, and want to ignor
 	Action act = () => subject.Foo("Hello"));
 	act.ShouldNotThrow<InvalidOperationException>();
 
-.NET 4.0 and later includes the `AggregateException` which is typically thrown by code that runs through the Parallel Task Library or using the new `async` keyword. All of the above also works for exceptions that are aggregated, whether or not you are asserting on the actual `AggregateException` or any of its aggregated exceptions.
+.NET 4.0 and later includes the `AggregateException` which is typically thrown by code that runs through the Parallel Task Library or using the new `async` keyword. All of the above also works for exceptions that are aggregated, whether or not you are asserting on the actual `AggregateException` or any of its (nested) aggregated exceptions.
 
 Talking about the `async` keyword, you can also verify that an asynchronously executed method throws or doesn't throw an exception:
 
@@ -594,6 +600,7 @@ Fluent Assertions has support for assertions on several of the LINQ-to-XML class
 	xDocument.Should().HaveRoot("configuration");
 	xDocument.Should().HaveElement("settings");
 	
+	xElement.Should().HaveValue("36");
 	xElement.Should().HaveAttribute("age", "36");
 	xElement.Should().HaveElement("address");
 
@@ -604,7 +611,12 @@ Those two last assertions also support `XName` parameters:
 	
 	xAttribute.Should().HaveValue("Amsterdam");
 
-Note that these assertions require you to reference the  System.Xml and System.Xml.Linq assemblies.
+You can also perform a deep comparison between two elements like this.
+
+	xDocument.Should().BeEquivalentTo(XDocument.Parse("<configuration><item>value</item></configuration>"));
+	xElement.Should().BeEquivalentTo(XElement.Parse("<item>value</item>"));	
+
+Note that these assertions require you to reference the `System.Xml` and `System.Xml.Linq` assemblies.
 
 ## Execution Time ##
 
