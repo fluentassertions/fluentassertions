@@ -2,7 +2,7 @@
 * [Supported Test Frameworks](supported-test-frameworks)
 * [Reference Types](reference-types)
 * [Nullable Types](nullable-types)
-* [Booleans](#booleans)
+* [Booleans](#Booleans)
 * [Strings](strings)
 * [Numeric Types and IComparable](numeric-types-and-everything-else-that-implements-icomparable)
 * [Dates and times](dates-and-times)
