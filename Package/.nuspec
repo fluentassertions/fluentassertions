@@ -3,11 +3,11 @@
   <metadata> 
     <id>FluentAssertions</id>
     <title>Fluent Assertions</title>
-    <version>2.1.0.0</version>
+    <version>2.2.0.0</version>
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen, Martin Opdam</authors>
     <summary>
-      Fluent methods for asserting the result of TDD/BDD specs for .NET 3.5/4.0/4.5 (Desktop and Windows Store), SL 4/5, WP7.5 and WP8 (VS2010 + VS2012 SDKs). Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
+      Fluent methods for asserting the result of TDD/BDD specs for .NET 3.5/4.0/4.5 (Desktop and Windows Store), SL 4/5, WP7.5 and WP8 (VS2010, VS2012 and VS 2013 SDKs). Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
     </summary>
     <description>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or 
@@ -17,43 +17,9 @@
     <licenseUrl>https://github.com/dennisdoomen/FluentAssertions/blob/master/LICENSE</licenseUrl>    
     <projectUrl>https://github.com/dennisdoomen/FluentAssertions</projectUrl>
     <tags>MSTest xUnit NUnit MSpec NSpec Gallio MbUnit TDD BDD Fluent Silverlight WinRT WP7 WP8</tags>
-    <copyright>Copyright Dennis Doomen 2010-2013</copyright>
+    <copyright>Copyright Dennis Doomen 2010-2014</copyright>
     <releaseNotes>
-      What are the major features
-      * Added support for Windows Phone 8 test projects, both using the Visual Studio 2010 test harnass, as well as the new MSTest based framework introduced in Visual Studio 2012 Update 2 (#12470)
-      * Added support for AggregateExceptions in .NET 4.0 or newer so that aggregated exceptions are treated the same way as normal exceptions. This also allows you to use Should(Not)Throw() to assert a specific exception has occurred (or not), even if it is wrapped in an AggregateException (#12482).
-      * ShouldBeEquivalent() will attempt to report all differences rather than just the first one. It also supports nested dictionaries (#12472).
-      * By default the order of items in (nested) collections is ignored while asserting the equivalency of two object graphs. You can override this using the WithStrictOrder()/WithStrictOrderFor() options, with or without a specific path or predicate. Notice that for performance reasons, collections of bytes are still compared in exact order (#12484).
-
-      What other improvements are new
-      * Added support for asserting a method is decorated with a certain attribute (by Nathan Roe)
-      * Added BeWritable() to the property info assertions .
-      * XName support for all XML-related assertiosn (#12453 by Igor Khavkin)
-      * Added Should().BeApproximately() for decimal values.
-      * Added support for ShouldNotThrow() on Func&lt;Task&gt; so that you can verify that asynchronous functions threw a task (by Igor Khavkin)
-      * Ensured that all reference type assertions inherit from ReferenceTypeAssertions so that they all share some basic methods like (Not)BeNull.
-      * Added support for string.Should().NotStartWith() and string.Should().NotEndWith(). Also added the case-insensitive versions of them. (#12441)
-      * Allowed adding, removing and/or reordering the steps the EquivalencyValidator executes while comparing two object graphs for structural equality.
-      * By default, the exception message assertions are based on wildcards and case-insensitive. The ComparisonMode enum has been marked obsolete.
-
-      Bug fixes
-      * Added catching of FileLoadExceptions so AttributeBasedFormatter will not crash on certain circumstances.
-      * Made test framework detection based on assembly scanning case insensitive (#12483)
-      * Fixed a type-mismatch error when two nullable properties were compared using an AssertionRule.
-      * The method collection.ShouldBeEquivalent() ignored duplicates in the expectation.
-      * Applied a small improvement by Groostav to collection.HaveCount() because it was counting collections through LINQ Count() even though it has a normal Count property (#12469).
-      * Comparing a null collection with another null collection will now succeed (#12490)
-      * When a type was generic, FA wouldn't display its properties in assertion failures (#12492)
-      * On Mono, the AttributeBasedFormatter sometimes throws a NullReferenceException, but this has been fixed by Frank Ebersoll (#12487).
-      * During a structural equality check, FA would incorrectly decide to include protected properties in the comparison. This has been fixed now (#12486).
-      * FA chocked on properties overriden using the new keyword. Now it just tries to be smart about it and select the one which type matches the subject (#12481).
-      * When a floating point value representing NaN was compared with another approximate value, it didn't throw (#12479).
-      * Improved the details of any unexpected exceptions during the ShouldThrow() and ShouldNotThrow() methods (#12473).
-      * Collection.ShouldBeInAscendingOrder() wasn't reporting the correct index if an item appeared out-of-order (#12468).
-
-      Breaking changes
-      * Renamed the Execute.Verification property to Execute.Assertion and introduced an internal AssertionScope.
-      
+      See https://github.com/dennisdoomen/fluentassertions/releases/
     </releaseNotes>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Xml"/>
