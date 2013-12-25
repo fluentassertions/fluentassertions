@@ -6,7 +6,7 @@
 * [Strings](#strings)
 * [Numeric Types and IComparable](#numeric-types)
 * [Dates and times](#dates-and-times)
-* [Timespans](#timespans)
+* [TimeSpans](#timespans)
 * [Collections](#collections)
 * [Dictionaries](#dictionaries)
 * [Guids](#guids)
@@ -68,6 +68,11 @@ We’ve also added the possibility to assert that an object can be serialized an
 	theObject.Should().BeXmlSerializable();
 	theObject.Should().BeBinarySerializable();
 
+Internally, `BeBinarySerializable` uses the [Object graph comparison](#object-graph-comparison) API, so if you are in need of excluding certain properties from the comparison (for instance, because its backing field is `[NonSerializable]`, you can do this:
+
+	theObject.Should().BeBinarySerializable<MyClass>(
+		options => options.Excluding(s => s.SomeNonSerializableProperty));
+
 <a name="nullable-types"/>
 ## Nullable types ##
 	short? theShort = null;
@@ -83,10 +88,15 @@ We’ve also added the possibility to assert that an object can be serialized an
 ## Booleans ##
     bool theBoolean = false;
     theBoolean.Should().BeFalse("it's set to false");
-    
+	
     theBoolean = true;
     theBoolean.Should().BeTrue();
     theBoolean.Should().Be(otherBoolean);
+
+Obviously the above assertions also work for nullable booleans, but if you really want to be make sure a boolean is either `true` or `false` and not `null`, you can use these methods.
+
+	theBoolean.Should().NotBeFalse();
+	theBoolean.Should().NotBeTrue();
 
 <a name="strings"/>
 ## Strings ##
@@ -210,19 +220,23 @@ To assert that a date/time is within a specified number of milliseconds from ano
 This can be particularly useful if your database truncates date/time values. 
 
 <a name="timespans"/>
-## Timespans ##
+## TimeSpans ##
 
 FA also support a few dedicated methods that apply to (nullable) TimeSpans directly:
 
-	var timespan = new Timespan(12, 59, 59); 
-	timespan.Should().BePositive(); 
-	timespan.Should().BeNegative(); 
-	timespan.Should().Be(12.Hours()); 
-	timespan.Should().NotBe(1.Days()); 
-	timespan.Should().BeLessThan(someOtherTimespan); 
-	timespan.Should().BeLessOrEqual(someOtherTimespan); 
-	timespan.Should().BeGreaterThan(someOtherTimespan); 
-	timespan.Should().BeGreaterOrEqual(someOtherTimespan);
+	var timeSpan = new TimeSpan(12, 59, 59); 
+	timeSpan.Should().BePositive(); 
+	timeSpan.Should().BeNegative(); 
+	timeSpan.Should().Be(12.Hours()); 
+	timeSpan.Should().NotBe(1.Days()); 
+	timeSpan.Should().BeLessThan(someOtherTimeSpan); 
+	timeSpan.Should().BeLessOrEqual(someOtherTimeSpan); 
+	timeSpan.Should().BeGreaterThan(someOtherTimeSpan); 
+	timeSpan.Should().BeGreaterOrEqual(someOtherTimeSpan);
+
+Similarly to the [date and time assertions](#dates-and-times), `BeCloseTo` is also available for time spans:
+
+	timeSpan.Should().BeCloseTo(new TimeSpan(13, 0, 0), 5.Milliseconds());
 
 <a name="collections"/>
 ## Collections ##
@@ -688,3 +702,5 @@ In addition to writing your own extensions, you can influence the way data is fo
 		        return "Property = " + value.Property;   
 		    }
 		}
+
+	Since scanning for value formatters incurs a significant performance hit, you need to explicitly enable that using the `<appSetting>`  with key `valueFormatters`. Valid values include `Disabled` (the default), `Scan` and `Specific`, where `Scan` will scan all assemblies in the `AppDomain`. Option `Specific` also requires you to set the `valueFormattersAssembly` setting key with the (partial) name of an assembly FA should scan. Since Silverlight and Windows Phone apps do not support an `app.config` file, you'll need to set those settings through the `ValueFormatterDetectionMode` and `ValueFormatterAssembly` properties of the static `Configuration.Current` object.
