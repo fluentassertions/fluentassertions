@@ -1877,7 +1877,7 @@ namespace FluentAssertions.Specs
                 );
         }
 
-        private class SimpleWithNullable
+        internal class SimpleWithNullable
         {
             public Int64? nullableIntegerProperty { get; set; }
 
