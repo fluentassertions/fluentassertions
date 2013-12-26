@@ -18,12 +18,20 @@ namespace FluentAssertions.Events
             Type returnType = GetDelegateReturnType(eventSignature);
             Type[] parameters = GetDelegateParameterTypes(eventSignature);
 
+#if !SILVERLIGHT
             var eventHandler = new DynamicMethod(
                 eventSignature.Name + "DynamicHandler",
                 returnType,
                 AppendParameterListThisReference(parameters),
                 recorder.GetType()
                 .Module);
+#else
+            var eventHandler = new DynamicMethod(
+                eventSignature.Name + "DynamicHandler",
+                returnType,
+                AppendParameterListThisReference(parameters));
+#endif
+
             MethodInfo methodToCall = typeof (IEventRecorder).GetMethod("RecordEvent",
                 BindingFlags.Instance | BindingFlags.Public);
 

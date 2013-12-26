@@ -191,7 +191,7 @@ namespace FluentAssertions.Formatting
 
             return ((mode == ValueFormatterDetectionMode.Scan) || (
                 (mode == ValueFormatterDetectionMode.Specific) &&
-                assembly.GetName().Name.Equals(configuration.ValueFormatterAssembly, StringComparison.InvariantCultureIgnoreCase)));
+                assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.InvariantCultureIgnoreCase)));
         }
     }
 }
