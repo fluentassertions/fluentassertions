@@ -382,12 +382,6 @@
     <Compile Include="..\FluentAssertions.Net35\Equivalency\MustMatchByNameRule.cs">
       <Link>Equivalency\MustMatchByNameRule.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Equivalency\PropertyAssertions.cs">
-      <Link>Equivalency\PropertyAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Equivalency\PropertySelection.cs">
-      <Link>Equivalency\PropertySelection.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Equivalency\ReferenceEqualityEquivalencyStep.cs">
       <Link>Equivalency\ReferenceEqualityEquivalencyStep.cs</Link>
     </Compile>

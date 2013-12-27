@@ -149,7 +149,6 @@
     <Compile Include="Types\MethodInfoSelector.cs" />
     <Compile Include="Primitives\NullableGuidAssertions.cs" />
     <Compile Include="Numeric\NullableNumericAssertions.cs" />
-    <Compile Include="Equivalency\PropertySelection.cs" />
     <Compile Include="Equivalency\EquivalencyValidator.cs" />
     <Compile Include="Specialized\ExecutionTimeAssertions.cs" />
     <Compile Include="Equivalency\EquivalencyValidationContext.cs" />
@@ -206,7 +205,6 @@
     <Compile Include="Numeric\NumericAssertions.cs" />
     <Compile Include="Primitives\ObjectAssertions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Equivalency\PropertyAssertions.cs" />
     <Compile Include="Primitives\StringAssertions.cs" />
     <Compile Include="Primitives\TimeSpanAssertions.cs" />
     <Compile Include="Types\TypeAssertions.cs" />

@@ -142,9 +142,6 @@
     <Compile Include="..\FluentAssertions.Specs\ObjectCastingSpecs.cs">
       <Link>ObjectCastingSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Specs\PropertyAssertionSpecs.cs">
-      <Link>PropertyAssertionSpecs.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Specs\PropertyInfoSelectorSpecs.cs">
       <Link>PropertyInfoSelectorSpecs.cs</Link>
     </Compile>

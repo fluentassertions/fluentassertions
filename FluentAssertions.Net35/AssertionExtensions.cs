@@ -433,19 +433,6 @@ namespace FluentAssertions
         {
             return new PropertyInfoAssertions(propertyInfoSelector.ToArray());
         }
-
-#if !WINDOWS_PHONE && !WINRT
-
-        /// <summary>
-        /// Asserts that the properties of an object matches those of another object.
-        /// </summary>
-        [Obsolete("This API is deprecated and wil be removed in 3.0. Use ShouldBeEquivalentTo() instead.")]
-        public static PropertyAssertions<T> ShouldHave<T>(this T subject)
-        {
-            return new PropertyAssertions<T>(subject);
-        }
-
-#endif
         
         /// <summary>
         /// Asserts that an object is equivalent to another object. 
