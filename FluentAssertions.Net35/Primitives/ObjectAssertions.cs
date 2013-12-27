@@ -184,7 +184,8 @@ namespace FluentAssertions.Primitives
             {
                 object deserializedObject = CreateCloneUsingXmlSerializer(Subject);
 
-                deserializedObject.ShouldHave().AllRuntimeProperties().EqualTo(Subject);
+                deserializedObject.ShouldBeEquivalentTo(Subject, 
+                    options => options.IncludingAllRuntimeProperties());
             }
             catch (Exception exc)
             {
