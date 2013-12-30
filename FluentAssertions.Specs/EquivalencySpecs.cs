@@ -1932,6 +1932,42 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_not_all_the_properties_of_the_nested_objects_are_equal_but_nested_objects_are_excluded_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new 
+            {
+                Property = new ClassWithValueSemanticsOnSingleProperty
+                {
+                    Key = "123",
+                    NestedProperty = "Should be ignored"
+                }
+            };
+
+            var expected = new
+            {
+                Property = new ClassWithValueSemanticsOnSingleProperty
+                {
+                    Key = "123",
+                    NestedProperty = "Should be ignored as well"
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected,
+                options => options.ExcludingNestedObjects());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_not_all_the_properties_of_the_nested_objects_are_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

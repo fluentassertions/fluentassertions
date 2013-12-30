@@ -1645,6 +1645,39 @@ namespace FluentAssertions.Specs
         public Level1 Level { get; set; }
     }
 
+    public class ClassWithValueSemanticsOnSingleProperty
+    {
+        public string Key { get; set; }
+        public string NestedProperty { get; set; }
+
+        protected bool Equals(ClassWithValueSemanticsOnSingleProperty other)
+        {
+            return string.Equals(Key, other.Key);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+            return Equals((ClassWithValueSemanticsOnSingleProperty)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Key.GetHashCode();
+        }
+    }
+
     public class Level1
     {
         public string Text { get; set; }

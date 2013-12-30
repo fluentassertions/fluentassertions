@@ -439,7 +439,7 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that the properties of an object matches those of another object.
         /// </summary>
-        [Obsolete("This API is deprecated and wil be removed in 3.0. Use ShouldBeEquivalentTo() instead.")]
+        [Obsolete("This API is deprecated and wil be removed in 3.0. Use ShouldBeEquivalentTo() with option ExcludeNestedObjects() instead.")]
         public static PropertyAssertions<T> ShouldHave<T>(this T subject)
         {
             return new PropertyAssertions<T>(subject);
