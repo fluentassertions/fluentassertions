@@ -1,8 +1,10 @@
 ﻿using System;
 
+using FluentAssertions.Formatting;
+
 namespace FluentAssertions.Common
 {
-    internal class Configuration
+    public class Configuration
     {
         #region Private Definitions
 
@@ -20,7 +22,7 @@ namespace FluentAssertions.Common
             get { return Services.Configuration; }
         }
 
-        internal Configuration(IConfigurationStore store)
+        public Configuration(IConfigurationStore store)
         {
             this.store = store;
         }

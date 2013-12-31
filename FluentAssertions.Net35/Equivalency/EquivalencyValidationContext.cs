@@ -32,23 +32,23 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets the value of the <see cref="ISubjectInfo.PropertyInfo" />
         /// </summary>
-        public object Subject { get; internal set; }
+        public object Subject { get; set; }
 
         /// <summary>
         /// Gets the value of the <see cref="IEquivalencyValidationContext.MatchingExpectationProperty" />.
         /// </summary>
-        public object Expectation { get; internal set; }
+        public object Expectation { get; set; }
 
         /// <summary>
         ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </summary>
-        public string Reason { get; internal set; }
+        public string Reason { get; set; }
 
         /// <summary>
         ///   Zero or more objects to format using the placeholders in <see cref="IEquivalencyValidationContext.Reason" />.
         /// </summary>
-        public object[] ReasonArgs { get; internal set; }
+        public object[] ReasonArgs { get; set; }
 
         /// <summary>
         ///   Gets a value indicating whether the current context represents the root of the object graph.

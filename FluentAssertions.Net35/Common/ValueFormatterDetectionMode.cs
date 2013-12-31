@@ -4,7 +4,7 @@
     /// Defines the modes in which custom implementations of <see cref="IValueFormatter"/> are detected as configured
     /// through <see cref="Configuration.ValueFormatterDetectionMode"/>.
     /// </summary>
-    internal enum ValueFormatterDetectionMode
+    public enum ValueFormatterDetectionMode
     {
         /// <summary>
         /// Detection is disabled.

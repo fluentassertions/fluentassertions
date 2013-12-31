@@ -10,7 +10,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class GuidAssertions
     {
-        protected internal GuidAssertions(Guid? value)
+        public GuidAssertions(Guid? value)
         {
             Subject = value;
         }

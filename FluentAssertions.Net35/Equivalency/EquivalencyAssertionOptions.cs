@@ -214,6 +214,18 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Causes the structural equality check to exclude nested collections and complex types.
+        /// </summary>
+        /// <remarks>
+        /// Behaves similarly to the old property assertions API.
+        /// </remarks>
+        public EquivalencyAssertionOptions<TSubject> ExcludingNestedObjects()
+        {
+            isRecursive = false;
+            return this;
+        }
+
+        /// <summary>
         /// Causes the structural equality check to ignore any cyclic references.
         /// </summary>
         /// <remarks>
@@ -370,6 +382,7 @@ namespace FluentAssertions.Equivalency
                 return options;
             }
         }
+
     }
 
     public class PredicateBasedOrderingRule : IOrderingRule

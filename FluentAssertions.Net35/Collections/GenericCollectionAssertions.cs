@@ -14,7 +14,7 @@ namespace FluentAssertions.Collections
     [DebuggerNonUserCode]
     public class GenericCollectionAssertions<T> : CollectionAssertions<IEnumerable<T>, GenericCollectionAssertions<T>>
     {
-        protected internal GenericCollectionAssertions(IEnumerable<T> actualValue)
+        public GenericCollectionAssertions(IEnumerable<T> actualValue)
         {
             if (actualValue != null)
             {

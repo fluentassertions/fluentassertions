@@ -14,7 +14,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class ObjectAssertions : ReferenceTypeAssertions<object, ObjectAssertions>
     {
-        protected internal ObjectAssertions(object value)
+        public ObjectAssertions(object value)
         {
             Subject = value;
         }

@@ -17,7 +17,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        protected internal StringAssertions(string value)
+        public StringAssertions(string value)
         {
             Subject = value;
         }

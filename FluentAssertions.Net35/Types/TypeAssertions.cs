@@ -21,7 +21,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="T:System.Object" /> class.
         /// </summary>
-        protected internal TypeAssertions(Type type)
+        public TypeAssertions(Type type)
         {
             Subject = type;
         }

@@ -14,7 +14,7 @@ namespace FluentAssertions.Numeric
     [DebuggerNonUserCode]
     public class NumericAssertions<T> where T : struct
     {
-        protected internal NumericAssertions(object value)
+        public NumericAssertions(object value)
         {
             if (!ReferenceEquals(value, null))
             {

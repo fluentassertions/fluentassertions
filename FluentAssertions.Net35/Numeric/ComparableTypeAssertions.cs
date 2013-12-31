@@ -13,7 +13,7 @@ namespace FluentAssertions.Numeric
     {
         private const int Equal = 0;
 
-        protected internal ComparableTypeAssertions(IComparable<T> value)
+        public ComparableTypeAssertions(IComparable<T> value)
         {
             Subject = value;
         }

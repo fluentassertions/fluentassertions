@@ -10,7 +10,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class NullableBooleanAssertions : BooleanAssertions
     {
-        protected internal NullableBooleanAssertions(bool? value)
+        public NullableBooleanAssertions(bool? value)
             : base(value)
         {
         }

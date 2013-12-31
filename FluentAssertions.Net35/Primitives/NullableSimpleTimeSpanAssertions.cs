@@ -14,7 +14,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class NullableSimpleTimeSpanAssertions : SimpleTimeSpanAssertions
     {
-        protected internal NullableSimpleTimeSpanAssertions(TimeSpan? value)
+        public NullableSimpleTimeSpanAssertions(TimeSpan? value)
             : base(value)
         {
         }

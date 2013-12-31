@@ -1,9 +1,11 @@
-﻿namespace FluentAssertions.Common
+﻿using FluentAssertions.Execution;
+
+namespace FluentAssertions.Common
 {
     /// <summary>
     /// Maintains the framework-specific services.
     /// </summary>
-    internal static class Services
+    public static class Services
     {
         static Services()
         {
@@ -16,6 +18,7 @@
         }
 
         public static Configuration Configuration { get; set; }
+        public static ITestFramework TestFramework { get; set; }
     }
 
     internal class NullConfigurationStore : IConfigurationStore

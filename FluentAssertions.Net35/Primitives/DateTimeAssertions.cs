@@ -14,7 +14,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class DateTimeAssertions
     {
-        protected internal DateTimeAssertions(DateTime? value)
+        public DateTimeAssertions(DateTime? value)
         {
             Subject = value;
         }

@@ -14,7 +14,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class NullableDateTimeAssertions : DateTimeAssertions
     {
-        protected internal NullableDateTimeAssertions(DateTime? expected)
+        public NullableDateTimeAssertions(DateTime? expected)
             : base(expected)
         {
         }

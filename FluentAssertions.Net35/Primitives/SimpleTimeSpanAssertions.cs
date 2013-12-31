@@ -10,7 +10,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class SimpleTimeSpanAssertions
     {
-        protected internal SimpleTimeSpanAssertions(TimeSpan? value)
+        public SimpleTimeSpanAssertions(TimeSpan? value)
         {
             Subject = value;
         }

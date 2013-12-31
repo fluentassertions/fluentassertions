@@ -13,7 +13,7 @@ namespace FluentAssertions.Collections
     [DebuggerNonUserCode]
     public class NonGenericCollectionAssertions : CollectionAssertions<IEnumerable, NonGenericCollectionAssertions>
     {
-        protected internal NonGenericCollectionAssertions(IEnumerable collection)
+        public NonGenericCollectionAssertions(IEnumerable collection)
         {
             if (collection != null)
             {

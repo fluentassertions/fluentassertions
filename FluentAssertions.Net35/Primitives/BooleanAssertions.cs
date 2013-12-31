@@ -10,7 +10,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class BooleanAssertions
     {
-        protected internal BooleanAssertions(bool? value)
+        public BooleanAssertions(bool? value)
         {
             Subject = value;
         }

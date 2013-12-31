@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FluentAssertions.Formatting
 {
-    internal class AggregateExceptionValueFormatter : IValueFormatter
+    public class AggregateExceptionValueFormatter : IValueFormatter
     {
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.

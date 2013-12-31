@@ -10,7 +10,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class NullableGuidAssertions : GuidAssertions
     {
-        protected internal NullableGuidAssertions(Guid? value)
+        public NullableGuidAssertions(Guid? value)
             : base(value)
         {
         }

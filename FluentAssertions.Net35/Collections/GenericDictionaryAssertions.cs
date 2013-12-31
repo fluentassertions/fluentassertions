@@ -16,7 +16,7 @@ namespace FluentAssertions.Collections
     public class GenericDictionaryAssertions<TKey, TValue> : 
         ReferenceTypeAssertions<IDictionary<TKey, TValue>, GenericDictionaryAssertions<TKey, TValue>>
     {
-        protected internal GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary)
+        public GenericDictionaryAssertions(IDictionary<TKey, TValue> dictionary)
         {
             if (dictionary != null)
             {

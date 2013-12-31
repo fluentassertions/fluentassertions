@@ -18,7 +18,7 @@ namespace FluentAssertions.Xml
         /// <summary>
         /// Initializes a new instance of the <see cref="XDocumentAssertions" /> class.
         /// </summary>
-        protected internal XDocumentAssertions(XDocument document)
+        public XDocumentAssertions(XDocument document)
         {
             Subject = document;
         }

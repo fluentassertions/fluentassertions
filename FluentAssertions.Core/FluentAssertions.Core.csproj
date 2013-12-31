@@ -8,7 +8,7 @@
     <ProjectGuid>{8931C5EF-3BAC-473A-A343-57791D0917B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FluentAssertions.Core</RootNamespace>
+    <RootNamespace>FluentAssertions</RootNamespace>
     <AssemblyName>FluentAssertions.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile147</TargetFrameworkProfile>
@@ -34,12 +34,355 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
+      <Link>AndConstraint.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
+      <Link>AssertionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.Events.cs">
+      <Link>AssertionExtensions.Events.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\collections\CollectionAssertions.cs">
+      <Link>Collections\CollectionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\collections\GenericCollectionAssertions.cs">
+      <Link>Collections\GenericCollectionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\collections\GenericDictionaryAssertions.cs">
+      <Link>Collections\GenericDictionaryAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\collections\NonGenericCollectionAssertions.cs">
+      <Link>Collections\NonGenericCollectionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\collections\StringCollectionAssertions.cs">
+      <Link>Collections\StringCollectionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\common\Configuration.cs">
+      <Link>Common\Configuration.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\common\ExpressionExtensions.cs">
+      <Link>Common\ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\common\IConfigurationStore.cs">
+      <Link>Common\IConfigurationStore.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\common\ObjectExtensions.cs">
+      <Link>Common\ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\common\Services.cs">
+      <Link>Common\Services.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\common\StringExtensions.cs">
+      <Link>Common\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\common\TypeExtensions.cs">
+      <Link>Common\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\common\ValueFormatterDetectionMode.cs">
+      <Link>Common\ValueFormatterDetectionMode.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\AllDeclaredPublicPropertiesSelectionRule.cs">
+      <Link>Equivalency\AllDeclaredPublicPropertiesSelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\AllRuntimePublicPropertiesSelectionRule.cs">
+      <Link>Equivalency\AllRuntimePublicPropertiesSelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\ApplyAssertionRulesEquivalencyStep.cs">
+      <Link>Equivalency\ApplyAssertionRulesEquivalencyStep.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\AssertionResultSet.cs">
+      <Link>Equivalency\AssertionResultSet.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\AssertionRule.cs">
+      <Link>Equivalency\AssertionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\ComplexTypeEquivalencyStep.cs">
+      <Link>Equivalency\ComplexTypeEquivalencyStep.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\CyclicReferenceHandling.cs">
+      <Link>Equivalency\CyclicReferenceHandling.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\DictionaryEquivalencyStep.cs">
+      <Link>Equivalency\DictionaryEquivalencyStep.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\EnumerableEquivalencyStep.cs">
+      <Link>Equivalency\EnumerableEquivalencyStep.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\EquivalencyAssertionOptions.cs">
+      <Link>Equivalency\EquivalencyAssertionOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\EquivalencyValidationContext.cs">
+      <Link>Equivalency\EquivalencyValidationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\EquivalencyValidator.cs">
+      <Link>Equivalency\EquivalencyValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\ExcludePropertyByPathSelectionRule.cs">
+      <Link>Equivalency\ExcludePropertyByPathSelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\ExcludePropertyByPredicateSelectionRule.cs">
+      <Link>Equivalency\ExcludePropertyByPredicateSelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\IAssertionContext.cs">
+      <Link>Equivalency\IAssertionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\IAssertionRule.cs">
+      <Link>Equivalency\IAssertionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\IEquivalencyAssertionOptions.cs">
+      <Link>Equivalency\IEquivalencyAssertionOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\IEquivalencyStep.cs">
+      <Link>Equivalency\IEquivalencyStep.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\IEquivalencyValidationContext.cs">
+      <Link>Equivalency\IEquivalencyValidationContext.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\IEquivalencyValidator.cs">
+      <Link>Equivalency\IEquivalencyValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\IMatchingRule.cs">
+      <Link>Equivalency\IMatchingRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\IncludePropertySelectionRule.cs">
+      <Link>Equivalency\IncludePropertySelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\ISelectionRule.cs">
+      <Link>Equivalency\ISelectionRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\ISubjectInfo.cs">
+      <Link>Equivalency\ISubjectInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\MustMatchByNameRule.cs">
+      <Link>Equivalency\MustMatchByNameRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\NestedSelectionContext.cs">
+      <Link>Equivalency\NestedSelectionContext.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\ReferenceEqualityEquivalencyStep.cs">
+      <Link>Equivalency\ReferenceEqualityEquivalencyStep.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\SimpleEqualityEquivalencyStep.cs">
+      <Link>Equivalency\SimpleEqualityEquivalencyStep.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\TryConversionEquivalencyStep.cs">
+      <Link>Equivalency\TryConversionEquivalencyStep.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\equivalency\TryMatchByNameRule.cs">
+      <Link>Equivalency\TryMatchByNameRule.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\events\EventRecorder.cs">
+      <Link>Events\EventRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\events\EventRecordersMap.cs">
+      <Link>Events\EventRecordersMap.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\events\IEventRecorder.cs">
+      <Link>Events\IEventRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\events\RecordedEvent.cs">
+      <Link>Events\RecordedEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\execution\AssertionScope.cs">
+      <Link>Execution\AssertionScope.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\execution\CollectingAssertionStrategy.cs">
+      <Link>Execution\CollectingAssertionStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\execution\DefaultAssertionStrategy.cs">
+      <Link>Execution\DefaultAssertionStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\execution\Execute.cs">
+      <Link>Execution\Execute.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\execution\IAssertionStrategy.cs">
+      <Link>Execution\IAssertionStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\execution\ITestFramework.cs">
+      <Link>Execution\ITestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\FluentDateTimeExtensions.cs">
+      <Link>FluentDateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\AttributeBasedFormatter.cs">
+      <Link>Formatting\AttributeBasedFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\DateTimeValueFormatter.cs">
+      <Link>Formatting\DateTimeValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\DefaultValueFormatter.cs">
+      <Link>Formatting\DefaultValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\EnumerableValueFormatter.cs">
+      <Link>Formatting\EnumerableValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\ExceptionValueFormatter.cs">
+      <Link>Formatting\ExceptionValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\ExpressionValueFormatter.cs">
+      <Link>Formatting\ExpressionValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\Formatter.cs">
+      <Link>Formatting\Formatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\GuidValueFormatter.cs">
+      <Link>Formatting\GuidValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\IValueFormatter.cs">
+      <Link>Formatting\IValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\NullValueFormatter.cs">
+      <Link>Formatting\NullValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\NumericValueFormatter.cs">
+      <Link>Formatting\NumericValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\PropertyInfoFormatter.cs">
+      <Link>Formatting\PropertyInfoFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\StringValueFormatter.cs">
+      <Link>Formatting\StringValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\TimeSpanValueFormatter.cs">
+      <Link>Formatting\TimeSpanValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\ValueFormatterAttribute.cs">
+      <Link>Formatting\ValueFormatterAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\XAttributeValueFormatter.cs">
+      <Link>Formatting\XAttributeValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\XDocumentValueFormatter.cs">
+      <Link>Formatting\XDocumentValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\formatting\XElementValueFormatter.cs">
+      <Link>Formatting\XElementValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\NumericAssertionsExtensions.cs">
+      <Link>NumericAssertionsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\numeric\ComparableTypeAssertions.cs">
+      <Link>Numeric\ComparableTypeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\numeric\NullableNumericAssertions.cs">
+      <Link>Numeric\NullableNumericAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\numeric\NumericAssertions.cs">
+      <Link>Numeric\NumericAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\BooleanAssertions.cs">
+      <Link>Primitives\BooleanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\ComparisonMode.cs">
+      <Link>Primitives\ComparisonMode.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\DateTimeAssertions.cs">
+      <Link>Primitives\DateTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\GuidAssertions.cs">
+      <Link>Primitives\GuidAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\NegatedStringStartValidator.cs">
+      <Link>Primitives\NegatedStringStartValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\NullableBooleanAssertions.cs">
+      <Link>Primitives\NullableBooleanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\NullableDateTimeAssertions.cs">
+      <Link>Primitives\NullableDateTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\NullableGuidAssertions.cs">
+      <Link>Primitives\NullableGuidAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\NullableSimpleTimeSpanAssertions.cs">
+      <Link>Primitives\NullableSimpleTimeSpanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\ObjectAssertions.cs">
+      <Link>Primitives\ObjectAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\ReferenceTypeAssertions.cs">
+      <Link>Primitives\ReferenceTypeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\SimpleTimeSpanAssertions.cs">
+      <Link>Primitives\SimpleTimeSpanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\StringAssertions.cs">
+      <Link>Primitives\StringAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\StringEqualityValidator.cs">
+      <Link>Primitives\StringEqualityValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\StringStartValidator.cs">
+      <Link>Primitives\StringStartValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\StringValidator.cs">
+      <Link>Primitives\StringValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\StringWildcardMatchingValidator.cs">
+      <Link>Primitives\StringWildcardMatchingValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\primitives\TimeSpanAssertions.cs">
+      <Link>Primitives\TimeSpanAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\specialized\ActionAssertions.cs">
+      <Link>Specialized\ActionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\specialized\ExceptionAssertions.cs">
+      <Link>Specialized\ExceptionAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\specialized\ExecutionTimeAssertions.cs">
+      <Link>Specialized\ExecutionTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\TypeExtensions.cs">
+      <Link>TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\types\AllTypes.cs">
+      <Link>Types\AllTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\types\MethodInfoAssertions.cs">
+      <Link>Types\MethodInfoAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\types\MethodInfoSelector.cs">
+      <Link>Types\MethodInfoSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\types\PropertyInfoAssertions.cs">
+      <Link>Types\PropertyInfoAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\types\PropertyInfoSelector.cs">
+      <Link>Types\PropertyInfoSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\types\TypeAssertions.cs">
+      <Link>Types\TypeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\types\TypeSelector.cs">
+      <Link>Types\TypeSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\types\TypeSelectorAssertions.cs">
+      <Link>Types\TypeSelectorAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\xml\XAttributeAssertions.cs">
+      <Link>Xml\XAttributeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\xml\XDocumentAssertions.cs">
+      <Link>Xml\XDocumentAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\xml\XElementAssertions.cs">
+      <Link>Xml\XElementAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="AssertionExtensions.Actions.cs" />
+    <Compile Include="Execution\AssertionHelper.cs" />
+    <Compile Include="Formatting\AggregateExceptionValueFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specialized\AsyncFunctionAssertions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
