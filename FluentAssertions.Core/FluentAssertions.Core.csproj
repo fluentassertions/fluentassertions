@@ -42,9 +42,6 @@
     <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
-      <Link>AssertionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.Events.cs">
       <Link>AssertionExtensions.Events.cs</Link>
     </Compile>
@@ -336,9 +333,6 @@
     <Compile Include="..\fluentassertions.net35\specialized\ExceptionAssertions.cs">
       <Link>Specialized\ExceptionAssertions.cs</Link>
     </Compile>
-    <Compile Include="..\fluentassertions.net35\specialized\ExecutionTimeAssertions.cs">
-      <Link>Specialized\ExecutionTimeAssertions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\TypeExtensions.cs">
       <Link>TypeExtensions.cs</Link>
     </Compile>
@@ -379,6 +373,7 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="AssertionExtensions.Actions.cs" />
+    <Compile Include="AssertionExtensions.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Formatting\AggregateExceptionValueFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
