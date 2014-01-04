@@ -6,6 +6,11 @@ using FluentAssertions.Formatting;
 
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif NUNIT
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestCaseAttribute;
+using AssertFailedException = NUnit.Framework.AssertionException;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -530,7 +535,9 @@ namespace FluentAssertions.Specs
         }
 
 
+#if !__IOS__
         [TestMethod]
+#endif
         public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -553,7 +560,9 @@ namespace FluentAssertions.Specs
             referenceToSubject.IsAlive.Should().BeFalse();
         }
 
+#if !__IOS__
         [TestMethod]
+#endif
         public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected_also_if_an_Event_passing_Sender_was_raised()
         {
             //-----------------------------------------------------------------------------------------------------------

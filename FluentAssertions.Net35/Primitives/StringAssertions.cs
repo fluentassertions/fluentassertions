@@ -182,7 +182,8 @@ namespace FluentAssertions.Primitives
         {
             var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, reason, reasonArgs)
             {
-                IgnoreCase = true
+                IgnoreCase = true,
+                IgnoreNewLineDifferences = true
             };
 
             validator.Validate();
@@ -209,6 +210,7 @@ namespace FluentAssertions.Primitives
             var validator = new StringWildcardMatchingValidator(Subject, wildcardPattern, reason, reasonArgs)
             {
                 IgnoreCase = true,
+                IgnoreNewLineDifferences = true,
                 Negate = true
             };
 

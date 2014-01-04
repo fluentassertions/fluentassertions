@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E8568E2D-EB6E-4742-90A8-671AC91F94BD}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FluentAssertions.iOS.Specs</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>FluentAssertionsiOSSpecs</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;__IOS__;__MOBILE__;NUNIT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+    <DefineConstants>__IOS__;__MOBILE__;NUNIT</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;__IOS__;__MOBILE__;NUNIT;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <DefineConstants>__IOS__;__MOBILE__;NUNIT;</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <BuildIpa>True</BuildIpa>
+    <DefineConstants>__IOS__;__MOBILE__;NUNIT;</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <DefineConstants>__IOS__;__MOBILE__;NUNIT;</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net45.Specs\AsyncFunctionExceptionAssertionSpecs.cs">
+      <Link>AsyncFunctionExceptionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\AssertionFailureSpecs.cs">
+      <Link>AssertionFailureSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\BooleanAssertionSpecs.cs">
+      <Link>BooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\CollectionAssertionSpecs.cs">
+      <Link>CollectionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ComparableSpecs.cs">
+      <Link>ComparableSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\DateTimeAssertionSpecs.cs">
+      <Link>DateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\DateTimeFormatterSpecs.cs">
+      <Link>DateTimeFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\EventAssertionSpecs.cs">
+      <Link>EventAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ExecutionTimeAssertionsSpecs.cs">
+      <Link>ExecutionTimeAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\FluentDateTimeSpecs.cs">
+      <Link>FluentDateTimeSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\FormatterSpecs.cs">
+      <Link>FormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionOfStringSpecs.cs">
+      <Link>GenericCollectionAssertionOfStringSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GenericCollectionAssertionsSpecs.cs">
+      <Link>GenericCollectionAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GenericDictionaryAssertionSpecs.cs">
+      <Link>GenericDictionaryAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\GuidAssertionSpecs.cs">
+      <Link>GuidAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\MethodInfoAssertionSpecs.cs">
+      <Link>MethodInfoAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\MethodInfoSelectorSpecs.cs">
+      <Link>MethodInfoSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
+      <Link>NullableBooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableGuidAssertionSpecs.cs">
+      <Link>NullableGuidAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableNumericAssertionSpecs.cs">
+      <Link>NullableNumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NullableSimpleTimeSpanAssertionSpecs.cs">
+      <Link>NullableSimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\NumericAssertionSpecs.cs">
+      <Link>NumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ObjectAssertionSpecs.cs">
+      <Link>ObjectAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ObjectCastingSpecs.cs">
+      <Link>ObjectCastingSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyAssertionSpecs.cs">
+      <Link>PropertyAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyInfoAssertionSpecs.cs">
+      <Link>PropertyInfoAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyInfoSelectorSpecs.cs">
+      <Link>PropertyInfoSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ReferenceTypeAssertionsSpecs.cs">
+      <Link>ReferenceTypeAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\SimpleTimeSpanAssertionSpecs.cs">
+      <Link>SimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\StringAssertionSpecs.cs">
+      <Link>StringAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\ThrowAssertionsSpecs.cs">
+      <Link>ThrowAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TimeSpanConversionExtensionSpecs.cs">
+      <Link>TimeSpanConversionExtensionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TimeSpanFormatterSpecs.cs">
+      <Link>TimeSpanFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TypeAssertionSpecs.cs">
+      <Link>TypeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\TypeSelectorSpecs.cs">
+      <Link>TypeSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XAttributeAssertionSpecs.cs">
+      <Link>XAttributeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XAttributeFormatterSpecs.cs">
+      <Link>XAttributeFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XDocumentAssertionSpecs.cs">
+      <Link>XDocumentAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XDocumentFormatterSpecs.cs">
+      <Link>XDocumentFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XElementAssertionSpecs.cs">
+      <Link>XElementAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Specs\XElementFormatterSpecs.cs">
+      <Link>XElementFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <None Include="Info.plist" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Default.png" />
+    <BundleResource Include="Resources\Default@2x.png" />
+    <BundleResource Include="Resources\Default-568h@2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoTouch.NUnitLite" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="monotouch" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FluentAssertions.iOS\FluentAssertions.iOS.csproj">
+      <Project>{841fcccf-6284-4868-96ee-23a92dbfd8f8}</Project>
+      <Name>FluentAssertions.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
+</Project>

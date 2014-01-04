@@ -4,11 +4,14 @@ using System.Collections.Generic;
 
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif NUNIT
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestCaseAttribute;
+using AssertFailedException = NUnit.Framework.AssertionException;
 #else
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 #endif
 
 namespace FluentAssertions.Specs

@@ -13,7 +13,7 @@ namespace FluentAssertions.Formatting
         /// </summary>
         public static readonly List<IValueFormatter> Formatters = new List<IValueFormatter>
         {
-#if !WINRT
+#if !WINRT && !__IOS__
             new AttributeBasedFormatter(),
 #endif
             new PropertyInfoFormatter(),

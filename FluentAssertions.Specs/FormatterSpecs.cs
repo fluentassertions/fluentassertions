@@ -6,6 +6,12 @@ using FluentAssertions.Formatting;
 
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif NUNIT
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestCaseAttribute;
+using AssertFailedException = NUnit.Framework.AssertionException;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
+using Assert = NUnit.Framework.Assert;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -138,7 +144,7 @@ namespace FluentAssertions.Specs
             public List<TChild> Childs { get; set; }
         }
 
-#if !WINRT
+#if !WINRT && !__IOS__
 
         [TestMethod]
         public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()

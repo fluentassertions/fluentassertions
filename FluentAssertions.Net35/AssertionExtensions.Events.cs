@@ -55,7 +55,7 @@ namespace FluentAssertions
             return recorders;
         }
 
-#if !SILVERLIGHT && !WINRT
+#if !SILVERLIGHT && !WINRT && !__IOS__
         private static EventRecorder[] BuildRecorders(object eventSource)
         {
             var recorders =

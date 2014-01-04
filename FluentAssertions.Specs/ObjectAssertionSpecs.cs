@@ -7,9 +7,14 @@ using System.Xml.Serialization;
 using FluentAssertions.Primitives;
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif NUNIT
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestCaseAttribute;
+using AssertFailedException = NUnit.Framework.AssertionException;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
+using Assert = NUnit.Framework.Assert;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 #endif
 
 namespace FluentAssertions.Specs
@@ -301,7 +306,9 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected type to be System.Int32, but found <null>.");
         }
 
+#if !__IOS__
         [TestMethod]
+#endif
         public void Then_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name
             ()
         {
@@ -323,9 +330,12 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
+
             const string expectedMessage =
-                "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions.*]" +
-                ", but found [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
+              "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions.*]" +
+              ", but found [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
+
+      
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
         }
