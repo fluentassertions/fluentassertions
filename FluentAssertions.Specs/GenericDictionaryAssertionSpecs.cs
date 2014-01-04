@@ -1393,7 +1393,8 @@ namespace FluentAssertions.Specs
         #endregion
     }
 
-    internal class TrackingTestDictionary : IDictionary<int, string>
+    // don't derive from dictionary or Any() will short-circuit and call Count > 0
+    internal class TrackingTestDictionary : IEnumerable<KeyValuePair<int, string>> 
     {
         private readonly TrackingDictionaryEnumerator enumerator;
         private readonly IDictionary<int, string> entries;
