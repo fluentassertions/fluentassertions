@@ -464,7 +464,9 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+#if !__IOS__
         [TestMethod]
+#endif // the exception message is different
         public void When_an_object_is_not_binary_serializable_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -628,7 +630,9 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+#if !__IOS__
         [TestMethod]
+#endif // the exception message is different
         public void When_an_object_is_not_xml_serializable_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
