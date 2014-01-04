@@ -1,4 +1,9 @@
-﻿using System;
+﻿#if ANDROID
+extern alias mscorlib;
+using SerializableAttribute = mscorlib::System.SerializableAttribute;
+#endif
+
+using System;
 using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Schema;
@@ -306,7 +311,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected type to be System.Int32, but found <null>.");
         }
 
-#if !__IOS__
+#if !__IOS__ 
         [TestMethod]
 #endif
         public void Then_object_type_is_same_as_expected_type_but_in_different_assembly_it_should_fail_with_assembly_qualified_name
@@ -464,7 +469,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-#if !__IOS__
+#if !__IOS__ && !ANDROID
         [TestMethod]
 #endif // the exception message is different
         public void When_an_object_is_not_binary_serializable_it_should_fail()
@@ -630,7 +635,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-#if !__IOS__
+#if !__IOS__ && !ANDROID
         [TestMethod]
 #endif // the exception message is different
         public void When_an_object_is_not_xml_serializable_it_should_fail()

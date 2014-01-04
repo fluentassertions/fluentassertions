@@ -11,7 +11,7 @@ using AssertFailedException = NUnit.Framework.AssertionException;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
-#if !__IOS__
+#if !__IOS__ && !ANDROID
 namespace FluentAssertions.Net45.Specs
 {
     [TestClass]

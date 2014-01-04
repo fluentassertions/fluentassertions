@@ -144,7 +144,7 @@ namespace FluentAssertions.Specs
             public List<TChild> Childs { get; set; }
         }
 
-#if !WINRT && !__IOS__
+#if !WINRT && !__IOS__ && !ANDROID
 
         [TestMethod]
         public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()

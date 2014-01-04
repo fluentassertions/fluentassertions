@@ -535,7 +535,7 @@ namespace FluentAssertions.Specs
         }
 
 
-#if !__IOS__
+#if !__IOS__ && !ANDROID
         [TestMethod]
 #endif
         public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected()
@@ -560,7 +560,7 @@ namespace FluentAssertions.Specs
             referenceToSubject.IsAlive.Should().BeFalse();
         }
 
-#if !__IOS__
+#if !__IOS__ && !ANDROID
         [TestMethod]
 #endif
         public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected_also_if_an_Event_passing_Sender_was_raised()
