@@ -1,47 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
+
 using FluentAssertions.Common;
 using FluentAssertions.Events;
 using FluentAssertions.Execution;
-
 
 namespace FluentAssertions
 {
     /// <summary>
     ///   Provides extension methods for monitoring and querying events.
     /// </summary>
-    public static partial class AssertionExtensions
+    public static class NotifyPropertyChangedExtensions
     {
         private const string PropertyChangedEventName = "PropertyChanged";
 
         private static readonly EventRecordersMap eventRecordersMap = new EventRecordersMap();
 
-#if !SILVERLIGHT && !WINRT
-        /// <summary>
-        ///   Starts monitoring an object for its events.
-        /// </summary>
-        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
-        public static IEnumerable<EventRecorder> MonitorEvents(this object eventSource)
-        {
-            return MonitorEventsRaisedBy(eventSource);
-        }
-#else
-        /// <summary>
-        ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
-        /// </summary>
-        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
-        public static IEnumerable<EventRecorder> MonitorEvents(this INotifyPropertyChanged eventSource)
-        {
-            return MonitorEventsRaisedBy(eventSource);
-        }
-#endif
-
-        private static IEnumerable<EventRecorder> MonitorEventsRaisedBy(object eventSource)
+        public static IEnumerable<EventRecorder> MonitorEventsRaisedBy(object eventSource)
         {
             if (eventSource == null)
             {
@@ -55,147 +33,14 @@ namespace FluentAssertions
             return recorders;
         }
 
-#if !SILVERLIGHT && !WINRT
-        private static EventRecorder[] BuildRecorders(object eventSource)
-        {
-            var recorders =
-                eventSource.GetType()
-                .GetEvents()
-                .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
-
-            if (!recorders.Any())
-            {
-                throw new InvalidOperationException(
-                    string.Format("Type {0} does not expose any events.", eventSource.GetType().Name));
-            }
-            
-            return recorders;
-        }
-
-        private static EventRecorder CreateEventHandler(object eventSource, EventInfo eventInfo)
-        {
-            var eventRecorder = new EventRecorder(eventSource, eventInfo.Name);
-
-            Delegate handler = EventHandlerFactory.GenerateHandler(eventInfo.EventHandlerType, eventRecorder);
-            eventInfo.AddEventHandler(eventSource, handler);
-
-            return eventRecorder;
-        }
-#else
         private static EventRecorder[] BuildRecorders(object eventSource)
         {
             var eventRecorder = new EventRecorder(eventSource, PropertyChangedEventName);
 
             ((INotifyPropertyChanged)eventSource).PropertyChanged += (sender, args) => eventRecorder.RecordEvent(sender, args);
-            return new[] {eventRecorder};
-        }
-#endif
-
-#if !SILVERLIGHT && !WINRT
-        /// <summary>
-        /// Asserts that an object has raised a particular event at least once.
-        /// </summary>
-        /// <param name="eventSource">The object exposing the event.</param>
-        /// <param name="eventName">The name of the event that should have been raised.</param>
-        /// <returns></returns>
-        /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
-        /// subscribe for the events of the object.
-        /// </remarks>
-        public static EventRecorder ShouldRaise(this object eventSource, string eventName)
-        {
-            return ShouldRaise(eventSource, eventName, string.Empty);
+            return new[] { eventRecorder };
         }
 
-        /// <summary>
-        /// Asserts that an object has raised a particular event at least once.
-        /// </summary>
-        /// <param name="eventSource">The object exposing the event.</param>
-        /// <param name="eventName">
-        /// The name of the event that should have been raised.
-        /// </param>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
-        /// </param>
-        /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
-        /// subscribe for the events of the object.
-        /// </remarks>
-        public static EventRecorder ShouldRaise(
-            this object eventSource, string eventName, string reason, params object[] reasonArgs)
-        {
-            EventRecorder eventRecorder = eventSource.GetRecorderForEvent(eventName);
-
-            if (!eventRecorder.Any())
-            {
-                Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", eventSource, eventName);
-            }
-
-            return eventRecorder;
-        }
-
-        /// <summary>
-        /// Asserts that an object has not raised a particular event.
-        /// </summary>
-        /// <param name="eventSource">The object exposing the event.</param>
-        /// <param name="eventName">
-        /// The name of the event that should not be raised.
-        /// </param>
-        /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
-        /// subscribe for the events of the object.
-        /// </remarks>
-        public static void ShouldNotRaise(this object eventSource, string eventName)
-        {
-            ShouldNotRaise(eventSource, eventName, string.Empty);
-        }
-
-        /// <summary>
-        /// Asserts that an object has not raised a particular event.
-        /// </summary>
-        /// <param name="eventSource">The object exposing the event.</param>
-        /// <param name="eventName">
-        /// The name of the event that should not be raised.
-        /// </param>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
-        /// </param>
-        /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
-        /// subscribe for the events of the object.
-        /// </remarks>
-        public static void ShouldNotRaise(
-            this object eventSource, string eventName, string reason, params object[] reasonArgs)
-        {
-            EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
-            if (eventRecorder == null)
-            {
-                string typeName = null;
-                typeName = eventSource.GetType().Name;
-                throw new InvalidOperationException(string.Format(
-                    "Type <{0}> does not expose an event named \"{1}\".", typeName, eventName));
-            }
-
-            if (eventRecorder.Any())
-            {
-                Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", eventSource, eventName);
-            }
-        }
-
-#endif
-        
         /// <summary>
         /// Asserts that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
@@ -240,12 +85,12 @@ namespace FluentAssertions
                 Execute.Assertion
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not.",
-                    eventSource, PropertyChangedEventName, propertyName);
+                        eventSource, PropertyChangedEventName, propertyName);
             }
 
             return eventRecorder.WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == propertyName);
         }
-        
+
         /// <summary>
         /// Asserts that an object has not raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
@@ -305,12 +150,8 @@ namespace FluentAssertions
             EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
             if (eventRecorder == null)
             {
-                string name;
-#if !WINRT
-                name = eventSource.GetType().Name;
-#else
-                name = eventSource.GetType().GetTypeInfo().Name;
-#endif
+                string name = eventSource.GetType().Name;
+
                 throw new InvalidOperationException(string.Format(
                     "Type <{0}> does not expose an event named \"{1}\".", name, eventName));
             }
@@ -349,7 +190,8 @@ namespace FluentAssertions
         /// <summary>
         /// Asserts that at least one occurrence of the event had an <see cref="EventArgs"/> object matching a predicate.
         /// </summary>
-        public static IEventRecorder WithArgs<T>(this IEventRecorder eventRecorder, Expression<Func<T, bool>> predicate) where T : EventArgs
+        public static IEventRecorder WithArgs<T>(this IEventRecorder eventRecorder, Expression<Func<T, bool>> predicate)
+            where T : EventArgs
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
 

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
 using FluentAssertions.Equivalency;
+using FluentAssertions.Events;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Specialized;
@@ -515,6 +517,25 @@ namespace FluentAssertions
             new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
         }
 
+#if !SILVERLIGHT && !WINRT
+        /// <summary>
+        ///   Starts monitoring an object for its events.
+        /// </summary>
+        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+        public static IEnumerable<EventRecorder> MonitorEvents(this object eventSource)
+        {
+            return EventExtensions.MonitorEventsRaisedBy(eventSource);
+        }
+#else
+        /// <summary>
+        ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
+        /// </summary>
+        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+        public static IEnumerable<EventRecorder> MonitorEvents(this INotifyPropertyChanged eventSource)
+        {
+            return NotifyPropertyChangedExtensions.MonitorEventsRaisedBy(eventSource);
+        }
+#endif
 
         /// <summary>
         /// Safely casts the specified object to the type specified through <typeparamref name="TTo"/>.

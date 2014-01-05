@@ -66,8 +66,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Core\AssertionExtensions.Actions.cs">
+      <Link>AssertionExtensions.Actions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\EventExtensions.cs">
+      <Link>EventExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Execution\FallbackTestFramework.cs">
       <Link>Execution\FallbackTestFramework.cs</Link>

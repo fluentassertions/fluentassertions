@@ -42,9 +42,6 @@
     <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.Events.cs">
-      <Link>AssertionExtensions.Events.cs</Link>
-    </Compile>
     <Compile Include="..\fluentassertions.net35\collections\CollectionAssertions.cs">
       <Link>Collections\CollectionAssertions.cs</Link>
     </Compile>
@@ -260,6 +257,9 @@
     </Compile>
     <Compile Include="..\fluentassertions.net35\formatting\XElementValueFormatter.cs">
       <Link>Formatting\XElementValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\NotifyPropertyChangedExtensions.cs">
+      <Link>NotifyPropertyChangedExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\NumericAssertionsExtensions.cs">
       <Link>NumericAssertionsExtensions.cs</Link>

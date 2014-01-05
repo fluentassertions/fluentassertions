@@ -107,9 +107,6 @@
     <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.Events.cs">
-      <Link>AssertionExtensions.Events.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\Collections\CollectionAssertions.cs">
       <Link>Collections\CollectionAssertions.cs</Link>
     </Compile>
@@ -247,6 +244,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\XElementValueFormatter.cs">
       <Link>Formatting\XElementValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\NotifyPropertyChangedExtensions.cs">
+      <Link>NotifyPropertyChangedExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\NumericAssertionsExtensions.cs">
       <Link>NumericAssertionsExtensions.cs</Link>

@@ -3291,6 +3291,43 @@ namespace FluentAssertions.Specs
 
     #region Nested classes for comparison
 
+    public class ClassWithValueSemanticsOnSingleProperty
+    {
+        public string Key { get; set; }
+        public string NestedProperty { get; set; }
+
+
+        protected bool Equals(ClassWithValueSemanticsOnSingleProperty other)
+        {
+            return string.Equals(Key, other.Key);
+        }
+
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+            return Equals((ClassWithValueSemanticsOnSingleProperty)obj);
+        }
+
+
+        public override int GetHashCode()
+        {
+            return Key.GetHashCode();
+        }
+    }
+
+
     public class Root
     {
         public string Text { get; set; }

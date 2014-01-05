@@ -53,14 +53,17 @@
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Core\AssertionExtensions.Actions.cs">
+      <Link>AssertionExtensions.Actions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Core\Formatting\AggregateExceptionValueFormatter.cs">
+      <Link>Formatting\AggregateExceptionValueFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.Events.cs">
-      <Link>AssertionExtensions.Events.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Collections\CollectionAssertions.cs">
       <Link>Collections\CollectionAssertions.cs</Link>
@@ -190,6 +193,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Formatting\XElementValueFormatter.cs">
       <Link>Formatting\XElementValueFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net35\NotifyPropertyChangedExtensions.cs">
+      <Link>NotifyPropertyChangedExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\NumericAssertionsExtensions.cs">
       <Link>NumericAssertionsExtensions.cs</Link>
@@ -388,12 +394,6 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Xml\XElementAssertions.cs">
       <Link>Xml\XElementAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">
-      <Link>AssertionExtensions.Actions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Formatting\AggregateExceptionValueFormatter.cs">
-      <Link>Formatting\AggregateExceptionValueFormatter.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\Specialized\AsyncFunctionAssertions.cs">
       <Link>Specialized\AsyncFunctionAssertions.cs</Link>
