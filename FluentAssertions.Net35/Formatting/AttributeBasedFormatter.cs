@@ -85,7 +85,7 @@ namespace FluentAssertions.Formatting
         private MethodInfo[] FindCustomFormatters()
         {
             var query =
-                from type in AllTypes
+                from type in Services.ReflectionProvider.GetAllTypesFromAppDomain(Applicable)
                 where type != null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
@@ -96,94 +96,6 @@ namespace FluentAssertions.Formatting
             return query.ToArray();
         }
 
-#if SILVERLIGHT && !WINDOWS_PHONE
-        private static IEnumerable<Type> AllTypes
-        {
-            get
-            {
-                return ((Assembly[])((dynamic)AppDomain.CurrentDomain).GetAssemblies())
-                    .Where(Applicable)
-                    .SelectMany(GetExportedTypes).ToArray();
-            }
-        }
-
-        private static IEnumerable<Type> GetExportedTypes(Assembly assembly)
-        {
-            try
-            {
-                return assembly.GetExportedTypes();
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                return ex.Types;
-            }
-            catch (NotSupportedException)
-            {
-                return new Type[0];
-            }
-        }
-#elif WINDOWS_PHONE
-        private static IEnumerable<Type> AllTypes
-        {
-            get
-            {
-                return AppDomain.CurrentDomain
-                    .GetAssemblies()
-                    .Where(Applicable)
-                    .SelectMany(GetExportedTypes).ToArray();
-            }
-        }
-
-        private static IEnumerable<Type> GetExportedTypes(Assembly assembly)
-        {
-            try
-            {
-                return assembly.GetExportedTypes();
-            }
-            catch (ReflectionTypeLoadException)
-            {
-                return new Type[0];
-            }
-        }
-#else
-        private static IEnumerable<Type> AllTypes
-        {
-            get
-            {
-                return AppDomain.CurrentDomain
-                    .GetAssemblies()
-                    .Where(a => Applicable(a) && !IsDynamic(a))
-                    .SelectMany(GetExportedTypes).ToArray();
-            }
-        }
-
-        static bool IsDynamic(Assembly assembly)
-        {
-            return (assembly is System.Reflection.Emit.AssemblyBuilder) ||
-                (assembly.GetType().FullName == "System.Reflection.Emit.InternalAssemblyBuilder");
-        }
-
-        private static IEnumerable<Type> GetExportedTypes(Assembly assembly)
-        {
-            try
-            {
-                return assembly.GetExportedTypes();
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                return ex.Types;
-            }
-            catch (FileLoadException)
-            {
-                return new Type[0];
-            }
-            catch (Exception)
-            {
-                return new Type[0];
-            }
-        }
-#endif
-
         private static bool Applicable(Assembly assembly)
         {
             var configuration = Configuration.Current;
@@ -191,7 +103,7 @@ namespace FluentAssertions.Formatting
 
             return ((mode == ValueFormatterDetectionMode.Scan) || (
                 (mode == ValueFormatterDetectionMode.Specific) &&
-                assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.InvariantCultureIgnoreCase)));
+                assembly.FullName.Split(',')[0].Equals(configuration.ValueFormatterAssembly, StringComparison.CurrentCultureIgnoreCase)));
         }
     }
 }

@@ -98,6 +98,9 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Core\Common\IReflectionProvider.cs">
+      <Link>Common\IReflectionProvider.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
@@ -446,7 +449,8 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
-    <Compile Include="AssertionExtensions.WP7.cs" />
+    <Compile Include="AssertionExtensions.WP.cs" />
+    <Compile Include="Common\WPReflectionProvider.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Execution\WP75TestFramework.cs" />
     <Compile Include="Execution\VS2012TestFramework.cs" />

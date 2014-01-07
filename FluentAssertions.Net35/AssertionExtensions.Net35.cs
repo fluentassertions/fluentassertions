@@ -7,6 +7,7 @@ namespace FluentAssertions
         static AssertionExtensions()
         {
             Services.Configuration = new Configuration(new AppSettingsConfigurationStore());
+            Services.ReflectionProvider = new DefaultReflectionProvider();
         }
     }
 }

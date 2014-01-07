@@ -90,9 +90,13 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Core\Common\IReflectionProvider.cs">
+      <Link>Common\IReflectionProvider.cs</Link>
+    </Compile>
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\DefaultReflectionProvider.cs" />
     <Compile Include="NotifyPropertyChangedExtensions.cs" />
     <Compile Include="AssertionExtensions.Net35.cs" />
     <Compile Include="Collections\StringCollectionAssertions.cs" />

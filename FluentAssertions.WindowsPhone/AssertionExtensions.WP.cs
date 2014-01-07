@@ -6,7 +6,7 @@ namespace FluentAssertions
     {
         static AssertionExtensions()
         {
-            
+            Services.ReflectionProvider = new WPReflectionProvider();
         }
     }
 }

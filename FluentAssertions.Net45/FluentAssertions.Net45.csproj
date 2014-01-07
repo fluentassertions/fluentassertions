@@ -65,6 +65,9 @@
     <Compile Include="..\FluentAssertions.Core\AssertionExtensions.Actions.cs">
       <Link>AssertionExtensions.Actions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Core\Common\IReflectionProvider.cs">
+      <Link>Common\IReflectionProvider.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Core\Formatting\AggregateExceptionValueFormatter.cs">
       <Link>Formatting\AggregateExceptionValueFormatter.cs</Link>
     </Compile>

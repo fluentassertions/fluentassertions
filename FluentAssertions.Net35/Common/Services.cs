@@ -19,6 +19,7 @@ namespace FluentAssertions.Common
 
         public static Configuration Configuration { get; set; }
         public static ITestFramework TestFramework { get; set; }
+        public static IReflectionProvider ReflectionProvider { get; set; }
     }
 
     internal class NullConfigurationStore : IConfigurationStore

@@ -374,6 +374,7 @@
     </Compile>
     <Compile Include="AssertionExtensions.Actions.cs" />
     <Compile Include="AssertionExtensions.cs" />
+    <Compile Include="Common\IReflectionProvider.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Formatting\AggregateExceptionValueFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
