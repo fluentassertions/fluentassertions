@@ -10,7 +10,7 @@ namespace FluentAssertions.Events
     ///     This should ensure the Garbage Collector can still clean-up the event source object.
     /// </summary>
     [DebuggerNonUserCode]
-    internal sealed class EventRecordersMap
+    public sealed class EventRecordersMap
     {
         private readonly Dictionary<WeakReference, IEnumerable<EventRecorder>> map =
             new Dictionary<WeakReference, IEnumerable<EventRecorder>>();
