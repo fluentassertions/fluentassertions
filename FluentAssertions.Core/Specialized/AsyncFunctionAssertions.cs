@@ -15,7 +15,7 @@ namespace FluentAssertions.Specialized
     {
         private readonly IExtractExceptions extractor;
 
-        protected internal AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor)
+        public AsyncFunctionAssertions(Func<Task> subject, IExtractExceptions extractor)
         {
             this.extractor = extractor;
             Subject = subject;

@@ -29,7 +29,7 @@ namespace FluentAssertions.Specialized
             SetupMessageAssertionRules();
         }
 
-        protected internal ExceptionAssertions(IEnumerable<TException> exceptions)
+        public ExceptionAssertions(IEnumerable<TException> exceptions)
         {
             Subject = exceptions;
         }

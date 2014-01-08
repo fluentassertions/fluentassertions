@@ -16,8 +16,8 @@ namespace FluentAssertions
     public static class NotifyPropertyChangedExtensions
     {
         private const string PropertyChangedEventName = "PropertyChanged";
+        public static readonly EventRecordersMap eventRecordersMap = new EventRecordersMap();
 
-        private static readonly EventRecordersMap eventRecordersMap = new EventRecordersMap();
 
         public static IEnumerable<EventRecorder> MonitorEventsRaisedBy(object eventSource)
         {

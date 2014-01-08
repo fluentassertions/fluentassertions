@@ -16,7 +16,7 @@ namespace FluentAssertions.Specialized
     {
         private readonly IExtractExceptions extractor;
 
-        protected internal ActionAssertions(Action subject, IExtractExceptions extractor)
+        public ActionAssertions(Action subject, IExtractExceptions extractor)
         {
             this.extractor = extractor;
             Subject = subject;

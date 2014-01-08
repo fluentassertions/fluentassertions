@@ -13,8 +13,6 @@ namespace FluentAssertions
     /// </summary>
     public static class EventExtensions
     {
-        private static readonly EventRecordersMap eventRecordersMap = new EventRecordersMap();
-
         public static IEnumerable<EventRecorder> MonitorEventsRaisedBy(object eventSource)
         {
             if (eventSource == null)
@@ -24,7 +22,7 @@ namespace FluentAssertions
 
             EventRecorder[] recorders = BuildRecorders(eventSource);
 
-            eventRecordersMap.Add(eventSource, recorders);
+            NotifyPropertyChangedExtensions.eventRecordersMap.Add(eventSource, recorders);
 
             return recorders;
         }
@@ -140,7 +138,7 @@ namespace FluentAssertions
         public static void ShouldNotRaise(
             this object eventSource, string eventName, string reason, params object[] reasonArgs)
         {
-            EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
+            EventRecorder eventRecorder = NotifyPropertyChangedExtensions.eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
             if (eventRecorder == null)
             {
                 string typeName = null;
