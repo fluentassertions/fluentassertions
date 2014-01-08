@@ -739,6 +739,19 @@ namespace FluentAssertions.Specs
             };
             dictionary.Should().ContainKey(1);
         }
+        
+        [TestMethod]
+        public void Should_succeed_when_asserting_dictionary_with_custom_equality_comparer_contains_a_key_from_the_dictionary()
+        {
+            var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "One", "One" },
+                { "Two", "Two" }
+            };
+            dictionary.Should().ContainKey("One");
+            dictionary.Should().ContainKey("ONE");
+            dictionary.Should().ContainKey("one");
+        }
 
         [TestMethod]
         public void Should_succeed_when_asserting_dictionary_contains_multiple_keys_from_the_dictionary()
