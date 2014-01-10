@@ -430,7 +430,12 @@ Consider the class `Order` and its wire-transfer equivalent `OrderDto` (a so-cal
 
 	orderDto.ShouldBeEquivalentTo(order); 
 
-In contrast to the `ShouldHave()` extension method, the comparison is recursive by default and all properties of the `OrderDto` must be available on the  `Order`. If not, an exception is thrown. You can override this behavior in different ways. For instance, you may only want to include the properties both object graphs have:
+In contrast to the `ShouldHave()` extension method, the comparison is recursive by default and all properties of the `OrderDto` must be available on the  `Order`. If not, an exception is thrown. If you want to retain the old non-recursive behavior, just use this option:
+
+	orderDto.ShouldBeEquivalentTo(order, options => 
+	    options.ExcludingNestedObjects());
+
+You have fine-grained control on how this comparison continues. For instance, you may only want to include the properties both object graphs have:
 
 	orderDto.ShouldBeEquivalentTo(order, options => 
 	    options.ExcludingMissingProperties());
