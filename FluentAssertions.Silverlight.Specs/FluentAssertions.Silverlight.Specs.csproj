@@ -92,9 +92,8 @@
     <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FakeItEasy-SL, Version=1.6.4075.221, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SharedBinaries\Silverlight\FakeItEasy-SL.dll</HintPath>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\packages\FakeItEasy.1.16.0\lib\sl50\FakeItEasy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Silverlight.Testing">
       <HintPath>..\SharedBinaries\Microsoft.Silverlight.Testing.dll</HintPath>
@@ -236,6 +235,7 @@
     <None Include="..\FluentAssertions.snk">
       <Link>FluentAssertions.snk</Link>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
