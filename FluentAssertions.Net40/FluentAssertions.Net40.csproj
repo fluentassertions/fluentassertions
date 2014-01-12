@@ -67,6 +67,9 @@
     <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
       <Link>AndConstraint.cs</Link>
     </Compile>
+	<Compile Include="..\FluentAssertions.Net35\AndWhichConstraint.cs">
+      <Link>AndWhichConstraint.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
     </Compile>

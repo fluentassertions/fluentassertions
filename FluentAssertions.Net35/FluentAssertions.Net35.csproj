@@ -116,6 +116,7 @@
     <Compile Include="Formatting\ValueFormatterAttribute.cs" />
     <Compile Include="Specialized\ActionAssertions.cs" />
     <Compile Include="AndConstraint.cs" />
+    <Compile Include="AndWhichConstraint.cs" />
     <Compile Include="Equivalency\AllDeclaredPublicPropertiesSelectionRule.cs" />
     <Compile Include="Equivalency\AllRuntimePublicPropertiesSelectionRule.cs" />
     <Compile Include="Equivalency\ApplyAssertionRulesEquivalencyStep.cs" />
