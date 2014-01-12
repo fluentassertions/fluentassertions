@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Common
 {
-    internal static class TypeExtensions
+    public static class TypeExtensions
     {
 #if !WINRT
         private const BindingFlags PublicPropertiesFlag =

@@ -108,6 +108,7 @@
     <Compile Include="..\FluentAssertions.Net35\Specialized\ExecutionTimeAssertions.cs">
       <Link>Specialized\ExecutionTimeAssertions.cs</Link>
     </Compile>
+    <Compile Include="AssertionExtensions.Actions.cs" />
     <Compile Include="AssertionExtensions.Net40.cs" />
     <Compile Include="Common\AppSettingsConfigurationStore.cs" />
     <Compile Include="Execution\TestFrameworkProvider.cs" />

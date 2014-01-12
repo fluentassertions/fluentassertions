@@ -193,6 +193,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
+      <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
+      <Name>FluentAssertions.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FluentAssertions.Net45\FluentAssertions.Net45.csproj">
       <Project>{81d1792f-3c87-49cf-a502-9f232ff3719c}</Project>
       <Name>FluentAssertions.Net45</Name>

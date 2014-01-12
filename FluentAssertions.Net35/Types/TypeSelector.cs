@@ -17,7 +17,7 @@ namespace FluentAssertions.Types
         private List<TypeInfo> types;
 #endif
 
-        internal TypeSelector(
+        public TypeSelector(
 #if !WINRT
             IEnumerable<Type> types
 #else
