@@ -239,6 +239,10 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
+      <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
+      <Name>FluentAssertions.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FluentAssertions.Silverlight\FluentAssertions.Silverlight.csproj">
       <Project>{135391A1-B669-423F-8D8C-04B60DCFB8B1}</Project>
       <Name>FluentAssertions.Silverlight</Name>

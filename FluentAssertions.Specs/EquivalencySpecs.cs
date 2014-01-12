@@ -1068,6 +1068,56 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_the_subject_contains_same_number_of_items_but_subject_contains_duplicates_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new List<Customer>
+            {
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                },
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                },
+            };
+
+            var expectation = new List<Customer>
+            {
+                new Customer
+                {
+                    Name = "John",
+                    Age = 27,
+                    Id = 1
+                },
+                new Customer
+                {
+                    Name = "Jane",
+                    Age = 24,
+                    Id = 2
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected item[1].Name to be \"Jane\", but \"John\" differs near*", ComparisonMode.Wildcard);
+        }
+
+        [TestMethod]
         public void When_the_subject_contains_more_items_than_expected_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1153,56 +1203,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage("*subject to be a collection with 2 item(s), but found 1*", ComparisonMode.Wildcard);
-        }
-
-        [TestMethod]
-        public void When_the_subject_contains_same_number_of_items_but_subject_contains_duplicates_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
-
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected item[1].Name to be \"Jane\", but \"John\" differs near*", ComparisonMode.Wildcard);
         }
 
         [TestMethod]

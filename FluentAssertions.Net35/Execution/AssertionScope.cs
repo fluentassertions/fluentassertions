@@ -34,7 +34,7 @@ namespace FluentAssertions.Execution
 
         private AssertionScope parent;
 
-        internal static AssertionScope Current
+        public static AssertionScope Current
         {
             get { return current ?? new AssertionScope(new DefaultAssertionStrategy()); }
             set { current = value; }
