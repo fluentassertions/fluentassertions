@@ -171,6 +171,7 @@
     <Compile Include="Types\AllTypes.cs" />
     <Compile Include="Types\MethodInfoAssertions.cs" />
     <Compile Include="Types\MethodInfoSelector.cs" />
+    <Compile Include="Types\MethodInfoSelectorAssertions.cs" />
     <Compile Include="Types\PropertyInfoAssertions.cs" />
     <Compile Include="Types\PropertyInfoSelector.cs" />
     <Compile Include="Types\TypeAssertions.cs" />

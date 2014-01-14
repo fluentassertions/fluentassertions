@@ -124,6 +124,7 @@
     <Compile Include="TimeSpanConversionExtensionSpecs.cs" />
     <Compile Include="TimeSpanFormatterSpecs.cs" />
     <Compile Include="MethodInfoAssertionSpecs.cs" />
+    <Compile Include="MethodInfoSelectorAssertionSpecs.cs" />
     <Compile Include="TypeAssertionSpecs.cs" />
     <Compile Include="TypeSelectorSpecs.cs" />
     <Compile Include="XAttributeAssertionSpecs.cs" />
