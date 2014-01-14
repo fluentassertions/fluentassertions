@@ -120,6 +120,9 @@
     <Compile Include="..\FluentAssertions.Specs\MethodInfoSelectorSpecs.cs">
       <Link>MethodInfoSelectorSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\MethodInfoSelectorAssertionSpecs.cs">
+      <Link>MethodInfoSelectorAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\NullableBooleanAssertionSpecs.cs">
       <Link>NullableBooleanAssertionSpecs.cs</Link>
     </Compile>

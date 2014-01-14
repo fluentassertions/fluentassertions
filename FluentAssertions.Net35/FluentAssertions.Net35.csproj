@@ -156,6 +156,7 @@
     <Compile Include="Types\AllTypes.cs" />
     <Compile Include="Types\MethodInfoAssertions.cs" />
     <Compile Include="Types\MethodInfoSelector.cs" />
+    <Compile Include="Types\MethodInfoSelectorAssertions.cs" />
     <Compile Include="Primitives\NullableGuidAssertions.cs" />
     <Compile Include="Numeric\NullableNumericAssertions.cs" />
     <Compile Include="Equivalency\EquivalencyValidator.cs" />
