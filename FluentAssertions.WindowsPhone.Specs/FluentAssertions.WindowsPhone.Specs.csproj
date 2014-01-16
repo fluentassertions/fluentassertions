@@ -93,6 +93,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
+    <DefineConstants>SILVERLIGHT</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget />
@@ -262,6 +263,10 @@
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
+      <Project>{8931C5EF-3BAC-473A-A343-57791D0917B1}</Project>
+      <Name>FluentAssertions.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FluentAssertions.WindowsPhone\FluentAssertions.WindowsPhone.csproj">
       <Project>{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}</Project>
       <Name>FluentAssertions.WindowsPhone</Name>

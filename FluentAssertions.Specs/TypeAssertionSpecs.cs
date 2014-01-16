@@ -3,8 +3,7 @@ using System;
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
 
-#if WINRT
-using System.Reflection;
+#if WINRT || WINDOWS_PHONE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;

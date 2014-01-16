@@ -8,7 +8,7 @@ using Internal.Main.Test;
 using Internal.Other.Test;
 using Internal.Other.Test.Common;
 
-#if WINRT
+#if WINRT || WINDOWS_PHONE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;

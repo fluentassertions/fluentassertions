@@ -5,11 +5,11 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 
 using FluentAssertions.Primitives;
-#if WINRT
+
+#if WINRT || WINDOWS_PHONE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 #endif
 
 namespace FluentAssertions.Specs

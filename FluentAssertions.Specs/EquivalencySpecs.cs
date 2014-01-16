@@ -8,7 +8,11 @@ using System.Text.RegularExpressions;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 
+#if WINRT || WINDOWS_PHONE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
