@@ -88,11 +88,7 @@ namespace FluentAssertions.Formatting
             builder.AppendLine(CreateWhitespaceForLevel(nestedPropertyLevel) + "{");
 
             IEnumerable<PropertyInfo> properties;
-#if !WINRT
             properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-#else
-            properties = type.GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic && p.GetMethod.IsPublic);
-#endif
             foreach (PropertyInfo propertyInfo in properties.OrderBy(pi => pi.Name))
             {
                 builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1, processedObjects));

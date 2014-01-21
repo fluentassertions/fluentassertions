@@ -4,10 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
-#if WINRT
-using System.Reflection;
-#endif
-
 using FluentAssertions.Execution;
 using FluentAssertions.Common;
 
@@ -97,11 +93,7 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionFor(Type type)
         {
-#if !WINRT
             return type.ToString();
-#else
-            return type.GetTypeInfo().ToString();
-#endif
         }
     }
 }

@@ -6,10 +6,6 @@ using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
-#if WINRT
-using System.Reflection;
-#endif
-
 namespace FluentAssertions.Types
 {
     /// <summary>

@@ -8,10 +8,8 @@ namespace FluentAssertions.Common
 {
     public static class TypeExtensions
     {
-#if !WINRT
         private const BindingFlags PublicPropertiesFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-#endif
 
         public static bool HasMatchingAttribute<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
         {
@@ -27,11 +25,7 @@ namespace FluentAssertions.Common
 
         private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type)
         {
-#if !WINRT
             return type.GetCustomAttributes(false).OfType<TAttribute>();
-#else
-            return type.GetTypeInfo().GetCustomAttributes(false).OfType<TAttribute>();
-#endif
         }
 
         /// <summary>
@@ -47,11 +41,7 @@ namespace FluentAssertions.Common
         public static bool IsSameOrInherits(this Type actualType, Type expectedType)
         {
             return (actualType == expectedType) ||
-#if !WINRT
                    (actualType.IsAssignableFrom(expectedType))
-#else
-                   (actualType.GetTypeInfo().IsAssignableFrom(expectedType.GetTypeInfo()))
-#endif
                 ;
         }
 
@@ -63,11 +53,7 @@ namespace FluentAssertions.Common
         public static bool Implements(this Type type, Type expectedBaseType)
         {
             return
-#if !WINRT
                 expectedBaseType.IsAssignableFrom(type)
-#else
-                expectedBaseType.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo())
-#endif
                 && (type != expectedBaseType);
         }
 
@@ -79,11 +65,7 @@ namespace FluentAssertions.Common
         private static bool HasProperties(Type type)
         {
             return type
-#if !WINRT
                 .GetProperties(PublicPropertiesFlag)
-#else
-                .GetRuntimeProperties().Where(p => (p.GetMethod != null) && !p.GetMethod.IsStatic)
-#endif
                 .Any();
         }
 
@@ -96,11 +78,7 @@ namespace FluentAssertions.Common
         public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
         {
             IEnumerable<PropertyInfo> properties =
-#if !WINRT
                 type.GetProperties(PublicPropertiesFlag)
-#else
-                type.GetRuntimeProperties().Where(p => !p.GetMethod.IsStatic)
-#endif
                     .Where(pi => pi.Name == propertyName)
                     .ToList();
             
@@ -159,40 +137,23 @@ namespace FluentAssertions.Common
 
         private static bool IsInterface(Type typeToReflect)
         {
-#if !WINRT
             return typeToReflect.IsInterface;
-#else
-            return typeToReflect.GetTypeInfo().IsInterface;
-#endif
         }
 
         private static IEnumerable<Type> GetInterfaces(Type type)
         {
-#if !WINRT
             return type.GetInterfaces();
-#else
-            return type.GetTypeInfo().ImplementedInterfaces;
-#endif
         }
 
         private static IEnumerable<PropertyInfo> GetPublicProperties(Type type)
         {
-#if !WINRT
             return type.GetProperties(PublicPropertiesFlag);
-#else
-            return type.GetRuntimeProperties();
-#endif
         }
 
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
         {
-#if !WINRT
             MethodInfo getMethod = propertyInfo.GetGetMethod(true);
             return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsFamily;
-#else
-            var getMethod = propertyInfo.GetMethod;
-            return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsFamily && !getMethod.IsStatic;
-#endif
         }
 
         /// <summary>
@@ -208,11 +169,7 @@ namespace FluentAssertions.Common
 
         public static MethodInfo GetMethodNamed(this Type type, string methodName)
         {
-#if WINRT
-            return type.GetRuntimeMethod(methodName, new Type[0]);
-#else
             return type.GetMethod(methodName);
-#endif
         }
     }
 }

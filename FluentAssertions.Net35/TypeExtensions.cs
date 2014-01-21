@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using System;
 using System.Diagnostics;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
+
 using FluentAssertions.Types;
 
 namespace FluentAssertions
@@ -13,10 +13,8 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static class TypeExtensions
     {
-#if !WINRT
         private const BindingFlags PublicPropertiesFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-#endif
 
         /// <summary>
         /// Returns the types that are visible outside the specified <see cref="Assembly"/>.
@@ -24,11 +22,7 @@ namespace FluentAssertions
         public static TypeSelector Types(this Assembly assembly)
         {
             return new TypeSelector(
-#if !WINRT
                 assembly.GetTypes()
-#else
-                assembly.DefinedTypes
-#endif
                 );
         }
 

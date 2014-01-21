@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace FluentAssertions.Types
 {
@@ -11,34 +10,21 @@ namespace FluentAssertions.Types
     /// </summary>
     public class TypeSelector : IEnumerable<Type>
     {
-#if !WINRT
         private List<Type> types;
-#else
-        private List<TypeInfo> types;
-#endif
 
         public TypeSelector(
-#if !WINRT
             IEnumerable<Type> types
-#else
-            IEnumerable<TypeInfo> types
-#endif
             )
         {
             this.types = types.ToList();
         }
-
 
         /// <summary>
         /// The resulting <see cref="Type"/> objects.
         /// </summary>
         public Type[] ToArray()
         {
-#if !WINRT            
             return types.ToArray();
-#else
-            return types.Select(t => t.AsType()).ToArray();
-#endif
         }
 
         /// <summary>
@@ -49,23 +35,16 @@ namespace FluentAssertions.Types
             types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToList();
             return this;
         }
-        
+
         /// <summary>
         /// Determines whether a type implements an interface (but is not the interface itself).
         /// </summary>
         public TypeSelector ThatImplement<TInterface>()
         {
-            types = types.Where(t => 
-#if !WINRT
-                typeof (TInterface)
-#else
-                typeof(TInterface).GetTypeInfo()
-#endif
-                .IsAssignableFrom(t) && (t != typeof(TInterface)
-#if WINRT
-                .GetTypeInfo()
-#endif       
-                )).ToList();
+            types = types.Where(t =>
+                typeof(TInterface)
+                    .IsAssignableFrom(t) && (t != typeof(TInterface)
+                        )).ToList();
             return this;
         }
 
@@ -74,13 +53,8 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatAreDecoratedWith<TAttribute>()
         {
-            types = types.Where(t => 
-#if !WINRT
+            types = types.Where(t =>
                 t.GetCustomAttributes(typeof(TAttribute), true).Length > 0
-#else
-                t.GetCustomAttributes(typeof(TAttribute), true).Any()
-#endif
-
                 ).ToList();
             return this;
         }
@@ -112,11 +86,7 @@ namespace FluentAssertions.Types
         /// <filterpriority>1</filterpriority>
         public IEnumerator<Type> GetEnumerator()
         {
-#if !WINRT
             return types.GetEnumerator();
-#else
-            return types.Select(t => t.AsType()).AsEnumerable().GetEnumerator();
-#endif
         }
 
         /// <summary>

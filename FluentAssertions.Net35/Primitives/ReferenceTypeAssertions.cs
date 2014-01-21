@@ -3,10 +3,6 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 
 using FluentAssertions.Execution;
-#if WINRT
-using System.Reflection;
-
-#endif
 
 namespace FluentAssertions.Primitives
 {
@@ -160,11 +156,7 @@ namespace FluentAssertions.Primitives
         {
             Execute.Assertion
                 .ForCondition(
-#if !WINRT
                 typeof(T).IsAssignableFrom(Subject.GetType())
-#else
-                typeof(T).GetTypeInfo().IsAssignableFrom(Subject.GetType().GetTypeInfo())
-#endif
                 )
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} does not implement {0}",

@@ -13,9 +13,7 @@ namespace FluentAssertions.Formatting
         /// </summary>
         public static readonly List<IValueFormatter> Formatters = new List<IValueFormatter>
         {
-#if !WINRT
             new AttributeBasedFormatter(),
-#endif
             new PropertyInfoFormatter(),
             new NullValueFormatter(),
             new GuidValueFormatter(),
