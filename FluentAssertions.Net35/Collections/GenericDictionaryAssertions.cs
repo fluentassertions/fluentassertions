@@ -330,8 +330,9 @@ namespace FluentAssertions.Collections
                     .BecauseOf(reason, reasonArgs)
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", expected, Subject);
             }
+            
+            var missingKeys =  expectedKeys.Where(key => !Subject.ContainsKey(key));
 
-            var missingKeys = expectedKeys.Except(Subject.Keys);
             if (missingKeys.Any())
             {
                 if (expectedKeys.Count() > 1)

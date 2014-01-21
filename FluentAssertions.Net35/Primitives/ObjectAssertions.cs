@@ -63,50 +63,6 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that an object reference refers to the exact same object as another object reference.
-        /// </summary>
-        /// <param name="expected">The expected object</param>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<ObjectAssertions> BeSameAs(object expected, string reason = "", params object[] reasonArgs)
-        {
-            Execute.Assertion
-                .UsingLineBreaks
-                .ForCondition(ReferenceEquals(Subject, expected))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Expected {context:object} to refer to {0}{reason}, but found object {1}.", expected, Subject);
-
-            return new AndConstraint<ObjectAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that an object reference refers to a different object than another object reference refers to.
-        /// </summary>
-        /// <param name="unexpected">The unexpected object</param>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        public AndConstraint<ObjectAssertions> NotBeSameAs(object unexpected, string reason = "", params object[] reasonArgs)
-        {
-            Execute.Assertion
-                .UsingLineBreaks
-                .ForCondition(!ReferenceEquals(Subject, unexpected))
-                .BecauseOf(reason, reasonArgs)
-                .FailWith("Did not expect reference to object {0}{reason}.", unexpected);
-
-            return new AndConstraint<ObjectAssertions>(this);
-        }
-
-        /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected override string Context
