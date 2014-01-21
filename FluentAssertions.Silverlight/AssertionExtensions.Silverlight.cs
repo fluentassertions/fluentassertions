@@ -9,7 +9,7 @@ namespace FluentAssertions
         static AssertionExtensions()
         {
             Services.TestFramework = new SilverlightTestFramework();
-            Services.ReflectionProvider = new SilverlightReflectionProvider();
+            Services.Reflector = new SilverlightReflector();
 
             Formatter.AddFormatter(new AggregateExceptionValueFormatter());
         }

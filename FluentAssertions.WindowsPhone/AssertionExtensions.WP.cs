@@ -8,7 +8,7 @@ namespace FluentAssertions
     {
         static AssertionExtensions()
         {
-            Services.ReflectionProvider = new WPReflectionProvider();
+            Services.Reflector = new WpReflector();
             Services.TestFramework = TestFrameworkProvider.TestFramework;
 
             Formatter.AddFormatter(new AggregateExceptionValueFormatter());

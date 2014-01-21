@@ -116,7 +116,7 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="AssertionExtensions.Silverlight.cs" />
-    <Compile Include="Common\SilverlightReflectionProvider.cs" />
+    <Compile Include="Common\SilverlightReflector.cs" />
     <Compile Include="Execution\SilverlightTestFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

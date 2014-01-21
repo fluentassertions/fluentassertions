@@ -382,7 +382,7 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="AssertionExtensions.cs" />
-    <Compile Include="Common\IReflectionProvider.cs" />
+    <Compile Include="Common\IReflector.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Formatting\AggregateExceptionValueFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

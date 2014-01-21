@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Common
 {
-    internal class SilverlightReflectionProvider : IReflectionProvider
+    internal class SilverlightReflector : IReflector
     {
         public IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate)
         {

@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 
 namespace FluentAssertions.Common
 {
-    internal class DefaultReflectionProvider : IReflectionProvider
+    internal class DefaultReflector : IReflector
     {
         public IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate)
         {

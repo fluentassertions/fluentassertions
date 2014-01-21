@@ -1,4 +1,5 @@
 ﻿using FluentAssertions.Common;
+using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions
@@ -7,6 +8,8 @@ namespace FluentAssertions
     {
         static AssertionExtensions()
         {
+            Services.TestFramework = TestFrameworkProvider.TestFramework;
+
             Formatter.AddFormatter(new AggregateExceptionValueFormatter());
         }
     }

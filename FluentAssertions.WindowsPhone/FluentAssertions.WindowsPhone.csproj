@@ -119,8 +119,11 @@
     <Compile Include="..\FluentAssertions.Net35\Specialized\ExecutionTimeAssertions.cs">
       <Link>Specialized\ExecutionTimeAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="AssertionExtensions.WP.cs" />
-    <Compile Include="Common\WPReflectionProvider.cs" />
+    <Compile Include="Common\WpReflector.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Execution\TestFrameworkProvider.cs" />
     <Compile Include="Execution\WP75TestFramework.cs" />

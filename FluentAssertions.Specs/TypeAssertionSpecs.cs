@@ -143,7 +143,7 @@ namespace FluentAssertions.Specs
                 typeof(TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 #else
             Type typeFromOtherAssembly =
-                Type.GetType("FluentAssertions.Primitives.ObjectAssertions,FluentAssertions");
+                Type.GetType("FluentAssertions.Primitives.ObjectAssertions,FluentAssertions.Core");
 #endif
 
 #pragma warning restore 436
@@ -485,11 +485,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-#if !WINRT
                 typeof (ClassWithAttribute)
-#else
-                typeof(ClassWithAttribute).GetTypeInfo()
-#endif
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -512,15 +508,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-#if !WINRT
                 typeof(ClassWithAttribute),
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
-#else
-                typeof(ClassWithAttribute).GetTypeInfo(),
-                typeof(ClassWithoutAttribute).GetTypeInfo(),
-                typeof(OtherClassWithoutAttribute).GetTypeInfo()
-#endif
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -547,15 +537,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-#if !WINRT
                 typeof(ClassWithAttribute),
                 typeof(ClassWithoutAttribute),
                 typeof(OtherClassWithoutAttribute)
-#else
-                typeof(ClassWithAttribute).GetTypeInfo(),
-                typeof(ClassWithoutAttribute).GetTypeInfo(),
-                typeof(OtherClassWithoutAttribute).GetTypeInfo()
-#endif
             });
 
             //-------------------------------------------------------------------------------------------------------------------

@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Common
 {
-    public interface IReflectionProvider
+    public interface IReflector
     {
         IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate);
     }

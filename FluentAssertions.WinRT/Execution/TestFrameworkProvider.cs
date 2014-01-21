@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FluentAssertions.Execution
 {
-    internal static class AssertionHelper
+    internal static class TestFrameworkProvider
     {
         #region Private Definitions
 
@@ -18,35 +18,36 @@ namespace FluentAssertions.Execution
 
         #endregion
 
-        public static void Throw(string message)
-        {
-            TestFramework.Throw(message);
-        }
-
-        private static ITestFramework TestFramework
+        public static ITestFramework TestFramework
         {
             get
             {
                 if (testFramework == null)
                 {
-                    testFramework = DetectFramework();
+                    testFramework = FindStrategy();
                 }
 
                 return testFramework;
             }
         }
 
-        private static ITestFramework DetectFramework()
+        private static ITestFramework FindStrategy()
         {
-            ITestFramework detectedFramework = AttemptToDetectUsingAssemblyScanning();
+            ITestFramework detectedFramework = null;
+            detectedFramework = AttemptToDetectUsingAssemblyScanning();
 
             if (detectedFramework == null)
             {
-                throw new InvalidOperationException(
-                    "Failed to detect the test framework. Make sure that the framework assembly is copied into the test run directory");
+                FailWithIncorrectConfiguration();
             }
 
             return detectedFramework;
+        }
+
+        private static void FailWithIncorrectConfiguration()
+        {
+            throw new InvalidOperationException(
+                "Failed to detect the test framework. Make sure that the framework assembly is copied into the test run directory");
         }
 
         private static ITestFramework AttemptToDetectUsingAssemblyScanning()

@@ -205,6 +205,10 @@
     <Content Include="Images\UnitTestStoreLogo.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
+      <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
+      <Name>FluentAssertions.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FluentAssertions.WinRT\FluentAssertions.WinRT.csproj">
       <Project>{ce8a220a-faa6-469d-b9b8-5f1834685861}</Project>
       <Name>FluentAssertions.WinRT</Name>

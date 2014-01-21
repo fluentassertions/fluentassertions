@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Common
 {
-    internal class WPReflectionProvider : IReflectionProvider
+    internal class WpReflector : IReflector
     {
         public IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate)
         {

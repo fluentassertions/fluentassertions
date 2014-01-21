@@ -85,7 +85,7 @@ namespace FluentAssertions.Formatting
         private MethodInfo[] FindCustomFormatters()
         {
             var query =
-                from type in Services.ReflectionProvider.GetAllTypesFromAppDomain(Applicable)
+                from type in Services.Reflector.GetAllTypesFromAppDomain(Applicable)
                 where type != null
                 from method in type.GetMethods(BindingFlags.Static | BindingFlags.Public)
                 where method.IsStatic
