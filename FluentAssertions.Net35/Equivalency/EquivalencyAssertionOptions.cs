@@ -42,9 +42,11 @@ namespace FluentAssertions.Equivalency
         private EquivalencyAssertionOptions()
         {
             Using(new MustMatchByNameRule());
-            
+
             Using<string>(ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs)).
                 WhenTypeIs<string>();
+
+            orderingRules.Add(new ByteArrayOrderingRule());
         }
 
         /// <summary>
@@ -107,10 +109,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         bool IEquivalencyAssertionOptions.IsRecursive
         {
-            get
-            {
-                return isRecursive;
-            }
+            get { return isRecursive; }
         }
 
         /// <summary>
@@ -382,7 +381,18 @@ namespace FluentAssertions.Equivalency
                 return options;
             }
         }
+    }
 
+    /// <summary>
+    /// Ordering rule that ensures that byte arrays are always compared in strict ordering since it would cause a 
+    /// severe performance impact otherwise.
+    /// </summary>
+    internal class ByteArrayOrderingRule : IOrderingRule
+    {
+        public bool AppliesTo(ISubjectInfo subjectInfo)
+        {
+            return subjectInfo.CompileTimeType.Implements<IEnumerable<byte>>();
+        }
     }
 
     public class PredicateBasedOrderingRule : IOrderingRule
