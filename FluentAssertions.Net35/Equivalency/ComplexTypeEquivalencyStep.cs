@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 using FluentAssertions.Common;
+using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
@@ -36,11 +37,17 @@ namespace FluentAssertions.Equivalency
                 throw new InvalidOperationException("Please specify some properties to include in the comparison.");
             }
 
-            foreach (PropertyInfo propertyInfo in selectedProperties)
-            {
-                AssertPropertyEquality(context, parent, propertyInfo, config);
-            }
+            bool expectationIsNotNull = AssertionScope.Current
+                .ForCondition(!ReferenceEquals(context.Expectation, null))
+                .FailWith("Expected {context:subject} to be <null>, but found {0}.", context.Subject);
 
+            if (expectationIsNotNull)
+            {
+                foreach (PropertyInfo propertyInfo in selectedProperties)
+                {
+                    AssertPropertyEquality(context, parent, propertyInfo, config);
+                }
+            }
             return true;
         }
 

@@ -1958,6 +1958,44 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+        
+        [TestMethod]
+        public void When_the_expectation_contains_a_nested_null_it_should_properly_report_the_difference()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new Root
+            {
+                Text = "Root",
+                Level = new Level1
+                {
+                    Text = "Level1",
+                    Level = new Level2()
+                }
+            };
+
+            var expected = new RootDto
+            {
+                Text = "Root",
+                Level = new Level1Dto
+                {
+                    Text = "Level1",
+                    Level = null
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*Expected*Level.Level to be <null>, but found*Level2*");
+        }
 
         [TestMethod]
         public void When_not_all_the_properties_of_the_nested_objects_are_equal_but_nested_objects_are_excluded_it_should_succeed()
