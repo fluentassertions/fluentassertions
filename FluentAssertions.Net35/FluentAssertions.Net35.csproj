@@ -93,11 +93,14 @@
     <Compile Include="..\FluentAssertions.Core\Common\IReflector.cs">
       <Link>Common\IReflector.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Core\Events\EventMonitor.cs">
+      <Link>Events\EventMonitor.cs</Link>
+    </Compile>
     <Compile Include="..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Common\DefaultReflectionProvider.cs" />
-    <Compile Include="NotifyPropertyChangedExtensions.cs" />
+    <Compile Include="PropertyChangedSourceExtensions.cs" />
     <Compile Include="AssertionExtensions.Net35.cs" />
     <Compile Include="Collections\StringCollectionAssertions.cs" />
     <Compile Include="Common\AppSettingsConfigurationStore.cs" />
@@ -182,7 +185,7 @@
     <Compile Include="Primitives\BooleanAssertions.cs" />
     <Compile Include="Collections\CollectionAssertions.cs" />
     <Compile Include="Common\ExpressionExtensions.cs" />
-    <Compile Include="EventExtensions.cs" />
+    <Compile Include="EventSourceExtensions.cs" />
     <Compile Include="Events\EventRecorder.cs" />
     <Compile Include="Events\EventHandlerFactory.cs" />
     <Compile Include="Events\IEventRecorder.cs" />

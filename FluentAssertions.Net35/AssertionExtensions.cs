@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
@@ -522,19 +523,54 @@ namespace FluentAssertions
         ///   Starts monitoring an object for its events.
         /// </summary>
         /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
-        public static IEnumerable<EventRecorder> MonitorEvents(this object eventSource)
+        public static void MonitorEvents(this object eventSource)
         {
-            return EventExtensions.MonitorEventsRaisedBy(eventSource);
+            EventMonitor.AddRecordersFor(eventSource, BuildRecorders);
+        }
+
+        private static EventRecorder[] BuildRecorders(object eventSource)
+        {
+            var recorders =
+                eventSource.GetType()
+                    .GetEvents()
+                    .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
+
+            if (!recorders.Any())
+            {
+                throw new InvalidOperationException(
+                    string.Format("Type {0} does not expose any events.", eventSource.GetType().Name));
+            }
+
+            return recorders;
+        }
+
+        private static EventRecorder CreateEventHandler(object eventSource, EventInfo eventInfo)
+        {
+            var eventRecorder = new EventRecorder(eventSource, eventInfo.Name);
+
+            Delegate handler = EventHandlerFactory.GenerateHandler(eventInfo.EventHandlerType, eventRecorder);
+            eventInfo.AddEventHandler(eventSource, handler);
+
+            return eventRecorder;
         }
 #else
         /// <summary>
         ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
         /// </summary>
         /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
-        public static IEnumerable<EventRecorder> MonitorEvents(this INotifyPropertyChanged eventSource)
+        public static void MonitorEvents(this INotifyPropertyChanged eventSource)
         {
-            return NotifyPropertyChangedExtensions.MonitorEventsRaisedBy(eventSource);
+            EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders((INotifyPropertyChanged)source));
         }
+        
+        private static EventRecorder[] BuildRecorders(INotifyPropertyChanged eventSource)
+        {
+            var eventRecorder = new EventRecorder(eventSource, "PropertyChanged");
+
+            eventSource.PropertyChanged += (sender, args) => eventRecorder.RecordEvent(sender, args);
+            return new[] { eventRecorder };
+        }
+
 #endif
 
         /// <summary>

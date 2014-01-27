@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,33 +12,9 @@ namespace FluentAssertions
     /// <summary>
     ///   Provides extension methods for monitoring and querying events.
     /// </summary>
-    public static class NotifyPropertyChangedExtensions
+    public static class PropertyChangedSourceExtensions
     {
         private const string PropertyChangedEventName = "PropertyChanged";
-        public static readonly EventRecordersMap eventRecordersMap = new EventRecordersMap();
-
-
-        public static IEnumerable<EventRecorder> MonitorEventsRaisedBy(object eventSource)
-        {
-            if (eventSource == null)
-            {
-                throw new NullReferenceException("Cannot monitor the events of a <null> object.");
-            }
-
-            EventRecorder[] recorders = BuildRecorders(eventSource);
-
-            eventRecordersMap.Add(eventSource, recorders);
-
-            return recorders;
-        }
-
-        private static EventRecorder[] BuildRecorders(object eventSource)
-        {
-            var eventRecorder = new EventRecorder(eventSource, PropertyChangedEventName);
-
-            ((INotifyPropertyChanged)eventSource).PropertyChanged += (sender, args) => eventRecorder.RecordEvent(sender, args);
-            return new[] { eventRecorder };
-        }
 
         /// <summary>
         /// Asserts that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
@@ -137,26 +112,6 @@ namespace FluentAssertions
                     .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
                         eventSource, PropertyChangedEventName, propertyName);
             }
-        }
-
-        /// <summary>
-        /// Obtains the <see cref="EventRecorder"/> for a particular event of the <paramref name="eventSource"/>.
-        /// </summary>
-        /// <param name="eventSource">The object for which to get an event recorder.</param>
-        /// <param name="eventName">The name of the event.</param>
-        /// <returns></returns>
-        public static EventRecorder GetRecorderForEvent<T>(this T eventSource, string eventName)
-        {
-            EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
-            if (eventRecorder == null)
-            {
-                string name = eventSource.GetType().Name;
-
-                throw new InvalidOperationException(string.Format(
-                    "Type <{0}> does not expose an event named \"{1}\".", name, eventName));
-            }
-
-            return eventRecorder;
         }
 
         private static string GetAffectedPropertyName(RecordedEvent @event)

@@ -264,9 +264,6 @@
     <Compile Include="..\fluentassertions.net35\formatting\XElementValueFormatter.cs">
       <Link>Formatting\XElementValueFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\NotifyPropertyChangedExtensions.cs">
-      <Link>NotifyPropertyChangedExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net35\NumericAssertionsExtensions.cs">
       <Link>NumericAssertionsExtensions.cs</Link>
     </Compile>
@@ -333,6 +330,9 @@
     <Compile Include="..\fluentassertions.net35\primitives\TimeSpanAssertions.cs">
       <Link>Primitives\TimeSpanAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net35\PropertyChangedSourceExtensions.cs">
+      <Link>PropertyChangedSourceExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\fluentassertions.net35\specialized\ActionAssertions.cs">
       <Link>Specialized\ActionAssertions.cs</Link>
     </Compile>
@@ -383,6 +383,7 @@
     </Compile>
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="Common\IReflector.cs" />
+    <Compile Include="Events\EventMonitor.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Formatting\AggregateExceptionValueFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -107,8 +107,8 @@
     <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventExtensions.cs">
-      <Link>EventExtensions.cs</Link>
+    <Compile Include="..\FluentAssertions.Net35\EventSourceExtensions.cs">
+      <Link>EventSourceExtensions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net35\Events\EventHandlerFactory.cs">
       <Link>Events\EventHandlerFactory.cs</Link>

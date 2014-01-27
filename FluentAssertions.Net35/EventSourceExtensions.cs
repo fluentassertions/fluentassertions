@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 using FluentAssertions.Events;
 using FluentAssertions.Execution;
@@ -11,48 +8,8 @@ namespace FluentAssertions
     /// <summary>
     ///   Provides extension methods for monitoring and querying events.
     /// </summary>
-    public static class EventExtensions
+    public static class EventSourceExtensions
     {
-        public static IEnumerable<EventRecorder> MonitorEventsRaisedBy(object eventSource)
-        {
-            if (eventSource == null)
-            {
-                throw new NullReferenceException("Cannot monitor the events of a <null> object.");
-            }
-
-            EventRecorder[] recorders = BuildRecorders(eventSource);
-
-            NotifyPropertyChangedExtensions.eventRecordersMap.Add(eventSource, recorders);
-
-            return recorders;
-        }
-
-        private static EventRecorder[] BuildRecorders(object eventSource)
-        {
-            var recorders =
-                eventSource.GetType()
-                    .GetEvents()
-                    .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
-
-            if (!recorders.Any())
-            {
-                throw new InvalidOperationException(
-                    string.Format("Type {0} does not expose any events.", eventSource.GetType().Name));
-            }
-
-            return recorders;
-        }
-
-        private static EventRecorder CreateEventHandler(object eventSource, EventInfo eventInfo)
-        {
-            var eventRecorder = new EventRecorder(eventSource, eventInfo.Name);
-
-            Delegate handler = EventHandlerFactory.GenerateHandler(eventInfo.EventHandlerType, eventRecorder);
-            eventInfo.AddEventHandler(eventSource, handler);
-
-            return eventRecorder;
-        }
-
         /// <summary>
         /// Asserts that an object has raised a particular event at least once.
         /// </summary>
@@ -138,15 +95,7 @@ namespace FluentAssertions
         public static void ShouldNotRaise(
             this object eventSource, string eventName, string reason, params object[] reasonArgs)
         {
-            EventRecorder eventRecorder = NotifyPropertyChangedExtensions.eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
-            if (eventRecorder == null)
-            {
-                string typeName = null;
-                typeName = eventSource.GetType().Name;
-                throw new InvalidOperationException(string.Format(
-                    "Type <{0}> does not expose an event named \"{1}\".", typeName, eventName));
-            }
-
+            EventRecorder eventRecorder = eventSource.GetRecorderForEvent(eventName);
             if (eventRecorder.Any())
             {
                 Execute.Assertion
