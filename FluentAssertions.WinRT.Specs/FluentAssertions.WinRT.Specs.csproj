@@ -141,6 +141,9 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoSelectorSpecs.cs">
       <Link>PropertyInfoSelectorSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoSelectorAssertionSpecs.cs">
+      <Link>PropertyInfoSelectorSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\ReferenceTypeAssertionsSpecs.cs">
       <Link>ReferenceTypeAssertionsSpecs.cs</Link>
     </Compile>
