@@ -354,8 +354,14 @@
     <Compile Include="..\fluentassertions.net35\types\MethodInfoSelector.cs">
       <Link>Types\MethodInfoSelector.cs</Link>
     </Compile>
+    <Compile Include="..\fluentassertions.net35\types\MethodInfoSelectorAssertions.cs">
+      <Link>Types\MethodInfoSelectorAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\fluentassertions.net35\types\PropertyInfoAssertions.cs">
       <Link>Types\PropertyInfoAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.net35\types\PropertyInfoSelectorAssertions.cs">
+      <Link>Types\PropertyInfoSelectorAssertions.cs</Link>
     </Compile>
     <Compile Include="..\fluentassertions.net35\types\PropertyInfoSelector.cs">
       <Link>Types\PropertyInfoSelector.cs</Link>
