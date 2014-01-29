@@ -95,7 +95,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected methods are decorated with the specified <typeparamref name="TAttribute"/>.
+        /// Asserts that the selected properties are decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="reason">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
