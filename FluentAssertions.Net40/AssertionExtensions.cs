@@ -428,13 +428,13 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns a <see cref="PropertyInfoAssertions"/> object that can be used to assert the properties returned by the
+        /// Returns a <see cref="PropertyInfoSelectorAssertions"/> object that can be used to assert the properties returned by the
         /// current <see cref="PropertyInfoSelector"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
-        public static PropertyInfoAssertions Should(this PropertyInfoSelector propertyInfoSelector)
+        public static PropertyInfoSelectorAssertions Should(this PropertyInfoSelector propertyInfoSelector)
         {
-            return new PropertyInfoAssertions(propertyInfoSelector.ToArray());
+            return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
         }
         
         /// <summary>

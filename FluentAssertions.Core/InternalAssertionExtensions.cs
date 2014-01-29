@@ -395,9 +395,9 @@ namespace FluentAssertions
         /// current <see cref="PropertyInfoSelector"/>.
         /// </summary>
         /// <seealso cref="TypeAssertions"/>
-        public static PropertyInfoAssertions Should(this PropertyInfoSelector propertyInfoSelector)
+        public static PropertyInfoSelectorAssertions Should(this PropertyInfoSelector propertyInfoSelector)
         {
-            return new PropertyInfoAssertions(propertyInfoSelector.ToArray());
+            return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
         }
 
         /// <summary>
