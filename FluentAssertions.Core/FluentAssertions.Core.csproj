@@ -360,6 +360,9 @@
     <Compile Include="..\fluentassertions.net35\types\PropertyInfoAssertions.cs">
       <Link>Types\PropertyInfoAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\fluentassertions.net35\types\PropertyInfoSelectorAssertions.cs">
+      <Link>Types\PropertyInfoSelectorAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\fluentassertions.net35\types\PropertyInfoSelector.cs">
       <Link>Types\PropertyInfoSelector.cs</Link>
     </Compile>

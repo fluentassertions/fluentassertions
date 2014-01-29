@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -8,156 +7,79 @@ using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Types
 {
-    /// <summary>
-    /// Contains assertions for the <see cref="PropertyInfo"/> objects returned by the parent <see cref="PropertyInfoSelector"/>.
-    /// </summary>
     [DebuggerNonUserCode]
-    public class PropertyInfoAssertions : ReferenceTypeAssertions<PropertyInfo, PropertyInfoAssertions>
+    public class PropertyInfoAssertions :
+        ReferenceTypeAssertions<PropertyInfo, PropertyInfoAssertions>
     {
-        private readonly bool isAssertingSingleProperty;
-
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public IEnumerable<PropertyInfo> SubjectProperties { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyInfoAssertions"/> class, for a single <see cref="PropertyInfo"/>.
-        /// </summary>
-        /// <param name="property">The property to assert.</param>
-        public PropertyInfoAssertions(PropertyInfo property)
+        public PropertyInfoAssertions(PropertyInfo propertyInfo)
         {
-            isAssertingSingleProperty = true;
-            SubjectProperties = new[] { property };
+            this.Subject = propertyInfo;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyInfoAssertions"/> class, for a number of <see cref="PropertyInfo"/> objects.
-        /// </summary>
-        /// <param name="properties">The properties to assert.</param>
-        public PropertyInfoAssertions(IEnumerable<PropertyInfo> properties)
+        protected override string Context
         {
-            SubjectProperties = properties;
+            get { return "property info"; }
         }
 
-        /// <summary>
-        /// Asserts that the selected properties are virtual.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeVirtual(string reason = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeVirtual(
+            string reason = "", params object[] reasonArgs)
         {
-            IEnumerable<PropertyInfo> nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
-
-            string failureMessage = isAssertingSingleProperty
-                ? "Expected property " + GetDescriptionsFor(new[] { SubjectProperties.Single() }) +
-                    " to be virtual{reason}, but it is not virtual."
-                : "Expected all selected properties to be virtual{reason}, but the following properties are not virtual:\r\n" +
-                    GetDescriptionsFor(nonVirtualProperties);
+            string failureMessage = "Expected property " +
+                                    GetDescriptionFor(Subject) +
+                                    " to be virtual{reason}, but it is not virtual.";
 
             Execute.Assertion
-                .ForCondition(!nonVirtualProperties.Any())
+                .ForCondition(!IsGetterNonVirtual(Subject))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
 
-        /// <summary>
-        /// Asserts that the selected properties have a setter.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeWritable(string reason = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeWritable(
+            string reason = "", params object[] reasonArgs)
         {
-            foreach (var property in SubjectProperties)
-            {
-                Execute.Assertion
-                       .ForCondition(property.CanWrite)
-                       .BecauseOf(reason, reasonArgs)
-                       .FailWith("Expected {context:property} {0} to have a setter{reason}.", property);
-            }
+            Execute.Assertion
+                .ForCondition(Subject.CanWrite)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith(
+                    "Expected {context:property} {0} to have a setter{reason}.",
+                    Subject);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
 
-        private PropertyInfo[] GetAllNonVirtualPropertiesFromSelection()
+        public AndConstraint<PropertyInfoAssertions> BeDecoratedWith
+            <TAttribute>(string reason = "", params object[] reasonArgs)
         {
-            var query = 
-                from property in SubjectProperties
-                let getter = property.GetGetMethod(true)
-                where !getter.IsVirtual || getter.IsFinal
-                select property;
-
-            return query.ToArray();
-        }
-
-        /// <summary>
-        /// Asserts that the selected methods are decorated with the specified <typeparamref name="TAttribute"/>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
-        {
-            IEnumerable<PropertyInfo> propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
-
-            string failureMessage = isAssertingSingleProperty
-                ? "Expected property " + GetDescriptionsFor(new[] { SubjectProperties.Single() }) +
-                    " to be decorated with {0}{reason}, but that attribute was not found."
-                : "Expected all selected properties to be decorated with {0}{reason}, but the following properties are not:\r\n" +
-                    GetDescriptionsFor(propertiesWithoutAttribute);
+            string failureMessage = "Expected property " +
+                                    GetDescriptionFor(Subject) +
+                                    " to be decorated with {0}{reason}, but that attribute was not found.";
 
             Execute.Assertion
-                .ForCondition(!propertiesWithoutAttribute.Any())
+                .ForCondition(IsDecoratedWith<TAttribute>(Subject))
                 .BecauseOf(reason, reasonArgs)
-                .FailWith(failureMessage, typeof(TAttribute));
+                .FailWith(failureMessage, typeof (TAttribute));
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
 
-        private PropertyInfo[] GetPropertiesWithout<TAttribute>()
-        {
-            return SubjectProperties.Where(property => !IsDecoratedWith<TAttribute>(property)).ToArray();
-        }
-
-        private static bool IsDecoratedWith<TAttribute>(PropertyInfo property)
+        internal static bool IsDecoratedWith<TAttribute>(PropertyInfo property)
         {
             return property.GetCustomAttributes(false).OfType<TAttribute>().Any();
         }
 
-        private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)
+        internal static bool IsGetterNonVirtual(PropertyInfo property)
         {
-            return string.Join(Environment.NewLine, properties.Select(GetDescriptionFor).ToArray());
+            MethodInfo getter = property.GetGetMethod(true);
+            return MethodInfoAssertions.IsNonVirtual(getter);
         }
 
-        private static string GetDescriptionFor(PropertyInfo property)
+        internal static string GetDescriptionFor(PropertyInfo property)
         {
-            string propTypeName;
-            propTypeName = property.PropertyType.Name;
-            return string.Format("{0} {1}.{2}", propTypeName, property.DeclaringType, property.Name);
-        }
-
-        /// <summary>
-        /// Returns the type of the subject the assertion applies on.
-        /// </summary>
-        protected override string Context
-        {
-            get { return "property info"; }
+            string propTypeName = property.PropertyType.Name;
+            return String.Format("{0} {1}.{2}", propTypeName,
+                property.DeclaringType, property.Name);
         }
     }
 }
