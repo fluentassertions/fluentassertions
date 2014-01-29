@@ -138,6 +138,9 @@
     <Compile Include="..\FluentAssertions.Specs\PropertyInfoAssertionSpecs.cs">
       <Link>PropertyInfoAssertionSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Specs\PropertyInfoSelectorAssertionSpecs.cs">
+      <Link>PropertyInfoSelectorAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Specs\PropertyInfoSelectorSpecs.cs">
       <Link>PropertyInfoSelectorSpecs.cs</Link>
     </Compile>
