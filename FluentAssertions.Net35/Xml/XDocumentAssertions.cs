@@ -227,7 +227,7 @@ namespace FluentAssertions.Xml
         /// <param name="expected">
         /// The name of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveElement(string expected)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected)
         {
             return HaveElement(expected, string.Empty);
         }
@@ -239,7 +239,7 @@ namespace FluentAssertions.Xml
         /// <param name="expected">
         /// The full name <see cref="XName"/> of the expected child element of the current document's Root <see cref="XDocument.Root"/> element.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveElement(XName expected)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(XName expected)
         {
             return HaveElement(expected, string.Empty);
         }
@@ -258,7 +258,7 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveElement(string expected, string reason, params object[] reasonArgs)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(string expected, string reason, params object[] reasonArgs)
         {
             return HaveElement(XNamespace.None + expected, reason, reasonArgs);
         }
@@ -277,7 +277,7 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveElement(XName expected, string reason, params object[] reasonArgs)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveElement(XName expected, string reason, params object[] reasonArgs)
         {
             string expectedText = expected.ToString().Escape();
             Execute.Assertion
@@ -286,13 +286,14 @@ namespace FluentAssertions.Xml
                 .FailWith("Expected XML document {0} to have root element with child \"" + expectedText + "\"{reason}" +
                     ", but XML document has no Root element.", Subject);
 
+            XElement xElement = Subject.Root.Element(expected);
             Execute.Assertion
-                .ForCondition(Subject.Root.Element(expected) != null)
+                .ForCondition(xElement != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML document {0} to have root element with child \"" + expectedText + "\"{reason}" +
                     ", but no such child element was found.", Subject);
 
-            return new AndConstraint<XDocumentAssertions>(this);
+            return new AndWhichConstraint<XDocumentAssertions, XElement>(this, xElement);
         }
 
         /// <summary>

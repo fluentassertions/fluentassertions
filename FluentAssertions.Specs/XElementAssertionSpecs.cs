@@ -990,6 +990,31 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
 
+        [TestMethod]
+        public void When_asserting_element_has_child_element_it_should_return_the_matched_element_in_the_which_property()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(
+                @"<parent>
+                    <child attr='1' />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            var matchedElement = element.Should().HaveElement("child").Which;
+                
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            matchedElement.Should().BeOfType<XElement>()
+                .And.HaveAttribute("attr", "1");
+            matchedElement.Name.Should().Be(XName.Get("child"));
+        }
+
         #endregion
     }
 }
