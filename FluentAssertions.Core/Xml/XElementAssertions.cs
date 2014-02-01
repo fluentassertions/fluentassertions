@@ -40,7 +40,7 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XElementAssertions> Be(XElement expected, string reason, params object [] reasonArgs)
+        public AndConstraint<XElementAssertions> Be(XElement expected, string reason, params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition((Subject != null) && Subject.Name.Equals(expected.Name))
@@ -72,7 +72,7 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string reason, params object [] reasonArgs)
+        public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string reason, params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition((ReferenceEquals(Subject, null) && !ReferenceEquals(unexpected, null)) || !Subject.Name.Equals(unexpected.Name))
@@ -218,8 +218,8 @@ namespace FluentAssertions.Xml
             params object[] reasonArgs)
         {
             return HaveAttribute(XNamespace.None + expectedName, expectedValue, reason, reasonArgs);
-        }   
- 
+        }
+
         /// <summary>
         /// Asserts that the current <see cref="XElement"/> has an attribute with the specified <paramref name="expectedName"/>
         /// and <paramref name="expectedValue"/>.
@@ -234,7 +234,7 @@ namespace FluentAssertions.Xml
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue, string reason,
-            params object [] reasonArgs)
+            params object[] reasonArgs)
         {
             XAttribute attribute = Subject.Attribute(expectedName);
             string expectedText = expectedName.ToString().Escape();
@@ -260,7 +260,7 @@ namespace FluentAssertions.Xml
         /// <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">The name of the expected child element</param>
-        public AndConstraint<XElementAssertions> HaveElement(string expected)
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected)
         {
             return HaveElement(expected, string.Empty);
         }
@@ -270,7 +270,7 @@ namespace FluentAssertions.Xml
         /// <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">The name <see cref="XName"/> of the expected child element</param>
-        public AndConstraint<XElementAssertions> HaveElement(XName expected)
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected)
         {
             return HaveElement(expected, string.Empty);
         }
@@ -287,7 +287,7 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XElementAssertions> HaveElement(string expected, string reason, params object[] reasonArgs)
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string reason, params object[] reasonArgs)
         {
             return HaveElement(XNamespace.None + expected, reason, reasonArgs);
         }
@@ -304,15 +304,16 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XElementAssertions> HaveElement(XName expected, string reason, params object[] reasonArgs)
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string reason, params object[] reasonArgs)
         {
+            XElement xElement = Subject.Element(expected);
             Execute.Assertion
-                .ForCondition(Subject.Element(expected) != null)
+                .ForCondition(xElement != null)
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element {0} to have child element \"" + expected.ToString().Escape() + "\"{reason}" +
                         ", but no such child element was found.", Subject);
 
-            return new AndConstraint<XElementAssertions>(this);
+            return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);
         }
 
         /// <summary>

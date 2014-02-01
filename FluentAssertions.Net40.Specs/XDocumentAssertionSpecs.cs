@@ -883,6 +883,30 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
 
+        [TestMethod]
+        public void When_asserting_document_has_root_with_child_element_with_attributes_it_should_be_possible_to_use_which_to_assert_on_the_element()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var document = XDocument.Parse(
+                @"<parent>
+                    <child attr='1' />
+                  </parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            var matchedElement = document.Should().HaveElement("child").Which;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            matchedElement.Should().BeOfType<XElement>()
+                .And.HaveAttribute("attr", "1");
+            matchedElement.Name.Should().Be(XName.Get("child"));
+        }
+
         #endregion
     }
 }
