@@ -21,12 +21,4 @@ namespace FluentAssertions.Common
         public static ITestFramework TestFramework { get; set; }
         public static IReflector Reflector { get; set; }
     }
-
-    internal class NullConfigurationStore : IConfigurationStore
-    {
-        public string GetSetting(string name)
-        {
-            return "";
-        }
-    }
 }

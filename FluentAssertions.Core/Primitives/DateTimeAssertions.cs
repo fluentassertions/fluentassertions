@@ -426,13 +426,4 @@ namespace FluentAssertions.Primitives
             return new TimeSpanAssertions(this, Subject, TimeSpanCondition.LessThan, timeSpan);
         }
     }
-
-    public enum TimeSpanCondition
-    {
-        MoreThan,
-        AtLeast,
-        Exactly,
-        Within,
-        LessThan
-    }
 }

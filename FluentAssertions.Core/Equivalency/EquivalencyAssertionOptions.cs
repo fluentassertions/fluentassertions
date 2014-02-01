@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using System.Text.RegularExpressions;
 
 using FluentAssertions.Common;
 
@@ -380,156 +378,6 @@ namespace FluentAssertions.Equivalency
                 options.Using(new AssertionRule<TProperty>(predicate, action));
                 return options;
             }
-        }
-    }
-
-    /// <summary>
-    /// Ordering rule that ensures that byte arrays are always compared in strict ordering since it would cause a 
-    /// severe performance impact otherwise.
-    /// </summary>
-    internal class ByteArrayOrderingRule : IOrderingRule
-    {
-        public bool AppliesTo(ISubjectInfo subjectInfo)
-        {
-            return subjectInfo.CompileTimeType.Implements<IEnumerable<byte>>();
-        }
-    }
-
-    public class PredicateBasedOrderingRule : IOrderingRule
-    {
-        private readonly Func<ISubjectInfo, bool> predicate;
-
-        public PredicateBasedOrderingRule(Expression<Func<ISubjectInfo, bool>> predicate)
-        {
-            this.predicate = predicate.Compile();
-        }
-
-        /// <summary>
-        /// Determines if ordering of the property refered to by the current <paramref name="subjectInfo"/> is relevant.
-        /// </summary>
-        public bool AppliesTo(ISubjectInfo subjectInfo)
-        {
-            return predicate(subjectInfo);
-        }
-    }
-
-    /// <summary>
-    /// Defines a rule that is used to determine whether the order of items in collections is relevant or not.
-    /// </summary>
-    public interface IOrderingRule
-    {
-        /// <summary>
-        /// Determines if ordering of the property refered to by the current <paramref name="subjectInfo"/> is relevant.
-        /// </summary>
-        bool AppliesTo(ISubjectInfo subjectInfo);
-    }
-
-    /// <summary>
-    /// An ordering rule that basically states that the order of items in all collections is important.
-    /// </summary>
-    public class MatchAllOrderingRule : IOrderingRule
-    {
-        /// <summary>
-        /// Determines if ordering of the property refered to by the current <paramref name="subjectInfo"/> is relevant.
-        /// </summary>
-        public bool AppliesTo(ISubjectInfo subjectInfo)
-        {
-            return true;
-        }
-    }
-
-    /// <summary>
-    /// Represents a rule for determining whether or not a certain collection within the object graph should be compared using
-    /// strict ordering.
-    /// </summary>
-    public class PropertyPathOrderingRule : IOrderingRule
-    {
-        private readonly string propertyPath;
-
-        public PropertyPathOrderingRule(string propertyPath)
-        {
-            this.propertyPath = propertyPath;
-        }
-
-        /// <summary>
-        /// Determines if ordering of the property refered to by the current <paramref name="subjectInfo"/> is relevant.
-        /// </summary>
-        public bool AppliesTo(ISubjectInfo subjectInfo)
-        {
-            string currentPropertyPath = subjectInfo.PropertyPath;
-            if (!ContainsIndexingQualifiers(propertyPath))
-            {
-                currentPropertyPath = RemoveInitialIndexQualifier(currentPropertyPath);
-            }
-
-            return currentPropertyPath.Equals(propertyPath, StringComparison.CurrentCultureIgnoreCase);
-        }
-
-        private bool ContainsIndexingQualifiers(string path)
-        {
-            return path.Contains("[") && path.Contains("]");
-        }
-
-        private string RemoveInitialIndexQualifier(string sourcePath)
-        {
-            var indexQualifierRegex = new Regex(@"^\[\d+]\.");
-
-            if (!indexQualifierRegex.IsMatch(propertyPath))
-            {
-                var match = indexQualifierRegex.Match(sourcePath);
-                if (match.Success)
-                {
-                    sourcePath = sourcePath.Substring(match.Length);
-                }
-            }
-
-            return sourcePath;
-        }
-    }
-
-    /// <summary>
-    /// Collection of <see cref="PropertyPathOrderingRule"/>s.
-    /// </summary>
-    public class OrderingRuleCollection : IEnumerable<IOrderingRule>
-    {
-        private readonly List<IOrderingRule> rules = new List<IOrderingRule>();
-
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
-        /// </returns>
-        /// <filterpriority>1</filterpriority>
-        public IEnumerator<IOrderingRule> GetEnumerator()
-        {
-            return rules.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public void Add(IOrderingRule rule)
-        {
-            rules.Add(rule);
-        }
-
-        /// <summary>
-        /// Determines whether the rules in this collection dictate strict ordering during the equivalency assertion on
-        /// the collection pointed to by <paramref name="subjectInfo"/>.
-        /// </summary>
-        public bool IsOrderingStrictFor(ISubjectInfo subjectInfo)
-        {
-            return rules.Any(r => r.AppliesTo(subjectInfo));
         }
     }
 }

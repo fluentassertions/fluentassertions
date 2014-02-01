@@ -982,10 +982,4 @@ namespace FluentAssertions.Collections
             get { return "collection"; }
         }
     }
-
-    internal enum SortOrder
-    {
-        Ascending,
-        Descending
-    }
 }
