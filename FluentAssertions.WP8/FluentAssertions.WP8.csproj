@@ -98,25 +98,22 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net35\AndConstraint.cs">
-      <Link>AndConstraint.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.Actions.cs">
+    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">
       <Link>AssertionExtensions.Actions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
+    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventSourceExtensions.cs">
+    <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
       <Link>EventSourceExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Events\EventHandlerFactory.cs">
+    <Compile Include="..\FluentAssertions.Net40\Events\EventHandlerFactory.cs">
       <Link>Events\EventHandlerFactory.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\LateBoundTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\LateBoundTestFramework.cs">
       <Link>Execution\LateBoundTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Specialized\ExecutionTimeAssertions.cs">
+    <Compile Include="..\FluentAssertions.Net40\Specialized\ExecutionTimeAssertions.cs">
       <Link>Specialized\ExecutionTimeAssertions.cs</Link>
     </Compile>
     <Compile Include="..\SolutionInfo.cs">

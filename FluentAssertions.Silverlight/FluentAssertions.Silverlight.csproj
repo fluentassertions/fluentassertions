@@ -103,13 +103,13 @@
     <Reference Include="System.Xml.Linq, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.Actions.cs">
+    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">
       <Link>AssertionExtensions.Actions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
+    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Events\EventHandlerFactory.cs">
+    <Compile Include="..\FluentAssertions.Net40\Events\EventHandlerFactory.cs">
       <Link>Events\EventHandlerFactory.cs</Link>
     </Compile>
     <Compile Include="..\SolutionInfo.cs">
