@@ -163,9 +163,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationSpecs.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
       <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
       <Name>FluentAssertions.Core</Name>
