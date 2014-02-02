@@ -100,6 +100,7 @@
     <Compile Include="MethodInfoSelectorSpecs.cs" />
     <Compile Include="NullableGuidAssertionSpecs.cs" />
     <Compile Include="PropertyInfoAssertionSpecs.cs" />
+    <Compile Include="PropertyInfoSelectorAssertionSpecs.cs" />
     <Compile Include="PropertyInfoSelectorSpecs.cs" />
     <Compile Include="ReferenceTypeAssertionsSpecs.cs" />
     <Compile Include="BooleanAssertionSpecs.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="TimeSpanConversionExtensionSpecs.cs" />
     <Compile Include="TimeSpanFormatterSpecs.cs" />
     <Compile Include="MethodInfoAssertionSpecs.cs" />
+    <Compile Include="MethodInfoSelectorAssertionSpecs.cs" />
     <Compile Include="TypeAssertionSpecs.cs" />
     <Compile Include="TypeSelectorSpecs.cs" />
     <Compile Include="XAttributeAssertionSpecs.cs" />
