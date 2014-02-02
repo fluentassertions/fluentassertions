@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -34,7 +35,7 @@ namespace FluentAssertions.Types
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(
-            Func<TAttribute, bool> isMatchingAttributePredicate,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
             string reason = "", params object[] reasonArgs)
             where TAttribute : Attribute
         {
@@ -101,10 +102,10 @@ namespace FluentAssertions.Types
                 method.DeclaringType, method.Name);
         }
 
-        internal static bool IsDecoratedWith<TAttribute>(MethodInfo method, Func<TAttribute, bool> isMatchingPredicate)
+        internal static bool IsDecoratedWith<TAttribute>(MethodInfo method, Expression<Func<TAttribute, bool>> isMatchingPredicate)
             where TAttribute : Attribute
         {
-            return method.GetCustomAttributes(false).OfType<TAttribute>().Any(isMatchingPredicate);
+            return method.GetCustomAttributes(false).OfType<TAttribute>().Any(isMatchingPredicate.Compile());
         }
 
         internal static bool IsNonVirtual(MethodInfo method)
