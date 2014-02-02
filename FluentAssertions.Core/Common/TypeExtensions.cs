@@ -22,7 +22,7 @@ namespace FluentAssertions.Common
             return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
         }
 
-        public static bool HasMatchingAttribute<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        public static bool HasMatchingAttribute<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
@@ -30,13 +30,13 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
         }
 
-        public static bool IsDecoratedWith<TAttribute>(this Type type)
+        public static bool IsDecoratedWith<TAttribute>(this MemberInfo type)
             where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type).Any();
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type)
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type)
         {
             return type.GetCustomAttributes(false).OfType<TAttribute>();
         }

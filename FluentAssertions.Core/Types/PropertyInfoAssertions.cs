@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -96,7 +97,7 @@ namespace FluentAssertions.Types
         internal static bool IsDecoratedWith<TAttribute>(PropertyInfo property)
             where TAttribute : Attribute
         {
-            return property.GetCustomAttributes(false).OfType<TAttribute>().Any();
+            return property.IsDecoratedWith<TAttribute>();
         }
 
         internal static bool IsGetterNonVirtual(PropertyInfo property)

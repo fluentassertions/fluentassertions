@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -105,7 +106,7 @@ namespace FluentAssertions.Types
         internal static bool IsDecoratedWith<TAttribute>(MethodInfo method, Expression<Func<TAttribute, bool>> isMatchingPredicate)
             where TAttribute : Attribute
         {
-            return method.GetCustomAttributes(false).OfType<TAttribute>().Any(isMatchingPredicate.Compile());
+            return method.HasMatchingAttribute(isMatchingPredicate);
         }
 
         internal static bool IsNonVirtual(MethodInfo method)
