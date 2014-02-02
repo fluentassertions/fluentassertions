@@ -36,6 +36,7 @@ namespace FluentAssertions.Types
         public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(
             Func<TAttribute, bool> isMatchingAttributePredicate,
             string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             string failureMessage = "Expected method " +
                                     GetDescriptionFor(Subject) +
@@ -62,6 +63,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(
             string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             return BeDecoratedWith<TAttribute>(attr => true, reason, reasonArgs);
         }
@@ -100,6 +102,7 @@ namespace FluentAssertions.Types
         }
 
         internal static bool IsDecoratedWith<TAttribute>(MethodInfo method, Func<TAttribute, bool> isMatchingPredicate)
+            where TAttribute : Attribute
         {
             return method.GetCustomAttributes(false).OfType<TAttribute>().Any(isMatchingPredicate);
         }

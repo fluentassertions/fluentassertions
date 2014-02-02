@@ -105,6 +105,7 @@ namespace FluentAssertions.Types
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             IEnumerable<PropertyInfo> propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
 
@@ -121,6 +122,7 @@ namespace FluentAssertions.Types
         }
 
         private PropertyInfo[] GetPropertiesWithout<TAttribute>()
+            where TAttribute : Attribute
         {
             return SubjectProperties.Where(property => !PropertyInfoAssertions.IsDecoratedWith<TAttribute>(property)).ToArray();
         }

@@ -137,6 +137,7 @@ namespace FluentAssertions.Types
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             Execute.Assertion
                 .ForCondition(Subject.IsDecoratedWith<TAttribute>())
@@ -163,6 +164,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             BeDecoratedWith<TAttribute>(reason, reasonArgs);
 

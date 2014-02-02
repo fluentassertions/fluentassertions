@@ -74,6 +74,7 @@ namespace FluentAssertions.Types
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             return BeDecoratedWith<TAttribute>(attr => true, reason, reasonArgs);
         }
@@ -94,6 +95,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
             Func<TAttribute, bool> isMatchingAttributePredicate,  string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(isMatchingAttributePredicate);
 
@@ -110,6 +112,7 @@ namespace FluentAssertions.Types
         }
 
         private MethodInfo[] GetMethodsWithout<TAttribute>(Func<TAttribute, bool> isMatchingPredicate)
+            where TAttribute : Attribute
         {
             return SubjectMethods.Where(method => !MethodInfoAssertions.IsDecoratedWith(method, isMatchingPredicate)).ToArray();
         }

@@ -79,6 +79,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoAssertions> BeDecoratedWith
             <TAttribute>(string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             string failureMessage = "Expected property " +
                                     GetDescriptionFor(Subject) +
@@ -93,6 +94,7 @@ namespace FluentAssertions.Types
         }
 
         internal static bool IsDecoratedWith<TAttribute>(PropertyInfo property)
+            where TAttribute : Attribute
         {
             return property.GetCustomAttributes(false).OfType<TAttribute>().Any();
         }

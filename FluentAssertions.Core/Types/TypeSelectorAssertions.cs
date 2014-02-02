@@ -40,6 +40,7 @@ namespace FluentAssertions.Types
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             IEnumerable<Type> typesWithoutAttribute = Subject
                 .Where(type => !type.IsDecoratedWith<TAttribute>())
@@ -71,6 +72,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             IEnumerable<Type> typesWithoutMatchingAttribute = Subject
                 .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate))
