@@ -45,8 +45,7 @@ namespace FluentAssertions.Types
                                     " to be decorated with {0}{reason}, but that attribute was not found.";
 
             Execute.Assertion
-                .ForCondition(IsDecoratedWith(Subject,
-                    isMatchingAttributePredicate))
+                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage, typeof (TAttribute));
 
@@ -101,12 +100,6 @@ namespace FluentAssertions.Types
 
             return String.Format("{0} {1}.{2}", returnTypeName,
                 method.DeclaringType, method.Name);
-        }
-
-        internal static bool IsDecoratedWith<TAttribute>(MethodInfo method, Expression<Func<TAttribute, bool>> isMatchingPredicate)
-            where TAttribute : Attribute
-        {
-            return method.HasMatchingAttribute(isMatchingPredicate);
         }
 
         internal static bool IsNonVirtual(MethodInfo method)

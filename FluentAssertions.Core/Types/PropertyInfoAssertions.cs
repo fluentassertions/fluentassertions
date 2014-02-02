@@ -87,17 +87,11 @@ namespace FluentAssertions.Types
                                     " to be decorated with {0}{reason}, but that attribute was not found.";
 
             Execute.Assertion
-                .ForCondition(IsDecoratedWith<TAttribute>(Subject))
+                .ForCondition(Subject.IsDecoratedWith<TAttribute>())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage, typeof (TAttribute));
 
             return new AndConstraint<PropertyInfoAssertions>(this);
-        }
-
-        internal static bool IsDecoratedWith<TAttribute>(PropertyInfo property)
-            where TAttribute : Attribute
-        {
-            return property.IsDecoratedWith<TAttribute>();
         }
 
         internal static bool IsGetterNonVirtual(PropertyInfo property)

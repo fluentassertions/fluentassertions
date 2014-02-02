@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types
@@ -115,7 +116,7 @@ namespace FluentAssertions.Types
         private MethodInfo[] GetMethodsWithout<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingPredicate)
             where TAttribute : Attribute
         {
-            return SubjectMethods.Where(method => !MethodInfoAssertions.IsDecoratedWith(method, isMatchingPredicate)).ToArray();
+            return SubjectMethods.Where(method => !method.HasMatchingAttribute(isMatchingPredicate)).ToArray();
         }
 
         private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)

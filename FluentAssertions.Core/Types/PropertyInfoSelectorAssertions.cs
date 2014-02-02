@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types
@@ -124,7 +125,7 @@ namespace FluentAssertions.Types
         private PropertyInfo[] GetPropertiesWithout<TAttribute>()
             where TAttribute : Attribute
         {
-            return SubjectProperties.Where(property => !PropertyInfoAssertions.IsDecoratedWith<TAttribute>(property)).ToArray();
+            return SubjectProperties.Where(property => !property.IsDecoratedWith<TAttribute>()).ToArray();
         }
 
         private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)
