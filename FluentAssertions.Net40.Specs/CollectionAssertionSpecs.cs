@@ -2040,6 +2040,37 @@ namespace FluentAssertions.Specs
                 "Expected collection to have element at index 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
+        [TestMethod]
+        public void When_element_at_specific_index_was_found_it_should_allow_chaining()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expectedElement = new
+            {
+                SomeProperty = "hello"
+            };
+
+            var collection = new[]
+            {
+                expectedElement
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should()
+                .HaveElementAt(0, expectedElement)
+                .Which
+                .Should().BeAssignableTo<string>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*assignable*string");
+        }
+
         #endregion
 
         #region Miscellaneous

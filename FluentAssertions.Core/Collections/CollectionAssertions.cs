@@ -828,7 +828,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveElementAt(int index, object element, string reason = "",
+        public AndWhichConstraint<TAssertions, object> HaveElementAt(int index, object element, string reason = "",
             params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
@@ -840,9 +840,10 @@ namespace FluentAssertions.Collections
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
 
+            object actual = null;
             if (index < enumerable.Count())
             {
-                object actual = Subject.Cast<object>().ElementAt(index);
+                actual = Subject.Cast<object>().ElementAt(index);
 
                 Execute.Assertion
                     .ForCondition(actual.IsSameOrEqualTo(element))
@@ -856,7 +857,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {0} at index {1}{reason}, but found no element.", element, index);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndWhichConstraint<TAssertions, object>((TAssertions)this, actual);
         }
 
         /// <summary>
