@@ -11,19 +11,32 @@ namespace FluentAssertions.Common
         private const BindingFlags PublicPropertiesFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
-        public static bool HasMatchingAttribute<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+        /// <summary>
+        /// Determines whether the specified method has been annotated with a specific attribute.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasAttribute<TAttribute>(this MemberInfo method) where TAttribute : Attribute
+        {
+            return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
+        }
+
+        public static bool HasMatchingAttribute<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
         {
             Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
 
             return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
         }
 
-        public static bool IsDecoratedWith<TAttribute>(this Type type)
+        public static bool IsDecoratedWith<TAttribute>(this MemberInfo type)
+            where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type).Any();
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type)
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type)
         {
             return type.GetCustomAttributes(false).OfType<TAttribute>();
         }
@@ -154,17 +167,6 @@ namespace FluentAssertions.Common
         {
             MethodInfo getMethod = propertyInfo.GetGetMethod(true);
             return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsFamily;
-        }
-
-        /// <summary>
-        /// Determines whether the specified method has been annotated with a specific attribute.
-        /// </summary>
-        /// <returns>
-        ///   <c>true</c> if the specified method has attribute; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool HasAttribute<TAttribute>(this MemberInfo method) where TAttribute : Attribute
-        {
-            return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
         }
 
         public static MethodInfo GetMethodNamed(this Type type, string methodName)

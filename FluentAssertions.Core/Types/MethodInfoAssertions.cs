@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -34,16 +36,16 @@ namespace FluentAssertions.Types
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(
-            Func<TAttribute, bool> isMatchingAttributePredicate,
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
             string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             string failureMessage = "Expected method " +
                                     GetDescriptionFor(Subject) +
                                     " to be decorated with {0}{reason}, but that attribute was not found.";
 
             Execute.Assertion
-                .ForCondition(IsDecoratedWith(Subject,
-                    isMatchingAttributePredicate))
+                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage, typeof (TAttribute));
 
@@ -62,6 +64,7 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(
             string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             return BeDecoratedWith<TAttribute>(attr => true, reason, reasonArgs);
         }
@@ -97,11 +100,6 @@ namespace FluentAssertions.Types
 
             return String.Format("{0} {1}.{2}", returnTypeName,
                 method.DeclaringType, method.Name);
-        }
-
-        internal static bool IsDecoratedWith<TAttribute>(MethodInfo method, Func<TAttribute, bool> isMatchingPredicate)
-        {
-            return method.GetCustomAttributes(false).OfType<TAttribute>().Any(isMatchingPredicate);
         }
 
         internal static bool IsNonVirtual(MethodInfo method)

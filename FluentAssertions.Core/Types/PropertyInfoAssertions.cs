@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -79,22 +80,18 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<PropertyInfoAssertions> BeDecoratedWith
             <TAttribute>(string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
         {
             string failureMessage = "Expected property " +
                                     GetDescriptionFor(Subject) +
                                     " to be decorated with {0}{reason}, but that attribute was not found.";
 
             Execute.Assertion
-                .ForCondition(IsDecoratedWith<TAttribute>(Subject))
+                .ForCondition(Subject.IsDecoratedWith<TAttribute>())
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(failureMessage, typeof (TAttribute));
 
             return new AndConstraint<PropertyInfoAssertions>(this);
-        }
-
-        internal static bool IsDecoratedWith<TAttribute>(PropertyInfo property)
-        {
-            return property.GetCustomAttributes(false).OfType<TAttribute>().Any();
         }
 
         internal static bool IsGetterNonVirtual(PropertyInfo property)
