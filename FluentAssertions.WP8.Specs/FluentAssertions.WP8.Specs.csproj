@@ -226,6 +226,10 @@
       <Project>{8931C5EF-3BAC-473A-A343-57791D0917B1}</Project>
       <Name>FluentAssertions.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FluentAssertions.WP8\FluentAssertions.WP8.csproj">
+      <Project>{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}</Project>
+      <Name>FluentAssertions.WP8</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
