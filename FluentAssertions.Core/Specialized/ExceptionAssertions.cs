@@ -41,6 +41,14 @@ namespace FluentAssertions.Specialized
         {
             get { return Subject.First(); }
         }
+        
+        /// <summary>
+        ///   Gets the exception object of the exception thrown.
+        /// </summary>
+        public TException Which
+        {
+            get { return Subject.First(); }
+        }
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.

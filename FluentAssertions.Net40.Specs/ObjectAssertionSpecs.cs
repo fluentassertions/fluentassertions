@@ -262,7 +262,7 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        public void When_object_is_of_the_expected_type_it_should_cast_the_returned_object_for_chainging()
+        public void When_object_is_of_the_expected_type_it_should_cast_the_returned_object_for_chaining()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -405,6 +405,25 @@ namespace FluentAssertions.Specs
                 .WithMessage(string.Format(
                     "Expected object to be assignable to {1} because we want to test the failure message, but {0} does not implement {1}",
                     typeof(DummyImplementingClass), typeof(DateTime)));
+        }
+
+        [TestMethod]
+        public void When_object_is_assignable_to_the_expected_type_it_should_cast_the_returned_object_for_chaining()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var someObject = new Exception("Actual Message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().BeAssignableTo<Exception>().Which.Message.Should().Be("Other Message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("*Expected*Other*Actual*");
         }
 
         #endregion

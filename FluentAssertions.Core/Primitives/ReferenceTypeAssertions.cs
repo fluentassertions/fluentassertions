@@ -152,18 +152,16 @@ namespace FluentAssertions.Primitives
         /// <param name="reason">The reason why the object should be assignable to the type.</param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="reason"/>.</param>
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
-        public AndConstraint<TAssertions> BeAssignableTo<T>(string reason = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, T> BeAssignableTo<T>(string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
-                .ForCondition(
-                typeof(T).IsAssignableFrom(Subject.GetType())
-                )
+                .ForCondition(typeof(T).IsAssignableFrom(Subject.GetType()))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} does not implement {0}",
                     typeof(T),
                     Subject.GetType());
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, (T)((object)Subject));
         }
 
         /// <summary>
