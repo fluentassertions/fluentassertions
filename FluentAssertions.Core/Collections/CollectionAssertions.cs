@@ -75,6 +75,45 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that the collection is null or does not contain any items.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeNullOrEmpty(string reason = "", params object[] reasonArgs)
+        {
+            var nullOrEmpty = ReferenceEquals(Subject, null) || !Subject.Cast<object>().Any();
+
+            Execute.Assertion.ForCondition(nullOrEmpty)
+                .BecauseOf(reason, reasonArgs)
+                .FailWith(
+                    "Expected {context:collection} to be null or empty{reason}, but found {0}.",
+                    Subject);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the collection is not null and contains at least 1 item.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeNullOrEmpty(string reason = "", params object[] reasonArgs)
+        {
+            return NotBeNull(reason, reasonArgs)
+                .And.NotBeEmpty(reason, reasonArgs);
+        }
+
+        /// <summary>
         /// Asserts that the collection does not contain any duplicate items.
         /// </summary>
         /// <param name="reason">
