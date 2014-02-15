@@ -126,8 +126,8 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\DateTimeAssertionSpecs.cs">
       <Link>DateTimeAssertionSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\DateTimeFormatterSpecs.cs">
-      <Link>DateTimeFormatterSpecs.cs</Link>
+    <Compile Include="..\FluentAssertions.Net40.Specs\DateTimeOffsetValueFormatterSpecs.cs">
+      <Link>DateTimeOffsetValueFormatterSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\EquivalencySpecs.cs">
       <Link>EquivalencySpecs.cs</Link>

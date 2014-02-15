@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class DateTimeFormatterSpecs
+    public class DateTimeOffsetValueFormatterSpecs
     {
         [TestMethod]
         public void When_time_is_not_relevant_it_should_not_be_included_in_the_output()
@@ -19,7 +19,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -38,7 +38,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -91,6 +91,29 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             result.Should().Be("<2012-05-01 20:15:30>");
+        }
+
+        [TestMethod]
+        public void
+            When_a_DateTime_is_used_it_should_format_the_same_as_a_DateTimeOffset()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var formatter = new DateTimeOffsetValueFormatter();
+
+            var dateOnly = new DateTime(1973, 9, 20);
+            var timeOnly = 1.January(0001).At(08, 20, 01);
+            var witoutMilliseconds = 1.May(2012).At(20, 15, 30);
+            var withMilliseconds = 1.May(2012).At(20, 15, 30, 318);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            formatter.ToString(dateOnly, false).Should().Be(formatter.ToString((DateTimeOffset) dateOnly, false));
+            formatter.ToString(timeOnly, false).Should().Be(formatter.ToString((DateTimeOffset) timeOnly, false));
+            formatter.ToString(witoutMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset) witoutMilliseconds, false));
+            formatter.ToString(withMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset) withMilliseconds, false));
         }
     }
 }
