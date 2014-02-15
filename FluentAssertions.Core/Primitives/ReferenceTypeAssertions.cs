@@ -171,7 +171,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reason">The reason why the predicate should be satisfied.</param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="reason" />.</param>
         /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
-        public AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>> Match(Expression<Func<TSubject, bool>> predicate,
+        public AndConstraint<TAssertions> Match(Expression<Func<TSubject, bool>> predicate,
             string reason = "",
             params object[] reasonArgs)
         {
@@ -185,7 +185,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reason">The reason why the predicate should be satisfied.</param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="reason" />.</param>
         /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
-        public AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>> Match<T>(Expression<Func<T, bool>> predicate,
+        public AndConstraint<TAssertions> Match<T>(Expression<Func<T, bool>> predicate,
             string reason = "",
             params object[] reasonArgs)
             where T : TSubject
@@ -200,7 +200,7 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {0} to match {1}{reason}.", Subject, predicate.Body);
 
-            return new AndConstraint<ReferenceTypeAssertions<TSubject, TAssertions>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>

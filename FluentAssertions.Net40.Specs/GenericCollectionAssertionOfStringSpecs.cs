@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using FluentAssertions.Collections;
 
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using System.Reflection;
 #else
 using System.Collections.ObjectModel;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 #endif
@@ -1766,5 +1769,41 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+
+        [TestMethod]
+        public void
+            When_using_StringCollectionAssertions_the_AndConstraint_should_have_the_correct_type()
+        {
+#if WINRT
+            var methodInfo =
+                typeof(StringCollectionAssertions).GetRuntimeMethods()
+                    .Where(_ => _.IsPublic && !_.IsStatic);
+#else
+            var methodInfo =
+                typeof(StringCollectionAssertions).GetMethods(
+                    BindingFlags.Public | BindingFlags.Instance);
+#endif
+
+            var methods =
+                from method in methodInfo
+                where !method.IsSpecialName //Exclude Properties
+                where method.DeclaringType != typeof (object)
+                select new {method.Name, method.ReturnType};
+
+#if WINRT
+            methods.Should()
+                .OnlyContain(
+                    method =>
+                        typeof(AndConstraint<StringCollectionAssertions>)
+                            .GetTypeInfo()
+                            .IsAssignableFrom(method.ReturnType.GetTypeInfo()));
+#else
+            methods.Should()
+                .OnlyContain(
+                    method =>
+                        typeof(AndConstraint<StringCollectionAssertions>)
+                            .IsAssignableFrom(method.ReturnType));
+#endif
+        }
     }
 }
