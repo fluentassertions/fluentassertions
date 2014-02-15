@@ -260,6 +260,25 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+        
+        [TestMethod]
+        public void When_object_is_of_the_expected_type_it_should_cast_the_returned_object_for_chainging()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var someObject = new Exception("Actual Message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => someObject.Should().BeOfType<Exception>().Which.Message.Should().Be("Other Message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("*Expected*Other*Actual*");
+        }
 
         [TestMethod]
         public void When_object_type_is_different_than_expected_type_it_should_fail_with_descriptive_message()

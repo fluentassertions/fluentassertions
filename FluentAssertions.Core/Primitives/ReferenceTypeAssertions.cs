@@ -113,11 +113,11 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> BeOfType<T>(string reason = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, T> BeOfType<T>(string reason = "", params object[] reasonArgs)
         {
             BeOfType(typeof(T), reason, reasonArgs);
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, (T)(object)Subject);
         }
 
         /// <summary>
