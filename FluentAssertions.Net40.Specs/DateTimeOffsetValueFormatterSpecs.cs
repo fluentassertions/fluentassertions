@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class DateTimeFormatterSpecs
+    public class DateTimeOffsetValueFormatterSpecs
     {
         [TestMethod]
         public void When_time_is_not_relevant_it_should_not_be_included_in_the_output()
@@ -19,7 +19,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -38,7 +38,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -100,7 +100,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var formatter = new DateTimeValueFormatter();
+            var formatter = new DateTimeOffsetValueFormatter();
 
             var dateOnly = new DateTime(1973, 9, 20);
             var timeOnly = 1.January(0001).At(08, 20, 01);

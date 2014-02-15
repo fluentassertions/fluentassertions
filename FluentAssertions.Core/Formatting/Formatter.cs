@@ -17,7 +17,7 @@ namespace FluentAssertions.Formatting
             new PropertyInfoFormatter(),
             new NullValueFormatter(),
             new GuidValueFormatter(),
-            new DateTimeValueFormatter(),
+            new DateTimeOffsetValueFormatter(),
             new TimeSpanValueFormatter(),
             new NumericValueFormatter(),
             new StringValueFormatter(),

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FluentAssertions.Formatting
 {
-    public class DateTimeValueFormatter : IValueFormatter
+    public class DateTimeOffsetValueFormatter : IValueFormatter
     {
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.

@@ -496,7 +496,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_is_before_earlier_datetime()
         {
-            DateTimeAssertions assertions = Today.Should();
+            DateTimeOffsetAssertions assertions = Today.Should();
             assertions.Invoking(x => x.BeBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
@@ -527,7 +527,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_is_on_or_before_earlier_datetime()
         {
-            DateTimeAssertions assertions = Today.Should();
+            DateTimeOffsetAssertions assertions = Today.Should();
             assertions.Invoking(x => x.BeOnOrBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
@@ -552,7 +552,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_is_after_later_datetime()
         {
-            DateTimeAssertions assertions = Today.Should();
+            DateTimeOffsetAssertions assertions = Today.Should();
             assertions.Invoking(x => x.BeAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
@@ -583,7 +583,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_is_on_or_after_later_datetime()
         {
-            DateTimeAssertions assertions = Today.Should();
+            DateTimeOffsetAssertions assertions = Today.Should();
             assertions.Invoking(x => x.BeOnOrAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
@@ -608,7 +608,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_year_with_a_different_value()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
+            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31).Should();
             assertions.Invoking(x => x.HaveYear(2008, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected year 2008 because we want to test the failure message, but found 2009.");
@@ -631,7 +631,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_month_with_a_different_value()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
+            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31).Should();
             assertions.Invoking(x => x.HaveMonth(11, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected month 11 because we want to test the failure message, but found 12.");
@@ -654,7 +654,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_day_with_a_different_value()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
+            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31).Should();
             assertions.Invoking(x => x.HaveDay(30, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected day 30 because we want to test the failure message, but found 31.");
@@ -677,7 +677,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_an_hour_with_different_value()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
+            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.Invoking(x => x.HaveHour(22, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected hour 22 because we want to test the failure message, but found 23.");
@@ -700,7 +700,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_minutes_with_different_value()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
+            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.Invoking(x => x.HaveMinute(58, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected minute 58 because we want to test the failure message, but found 59.");
@@ -723,7 +723,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_seconds_with_different_value()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
+            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.Invoking(x => x.HaveSecond(1, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected second 1 because we want to test the failure message, but found 0.");
