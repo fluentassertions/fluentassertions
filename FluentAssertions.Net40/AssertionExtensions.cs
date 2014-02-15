@@ -209,11 +209,31 @@ namespace FluentAssertions
             return new DateTimeAssertions(actualValue);
         }
 
+
+        /// <summary>
+        /// Returns an <see cref="DateTimeAssertions"/> object that can be used to assert the
+        /// current <see cref="DateTimeOffset"/>.
+        /// </summary>
+        public static DateTimeAssertions Should(this DateTimeOffset actualValue)
+        {
+            return new DateTimeAssertions(actualValue);
+        }
+
+
         /// <summary>
         /// Returns an <see cref="NullableDateTimeAssertions"/> object that can be used to assert the
         /// current nullable <see cref="DateTime"/>.
         /// </summary>
         public static NullableDateTimeAssertions Should(this DateTime? actualValue)
+        {
+            return new NullableDateTimeAssertions(actualValue);
+        }
+
+        /// <summary>
+        /// Returns an <see cref="NullableDateTimeAssertions"/> object that can be used to assert the
+        /// current nullable <see cref="DateTimeOffset"/>.
+        /// </summary>
+        public static NullableDateTimeAssertions Should(this DateTimeOffset? actualValue)
         {
             return new NullableDateTimeAssertions(actualValue);
         }

@@ -279,6 +279,76 @@ namespace FluentAssertions.Specs
                     Today.ToString("yyyy-MM-dd")));
         }
 
+        [TestMethod]
+        public void
+            When_asserting_times_of_different_DateTimeKind_it_should_validate_against_world_time()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var utcToday = Today.ToUniversalTime();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            utcToday.Should().Be(Today);
+        }
+
+        [TestMethod]
+        public void
+            When_asserting_a_DateTime_against_a_DateTimeOffset_it_should_validate_against_world_time()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var todayDateTimeOffset = new DateTimeOffset(Today);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            todayDateTimeOffset.Should().Be(Today);
+        }
+
+        [TestMethod]
+        public void
+            When_asserting_different_DateTimeOffsets_representing_the_same_world_time_it_should_succeded()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var specificDate = new DateTime(2008, 5, 1, 06, 32, 00);
+
+            var dateWithFiveHourOffset =
+                new DateTimeOffset(specificDate.Add(-5.Hours()),
+                    -5.Hours());
+            var dateWithSixHourOffset =
+                new DateTimeOffset(specificDate.Add(-6.Hours()),
+                    -6.Hours());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dateWithFiveHourOffset.Should().Be(dateWithSixHourOffset);
+        }
+
+        [TestMethod]
+        public void
+            When_asserting_different_DateTimeOffsets_representing_different_world_times_it_should_not_succeded()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var specificDate = new DateTime(2008, 5, 1, 06, 32, 00);
+
+            var dateWithFiveHourOffset = new DateTimeOffset(specificDate);
+            var dateWithSixHourOffset = new DateTimeOffset(specificDate, 1.Hours());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            dateWithFiveHourOffset.Should().NotBe(dateWithSixHourOffset);
+        }
+
         #endregion
 
         #region Be Close To

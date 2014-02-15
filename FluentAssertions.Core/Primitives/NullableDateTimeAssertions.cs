@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -14,7 +13,7 @@ namespace FluentAssertions.Primitives
     [DebuggerNonUserCode]
     public class NullableDateTimeAssertions : DateTimeAssertions
     {
-        public NullableDateTimeAssertions(DateTime? expected)
+        public NullableDateTimeAssertions(DateTimeOffset? expected)
             : base(expected)
         {
         }
@@ -70,7 +69,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Be(DateTime? expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> Be(DateTimeOffset? expected, string reason = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject == expected)

@@ -31,12 +31,12 @@ namespace FluentAssertions.Primitives
             { TimeSpanCondition.LessThan, new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than") }
         };
 
-        private readonly DateTime? subject;
+        private readonly DateTimeOffset? subject;
         private readonly TimeSpan timeSpan;
 
         #endregion
 
-        protected internal TimeSpanAssertions(DateTimeAssertions parentAssertions, DateTime? subject, TimeSpanCondition condition,
+        protected internal TimeSpanAssertions(DateTimeAssertions parentAssertions, DateTimeOffset? subject, TimeSpanCondition condition,
             TimeSpan timeSpan)
         {
             this.parentAssertions = parentAssertions;
@@ -59,7 +59,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> Before(DateTimeOffset target, string reason = "", params object[] reasonArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
@@ -99,7 +99,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> After(DateTimeOffset target, string reason = "", params object[] reasonArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
