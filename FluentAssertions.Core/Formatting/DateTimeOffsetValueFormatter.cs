@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FluentAssertions.Formatting
 {
-    public class DateTimeValueFormatter : IValueFormatter
+    public class DateTimeOffsetValueFormatter : IValueFormatter
     {
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
@@ -14,7 +14,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            return (value is DateTime);
+            return (value is DateTime) || (value is DateTimeOffset);
         }
 
         /// <summary>
@@ -34,7 +34,16 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            var dateTime = (DateTime) value;
+            DateTimeOffset dateTime;
+
+            if (value is DateTime)
+            {
+                dateTime = (DateTime) value;
+            }
+            else
+            {
+                dateTime = (DateTimeOffset) value;
+            }
 
             var fragments = new List<string>();
 
@@ -52,17 +61,17 @@ namespace FluentAssertions.Formatting
             return "<" + string.Join(" ", fragments.ToArray()) + ">";
         }
 
-        private static bool HasTime(DateTime dateTime)
+        private static bool HasTime(DateTimeOffset dateTime)
         {
             return (dateTime.Hour != 0) || (dateTime.Minute != 0) || (dateTime.Second != 0);
         }
 
-        private static bool HasDate(DateTime dateTime)
+        private static bool HasDate(DateTimeOffset dateTime)
         {
             return (dateTime.Day != 1) || (dateTime.Month != 1) || (dateTime.Year != 1);
         }
 
-        private static bool HasMilliSeconds(DateTime dateTime)
+        private static bool HasMilliSeconds(DateTimeOffset dateTime)
         {
             return (dateTime.Millisecond > 0);
         }

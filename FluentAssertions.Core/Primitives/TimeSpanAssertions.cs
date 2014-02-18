@@ -18,7 +18,7 @@ namespace FluentAssertions.Primitives
     {
         #region Private Definitions
 
-        private readonly DateTimeAssertions parentAssertions;
+        private readonly DateTimeOffsetAssertions parentAssertions;
         private readonly TimeSpanPredicate predicate;
 
         private readonly Dictionary<TimeSpanCondition, TimeSpanPredicate> predicates = new Dictionary
@@ -31,12 +31,12 @@ namespace FluentAssertions.Primitives
             { TimeSpanCondition.LessThan, new TimeSpanPredicate((ts1, ts2) => ts1 < ts2, "less than") }
         };
 
-        private readonly DateTime? subject;
+        private readonly DateTimeOffset? subject;
         private readonly TimeSpan timeSpan;
 
         #endregion
 
-        protected internal TimeSpanAssertions(DateTimeAssertions parentAssertions, DateTime? subject, TimeSpanCondition condition,
+        protected internal TimeSpanAssertions(DateTimeOffsetAssertions parentAssertions, DateTimeOffset? subject, TimeSpanCondition condition,
             TimeSpan timeSpan)
         {
             this.parentAssertions = parentAssertions;
@@ -59,7 +59,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> Before(DateTime target, string reason = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> Before(DateTimeOffset target, string reason = "", params object[] reasonArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
@@ -83,7 +83,7 @@ namespace FluentAssertions.Primitives
                 }
             }
 
-            return new AndConstraint<DateTimeAssertions>(parentAssertions);
+            return new AndConstraint<DateTimeOffsetAssertions>(parentAssertions);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeAssertions> After(DateTime target, string reason = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> After(DateTimeOffset target, string reason = "", params object[] reasonArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
@@ -123,7 +123,7 @@ namespace FluentAssertions.Primitives
                 }
             }
 
-            return new AndConstraint<DateTimeAssertions>(parentAssertions);
+            return new AndConstraint<DateTimeOffsetAssertions>(parentAssertions);
         }
 
         /// <summary>

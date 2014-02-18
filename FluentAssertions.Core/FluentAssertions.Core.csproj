@@ -121,7 +121,7 @@
     <Compile Include="FluentDateTimeExtensions.cs" />
     <Compile Include="Formatting\AggregateExceptionValueFormatter.cs" />
     <Compile Include="Formatting\AttributeBasedFormatter.cs" />
-    <Compile Include="Formatting\DateTimeValueFormatter.cs" />
+    <Compile Include="Formatting\DateTimeOffsetValueFormatter.cs" />
     <Compile Include="Formatting\DefaultValueFormatter.cs" />
     <Compile Include="Formatting\EnumerableValueFormatter.cs" />
     <Compile Include="Formatting\ExceptionValueFormatter.cs" />
@@ -143,11 +143,11 @@
     <Compile Include="Numeric\NullableNumericAssertions.cs" />
     <Compile Include="Numeric\NumericAssertions.cs" />
     <Compile Include="Primitives\BooleanAssertions.cs" />
-    <Compile Include="Primitives\DateTimeAssertions.cs" />
+    <Compile Include="Primitives\DateTimeOffsetAssertions.cs" />
     <Compile Include="Primitives\GuidAssertions.cs" />
     <Compile Include="Primitives\NegatedStringStartValidator.cs" />
     <Compile Include="Primitives\NullableBooleanAssertions.cs" />
-    <Compile Include="Primitives\NullableDateTimeAssertions.cs" />
+    <Compile Include="Primitives\NullableDateTimeOffsetAssertions.cs" />
     <Compile Include="Primitives\NullableGuidAssertions.cs" />
     <Compile Include="Primitives\NullableSimpleTimeSpanAssertions.cs" />
     <Compile Include="Primitives\ObjectAssertions.cs" />
