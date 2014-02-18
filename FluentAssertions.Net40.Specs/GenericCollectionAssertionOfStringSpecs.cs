@@ -545,7 +545,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*equal to*, but*differs at index 3.", ComparisonMode.Wildcard);
+                .WithMessage("Expected*equal to*, but*differs at index 3.");
         } 
 
         #endregion
@@ -699,7 +699,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "*collection {\"one\", \"two\", \"three\"} to be equivalent to {\"one\", \"two\"}*too many*", ComparisonMode.Wildcard);
+                "*collection {\"one\", \"two\", \"three\"} to be equivalent to {\"one\", \"two\"}*too many*");
         }
         
         [TestMethod]
@@ -741,7 +741,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "*collection {\"one\", \"two\", \"three\"} to be equivalent to {empty}, but*", ComparisonMode.Wildcard);
+                "*collection {\"one\", \"two\", \"three\"} to be equivalent to {empty}, but*");
         }
         
         [TestMethod]

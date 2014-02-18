@@ -149,7 +149,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected date and time to be <2012-03-11>*failure message, but found <2012-03-10>.", ComparisonMode.Wildcard);
+                    "Expected date and time to be <2012-03-11>*failure message, but found <2012-03-10>.");
         }
 
         [TestMethod]

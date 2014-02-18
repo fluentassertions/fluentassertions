@@ -346,7 +346,7 @@ namespace FluentAssertions.Specs
                 "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions.*]" +
                 ", but found [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
 
         [TestMethod]

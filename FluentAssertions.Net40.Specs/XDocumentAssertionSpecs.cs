@@ -164,7 +164,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*not expect XML document to be*, but found <null>*", ComparisonMode.Wildcard);
+                .WithMessage("*not expect XML document to be*, but found <null>*");
         }
 
         [TestMethod]

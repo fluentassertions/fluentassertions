@@ -163,7 +163,7 @@ namespace FluentAssertions.Specs
                     " because we want to test the error message, but found " +
                         "[FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage, ComparisonMode.Wildcard);
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
 
         [TestMethod]
@@ -295,7 +295,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*]" +
-                    " because we want to test the error message.", ComparisonMode.Wildcard);
+                    " because we want to test the error message.");
         }
 
         [TestMethod]
@@ -358,7 +358,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*] because we want to test " +
-                        "the error message.", ComparisonMode.Wildcard);
+                        "the error message.");
         }
 
         #endregion
@@ -472,7 +472,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to be decorated with " +
                     "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
-                        "but no matching attribute was found.", ComparisonMode.Wildcard);
+                        "but no matching attribute was found.");
         }
 
         #endregion
@@ -557,7 +557,7 @@ namespace FluentAssertions.Specs
                     " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
                     " but no matching attribute was found on the following types:\r\n" +
                     "FluentAssertions.Specs.ClassWithoutAttribute\r\n" +
-                    "FluentAssertions.Specs.OtherClassWithoutAttribute", ComparisonMode.Wildcard);
+                    "FluentAssertions.Specs.OtherClassWithoutAttribute");
         }
     }
 

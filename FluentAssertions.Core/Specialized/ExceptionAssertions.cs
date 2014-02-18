@@ -18,16 +18,16 @@ namespace FluentAssertions.Specialized
         ReferenceTypeAssertions<IEnumerable<TException>, ExceptionAssertions<TException>>
         where TException : Exception
     {
-        private static readonly Dictionary<ComparisonMode, ExceptionMessageAssertion> outerMessageAssertions =
-            new Dictionary<ComparisonMode, ExceptionMessageAssertion>();
+        #region Private Definitions
 
-        private static readonly Dictionary<ComparisonMode, ExceptionMessageAssertion> innerMessageAssertions =
-            new Dictionary<ComparisonMode, ExceptionMessageAssertion>();
+        private static readonly ExceptionMessageAssertion outerMessageAssertion = new ExceptionMessageAssertion();
 
-        static ExceptionAssertions()
+        private static readonly ExceptionMessageAssertion innerMessageAssertion = new ExceptionMessageAssertion
         {
-            SetupMessageAssertionRules();
-        }
+            Context = "inner exception message"
+        };
+
+        #endregion
 
         public ExceptionAssertions(IEnumerable<TException> exceptions)
         {
@@ -41,7 +41,7 @@ namespace FluentAssertions.Specialized
         {
             get { return Subject.First(); }
         }
-        
+
         /// <summary>
         ///   Gets the exception object of the exception thrown.
         /// </summary>
@@ -75,37 +75,13 @@ namespace FluentAssertions.Specialized
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string reason = "",
             params object[] reasonArgs)
         {
-            return WithMessage(expectedMessage, ComparisonMode.Wildcard, reason, reasonArgs);
-        }
-
-        /// <summary>
-        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedMessage" />
-        ///   depending on the specified matching mode.
-        /// </summary>
-        /// <param name = "expectedMessage">
-        ///   The expected message of the exception.
-        /// </param>
-        /// <param name = "comparisonMode">
-        ///   Determines how the expected message is compared with the actual message.
-        /// </param>
-        /// <param name = "reason">
-        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
-        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name = "reasonArgs">
-        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
-        /// </param>
-        public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, ComparisonMode comparisonMode,
-            string reason = "", params object[] reasonArgs)
-        {
             AssertionScope assertion = Execute.Assertion.BecauseOf(reason, reasonArgs).UsingLineBreaks;
 
             assertion
                 .ForCondition(Subject.Any())
                 .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
 
-            ExceptionMessageAssertion messageAssertion = outerMessageAssertions[comparisonMode];
-            messageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedMessage, reason, reasonArgs);
+            outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedMessage, reason, reasonArgs);
 
             return this;
         }
@@ -151,38 +127,12 @@ namespace FluentAssertions.Specialized
         ///   Asserts that the thrown exception contains an inner exception with the <paramref name = "expectedInnerMessage" />.
         /// </summary>
         /// <param name = "expectedInnerMessage">The expected message of the inner exception.</param>
-        /// <param name = "comparisonMode">Determines how the expected message is compared with the actual message.</param>
-        public ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage,
-            ComparisonMode comparisonMode)
-        {
-            return WithInnerMessage(expectedInnerMessage, comparisonMode, null, null);
-        }
-
-        /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception with the <paramref name = "expectedInnerMessage" />.
-        /// </summary>
-        /// <param name = "expectedInnerMessage">The expected message of the inner exception.</param>
         /// <param name = "reason">
         ///   The reason why the message of the inner exception should match <paramref name = "expectedInnerMessage" />.
         /// </param>
         /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string reason = "",
             params object[] reasonArgs)
-        {
-            return WithInnerMessage(expectedInnerMessage, ComparisonMode.Wildcard, reason, reasonArgs);
-        }
-
-        /// <summary>
-        ///   Asserts that the thrown exception contains an inner exception with the <paramref name = "expectedInnerMessage" />.
-        /// </summary>
-        /// <param name = "expectedInnerMessage">The expected message of the inner exception.</param>
-        /// <param name = "comparisonMode">Determines how the expected message is compared with the actual message.</param>
-        /// <param name = "reason">
-        ///   The reason why the message of the inner exception should match <paramref name = "expectedInnerMessage" />.
-        /// </param>
-        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
-        public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage,
-            ComparisonMode comparisonMode, string reason, params object[] reasonArgs)
         {
             AssertionScope assertion = Execute.Assertion
                 .BecauseOf(reason, reasonArgs)
@@ -198,8 +148,7 @@ namespace FluentAssertions.Specialized
 
             string[] subjectInnerMessage = Subject.Select(e => e.InnerException.Message).ToArray();
 
-            ExceptionMessageAssertion messageAssertion = innerMessageAssertions[comparisonMode];
-            messageAssertion.Execute(subjectInnerMessage, expectedInnerMessage, reason, reasonArgs);
+            innerMessageAssertion.Execute(subjectInnerMessage, expectedInnerMessage, reason, reasonArgs);
 
             return this;
         }
@@ -230,54 +179,6 @@ namespace FluentAssertions.Specialized
             return this;
         }
 
-        private static void SetupMessageAssertionRules()
-        {
-            outerMessageAssertions[ComparisonMode.Exact] = new ExceptionMessageAssertion
-            {
-                Pattern = "{0}"
-            };
-
-            outerMessageAssertions[ComparisonMode.Equivalent] = new ExceptionMessageAssertion
-            {
-                Pattern = "{0}"
-            };
-
-            outerMessageAssertions[ComparisonMode.Wildcard] = new ExceptionMessageAssertion
-            {
-                Pattern = "{0}"
-            };
-
-            outerMessageAssertions[ComparisonMode.StartWith] = new ExceptionMessageAssertion
-            {
-                Pattern = "{0}*"
-            };
-            
-            outerMessageAssertions[ComparisonMode.StartWithEquivalent] = new ExceptionMessageAssertion
-            {
-                Pattern = "{0}*"
-            };
-
-            outerMessageAssertions[ComparisonMode.Substring] = new ExceptionMessageAssertion
-            {
-                Pattern = "*{0}*"
-            };
-
-            outerMessageAssertions[ComparisonMode.EquivalentSubstring] = new ExceptionMessageAssertion
-            {
-                Pattern = "*{0}*"
-            };
-
-            foreach (KeyValuePair<ComparisonMode, ExceptionMessageAssertion> pair in outerMessageAssertions)
-            {
-                innerMessageAssertions[pair.Key] = new ExceptionMessageAssertion
-                {
-                    Context = "inner exception message",
-                    Pattern = pair.Value.Pattern
-                };
-            }
-
-        }
-
         private class ExceptionMessageAssertion
         {
             public ExceptionMessageAssertion()
@@ -286,7 +187,6 @@ namespace FluentAssertions.Specialized
             }
 
             public string Context { get; set; }
-            public string Pattern { get; set; }
 
             public void Execute(IEnumerable<string> messages, string expectation, string reason, params object[] reasonArgs)
             {
@@ -300,7 +200,7 @@ namespace FluentAssertions.Specialized
                         {
                             scope.AddNonReportable("context", Context);
 
-                            message.Should().MatchEquivalentOf(string.Format(Pattern, expectation), reason, reasonArgs);
+                            message.Should().MatchEquivalentOf(expectation, reason, reasonArgs);
 
                             results.AddSet(message, scope.Discard());
                         }

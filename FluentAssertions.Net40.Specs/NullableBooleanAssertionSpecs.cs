@@ -208,8 +208,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*nullable*boolean*not*False*because we want to test the failure message, but found False.",
-                    ComparisonMode.Wildcard);
+                .WithMessage("Expected*nullable*boolean*not*False*because we want to test the failure message, but found False.");
         }
 
         [TestMethod]
@@ -270,8 +269,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*nullable*boolean*not*True*because we want to test the failure message, but found True.",
-                    ComparisonMode.Wildcard);
+                .WithMessage("Expected*nullable*boolean*not*True*because we want to test the failure message, but found True.");
         }
 
         [TestMethod]

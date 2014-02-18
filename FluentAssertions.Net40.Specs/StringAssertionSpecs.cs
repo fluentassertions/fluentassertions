@@ -1724,7 +1724,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected string to be equivalent to \"ABCD\" with a length of 4, but \"AB\" has a length of 2", ComparisonMode.StartWith);
+                "Expected string to be equivalent to \"ABCD\" with a length of 4, but \"AB\" has a length of 2*");
         }
 
         [TestMethod]

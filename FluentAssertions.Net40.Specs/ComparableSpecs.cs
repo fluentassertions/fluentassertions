@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected*Hi*because they have the same property values, but found*Hello*.", ComparisonMode.Wildcard);
+                    "Expected*Hi*because they have the same property values, but found*Hello*.");
         }
 
         [TestMethod]
@@ -73,8 +73,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Did not expect object to be equal to*Hello*because they represent different things.",
-                    ComparisonMode.Wildcard);
+                    "*Did not expect object to be equal to*Hello*because they represent different things.*");
         }
 
         [TestMethod]
@@ -140,7 +139,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected object to be <null>, but found*", ComparisonMode.Wildcard);
+                    "Expected object to be <null>, but found*");
         }
 
         [TestMethod]
@@ -182,7 +181,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected object not to be <null>.", ComparisonMode.Wildcard);
+                    "Expected object not to be <null>.");
         }
 
         #endregion
@@ -228,7 +227,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected object to be between*and*, but found *.", ComparisonMode.Wildcard);
+                    "Expected object to be between*and*, but found *.");
         }
 
         #endregion
@@ -274,8 +273,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected object*World*to be less than*City*because a city is smaller than the world.",
-                    ComparisonMode.Wildcard);
+                .WithMessage("Expected object*World*to be less than*City*because a city is smaller than the world.");
         }
 
         #endregion
@@ -301,8 +299,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected object*World*to be less or equal to*City*because we want to order them.",
-                    ComparisonMode.Wildcard);
+                .WithMessage("Expected object*World*to be less or equal to*City*because we want to order them.");
         }
 
         [TestMethod]
@@ -388,8 +385,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected object*abc*to be greater than*def*because 'a' is smaller then 'e'.",
-                    ComparisonMode.Wildcard);
+                .WithMessage("Expected object*abc*to be greater than*def*because 'a' is smaller then 'e'.");
         }
 
         #endregion
@@ -415,8 +411,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected object*abc*to be greater or equal to*def*because 'd' is bigger then 'a'.",
-                    ComparisonMode.Wildcard);
+                .WithMessage("Expected object*abc*to be greater or equal to*def*because 'd' is bigger then 'a'.");
         }
 
         [TestMethod]

@@ -143,7 +143,6 @@
     <Compile Include="Numeric\NullableNumericAssertions.cs" />
     <Compile Include="Numeric\NumericAssertions.cs" />
     <Compile Include="Primitives\BooleanAssertions.cs" />
-    <Compile Include="Primitives\ComparisonMode.cs" />
     <Compile Include="Primitives\DateTimeAssertions.cs" />
     <Compile Include="Primitives\GuidAssertions.cs" />
     <Compile Include="Primitives\NegatedStringStartValidator.cs" />

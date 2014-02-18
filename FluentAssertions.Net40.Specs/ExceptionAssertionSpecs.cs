@@ -71,7 +71,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("expected mes", ComparisonMode.StartWith);
+                .WithMessage("expected mes*");
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace FluentAssertions.Specs
             Action action = () => testSubject
                 .Invoking(s => s.Do())
                 .ShouldThrow<InvalidOperationException>()
-                .WithMessage("Expected mes", ComparisonMode.StartWith);
+                .WithMessage("Expected mes");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -116,7 +116,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("expected mes", ComparisonMode.StartWithEquivalent);
+                .WithMessage("expected mes*");
         }
 
         [TestMethod]
@@ -134,7 +134,7 @@ namespace FluentAssertions.Specs
             Action action = () => testSubject
                     .Invoking(s => s.Do())
                     .ShouldThrow<InvalidOperationException>()
-                    .WithMessage("expected mes", ComparisonMode.StartWithEquivalent);
+                    .WithMessage("expected mes");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -415,7 +415,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<Exception>()
-                .WithInnerMessage("xpected messag", ComparisonMode.Substring);
+                .WithInnerMessage("*xpected messag*");
         }
         
         [TestMethod]
@@ -436,7 +436,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<Exception>()
-                .WithInnerMessage("expected mes", ComparisonMode.StartWith);
+                .WithInnerMessage("expected mes*");
         }
         
         [TestMethod]
@@ -454,7 +454,7 @@ namespace FluentAssertions.Specs
             Action action = () => testSubject
                     .Invoking(s => s.Do())
                     .ShouldThrow<Exception>()
-                    .WithInnerMessage("Expected mes", ComparisonMode.StartWith);
+                    .WithInnerMessage("Expected mes*");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -481,7 +481,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<Exception>()
-                .WithInnerMessage("expected mes", ComparisonMode.StartWithEquivalent);
+                .WithInnerMessage("expected mes*");
         }
 
         [TestMethod]
@@ -499,7 +499,7 @@ namespace FluentAssertions.Specs
             Action action = () => testSubject
                     .Invoking(s => s.Do())
                     .ShouldThrow<Exception>()
-                    .WithInnerMessage("expected mes", ComparisonMode.StartWithEquivalent);
+                    .WithInnerMessage("expected mes");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -523,7 +523,7 @@ namespace FluentAssertions.Specs
             Action action = () => testSubject
                     .Invoking(s => s.Do())
                     .ShouldThrow<Exception>()
-                    .WithInnerMessage("Expected message", ComparisonMode.Equivalent);
+                    .WithInnerMessage("Expected message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -552,7 +552,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<Exception>()
-                .WithInnerMessage("EXPECTED", ComparisonMode.EquivalentSubstring);
+                .WithInnerMessage("EXPECTED*");
         }
 
         [TestMethod]
@@ -574,7 +574,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<Exception>()
-                .WithInnerMessage("*ted*mes*", ComparisonMode.Wildcard);
+                .WithInnerMessage("*ted*mes*");
         }
 
         [TestMethod]

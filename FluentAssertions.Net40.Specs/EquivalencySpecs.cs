@@ -40,7 +40,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected subject to be <null>, but found { }", ComparisonMode.StartWith);
+                "Expected subject to be <null>, but found { }*");
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected subject to be*, but found <null>*", ComparisonMode.Wildcard);
+                "Expected subject to be*, but found <null>*");
         }
 
         #endregion
@@ -401,7 +401,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property VehicleId*99999*but*1*", ComparisonMode.Wildcard);
+                .WithMessage("Expected property VehicleId*99999*but*1*");
         }
 
         [TestMethod]
@@ -601,7 +601,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Subject has property City that the other object does not have", ComparisonMode.StartWith);
+                "Subject has property City that the other object does not have*");
         }
 
         [TestMethod]
@@ -630,7 +630,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Type to be*Int32*, but found*String*", ComparisonMode.Wildcard);
+                .WithMessage("Expected property Type to be*Int32*, but found*String*");
         }
 
         [TestMethod]
@@ -671,9 +671,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("*property Property1 to be \"1\", but \"A\" differs near \"A\"*", ComparisonMode.Wildcard)
-                .WithMessage("*property Property2 to be \"2\", but \"B\" differs near \"B\"*", ComparisonMode.Wildcard)
-                .WithMessage("*property SubType1.SubProperty1 to be \"3\", but \"C\" differs near \"C\"*", ComparisonMode.Wildcard);
+                .WithMessage("*property Property1 to be \"1\", but \"A\" differs near \"A\"*")
+                .WithMessage("*property Property2 to be \"2\", but \"B\" differs near \"B\"*")
+                .WithMessage("*property SubType1.SubProperty1 to be \"3\", but \"C\" differs near \"C\"*");
         }
 
         #endregion
@@ -825,7 +825,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected item[0].Name*Jane*John*item[1].Name*John*Jane*", ComparisonMode.Wildcard);
+                .WithMessage("Expected item[0].Name*Jane*John*item[1].Name*John*Jane*");
         }
 
         [TestMethod]
@@ -872,7 +872,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*", ComparisonMode.Wildcard);
+                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*");
         }
 
         [TestMethod]
@@ -919,7 +919,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*", ComparisonMode.Wildcard);
+                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*");
         }
 
         [TestMethod]
@@ -969,7 +969,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*item[1].Age*30*24*", ComparisonMode.Wildcard);
+                .WithMessage("Expected*item[1].Age*30*24*");
         }
 
         [TestMethod]
@@ -997,7 +997,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*Payload[0]*6*1*", ComparisonMode.Wildcard);
+                .WithMessage("Expected*Payload[0]*6*1*");
         }
 
         [TestMethod]
@@ -1047,7 +1047,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*item[1].Age*28*27*", ComparisonMode.Wildcard);
+                .WithMessage("Expected*item[1].Age*28*27*");
         }
 
         [TestMethod]
@@ -1146,7 +1146,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected item[1].Name to be \"Jane\", but \"John\" differs near*", ComparisonMode.Wildcard);
+                .WithMessage("Expected item[1].Name to be \"Jane\", but \"John\" differs near*");
         }
 
         [TestMethod]
@@ -1190,7 +1190,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected subject to be a collection with 1 item(s), but found 2*", ComparisonMode.Wildcard);
+                .WithMessage("Expected subject to be a collection with 1 item(s), but found 2*");
         }
 
         [TestMethod]
@@ -1234,7 +1234,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("*subject to be a collection with 2 item(s), but found 1*", ComparisonMode.Wildcard);
+                .WithMessage("*subject to be a collection with 2 item(s), but found 1*");
         }
 
         [TestMethod]
@@ -1284,7 +1284,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected item[1].Name to be \"John\", but \"Jane\" differs near*", ComparisonMode.Wildcard);
+                .WithMessage("Expected item[1].Name to be \"John\", but \"Jane\" differs near*");
         }
 
         [TestMethod]
@@ -1365,7 +1365,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Subject is a collection and cannot be compared with a non-collection type", ComparisonMode.StartWith);
+                .WithMessage("Subject is a collection and cannot be compared with a non-collection type*");
         }
 
         #endregion
@@ -1472,7 +1472,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected item[0].Time to be <null>, but found <2013-12-09 15:58:00>.", ComparisonMode.StartWith);
+                "Expected item[0].Time to be <null>, but found <2013-12-09 15:58:00>.*");
         }
 
         [TestMethod]
@@ -1507,7 +1507,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected item[0].Time to be <2013-12-09 15:58:00>, but found <null>.", ComparisonMode.StartWith);
+                "Expected item[0].Time to be <2013-12-09 15:58:00>, but found <null>.*");
         }
 
         [TestMethod]
@@ -1576,7 +1576,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected item[0].Time to be <null>, but found <2013-12-09 15:58:00>.", ComparisonMode.StartWith);
+                "Expected item[0].Time to be <null>, but found <2013-12-09 15:58:00>.*");
         }
 
         [TestMethod]
@@ -1644,7 +1644,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected item[0].Time to be <2013-12-09 15:58:00>, but found <null>.", ComparisonMode.StartWith);
+                "Expected item[0].Time to be <2013-12-09 15:58:00>, but found <null>.*");
         }
 
         #endregion
@@ -1728,7 +1728,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Age to be 37 because they are the same, but found 36", ComparisonMode.StartWith);
+                "Expected property Age to be 37 because they are the same, but found 36*");
         }
 
         [TestMethod]
@@ -1756,7 +1756,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Name to be <null>, but found \"Dennis\"", ComparisonMode.StartWith);
+                "Expected property Name to be <null>, but found \"Dennis\"*");
         }
 
         [TestMethod]
@@ -1790,7 +1790,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Values[1] to be 4, but found 2", ComparisonMode.StartWith);
+                "Expected property Values[1] to be 4, but found 2*");
         }
 
         [TestMethod]
@@ -1847,7 +1847,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)", ComparisonMode.StartWith);
+                "Expected property Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
         }
 
         [TestMethod]
@@ -2127,8 +2127,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected property Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5)",
-                    ComparisonMode.StartWith);
+                    "Expected property Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5)*");
         }
 
         [TestMethod]
@@ -2163,7 +2162,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level to be*Level1Dto*Level2*, but found <null>*", ComparisonMode.Wildcard);
+                .WithMessage("Expected property Level to be*Level1Dto*Level2*, but found <null>*");
         }
 
         [TestMethod]
@@ -2199,8 +2198,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Subject has property Level.OtherProperty that the other object does not have",
-                    ComparisonMode.Substring);
+                .WithMessage("Subject has property Level.OtherProperty that the other object does not have*");
         }
 
         [TestMethod]
@@ -2281,8 +2279,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected property Level.Level.Text to be *A wrong text value*but \r\n\"Level2\"*length*",
-                    ComparisonMode.Wildcard);
+                    "Expected property Level.Level.Text to be *A wrong text value*but \r\n\"Level2\"*length*");
         }
 
         [TestMethod]
@@ -2324,7 +2321,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property RefOne.ValTwo to be 2, but found 3", ComparisonMode.StartWith);
+                .WithMessage("Expected property RefOne.ValTwo to be 2, but found 3*");
         }
 
         #endregion
@@ -2369,8 +2366,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level.Root.Level to be*but it contains a cyclic reference*",
-                    ComparisonMode.Wildcard);
+                .WithMessage("Expected property Level.Root.Level to be*but it contains a cyclic reference*");
         }
 
         [TestMethod]
@@ -2654,7 +2650,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*Customers[0].Name*John*Jane*", ComparisonMode.Wildcard);
+                .WithMessage("*Customers[0].Name*John*Jane*");
         }
 
         [TestMethod]
@@ -2690,8 +2686,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*property Customers to be*Customer[]*, but*System.String*",
-                    ComparisonMode.Wildcard);
+                .WithMessage("*property Customers to be*Customer[]*, but*System.String*");
         }
 
         [TestMethod]
@@ -2741,8 +2736,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*property Customers to be a collection with 1 item(s), but found 2*",
-                    ComparisonMode.Wildcard);
+                .WithMessage("*property Customers to be a collection with 1 item(s), but found 2*");
         }
 
         [TestMethod]
@@ -2792,8 +2786,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*property Customers to be a collection with 2 item(s), but found 1*",
-                    ComparisonMode.Wildcard);
+                .WithMessage("*property Customers to be a collection with 2 item(s), but found 1*");
         }
 
         [TestMethod]
@@ -2903,7 +2896,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Property*Customers*dictionary*non-dictionary*", ComparisonMode.Wildcard);
+                .WithMessage("Property*Customers*dictionary*non-dictionary*");
         }
 
         [TestMethod]
@@ -2938,7 +2931,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*", ComparisonMode.Wildcard);
+                "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
         }
 
         #endregion
