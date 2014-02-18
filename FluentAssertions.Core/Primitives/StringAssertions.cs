@@ -850,22 +850,6 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that a string is neither <c>null</c> nor <see cref="string.Empty"/> nor white space
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        [Obsolete("This method is obsolete. Use NotBeNullOrWhiteSpace instead.")]
-        public AndConstraint<StringAssertions> NotBeBlank(string reason = "", params object[] reasonArgs)
-        {
-            return NotBeNullOrWhiteSpace(reason, reasonArgs);
-        }
-
-        /// <summary>
         /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/> or white space
         /// </summary>
         /// <param name="reason">
@@ -883,22 +867,6 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected string to be <null> or whitespace{reason}, but found {0}.", Subject);
 
             return new AndConstraint<StringAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that a string is either <c>null</c> or <see cref="string.Empty"/> or white space
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
-        /// </param>
-        [Obsolete("This method is obsolete. Use BeNullOrWhiteSpace instead.")]
-        public AndConstraint<StringAssertions> BeBlank(string reason = "", params object[] reasonArgs)
-        {
-            return BeNullOrWhiteSpace(reason, reasonArgs);
         }
 
         private static bool IsBlank(string value)
