@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace FluentAssertions.Collections
 {
     public class StringCollectionAssertions :
-        GenericCollectionAssertionsBase<string, StringCollectionAssertions>
+        SelfReferencingCollectionAssertions<string, StringCollectionAssertions>
     {
         public StringCollectionAssertions(IEnumerable<string> actualValue)
             : base(actualValue)
@@ -69,7 +67,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<StringCollectionAssertions> BeEquivalentTo(IEnumerable<string> expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<StringCollectionAssertions> BeEquivalentTo(IEnumerable<string> expected, string reason = "",
+            params object[] reasonArgs)
         {
             return base.BeEquivalentTo(expected, reason, reasonArgs);
         }
@@ -131,7 +130,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected, string reason, object reasonArg, params object[] reasonArgs)
+        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected, string reason, object reasonArg,
+            params object[] reasonArgs)
         {
             var args = new List<object> { reasonArg };
             args.AddRange(reasonArgs);
@@ -143,7 +143,8 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
         /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
-        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList, string additionalExpectedItem)
+        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList,
+            string additionalExpectedItem)
         {
             var list = new List<string>(expectedItemsList);
             list.Add(additionalExpectedItem);
@@ -156,7 +157,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
         /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
-        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList, 
+        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList,
             IEnumerable<string> additionalExpectedItems)
         {
             var list = new List<string>(expectedItemsList);
