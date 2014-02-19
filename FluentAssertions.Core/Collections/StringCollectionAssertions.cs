@@ -5,7 +5,8 @@ using System.Text;
 
 namespace FluentAssertions.Collections
 {
-    public class StringCollectionAssertions : GenericCollectionAssertions<string>
+    public class StringCollectionAssertions :
+        GenericCollectionAssertionsBase<string, StringCollectionAssertions>
     {
         public StringCollectionAssertions(IEnumerable<string> actualValue)
             : base(actualValue)
@@ -24,7 +25,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<string>> Equal(params string[] expected)
+        public AndConstraint<StringCollectionAssertions> Equal(params string[] expected)
         {
             return base.Equal(expected.AsEnumerable());
         }
@@ -41,7 +42,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<string>> Equal(IEnumerable<string> expected)
+        public AndConstraint<StringCollectionAssertions> Equal(IEnumerable<string> expected)
         {
             return base.Equal(expected);
         }
@@ -51,7 +52,7 @@ namespace FluentAssertions.Collections
         /// regardless of the order. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="elements">A params array with the expected elements.</param>
-        public AndConstraint<GenericCollectionAssertions<string>> BeEquivalentTo(params string[] elements)
+        public AndConstraint<StringCollectionAssertions> BeEquivalentTo(params string[] elements)
         {
             return base.BeEquivalentTo(elements.AsEnumerable());
         }
@@ -68,7 +69,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<string>> BeEquivalentTo(IEnumerable<string> expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<StringCollectionAssertions> BeEquivalentTo(IEnumerable<string> expected, string reason = "", params object[] reasonArgs)
         {
             return base.BeEquivalentTo(expected, reason, reasonArgs);
         }
@@ -78,7 +79,7 @@ namespace FluentAssertions.Collections
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
-        public AndConstraint<GenericCollectionAssertions<string>> ContainInOrder(params string[] expected)
+        public AndConstraint<StringCollectionAssertions> ContainInOrder(params string[] expected)
         {
             return base.ContainInOrder(expected.AsEnumerable());
         }
@@ -95,7 +96,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<string>> ContainInOrder(IEnumerable<string> expected, string reason = "",
+        public AndConstraint<StringCollectionAssertions> ContainInOrder(IEnumerable<string> expected, string reason = "",
             params object[] reasonArgs)
         {
             return base.ContainInOrder(expected, reason, reasonArgs);
@@ -113,7 +114,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<string>> Contain(IEnumerable<string> expected)
+        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected)
         {
             return base.Contain(expected);
         }
@@ -130,7 +131,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<string>> Contain(IEnumerable<string> expected, string reason, object reasonArg, params object[] reasonArgs)
+        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected, string reason, object reasonArg, params object[] reasonArgs)
         {
             var args = new List<object> { reasonArg };
             args.AddRange(reasonArgs);
@@ -142,7 +143,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
         /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
-        public AndConstraint<GenericCollectionAssertions<string>> Contain(IEnumerable<string> expectedItemsList, string additionalExpectedItem)
+        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList, string additionalExpectedItem)
         {
             var list = new List<string>(expectedItemsList);
             list.Add(additionalExpectedItem);
@@ -155,7 +156,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
         /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
-        public AndConstraint<GenericCollectionAssertions<string>> Contain(IEnumerable<string> expectedItemsList, 
+        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList, 
             IEnumerable<string> additionalExpectedItems)
         {
             var list = new List<string>(expectedItemsList);

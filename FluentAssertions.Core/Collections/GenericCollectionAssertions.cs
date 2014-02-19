@@ -8,13 +8,23 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections
 {
+    [DebuggerNonUserCode]
+    public class GenericCollectionAssertions<T> :
+        GenericCollectionAssertionsBase<T, GenericCollectionAssertions<T>>
+    {
+        public GenericCollectionAssertions(IEnumerable<T> actualValue) : base(actualValue)
+        {
+        }
+    }
+
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expectation state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class GenericCollectionAssertions<T> : CollectionAssertions<IEnumerable<T>, GenericCollectionAssertions<T>>
+    public class GenericCollectionAssertionsBase<T, TAssertions> : CollectionAssertions<IEnumerable<T>, TAssertions>
+        where TAssertions : GenericCollectionAssertionsBase<T, TAssertions>
     {
-        public GenericCollectionAssertions(IEnumerable<T> actualValue)
+        public GenericCollectionAssertionsBase(IEnumerable<T> actualValue)
         {
             if (actualValue != null)
             {
@@ -33,7 +43,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> HaveCount(int expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> HaveCount(int expected, string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -49,7 +59,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found {1}.", expected, actualCount);
 
-            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -63,7 +73,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> HaveCount(Expression<Func<int, bool>> countPredicate, string reason = "",
+        public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string reason = "",
             params object[] reasonArgs)
         {
             if (countPredicate == null)
@@ -90,7 +100,7 @@ namespace FluentAssertions.Collections
                         Subject, countPredicate.Body, actualCount);
             }
 
-            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -110,12 +120,12 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> Equal(
+        public AndConstraint<TAssertions> Equal(
             IEnumerable<T> expectation, Func<T, T, bool> predicate, string reason = "", params object[] reasonArgs)
         {
             AssertSubjectEquality(expectation, predicate, reason, reasonArgs);
 
-            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -129,7 +139,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(T expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> Contain(T expected, string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -145,7 +155,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
             }
 
-            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
         
         /// <summary>
@@ -153,7 +163,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
         /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(IEnumerable<T> expectedItemsList,
+        public AndConstraint<TAssertions> Contain(IEnumerable<T> expectedItemsList,
             params T [] additionalExpectedItems)
         {
             var list = new List<T>(expectedItemsList);
@@ -173,7 +183,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> Contain(Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> Contain(Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -189,7 +199,7 @@ namespace FluentAssertions.Collections
                     .FailWith("{context:Collection} {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
             }
 
-            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -203,7 +213,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> OnlyContain(
+        public AndConstraint<TAssertions> OnlyContain(
             Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
@@ -223,7 +233,7 @@ namespace FluentAssertions.Collections
                         predicate.Body, mismatchingItems);
             }
 
-            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -237,7 +247,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> NotContain(Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotContain(Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -253,7 +263,7 @@ namespace FluentAssertions.Collections
                     .FailWith("{context:Collection} {0} should not have any items matching {1}{reason}.", Subject, predicate.Body);
             }
 
-            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
 
@@ -268,7 +278,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericCollectionAssertions<T>> ContainSingle(Expression<Func<T, bool>> predicate,
+        public AndConstraint<TAssertions> ContainSingle(Expression<Func<T, bool>> predicate,
             string reason = "", params object[] reasonArgs)
         {
             string expectationPrefix =
@@ -305,7 +315,7 @@ namespace FluentAssertions.Collections
                 // Exactly 1 item was expected
             }
 
-            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
     }
 }
