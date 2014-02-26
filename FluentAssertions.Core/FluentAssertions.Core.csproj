@@ -48,6 +48,7 @@
     <Compile Include="AndConstraint.cs" />
     <Compile Include="AndWhichConstraint.cs" />
     <Compile Include="Collections\SelfReferencingCollectionAssertions.cs" />
+    <Compile Include="Collections\WhichValueConstraint.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
     <Compile Include="Collections\CollectionAssertions.cs" />
     <Compile Include="Collections\GenericCollectionAssertions.cs" />
