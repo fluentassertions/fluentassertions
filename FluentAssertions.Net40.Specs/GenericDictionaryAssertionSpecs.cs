@@ -981,6 +981,33 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_the_specified_value_exists_it_should_allow_continuation_using_that_value()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var myClass = new MyClass()
+            {
+                SomeProperty = 0
+            };
+            
+            var dictionary = new Dictionary<int, MyClass>
+            {
+                { 1, myClass }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*greater*0*0*");
+        }
+
+        [TestMethod]
         public void Should_succeed_when_asserting_dictionary_contains_multiple_values_from_the_dictionary()
         {
             var dictionary = new Dictionary<int, string>

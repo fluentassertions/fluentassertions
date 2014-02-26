@@ -408,10 +408,13 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValue(TValue expected,
+        public AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, TValue> ContainValue(TValue expected,
             string reason = "", params object[] reasonArgs)
         {
-            return ContainValues(new [] { expected }, reason, reasonArgs);
+            AndConstraint<GenericDictionaryAssertions<TKey, TValue>> innerConstraint = 
+                ContainValues(new [] { expected }, reason, reasonArgs);
+
+            return new AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, TValue>(innerConstraint.And, expected);
         }
 
         /// <summary>
