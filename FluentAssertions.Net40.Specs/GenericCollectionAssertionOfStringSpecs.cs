@@ -7,7 +7,6 @@ using FluentAssertions.Collections;
 
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using System.Reflection;
 #else
 using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -1076,10 +1075,41 @@ namespace FluentAssertions.Specs
         #region Contain
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_contains_an_item_from_the_collection()
+        public void When_asserting_collection_contains_an_item_from_the_collection_it_should_succeed()
         {
-            IEnumerable<string> collection = new [] { "one", "two", "three" };
-            collection.Should().Contain("one");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain("one");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        
+        [TestMethod]
+        public void When_the_expected_object_exists_it_should_allow_chaining_additional_assertions()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain("one").Which.Should().HaveLength(4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*length*4*3*");
         }
 
         [TestMethod]

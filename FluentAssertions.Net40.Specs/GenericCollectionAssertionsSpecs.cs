@@ -34,6 +34,26 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Collection {1, 2, 3} should have an item matching (item > 3) because at least 1 item should be larger than 3.");
         }
+        
+        [TestMethod]
+        public void When_collection_does_contain_an_expected_item_matching_a_predicate_it_should_allow_chaining_it()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(item => item == 2).Which.Should().BeGreaterThan(4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected*greater*4*2*");
+        }
 
         [TestMethod]
         public void When_collection_does_contain_an_expected_item_matching_a_predicate_it_should_not_throw()
@@ -343,6 +363,25 @@ namespace FluentAssertions.Specs
                     "but 3 such items were found.", expression.Body);
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+        
+        [TestMethod]
+        public void When_a_single_matching_element_is_found_it_should_allow_continuation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle(item => (item == 2)).Which.Should().BeGreaterThan(4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*greater*4*2*");
         }
 
         #endregion

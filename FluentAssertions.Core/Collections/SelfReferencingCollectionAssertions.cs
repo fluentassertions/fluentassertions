@@ -12,7 +12,7 @@ namespace FluentAssertions.Collections
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expectation state.
     /// </summary>
-    [DebuggerNonUserCode]
+//    [DebuggerNonUserCode]
     public class SelfReferencingCollectionAssertions<T, TAssertions> : CollectionAssertions<IEnumerable<T>, TAssertions>
         where TAssertions : SelfReferencingCollectionAssertions<T, TAssertions>
     {
@@ -131,7 +131,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<TAssertions> Contain(T expected, string reason = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, T> Contain(T expected, string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -147,7 +147,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, expected);
         }
         
         /// <summary>
@@ -175,7 +175,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<TAssertions> Contain(Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, T> Contain(Expression<Func<T, bool>> predicate, string reason = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -184,14 +184,14 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
             }
 
-            if (!Subject.Any(item => predicate.Compile()(item)))
-            {
-                Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
-                    .FailWith("{context:Collection} {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
-            }
+            Func<T, bool> func = predicate.Compile();
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            Execute.Assertion
+                .ForCondition(Subject.Any(func))
+                .BecauseOf(reason, reasonArgs)
+                .FailWith("{context:Collection} {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
+
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.FirstOrDefault(func));
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<TAssertions> ContainSingle(Expression<Func<T, bool>> predicate,
+        public AndWhichConstraint<TAssertions, T> ContainSingle(Expression<Func<T, bool>> predicate,
             string reason = "", params object[] reasonArgs)
         {
             string expectationPrefix =
@@ -289,7 +289,8 @@ namespace FluentAssertions.Collections
                 .BecauseOf(reason, reasonArgs)
                 .FailWith(expectationPrefix + "but the collection is empty.");
 
-            int count = actualItems.Count(predicate.Compile());
+            T[] matchingElements = actualItems.Where(predicate.Compile()).ToArray();
+            int count = matchingElements.Count();
             if (count == 0)
             {
                 Execute.Assertion
@@ -307,7 +308,7 @@ namespace FluentAssertions.Collections
                 // Exactly 1 item was expected
             }
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matchingElements.FirstOrDefault());
         }
     }
 }
