@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 using FluentAssertions.Common;
 
@@ -10,12 +11,12 @@ namespace FluentAssertions.Equivalency
     internal class ObjectReference
     {
         private readonly object @object;
-        private readonly string propertyPath;
+        private readonly string[] path;
 
-        public ObjectReference(object @object, string propertyPath)
+        public ObjectReference(object @object, string path)
         {
             this.@object = @object;
-            this.propertyPath = propertyPath;
+            this.path = path.ToLower().Split('.');
         }
 
         /// <summary>
@@ -29,12 +30,13 @@ namespace FluentAssertions.Equivalency
         {
             var other = (ObjectReference)obj;
 
-            int firstDot = other.propertyPath.IndexOf(".");
-            string firstPartOfOtherPropertyPath = (firstDot >= 0) ? other.propertyPath.Substring(0, firstDot) : "";
+            return ReferenceEquals(@object, other.@object) && IsParentOf(other);
 
-            return ReferenceEquals(@object, other.@object) &&
-                   (propertyPath.Length > 0) && 
-                   firstPartOfOtherPropertyPath.Equals(propertyPath, StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        private bool IsParentOf(ObjectReference other)
+        {
+            return (other.path.Length > path.Length) && other.path.Take(path.Length).SequenceEqual(path);
         }
 
         /// <summary>
@@ -48,8 +50,13 @@ namespace FluentAssertions.Equivalency
         {
             unchecked
             {
-                return (@object.GetHashCode() * 397) ^ propertyPath.GetHashCode();
+                return (@object.GetHashCode() * 397) ^ path.GetHashCode();
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{{\"{0}\", {1}}}", path, @object);
         }
 
         public bool IsReference
