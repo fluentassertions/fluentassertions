@@ -2529,6 +2529,50 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_asserting_types_with_infinite_oject_graphs_are_equivilent_it_should_not_overflow_the_stack()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var recursiveClass1 = new ClassWithInfinitelyRecursiveProperty();
+            var recursiveClass2 = new ClassWithInfinitelyRecursiveProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => recursiveClass1.ShouldBeEquivalentTo(recursiveClass2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<StackOverflowException>();
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_equivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var recursiveClass1 = new ClassWithFiniteRecursiveProperty(15);
+            var recursiveClass2 = new ClassWithFiniteRecursiveProperty(15);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => recursiveClass1.ShouldBeEquivalentTo(recursiveClass2,
+                    options => options.AllowingInfiniteRecursion());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
         internal class LogbookEntryProjection
         {
             public virtual LogbookCode Logbook { get; set; }
@@ -3156,6 +3200,37 @@ namespace FluentAssertions.Specs
             }
 
             public string SomeOtherProperty { get; set; }
+        }
+
+        private class ClassWithInfinitelyRecursiveProperty
+        {
+            public ClassWithInfinitelyRecursiveProperty Self
+            {
+                get
+                {
+                    return new ClassWithInfinitelyRecursiveProperty();
+                }
+            }
+        }
+
+        private class ClassWithFiniteRecursiveProperty
+        {
+            private readonly int depth;
+
+            public ClassWithFiniteRecursiveProperty(int recursiveDepth)
+            {
+                depth = recursiveDepth;
+            }
+
+            public ClassWithFiniteRecursiveProperty Self
+            {
+                get
+                {
+                    return depth > 0
+                        ? new ClassWithFiniteRecursiveProperty(depth - 1)
+                        : null;
+                }
+            }
         }
     }
 

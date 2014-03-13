@@ -30,6 +30,11 @@ namespace FluentAssertions.Equivalency
         bool IsRecursive { get; }
 
         /// <summary>
+        /// Gets a value indicating whether recursion is allowed to continue infinitely.
+        /// </summary>
+        bool AllowInfiniteRecursion { get; }
+
+        /// <summary>
         /// Gets value indicating how cyclic references should be handled. By default, it will throw an exception.
         /// </summary>
         CyclicReferenceHandling CyclicReferenceHandling { get; }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -56,6 +57,22 @@ namespace FluentAssertions.Equivalency
 
         public void AssertEqualityUsing(EquivalencyValidationContext context)
         {
+            if (!config.AllowInfiniteRecursion &&
+                MaximumRecusionDepthMet(context))
+            {
+                AssertionScope.Current.FailWith(
+                    "The maximum recursion depth was reached.  " +
+                    "The maximum recursion depth limitation prevents stack overflow from " +
+                    "occuring when certain types of cycles exist in the object graph " +
+                    "or the object graph's depth is very high or infinite.  " +
+                    "This limitation may be disabled using the config parameter." +
+                    Environment.NewLine + Environment.NewLine +
+                    "The property path when max depth was hit was: " +
+                    context.PropertyPath);
+
+                return;
+            }
+
             AssertionScope scope = AssertionScope.Current;
             scope.AddNonReportable("context", context.IsRoot ? "subject" : context.PropertyDescription);
             scope.AddNonReportable("subject", context.Subject);
@@ -73,6 +90,16 @@ namespace FluentAssertions.Equivalency
                     }
                 }
             }
+        }
+
+        private static bool MaximumRecusionDepthMet(EquivalencyValidationContext context)
+        {
+            const int MaxDepth = 10;
+
+            var depth =
+                context.PropertyPath.Cast<char>().Count(chr => chr == '.');
+
+            return depth >= MaxDepth;
         }
     }
 }
