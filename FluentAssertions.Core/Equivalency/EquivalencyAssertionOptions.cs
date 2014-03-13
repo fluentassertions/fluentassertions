@@ -35,6 +35,8 @@ namespace FluentAssertions.Equivalency
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool isRecursive;
 
+        private bool allowInfiniteRecursion;
+
         #endregion
 
         private EquivalencyAssertionOptions()
@@ -108,6 +110,11 @@ namespace FluentAssertions.Equivalency
         bool IEquivalencyAssertionOptions.IsRecursive
         {
             get { return isRecursive; }
+        }
+
+        bool IEquivalencyAssertionOptions.AllowInfiniteRecursion
+        {
+            get { return allowInfiniteRecursion; }
         }
 
         /// <summary>
@@ -231,6 +238,16 @@ namespace FluentAssertions.Equivalency
         public EquivalencyAssertionOptions<TSubject> IgnoringCyclicReferences()
         {
             cyclicReferenceHandling = CyclicReferenceHandling.Ignore;
+            return this;
+        }
+
+
+        /// <summary>
+        /// Disables limitations on recursion depth when the structural equality check is configured to include nested objects
+        /// </summary>
+        public EquivalencyAssertionOptions<TSubject> AllowingInfiniteRecursion()
+        {
+            allowInfiniteRecursion = true;
             return this;
         }
 
