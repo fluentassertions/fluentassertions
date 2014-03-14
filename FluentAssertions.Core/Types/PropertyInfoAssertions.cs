@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Common;
+
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -17,7 +17,7 @@ namespace FluentAssertions.Types
     {
         public PropertyInfoAssertions(PropertyInfo propertyInfo)
         {
-            this.Subject = propertyInfo;
+            Subject = propertyInfo;
         }
 
         /// <summary>
@@ -78,20 +78,19 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeDecoratedWith
-            <TAttribute>(string reason = "", params object[] reasonArgs)
+        public AndWhichConstraint<PropertyInfoAssertions, TAttribute> BeDecoratedWith<TAttribute>(string reason = "",
+            params object[] reasonArgs)
             where TAttribute : Attribute
         {
-            string failureMessage = "Expected property " +
-                                    GetDescriptionFor(Subject) +
-                                    " to be decorated with {0}{reason}, but that attribute was not found.";
+            TAttribute attribute = Subject.GetCustomAttributes(false).OfType<TAttribute>().FirstOrDefault();
 
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWith<TAttribute>())
+                .ForCondition(attribute != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith(failureMessage, typeof (TAttribute));
+                .FailWith("Expected property " + GetDescriptionFor(Subject) +
+                          " to be decorated with {0}{reason}, but that attribute was not found.", typeof(TAttribute));
 
-            return new AndConstraint<PropertyInfoAssertions>(this);
+            return new AndWhichConstraint<PropertyInfoAssertions, TAttribute>(this, attribute);
         }
 
         internal static bool IsGetterNonVirtual(PropertyInfo property)
@@ -107,6 +106,9 @@ namespace FluentAssertions.Types
                 property.DeclaringType, property.Name);
         }
 
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
         protected override string Context
         {
             get { return "property info"; }

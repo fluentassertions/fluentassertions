@@ -234,7 +234,7 @@ namespace FluentAssertions.Specs
 
     internal class ClassWithAllPropertiesDecoratedWithDummyAttribute
     {
-        [DummyProperty]
+        [DummyProperty("Value")]
         public string PublicProperty { get; set; }
 
         [DummyProperty]

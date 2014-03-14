@@ -148,6 +148,16 @@ namespace FluentAssertions.Specs
     [AttributeUsage(AttributeTargets.Property)]
     public class DummyPropertyAttribute : Attribute
     {
+        public DummyPropertyAttribute()
+        {
+        }
+
+        public DummyPropertyAttribute(string value)
+        {
+            Value = value;
+        }
+
+        public string Value { get; private set; }
     }
 
     #endregion

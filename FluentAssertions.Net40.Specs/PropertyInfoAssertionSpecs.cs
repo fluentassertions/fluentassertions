@@ -87,10 +87,34 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }        
+        
+        [TestMethod]
+        public void When_a_property_is_decorated_with_an_attribute_it_should_allow_chaining_assertions()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT
+            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>().Which.Value.Should().Be("OtherValue");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*OtherValue*Value*");
         }
 
         [TestMethod]
-        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_not_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
