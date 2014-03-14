@@ -51,6 +51,12 @@ namespace FluentAssertions.Formatting
                 processedObjects = new List<object>();
             }
 
+            const int MaxDepth = 15;
+            if (nestedPropertyLevel > MaxDepth)
+            {
+                return "{Maximum recursion depth was reached...}";
+            }
+
             IValueFormatter firstFormatterThatCanHandleValue = Formatters.First(f => f.CanHandle(value));
             return firstFormatterThatCanHandleValue.ToString(value, useLineBreaks, processedObjects, nestedPropertyLevel);
         }

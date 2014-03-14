@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
@@ -126,7 +126,34 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             result.Should().Contain("SomeProperty");
         }
-        
+
+        [TestMethod]
+        public void
+            When_the_maximum_recursion_depth_is_met_it_should_give_a_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var head = new Node();
+
+            foreach (int i in Enumerable.Range(0, 20))
+            {
+                var newHead = new Node();
+                newHead.Children.Add(head);
+                head = newHead;
+            }
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(head);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().ContainEquivalentOf("maximum recursion depth");
+        }
+
         public class BaseStuff
         {
             public int StuffId { get; set; }
