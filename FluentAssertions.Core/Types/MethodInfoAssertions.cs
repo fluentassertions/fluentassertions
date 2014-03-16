@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using FluentAssertions.Common;
+
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -18,7 +18,24 @@ namespace FluentAssertions.Types
     {
         public MethodInfoAssertions(MethodInfo methodInfo)
         {
-            this.Subject = methodInfo;
+            Subject = methodInfo;
+        }
+
+        /// <summary>
+        /// Asserts that the selected method is decorated with the specified <typeparamref name="TAttribute"/>.
+        /// </summary>
+        /// <param name="reason">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public AndWhichConstraint<MethodInfoAssertions, TAttribute> BeDecoratedWith<TAttribute>(
+            string reason = "", params object[] reasonArgs)
+            where TAttribute : Attribute
+        {
+            return BeDecoratedWith<TAttribute>(attr => true, reason, reasonArgs);
         }
 
         /// <summary>
@@ -35,38 +52,24 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(
+        public AndWhichConstraint<MethodInfoAssertions, TAttribute> BeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
             string reason = "", params object[] reasonArgs)
             where TAttribute : Attribute
         {
-            string failureMessage = "Expected method " +
-                                    GetDescriptionFor(Subject) +
-                                    " to be decorated with {0}{reason}, but that attribute was not found.";
+            string failureMessage = "Expected method " + GetDescriptionFor(Subject) +
+                " to be decorated with {0}{reason}, but that attribute was not found.";
+
+            TAttribute attribute = Subject.GetCustomAttributes(typeof(TAttribute), false)
+                .Cast<TAttribute>()
+                .FirstOrDefault(isMatchingAttributePredicate.Compile());
 
             Execute.Assertion
-                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
+                .ForCondition(attribute != null)
                 .BecauseOf(reason, reasonArgs)
-                .FailWith(failureMessage, typeof (TAttribute));
+                .FailWith(failureMessage, typeof(TAttribute));
 
-            return new AndConstraint<MethodInfoAssertions>(this);
-        }
-
-        /// <summary>
-        /// Asserts that the selected method is decorated with the specified <typeparamref name="TAttribute"/>.
-        /// </summary>
-        /// <param name="reason">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public AndConstraint<MethodInfoAssertions> BeDecoratedWith<TAttribute>(
-            string reason = "", params object[] reasonArgs)
-            where TAttribute : Attribute
-        {
-            return BeDecoratedWith<TAttribute>(attr => true, reason, reasonArgs);
+            return new AndWhichConstraint<MethodInfoAssertions, TAttribute>(this, attribute);
         }
 
         /// <summary>
