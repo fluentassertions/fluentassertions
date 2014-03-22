@@ -55,8 +55,10 @@ namespace FluentAssertions.Formatting
         {
             string [] lines = SplitIntoSeparateLines(element);
 
-            string firstLine = lines.First().Replace(Environment.NewLine, "");
-            string lastLine = lines.Last().Replace(Environment.NewLine, "");
+            // Can't use env.newline because the input doc may have unix or windows style
+            // line-breaks
+            string firstLine = lines.First().Replace("\r", "").Replace("\n", "");
+            string lastLine = lines.Last().Replace("\r", "").Replace("\n", "");
 
             string formattedElement = firstLine + "..." + lastLine;
             return formattedElement.Escape();

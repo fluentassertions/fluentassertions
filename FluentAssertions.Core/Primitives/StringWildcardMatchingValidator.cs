@@ -29,13 +29,24 @@ namespace FluentAssertions.Primitives
             {
                 var options = IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
 
-                return Regex.IsMatch(subject, ConvertWildcardToRegEx(expected), options | RegexOptions.Singleline);
+                return Regex.IsMatch(CleanNewLines(subject), ConvertWildcardToRegEx(CleanNewLines(expected)), options | RegexOptions.Singleline);
             }
         }
 
-        private static string ConvertWildcardToRegEx(string wildcardExpression)
+        private string ConvertWildcardToRegEx(string wildcardExpression)
         {
             return "^" + Regex.Escape(wildcardExpression).Replace("\\*", ".*").Replace("\\?", ".") + "$";
+        }
+
+        private string CleanNewLines(string input)
+        {
+            if (input == null)
+                return null;
+
+            if (IgnoreNewLineDifferences)
+                return input.Replace("\n", "").Replace("\r", "").Replace("\\r\\n", "");
+
+            return input;
         }
 
         protected override string ExpectationDescription
@@ -61,5 +72,10 @@ namespace FluentAssertions.Primitives
         /// Gets or sets a value indicating whether the matching process should ignore any casing difference.
         /// </summary>
         public bool IgnoreCase { get; set; }
+
+        /// <summary>
+        /// Ignores the difference betweeen environment newline differences
+        /// </summary>
+        public bool IgnoreNewLineDifferences { get; set; }
     }
 }
