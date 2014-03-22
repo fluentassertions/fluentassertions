@@ -1,4 +1,5 @@
 ﻿using FluentAssertions.Common;
+using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions
@@ -7,8 +8,11 @@ namespace FluentAssertions
     {
         static AssertionExtensions()
         {
-            Formatter.AddFormatter(new AggregateExceptionValueFormatter());
             Services.Configuration = new Configuration(new AppSettingsConfigurationStore());
+            Services.TestFramework = TestFrameworkProvider.TestFramework;
+            Services.Reflector = new DefaultReflector();
+
+            Formatter.AddFormatter(new AggregateExceptionValueFormatter());
         }
     }
 }

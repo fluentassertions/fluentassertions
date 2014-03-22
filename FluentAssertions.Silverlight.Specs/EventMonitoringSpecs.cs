@@ -3,7 +3,12 @@ using System.ComponentModel;
 
 using FluentAssertions.Events;
 using FluentAssertions.Primitives;
+
+#if WINRT || WINDOWS_PHONE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Silverlight.Specs
 {
@@ -29,8 +34,7 @@ namespace FluentAssertions.Silverlight.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                "Expected object*EventRaisingClass*to raise event*PropertyChanged*for*SomeProperty*because the property was changed, but it did not.",
-                ComparisonMode.Wildcard);
+                "Expected object*EventRaisingClass*to raise event*PropertyChanged*for*SomeProperty*because the property was changed, but it did not.");
         }
         
         [TestMethod]
@@ -54,7 +58,7 @@ namespace FluentAssertions.Silverlight.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected sender*EventRaisingClass*, but found <null>.", ComparisonMode.Wildcard);
+                .WithMessage("Expected sender*EventRaisingClass*, but found <null>.");
         }
 
         [TestMethod]

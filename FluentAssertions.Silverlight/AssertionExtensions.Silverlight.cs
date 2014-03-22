@@ -1,4 +1,6 @@
 ﻿using FluentAssertions.Common;
+using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 
 namespace FluentAssertions
 {
@@ -6,7 +8,10 @@ namespace FluentAssertions
     {
         static AssertionExtensions()
         {
-            
+            Services.TestFramework = new SilverlightTestFramework();
+            Services.Reflector = new SilverlightReflector();
+
+            Formatter.AddFormatter(new AggregateExceptionValueFormatter());
         }
     }
 }

@@ -3,20 +3,20 @@
   <metadata> 
     <id>FluentAssertions</id>
     <title>Fluent Assertions</title>
-    <version>2.2.0.0</version>
+    <version>3.0.0-alpha2</version>
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen, Martin Opdam</authors>
     <summary>
-      Fluent methods for asserting the result of TDD/BDD specs for .NET 3.5/4.0/4.5 (Desktop and Windows Store), SL 4/5, WP7.5 and WP8 (VS2010, VS2012 and VS 2013 SDKs). Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
+      Fluent methods for asserting the result of TDD/BDD specs for .NET 4.0/4.5 (Desktop and Windows Store), SL 5, WP8 (VS2012 and VS 2013 SDKs). Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
     </summary>
     <description>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or 
-      BDD-style unit test. Runs on .NET 3.5, 4.0 and 4.5 (Desktop and Windows Store), Silverlight 4 and 5 and Windows Phone 7.5 and 8. Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
+      BDD-style unit test. Runs on 4.0 and 4.5 (Desktop and Windows Store), Silverlight 5 and Windows Phone 8. Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
     </description> 
     <language>en-US</language>
     <licenseUrl>https://github.com/dennisdoomen/FluentAssertions/blob/master/LICENSE</licenseUrl>    
     <projectUrl>https://github.com/dennisdoomen/FluentAssertions</projectUrl>
-    <tags>MSTest xUnit NUnit MSpec NSpec Gallio MbUnit TDD BDD Fluent Silverlight WinRT WP7 WP8</tags>
+    <tags>MSTest xUnit NUnit MSpec NSpec Gallio MbUnit TDD BDD Fluent Silverlight WinRT WP8</tags>
     <copyright>Copyright Dennis Doomen 2010-2014</copyright>
     <releaseNotes>
       See https://github.com/dennisdoomen/fluentassertions/releases/
@@ -27,6 +27,6 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="lib\**\*.*" target="lib" exclude="**\*.pri;**\winrt45\microsoft*.dll"/>
+    <file src="lib\**\*.*" target="lib" exclude="**\*.pri;**\windows8\microsoft*.dll"/>
   </files>
 </package>

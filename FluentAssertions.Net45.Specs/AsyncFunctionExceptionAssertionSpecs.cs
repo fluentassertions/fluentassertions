@@ -61,8 +61,7 @@ namespace FluentAssertions.Net45.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected System.InvalidOperationException, but no exception was thrown",
-                    ComparisonMode.StartWith);
+                .WithMessage("Expected System.InvalidOperationException, but no exception was thrown*");
         }
 
         [TestMethod]
@@ -133,8 +132,7 @@ namespace FluentAssertions.Net45.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect any exception, but found a System.ArgumentException",
-                    ComparisonMode.StartWith);
+                .WithMessage("Did not expect any exception, but found a System.ArgumentException*");
         }
 
         [TestMethod]
@@ -204,8 +202,7 @@ namespace FluentAssertions.Net45.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect System.ArgumentException, but found one",
-                    ComparisonMode.StartWith);
+                .WithMessage("Did not expect System.ArgumentException, but found one*");
         }
     }
 
