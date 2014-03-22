@@ -52,7 +52,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Package\Lib\sl4-windowsphone71\</OutputPath>
+    <OutputPath>..\Package\Lib\windowsphone8\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
@@ -60,7 +60,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591; 1572; 1573;1574; 618</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>..\Package\Lib\sl4-windowsphone71\FluentAssertions.WindowsPhone.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\windowsphone8\FluentAssertions.WindowsPhone.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

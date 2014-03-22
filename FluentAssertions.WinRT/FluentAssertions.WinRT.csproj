@@ -39,11 +39,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Package\Lib\winrt45\</OutputPath>
+    <OutputPath>..\Package\Lib\windows8\</OutputPath>
     <DefineConstants>TRACE;WINRT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\winrt45\FluentAssertions.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\windows8\FluentAssertions.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
