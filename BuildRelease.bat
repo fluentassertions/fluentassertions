@@ -1,4 +1,4 @@
-CALL "%VS110COMNTOOLS%vsvars32.bat"
+CALL "%VS120COMNTOOLS%vsvars32.bat"
 
 msbuild /p:Configuration=Release /t:Rebuild FluentAssertions.sln
 

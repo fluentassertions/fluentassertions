@@ -3,7 +3,7 @@
   <metadata> 
     <id>FluentAssertions</id>
     <title>Fluent Assertions</title>
-    <version>2.2.0.0</version>
+    <version>3.0.0-alpha</version>
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen, Martin Opdam</authors>
     <summary>
