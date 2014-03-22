@@ -11,8 +11,6 @@
     <RootNamespace>FluentAssertions.Android.Specs</RootNamespace>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>
-    </AndroidUseLatestPlatformSdk>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -197,7 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FluentAssertions.Android\FluentAssertions.Android.csproj">
-      <Project>{f2aa2b81-431f-4f5c-a662-bc75358be5cc}</Project>
+      <Project>{F2AA2B81-431F-4F5C-A662-BC75358BE5CC}</Project>
       <Name>FluentAssertions.Android</Name>
     </ProjectReference>
   </ItemGroup>
