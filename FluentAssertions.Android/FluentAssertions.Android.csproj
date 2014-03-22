@@ -28,14 +28,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Package\Lib\monoandroid10\</OutputPath>
+    <OutputPath>..\Package\Lib\monoandroid\</OutputPath>
     <DefineConstants>TRACE;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <DocumentationFile>..\Package\Lib\monoandroid10\FluentAssertions.Android.XML</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\monoandroid\FluentAssertions.Android.XML</DocumentationFile>
   </PropertyGroup>
-    <PropertyGroup>
+  <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
