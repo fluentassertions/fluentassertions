@@ -123,12 +123,6 @@
       <Link>FluentAssertions.snk</Link>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
-      <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
-      <Name>FluentAssertions.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

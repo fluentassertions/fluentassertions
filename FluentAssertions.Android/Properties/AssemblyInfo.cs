@@ -10,6 +10,3 @@ using Android.App;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Fluent Assertions")]
-
-
-[assembly: InternalsVisibleTo("FluentAssertions.Android.Specs")]
