@@ -77,7 +77,7 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
     <DefineConstants>__IOS__;__MOBILE__;NUNIT;</DefineConstants>
   </PropertyGroup>
-    <PropertyGroup>
+  <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
@@ -207,8 +207,9 @@
     <BundleResource Include="Resources\Default-568h@2x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions.Core">
-      <HintPath>..\packages\FluentAssertions.3.0.0-alpha3\lib\portable-net40+sl5+win8+wp8\FluentAssertions.Core.dll</HintPath>
+    <Reference Include="FluentAssertions.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentAssertions.3.0.0-alpha4\lib\portable-net40+sl5+win8+wp8\FluentAssertions.Core.dll</HintPath>
     </Reference>
     <Reference Include="MonoTouch.NUnitLite" />
     <Reference Include="System.Xml.Linq" />
