@@ -70,5 +70,10 @@ namespace FluentAssertions.Common
         {
             return @this.Substring(0, 1).ToUpper() + @this.Substring(1);
         }
+
+        public static string RemoveNewLines(this string @this)
+        {
+            return @this.Replace("\n", "").Replace("\r", "").Replace("\\r\\n", "");
+        }
     }
 }

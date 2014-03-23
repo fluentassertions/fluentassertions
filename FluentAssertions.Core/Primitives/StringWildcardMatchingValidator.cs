@@ -1,6 +1,8 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Primitives
 {
     internal class StringWildcardMatchingValidator : StringValidator
@@ -41,12 +43,11 @@ namespace FluentAssertions.Primitives
         private string CleanNewLines(string input)
         {
             if (input == null)
+            {
                 return null;
+            }
 
-            if (IgnoreNewLineDifferences)
-                return input.Replace("\n", "").Replace("\r", "").Replace("\\r\\n", "");
-
-            return input;
+            return IgnoreNewLineDifferences ? input.RemoveNewLines() : input;
         }
 
         protected override string ExpectationDescription
