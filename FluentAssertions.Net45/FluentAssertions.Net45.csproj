@@ -62,49 +62,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
+    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\AppSettingsConfigurationStore.cs">
+    <Compile Include="..\FluentAssertions.Net40\Common\AppSettingsConfigurationStore.cs">
       <Link>Common\AppSettingsConfigurationStore.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Common\DefaultReflectionProvider.cs">
+    <Compile Include="..\FluentAssertions.Net40\Common\DefaultReflectionProvider.cs">
       <Link>Common\DefaultReflectionProvider.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\EventSourceExtensions.cs">
+    <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
       <Link>EventSourceExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Events\EventHandlerFactory.cs">
+    <Compile Include="..\FluentAssertions.Net40\Events\EventHandlerFactory.cs">
       <Link>Events\EventHandlerFactory.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\FallbackTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\FallbackTestFramework.cs">
       <Link>Execution\FallbackTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\GallioTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\GallioTestFramework.cs">
       <Link>Execution\GallioTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\LateBoundTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\LateBoundTestFramework.cs">
       <Link>Execution\LateBoundTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\MbUnitTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\MbUnitTestFramework.cs">
       <Link>Execution\MbUnitTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\MSpecFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\MSpecFramework.cs">
       <Link>Execution\MSpecFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\MSTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFramework.cs">
       <Link>Execution\MSTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\NUnitTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\NUnitTestFramework.cs">
       <Link>Execution\NUnitTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\XUnitTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\XUnitTestFramework.cs">
       <Link>Execution\XUnitTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\ObjectAssertionsExtensions.cs">
+    <Compile Include="..\FluentAssertions.Net40\ObjectAssertionsExtensions.cs">
       <Link>ObjectAssertionsExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Specialized\ExecutionTimeAssertions.cs">
+    <Compile Include="..\FluentAssertions.Net40\Specialized\ExecutionTimeAssertions.cs">
       <Link>Specialized\ExecutionTimeAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">

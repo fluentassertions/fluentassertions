@@ -39,11 +39,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Package\Lib\winrt45\</OutputPath>
+    <OutputPath>..\Package\Lib\windows8\</OutputPath>
     <DefineConstants>TRACE;WINRT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\winrt45\FluentAssertions.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\windows8\FluentAssertions.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -53,13 +53,13 @@
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net35\AssertionExtensions.cs">
+    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.cs">
       <Link>AssertionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Execution\LateBoundTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net40\Execution\LateBoundTestFramework.cs">
       <Link>Execution\LateBoundTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net35\Specialized\ExecutionTimeAssertions.cs">
+    <Compile Include="..\FluentAssertions.Net40\Specialized\ExecutionTimeAssertions.cs">
       <Link>Specialized\ExecutionTimeAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">
@@ -92,7 +92,7 @@
       <Name>FluentAssertions.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v11.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v12.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
