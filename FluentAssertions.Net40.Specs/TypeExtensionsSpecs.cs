@@ -12,10 +12,6 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class TypeExtensionsSpecs
     {
-        class InheritedType { }
-
-        class InheritingType : InheritedType { }
-
         [TestMethod]
         public void When_comparing_types_and_types_are_same_it_should_return_true()
         {
@@ -95,6 +91,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             result.Should().BeFalse();
         }
-        
+
+        class InheritedType { }
+
+        class InheritingType : InheritedType { }
     }
 }

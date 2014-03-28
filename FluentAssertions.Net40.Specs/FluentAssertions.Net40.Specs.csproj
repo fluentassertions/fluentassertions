@@ -127,6 +127,7 @@
     <Compile Include="MethodInfoAssertionSpecs.cs" />
     <Compile Include="MethodInfoSelectorAssertionSpecs.cs" />
     <Compile Include="TypeAssertionSpecs.cs" />
+    <Compile Include="TypeExtensionsSpecs.cs" />
     <Compile Include="TypeSelectorSpecs.cs" />
     <Compile Include="XAttributeAssertionSpecs.cs" />
     <Compile Include="XAttributeFormatterSpecs.cs" />
