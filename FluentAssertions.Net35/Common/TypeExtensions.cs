@@ -41,7 +41,7 @@ namespace FluentAssertions.Common
         public static bool IsSameOrInherits(this Type actualType, Type expectedType)
         {
             return (actualType == expectedType) ||
-                   (actualType.IsAssignableFrom(expectedType))
+                   (expectedType.IsAssignableFrom(actualType))
                 ;
         }
 
