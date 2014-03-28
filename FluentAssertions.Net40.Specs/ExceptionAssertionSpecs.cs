@@ -298,6 +298,31 @@ namespace FluentAssertions.Specs
             }
         }
 
+        [TestMethod]
+        public void When_asserting_with_an_aggregate_exception_type_the_asserts_should_occur_against_the_aggregate_exception()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do())
+                .Throws(new AggregateException("Outer Message",
+                    new Exception("Inner Message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<AggregateException>()
+                .WithMessage("Outer Message")
+                .WithInnerException<Exception>()
+                .WithInnerMessage("Inner Message");
+        }
+
         #endregion
 
         #region Inner Exceptions

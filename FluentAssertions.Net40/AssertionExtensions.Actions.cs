@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
+using FluentAssertions.Common;
 using FluentAssertions.Specialized;
 
 namespace FluentAssertions
@@ -133,6 +135,19 @@ namespace FluentAssertions
         private class AggregateExceptionExtractor : IExtractExceptions
         {
             public IEnumerable<T> OfType<T>(Exception actualException) where T : Exception
+            {
+                if (typeof(T).IsSameOrInherits(typeof(AggregateException)))
+                {
+                    var exception = actualException as T;
+
+                    return (exception == null) ? Enumerable.Empty<T>() : new[] { exception };
+                }
+
+                return GetExtractedExceptions<T>(actualException);
+            }
+
+            private static List<T> GetExtractedExceptions<T>(Exception actualException)
+                where T : Exception
             {
                 var exceptions = new List<T>();
 
