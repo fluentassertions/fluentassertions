@@ -538,7 +538,7 @@ namespace FluentAssertions
             new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
         }
 
-#if !SILVERLIGHT && !WINRT
+#if !SILVERLIGHT && !WINRT && !__IOS__
         /// <summary>
         ///   Starts monitoring an object for its events.
         /// </summary>

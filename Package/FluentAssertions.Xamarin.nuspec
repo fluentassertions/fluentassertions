@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<package> 
+  <metadata> 
+    <id>FluentAssertions.Xamarin</id>
+    <title>Fluent Assertions for Xamarin</title>
+    <version>3.0.0-alpha4</version>
+    <owners>onovotny</owners>
+    <authors>Oren Novotny, Dennis Doomen, Martin Opdam</authors>
+    <summary>
+      Fluent methods for asserting the result of TDD/BDD specs for Xamarin projects. Supports the unit test frameworks NUnit and NUnitLite.
+    </summary>
+    <description>
+      A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or 
+      BDD-style unit test. This package adds Xamarin support. Supports the unit test frameworks NUnit PCL and NUnitLite.
+    </description> 
+    <language>en-US</language>
+    <licenseUrl>https://github.com/onovotny/fluentassertions/blob/Xamarin-Support/LICENSE</licenseUrl>    
+    <projectUrl>https://github.com/onovotny/fluentassertions</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>NUnit TDD BDD Fluent Xamarin MonoTouch MonoAndroid iOS Android</tags>
+    <copyright>© Oren Novotny 2014</copyright>
+    <releaseNotes>
+      See https://github.com/dennisdoomen/fluentassertions/releases/
+    </releaseNotes>
+    <dependencies>
+      <group>
+        <dependency id="FluentAssertions" version="3.0.0-alpha4" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- MonoAndroid -->
+    <file src="lib\monoandroid\FluentAssertions.Android.dll" target="lib\monoandroid\FluentAssertions.Android.dll" />
+    <file src="lib\monoandroid\FluentAssertions.Android.pdb" target="lib\monoandroid\FluentAssertions.Android.pdb" />
+    <file src="lib\monoandroid\FluentAssertions.Android.xml" target="lib\monoandroid\FluentAssertions.Android.xml" />
+
+    <!-- MonoTouch -->
+    <file src="lib\monotouch\FluentAssertions.iOS.dll" target="lib\monotouch\FluentAssertions.iOS.dll" />
+    <file src="lib\monotouch\FluentAssertions.iOS.pdb" target="lib\monotouch\FluentAssertions.iOS.pdb" />
+    <file src="lib\monotouch\FluentAssertions.iOS.xml" target="lib\monotouch\FluentAssertions.iOS.xml" />
+  </files>
+</package>

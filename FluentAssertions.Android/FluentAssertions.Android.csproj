@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F2AA2B81-431F-4F5C-A662-BC75358BE5CC}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FluentAssertions</RootNamespace>
+    <AssemblyName>FluentAssertions.Android</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Package\Lib\monoandroid\</OutputPath>
+    <DefineConstants>TRACE;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <DocumentationFile>..\Package\Lib\monoandroid\FluentAssertions.Android.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentAssertions.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentAssertions.3.0.0-alpha4\lib\portable-net40+sl5+win8+wp8\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">
+      <Link>AssertionExtensions.Actions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.cs">
+      <Link>AssertionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Common\DefaultReflectionProvider.cs">
+      <Link>Common\DefaultReflectionProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
+      <Link>EventSourceExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Events\EventHandlerFactory.cs">
+      <Link>Events\EventHandlerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\LateBoundTestFramework.cs">
+      <Link>Execution\LateBoundTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\ObjectAssertionsExtensions.cs">
+      <Link>ObjectAssertionsExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Specialized\ExecutionTimeAssertions.cs">
+      <Link>Specialized\ExecutionTimeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net45\AssertionExtensions.Net45.cs">
+      <Link>AssertionExtensions.Net45.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.WinRT\Execution\NUnitPclTestFramework.cs">
+      <Link>Execution\NUnitPclTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.WinRT\Execution\TestFrameworkProvider.cs">
+      <Link>Execution\TestFrameworkProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Execution\NUnitLiteTestFramework.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Resources\AboutResources.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Values\Strings.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

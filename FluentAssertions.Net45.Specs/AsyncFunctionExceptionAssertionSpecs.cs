@@ -3,10 +3,15 @@ using System.Threading.Tasks;
 
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif NUNIT
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestCaseAttribute;
+using AssertFailedException = NUnit.Framework.AssertionException;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
+#if !__IOS__ && !ANDROID
 namespace FluentAssertions.Net45.Specs
 {
     [TestClass]
@@ -218,3 +223,4 @@ namespace FluentAssertions.Net45.Specs
         }
     }
 }
+#endif

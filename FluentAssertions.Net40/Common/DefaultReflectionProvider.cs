@@ -19,8 +19,12 @@ namespace FluentAssertions.Common
 
         private static bool IsDynamic(Assembly assembly)
         {
+#if __IOS__
+            return false; // iOS does not support dynamic assemblies
+#else
             return (assembly is AssemblyBuilder) ||
                    (assembly.GetType().FullName == "System.Reflection.Emit.InternalAssemblyBuilder");
+#endif
         }
 
         private static IEnumerable<Type> GetExportedTypes(Assembly assembly)

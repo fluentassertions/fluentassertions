@@ -4,6 +4,12 @@ using System.Collections.Generic;
 
 #if WINRT
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#elif NUNIT
+using TestClassAttribute = NUnit.Framework.TestFixtureAttribute;
+using TestMethodAttribute = NUnit.Framework.TestCaseAttribute;
+using AssertFailedException = NUnit.Framework.AssertionException;
+using TestInitializeAttribute = NUnit.Framework.SetUpAttribute;
+using Assert = NUnit.Framework.Assert;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -1466,7 +1472,8 @@ namespace FluentAssertions.Specs
         #endregion
     }
 
-    internal class TrackingTestDictionary : IDictionary<int, string>
+    // don't derive from dictionary or Any() will short-circuit and call Count > 0
+    internal class TrackingTestDictionary : IEnumerable<KeyValuePair<int, string>> 
     {
         private readonly TrackingDictionaryEnumerator enumerator;
         private readonly IDictionary<int, string> entries;

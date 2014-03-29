@@ -8,7 +8,9 @@ namespace FluentAssertions
     {
         static AssertionExtensions()
         {
+#if !__IOS__ && !ANDROID
             Services.Configuration = new Configuration(new AppSettingsConfigurationStore());
+#endif
             Services.TestFramework = TestFrameworkProvider.TestFramework;
             Services.Reflector = new DefaultReflector();
 

@@ -1,22 +1,24 @@
 Fluent Assertions
 ================
 
-Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test. We currently use it in all our internal and client projects, and it is used in many open-source projects. It runs on the following frameworks:
+Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the 
+expected outcome of a TDD or BDD-style test. It is used in many open-source projects. 
 
-* .NET 3.5, 4.0 and 4.5
-* Windows Store for Windows 8
-* Silverlight 4 and 5
-* Windows Phone 7.5 and 8. 
+The main project supports all Microsoft runtimes and is [here](https://github.com/dennisdoomen/fluentassertions/).
+
+This is an extension project that adds support for Xamarin, both MonoTouch and MonoAndroid
+to the Fluent Assertions project.
+
+It runs on the following frameworks:
+
+* MonoAndroid (Android)
+* MonoTouch (iOS)
  
-It supports the following unit test frameworks:
+Fluent Assertions on Xamarin currently supports NUnit as it's the only
+available unit test platform with Xamarin support. As others add support
+for Xamarin, Fluent Assertions will support those too.
 
-* MSTest (Visual Studio 2010, Visual Studio 2012 Update 2 and Visual Studio 2013)
 * [NUnit](http://www.nunit.org/)
-* [XUnit](http://xunit.codeplex.com/)
-* [MBUnit](http://code.google.com/p/mb-unit/)
-* [Gallio](http://code.google.com/p/mb-unit/)
-* [NSpec](http://nspec.org/)
-* [MSpec](https://github.com/machine/machine.specifications)
 
 Why?
 ----
@@ -73,35 +75,20 @@ To verify that a particular business rule is enforced using exceptions.
 What’s new?
 -----------
 
-**August 28th, 2013**  
-Release 2.1 is a fact and introduces a few big improvements on the equivalency test. Read all about it [in this blog post](http://www.dennisdoomen.net/2013/08/it-took-almost-year-but-fluent.html). 
+**March 2014**  
+Initial Alpha release of Xamarin support for Fluent Assertions v3.0-alpha.
 
-**May 20th, 2013**      
-Through a contribution on GitHub, Ufuk Hacıoğulları has added support for MonoTouch.  
- 
-***March 3rd, 2013***  
-We've released a small bugfix on NuGet and CodePlex.
- 
-**October 7th, 2012**  
-Version 2.0 is now out of beta.
- 
-**August 25th, 2012**  
-Fluent Assertions 2.0, a major new version with support for .NET 4.5, Windows Phone and Windows Store Apps is in beta. Read all the details in this blog post.
-  
-**January 13th, 2012**  
-A relatively small release. Read all about it in this blog post.
- 
-**October 31st, 2011**  
-Another release with lots of bug fixes and small improvements and with great contributions by Martin Opdam and Urs Enzler. Download it here or get it through NuGet.
- 
 About versioning
 ----------------
 The version numbers of Fluent Assertions releases comply to the Semantic Versioning scheme. In other words, release 1.4.0 only adds backwards-compatible functionality and bug fixes compared to 1.3.0. Release 1.4.1 should only include bug fixes. And if we ever introduce breaking changes, the number increased to 2.0.0.
 
 Who are we?
 -----------
-We are a bunch of developers working for Aviva Solutions who highly value software quality, in particular  
+Xamarin support
+- [Oren Novotny](https://twitter.com/onovotny)
+
+The main Fluent Assertions authors
 - [Dennis Doomen](https://twitter.com/ddoomen)  
 - Martin Opdam 
 
-If you have any comments or suggestions, please let us know via [twitter](https://twitter.com/search?q=fluentassertions&src=typd), through the [issues](https://github.com/dennisdoomen/FluentAssertions/issues) page, or through [StackOverflow](http://stackoverflow.com/questions/tagged/fluent-assertions).
+If you have any comments or suggestions, please let us know via [twitter](https://twitter.com/search?q=fluentassertions&src=typd), through the [issues](https://github.com/onovotny/FluentAssertions/issues) page, or through [StackOverflow](http://stackoverflow.com/questions/tagged/fluent-assertions).
