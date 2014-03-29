@@ -163,7 +163,7 @@ namespace FluentAssertions.Xml
         /// <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">The name of the expected root element of the current document.</param>
-        public AndConstraint<XDocumentAssertions> HaveRoot(string expected)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(string expected)
         {
             return HaveRoot(expected, string.Empty);
         }
@@ -173,7 +173,7 @@ namespace FluentAssertions.Xml
         /// <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">The name of the expected root element of the current document.</param>
-        public AndConstraint<XDocumentAssertions> HaveRoot(XName expected)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(XName expected)
         {
             return HaveRoot(expected, string.Empty);
         }
@@ -190,7 +190,7 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveRoot(string expected, string reason, params object[] reasonArgs)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(string expected, string reason, params object[] reasonArgs)
         {
             return HaveRoot(XNamespace.None + expected, reason, reasonArgs);
         }
@@ -207,7 +207,7 @@ namespace FluentAssertions.Xml
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public AndConstraint<XDocumentAssertions> HaveRoot(XName expected, string reason, params object[] reasonArgs)
+        public AndWhichConstraint<XDocumentAssertions, XElement> HaveRoot(XName expected, string reason, params object[] reasonArgs)
         {
             XElement root = Subject.Root;
 
@@ -217,7 +217,7 @@ namespace FluentAssertions.Xml
                 .FailWith("Expected XML document to have root element \"" + expected.ToString().Escape() + "\"{reason}" +
                     ", but found {0}.", Subject);
 
-            return new AndConstraint<XDocumentAssertions>(this);
+            return new AndWhichConstraint<XDocumentAssertions, XElement>(this, root);
         }
 
         /// <summary>
