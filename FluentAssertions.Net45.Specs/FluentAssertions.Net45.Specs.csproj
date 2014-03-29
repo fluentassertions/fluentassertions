@@ -162,6 +162,9 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\TypeAssertionSpecs.cs">
       <Link>TypeAssertionSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\TypeExtensionsSpecs.cs">
+      <Link>TypeExtensionsSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\TypeSelectorSpecs.cs">
       <Link>TypeSelectorSpecs.cs</Link>
     </Compile>

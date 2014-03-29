@@ -605,7 +605,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_equally_named_properties_are_type_incompatiblle_it_should_throw()
+        public void When_equally_named_properties_are_type_incompatible_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -631,6 +631,36 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected property Type to be*Int32*, but found*String*");
+        }
+
+        [TestMethod]
+        public void When_equally_named_properties_are_type_incompatible_and_assertion_rule_exists_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Type = typeof(String),
+            };
+
+            var other = new
+            {
+                Type = typeof(String).AssemblyQualifiedName,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(other,
+                o => o
+                    .Using<object>(c => ((Type)c.Subject).AssemblyQualifiedName.Should().Be((string)c.Expectation))
+                    .When(si => si.PropertyPath == "Type"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
