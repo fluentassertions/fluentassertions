@@ -43,7 +43,7 @@ namespace FluentAssertions.Xml
         public AndConstraint<XElementAssertions> Be(XElement expected, string reason, params object[] reasonArgs)
         {
             Execute.Assertion
-                .ForCondition((Subject != null) && Subject.Name.Equals(expected.Name))
+                .ForCondition(XNode.DeepEquals(Subject, expected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element to be {0}{reason}, but found {1}.", expected, Subject);
 
@@ -75,7 +75,7 @@ namespace FluentAssertions.Xml
         public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string reason, params object[] reasonArgs)
         {
             Execute.Assertion
-                .ForCondition((ReferenceEquals(Subject, null) && !ReferenceEquals(unexpected, null)) || !Subject.Name.Equals(unexpected.Name))
+                .ForCondition((ReferenceEquals(Subject, null) && !ReferenceEquals(unexpected, null)) || !XNode.DeepEquals(Subject, unexpected))
                 .BecauseOf(reason, reasonArgs)
                 .FailWith("Expected XML element not to be {0}{reason}.", unexpected);
 
