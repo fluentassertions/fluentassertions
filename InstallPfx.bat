@@ -1,3 +1,3 @@
-certutil -p fluentassertions -importpfx FluentAssertions.WinRT.Specs\FluentAssertions.WinRT.Specs_TemporaryKey.pfx
+certutil -f -p fluentassertions -importpfx FluentAssertions.WinRT.Specs\FluentAssertions.WinRT.Specs_TemporaryKey.pfx
 
 pause
