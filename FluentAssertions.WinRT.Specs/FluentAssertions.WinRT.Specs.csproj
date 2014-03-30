@@ -20,12 +20,12 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <PackageCertificateThumbprint>EF62DAF1210432C81FABD9BFEF9EBAA1BE76CB29</PackageCertificateThumbprint>
-    <PackageCertificateKeyFile>FluentAssertions.WinRT.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <TargetFrameworkVersion />
     <AppxBundle>Never</AppxBundle>
+    <PackageCertificateThumbprint>832E8CF17616B4013B2A00CA8482EDAA67E1CFEB</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>FluentAssertions.WinRT.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -225,6 +225,9 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FluentAssertions.WinRT.Specs_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v12.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

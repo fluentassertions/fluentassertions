@@ -73,6 +73,9 @@ To verify that a particular business rule is enforced using exceptions.
 What’s new?
 -----------
 
+**December 30th, 2013**
+Another nice update in the form of v2.2. Read all about it in the [Releases](https://github.com/dennisdoomen/fluentassertions/releases/tag/v2.2) section.
+
 **August 28th, 2013**  
 Release 2.1 is a fact and introduces a few big improvements on the equivalency test. Read all about it [in this blog post](http://www.dennisdoomen.net/2013/08/it-took-almost-year-but-fluent.html). 
 
@@ -97,6 +100,13 @@ Another release with lots of bug fixes and small improvements and with great con
 About versioning
 ----------------
 The version numbers of Fluent Assertions releases comply to the Semantic Versioning scheme. In other words, release 1.4.0 only adds backwards-compatible functionality and bug fixes compared to 1.3.0. Release 1.4.1 should only include bug fixes. And if we ever introduce breaking changes, the number increased to 2.0.0.
+
+What do you need to compile the solution?
+-----------------------------
+* Visual Studio 2013
+* Windows 8.1
+* The Windows Phone 8 SDK
+* You need to import the test certificate by running `InstallPfx.bat` through an elevated command prompt. 
 
 Who are we?
 -----------
