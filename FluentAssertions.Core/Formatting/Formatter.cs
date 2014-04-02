@@ -68,7 +68,7 @@ namespace FluentAssertions.Formatting
         {
             if (!Formatters.Contains(formatter))
             {
-                Formatters.Insert(Formatters.Count - 2, formatter);
+                Formatters.Insert(0, formatter);
             }
         }
     }
