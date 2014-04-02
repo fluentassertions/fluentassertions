@@ -2169,6 +2169,40 @@ namespace FluentAssertions.Specs
             var subject = new Root
             {
                 Text = "Root",
+                Level = new Level1
+                {
+                    Text = "Level2",
+                }
+            };
+
+            var expected = new RootDto
+            {
+                Text = "Root",
+                Level = null
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property Level to be <null>*, but found*Level1*Level2*");
+        }
+
+        [TestMethod]
+        public void When_the_nested_object_property_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new Root
+            {
+                Text = "Root",
                 Level = null
             };
 
