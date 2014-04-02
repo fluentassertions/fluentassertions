@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace FluentAssertions.Events
 {
@@ -12,6 +13,7 @@ namespace FluentAssertions.Events
     public class EventRecorder : IEventRecorder
     {
         private readonly IList<RecordedEvent> raisedEvents = new List<RecordedEvent>();
+        private readonly object lockable = new object();
         private WeakReference eventObject;
 
         /// <summary>
@@ -43,7 +45,10 @@ namespace FluentAssertions.Events
         /// </summary>
         public IEnumerator<RecordedEvent> GetEnumerator()
         {
-            return raisedEvents.GetEnumerator();
+            lock (lockable)
+            {
+                return raisedEvents.ToList().GetEnumerator();
+            }
         }
 
         /// <summary>
@@ -52,7 +57,10 @@ namespace FluentAssertions.Events
         /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return raisedEvents.GetEnumerator();
+            lock (lockable)
+            {
+                return raisedEvents.ToList().GetEnumerator();
+            }
         }
 
         /// <summary>
@@ -60,7 +68,10 @@ namespace FluentAssertions.Events
         /// </summary>
         public void RecordEvent(params object [] parameters)
         {
-            raisedEvents.Add(new RecordedEvent(EventObject, parameters));
+            lock (lockable)
+            {
+                raisedEvents.Add(new RecordedEvent(EventObject, parameters));
+            }
         }
     }
 }
