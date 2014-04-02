@@ -282,7 +282,7 @@ namespace FluentAssertions.Xml
             if (expected == null)
             {
                 throw new ArgumentNullException("expected",
-                    "Cannot assert the document has a root element if the element name is <null>*");
+                    "Cannot assert the document has an element if the element name is <null>*");
             }
 
             return HaveElement(XNamespace.None + expected, reason, reasonArgs);
