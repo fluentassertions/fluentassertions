@@ -6,9 +6,9 @@ namespace FluentAssertions.Primitives
     {
         private readonly StringComparison stringComparison;
 
-        public NegatedStringStartValidator(string subject, string expected, StringComparison stringComparison, string reason,
+        public NegatedStringStartValidator(string subject, string expected, StringComparison stringComparison, string because,
             object[] reasonArgs) :
-                base(subject, expected, reason, reasonArgs)
+                base(subject, expected, because, reasonArgs)
         {
             this.stringComparison = stringComparison;
         }

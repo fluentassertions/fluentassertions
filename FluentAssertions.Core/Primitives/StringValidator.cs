@@ -17,9 +17,9 @@ namespace FluentAssertions.Primitives
 
         #endregion
 
-        protected StringValidator(string subject, string expected, string reason, object[] reasonArgs)
+        protected StringValidator(string subject, string expected, string because, object[] reasonArgs)
         {
-            assertion = Execute.Assertion.BecauseOf(reason, reasonArgs);
+            assertion = Execute.Assertion.BecauseOf(because, reasonArgs);
 
             this.subject = subject;
             this.expected = expected;

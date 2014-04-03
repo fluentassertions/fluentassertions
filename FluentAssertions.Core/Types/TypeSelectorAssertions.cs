@@ -32,14 +32,14 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
+        public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] reasonArgs)
             where TAttribute : Attribute
         {
             IEnumerable<Type> typesWithoutAttribute = Subject
@@ -48,7 +48,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!typesWithoutAttribute.Any())
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected all types to be decorated with {0}{reason}," +
                     " but the attribute was not found on the following types:\r\n" + GetDescriptionsFor(typesWithoutAttribute),
                     typeof(TAttribute));
@@ -63,15 +63,15 @@ namespace FluentAssertions.Types
         /// <param name="isMatchingAttributePredicate">
         /// The predicate that the attribute must match.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(
-            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string reason = "", params object[] reasonArgs)
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] reasonArgs)
             where TAttribute : Attribute
         {
             IEnumerable<Type> typesWithoutMatchingAttribute = Subject
@@ -80,7 +80,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!typesWithoutMatchingAttribute.Any())
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected all types to be decorated with {0} that matches {1}{reason}," +
                     " but no matching attribute was found on the following types:\r\n" + GetDescriptionsFor(typesWithoutMatchingAttribute),
                     typeof(TAttribute), isMatchingAttributePredicate.Body);

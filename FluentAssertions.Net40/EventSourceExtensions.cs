@@ -32,7 +32,7 @@ namespace FluentAssertions
         /// <param name="eventName">
         /// The name of the event that should have been raised.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
@@ -44,14 +44,14 @@ namespace FluentAssertions
         /// subscribe for the events of the object.
         /// </remarks>
         public static EventRecorder ShouldRaise(
-            this object eventSource, string eventName, string reason, params object[] reasonArgs)
+            this object eventSource, string eventName, string because, params object[] reasonArgs)
         {
             EventRecorder eventRecorder = eventSource.GetRecorderForEvent(eventName);
 
             if (!eventRecorder.Any())
             {
                 Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
+                    .BecauseOf(because, reasonArgs)
                     .FailWith("Expected object {0} to raise event {1}{reason}, but it did not.", eventSource, eventName);
             }
 
@@ -81,7 +81,7 @@ namespace FluentAssertions
         /// <param name="eventName">
         /// The name of the event that should not be raised.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
@@ -93,13 +93,13 @@ namespace FluentAssertions
         /// subscribe for the events of the object.
         /// </remarks>
         public static void ShouldNotRaise(
-            this object eventSource, string eventName, string reason, params object[] reasonArgs)
+            this object eventSource, string eventName, string because, params object[] reasonArgs)
         {
             EventRecorder eventRecorder = eventSource.GetRecorderForEvent(eventName);
             if (eventRecorder.Any())
             {
                 Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
+                    .BecauseOf(because, reasonArgs)
                     .FailWith("Expected object {0} to not raise event {1}{reason}, but it did.", eventSource, eventName);
             }
         }

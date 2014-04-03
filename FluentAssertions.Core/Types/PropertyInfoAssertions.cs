@@ -23,15 +23,15 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected property is virtual.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<PropertyInfoAssertions> BeVirtual(
-            string reason = "", params object[] reasonArgs)
+            string because = "", params object[] reasonArgs)
         {
             string failureMessage = "Expected property " +
                                     GetDescriptionFor(Subject) +
@@ -39,7 +39,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!IsGetterNonVirtual(Subject))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -48,19 +48,19 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected property has a setter.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<PropertyInfoAssertions> BeWritable(
-            string reason = "", params object[] reasonArgs)
+            string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CanWrite)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith(
                     "Expected {context:property} {0} to have a setter{reason}.",
                     Subject);
@@ -71,14 +71,14 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected property is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<PropertyInfoAssertions, TAttribute> BeDecoratedWith<TAttribute>(string reason = "",
+        public AndWhichConstraint<PropertyInfoAssertions, TAttribute> BeDecoratedWith<TAttribute>(string because = "",
             params object[] reasonArgs)
             where TAttribute : Attribute
         {
@@ -86,7 +86,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(attribute != null)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected property " + GetDescriptionFor(Subject) +
                           " to be decorated with {0}{reason}, but that attribute was not found.", typeof(TAttribute));
 

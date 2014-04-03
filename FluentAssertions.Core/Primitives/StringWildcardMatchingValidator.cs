@@ -7,8 +7,8 @@ namespace FluentAssertions.Primitives
 {
     internal class StringWildcardMatchingValidator : StringValidator
     {
-        public StringWildcardMatchingValidator(string subject, string expected, string reason, object[] reasonArgs)
-            : base(subject, expected, reason, reasonArgs)
+        public StringWildcardMatchingValidator(string subject, string expected, string because, object[] reasonArgs)
+            : base(subject, expected, because, reasonArgs)
         {
         }
 

@@ -92,28 +92,28 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Specify the reason why you expect the condition to be <c>true</c>.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase explaining why the condition should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AssertionScope BecauseOf(string reason, params object[] reasonArgs)
+        public AssertionScope BecauseOf(string because, params object[] reasonArgs)
         {
-            this.reason = SanitizeReason(reason, reasonArgs);
+            this.reason = SanitizeReason(because, reasonArgs);
             return this;
         }
 
-        private string SanitizeReason(string reason, object[] reasonArgs)
+        private string SanitizeReason(string because, object[] reasonArgs)
         {
-            if (!string.IsNullOrEmpty(reason))
+            if (!string.IsNullOrEmpty(because))
             {
-                reason = EnsureIsPrefixedWithBecause(reason);
+                because = EnsureIsPrefixedWithBecause(because);
 
-                return StartsWithBlank(reason)
-                    ? string.Format(reason, reasonArgs)
-                    : " " + string.Format(reason, reasonArgs);
+                return StartsWithBlank(because)
+                    ? string.Format(because, reasonArgs)
+                    : " " + string.Format(because, reasonArgs);
             }
 
             return "";

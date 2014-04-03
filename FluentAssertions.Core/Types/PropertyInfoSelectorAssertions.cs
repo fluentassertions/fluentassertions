@@ -31,14 +31,14 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected properties are virtual.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoSelectorAssertions> BeVirtual(string reason = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoSelectorAssertions> BeVirtual(string because = "", params object[] reasonArgs)
         {
             IEnumerable<PropertyInfo> nonVirtualProperties = GetAllNonVirtualPropertiesFromSelection();
 
@@ -48,7 +48,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!nonVirtualProperties.Any())
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage);
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
@@ -57,14 +57,14 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected properties have a setter.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoSelectorAssertions> BeWritable(string reason = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoSelectorAssertions> BeWritable(string because = "", params object[] reasonArgs)
         {
             PropertyInfo[] readOnlyProperties = GetAllReadOnlyPropertiesFromSelection();
 
@@ -74,7 +74,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!readOnlyProperties.Any())
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage);
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
@@ -98,14 +98,14 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected properties are decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] reasonArgs)
             where TAttribute : Attribute
         {
             IEnumerable<PropertyInfo> propertiesWithoutAttribute = GetPropertiesWithout<TAttribute>();
@@ -116,7 +116,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!propertiesWithoutAttribute.Any())
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage, typeof(TAttribute));
 
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);

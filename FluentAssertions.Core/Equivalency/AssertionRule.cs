@@ -82,13 +82,13 @@ namespace FluentAssertions.Equivalency
 
         internal class AssertionContext : IAssertionContext<TSubject>
         {
-            public AssertionContext(PropertyInfo subjectProperty, TSubject subject, TSubject expectation, string reason,
+            public AssertionContext(PropertyInfo subjectProperty, TSubject subject, TSubject expectation, string because,
                 object[] reasonArgs)
             {
                 SubjectProperty = subjectProperty;
                 Subject = subject;
                 Expectation = expectation;
-                Reason = reason;
+                Reason = because;
                 ReasonArgs = reasonArgs;
             }
 

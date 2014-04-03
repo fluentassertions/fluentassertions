@@ -33,18 +33,18 @@ namespace FluentAssertions.Xml
         /// Asserts that the current <see cref="XElement"/> equals the <paramref name="expected"/> element.
         /// </summary>
         /// <param name="expected">The expected element</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XElementAssertions> Be(XElement expected, string reason, params object[] reasonArgs)
+        public AndConstraint<XElementAssertions> Be(XElement expected, string because, params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(XNode.DeepEquals(Subject, expected))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected XML element to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<XElementAssertions>(this);
@@ -65,18 +65,18 @@ namespace FluentAssertions.Xml
         /// using its <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string reason, params object[] reasonArgs)
+        public AndConstraint<XElementAssertions> NotBe(XElement unexpected, string because, params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition((ReferenceEquals(Subject, null) && !ReferenceEquals(unexpected, null)) || !XNode.DeepEquals(Subject, unexpected))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected XML element not to be {0}{reason}.", unexpected);
 
             return new AndConstraint<XElementAssertions>(this);
@@ -97,18 +97,18 @@ namespace FluentAssertions.Xml
         /// using its <see cref="XNode.DeepEquals()" /> implementation.
         /// </summary>
         /// <param name="expected">The expected element</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected, string reason, params object[] reasonArgs)
+        public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected, string because, params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(XNode.DeepEquals(Subject, expected))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected XML element {0} to be equivalent to {1}{reason}.",
                     Subject, expected);
 
@@ -130,18 +130,18 @@ namespace FluentAssertions.Xml
         /// using its <see cref="XNode.DeepEquals()" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string reason, params object[] reasonArgs)
+        public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string because, params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!XNode.DeepEquals(Subject, unexpected))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Did not expect XML element {0} to be equivalent to {1}{reason}.",
                     Subject, unexpected);
 
@@ -161,18 +161,18 @@ namespace FluentAssertions.Xml
         /// Asserts that the current <see cref="XElement"/> has the specified <paramref name="expected"/> value.
         /// </summary>
         /// <param name="expected">The expected value</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XElementAssertions> HaveValue(string expected, string reason, params object[] reasonArgs)
+        public AndConstraint<XElementAssertions> HaveValue(string expected, string because, params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value == expected)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected XML element '{0}' to have value {1}{reason}, but found {2}.",
                     Subject.Name, expected, Subject.Value);
 
@@ -207,17 +207,17 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expectedName">The name of the expected attribute</param>
         /// <param name="expectedValue">The value of the expected attribute</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue, string reason,
+        public AndConstraint<XElementAssertions> HaveAttribute(string expectedName, string expectedValue, string because,
             params object[] reasonArgs)
         {
-            return HaveAttribute(XNamespace.None + expectedName, expectedValue, reason, reasonArgs);
+            return HaveAttribute(XNamespace.None + expectedName, expectedValue, because, reasonArgs);
         }
 
         /// <summary>
@@ -226,14 +226,14 @@ namespace FluentAssertions.Xml
         /// </summary>
         /// <param name="expectedName">The name <see cref="XName"/> of the expected attribute</param>
         /// <param name="expectedValue">The value of the expected attribute</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue, string reason,
+        public AndConstraint<XElementAssertions> HaveAttribute(XName expectedName, string expectedValue, string because,
             params object[] reasonArgs)
         {
             XAttribute attribute = Subject.Attribute(expectedName);
@@ -241,14 +241,14 @@ namespace FluentAssertions.Xml
 
             Execute.Assertion
                 .ForCondition(attribute != null)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith(
                     "Expected XML element to have attribute \"" + expectedText + "\" with value {0}{reason}, but found no such attribute in {1}",
                     expectedValue, Subject);
 
             Execute.Assertion
                 .ForCondition(attribute.Value == expectedValue)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith(
                     "Expected XML attribute \"" + expectedText + "\" to have value {0}{reason}, but found {1}.", expectedValue, attribute.Value);
 
@@ -280,16 +280,16 @@ namespace FluentAssertions.Xml
         /// <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">The name <see cref="XName"/> of the expected child element</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string reason, params object[] reasonArgs)
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(string expected, string because, params object[] reasonArgs)
         {
-            return HaveElement(XNamespace.None + expected, reason, reasonArgs);
+            return HaveElement(XNamespace.None + expected, because, reasonArgs);
         }
 
         /// <summary>
@@ -297,19 +297,19 @@ namespace FluentAssertions.Xml
         /// <paramref name="expected"/> name.
         /// </summary>
         /// <param name="expected">The name <see cref="XName"/> of the expected child element</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string reason, params object[] reasonArgs)
+        public AndWhichConstraint<XElementAssertions, XElement> HaveElement(XName expected, string because, params object[] reasonArgs)
         {
             XElement xElement = Subject.Element(expected);
             Execute.Assertion
                 .ForCondition(xElement != null)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected XML element {0} to have child element \"" + expected.ToString().Escape() + "\"{reason}" +
                         ", but no such child element was found.", Subject);
 

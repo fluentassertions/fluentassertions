@@ -24,18 +24,18 @@ namespace FluentAssertions.Numeric
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> Be(T expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == Equal))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
@@ -47,18 +47,18 @@ namespace FluentAssertions.Numeric
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> NotBe(T expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> NotBe(T expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) != Equal)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Did not expect object to be equal to {0}{reason}.", expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
@@ -70,18 +70,18 @@ namespace FluentAssertions.Numeric
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> BeLessThan(T expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> BeLessThan(T expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) < Equal)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected object {0} to be less than {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
@@ -93,18 +93,18 @@ namespace FluentAssertions.Numeric
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> BeLessOrEqualTo(T expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> BeLessOrEqualTo(T expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) <= Equal)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected object {0} to be less or equal to {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
@@ -116,18 +116,18 @@ namespace FluentAssertions.Numeric
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan(T expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> BeGreaterThan(T expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) > Equal)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected object {0} to be greater than {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
@@ -139,18 +139,18 @@ namespace FluentAssertions.Numeric
         /// <param name="expected">
         /// The object to pass to the subject's <see cref="IComparable{T}.CompareTo"/> method.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> BeGreaterOrEqualTo(T expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<ComparableTypeAssertions<T>> BeGreaterOrEqualTo(T expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CompareTo(expected) >= Equal)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected object {0} to be greater or equal to {1}{reason}.", Subject, expected);
 
             return new AndConstraint<ComparableTypeAssertions<T>>(this);
@@ -168,19 +168,19 @@ namespace FluentAssertions.Numeric
         /// <param name="maximumValue">
         /// The maximum valid value of the range.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<ComparableTypeAssertions<T>> BeInRange(T minimumValue, T maximumValue, string reason = "",
+        public AndConstraint<ComparableTypeAssertions<T>> BeInRange(T minimumValue, T maximumValue, string because = "",
             params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected object to be between {0} and {1}{reason}, but found {2}.",
                     minimumValue, maximumValue, Subject);
 

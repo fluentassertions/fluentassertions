@@ -25,19 +25,19 @@ namespace FluentAssertions.Collections
         /// Asserts that the number of items in the collection matches the supplied <paramref name="expected" /> amount.
         /// </summary>
         /// <param name="expected">The expected number of items in the collection.</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<NonGenericCollectionAssertions> HaveCount(int expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<NonGenericCollectionAssertions> HaveCount(int expected, string because = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
+                    .BecauseOf(because, reasonArgs)
                     .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found <null>.", expected);
             }
 
@@ -45,7 +45,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .ForCondition(actualCount == expected)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found {1}.", expected, actualCount);
 
             return new AndConstraint<NonGenericCollectionAssertions>(this);
@@ -55,14 +55,14 @@ namespace FluentAssertions.Collections
         /// Asserts that the number of items in the collection matches a condition stated by the <paramref name="countPredicate"/>.
         /// </summary>
         /// <param name="countPredicate">A predicate that yields the number of items that is expected to be in the collection.</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<NonGenericCollectionAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string reason = "",
+        public AndConstraint<NonGenericCollectionAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string because = "",
             params object[] reasonArgs)
         {
             if (countPredicate == null)
@@ -73,7 +73,7 @@ namespace FluentAssertions.Collections
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
+                    .BecauseOf(because, reasonArgs)
                     .FailWith("Expected {context:collection} to contain {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
             }
 
@@ -84,7 +84,7 @@ namespace FluentAssertions.Collections
             if (!compiledPredicate(actualCount))
             {
                 Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
+                    .BecauseOf(because, reasonArgs)
                     .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
                         Subject, countPredicate.Body, actualCount);
             }
@@ -110,22 +110,22 @@ namespace FluentAssertions.Collections
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">An object, or <see cref="IEnumerable"/> of objects that are expected to be in the collection.</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<NonGenericCollectionAssertions> Contain(object expected, string reason = "",
+        public AndConstraint<NonGenericCollectionAssertions> Contain(object expected, string because = "",
             params object [] reasonArgs)
         {
             if (expected is IEnumerable)
             {
-                return base.Contain((IEnumerable) expected, reason, reasonArgs);
+                return base.Contain((IEnumerable) expected, because, reasonArgs);
             }
 
-            return base.Contain(new [] { expected }, reason, reasonArgs);
+            return base.Contain(new [] { expected }, because, reasonArgs);
         }
     }
 }
