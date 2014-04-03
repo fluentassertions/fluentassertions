@@ -108,10 +108,10 @@ namespace FluentAssertions.Specs
 
         internal class AssertionsTestSubClass : ReferenceTypeAssertions<object, AssertionsTestSubClass>
         {
-            public void AssertFail(string reason, params object [] reasonArgs)
+            public void AssertFail(string because, params object [] reasonArgs)
             {
                 Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
+                    .BecauseOf(because, reasonArgs)
                     .FailWith("Expected it to fail{reason}");
             }
 

@@ -7,9 +7,9 @@ namespace FluentAssertions.Primitives
     {
         private readonly StringComparison comparisonMode;
 
-        public StringEqualityValidator(string subject, string expected, StringComparison comparisonMode, string reason,
+        public StringEqualityValidator(string subject, string expected, StringComparison comparisonMode, string because,
             object[] reasonArgs) :
-                base(subject, expected, reason, reasonArgs)
+                base(subject, expected, because, reasonArgs)
         {
             this.comparisonMode = comparisonMode;
         }

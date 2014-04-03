@@ -25,39 +25,39 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type is equal to the specified <typeparamref name="TExpected"/> type.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> Be<TExpected>(string reason = "", params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> Be<TExpected>(string because = "", params object[] reasonArgs)
         {
-            return Be(typeof(TExpected), reason, reasonArgs);
+            return Be(typeof(TExpected), because, reasonArgs);
         }
 
         /// <summary>
         /// Asserts that the current type is equal to the specified <paramref name="expected"/> type.
         /// </summary>
         /// <param name="expected">The expected type</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> Be(Type expected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> Be(Type expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected type to be {0}{reason}, but found <null>.", expected);
 
             Execute.Assertion
                 .ForCondition(Subject == expected)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith(GetFailureMessageIfTypesAreDifferent(Subject, expected));
 
             return new AndConstraint<TypeAssertions>(this);
@@ -93,34 +93,34 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type is not equal to the specified <typeparamref name="TUnexpected"/> type.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> NotBe<TUnexpected>(string reason = "", params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> NotBe<TUnexpected>(string because = "", params object[] reasonArgs)
         {
-            return NotBe(typeof(TUnexpected), reason, reasonArgs);
+            return NotBe(typeof(TUnexpected), because, reasonArgs);
         }
 
         /// <summary>
         /// Asserts that the current type is not equal to the specified <paramref name="unexpected"/> type.
         /// </summary>
         /// <param name="unexpected">The unexpected type</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> NotBe(Type unexpected, string reason = "", params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> NotBe(Type unexpected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject != unexpected)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected type not to be [" + unexpected.AssemblyQualifiedName + "]{reason}.");
 
             return new AndConstraint<TypeAssertions>(this);
@@ -129,19 +129,19 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(string reason = "", params object[] reasonArgs)
+        public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] reasonArgs)
             where TAttribute : Attribute
         {
             Execute.Assertion
                 .ForCondition(Subject.IsDecoratedWith<TAttribute>())
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1}{reason}, but the attribute was not found.",
                     Subject, typeof (TAttribute));
 
@@ -155,22 +155,22 @@ namespace FluentAssertions.Types
         /// <param name="isMatchingAttributePredicate">
         /// The predicate that the attribute must match.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TypeAssertions> BeDecoratedWith<TAttribute>(
-            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string reason = "", params object[] reasonArgs)
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] reasonArgs)
             where TAttribute : Attribute
         {
-            BeDecoratedWith<TAttribute>(reason, reasonArgs);
+            BeDecoratedWith<TAttribute>(because, reasonArgs);
 
             Execute.Assertion
                 .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 

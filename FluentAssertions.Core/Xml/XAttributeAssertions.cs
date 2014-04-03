@@ -32,18 +32,18 @@ namespace FluentAssertions.Xml
         /// Asserts that the current <see cref="XAttribute"/> equals the <paramref name="expected"/> attribute.
         /// </summary>
         /// <param name="expected">The expected attribute</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XAttributeAssertions> Be(XAttribute expected, string reason, params object [] reasonArgs)
+        public AndConstraint<XAttributeAssertions> Be(XAttribute expected, string because, params object [] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Name.Equals(expected.Name) && Subject.Value.Equals(expected.Value))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected XML attribute to be {0}{reason}, but found {1}", expected, Subject);
 
             return new AndConstraint<XAttributeAssertions>(this);
@@ -64,18 +64,18 @@ namespace FluentAssertions.Xml
         /// using its <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected attribute</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected, string reason, params object [] reasonArgs)
+        public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected, string because, params object [] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.Name.Equals(unexpected.Name) || !Subject.Value.Equals(unexpected.Value))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Did not expect XML attribute to be {0}{reason}.", unexpected);
 
             return new AndConstraint<XAttributeAssertions>(this);
@@ -95,18 +95,18 @@ namespace FluentAssertions.Xml
         /// Asserts that the current <see cref="XAttribute"/> has the specified <paramref name="expected"/> value.
         /// </summary>
         /// <param name="expected">The expected value</param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XAttributeAssertions> HaveValue(string expected, string reason, params object[] reasonArgs)
+        public AndConstraint<XAttributeAssertions> HaveValue(string expected, string because, params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value == expected)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected XML attribute '{0}' to have value {1}{reason}, but found {2}.",
                     Subject.Name, expected, Subject.Value);
 

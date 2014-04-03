@@ -72,16 +72,16 @@ namespace FluentAssertions.Specialized
         /// <param name = "reasonArgs">
         ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
         /// </param>
-        public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string reason = "",
+        public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string because = "",
             params object[] reasonArgs)
         {
-            AssertionScope assertion = Execute.Assertion.BecauseOf(reason, reasonArgs).UsingLineBreaks;
+            AssertionScope assertion = Execute.Assertion.BecauseOf(because, reasonArgs).UsingLineBreaks;
 
             assertion
                 .ForCondition(Subject.Any())
                 .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
 
-            outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedMessage, reason, reasonArgs);
+            outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedMessage, because, reasonArgs);
 
             return this;
         }
@@ -101,23 +101,23 @@ namespace FluentAssertions.Specialized
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
         /// <param name = "reason">The reason why the inner exception should be of the supplied type.</param>
         /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
-        public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string reason,
+        public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string because,
             params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject != null)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof(TInnerException));
 
             Execute.Assertion
                 .ForCondition(Subject.Any(e => e.InnerException != null))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
                     typeof(TInnerException));
 
             Execute.Assertion
                 .ForCondition(Subject.Any(e => e.InnerException is TInnerException))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), Subject.First().InnerException);
 
             return this;
@@ -131,11 +131,11 @@ namespace FluentAssertions.Specialized
         ///   The reason why the message of the inner exception should match <paramref name = "expectedInnerMessage" />.
         /// </param>
         /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
-        public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string reason = "",
+        public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string because = "",
             params object[] reasonArgs)
         {
             AssertionScope assertion = Execute.Assertion
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .UsingLineBreaks;
 
             assertion
@@ -148,7 +148,7 @@ namespace FluentAssertions.Specialized
 
             string[] subjectInnerMessage = Subject.Select(e => e.InnerException.Message).ToArray();
 
-            innerMessageAssertion.Execute(subjectInnerMessage, expectedInnerMessage, reason, reasonArgs);
+            innerMessageAssertion.Execute(subjectInnerMessage, expectedInnerMessage, because, reasonArgs);
 
             return this;
         }
@@ -167,12 +167,12 @@ namespace FluentAssertions.Specialized
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
-            string reason = "", params object[] reasonArgs)
+            string because = "", params object[] reasonArgs)
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
             Execute.Assertion
                 .ForCondition(condition(Subject.First()))
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected exception where {0}{reason}, but the condition was not met by:\r\n\r\n{1}",
                     exceptionExpression.Body, Subject);
 
@@ -188,7 +188,7 @@ namespace FluentAssertions.Specialized
 
             public string Context { get; set; }
 
-            public void Execute(IEnumerable<string> messages, string expectation, string reason, params object[] reasonArgs)
+            public void Execute(IEnumerable<string> messages, string expectation, string because, params object[] reasonArgs)
             {
                 using (new AssertionScope())
                 {
@@ -200,7 +200,7 @@ namespace FluentAssertions.Specialized
                         {
                             scope.AddNonReportable("context", Context);
 
-                            message.Should().MatchEquivalentOf(expectation, reason, reasonArgs);
+                            message.Should().MatchEquivalentOf(expectation, because, reasonArgs);
 
                             results.AddSet(message, scope.Discard());
                         }

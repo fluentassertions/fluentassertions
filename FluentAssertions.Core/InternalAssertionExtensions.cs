@@ -411,17 +411,17 @@ namespace FluentAssertions
         /// Notice that actual behavior is determined by the <see cref="EquivalencyAssertionOptions{TSubject}.Default"/> instance of the 
         /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class.
         /// </remarks>
-        /// <param name="reason">
+        /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public static void ShouldBeEquivalentTo<T>(this T subject, object expectation, string reason = "",
+        public static void ShouldBeEquivalentTo<T>(this T subject, object expectation, string because = "",
             params object[] reasonArgs)
         {
-            ShouldBeEquivalentTo(subject, expectation, config => config, reason, reasonArgs);
+            ShouldBeEquivalentTo(subject, expectation, config => config, because, reasonArgs);
         }
 
         /// <summary>
@@ -438,15 +438,15 @@ namespace FluentAssertions
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
         /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public static void ShouldBeEquivalentTo<T>(this T subject, object expectation,
-            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string reason = "",
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] reasonArgs)
         {
             var context = new EquivalencyValidationContext
@@ -454,7 +454,7 @@ namespace FluentAssertions
                 Subject = subject,
                 Expectation = expectation,
                 CompileTimeType = typeof(T),
-                Reason = reason,
+                Reason = because,
                 ReasonArgs = reasonArgs
             };
 
@@ -462,13 +462,13 @@ namespace FluentAssertions
         }
 
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
-            string reason = "", params object[] reasonArgs)
+            string because = "", params object[] reasonArgs)
         {
-            ShouldAllBeEquivalentTo(subject, expectation, config => config, reason, reasonArgs);
+            ShouldAllBeEquivalentTo(subject, expectation, config => config, because, reasonArgs);
         }
 
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
-            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string reason = "",
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] reasonArgs)
         {
             var context = new EquivalencyValidationContext()
@@ -476,7 +476,7 @@ namespace FluentAssertions
                 Subject = subject,
                 Expectation = expectation,
                 CompileTimeType = typeof(T),
-                Reason = reason,
+                Reason = because,
                 ReasonArgs = reasonArgs
             };
 

@@ -15,24 +15,24 @@ namespace FluentAssertions
         /// Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains
         /// the values of all properties.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public static AndConstraint<ObjectAssertions> BeBinarySerializable(this ObjectAssertions assertions, string reason = "",
+        public static AndConstraint<ObjectAssertions> BeBinarySerializable(this ObjectAssertions assertions, string because = "",
             params object[] reasonArgs)
         {
-            return BeBinarySerializable<object>(assertions, options => options, reason, reasonArgs);
+            return BeBinarySerializable<object>(assertions, options => options, because, reasonArgs);
         }
 
         /// <summary>
         /// Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains
         /// the values of all properties.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
@@ -40,7 +40,7 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public static AndConstraint<ObjectAssertions> BeBinarySerializable<T>(this ObjectAssertions assertions,
-            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string reason = "",
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
             params object[] reasonArgs)
         {
             try
@@ -55,7 +55,7 @@ namespace FluentAssertions
             catch (Exception exc)
             {
                 Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
+                    .BecauseOf(because, reasonArgs)
                     .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:\r\n\r\n{1}",
                         assertions.Subject,
                         exc.Message);
@@ -78,14 +78,14 @@ namespace FluentAssertions
         /// Asserts that an object can be serialized and deserialized using the XML serializer and that it stills retains
         /// the values of all properties.
         /// </summary>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
-        public static AndConstraint<ObjectAssertions> BeXmlSerializable(this ObjectAssertions assertions, string reason = "",
+        public static AndConstraint<ObjectAssertions> BeXmlSerializable(this ObjectAssertions assertions, string because = "",
             params object[] reasonArgs)
         {
             try
@@ -98,7 +98,7 @@ namespace FluentAssertions
             catch (Exception exc)
             {
                 Execute.Assertion
-                    .BecauseOf(reason, reasonArgs)
+                    .BecauseOf(because, reasonArgs)
                     .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:\r\n\r\n{1}",
                         assertions.Subject,
                         exc.Message);

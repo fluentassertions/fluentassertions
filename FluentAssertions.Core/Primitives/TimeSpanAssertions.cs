@@ -52,18 +52,18 @@ namespace FluentAssertions.Primitives
         /// <param name="target">
         /// The <see cref="DateTime"/> to compare the subject with.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> Before(DateTimeOffset target, string reason = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> Before(DateTimeOffset target, string because = "", params object[] reasonArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
                           " {1} before {2}{reason}, but found a <null> DateTime.",
                     subject, timeSpan, target);
@@ -75,7 +75,7 @@ namespace FluentAssertions.Primitives
                 if (!predicate.IsMatchedBy(actual, timeSpan))
                 {
                     Execute.Assertion
-                        .BecauseOf(reason, reasonArgs)
+                        .BecauseOf(because, reasonArgs)
                         .FailWith(
                             "Expected date and/or time {0} to be " + predicate.DisplayText +
                             " {1} before {2}{reason}, but it differs {3}.",
@@ -92,18 +92,18 @@ namespace FluentAssertions.Primitives
         /// <param name="target">
         /// The <see cref="DateTime"/> to compare the subject with.
         /// </param>
-        /// <param name="reason">
+        /// <param name="because">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> After(DateTimeOffset target, string reason = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> After(DateTimeOffset target, string because = "", params object[] reasonArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
-                .BecauseOf(reason, reasonArgs)
+                .BecauseOf(because, reasonArgs)
                 .FailWith("Expected date and/or time {0} to be " + predicate.DisplayText +
                           " {1} after {2}{reason}, but found a <null> DateTime.",
                     subject, timeSpan, target);
@@ -115,7 +115,7 @@ namespace FluentAssertions.Primitives
                 if (!predicate.IsMatchedBy(actual, timeSpan))
                 {
                     Execute.Assertion
-                        .BecauseOf(reason, reasonArgs)
+                        .BecauseOf(because, reasonArgs)
                         .FailWith(
                             "Expected date and/or time {0} to be " + predicate.DisplayText +
                             " {1} after {2}{reason}, but it differs {3}.",
