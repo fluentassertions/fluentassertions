@@ -46,6 +46,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="AndConstraint.cs" />
     <Compile Include="AndWhichConstraint.cs" />
     <Compile Include="Collections\SelfReferencingCollectionAssertions.cs" />
