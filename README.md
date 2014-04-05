@@ -18,6 +18,8 @@ It supports the following unit test frameworks:
 * [NSpec](http://nspec.org/)
 * [MSpec](https://github.com/machine/machine.specifications)
 
+The releases are available as Zipped downloads from the [Releases](https://github.com/dennisdoomen/fluentassertions/releases) section or by getting the corresponding [NuGet package](https://www.nuget.org/packages/FluentAssertions).
+
 Why?
 ----
 Nothing is more annoying then a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to ["keep out of the debugger hell"](http://codebetter.com/jeremymiller/2005/08/18/testing-granularity-feedback-cycles-and-holistic-development/) and I can only agree with that.
@@ -76,27 +78,12 @@ What’s new?
 **December 30th, 2013**
 Another nice update in the form of v2.2. Read all about it in the [Releases](https://github.com/dennisdoomen/fluentassertions/releases/tag/v2.2) section.
 
-**August 28th, 2013**  
+**August 28th, 2013**
 Release 2.1 is a fact and introduces a few big improvements on the equivalency test. Read all about it [in this blog post](http://www.dennisdoomen.net/2013/08/it-took-almost-year-but-fluent.html). 
 
-**May 20th, 2013**      
+**May 20th, 2013**
 Through a contribution on GitHub, Ufuk Hacıoğulları has added support for MonoTouch.  
- 
-***March 3rd, 2013***  
-We've released a small bugfix on NuGet and CodePlex.
- 
-**October 7th, 2012**  
-Version 2.0 is now out of beta.
- 
-**August 25th, 2012**  
-Fluent Assertions 2.0, a major new version with support for .NET 4.5, Windows Phone and Windows Store Apps is in beta. Read all the details in this blog post.
   
-**January 13th, 2012**  
-A relatively small release. Read all about it in this blog post.
- 
-**October 31st, 2011**  
-Another release with lots of bug fixes and small improvements and with great contributions by Martin Opdam and Urs Enzler. Download it here or get it through NuGet.
- 
 About versioning
 ----------------
 The version numbers of Fluent Assertions releases comply to the Semantic Versioning scheme. In other words, release 1.4.0 only adds backwards-compatible functionality and bug fixes compared to 1.3.0. Release 1.4.1 should only include bug fixes. And if we ever introduce breaking changes, the number increased to 2.0.0.
@@ -112,6 +99,12 @@ Who are we?
 -----------
 We are a bunch of developers working for Aviva Solutions who highly value software quality, in particular  
 - [Dennis Doomen](https://twitter.com/ddoomen)  
-- Martin Opdam 
+- [Martin Opdam](https://twitter.com/mpopdam) 
+
+Notable contributors from the last couple of months include
+- [Adam Voss](https://github.com/vossad01)
+
+The [Xamarin](https://github.com/onovotny/fluentassertions) version has been built by
+- [Oren Novotny](https://twitter.com/onovotny)
 
 If you have any comments or suggestions, please let us know via [twitter](https://twitter.com/search?q=fluentassertions&src=typd), through the [issues](https://github.com/dennisdoomen/FluentAssertions/issues) page, or through [StackOverflow](http://stackoverflow.com/questions/tagged/fluent-assertions).
