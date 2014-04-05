@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-
 #if WINRT || WINDOWS_PHONE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 #endif
 
 namespace FluentAssertions.Specs
@@ -34,7 +34,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Collection {1, 2, 3} should have an item matching (item > 3) because at least 1 item should be larger than 3.");
         }
-        
+
         [TestMethod]
         public void When_collection_does_contain_an_expected_item_matching_a_predicate_it_should_allow_chaining_it()
         {
@@ -102,7 +102,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection {\"string1\", \"string2\", \"string3\"} to contain \"string4\" because 4 is required.");
         }
-        
+
         [TestMethod]
         public void When_a_collection_does_not_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
         {
@@ -174,7 +174,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => strings.Should().NotContain(x => x == "xxx", "because we're checking how it reacts to a null subject");
+            Action act =
+                () => strings.Should().NotContain(x => x == "xxx", "because we're checking how it reacts to a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -226,14 +227,14 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected collection to contain only items matching (e.Length > 0), but the collection is empty.");
         }
-        
+
         [TestMethod]
         public void When_a_collection_contains_only_items_matching_a_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new List<int> { 2, 9, 3, 8, 2};
+            var collection = new List<int> { 2, 9, 3, 8, 2 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -243,7 +244,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow(); ;
+            act.ShouldNotThrow();
+            ;
         }
 
         #endregion
@@ -288,7 +290,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             string expectedMessage =
                 string.Format("Expected collection to contain a single item matching {0}, " +
-                    "but the collection is empty.", expression.Body);
+                              "but the collection is empty.", expression.Body);
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
@@ -312,7 +314,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             string expectedMessage =
                 string.Format("Expected collection to contain a single item matching {0}, " +
-                    "but found <null>.", expression.Body);
+                              "but found <null>.", expression.Body);
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
@@ -336,7 +338,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             string expectedMessage =
                 string.Format("Expected collection to contain a single item matching {0}, " +
-                    "but no such item was found.", expression.Body);
+                              "but no such item was found.", expression.Body);
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
@@ -360,11 +362,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             string expectedMessage =
                 string.Format("Expected collection to contain a single item matching {0}, " +
-                    "but 3 such items were found.", expression.Body);
+                              "but 3 such items were found.", expression.Body);
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
-        
+
         [TestMethod]
         public void When_a_single_matching_element_is_found_it_should_allow_continuation()
         {
@@ -382,6 +384,108 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage("Expected*greater*4*2*");
+        }
+
+        #endregion
+
+        #region Be In Ascending/Decending Order
+
+        [TestMethod]
+        public void When_the_items_are_not_in_ascending_order_using_the_specified_property_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new[]
+            {
+                new { Text = "b", Numeric = 1 },
+                new { Text = "c", Numeric = 2 },
+                new { Text = "a", Numeric = 3 },
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().BeInAscendingOrder(o => o.Text, "it should be sorted");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*a*b*c*");
+        }
+        
+        [TestMethod]
+        public void When_the_items_are_in_ascending_order_using_the_specified_property_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new[]
+            {
+                new { Text = "b", Numeric = 1 },
+                new { Text = "c", Numeric = 2 },
+                new { Text = "a", Numeric = 3 },
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().BeInAscendingOrder(o => o.Numeric);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }        
+        
+        [TestMethod]
+        public void When_the_items_are_not_in_descending_order_using_the_specified_property_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new[]
+            {
+                new { Text = "b", Numeric = 1 },
+                new { Text = "c", Numeric = 2 },
+                new { Text = "a", Numeric = 3 },
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().BeInDescendingOrder(o => o.Text, "it should be sorted");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*c*b*a*");
+        }
+        
+        [TestMethod]
+        public void When_the_items_are_in_descending_order_using_the_specified_property_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new[]
+            {
+                new { Text = "b", Numeric = 3 },
+                new { Text = "c", Numeric = 2 },
+                new { Text = "a", Numeric = 1 },
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().BeInDescendingOrder(o => o.Numeric);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         #endregion
