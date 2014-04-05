@@ -17,16 +17,16 @@ namespace FluentAssertions.Collections
         {
         }
 
-        public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder(
-            Expression<Func<T, object>> propertyExpression, string because = "", params object[] args)
-        {
-            return BeOrderedBy(propertyExpression, SortDirection.Descending, because, args);
-        }
-
         public AndConstraint<GenericCollectionAssertions<T>> BeInAscendingOrder(
             Expression<Func<T, object>> propertyExpression, string because = "", params object[] args)
         {
             return BeOrderedBy(propertyExpression, SortDirection.Ascending, because, args);
+        }
+
+        public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder(
+            Expression<Func<T, object>> propertyExpression, string because = "", params object[] args)
+        {
+            return BeOrderedBy(propertyExpression, SortDirection.Descending, because, args);
         }
 
         private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy(
