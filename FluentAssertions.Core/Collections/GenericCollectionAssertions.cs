@@ -17,12 +17,40 @@ namespace FluentAssertions.Collections
         {
         }
 
+        /// <summary>
+        /// Asserts that a collection is ordered in ascending order according to the value of the the specified 
+        /// <paramref name="propertyExpression"/>.
+        /// </summary>
+        /// <param name="propertyExpression">
+        /// A lambda expression that references the property that should be used to determine the expected ordering.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="args">
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> BeInAscendingOrder(
             Expression<Func<T, object>> propertyExpression, string because = "", params object[] args)
         {
             return BeOrderedBy(propertyExpression, SortDirection.Ascending, because, args);
         }
 
+        /// <summary>
+        /// Asserts that a collection is ordered in descending order according to the value of the the specified 
+        /// <paramref name="propertyExpression"/>.
+        /// </summary>
+        /// <param name="propertyExpression">
+        /// A lambda expression that references the property that should be used to determine the expected ordering.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="args">
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// </param>
         public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder(
             Expression<Func<T, object>> propertyExpression, string because = "", params object[] args)
         {
