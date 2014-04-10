@@ -6,7 +6,7 @@
     $MsBuildLoggerPath = ""
 }
 
-task default -depends Clean, Compile
+task default -depends Clean, ApplyAssemblyVersioning, Compile
 
 task Clean {	
     TeamCity-Block "Clean" {
@@ -15,7 +15,7 @@ task Clean {
 
 task ApplyAssemblyVersioning {
     TeamCity-Block "Apply Assembly Versioning" {   
-        Get-ChildItem -Path $SrcDirectory -Filter "?*AssemblyInfo.cs" -Recurse -Force |
+        Get-ChildItem -Path $BaseDirectory -Filter "SolutionInfo.cs" -Recurse -Force |
         foreach-object{  
 	        Write-Host "Updating " $_.FullName "with build number" $BuildNumber
 
