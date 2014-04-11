@@ -2,11 +2,12 @@
     $BaseDirectory = Resolve-Path ..     
     $NugetPath = "$BaseDirectory\Tools\NuGet.exe"
 	$SlnFile = "$BaseDirectory\FluentAssertions.sln"
+	$PackageDirectory = "$BaseDirectory\Package"
     $BuildNumber = 9999
     $MsBuildLoggerPath = ""
 }
 
-task default -depends Clean, ApplyAssemblyVersioning, Compile
+task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Compile, BuildPackage
 
 task Clean {	
     TeamCity-Block "Clean" {
@@ -14,18 +15,29 @@ task Clean {
 }
 
 task ApplyAssemblyVersioning {
-    TeamCity-Block "Apply Assembly Versioning" {   
-        Get-ChildItem -Path $BaseDirectory -Filter "SolutionInfo.cs" -Recurse -Force |
-        foreach-object{  
-	        Write-Host "Updating " $_.FullName "with build number" $BuildNumber
+    TeamCity-Block "Updating assembly version with build number $BuildNumber" {   
+	
+		$fullName = "$BaseDirectory\SolutionInfo.cs"
 
-            Set-ItemProperty -Path $_.FullName -Name IsReadOnly -Value $false
+	    Set-ItemProperty -Path $fullName -Name IsReadOnly -Value $false
 
-	        $content = Get-Content $_.FullName
-	        $content = $content -replace '"(\d+)\.(\d+)\.(\d+)\.(\d+)"', ('"$1.$2.$3.' + $BuildNumber + '"')
-	        Set-Content -Path $_.FullName $content
-        }    
-    }
+	    $content = Get-Content $fullName
+	    $content = $content -replace '"(\d+)\.(\d+)\.(\d+)"', ('"$1.$2.' + $BuildNumber + '"')
+	    Set-Content -Path $fullName $content
+	}
+}
+
+task ApplyPackageVersioning {
+    TeamCity-Block "Updating package version with build number $BuildNumber" {   
+	
+		$fullName = "$BaseDirectory\Package\.nuspec"
+
+	    Set-ItemProperty -Path $fullName -Name IsReadOnly -Value $false
+
+	    $content = Get-Content $fullName
+	    $content = $content -replace '<version>(\d+)\.(\d+)\.(\d+)(.*)</version>', ('<version>$1.$2.' + $BuildNumber + '$4</version>')
+	    Set-Content -Path $fullName $content
+	}
 }
 
 task Compile {
@@ -41,5 +53,8 @@ task Compile {
     }
 }
 
-
-
+task BuildPackage {
+    TeamCity-Block "Building NuGet Package" {  
+		& $NugetPath pack "$PackageDirectory\.nuspec" -o "$PackageDirectory\"
+	}
+}
