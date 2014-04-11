@@ -77,12 +77,14 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
+    <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget />
     <OutputPath>Bin\x86\Release</OutputPath>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
+    <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <PlatformTarget />
