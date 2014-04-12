@@ -11,6 +11,7 @@ task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Co
 
 task Clean {	
     TeamCity-Block "Clean" {
+		Get-ChildItem $PackageDirectory *.nupkg | ForEach { Remove-Item $_.FullName }
     }
 }
 

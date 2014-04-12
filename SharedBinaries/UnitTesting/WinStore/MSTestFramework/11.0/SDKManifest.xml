@@ -1,0 +1,7 @@
+<FileList
+  DisplayName = "MSTest for Managed Projects"
+  MinVSVersion = "12.0"
+  AppliesTo = "WindowsAppContainer + (CSharp | VB)"
+  SupportsMultipleVersion = "Error"
+  MoreInfo = "http://go.microsoft.com/fwlink/?LinkID=242829" >
+</FileList>

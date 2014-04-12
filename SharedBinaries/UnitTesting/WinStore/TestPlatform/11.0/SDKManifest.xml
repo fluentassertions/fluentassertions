@@ -1,0 +1,7 @@
+<FileList
+  DisplayName = "Microsoft Visual Studio Test Core"
+  MinVSVersion = "12.0"
+  AppliesTo = "WindowsAppContainer + (CSharp | VB | VisualC)"
+  SupportsMultipleVersion = "Error"
+  MoreInfo = "http://go.microsoft.com/fwlink/?LinkID=242829" >
+</FileList>
