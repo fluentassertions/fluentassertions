@@ -95,11 +95,13 @@
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.16.0\lib\sl50\FakeItEasy.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Silverlight.Testing">
-      <HintPath>..\SharedBinaries\Microsoft.Silverlight.Testing.dll</HintPath>
+    <Reference Include="Microsoft.Silverlight.Testing, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedBinaries\UnitTesting\Silverlight\Microsoft.Silverlight.Testing.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\SharedBinaries\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedBinaries\UnitTesting\Silverlight\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="system" />
