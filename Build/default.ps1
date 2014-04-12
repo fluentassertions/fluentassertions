@@ -1,13 +1,15 @@
 ﻿properties {
     $BaseDirectory = Resolve-Path ..     
-    $NugetPath = "$BaseDirectory\Tools\NuGet.exe"
+    $Nuget = "$BaseDirectory\Tools\NuGet.exe"
 	$SlnFile = "$BaseDirectory\FluentAssertions.sln"
 	$PackageDirectory = "$BaseDirectory\Package"
+	$ApiKey = ""
     $BuildNumber = 9999
     $MsBuildLoggerPath = ""
+	$Branch = ""
 }
 
-task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Compile, BuildPackage
+task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Compile, BuildPackage, PublishToMyget
 
 task Clean {	
     TeamCity-Block "Clean" {
@@ -56,6 +58,15 @@ task Compile {
 
 task BuildPackage {
     TeamCity-Block "Building NuGet Package" {  
-		& $NugetPath pack "$PackageDirectory\.nuspec" -o "$PackageDirectory\"
+		& $Nuget pack "$PackageDirectory\.nuspec" -o "$PackageDirectory\" 
+	}
+}
+
+task PublishToMyget -precondition { return ($Branch -eq "master") -and ($ApiKey -ne "") } {
+    TeamCity-Block "Publishing NuGet Package to Myget" {  
+		$packages = Get-ChildItem $PackageDirectory *.nupkg
+		foreach ($package in $packages) {
+			& $Nuget push $package.FullName $ApiKey -Source "https://www.myget.org/F/fluentassertions/api/v2/package"
+		}
 	}
 }
