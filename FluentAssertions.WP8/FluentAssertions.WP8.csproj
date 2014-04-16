@@ -48,6 +48,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1591; 1572; 1573;1574; 618</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>Bin\Debug\FluentAssertions.WindowsPhone.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -78,6 +79,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
+    <DocumentationFile>Bin\x86\Debug\FluentAssertions.WindowsPhone.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget />

@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0220D206-62E4-4352-89EC-424E0F04D2D3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FluentAssertions.specs</RootNamespace>
+    <AssemblyName>FluentAssertions.Specs</AssemblyName>
+    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\packages\FakeItEasy.1.16.0\lib\net35\FakeItEasy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedBinaries\UnitTesting\Net40\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40.Specs\AggregateExceptionAssertionSpecs.cs">
+      <Link>AggregateExceptionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\AssertionFailureSpecs.cs">
+      <Link>AssertionFailureSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\BooleanAssertionSpecs.cs">
+      <Link>BooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\CollectionAssertionSpecs.cs">
+      <Link>CollectionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\ComparableSpecs.cs">
+      <Link>ComparableSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\DateTimeAssertionSpecs.cs">
+      <Link>DateTimeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\DateTimeOffsetValueFormatterSpecs.cs">
+      <Link>DateTimeOffsetValueFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\EventAssertionSpecs.cs">
+      <Link>EventAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\ExceptionAssertionSpecs.cs">
+      <Link>ExceptionAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\GenericCollectionAssertionOfStringSpecs.cs">
+      <Link>GenericCollectionAssertionOfStringSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\GenericCollectionAssertionsSpecs.cs">
+      <Link>GenericCollectionAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\GuidAssertionSpecs.cs">
+      <Link>GuidAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\MethodInfoAssertionSpecs.cs">
+      <Link>MethodInfoAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\MethodInfoSelectorAssertionSpecs.cs">
+      <Link>MethodInfoSelectorAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\MethodInfoSelectorSpecs.cs">
+      <Link>MethodInfoSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\NullableBooleanAssertionSpecs.cs">
+      <Link>NullableBooleanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\NullableGuidAssertionSpecs.cs">
+      <Link>NullableGuidAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\NullableNumericAssertionSpecs.cs">
+      <Link>NullableNumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\NullableSimpleTimeSpanAssertionSpecs.cs">
+      <Link>NullableSimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\NumericAssertionSpecs.cs">
+      <Link>NumericAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\ObjectCastingSpecs.cs">
+      <Link>ObjectCastingSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoSelectorSpecs.cs">
+      <Link>PropertyInfoSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\ReferenceTypeAssertionsSpecs.cs">
+      <Link>ReferenceTypeAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\SimpleTimeSpanAssertionSpecs.cs">
+      <Link>SimpleTimeSpanAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\StringAssertionSpecs.cs">
+      <Link>StringAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\ThrowAssertionsSpecs.cs">
+      <Link>ThrowAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\TimeSpanFormatterSpecs.cs">
+      <Link>TimeSpanFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\TypeAssertionSpecs.cs">
+      <Link>TypeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\TypeExtensionsSpecs.cs">
+      <Link>TypeExtensionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\TypeSelectorSpecs.cs">
+      <Link>TypeSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\XAttributeAssertionSpecs.cs">
+      <Link>XAttributeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\XAttributeFormatterSpecs.cs">
+      <Link>XAttributeFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\XDocumentAssertionSpecs.cs">
+      <Link>XDocumentAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\XDocumentFormatterSpecs.cs">
+      <Link>XDocumentFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\XElementAssertionSpecs.cs">
+      <Link>XElementAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\XElementFormatterSpecs.cs">
+      <Link>XElementFormatterSpecs.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
+      <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
+      <Name>FluentAssertions.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FluentAssertions.Portable\FluentAssertions.Portable.csproj">
+      <Project>{e6f895fa-ae44-4750-87f1-d18a7d974377}</Project>
+      <Name>FluentAssertions.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

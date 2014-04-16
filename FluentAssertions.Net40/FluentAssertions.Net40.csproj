@@ -33,6 +33,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Debug\FluentAssertions.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

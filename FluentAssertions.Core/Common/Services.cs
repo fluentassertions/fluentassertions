@@ -15,6 +15,7 @@ namespace FluentAssertions.Common
         public static void ResetToDefaults()
         {
             Configuration = new Configuration(new NullConfigurationStore());
+            Reflector = new NullReflector();
         }
 
         public static Configuration Configuration { get; set; }

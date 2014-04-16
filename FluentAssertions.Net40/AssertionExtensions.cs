@@ -37,7 +37,7 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !PORTABLE
 
         /// <summary>
         /// Provides methods for asserting the execution time of a method or property.
@@ -538,7 +538,7 @@ namespace FluentAssertions
             new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
         }
 
-#if !SILVERLIGHT && !WINRT
+#if !SILVERLIGHT && !WINRT && !PORTABLE
         /// <summary>
         ///   Starts monitoring an object for its events.
         /// </summary>
