@@ -18,17 +18,14 @@ namespace FluentAssertions.Execution
 
         #endregion
 
-        public static ITestFramework TestFramework
+        public static void Throw(string message)
         {
-            get
+            if (testFramework == null)
             {
-                if (testFramework == null)
-                {
-                    testFramework = FindStrategy();
-                }
-
-                return testFramework;
+                testFramework = FindStrategy();
             }
+
+            testFramework.Throw(message);
         }
 
         private static ITestFramework FindStrategy()

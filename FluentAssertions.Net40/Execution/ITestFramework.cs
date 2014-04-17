@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents an abstraction of a particular test framework such as MSTest, nUnit, etc.
     /// </summary>
-    public interface ITestFramework
+    internal interface ITestFramework
     {
         /// <summary>
         /// Gets a value indicating whether the corresponding test framework is currently available.

@@ -16,36 +16,33 @@ namespace FluentAssertions.Execution
 
         private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>
         {
-            {"nunit", new NUnitTestFramework()},
-            {"xunit", new XUnitTestFramework()},
-            {"mspec", new MSpecFramework()},
-            {"mbunit", new MbUnitTestFramework()},
-            {"gallio", new GallioTestFramework()},
-            {"mstest", new MSTestFramework()},
-            {"fallback", new FallbackTestFramework()}
+            { "nunit", new NUnitTestFramework() },
+            { "xunit", new XUnitTestFramework() },
+            { "mspec", new MSpecFramework() },
+            { "mbunit", new MbUnitTestFramework() },
+            { "gallio", new GallioTestFramework() },
+            { "mstest", new MSTestFramework() },
+            { "fallback", new FallbackTestFramework() }
         };
 
         private static ITestFramework testFramework;
 
         #endregion
 
-        public static ITestFramework TestFramework
+        public static void Throw(string message)
         {
-            get
+            if (testFramework == null)
             {
-                if (testFramework == null)
-                {
-                    testFramework = DetectFramework();
-                }
-
-                return testFramework;
+                testFramework = DetectFramework();
             }
+
+            testFramework.Throw(message);
         }
 
         private static ITestFramework DetectFramework()
         {
             ITestFramework detectedFramework = null;
-            
+
             detectedFramework = AttemptToDetectUsingAppSetting();
             if (detectedFramework == null)
             {
@@ -63,10 +60,10 @@ namespace FluentAssertions.Execution
         private static void FailWithIncorrectConfiguration()
         {
             string errorMessage =
-                "Failed to detect the test framework. Make sure that the framework assembly is copied into the test run directory" 
+                "Failed to detect the test framework. Make sure that the framework assembly is copied into the test run directory"
                 + ", or configure it explicitly in the <appSettings> section using key \"" + AppSettingKey +
-                        "\" and one of the supported " +
-                            " frameworks: " + string.Join(", ", frameworks.Keys.ToArray());
+                "\" and one of the supported " +
+                " frameworks: " + string.Join(", ", frameworks.Keys.ToArray());
 
             throw new ConfigurationErrorsException(errorMessage);
         }
@@ -82,7 +79,7 @@ namespace FluentAssertions.Execution
                 {
                     throw new Exception(
                         "FluentAssertions was configured to use " + frameworkName +
-                            " but the required test framework assembly could not be found");
+                        " but the required test framework assembly could not be found");
                 }
 
                 return framework;
@@ -95,6 +92,5 @@ namespace FluentAssertions.Execution
         {
             return frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
         }
-
     }
 }

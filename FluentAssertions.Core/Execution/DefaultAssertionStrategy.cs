@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Execution
 {
     internal class DefaultAssertionStrategy : IAssertionStrategy
@@ -20,7 +22,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void HandleFailure(string message)
         {
-            AssertionHelper.Throw(message);
+            Services.ThrowException(message);
         }
 
         /// <summary>

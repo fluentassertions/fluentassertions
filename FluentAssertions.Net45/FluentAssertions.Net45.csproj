@@ -86,6 +86,9 @@
     <Compile Include="..\FluentAssertions.Net40\Execution\GallioTestFramework.cs">
       <Link>Execution\GallioTestFramework.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\ITestFramework.cs">
+      <Link>Execution\ITestFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\LateBoundTestFramework.cs">
       <Link>Execution\LateBoundTestFramework.cs</Link>
     </Compile>

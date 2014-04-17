@@ -118,7 +118,6 @@
     <Compile Include="Events\EventRecordersMap.cs" />
     <Compile Include="Events\IEventRecorder.cs" />
     <Compile Include="Events\RecordedEvent.cs" />
-    <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Execution\AssertionScope.cs" />
     <Compile Include="Execution\CollectingAssertionStrategy.cs" />
     <Compile Include="Execution\ContextDataItems.cs" />
@@ -126,7 +125,6 @@
     <Compile Include="Execution\Execute.cs" />
     <Compile Include="Execution\IAssertionStrategy.cs" />
     <Compile Include="Execution\ICloneable2.cs" />
-    <Compile Include="Execution\ITestFramework.cs" />
     <Compile Include="Execution\Reportability.cs" />
     <Compile Include="FluentDateTimeExtensions.cs" />
     <Compile Include="Formatting\AggregateExceptionValueFormatter.cs" />

@@ -9,7 +9,7 @@ namespace FluentAssertions
         static AssertionExtensions()
         {
             Services.Configuration = new Configuration(new AppSettingsConfigurationStore());
-            Services.TestFramework = TestFrameworkProvider.TestFramework;
+            Services.ThrowException = TestFrameworkProvider.Throw;
             Services.Reflector = new DefaultReflector();
 
             Formatter.AddFormatter(new AggregateExceptionValueFormatter());

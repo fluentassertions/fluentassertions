@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
@@ -54,7 +56,7 @@ namespace FluentAssertions.Execution
                     }
                 }
 
-                AssertionHelper.Throw(builder.ToString());
+                Services.ThrowException(builder.ToString());
             }
         }
 

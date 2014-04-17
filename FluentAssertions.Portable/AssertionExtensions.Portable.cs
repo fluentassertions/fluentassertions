@@ -8,7 +8,10 @@ namespace FluentAssertions
     {
         static AssertionExtensions()
         {
-            Services.TestFramework = Services.TestFramework ?? new FallbackTestFramework();
+            if (Services.ThrowException == null)
+            {
+                Services.ThrowException = message => { throw new AssertionFailedException(message); };
+            }
 
             Formatter.AddFormatter(new AggregateExceptionValueFormatter());
         }

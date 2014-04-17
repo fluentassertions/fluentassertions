@@ -79,6 +79,7 @@
     <Compile Include="Events\EventHandlerFactory.cs" />
     <Compile Include="Execution\FallbackTestFramework.cs" />
     <Compile Include="Execution\GallioTestFramework.cs" />
+    <Compile Include="Execution\ITestFramework.cs" />
     <Compile Include="Execution\LateBoundTestFramework.cs" />
     <Compile Include="Execution\MbUnitTestFramework.cs" />
     <Compile Include="Execution\MSpecFramework.cs" />
