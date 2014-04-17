@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}</ProjectGuid>
+    <ProjectGuid>{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FluentAssertions.Specs</RootNamespace>
-    <AssemblyName>FluentAssertions.WinRT.Specs</AssemblyName>
+    <AssemblyName>FluentAssertions.Net45.Specs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TestProjectType>UnitTest</TestProjectType>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>
@@ -20,44 +20,64 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <TargetPlatformVersion>8.1</TargetPlatformVersion>
-    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
-    <TargetFrameworkVersion />
-    <AppxBundle>Never</AppxBundle>
-    <PackageCertificateThumbprint>832E8CF17616B4013B2A00CA8482EDAA67E1CFEB</PackageCertificateThumbprint>
-    <PackageCertificateKeyFile>FluentAssertions.WinRT.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WINRT</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;WINRT</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <AppXPackage>True</AppXPackage>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
-  <PropertyGroup />
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net45.Specs\AsyncFunctionExceptionAssertionSpecs.cs">
-      <Link>AsyncFunctionExceptionAssertionSpecs.cs</Link>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\packages\FakeItEasy.1.16.0\lib\net40\FakeItEasy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedBinaries\UnitTesting\Net45\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>4.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <HintPath>..\SharedBinaries\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise />
+  </Choose>
+  <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40.Specs\AggregateExceptionAssertionSpecs.cs">
+      <Link>AggregateExceptionAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\AssertionFailureSpecs.cs">
       <Link>AssertionFailureSpecs.cs</Link>
@@ -80,23 +100,14 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\EventAssertionSpecs.cs">
       <Link>EventAssertionSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\ExecutionTimeAssertionsSpecs.cs">
-      <Link>ExecutionTimeAssertionsSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\FluentDateTimeSpecs.cs">
-      <Link>FluentDateTimeSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\FormatterSpecs.cs">
-      <Link>FormatterSpecs.cs</Link>
+    <Compile Include="..\FluentAssertions.Net40.Specs\ExceptionAssertionSpecs.cs">
+      <Link>ExceptionAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\GenericCollectionAssertionOfStringSpecs.cs">
       <Link>GenericCollectionAssertionOfStringSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\GenericCollectionAssertionsSpecs.cs">
       <Link>GenericCollectionAssertionsSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\GenericDictionaryAssertionSpecs.cs">
-      <Link>GenericDictionaryAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\GuidAssertionSpecs.cs">
       <Link>GuidAssertionSpecs.cs</Link>
@@ -131,13 +142,7 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\ObjectCastingSpecs.cs">
       <Link>ObjectCastingSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoAssertionSpecs.cs">
-      <Link>PropertyInfoAssertionSpecs.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoSelectorSpecs.cs">
-      <Link>PropertyInfoSelectorSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoSelectorAssertionSpecs.cs">
       <Link>PropertyInfoSelectorSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\ReferenceTypeAssertionsSpecs.cs">
@@ -152,14 +157,14 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\ThrowAssertionsSpecs.cs">
       <Link>ThrowAssertionsSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\TimeSpanConversionExtensionSpecs.cs">
-      <Link>TimeSpanConversionExtensionSpecs.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\TimeSpanFormatterSpecs.cs">
       <Link>TimeSpanFormatterSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\TypeAssertionSpecs.cs">
       <Link>TypeAssertionSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\TypeExtensionsSpecs.cs">
+      <Link>TypeExtensionsSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\TypeSelectorSpecs.cs">
       <Link>TypeSelectorSpecs.cs</Link>
@@ -182,62 +187,30 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\XElementFormatterSpecs.cs">
       <Link>XElementFormatterSpecs.cs</Link>
     </Compile>
+    <Compile Include="AsyncFunctionExceptionAssertionSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\UnitTestLogo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="Images\UnitTestLogo.png" />
-    <Content Include="Images\UnitTestSmallLogo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="Images\UnitTestSmallLogo.png" />
-    <Content Include="Images\UnitTestSplashScreen.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="Images\UnitTestSplashScreen.png" />
-    <Content Include="Images\UnitTestStoreLogo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="Images\UnitTestStoreLogo.png" />
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
+    <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
       <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
-      <Name>FluentAssertions.Core</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FluentAssertions.WinRT\FluentAssertions.WinRT.csproj">
-      <Project>{ce8a220a-faa6-469d-b9b8-5f1834685861}</Project>
-      <Name>FluentAssertions.WinRT</Name>
+    <ProjectReference Include="..\FluentAssertions.Net45\Net45.csproj">
+      <Project>{81d1792f-3c87-49cf-a502-9f232ff3719c}</Project>
+      <Name>Net45</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="FluentAssertions.WinRT.Specs_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.Core">
-      <HintPath>..\SharedBinaries\UnitTesting\WinStore\TestPlatform\11.0\Redist\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.UnitTestFramework, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SharedBinaries\UnitTesting\WinStore\MSTestFramework\11.0\References\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.UnitTestFramework.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v12.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
-  </Target>  
+  </Target>
   <Target Name="AfterBuild">
   </Target>
   -->

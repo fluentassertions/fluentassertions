@@ -3,32 +3,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}</ProjectGuid>
-    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectGuid>{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FluentAssertions.Silverlight.Specs</RootNamespace>
-    <AssemblyName>FluentAssertions.Silverlight.Specs</AssemblyName>
-    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
-    <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures />
-    <XapOutputs>true</XapOutputs>
-    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>FluentAssertions.Silverlight.Specs.xap</XapFilename>
-    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
-    <SilverlightAppEntry>FluentAssertions.Silverlight.Specs.App</SilverlightAppEntry>
-    <TestPageFileName>TestPage.html</TestPageFileName>
-    <CreateTestPage>true</CreateTestPage>
-    <ValidateXaml>true</ValidateXaml>
-    <EnableOutOfBrowser>false</EnableOutOfBrowser>
-    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
-    <UsePlatformExtensions>false</UsePlatformExtensions>
-    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <LinkedServerProject />
+    <RootNamespace>FluentAssertions.Specs</RootNamespace>
+    <AssemblyName>FluentAssertions.WinRT.Specs</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SccProjectName>
     </SccProjectName>
     <SccLocalPath>
@@ -37,82 +20,45 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>4.0</OldToolsVersion>
-  </PropertyGroup>
-  <!--
-  //
-  // Silverlight Code Coverage Instrumentation
-  // List any libraries or assemblies that you would like to instrument during
-  // a code coverage pass. An example, for ClassLibrary1, is provided, and
-  // commented out below as a starting point:
-  //
-  -->
-  <!--
-  <ItemGroup>
-    <InstrumentSilverlightAssemblies Include="SilverlightClassLibrary1">
-      <Visible>false</Visible>
-    </InstrumentSilverlightAssemblies>
-  </ItemGroup>
-  -->
-  <!-- This property group is only here to support building this project using the 
-       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
-       to set the TargetFrameworkVersion to v3.5 -->
-  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
+    <TargetFrameworkVersion />
+    <AppxBundle>Never</AppxBundle>
+    <PackageCertificateThumbprint>832E8CF17616B4013B2A00CA8482EDAA67E1CFEB</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>FluentAssertions.WinRT.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINRT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;WINRT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <AppXPackage>True</AppXPackage>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
-    <Reference Include="FakeItEasy">
-      <HintPath>..\packages\FakeItEasy.1.16.0\lib\sl50\FakeItEasy.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Silverlight.Testing, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SharedBinaries\UnitTesting\Silverlight\Microsoft.Silverlight.Testing.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SharedBinaries\UnitTesting\Silverlight\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll</HintPath>
-    </Reference>
-    <Reference Include="mscorlib" />
-    <Reference Include="system" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Windows.Browser" />
-    <Reference Include="System.Xml.Linq, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net45.Specs\AsyncFunctionExceptionAssertionSpecs.cs">
+      <Link>AsyncFunctionExceptionAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\AssertionFailureSpecs.cs">
       <Link>AssertionFailureSpecs.cs</Link>
     </Compile>
@@ -131,17 +77,26 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\DateTimeOffsetValueFormatterSpecs.cs">
       <Link>DateTimeOffsetValueFormatterSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\EquivalencySpecs.cs">
-      <Link>EquivalencySpecs.cs</Link>
+    <Compile Include="..\FluentAssertions.Net40.Specs\EventAssertionSpecs.cs">
+      <Link>EventAssertionSpecs.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\ExceptionAssertionSpecs.cs">
-      <Link>ExceptionAssertionSpecs.cs</Link>
+    <Compile Include="..\FluentAssertions.Net40.Specs\ExecutionTimeAssertionsSpecs.cs">
+      <Link>ExecutionTimeAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\FluentDateTimeSpecs.cs">
+      <Link>FluentDateTimeSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\FormatterSpecs.cs">
+      <Link>FormatterSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\GenericCollectionAssertionOfStringSpecs.cs">
       <Link>GenericCollectionAssertionOfStringSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\GenericCollectionAssertionsSpecs.cs">
       <Link>GenericCollectionAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\GenericDictionaryAssertionSpecs.cs">
+      <Link>GenericDictionaryAssertionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\GuidAssertionSpecs.cs">
       <Link>GuidAssertionSpecs.cs</Link>
@@ -176,7 +131,13 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\ObjectCastingSpecs.cs">
       <Link>ObjectCastingSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoAssertionSpecs.cs">
+      <Link>PropertyInfoAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoSelectorSpecs.cs">
+      <Link>PropertyInfoSelectorSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoSelectorAssertionSpecs.cs">
       <Link>PropertyInfoSelectorSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\ReferenceTypeAssertionsSpecs.cs">
@@ -190,6 +151,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\ThrowAssertionsSpecs.cs">
       <Link>ThrowAssertionsSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\TimeSpanConversionExtensionSpecs.cs">
+      <Link>TimeSpanConversionExtensionSpecs.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\TimeSpanFormatterSpecs.cs">
       <Link>TimeSpanFormatterSpecs.cs</Link>
@@ -218,44 +182,63 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\XElementFormatterSpecs.cs">
       <Link>XElementFormatterSpecs.cs</Link>
     </Compile>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="EventMonitoringSpecs.cs" />
-    <Compile Include="TestViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    <Content Include="Images\UnitTestLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="Images\UnitTestLogo.png" />
+    <Content Include="Images\UnitTestSmallLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="Images\UnitTestSmallLogo.png" />
+    <Content Include="Images\UnitTestSplashScreen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="Images\UnitTestSplashScreen.png" />
+    <Content Include="Images\UnitTestStoreLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>false</Visible>
+    </Content>
+    <Content Include="Images\UnitTestStoreLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\FluentAssertions.snk">
-      <Link>FluentAssertions.snk</Link>
-    </None>
-    <None Include="packages.config" />
-    <None Include="Properties\AppManifest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
+    <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
       <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
-      <Name>FluentAssertions.Core</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FluentAssertions.Silverlight\FluentAssertions.Silverlight.csproj">
-      <Project>{135391A1-B669-423F-8D8C-04B60DCFB8B1}</Project>
-      <Name>FluentAssertions.Silverlight</Name>
+    <ProjectReference Include="..\FluentAssertions.WinRT\WinRT.csproj">
+      <Project>{ce8a220a-faa6-469d-b9b8-5f1834685861}</Project>
+      <Name>WinRT</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
-        <SilverlightProjectProperties />
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FluentAssertions.WinRT.Specs_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.Core">
+      <HintPath>..\SharedBinaries\UnitTesting\WinStore\TestPlatform\11.0\Redist\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.UnitTestFramework, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedBinaries\UnitTesting\WinStore\MSTestFramework\11.0\References\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.UnitTestFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v12.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>  
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

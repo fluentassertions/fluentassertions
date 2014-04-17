@@ -19,31 +19,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{2D1C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specs", "Specs", "{963262D0-9FD5-4741-8C0E-E2F34F110EF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Silverlight", "FluentAssertions.Silverlight\FluentAssertions.Silverlight.csproj", "{135391A1-B669-423F-8D8C-04B60DCFB8B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight", "FluentAssertions.Silverlight\Silverlight.csproj", "{135391A1-B669-423F-8D8C-04B60DCFB8B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net40", "FluentAssertions.Net40\FluentAssertions.Net40.csproj", "{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net40", "FluentAssertions.Net40\Net40.csproj", "{F673CC6B-5747-466F-9AB5-0C7EAD5E5F95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Silverlight.Specs", "FluentAssertions.Silverlight.Specs\FluentAssertions.Silverlight.Specs.csproj", "{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight.Specs", "FluentAssertions.Silverlight.Specs\Silverlight.Specs.csproj", "{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WinRT", "FluentAssertions.WinRT\FluentAssertions.WinRT.csproj", "{CE8A220A-FAA6-469D-B9B8-5F1834685861}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT", "FluentAssertions.WinRT\WinRT.csproj", "{CE8A220A-FAA6-469D-B9B8-5F1834685861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WinRT.Specs", "FluentAssertions.WinRT.Specs\FluentAssertions.WinRT.Specs.csproj", "{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT.Specs", "FluentAssertions.WinRT.Specs\WinRT.Specs.csproj", "{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net45", "FluentAssertions.Net45\FluentAssertions.Net45.csproj", "{81D1792F-3C87-49CF-A502-9F232FF3719C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net45", "FluentAssertions.Net45\Net45.csproj", "{81D1792F-3C87-49CF-A502-9F232FF3719C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net45.Specs", "FluentAssertions.Net45.Specs\FluentAssertions.Net45.Specs.csproj", "{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net45.Specs", "FluentAssertions.Net45.Specs\Net45.Specs.csproj", "{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Core", "FluentAssertions.Core\FluentAssertions.Core.csproj", "{8931C5EF-3BAC-473A-A343-57791D0917B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "FluentAssertions.Core\Core.csproj", "{8931C5EF-3BAC-473A-A343-57791D0917B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WP8.Specs", "FluentAssertions.WP8.Specs\FluentAssertions.WP8.Specs.csproj", "{00A8D405-6687-47B4-A81C-76B5331D094D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP8.Specs", "FluentAssertions.WP8.Specs\WP8.Specs.csproj", "{00A8D405-6687-47B4-A81C-76B5331D094D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Net40.Specs", "FluentAssertions.Net40.Specs\FluentAssertions.Net40.Specs.csproj", "{11E362B9-2A11-4452-AD28-1F8AC14AE87B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net40.Specs", "FluentAssertions.Net40.Specs\Net40.Specs.csproj", "{11E362B9-2A11-4452-AD28-1F8AC14AE87B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.WP8", "FluentAssertions.WP8\FluentAssertions.WP8.csproj", "{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP8", "FluentAssertions.WP8\WP8.csproj", "{0EC1CB90-4D32-4020-BCDB-0AB290A355C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Portable", "FluentAssertions.Portable\FluentAssertions.Portable.csproj", "{E6F895FA-AE44-4750-87F1-D18A7D974377}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable", "FluentAssertions.Portable\Portable.csproj", "{E6F895FA-AE44-4750-87F1-D18A7D974377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions.Portable.Specs", "FluentAssertions.Portable.Specs\FluentAssertions.Portable.Specs.csproj", "{0220D206-62E4-4352-89EC-424E0F04D2D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable.Specs", "FluentAssertions.Portable.Specs\Portable.Specs.csproj", "{0220D206-62E4-4352-89EC-424E0F04D2D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

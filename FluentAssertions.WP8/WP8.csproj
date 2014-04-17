@@ -142,9 +142,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions.Core\FluentAssertions.Core.csproj">
+    <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
       <Project>{8931C5EF-3BAC-473A-A343-57791D0917B1}</Project>
-      <Name>FluentAssertions.Core</Name>
+      <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
