@@ -8,9 +8,10 @@
     <ProjectGuid>{11E362B9-2A11-4452-AD28-1F8AC14AE87B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FluentAssertions.specs</RootNamespace>
-    <AssemblyName>FluentAssertions.Specs</AssemblyName>
+    <RootNamespace>FluentAssertions.Specs</RootNamespace>
+    <AssemblyName>FluentAssertions.Net40.Specs</AssemblyName>
     <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <TestProjectType>UnitTest</TestProjectType>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SccProjectName>

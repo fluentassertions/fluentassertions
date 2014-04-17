@@ -8,7 +8,7 @@ namespace FluentAssertions
     {
         static AssertionExtensions()
         {
-            Services.TestFramework = new FallbackTestFramework();
+            Services.TestFramework = Services.TestFramework ?? new FallbackTestFramework();
 
             Formatter.AddFormatter(new AggregateExceptionValueFormatter());
         }

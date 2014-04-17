@@ -8,7 +8,7 @@
     <ProjectGuid>{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FluentAssertions.WinRT.Specs</RootNamespace>
+    <RootNamespace>FluentAssertions.Specs</RootNamespace>
     <AssemblyName>FluentAssertions.WinRT.Specs</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

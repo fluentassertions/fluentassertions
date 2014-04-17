@@ -6,7 +6,7 @@
     <ProjectGuid>{442C9B50-6F91-4CBA-8D4E-B470E5CC3D5F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FluentAssertions.Net45.Specs</RootNamespace>
+    <RootNamespace>FluentAssertions.Specs</RootNamespace>
     <AssemblyName>FluentAssertions.Net45.Specs</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
