@@ -7,9 +7,10 @@
     $BuildNumber = 9999
     $MsBuildLoggerPath = ""
 	$Branch = ""
+	$MsTestPath = "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe"
 }
 
-task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Compile, BuildPackage, PublishToMyget
+task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Compile, RunTests, BuildPackage, PublishToMyget
 
 task Clean {	
     TeamCity-Block "Clean" {
@@ -56,6 +57,35 @@ task Compile {
     }
 }
 
+task RunTests {
+	TeamCity-Block "Running unit tests" {
+	
+        Run-MsTestWithTeamCityOutput `
+			"$MsTestPath"`
+			".NET 4.0"`
+			"$BaseDirectory\FluentAssertions.Net40.Specs\bin\Release\FluentAssertions.Net40.Specs.dll"`
+			"$BaseDirectory\Default.testsettings"
+
+		Run-MsTestWithTeamCityOutput `
+			"$MsTestPath"`
+			".NET 4.5"`
+			"$BaseDirectory\FluentAssertions.Net45.Specs\bin\Release\FluentAssertions.Net45.Specs.dll"`
+			"$BaseDirectory\Default.testsettings"
+
+		Run-MsTestWithTeamCityOutput `
+			"$MsTestPath"`
+			"PCL"`
+			"$BaseDirectory\FluentAssertions.Portable.Specs\bin\Release\FluentAssertions.Portable.Specs.dll"`
+			"$BaseDirectory\Default.testsettings"
+
+		Run-MsTestWithTeamCityOutput `
+			"$MsTestPath"`
+			"WinRT"`
+			"$BaseDirectory\FluentAssertions.WinRT.Specs\bin\Release\FluentAssertions.WinRT.Specs.dll"`
+			"$BaseDirectory\Default.testsettings"
+	}
+}
+
 task BuildPackage {
     TeamCity-Block "Building NuGet Package" {  
 		& $Nuget pack "$PackageDirectory\.nuspec" -o "$PackageDirectory\" 
@@ -70,3 +100,5 @@ task PublishToMyget -precondition { return ($Branch -eq "master" -or $Branch -eq
 		}
 	}
 }
+
+
