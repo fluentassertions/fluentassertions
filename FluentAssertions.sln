@@ -44,13 +44,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable", "FluentAssertion
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable.Specs", "FluentAssertions.Portable.Specs\Portable.Specs.csproj", "{0220D206-62E4-4352-89EC-424E0F04D2D3}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared.Specs", "Shared.Specs\Shared.Specs.shproj", "{0C23C12C-899F-4AD1-B737-B967A9910C08}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{46445A29-4242-4FD4-9138-A47B2DBEA736}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPA81.Specs", "FluentAssertions.WPA81.Specs\WPA81.Specs.csproj", "{6D8311F2-7599-4BD0-B66C-05E8CF77AAB0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT80", "FluentAssertions.WinRT80\WinRT80.csproj", "{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared.Specs", "FluentAssertions.Shared.Specs\Shared.Specs.shproj", "{0C23C12C-899F-4AD1-B737-B967A9910C08}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -67,7 +67,7 @@ Global
 		Shared\Shared.projitems*{81d1792f-3c87-49cf-a502-9f232ff3719c}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{0220d206-62e4-4352-89ec-424e0f04d2d3}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{11e362b9-2a11-4452-ad28-1f8ac14ae87b}*SharedItemsImports = 4
-		Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
+		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
 		Shared\Shared.projitems*{0ec1cb90-4d32-4020-bcdb-0ab290a355c2}*SharedItemsImports = 4
 		Shared\Shared.projitems*{ce8a220a-faa6-469d-b9b8-5f1834685861}*SharedItemsImports = 4
 	EndGlobalSection
@@ -341,9 +341,9 @@ Global
 		{0EC1CB90-4D32-4020-BCDB-0AB290A355C2} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{E6F895FA-AE44-4750-87F1-D18A7D974377} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{0220D206-62E4-4352-89EC-424E0F04D2D3} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
-		{0C23C12C-899F-4AD1-B737-B967A9910C08} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{46445A29-4242-4FD4-9138-A47B2DBEA736} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{6D8311F2-7599-4BD0-B66C-05E8CF77AAB0} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{0C23C12C-899F-4AD1-B737-B967A9910C08} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 	EndGlobalSection
 EndGlobal
