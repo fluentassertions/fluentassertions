@@ -36,10 +36,11 @@ namespace FluentAssertions.Execution
             {
                 string prefix = AssemblyName + ",";
 
+#if !PORTABLE
                 assembly = AppDomain.CurrentDomain
                     .GetAssemblies()
                     .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase));
-
+#endif
                 return (assembly != null);
             }
         }

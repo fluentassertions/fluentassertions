@@ -65,9 +65,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.cs">
-      <Link>AssertionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Common\AppSettingsConfigurationStore.cs">
       <Link>Common\AppSettingsConfigurationStore.cs</Link>
     </Compile>
@@ -77,20 +74,8 @@
     <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
       <Link>EventSourceExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Events\EventHandlerFactory.cs">
-      <Link>Events\EventHandlerFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\FallbackTestFramework.cs">
-      <Link>Execution\FallbackTestFramework.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\GallioTestFramework.cs">
       <Link>Execution\GallioTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\ITestFramework.cs">
-      <Link>Execution\ITestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\LateBoundTestFramework.cs">
-      <Link>Execution\LateBoundTestFramework.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\MbUnitTestFramework.cs">
       <Link>Execution\MbUnitTestFramework.cs</Link>
@@ -104,23 +89,14 @@
     <Compile Include="..\FluentAssertions.Net40\Execution\NUnitTestFramework.cs">
       <Link>Execution\NUnitTestFramework.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\TestFrameworkProvider.cs">
+      <Link>Execution\TestFrameworkProvider.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\XUnitTestFramework.cs">
       <Link>Execution\XUnitTestFramework.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\ObjectAssertionsExtensions.cs">
       <Link>ObjectAssertionsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Specialized\ExecutionTimeAssertions.cs">
-      <Link>Specialized\ExecutionTimeAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">
-      <Link>AssertionExtensions.Actions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\TestFrameworkProvider.cs">
-      <Link>Execution\TestFrameworkProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="AssertionExtensions.Net45.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,6 +112,7 @@
       <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

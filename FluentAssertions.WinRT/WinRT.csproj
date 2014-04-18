@@ -54,24 +54,6 @@
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.cs">
-      <Link>AssertionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\ITestFramework.cs">
-      <Link>Execution\ITestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\LateBoundTestFramework.cs">
-      <Link>Execution\LateBoundTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Specialized\ExecutionTimeAssertions.cs">
-      <Link>Specialized\ExecutionTimeAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">
-      <Link>AssertionExtensions.Actions.cs</Link>
-    </Compile>
-    <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
-    </Compile>
     <Compile Include="AssertionExtensions.WinRT.cs" />
     <Compile Include="Execution\MSTestFramework.cs" />
     <Compile Include="Execution\NUnitPclTestFramework.cs" />
@@ -96,6 +78,7 @@
       <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v12.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

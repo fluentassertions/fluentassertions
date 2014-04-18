@@ -102,29 +102,8 @@
     <Optimize>true</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">
-      <Link>AssertionExtensions.Actions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.cs">
-      <Link>AssertionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
       <Link>EventSourceExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Events\EventHandlerFactory.cs">
-      <Link>Events\EventHandlerFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\ITestFramework.cs">
-      <Link>Execution\ITestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\LateBoundTestFramework.cs">
-      <Link>Execution\LateBoundTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Specialized\ExecutionTimeAssertions.cs">
-      <Link>Specialized\ExecutionTimeAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="AssertionExtensions.WP.cs" />
     <Compile Include="Common\WpReflector.cs" />
@@ -147,6 +126,7 @@
       <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />

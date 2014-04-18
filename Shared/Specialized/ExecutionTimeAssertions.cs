@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using FluentAssertions.Execution;
 
+
+#if !PORTABLE && !SILVERLIGHT
 namespace FluentAssertions.Specialized
 {
     /// <summary>
@@ -72,3 +74,4 @@ namespace FluentAssertions.Specialized
         }
     }
 }
+#endif

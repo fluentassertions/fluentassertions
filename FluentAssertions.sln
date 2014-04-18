@@ -12,7 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		InstallPfx.bat = InstallPfx.bat
 		PushPackage.bat = PushPackage.bat
 		README.md = README.md
-		SolutionInfo.cs = SolutionInfo.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{2D1C52B7-E25D-4BD5-8688-A642A6842AA5}"
@@ -47,15 +46,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portable.Specs", "FluentAss
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared.Specs", "Shared.Specs\Shared.Specs.shproj", "{0C23C12C-899F-4AD1-B737-B967A9910C08}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{46445A29-4242-4FD4-9138-A47B2DBEA736}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Shared.projitems*{e6f895fa-ae44-4750-87f1-d18a7d974377}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{442c9b50-6f91-4cba-8d4e-b470e5cc3d5f}*SharedItemsImports = 4
+		Shared\Shared.projitems*{46445a29-4242-4fd4-9138-a47b2dbea736}*SharedItemsImports = 13
+		Shared\Shared.projitems*{135391a1-b669-423f-8d8c-04b60dcfb8b1}*SharedItemsImports = 4
+		Shared\Shared.projitems*{f673cc6b-5747-466f-9ab5-0c7ead5e5f95}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{d09fc2d5-a5e5-4344-9e42-bced86d21a57}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{f3e17430-fad7-40ad-bf66-e6f23b70bd92}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{00a8d405-6687-47b4-a81c-76b5331d094d}*SharedItemsImports = 4
+		Shared\Shared.projitems*{81d1792f-3c87-49cf-a502-9f232ff3719c}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{0220d206-62e4-4352-89ec-424e0f04d2d3}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{11e362b9-2a11-4452-ad28-1f8ac14ae87b}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
+		Shared\Shared.projitems*{0ec1cb90-4d32-4020-bcdb-0ab290a355c2}*SharedItemsImports = 4
+		Shared\Shared.projitems*{ce8a220a-faa6-469d-b9b8-5f1834685861}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -258,5 +266,6 @@ Global
 		{E6F895FA-AE44-4750-87F1-D18A7D974377} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{0220D206-62E4-4352-89EC-424E0F04D2D3} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{0C23C12C-899F-4AD1-B737-B967A9910C08} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{46445A29-4242-4FD4-9138-A47B2DBEA736} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 	EndGlobalSection
 EndGlobal
