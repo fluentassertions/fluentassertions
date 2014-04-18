@@ -61,7 +61,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Action someAction = () => Thread.Sleep(510);
 #else
             Action someAction = () => System.Threading.Tasks.Task.Delay(510).Wait();
@@ -86,7 +86,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Action someAction = () => Thread.Sleep(100);
 #else
             Action someAction = async () => await System.Threading.Tasks.Task.Delay(100);
@@ -107,7 +107,7 @@ namespace FluentAssertions.Specs
         {
             public void Sleep(int milliseconds)
             {   
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
                 Thread.Sleep(milliseconds);
 #else
                 System.Threading.Tasks.Task.Delay(milliseconds).Wait();

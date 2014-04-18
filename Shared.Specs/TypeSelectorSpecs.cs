@@ -8,7 +8,7 @@ using Internal.Main.Test;
 using Internal.Other.Test;
 using Internal.Other.Test.Common;
 
-#if WINRT || WINDOWS_PHONE
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,7 +25,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------            
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).Assembly;
 #else
             Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).GetTypeInfo().Assembly;
@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).Assembly;
 #else
             Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).GetTypeInfo().Assembly;
@@ -75,7 +75,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Assembly assembly = typeof(ClassImplementingSomeInterface).Assembly;
 #else
             Assembly assembly = typeof(ClassImplementingSomeInterface).GetTypeInfo().Assembly;
@@ -101,7 +101,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 #else
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
@@ -127,7 +127,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 #else
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
@@ -152,7 +152,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 #else
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
@@ -178,7 +178,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 #else
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;

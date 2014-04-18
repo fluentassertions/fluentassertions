@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 
-#if WINRT || WINDOWS_PHONE
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -2612,7 +2612,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             act.ShouldNotThrow<StackOverflowException>();
 #endif
             act.ShouldThrow<AssertFailedException>();
@@ -3177,7 +3177,7 @@ namespace FluentAssertions.Specs
                     name = name.Replace("Id", "");
                 }
 
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
                 return expectation.GetType().GetProperty(name);
 #else
                 return expectation.GetType()

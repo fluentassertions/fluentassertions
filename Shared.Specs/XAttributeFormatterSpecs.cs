@@ -2,7 +2,7 @@ using System.Xml.Linq;
 
 using FluentAssertions.Formatting;
 
-#if WINRT || WINDOWS_PHONE
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;

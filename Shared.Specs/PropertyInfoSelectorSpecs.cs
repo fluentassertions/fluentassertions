@@ -4,7 +4,7 @@ using System.Reflection;
 
 using Internal.Main.Test;
 
-#if WINRT || WINDOWS_PHONE
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,7 +21,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
 #else
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-#if WINRT || WINDOWS_PHONE
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using System.Collections.ObjectModel;

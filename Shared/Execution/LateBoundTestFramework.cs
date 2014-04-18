@@ -80,12 +80,29 @@ namespace FluentAssertions.Execution
                 throw new Exception("Could not determine the current directory to detect the test framework");
             }
 
-            IEnumerable<Assembly> assemblies = 
-                from file in await folder.GetFilesAsync() 
-                where (file.FileType == ".dll") || (file.FileType == ".exe") 
-                select Assembly.Load(new AssemblyName() { Name = file.DisplayName });
+            IEnumerable<Assembly> assemblies =
+                from file in await folder.GetFilesAsync()
+                where (file.FileType == ".dll") || (file.FileType == ".exe")
+                let assm = TryLoadAssembly(new AssemblyName()
+                {
+                    Name = file.DisplayName
+                })
+                where assm != null
+                select assm;
             
             return assemblies.ToArray();
+        }
+
+        private static Assembly TryLoadAssembly(AssemblyName name)
+        {
+            try
+            {
+                return Assembly.Load(name);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private StorageFolder TryToGetFolderFromPackageLocation()

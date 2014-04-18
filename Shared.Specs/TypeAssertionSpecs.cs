@@ -3,7 +3,7 @@ using System;
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
 
-#if WINRT || WINDOWS_PHONE
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -138,7 +138,7 @@ namespace FluentAssertions.Specs
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
             Type typeFromThisAssembly = typeof(ObjectAssertions);
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE_APP
             Type typeFromOtherAssembly =
                 typeof(TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 #else

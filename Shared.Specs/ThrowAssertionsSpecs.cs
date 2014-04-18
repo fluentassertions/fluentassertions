@@ -1,6 +1,6 @@
 ﻿using System;
 
-#if !WINRT && !WINDOWS_PHONE
+#if FAKES
 using FakeItEasy;
 #endif
 
@@ -15,7 +15,7 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class ThrowAssertionsSpecs
     {
-#if !WINRT && !WINDOWS_PHONE
+#if FAKES
         [TestMethod]
         public void When_subject_throws_expected_exception_it_should_not_do_anything()
         {
@@ -34,7 +34,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<InvalidOperationException>();
         }
 
-#if !WINRT && !WINDOWS_PHONE
+#if FAKES
         [TestMethod]
         public void When_subject_does_not_throw_exception_but_one_was_expected_it_should_throw_with_clear_description()
         {
