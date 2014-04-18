@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>0c23c12c-899f-4ad1-b737-b967a9910c08</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Shared.Specs</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AggregateExceptionAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssertionFailureSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BooleanAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CollectionAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComparableSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DateTimeAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DateTimeOffsetValueFormatterSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EquivalencySpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExceptionAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExecutionTimeAssertionsSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FluentDateTimeSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FormatterSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GenericCollectionAssertionOfStringSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GenericCollectionAssertionsSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GenericDictionaryAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GuidAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodInfoAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodInfoSelectorAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodInfoSelectorSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NullableBooleanAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NullableGuidAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NullableNumericAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NullableSimpleTimeSpanAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NumericAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectCastingSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoSelectorAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyInfoSelectorSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReferenceTypeAssertionsSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SimpleTimeSpanAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThrowAssertionsSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimeSpanConversionExtensionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimeSpanFormatterSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeExtensionsSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeSelectorSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XAttributeAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XAttributeFormatterSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XDocumentAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XDocumentFormatterSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XElementAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XElementFormatterSpecs.cs" />
+  </ItemGroup>
+</Project>

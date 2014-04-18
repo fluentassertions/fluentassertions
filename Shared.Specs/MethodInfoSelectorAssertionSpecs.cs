@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Reflection;
+using FluentAssertions.Types;
 
-
-#if WINRT
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,25 +10,21 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class PropertyInfoAssertionSpecs
+    public class MethodInfoSelectorAssertionSpecs
     {
         [TestMethod]
-        public void When_a_virtual_property_is_expected_to_be_virtual_it_should_succeed()
+        public void When_asserting_methods_are_virtual_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetRuntimeProperty("PublicVirtualProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetProperty("PublicVirtualProperty");
-#endif
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsVirtual));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeVirtual();
+                methodSelector.Should().BeVirtual();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -38,155 +33,117 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_non_virtual_property_is_expected_to_be_virtual_it_should_throw()
+        public void When_asserting_methods_are_virtual_but_non_virtual_methods_are_found_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetRuntimeProperty("PublicNonVirtualProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetProperty("PublicNonVirtualProperty");
-#endif
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonVirtualPublicMethods));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeVirtual("we want to test the error {0}", "message");
+                methodSelector.Should().BeVirtual();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_methods_are_virtual_but_non_virtual_methods_are_found_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonVirtualPublicMethods));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodSelector.Should().BeVirtual("we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-               .WithMessage(
-                   "Expected property String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
-                       " to be virtual because we want to test the error message," +
-                       " but it is not virtual.");
+                .WithMessage("Expected all selected methods" +
+                             " to be virtual because we want to test the error message," +
+                             " but the following methods are not virtual:\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.InternalDoNothing\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
 
         [TestMethod]
-        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_it_should_succeed()
+        public void When_asserting_methods_are_decorated_with_attribute_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsDecoratedWithDummyAttribute));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>();
+                methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }        
-        
+        }
+
         [TestMethod]
-        public void When_a_property_is_decorated_with_an_attribute_it_should_allow_chaining_assertions()
+        public void When_asserting_methods_are_decorated_with_attribute_but_they_are_not_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+            MethodInfoSelector methodSelector =
+                new MethodInfoSelector(typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute))
+                    .ThatArePublicOrInternal;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>().Which.Value.Should().Be("OtherValue");
+                methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*OtherValue*Value*");
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
-        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_methods_are_decorated_with_attribute_but_they_are_not_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo =
-                typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error message");
+                methodSelector.Should().BeDecoratedWith<DummyMethodAttribute>("because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-               .WithMessage("Expected property String " +
-                   "FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                   "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
-        }
-
-        [TestMethod]
-        public void When_a_read_only_property_is_expected_to_be_writable_it_should_throw()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadOnlyProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable("that's required");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property ReadOnlyProperty to have a setter because that's required.");
-        }
-        
-        [TestMethod]
-        public void When_a_read_write_property_is_expected_to_be_writable_it_should_not_throw()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable("that's required");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+                .WithMessage("Expected all selected methods to be decorated with" +
+                             " FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
+                             " but the following methods are not:\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
     }
 }

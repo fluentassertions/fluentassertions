@@ -4,7 +4,7 @@ using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
-#if WINRT
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -165,7 +165,7 @@ namespace FluentAssertions.Specs
             public List<TChild> Childs { get; set; }
         }
 
-#if !WINRT
+#if !WINRT && !WINDOWS_PHONE
 
         [TestMethod]
         public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()

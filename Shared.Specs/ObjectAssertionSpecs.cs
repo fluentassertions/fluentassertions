@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 using FluentAssertions.Primitives;
 
-#if WINRT || WINDOWS_PHONE
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -442,7 +442,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-#if !SILVERLIGHT && !WINRT
+#if !SILVERLIGHT && !WINRT && !PORTABLE
 
         #region BeBinarySerializable
 

@@ -1,116 +1,99 @@
-﻿using System;
-using System.Threading;
+using System.Xml.Linq;
 
-#if WINRT
+using FluentAssertions.Common;
+
+#if WINRT || WINDOWS_PHONE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
-
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class ExecutionTimeAssertionsSpecs
+    public class TypeExtensionsSpecs
     {
         [TestMethod]
-        public void When_the_execution_time_of_a_member_exceeds_the_maximum_it_should_throw()
+        public void When_comparing_types_and_types_are_same_it_should_return_true()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new SleepingClass();
+            var type1 = typeof(InheritedType);
+            var type2 = typeof(InheritedType);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(610)).ShouldNotExceed(500.Milliseconds(), "we like speed");
+            bool result = type1.IsSameOrInherits(type2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .ShouldThrow<AssertFailedException>()
-                .And.Message.Should().StartWith(
-                    "Execution of (s.Sleep(610)) should not exceed 0.500s because we like speed, but it required 0.6");
+            result.Should().BeTrue();
         }
 
         [TestMethod]
-        public void When_the_execution_time_of_a_meber_stays_within_the_maximum_it_should_not_throw()
+        public void When_comparing_types_and_first_type_inherits_second_it_should_return_true()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new SleepingClass();
+            var type1 = typeof(InheritingType);
+            var type2 = typeof(InheritedType);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ExecutionTimeOf(s => s.Sleep(0)).ShouldNotExceed(500.Milliseconds());
+            bool result = type1.IsSameOrInherits(type2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            result.Should().BeTrue();
         }
 
         [TestMethod]
-        public void When_the_execution_time_of_an_action_exceeds_the_maximum_it_should_throw()
+        public void When_comparing_types_and_second_type_inherits_first_it_should_return_false()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-#if !WINRT
-            Action someAction = () => Thread.Sleep(510);
-#else
-            Action someAction = () => System.Threading.Tasks.Task.Delay(510).Wait();
-#endif
+            var type1 = typeof(InheritedType);
+            var type2 = typeof(InheritingType);
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someAction.ExecutionTime().ShouldNotExceed(100.Milliseconds());
+            bool result = type1.IsSameOrInherits(type2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act
-                .ShouldThrow<AssertFailedException>()
-                .And.Message.Should().StartWith(
-                    "Execution of the action should not exceed 0.100s, but it required 0.5");
+            result.Should().BeFalse();
         }
 
         [TestMethod]
-        public void When_the_execution_time_of_an_action_stays_within_the_limits_it_should_not_throw()
+        public void When_comparing_types_and_types_are_different_it_should_return_false()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-#if !WINRT
-            Action someAction = () => Thread.Sleep(100);
-#else
-            Action someAction = async () => await System.Threading.Tasks.Task.Delay(100);
-#endif
+            var type1 = typeof(string);
+            var type2 = typeof(InheritedType);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => someAction.ExecutionTime().ShouldNotExceed(1.Seconds());
+            bool result = type1.IsSameOrInherits(type2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            result.Should().BeFalse();
         }
 
-        internal class SleepingClass
-        {
-            public void Sleep(int milliseconds)
-            {   
-#if !WINRT
-                Thread.Sleep(milliseconds);
-#else
-                System.Threading.Tasks.Task.Delay(milliseconds).Wait();
-#endif
-            }
-        }
+        class InheritedType { }
+
+        class InheritingType : InheritedType { }
     }
 }

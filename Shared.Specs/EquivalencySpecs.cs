@@ -2593,6 +2593,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+
         [TestMethod]
         public void When_asserting_types_with_infinite_oject_graphs_are_equivilent_it_should_not_overflow_the_stack()
         {
@@ -2611,7 +2612,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
+#if !WINRT
             act.ShouldNotThrow<StackOverflowException>();
+#endif
             act.ShouldThrow<AssertFailedException>();
         }
 
@@ -3174,7 +3177,12 @@ namespace FluentAssertions.Specs
                     name = name.Replace("Id", "");
                 }
 
+#if !WINRT
                 return expectation.GetType().GetProperty(name);
+#else
+                return expectation.GetType()
+                                  .GetRuntimeProperty(name);
+#endif
             }
         }
 

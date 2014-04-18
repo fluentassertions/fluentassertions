@@ -4,7 +4,7 @@ using FluentAssertions.Events;
 using FluentAssertions.Formatting;
 
 
-#if WINRT
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +15,7 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class EventAssertionSpecs
     {
-#if !WINRT
+#if !WINRT && !SILVERLIGHT
 
         #region Should(Not)Raise
 

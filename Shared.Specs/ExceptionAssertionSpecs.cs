@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#if FAKES
+
 using FakeItEasy;
 
 using FluentAssertions.Primitives;
@@ -887,3 +889,5 @@ namespace FluentAssertions.Specs
         public string Property { get; set; }
     }
 }
+
+#endif

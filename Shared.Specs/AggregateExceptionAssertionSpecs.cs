@@ -1,6 +1,10 @@
 ﻿using System;
 
+#if !OLD_MSTEST
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Net40.Specs
 {

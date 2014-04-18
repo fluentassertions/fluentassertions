@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using FluentAssertions.Collections;
 
-#if WINRT
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using System.Collections.ObjectModel;

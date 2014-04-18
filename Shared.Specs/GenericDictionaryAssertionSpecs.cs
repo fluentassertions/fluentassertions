@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-#if WINRT
+#if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
