@@ -109,7 +109,7 @@
       <Name>Microsoft Visual Studio Test Core</Name>
     </SDKReference>
   </ItemGroup>
-  <Import Project="..\Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\Shared.Specs\Shared.Specs.projitems')" />
+  <Import Project="..\FluentAssertions.Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\FluentAssertions.Shared.Specs\Shared.Specs.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v12.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

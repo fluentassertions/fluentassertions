@@ -141,7 +141,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <Import Project="..\Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\Shared.Specs\Shared.Specs.projitems')" />
+  <Import Project="..\FluentAssertions.Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\FluentAssertions.Shared.Specs\Shared.Specs.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

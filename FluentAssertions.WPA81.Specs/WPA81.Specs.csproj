@@ -108,8 +108,7 @@
   <PropertyGroup Condition=" '$(TargetPlatformIdentifier)' == '' ">
     <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
   </PropertyGroup>
-  <Import Project="..\Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\Shared.Specs\Shared.Specs.projitems')" />
-  <Import Project="..\Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\Shared.Specs\Shared.Specs.projitems')" />
+  <Import Project="..\FluentAssertions.Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\FluentAssertions.Shared.Specs\Shared.Specs.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
