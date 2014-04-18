@@ -27,6 +27,6 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="lib\**\*.*" target="lib" exclude="**\*.pri;**\windows8\microsoft*.dll"/>
+    <file src="lib\**\*.*" target="lib" exclude="**\windows8\microsoft*.dll"/>
   </files>
 </package>

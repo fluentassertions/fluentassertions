@@ -29,11 +29,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Package\Lib\portable-net40+sl5+win8+wp8\</OutputPath>
+    <OutputPath>..\Package\Lib\portable-net40+sl5+win8+wp8+wpa81\</OutputPath>
     <DefineConstants>TRACE;PORTABLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\portable-net40+sl5+win8+wp8\FluentAssertions.XML</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.XML</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
   </PropertyGroup>
   <PropertyGroup>

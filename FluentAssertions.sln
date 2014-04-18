@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
 		Package\.nuspec = Package\.nuspec
-		BuildPackage.bat = BuildPackage.bat
+		Build.Package.bat = Build.Package.bat
 		Default.testsettings = Default.testsettings
 		FluentAssertions.snk = FluentAssertions.snk
 		InstallPfx.bat = InstallPfx.bat
@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net40", "FluentAssertions.N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Silverlight.Specs", "FluentAssertions.Silverlight.Specs\Silverlight.Specs.csproj", "{D09FC2D5-A5E5-4344-9E42-BCED86D21A57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT", "FluentAssertions.WinRT\WinRT.csproj", "{CE8A220A-FAA6-469D-B9B8-5F1834685861}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT81", "FluentAssertions.WinRT\WinRT81.csproj", "{CE8A220A-FAA6-469D-B9B8-5F1834685861}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT.Specs", "FluentAssertions.WinRT.Specs\WinRT.Specs.csproj", "{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}"
 EndProject
@@ -48,7 +48,9 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared.Specs", "Shared.Spec
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{46445A29-4242-4FD4-9138-A47B2DBEA736}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPA81.Specs", "WPA81.Specs\WPA81.Specs.csproj", "{6D8311F2-7599-4BD0-B66C-05E8CF77AAB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPA81.Specs", "FluentAssertions.WPA81.Specs\WPA81.Specs.csproj", "{6D8311F2-7599-4BD0-B66C-05E8CF77AAB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT80", "FluentAssertions.WinRT80\WinRT80.csproj", "{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -57,6 +59,7 @@ Global
 		Shared\Shared.projitems*{46445a29-4242-4fd4-9138-a47b2dbea736}*SharedItemsImports = 13
 		Shared\Shared.projitems*{135391a1-b669-423f-8d8c-04b60dcfb8b1}*SharedItemsImports = 4
 		Shared\Shared.projitems*{f673cc6b-5747-466f-9ab5-0c7ead5e5f95}*SharedItemsImports = 4
+		Shared\Shared.projitems*{78e63b83-c692-44c5-8503-7e4faf8c4de8}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{d09fc2d5-a5e5-4344-9e42-bced86d21a57}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{f3e17430-fad7-40ad-bf66-e6f23b70bd92}*SharedItemsImports = 4
 		Shared.Specs\Shared.Specs.projitems*{00a8d405-6687-47b4-a81c-76b5331d094d}*SharedItemsImports = 4
@@ -300,6 +303,26 @@ Global
 		{6D8311F2-7599-4BD0-B66C-05E8CF77AAB0}.Release|x86.ActiveCfg = Release|x86
 		{6D8311F2-7599-4BD0-B66C-05E8CF77AAB0}.Release|x86.Build.0 = Release|x86
 		{6D8311F2-7599-4BD0-B66C-05E8CF77AAB0}.Release|x86.Deploy.0 = Release|x86
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|ARM.ActiveCfg = Debug|ARM
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|ARM.Build.0 = Debug|ARM
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|x64.ActiveCfg = Debug|x64
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|x64.Build.0 = Debug|x64
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|x86.ActiveCfg = Debug|x86
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|x86.Build.0 = Debug|x86
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|ARM.ActiveCfg = Release|ARM
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|ARM.Build.0 = Release|ARM
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|Mixed Platforms.Build.0 = Release|x86
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|x64.ActiveCfg = Release|x64
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|x64.Build.0 = Release|x64
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|x86.ActiveCfg = Release|x86
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -321,5 +344,6 @@ Global
 		{0C23C12C-899F-4AD1-B737-B967A9910C08} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{46445A29-4242-4FD4-9138-A47B2DBEA736} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{6D8311F2-7599-4BD0-B66C-05E8CF77AAB0} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 	EndGlobalSection
 EndGlobal
