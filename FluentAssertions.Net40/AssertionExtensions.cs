@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Events;
 using FluentAssertions.Numeric;
@@ -206,7 +207,8 @@ namespace FluentAssertions
         /// </summary>
         public static DateTimeOffsetAssertions Should(this DateTime actualValue)
         {
-            return new DateTimeOffsetAssertions(actualValue);
+            return new DateTimeOffsetAssertions(ToLocaltime(actualValue));
+
         }
 
 
@@ -226,7 +228,12 @@ namespace FluentAssertions
         /// </summary>
         public static NullableDateTimeOffsetAssertions Should(this DateTime? actualValue)
         {
-            return new NullableDateTimeOffsetAssertions(actualValue);
+            return new NullableDateTimeOffsetAssertions(actualValue.HasValue ? ToLocaltime(actualValue.Value) : (DateTimeOffset?)null);
+        }
+
+        private static DateTime ToLocaltime(DateTime dt)
+        {
+            return DateTime.SpecifyKind(dt, DateTimeKind.Local);
         }
 
         /// <summary>

@@ -178,8 +178,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var dateTime = new DateTime(2012, 03, 10);
-            var sameDateTime = new DateTime(2012, 03, 10);
+            var dateTime = DateTime.SpecifyKind(10.March(2012).At(10, 00), DateTimeKind.Local);
+            var sameDateTime = DateTime.SpecifyKind(10.March(2012).At(10, 00), DateTimeKind.Utc);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -191,7 +191,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect date and time to be <2012-03-10> because we want to test the failure message.");
+                .WithMessage("Did not expect date and time to be <2012-03-10 10:00:00> because we want to test the failure message.");
         }
 
         [TestMethod]
@@ -208,6 +208,48 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
                 nullableDateTimeA.Should().Be(nullableDateTimeB);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+        
+        [TestMethod]
+        public void When_a_nullable_date_time_is_equal_to_a_normal_date_time_but_the_kinds_differ_it_should_still_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTime = new DateTime(2014, 4, 20, 9, 11, 0, DateTimeKind.Unspecified);
+            DateTime normalDateTime = new DateTime(2014, 4, 20, 9, 11, 0, DateTimeKind.Utc); ;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTime.Should().Be(normalDateTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+        
+        [TestMethod]
+        public void When_two_date_times_are_equal_but_the_kinds_differ_it_should_still_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime dateTimeA = new DateTime(2014, 4, 20, 9, 11, 0, DateTimeKind.Unspecified);
+            DateTime dateTimeB = new DateTime(2014, 4, 20, 9, 11, 0, DateTimeKind.Utc); ;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                dateTimeA.Should().Be(dateTimeB);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -281,21 +323,6 @@ namespace FluentAssertions.Specs
 
         [TestMethod]
         public void
-            When_asserting_times_of_different_DateTimeKind_it_should_validate_against_world_time()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var utcToday = Today.ToUniversalTime();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            utcToday.Should().Be(Today);
-        }
-
-        [TestMethod]
-        public void
             When_asserting_a_DateTime_against_a_DateTimeOffset_it_should_validate_against_world_time()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -359,8 +386,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime time = Today.At(12, 15, 30, 980);
-            DateTime nearbyTime = Today.At(12, 15, 31);
+            DateTime time = DateTime.SpecifyKind(Today.At(12, 15, 30, 980), DateTimeKind.Unspecified);
+            DateTime nearbyTime = DateTime.SpecifyKind(Today.At(12, 15, 31), DateTimeKind.Utc);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -481,9 +508,22 @@ namespace FluentAssertions.Specs
         #endregion
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_is_before_later_datetime()
+        public void When_a_point_of_time_occurs_before_another_it_should_succeed()
         {
-            Today.Should().BeBefore(Tomorrow);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime earlierDate = DateTime.SpecifyKind(Today, DateTimeKind.Unspecified);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime laterDate = DateTime.SpecifyKind(Today.AddMinutes(5), DateTimeKind.Utc);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            earlierDate.Should().BeBefore(laterDate);
         }
 
         [TestMethod]

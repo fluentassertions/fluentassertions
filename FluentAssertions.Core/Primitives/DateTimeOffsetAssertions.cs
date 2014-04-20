@@ -35,6 +35,22 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> Be(DateTime expected, string because = "", params object[] reasonArgs)
+        {
+            return Be((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> or <see cref="DateTimeOffset"/> is exactly equal to the <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
         public AndConstraint<DateTimeOffsetAssertions> Be(DateTimeOffset expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
@@ -57,7 +73,25 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> NotBe(DateTimeOffset unexpected, string because = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> NotBe(DateTime unexpected, string because = "",
+            params object[] reasonArgs)
+        {
+            return NotBe((DateTimeOffset)DateTime.SpecifyKind(unexpected, DateTimeKind.Local), because, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> or <see cref="DateTimeOffset"/> is not equal to the <paramref name="unexpected"/> value.
+        /// </summary>
+        /// <param name="unexpected">The unexpected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> NotBe(DateTimeOffset unexpected, string because = "",
+            params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
@@ -65,6 +99,33 @@ namespace FluentAssertions.Primitives
                 .FailWith("Did not expect {context:date and time} to be {0}{reason}.", unexpected);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> or <see cref="DateTimeOffset"/> is within the specified number of milliseconds (default = 20 ms)
+        /// from the specified <paramref name="nearbyTime"/> value.
+        /// </summary>
+        /// <remarks>
+        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
+        /// use <see cref="Be"/>.
+        /// </remarks>
+        /// <param name="nearbyTime">
+        /// The expected time to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The maximum amount of milliseconds which the two values may differ.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> BeCloseTo(DateTime nearbyTime, int precision = 20, string because = "",
+            params object[] reasonArgs)
+        {
+            return BeCloseTo((DateTimeOffset)DateTime.SpecifyKind(nearbyTime, DateTimeKind.Local), precision, because, reasonArgs);
         }
 
         /// <summary>
@@ -114,7 +175,25 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> BeBefore(DateTimeOffset expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> BeBefore(DateTime expected, string because = "",
+            params object[] reasonArgs)
+        {
+            return BeBefore((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> or <see cref="DateTimeOffset"/> is before the specified value.
+        /// </summary>
+        /// <param name="expected">The <see cref="DateTime"/> or <see cref="DateTimeOffset"/> that the current value is expected to be before.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> BeBefore(DateTimeOffset expected, string because = "",
+            params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) < 0)
@@ -136,7 +215,25 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> BeOnOrBefore(DateTimeOffset expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> BeOnOrBefore(DateTime expected, string because = "",
+            params object[] reasonArgs)
+        {
+            return BeOnOrBefore((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> or <see cref="DateTimeOffset"/> is either on, or before the specified value.
+        /// </summary>
+        /// <param name="expected">The <see cref="DateTime"/> or <see cref="DateTimeOffset"/> that the current value is expected to be on or before.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> BeOnOrBefore(DateTimeOffset expected, string because = "",
+            params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
@@ -158,7 +255,25 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> BeAfter(DateTimeOffset expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> BeAfter(DateTime expected, string because = "",
+            params object[] reasonArgs)
+        {
+            return BeAfter((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> or <see cref="DateTimeOffset"/> is after the specified value.
+        /// </summary>
+        /// <param name="expected">The <see cref="DateTime"/> or <see cref="DateTimeOffset"/> that the current value is expected to be after.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> BeAfter(DateTimeOffset expected, string because = "",
+            params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
@@ -180,7 +295,25 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> BeOnOrAfter(DateTimeOffset expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> BeOnOrAfter(DateTime expected, string because = "",
+            params object[] reasonArgs)
+        {
+            return BeOnOrAfter((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> or <see cref="DateTimeOffset"/> is either on, or after the specified value.
+        /// </summary>
+        /// <param name="expected">The <see cref="DateTime"/> or <see cref="DateTimeOffset"/> that the current value is expected to be on or after.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> BeOnOrAfter(DateTimeOffset expected, string because = "",
+            params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)

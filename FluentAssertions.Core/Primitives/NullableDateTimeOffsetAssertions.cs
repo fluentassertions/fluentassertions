@@ -78,5 +78,21 @@ namespace FluentAssertions.Primitives
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
+        
+        /// <summary>
+        /// Asserts that the value is equal to the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> Be(DateTime? expected, string because = "", params object[] reasonArgs)
+        {
+            return Be((DateTimeOffset?) (expected.HasValue ? DateTime.SpecifyKind(expected.Value, DateTimeKind.Local) : expected), because, reasonArgs);
+        }
     }
 }
