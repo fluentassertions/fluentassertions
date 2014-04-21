@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -92,7 +94,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> Be(DateTime? expected, string because = "", params object[] reasonArgs)
         {
-            return Be((DateTimeOffset?) (expected.HasValue ? DateTime.SpecifyKind(expected.Value, DateTimeKind.Local) : expected), because, reasonArgs);
+            return Be(expected.HasValue ? expected.Value.ToDateTimeOffset() : (DateTimeOffset?)null, because, reasonArgs);
         }
     }
 }
