@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -37,7 +38,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> Be(DateTime expected, string because = "", params object[] reasonArgs)
         {
-            return Be((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+            return Be(expected.ToDateTimeOffset(), because, reasonArgs);
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> NotBe(DateTime unexpected, string because = "",
             params object[] reasonArgs)
         {
-            return NotBe((DateTimeOffset)DateTime.SpecifyKind(unexpected, DateTimeKind.Local), because, reasonArgs);
+            return NotBe(unexpected.ToDateTimeOffset(), because, reasonArgs);
         }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> BeCloseTo(DateTime nearbyTime, int precision = 20, string because = "",
             params object[] reasonArgs)
         {
-            return BeCloseTo((DateTimeOffset)DateTime.SpecifyKind(nearbyTime, DateTimeKind.Local), precision, because, reasonArgs);
+            return BeCloseTo(nearbyTime.ToDateTimeOffset(), precision, because, reasonArgs);
         }
 
         /// <summary>
@@ -178,7 +179,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> BeBefore(DateTime expected, string because = "",
             params object[] reasonArgs)
         {
-            return BeBefore((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+            return BeBefore(expected.ToDateTimeOffset(), because, reasonArgs);
         }
 
         /// <summary>
@@ -218,7 +219,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> BeOnOrBefore(DateTime expected, string because = "",
             params object[] reasonArgs)
         {
-            return BeOnOrBefore((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+            return BeOnOrBefore(expected.ToDateTimeOffset(), because, reasonArgs);
         }
 
         /// <summary>
@@ -258,7 +259,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> BeAfter(DateTime expected, string because = "",
             params object[] reasonArgs)
         {
-            return BeAfter((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+            return BeAfter(expected.ToDateTimeOffset(), because, reasonArgs);
         }
 
         /// <summary>
@@ -298,7 +299,7 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeOffsetAssertions> BeOnOrAfter(DateTime expected, string because = "",
             params object[] reasonArgs)
         {
-            return BeOnOrAfter((DateTimeOffset)DateTime.SpecifyKind(expected, DateTimeKind.Local), because, reasonArgs);
+            return BeOnOrAfter(expected.ToDateTimeOffset(), because, reasonArgs);
         }
 
         /// <summary>

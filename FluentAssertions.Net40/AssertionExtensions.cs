@@ -207,7 +207,7 @@ namespace FluentAssertions
         /// </summary>
         public static DateTimeOffsetAssertions Should(this DateTime actualValue)
         {
-            return new DateTimeOffsetAssertions(ToLocaltime(actualValue));
+            return new DateTimeOffsetAssertions(actualValue.ToDateTimeOffset());
 
         }
 
@@ -228,12 +228,7 @@ namespace FluentAssertions
         /// </summary>
         public static NullableDateTimeOffsetAssertions Should(this DateTime? actualValue)
         {
-            return new NullableDateTimeOffsetAssertions(actualValue.HasValue ? ToLocaltime(actualValue.Value) : (DateTimeOffset?)null);
-        }
-
-        private static DateTime ToLocaltime(DateTime dt)
-        {
-            return DateTime.SpecifyKind(dt, DateTimeKind.Local);
+            return new NullableDateTimeOffsetAssertions(actualValue.HasValue ? actualValue.Value.ToDateTimeOffset() : (DateTimeOffset?)null);
         }
 
         /// <summary>
