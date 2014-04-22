@@ -73,7 +73,7 @@ namespace FluentAssertions.Types
                 .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage, typeof(TAttribute));
 
-            return new AndWhichConstraint<MethodInfoAssertions, TAttribute>(this, attributes.SingleOrDefault());
+            return new AndWhichConstraint<MethodInfoAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>

@@ -418,7 +418,7 @@ namespace FluentAssertions.Collections
             return
                 new AndWhichConstraint
                     <GenericDictionaryAssertions<TKey, TValue>, TValue>(
-                    innerConstraint.And, innerConstraint.Which.Single());
+                    innerConstraint.And, innerConstraint.Which);
         }
 
         /// <summary>

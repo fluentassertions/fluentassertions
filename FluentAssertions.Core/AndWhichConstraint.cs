@@ -1,4 +1,9 @@
-﻿namespace FluentAssertions
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions.Formatting;
+
+namespace FluentAssertions
 {
     /// <summary>
     /// Constraint which can be returned from an assertion which matches a condition and which will allow
@@ -8,13 +13,39 @@
     /// <typeparam name="TMatchedElement">The type of the matched object which the parent constarint matched</typeparam>
     public class AndWhichConstraint<TParentConstraint, TMatchedElement> : AndConstraint<TParentConstraint>
     {
-        private readonly TMatchedElement matchedConstraint;
-
+        private readonly Lazy<TMatchedElement> matchedConstraint;
 
         public AndWhichConstraint(TParentConstraint parentConstraint, TMatchedElement matchedConstraint)
             : base(parentConstraint)
         {
-            this.matchedConstraint = matchedConstraint;
+            this.matchedConstraint =
+                new Lazy<TMatchedElement>(() => matchedConstraint);
+        }
+
+        public AndWhichConstraint(TParentConstraint parentConstraint, IEnumerable<TMatchedElement> matchedConstraint)
+            : base(parentConstraint)
+        {
+            this.matchedConstraint =
+                new Lazy<TMatchedElement>(
+                    () => SingleOrDefault(matchedConstraint));
+        }
+
+        private static TMatchedElement SingleOrDefault(IEnumerable<TMatchedElement> matchedConstraint)
+        {
+            var matchedElements = matchedConstraint.ToArray();
+
+            if (matchedElements.Count() <= 1)
+            {
+                return matchedElements.Single();
+            }
+
+            throw new InvalidOperationException(
+                string.Format(
+                    "More than one object found.  FluentAssertions cannot determine which object is meant.  Found objects:{0}{1}",
+                    Environment.NewLine,
+                    string.Join(Environment.NewLine,
+                        matchedElements.Select(
+                            ele => "\t" + Formatter.ToString(ele)))));
         }
 
         /// <summary>
@@ -22,7 +53,7 @@
         /// </summary>
         public TMatchedElement Which
         {
-            get { return matchedConstraint; }
+            get { return matchedConstraint.Value; }
         }
     }
 }

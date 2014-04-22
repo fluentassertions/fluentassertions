@@ -93,7 +93,7 @@ namespace FluentAssertions.Types
                 .FailWith("Expected property " + GetDescriptionFor(Subject) +
                           " to be decorated with {0}{reason}, but that attribute was not found.", typeof(TAttribute));
 
-            return new AndWhichConstraint<PropertyInfoAssertions, TAttribute>(this, attributes.SingleOrDefault());
+            return new AndWhichConstraint<PropertyInfoAssertions, TAttribute>(this, attributes);
         }
 
         internal static bool IsGetterNonVirtual(PropertyInfo property)
