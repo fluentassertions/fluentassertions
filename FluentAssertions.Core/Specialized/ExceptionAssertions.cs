@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
+using FluentAssertions.Formatting;
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specialized
@@ -39,7 +40,7 @@ namespace FluentAssertions.Specialized
         /// </summary>
         public TException And
         {
-            get { return Subject.First(); }
+            get { return SingleSubject; }
         }
 
         /// <summary>
@@ -47,7 +48,24 @@ namespace FluentAssertions.Specialized
         /// </summary>
         public TException Which
         {
-            get { return Subject.First(); }
+            get { return And; }
+        }
+
+        private TException SingleSubject
+        {
+            get
+            {
+                if (Subject.Count() <= 1)
+                {
+                    return Subject.Single();
+                }
+
+                string thrownExceptions = BuildExceptionsString(Subject);
+                throw new InvalidOperationException(
+                    string.Format(
+                        "More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}",
+                        Environment.NewLine, thrownExceptions));
+            }
         }
 
         /// <summary>
@@ -118,7 +136,7 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(Subject.Any(e => e.InnerException is TInnerException))
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), Subject.First().InnerException);
+                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), SingleSubject.InnerException);
 
             return this;
         }
@@ -171,12 +189,20 @@ namespace FluentAssertions.Specialized
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
             Execute.Assertion
-                .ForCondition(condition(Subject.First()))
+                .ForCondition(condition(SingleSubject))
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected exception where {0}{reason}, but the condition was not met by:\r\n\r\n{1}",
                     exceptionExpression.Body, Subject);
 
             return this;
+        }
+
+        private static string BuildExceptionsString(IEnumerable<TException> exceptions)
+        {
+            return string.Join(Environment.NewLine,
+                exceptions.Select(
+                    exception =>
+                        "\t" + Formatter.ToString(exception)));
         }
 
         private class ExceptionMessageAssertion

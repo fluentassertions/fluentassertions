@@ -775,6 +775,30 @@ namespace FluentAssertions.Specs
                 .Where(e => e.Message.Length == 0);
         }
 
+        [TestMethod]
+        public void
+            When_two_exceptions_are_thrown_and_the_assertion_assumes_there_can_only_be_one_it_should_fail
+            ()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do())
+                .Throws(new AggregateException(new Exception(), new Exception()));
+            Action throwingMethod = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => throwingMethod.ShouldThrow<Exception>().And.Message.Should();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<Exception>();
+        }
+
         #endregion
 
         #region Not Throw
