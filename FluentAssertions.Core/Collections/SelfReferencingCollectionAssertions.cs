@@ -147,7 +147,9 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
             }
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, expected);
+            return new AndWhichConstraint<TAssertions, T>((TAssertions) this,
+                Subject.SingleOrDefault(
+                    item => EqualityComparer<T>.Default.Equals(item, expected)));
         }
         
         /// <summary>
@@ -191,7 +193,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, reasonArgs)
                 .FailWith("{context:Collection} {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.FirstOrDefault(func));
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.SingleOrDefault(func));
         }
 
         /// <summary>
@@ -308,7 +310,7 @@ namespace FluentAssertions.Collections
                 // Exactly 1 item was expected
             }
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matchingElements.FirstOrDefault());
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matchingElements.SingleOrDefault());
         }
     }
 }

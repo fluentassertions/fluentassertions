@@ -411,10 +411,14 @@ namespace FluentAssertions.Collections
         public AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, TValue> ContainValue(TValue expected,
             string because = "", params object[] reasonArgs)
         {
-            AndConstraint<GenericDictionaryAssertions<TKey, TValue>> innerConstraint = 
-                ContainValues(new [] { expected }, because, reasonArgs);
+            var
+                innerConstraint =
+                    ContainValuesAndWhich(new[] {expected}, because, reasonArgs);
 
-            return new AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, TValue>(innerConstraint.And, expected);
+            return
+                new AndWhichConstraint
+                    <GenericDictionaryAssertions<TKey, TValue>, TValue>(
+                    innerConstraint.And, innerConstraint.Which.Single());
         }
 
         /// <summary>
@@ -441,6 +445,12 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainValues(IEnumerable<TValue> expected,
             string because = "", params object[] reasonArgs)
+        {
+            return ContainValuesAndWhich(expected, because, reasonArgs);
+        }
+
+        private AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because,
+            object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -480,7 +490,22 @@ namespace FluentAssertions.Collections
                 }
             }
 
-            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+            return
+                new AndWhichConstraint
+                    <GenericDictionaryAssertions<TKey, TValue>,
+                        IEnumerable<TValue>>(this,
+                            RepetitionPreservingIntersect(Subject.Values, expectedValues));
+        }
+
+        /// <summary>
+        /// Returns an enumerable consisting of all items in the first collection also appearing in the second.
+        /// </summary>
+        /// <remarks>Enumerable.Intersect is not suitable because it drops any repeated elements.</remarks>
+        private IEnumerable<TValue> RepetitionPreservingIntersect(
+            IEnumerable<TValue> first, IEnumerable<TValue> second)
+        {
+            var secondSet = new HashSet<TValue>(second);
+            return first.Where(secondSet.Contains);
         }
 
         #endregion
