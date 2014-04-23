@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -82,7 +83,9 @@ namespace FluentAssertions.Types
             params object[] reasonArgs)
             where TAttribute : Attribute
         {
-            TAttribute attribute = Subject.GetCustomAttributes(false).OfType<TAttribute>().FirstOrDefault();
+            IEnumerable<TAttribute> attributes =
+                Subject.GetCustomAttributes(false).OfType<TAttribute>();
+            TAttribute attribute = attributes.FirstOrDefault();
 
             Execute.Assertion
                 .ForCondition(attribute != null)
@@ -90,7 +93,7 @@ namespace FluentAssertions.Types
                 .FailWith("Expected property " + GetDescriptionFor(Subject) +
                           " to be decorated with {0}{reason}, but that attribute was not found.", typeof(TAttribute));
 
-            return new AndWhichConstraint<PropertyInfoAssertions, TAttribute>(this, attribute);
+            return new AndWhichConstraint<PropertyInfoAssertions, TAttribute>(this, attributes);
         }
 
         internal static bool IsGetterNonVirtual(PropertyInfo property)

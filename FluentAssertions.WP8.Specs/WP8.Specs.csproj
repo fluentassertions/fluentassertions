@@ -70,6 +70,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40.Specs\AndWhichConstraintSpecs.cs">
+      <Link>AndWhichConstraintSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Silverlight.Specs\EventMonitoringSpecs.cs">
       <Link>EventMonitoringSpecs.cs</Link>
     </Compile>

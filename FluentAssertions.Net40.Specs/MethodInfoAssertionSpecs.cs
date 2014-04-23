@@ -164,6 +164,30 @@ namespace FluentAssertions.Specs
                         "FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
                         " but that attribute was not found.");
         }
+
+        [TestMethod]
+        public void When_asserting_a_method_is_decorated_with_an_attribute_and_multiple_attributes_match_continuation_using_the_matched_value_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothingWithSameAttributeTwice");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    methodInfo.Should()
+                        .BeDecoratedWith<DummyMethodAttribute>()
+                        .Which.Filter.Should()
+                        .BeTrue();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>();
+        }
     }
 
     #region Internal classes used in unit tests
@@ -207,6 +231,12 @@ namespace FluentAssertions.Specs
     {
         [DummyMethod(Filter = true)]
         public void PublicDoNothing()
+        {
+        }
+
+        [DummyMethod(Filter = true)]
+        [DummyMethod(Filter = false)]
+        public void PublicDoNothingWithSameAttributeTwice()
         {
         }
 

@@ -145,7 +145,7 @@ namespace FluentAssertions.Specs
         private int PrivateIntProperty { get; set; }
     }
 
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class DummyPropertyAttribute : Attribute
     {
         public DummyPropertyAttribute()
