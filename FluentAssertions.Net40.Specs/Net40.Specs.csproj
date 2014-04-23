@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateExceptionAssertionSpecs.cs" />
+    <Compile Include="AndWhichConstraintSpecs.cs" />
     <Compile Include="AssertionFailureSpecs.cs" />
     <Compile Include="ComparableSpecs.cs" />
     <Compile Include="FormatterSpecs.cs" />

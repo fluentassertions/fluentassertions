@@ -113,6 +113,9 @@
     <Reference Include="System.Xml.Linq, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40.Specs\AndWhichConstraintSpecs.cs">
+      <Link>AndWhichConstraintSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\AssertionFailureSpecs.cs">
       <Link>AssertionFailureSpecs.cs</Link>
     </Compile>

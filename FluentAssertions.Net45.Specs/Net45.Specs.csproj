@@ -79,6 +79,9 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\AggregateExceptionAssertionSpecs.cs">
       <Link>AggregateExceptionAssertionSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\AndWhichConstraintSpecs.cs">
+      <Link>AndWhichConstraintSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\AssertionFailureSpecs.cs">
       <Link>AssertionFailureSpecs.cs</Link>
     </Compile>

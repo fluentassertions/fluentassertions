@@ -56,6 +56,9 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40.Specs\AndWhichConstraintSpecs.cs">
+      <Link>AndWhichConstraintSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net45.Specs\AsyncFunctionExceptionAssertionSpecs.cs">
       <Link>AsyncFunctionExceptionAssertionSpecs.cs</Link>
     </Compile>

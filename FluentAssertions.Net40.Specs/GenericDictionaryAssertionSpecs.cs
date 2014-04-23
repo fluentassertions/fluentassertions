@@ -822,9 +822,27 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage("Expected*4*3*.");
         }
 
-        public class MyClass
+        private class MyClass
         {
             public int SomeProperty { get; set; }
+
+            protected bool Equals(MyClass other)
+            {
+                return SomeProperty == other.SomeProperty;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                if (ReferenceEquals(this, obj)) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((MyClass) obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return SomeProperty;
+            }
         }
 
         [TestMethod]
@@ -1005,6 +1023,36 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage("Expected*greater*0*0*");
+        }
+
+        [TestMethod]
+        public void When_multiple_matches_for_the_specified_value_exist_continuation_using_the_matched_value_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var myClass = new MyClass {SomeProperty = 0};
+
+            var dictionary = new Dictionary<int, MyClass>
+            {
+                {1, myClass},
+                {2, new MyClass {SomeProperty = 0}}
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    dictionary.Should()
+                        .ContainValue(new MyClass {SomeProperty = 0})
+                        .Which.Should()
+                        .BeSameAs(myClass);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>();
         }
 
         [TestMethod]
