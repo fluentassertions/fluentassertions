@@ -705,7 +705,7 @@ Or, if your project is .NET 3.5 or 4.0 based:
 subject.ShouldNotRaise(“SomeOtherEvent”);
 ```
 
-Important Limitation: Due to limitations in Silverlight, Windows Phone and .NET for Windows Store APps, only the ShouldRaisePropertyChangeFor() and  ShouldNotRaisePropertyChangeFor() methods are supported in those versions.
+**Important Limitation:** Due to limitations in Silverlight, Windows Phone and .NET for Windows Store Apps, only the ShouldRaisePropertyChangeFor() and  ShouldNotRaisePropertyChangeFor() methods are supported in those versions.
 
 <a name="type-assertions"/>
 ## Type, Method and property assertions ##
