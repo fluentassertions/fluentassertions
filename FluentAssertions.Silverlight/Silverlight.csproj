@@ -104,18 +104,6 @@
     <Reference Include="System.Xml.Linq, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.Actions.cs">
-      <Link>AssertionExtensions.Actions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\AssertionExtensions.cs">
-      <Link>AssertionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Events\EventHandlerFactory.cs">
-      <Link>Events\EventHandlerFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
-    </Compile>
     <Compile Include="AssertionExtensions.Silverlight.cs" />
     <Compile Include="Common\SilverlightReflector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -163,6 +151,7 @@
       <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
