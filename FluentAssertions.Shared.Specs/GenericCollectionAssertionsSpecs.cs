@@ -144,6 +144,27 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_the_multiple_matching_objects_exists_it_continuation_using_the_matched_value_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime now = DateTime.Now;
+
+            IEnumerable<DateTime> collection = new[] { now, DateTime.SpecifyKind(now, DateTimeKind.Unspecified) };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(now).Which.Kind.Should().Be(DateTimeKind.Local);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [TestMethod]
         public void When_asserting_collection_contains_values_according_to_predicate_but_collection_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

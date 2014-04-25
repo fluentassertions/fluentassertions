@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -77,6 +79,22 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
+        }
+        
+        /// <summary>
+        /// Asserts that the value is equal to the specified <paramref name="expected"/> value.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> Be(DateTime? expected, string because = "", params object[] reasonArgs)
+        {
+            return Be(expected.HasValue ? expected.Value.ToDateTimeOffset() : (DateTimeOffset?)null, because, reasonArgs);
         }
     }
 }

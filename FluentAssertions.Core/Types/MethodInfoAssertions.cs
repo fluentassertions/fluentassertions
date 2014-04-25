@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -60,16 +61,19 @@ namespace FluentAssertions.Types
             string failureMessage = "Expected method " + GetDescriptionFor(Subject) +
                 " to be decorated with {0}{reason}, but that attribute was not found.";
 
-            TAttribute attribute = Subject.GetCustomAttributes(typeof(TAttribute), false)
+            IEnumerable<TAttribute> attributes = Subject.GetCustomAttributes(
+                typeof (TAttribute), false)
                 .Cast<TAttribute>()
-                .FirstOrDefault(isMatchingAttributePredicate.Compile());
+                .Where(isMatchingAttributePredicate.Compile());
+
+            TAttribute attribute = attributes.FirstOrDefault();
 
             Execute.Assertion
                 .ForCondition(attribute != null)
                 .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage, typeof(TAttribute));
 
-            return new AndWhichConstraint<MethodInfoAssertions, TAttribute>(this, attribute);
+            return new AndWhichConstraint<MethodInfoAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>

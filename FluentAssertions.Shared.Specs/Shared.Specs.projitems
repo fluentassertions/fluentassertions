@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AggregateExceptionAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AndWhichConstraintSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionFailureSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BooleanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionAssertionSpecs.cs" />

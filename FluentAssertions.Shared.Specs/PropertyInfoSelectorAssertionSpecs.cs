@@ -237,6 +237,10 @@ namespace FluentAssertions.Specs
         [DummyProperty("Value")]
         public string PublicProperty { get; set; }
 
+        [DummyProperty("Value")]
+        [DummyProperty("OtherValue")]
+        public string PublicPropertyWithSameAttributeTwice { get; set; }
+
         [DummyProperty]
         internal string InternalProperty { get; set; }
 
