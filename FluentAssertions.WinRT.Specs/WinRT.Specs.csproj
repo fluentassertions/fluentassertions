@@ -24,8 +24,8 @@
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <TargetFrameworkVersion />
     <AppxBundle>Never</AppxBundle>
-    <PackageCertificateThumbprint>832E8CF17616B4013B2A00CA8482EDAA67E1CFEB</PackageCertificateThumbprint>
-    <PackageCertificateKeyFile>FluentAssertions.WinRT.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>6E03866665CCD7E7BE51A28820CC398C6E2CB66E</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>WinRT.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -225,9 +225,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FluentAssertions.WinRT.Specs_TemporaryKey.pfx" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.Core">
       <HintPath>..\SharedBinaries\UnitTesting\WinStore\TestPlatform\11.0\Redist\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.Core.dll</HintPath>
     </Reference>
@@ -235,6 +232,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SharedBinaries\UnitTesting\WinStore\MSTestFramework\11.0\References\CommonConfiguration\neutral\Microsoft.VisualStudio.TestPlatform.UnitTestFramework.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WinRT.Specs_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v12.0\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
