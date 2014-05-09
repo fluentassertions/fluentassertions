@@ -1,4 +1,4 @@
-﻿using FluentAssertions.WP8.Specs.Resources;
+﻿using FluentAssertions.Specs.Resources;
 
 namespace FluentAssertions.WP8.Specs
 {

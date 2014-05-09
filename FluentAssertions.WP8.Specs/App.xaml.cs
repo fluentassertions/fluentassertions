@@ -4,9 +4,9 @@ using System.Resources;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Navigation;
+using FluentAssertions.Specs.Resources;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using FluentAssertions.WP8.Specs.Resources;
 
 namespace FluentAssertions.WP8.Specs
 {
