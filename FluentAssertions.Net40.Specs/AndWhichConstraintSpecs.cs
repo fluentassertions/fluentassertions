@@ -32,7 +32,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>()
+            act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "More than one object found.  FluentAssertions cannot determine which object is meant.*")
                 .WithMessage("*Found objects:\r\n\t\"hello\"\r\n\t\"world\"");

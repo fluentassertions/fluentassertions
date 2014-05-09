@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
@@ -49,23 +50,6 @@ namespace FluentAssertions.Specialized
         public TException Which
         {
             get { return And; }
-        }
-
-        private TException SingleSubject
-        {
-            get
-            {
-                if (Subject.Count() <= 1)
-                {
-                    return Subject.Single();
-                }
-
-                string thrownExceptions = BuildExceptionsString(Subject);
-                throw new InvalidOperationException(
-                    string.Format(
-                        "More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}",
-                        Environment.NewLine, thrownExceptions));
-            }
         }
 
         /// <summary>
@@ -195,6 +179,23 @@ namespace FluentAssertions.Specialized
                     exceptionExpression.Body, Subject);
 
             return this;
+        }
+
+        private TException SingleSubject
+        {
+            get
+            {
+                if (Subject.Count() > 1)
+                {
+                    string thrownExceptions = BuildExceptionsString(Subject);
+                    Services.ThrowException(
+                        string.Format(
+                            "More than one exception was thrown.  FluentAssertions cannot determine which Exception was meant.{0}{1}",
+                            Environment.NewLine, thrownExceptions));
+                }
+
+                return Subject.Single();
+            }
         }
 
         private static string BuildExceptionsString(IEnumerable<TException> exceptions)
