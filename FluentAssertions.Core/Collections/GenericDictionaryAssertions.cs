@@ -411,8 +411,7 @@ namespace FluentAssertions.Collections
         public AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, TValue> ContainValue(TValue expected,
             string because = "", params object[] reasonArgs)
         {
-            var
-                innerConstraint =
+            AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> innerConstraint =
                     ContainValuesAndWhich(new[] {expected}, because, reasonArgs);
 
             return

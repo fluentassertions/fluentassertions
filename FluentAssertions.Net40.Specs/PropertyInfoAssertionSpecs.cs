@@ -134,7 +134,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using FluentAssertions.Common;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions
@@ -30,22 +32,26 @@ namespace FluentAssertions
                     () => SingleOrDefault(matchedConstraint));
         }
 
-        private static TMatchedElement SingleOrDefault(IEnumerable<TMatchedElement> matchedConstraint)
+        private static TMatchedElement SingleOrDefault(
+            IEnumerable<TMatchedElement> matchedConstraint)
         {
-            var matchedElements = matchedConstraint.ToArray();
+            TMatchedElement[] matchedElements = matchedConstraint.ToArray();
 
-            if (matchedElements.Count() <= 1)
+            if (matchedElements.Count() > 1)
             {
-                return matchedElements.Single();
-            }
+                string foundObjects = string.Join(Environment.NewLine,
+                    matchedElements.Select(
+                        ele => "\t" + Formatter.ToString(ele)));
 
-            throw new InvalidOperationException(
-                string.Format(
+                string message = string.Format(
                     "More than one object found.  FluentAssertions cannot determine which object is meant.  Found objects:{0}{1}",
                     Environment.NewLine,
-                    string.Join(Environment.NewLine,
-                        matchedElements.Select(
-                            ele => "\t" + Formatter.ToString(ele)))));
+                    foundObjects);
+
+                Services.ThrowException(message);
+            }
+
+            return matchedElements.Single();
         }
 
         /// <summary>
