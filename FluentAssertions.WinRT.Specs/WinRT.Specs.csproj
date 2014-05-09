@@ -26,6 +26,7 @@
     <AppxBundle>Never</AppxBundle>
     <PackageCertificateThumbprint>6E03866665CCD7E7BE51A28820CC398C6E2CB66E</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>WinRT.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <DefaultLanguage>en-us</DefaultLanguage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

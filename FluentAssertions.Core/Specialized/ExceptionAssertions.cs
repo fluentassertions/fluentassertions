@@ -118,7 +118,7 @@ namespace FluentAssertions.Specialized
         /// </summary>
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
         /// <param name = "reason">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
+        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "because" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string because,
             params object[] reasonArgs)
         {
@@ -148,7 +148,7 @@ namespace FluentAssertions.Specialized
         /// <param name = "reason">
         ///   The reason why the message of the inner exception should match <paramref name = "expectedInnerMessage" />.
         /// </param>
-        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
+        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "because" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string because = "",
             params object[] reasonArgs)
         {
