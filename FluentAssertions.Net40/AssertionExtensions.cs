@@ -13,6 +13,11 @@ using FluentAssertions.Equivalency;
 using FluentAssertions.Events;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
+
+#if !SILVERLIGHT && !WINRT && !PORTABLE
+using FluentAssertions.Reflection;
+#endif
+
 using FluentAssertions.Specialized;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
@@ -574,6 +579,15 @@ namespace FluentAssertions
             eventInfo.AddEventHandler(eventSource, handler);
 
             return eventRecorder;
+        }
+
+        /// <summary>
+        /// Returns an <see cref="AssemblyAssertions"/> object that can be used to assert the
+        /// current <see cref="Assembly"/>.
+        /// </summary>
+        public static AssemblyAssertions Should(this Assembly assembly)
+        {
+            return new AssemblyAssertions(assembly);
         }
 #else
         /// <summary>

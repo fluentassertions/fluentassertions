@@ -110,6 +110,9 @@
     <Compile Include="..\FluentAssertions.Net40\ObjectAssertionsExtensions.cs">
       <Link>ObjectAssertionsExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Reflection\AssemblyAssertions.cs">
+      <Link>Reflection\AssemblyAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Specialized\ExecutionTimeAssertions.cs">
       <Link>Specialized\ExecutionTimeAssertions.cs</Link>
     </Compile>

@@ -82,6 +82,9 @@
     <Compile Include="..\FluentAssertions.Net40.Specs\AndWhichConstraintSpecs.cs">
       <Link>AndWhichConstraintSpecs.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40.Specs\AssemblyAssertionSpecs.cs">
+      <Link>AssemblyAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\AssertionFailureSpecs.cs">
       <Link>AssertionFailureSpecs.cs</Link>
     </Compile>
@@ -200,6 +203,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AssemblyA\AssemblyA.csproj">
+      <Project>{7144bd9d-2a5f-45b6-ac5b-e35578d03350}</Project>
+      <Name>AssemblyA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AssemblyB\AssemblyB.csproj">
+      <Project>{d9cccaf6-ff9e-4688-9d96-645e27616ac4}</Project>
+      <Name>AssemblyB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
       <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
       <Name>Core</Name>
