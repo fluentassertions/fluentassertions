@@ -26,7 +26,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;OLD_MSTEST;FAKES</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -35,7 +35,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;OLD_MSTEST;FAKES</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -76,120 +76,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40.Specs\AggregateExceptionAssertionSpecs.cs">
-      <Link>AggregateExceptionAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\AndWhichConstraintSpecs.cs">
-      <Link>AndWhichConstraintSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\AssertionFailureSpecs.cs">
-      <Link>AssertionFailureSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\BooleanAssertionSpecs.cs">
-      <Link>BooleanAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\CollectionAssertionSpecs.cs">
-      <Link>CollectionAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\ComparableSpecs.cs">
-      <Link>ComparableSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\DateTimeAssertionSpecs.cs">
-      <Link>DateTimeAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\DateTimeOffsetValueFormatterSpecs.cs">
-      <Link>DateTimeOffsetValueFormatterSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\EventAssertionSpecs.cs">
-      <Link>EventAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\ExceptionAssertionSpecs.cs">
-      <Link>ExceptionAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\GenericCollectionAssertionOfStringSpecs.cs">
-      <Link>GenericCollectionAssertionOfStringSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\GenericCollectionAssertionsSpecs.cs">
-      <Link>GenericCollectionAssertionsSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\GuidAssertionSpecs.cs">
-      <Link>GuidAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\MethodInfoAssertionSpecs.cs">
-      <Link>MethodInfoAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\MethodInfoSelectorSpecs.cs">
-      <Link>MethodInfoSelectorSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\MethodInfoSelectorAssertionSpecs.cs">
-      <Link>MethodInfoSelectorAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\NullableBooleanAssertionSpecs.cs">
-      <Link>NullableBooleanAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\NullableGuidAssertionSpecs.cs">
-      <Link>NullableGuidAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\NullableNumericAssertionSpecs.cs">
-      <Link>NullableNumericAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\NullableSimpleTimeSpanAssertionSpecs.cs">
-      <Link>NullableSimpleTimeSpanAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\NumericAssertionSpecs.cs">
-      <Link>NumericAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\ObjectAssertionSpecs.cs">
-      <Link>ObjectAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\ObjectCastingSpecs.cs">
-      <Link>ObjectCastingSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\PropertyInfoSelectorSpecs.cs">
-      <Link>PropertyInfoSelectorSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\ReferenceTypeAssertionsSpecs.cs">
-      <Link>ReferenceTypeAssertionsSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\SimpleTimeSpanAssertionSpecs.cs">
-      <Link>SimpleTimeSpanAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\StringAssertionSpecs.cs">
-      <Link>StringAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\ThrowAssertionsSpecs.cs">
-      <Link>ThrowAssertionsSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\TimeSpanFormatterSpecs.cs">
-      <Link>TimeSpanFormatterSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\TypeAssertionSpecs.cs">
-      <Link>TypeAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\TypeExtensionsSpecs.cs">
-      <Link>TypeExtensionsSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\TypeSelectorSpecs.cs">
-      <Link>TypeSelectorSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\XAttributeAssertionSpecs.cs">
-      <Link>XAttributeAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\XAttributeFormatterSpecs.cs">
-      <Link>XAttributeFormatterSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\XDocumentAssertionSpecs.cs">
-      <Link>XDocumentAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\XDocumentFormatterSpecs.cs">
-      <Link>XDocumentFormatterSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\XElementAssertionSpecs.cs">
-      <Link>XElementAssertionSpecs.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40.Specs\XElementFormatterSpecs.cs">
-      <Link>XElementFormatterSpecs.cs</Link>
-    </Compile>
     <Compile Include="AsyncFunctionExceptionAssertionSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -209,6 +95,7 @@
       <Name>Net45</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\FluentAssertions.Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\FluentAssertions.Shared.Specs\Shared.Specs.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
