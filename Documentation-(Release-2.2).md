@@ -1,4 +1,4 @@
-*This is the documentation for v2.2. You can find the documentation for v3.0 or higher [[here|Documentation-(Release-3)]].*
+*This is the documentation for v2.2. You can find the documentation for v3.0 or higher [[here|Home]].*
 
 ## Table of Contents ##
 * [Supported Test Frameworks](#supported-test-frameworks)
