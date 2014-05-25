@@ -1,26 +1,5 @@
 *This is the documentation for v3.0 and higher. You can find the v2.2 documentation [[here|Documentation-(Release-2.2)]].*  
 
-## Table of Contents ##
-* [Supported Test Frameworks](#supported-test-frameworks)
-* [Reference Types](#reference-types)
-* [Nullable Types](#nullable-types)
-* [Booleans](#booleans)
-* [Strings](#strings)
-* [Numeric Types and IComparable](#numeric-types)
-* [Dates and times](#dates-and-times)
-* [TimeSpans](#timespans)
-* [Collections](#collections)
-* [Dictionaries](#dictionaries)
-* [Guids](#guids)
-* [Exceptions](#exceptions)
-* [Object graph comparison](#object-graph-comparison)
-* [Property Comparison (*obsolete*)](#property-comparison)
-* [Event Monitoring](#event-monitoring)
-* [Type, Method and property assertions](#type-assertions)
-* [XML](#xml)
-* [Execution Time](#execution-time)
-* [Extensibility](#extensibility)
-
 ## Supported Test Frameworks ##
 
 Fluent Assertions supports MSTest, NUnit, XUnit, MSpec, NSpec, MBUnit and the Gallio Framework. You can simply add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions. 
@@ -36,24 +15,44 @@ If, for some unknown reason, Fluent Assertions for .NET 3.5, 4.0 or 4.5 fails to
 </configuration>
 ```
 
-## Basic assertions available to all types ##
+## Basic assertions ##
+The following assertions are available to all types of objects. 
 
 ```csharp
 object theObject = null;
 theObject.Should().BeNull("because the value is null");
 theObject.Should().NotBeNull();
- 
+
 theObject = "whatever";
 theObject.Should().BeOfType<string>("because a {0} is set", typeof(string));
 theObject.Should().BeOfType(typeof(string), "because a {0} is set", typeof(string));	
+```
 
+Sometimes you might like to first assert that an object is of a certain type using `BeOfType` and then continue with additional assertions on the result of casting that object to the specified type. You can do that by chaining those assertions onto the `Which` property like this. 
+
+```csharp
+someObject.Should().BeOfType<Exception>().Which.Message.Should().Be("Other Message");
+```
+
+To assert that two objects are equal (through their implementation of `Object.Equals`), use 
+
+```csharp
 string otherObject = "whatever";
 theObject.Should().Be(otherObject, "because they have the same values");
+theObject.Should().NotBe(otherObject);
+```
  
+If you want to make sure two objects are not just functionally equal but refer to the exact same object in memory, use the following two methods. 
+
+```csharp
 theObject = otherObject; 
 theObject.Should().BeSameAs(otherObject);
 theObject.Should().NotBeSameAs(otherObject);
+```
 
+Other examples of some general purpose assertions include
+
+```csharp
 var ex = new ArgumentException();
 ex.Should().BeAssignableTo<Exception>("because it is an exception");
 
@@ -382,6 +381,12 @@ KeyValuePair<int> string> item = new KeyValuePair<int> string>(1, "One");
 dictionary.Should().Contain(item);
 dictionary.Should().Contain(2, "Two");
 dictionary.Should().NotContain(9, "Nine");
+```
+
+Chaining additional assertion is supported as well.
+
+```csharp
+dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
 ```
 
 ## Guids ##
@@ -783,7 +788,11 @@ xDocument.Should().BeEquivalentTo(XDocument.Parse("<configuration><item>value</i
 xElement.Should().BeEquivalentTo(XElement.Parse("<item>value</item>"));	
 ```
 
-Note that these assertions require you to reference the `System.Xml` and `System.Xml.Linq` assemblies.
+Chaining 
+
+```csharp
+xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.HaveAttribute("attr", "1");
+```
 
 ## Execution Time ##
 
