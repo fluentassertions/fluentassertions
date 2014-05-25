@@ -2,9 +2,9 @@
 
 ## Supported Test Frameworks ##
 
-Fluent Assertions supports MSTest, NUnit, XUnit, MSpec, NSpec, MBUnit and the Gallio Framework. You can simply add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions. 
+Fluent Assertions supports MSTest, NUnit, XUnit, MSpec, NSpec, MBUnit and the Gallio Framework as well as the Windows Store and Windows Phone unit testing frameworks. You can simply add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions. 
 
-If, for some unknown reason, Fluent Assertions for .NET 3.5, 4.0 or 4.5 fails to find the assembly, try specifying the framework explicitly using a configuration setting in the project’s app.config. If it cannot find any of the supported frameworks, it will fall back to using a custom `AssertFailedException` exception class.
+If, for some unknown reason, Fluent Assertions fails to find the assembly, try specifying the framework explicitly using a configuration setting in the project’s app.config. If it cannot find any of the supported frameworks, it will fall back to using a custom `AssertFailedException` exception class.
 
 ```xml
 <configuration>
@@ -213,7 +213,7 @@ value.Should().BeOneOf(new[] { 3, 6});
 
 ## Dates and times ##
 
-For asserting a date and time against various constraints, FA offers a bunch of methods that, provided that you use the extension methods for representinging dates and times, really help to keep your assertions readable.
+For asserting a `DateTime` or a `DateTimeOffset` against various constraints, FA offers a bunch of methods that, provided that you use the extension methods for representinging dates and times, really help to keep your assertions readable.
 
 ```csharp
 var theDatetime = 1.March(2010).At(22,15);
@@ -788,7 +788,7 @@ xDocument.Should().BeEquivalentTo(XDocument.Parse("<configuration><item>value</i
 xElement.Should().BeEquivalentTo(XElement.Parse("<item>value</item>"));	
 ```
 
-Chaining 
+Chaining additional assertions on top of a particular (root) element is possible through this syntax. 
 
 ```csharp
 xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.HaveAttribute("attr", "1");
@@ -822,7 +822,7 @@ Adding your own assertion extensions is quite straightforward and happens in my 
 * Create extension methods that extend an assertion class: 
 
 ```csharp
-	public static void BeWhatever<T>(this GenericCollectionAssertions<T> assertions, string reason, params object[] reasonArgs)
+	public static void BeWhatever<T>(this GenericCollectionAssertions<T> assertions, string because, params object[] becauseArgs)
 	{ 
     	Execute.Assertion
     	   .ForCondition(somecondition)
