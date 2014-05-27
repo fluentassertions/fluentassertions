@@ -276,6 +276,8 @@ timeSpan.Should().BeCloseTo(new TimeSpan(13, 0, 0), 5.Milliseconds());
 
 ## Collections ##
 
+A collection object in .NET is so versatile that the number of assertions on them require the same level of versatility.  
+
 ```csharp
 IEnumerable collection = new[] { 1, 2, 5, 8 };
 
@@ -293,25 +295,39 @@ collection.Should().HaveCount(c => c > 3).And.OnlyHaveUniqueItems();
 collection.Should().HaveSameCount(new[] {6, 2, 0, 5});
 
 collection.Should().BeSubsetOf(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, });
+
 collection.Should().Contain(8).And.HaveElementAt(2, 5).And.NotBeSubsetOf(new[] {11, 56});
 collection.Should().Contain(x => x > 3); 
 collection.Should().Contain(collection, 5, 6); // It should contain the original items, plus 5 and 6.
+
 collection.Should().OnlyContain(x => x < 10);
 collection.Should().OnlyContainItemsOfType<int>();
+
+collection.Should().ContainInOrder(new[] { 1, 5, 8 });
+
 collection.Should().NotContain(82);
 collection.Should().NotContainNulls();
 collection.Should().NotContain(x => x > 10);
 
-collection = new int[0];
 collection.Should().BeEmpty();
-collection.Should().BeInAscendingOrder();
-collection.Should().NotBeInAscendingOrder();
+collection.Should().BeNullorEmpty();
+collection.Should().BeNotBeNullOrEmpty();
+
 collection.Should().IntersectWith(otherCollection);
 collection.Should().NotIntersectWith(otherCollection);
-collection.Should().ContainInOrder(new[] { 1, 5, 8 });
+
+collection.Should().BeInAscendingOrder();
+collection.Should().NotBeInAscendingOrder();
 ```
 
-A special overload of Equal() takes a lambda that is used for checking the equality of two collections without relying on the type’s Equals() method. Consider for instance two collections that contain some kind of domain entity persisted to a database and then reloaded. Since the actual object instance is different, if you want to make sure a particular property was properly persisted, you usually do something like this:
+Those last two methods can be used to assert a collection contains items in ascending or descending order.  For simple types that might be fine, but for more complex types, it requires you to implement `IComparable`, something that doesn't make a whole lot of sense in all cases. That's why we offer overloads that take an expression.
+
+```csharp
+collection.Should().BeInAscendingOrder(x => x.SomeProperty);
+collection.Should().NotBeInAscendingOrder(x => x.SomeProperty);
+```
+
+A special overload of `Equal()` takes a lambda that is used for checking the equality of two collections without relying on the type’s Equals() method. Consider for instance two collections that contain some kind of domain entity persisted to a database and then reloaded. Since the actual object instance is different, if you want to make sure a particular property was properly persisted, you usually do something like this:
 
 ```csharp
 persistedCustomers.Select(c => c.Name).Should().Equal(customers.Select(c => c.Name);
@@ -513,7 +529,7 @@ Consider the class `Order` and its wire-transfer equivalent `OrderDto` (a so-cal
 orderDto.ShouldBeEquivalentTo(order); 
 ```
 
-In contrast to the `ShouldHave()` extension method, the comparison is recursive by default and all properties of the `OrderDto` must be available on the  `Order`. If not, an exception is thrown. If you want to retain the old non-recursive behavior, just use this option:
+The comparison is recursive by default and all properties of the `OrderDto` must be available on the  `Order`. If not, an exception is thrown. To be safe, FA will recurse up to 10 levels deep by default, but if you want to force it to go as deep as possible, use the `AllowingInfiniteRecursion` option.  On the other hand, if you want to disable recursion, just use this option:
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => 
@@ -551,11 +567,10 @@ orderDto.ShouldBeEquivalentTo(order, options => options
 This expression has access to the property path, the property info and the subject’s run-time and compile-time type. You could also take a different approach and explicitly tell FA which properties to include. 
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => options
+orderDto.ShouldBeEquivalentTo(order, options => option
     .Including(o => o.OrderNumber)
     .Including(o => o.Date)); 
 ```
-
 
 **Collections and dictionaries**  
 The original `ShouldHave()` extension method does support collections, but it doesn’t allow you to influence the comparison based on the actual collection type, neither does it support (nested) dictionaries. The new extension method `ShouldAllBeEquivalentTo()` does support that so you can now take the 2nd example from the post and apply it on a collection of `OrderDtos`. 
@@ -616,48 +631,6 @@ subject.ShouldBeEquivalentTo(expected, options => options.Using(new ExcludeForei
 ```
 
 You can go even further because the entire execution plan is dictated by the collection of `IEquivalencyStep` objects exposed by the `Steps` property of the `EquivalencyValidator` class. You can reorder, remove or even add your own step. Check out the [code on GitHub](https://github.com/dennisdoomen/fluentassertions/blob/master/FluentAssertions.Net35/Equivalency/EquivalencyValidator.cs) for some ideas.
-## Property Comparison ##
-
-**Important Note**: *The new extension methods discussed in the previous section are going to supersede the old* `ShouldHave()` *method somewhere in a next major version. Internally the old methods are already using the new comparison engine, but new functionality will only be available through the new methods.*
-
-You can assert the equality of entire objects by comparing their properties by name. This even works if the types of the properties differ but a built-in conversion exists (through the Convert class). This works for entire collections of objects as well, even if you use an interface or an anonymous type. It doesn't matter what kind of collection type you use, as long as it contains the same number of objects, and the object’s properties match.
-
-As an example, consider a Customer entity from some arbitrary domain model and its DTO counterpart  CustomerDto. You can assert that the DTO has the same values as the entity using this syntax. 
-dto.ShouldHave().AllProperties().EqualTo(customer);
-
-As long as all properties of dto are also available on customer, and their value is equal or convertible, the assertion succeeds. You can, however, exclude a specific property using a property expression, such as for instance the ID property:
-
-```csharp
-dto.ShouldHave().AllPropertiesBut(d => d.Id).EqualTo(customer);
-```
-
-Which is equivalent to:
-
-```csharp
-dto.ShouldHave().AllProperties().But(d => d.Id).EqualTo(customer);
-```
-
-The other way around is also possible. So if you only want to include two specific properties, use this syntax.
-
-```csharp
-dto.ShouldHave().Properties(d => d.Name, d => d.Address).EqualTo(customer);
-```
-
-And finally, if you only want to compare the properties that both objects have, you can use the SharedProperties() method like this:
-
-```csharp
-dto.ShouldHave().SharedProperties().EqualTo(customer);
-```
-
-Obviously, you can chain that with a But() method to exclude some of the shared properties.
-
-Additionally, you can take structural comparison a level further by including the IncludingNestedObjects method. This will instruct the comparison to compare all (collections of) complex types that the properties of the subject (in this example) refer to. By default, it will assert that the nested properties of the subject match the nested properties of the expected object. However, if you do specify SharedProperties, then it will only compare the equally named properties between the nested objects. For instance:
-
-```csharp
-dto.ShouldHave().SharedProperties().IncludingNestedObjects().EqualTo(customer);
-```
-
-When comparing the properties of an object and one of them causes a cyclic reference, then an exception is thrown. You can now alter that behavior by passing in a value from the CyclicReferenceHandling enum into the  IncludingNestedObjects() method.
 
 ## Event Monitoring ##
 
