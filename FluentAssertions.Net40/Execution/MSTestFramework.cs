@@ -1,5 +1,8 @@
 ﻿namespace FluentAssertions.Execution
 {
+    /// <summary>
+    /// Blhj blah
+    /// </summary>
     internal class MSTestFramework : LateBoundTestFramework
     {
         protected override string ExceptionFullName
