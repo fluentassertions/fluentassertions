@@ -323,6 +323,194 @@ namespace FluentAssertions.Specs
                 .WithInnerMessage("Inner Message");
         }
 
+        [TestMethod]
+        public void When_asserting_an_argument_exception_with_a_parameter_name()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do(A<string>._))
+                .Throws(new ArgumentException("Exception Message", "someParam"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testSubject.Do(string.Empty);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<ArgumentException>()
+               .WithMessageAndParameterName("Exception Message", "someParam");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_argument_exception_without_a_parameter_name()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do(A<string>._))
+                .Throws(new ArgumentException("Exception Message", string.Empty));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testSubject.Do(string.Empty);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<ArgumentException>()
+               .WithMessageAndParameterName("Exception Message", string.Empty);
+        }
+
+        [TestMethod]
+        public void When_asserting_an_aggregate_exception_with_an_inner_argument_exception_with_a_parameter_name()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do())
+                .Throws(new AggregateException("Outer Message",
+                    new ArgumentException("Exception Message", "someParam")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<AggregateException>()
+                .WithMessage("Outer Message")
+                .WithInnerException<ArgumentException>()
+                .WithInnerMessageAndParameterName("Exception Message", "someParam");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_aggregate_exception_with_an_inner_argument_exception_without_a_parameter_name()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do())
+                .Throws(new AggregateException("Outer Message",
+                    new ArgumentException("Exception Message", string.Empty)));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<AggregateException>()
+                .WithMessage("Outer Message")
+                .WithInnerException<ArgumentException>()
+                .WithInnerMessageAndParameterName("Exception Message", string.Empty);
+        }
+
+        [TestMethod]
+        public void When_asserting_an_argument_null_exception_with_a_parameter_name()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do(A<string>._))
+                .Throws(new ArgumentNullException("someParam", "Exception Message"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testSubject.Do(string.Empty);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<ArgumentNullException>()
+               .WithMessageAndParameterName("Exception Message", "someParam");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_argument_null_exception_without_a_parameter_name()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do(A<string>._))
+                .Throws(new ArgumentNullException(string.Empty, "Exception Message"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => testSubject.Do(string.Empty);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<ArgumentNullException>()
+               .WithMessageAndParameterName("Exception Message", string.Empty);
+        }
+
+        [TestMethod]
+        public void When_asserting_an_aggregate_exception_with_an_inner_argument_null_exception_with_a_parameter_name()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do())
+                .Throws(new AggregateException("Outer Message",
+                    new ArgumentNullException("someParam", "Exception Message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<AggregateException>()
+                .WithMessage("Outer Message")
+                .WithInnerException<ArgumentNullException>()
+                .WithInnerMessageAndParameterName("Exception Message", "someParam");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_aggregate_exception_with_an_inner_argument_null_exception_without_a_parameter_name()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo testSubject = A.Fake<IFoo>();
+            A.CallTo(() => testSubject.Do())
+                .Throws(new AggregateException("Outer Message",
+                    new ArgumentNullException(string.Empty, "Exception Message")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = testSubject.Do;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------            
+            act.ShouldThrow<AggregateException>()
+                .WithMessage("Outer Message")
+                .WithInnerException<ArgumentNullException>()
+                .WithInnerMessageAndParameterName("Exception Message", string.Empty);
+        }
+
         #endregion
 
         #region Inner Exceptions

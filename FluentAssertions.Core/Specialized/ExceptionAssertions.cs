@@ -89,6 +89,39 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
+        ///   Asserts that the thrown exception has a message that matches <paramref name = "expectedMessage" />
+        ///   with the given parameter name <paramref name = "parameterName" /> depending on the specified matching mode.
+        /// </summary>
+        /// <param name = "expectedMessage">
+        ///   The expected message of the exception.
+        /// </param>
+        /// <param name = "parameterName">
+        ///   The name of the parameter that was appended to exception message
+        /// </param>
+        /// <param name = "reason">
+        ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "reasonArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
+        /// </param>
+        public virtual ExceptionAssertions<TException> WithMessageAndParameterName(string expectedMessage,
+            string parameterName, string because = "", params object[] reasonArgs)
+        {
+            string expectedMessageWithParameterName = expectedMessage;
+
+            // Only add the Parameter Name assertion if an actual parameter name was provided
+            // to mimic the very same behavior of the .NET Framework
+            if (!string.IsNullOrEmpty(parameterName))
+            {
+                expectedMessageWithParameterName = string.Format("{0}\r\nParameter name: {1}", expectedMessage,
+                                                                 parameterName);
+            }
+
+            return WithMessage(expectedMessageWithParameterName, because, reasonArgs);
+        }
+
+        /// <summary>
         ///   Asserts that the thrown exception contains an inner exception of type <typeparamref name = "TInnerException" />.
         /// </summary>
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
@@ -153,6 +186,33 @@ namespace FluentAssertions.Specialized
             innerMessageAssertion.Execute(subjectInnerMessage, expectedInnerMessage, because, reasonArgs);
 
             return this;
+        }
+
+        /// <summary>
+        ///   Asserts that the thrown exception contains an inner exception with the <paramref name = "expectedInnerMessage" />.
+        /// </summary>
+        /// <param name = "expectedInnerMessage">The expected message of the inner exception.</param>
+        /// <param name = "parameterName">
+        ///   The name of the parameter that was appended to inner exception message
+        /// </param>
+        /// <param name = "reason">
+        ///   The reason why the message of the inner exception should match <paramref name = "expectedInnerMessage" />.
+        /// </param>
+        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "reason" />.</param>
+        public virtual ExceptionAssertions<TException> WithInnerMessageAndParameterName(string expectedInnerMessage,
+            string parameterName, string because = "", params object[] reasonArgs)
+        {
+            string expectedMessageWithParameterName = expectedInnerMessage;
+
+            // Only add the Parameter Name assertion if an actual parameter name was provided
+            // to mimic the very same behavior of the .NET Framework
+            if (!string.IsNullOrEmpty(parameterName))
+            {
+                expectedMessageWithParameterName = string.Format("{0}\r\nParameter name: {1}", expectedInnerMessage,
+                                                                 parameterName);
+            }
+
+            return WithInnerMessage(expectedMessageWithParameterName, because, reasonArgs);
         }
 
         /// <summary>
