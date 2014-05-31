@@ -43,9 +43,6 @@ namespace FluentAssertions.Equivalency
         {
             Using(new MustMatchByNameRule());
 
-            Using<string>(ctx => ctx.Subject.Should().Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs)).
-                WhenTypeIs<string>();
-
             orderingRules.Add(new ByteArrayOrderingRule());
         }
 

@@ -25,6 +25,16 @@ namespace FluentAssertions.Equivalency
             description = "Invoke Action<" + typeof(TSubject).Name + "> when " + predicate.Body;
         }
 
+        public AssertionRule(Action<IAssertionContext<TSubject>> action)
+        {
+            Expression<Func<ISubjectInfo, bool>> predicate =
+                info => info.RuntimeType.IsSameOrInherits(typeof (string));
+
+            this.predicate = predicate.Compile();
+            this.action = action;
+            description = "Invoke Action<" + typeof(TSubject).Name + "> when " + predicate.Body;
+        }
+
         /// <summary>
         /// Defines how a subject's property is compared for equality with the same property of the expectation.
         /// </summary>

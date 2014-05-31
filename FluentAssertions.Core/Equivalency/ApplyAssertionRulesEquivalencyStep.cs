@@ -2,7 +2,7 @@ using System.Linq;
 
 namespace FluentAssertions.Equivalency
 {
-    public class ApplyAssertionRulesEquivalencyStep : IEquivalencyStep
+    internal class ApplyAssertionRulesEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
