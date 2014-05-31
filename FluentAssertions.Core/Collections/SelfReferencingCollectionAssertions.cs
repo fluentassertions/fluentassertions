@@ -96,6 +96,16 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Expects the current collection to contain all the same elements in the same order as the collection identified by 
+        /// <paramref name="elements" />. Elements are compared using their <see cref="T.Equals(T)" /> method.
+        /// </summary>
+        /// <param name="elements">A params array with the expected elements.</param>
+        public AndConstraint<TAssertions> Equal(params T[] elements)
+        {
+            return Equal(elements, String.Empty);
+        }
+
+        /// <summary>
         /// Asserts that two collections contain the same items in the same order, where equality is determined using a 
         /// predicate.
         /// </summary>
