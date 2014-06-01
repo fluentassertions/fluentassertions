@@ -1251,6 +1251,34 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void
+            When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivilent_according_to_the_declared_type_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Type = (CustomerType)new DerivedCustomerType("123")
+            };
+
+            var other = new
+            {
+                Type = new CustomerType("123")
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(other);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_an_assertion_is_overridden_for_a_predicate_it_should_use_the_provided_action()
         {
             //-----------------------------------------------------------------------------------------------------------
