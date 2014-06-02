@@ -24,7 +24,9 @@ namespace FluentAssertions.Equivalency
             new ApplyAssertionRulesEquivalencyStep(),
             new DictionaryEquivalencyStep(),
             new EnumerableEquivalencyStep(),
-            new ComplexTypeEquivalencyStep(),
+            new SystemTypeEquivalencyStep(),
+            new EnumEqualityStep(),
+            new StructuralEqualityEquivalencyStep(),
             new SimpleEqualityEquivalencyStep()
         };
 
@@ -69,12 +71,16 @@ namespace FluentAssertions.Equivalency
 
                 if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.PropertyPath)))
                 {
-                    foreach (IEquivalencyStep strategy in steps.Where(s => s.CanHandle(context, config)))
+                    IEnumerable<IEquivalencyStep> equivalencySteps =
+                        steps.Where(s => s.CanHandle(context, config));
+
+                    bool wasHandled = equivalencySteps.Any(strategy => strategy.Handle(context, this, config));
+
+                    if (wasHandled == false)
                     {
-                        if (strategy.Handle(context, this, config))
-                        {
-                            break;
-                        }
+                        Execute.Assertion.FailWith(
+                            "No IEquivalencyStep was found to handle the context.  " +
+                            "This is likely a bug in Fluent Assertions.");
                     }
                 }
             }

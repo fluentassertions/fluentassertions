@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    public class ComplexTypeEquivalencyStep : IEquivalencyStep
+    internal class StructuralEqualityEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.Subject != null) &&
-                context.Subject.GetType().IsComplexType() && (context.IsRoot || config.IsRecursive);
+            return (context.IsRoot || config.IsRecursive);
         }
 
         /// <summary>
@@ -29,19 +27,32 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
+            bool expectationIsNotNull = AssertionScope.Current
+                .ForCondition(!ReferenceEquals(context.Expectation, null))
+                .FailWith(
+                    "Expected {context:subject} to be <null>, but found {0}.",
+                    context.Subject);
+
+            bool subjectIsNotNull =
+                AssertionScope.Current.ForCondition(
+                    !ReferenceEquals(context.Subject, null))
+                    .FailWith(
+                        "Expected {context:object} to be {0}{reason}, but found {1}.",
+                        context.Expectation,
+                        context.Subject);
+
             IEnumerable<PropertyInfo> selectedProperties = GetSelectedProperties(context, config).ToArray();
             if (context.IsRoot && !selectedProperties.Any())
             {
-                throw new InvalidOperationException("Please specify some properties to include in the comparison.");
+                throw new InvalidOperationException(
+                    "No members were found for comparison.  " +
+                    "This means that any two non-null objects would be found equivilent.  " +
+                    "Please specify some properties to include in the comparison or choose a more meaningful assertion.");
             }
 
-            bool expectationIsNotNull = AssertionScope.Current
-                .ForCondition(!ReferenceEquals(context.Expectation, null))
-                .FailWith("Expected {context:subject} to be <null>, but found {0}.", context.Subject);
-
-            if (expectationIsNotNull)
+            if (expectationIsNotNull && subjectIsNotNull)
             {
                 foreach (PropertyInfo propertyInfo in selectedProperties)
                 {

@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
-
 using FluentAssertions.Equivalency;
-using FluentAssertions.Execution;
 
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -63,6 +60,48 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected subject to be*, but found <null>*");
+        }
+
+        [TestMethod]
+        public void When_subject_and_expectation_are_null_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            SomeDto subject = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_equivilence_on_a_type_from_System_it_should_not_do_a_structural_comparision()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            // DateTime is used as an example because the current implemention
+            // would hit the recusion-depth limit if structural equivilence were attempted.
+            DateTime date1 = DateTime.Parse("2011-01-01");
+            DateTime date2 = DateTime.Parse("2011-01-01");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => date1.ShouldBeEquivalentTo(date2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         #endregion
@@ -3233,6 +3272,114 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Enums
+
+        [TestMethod]
+        public void When_asserting_the_same_enum_member_is_equivilent_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => EnumOne.One.ShouldBeEquivalentTo(EnumOne.One);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_different_enum_members_are_equivilent_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => EnumOne.One.ShouldBeEquivalentTo(EnumOne.Two);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected subject to be Two, but found One*");
+        }
+
+        [TestMethod]
+        public void When_asserting_members_from_different_enum_types_are_equivilent_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => EnumOne.One.ShouldBeEquivalentTo(EnumTwo.One);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected subject to be One, but found One*");
+        }
+
+        #endregion
+
+        #region Memberless Objects
+
+        [TestMethod]
+        public void When_asserting_instances_of_an_anonymous_type_having_no_memebers_are_equivilent_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => new {}.ShouldBeEquivalentTo(new {});
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_instances_of_a_class_having_no_memebers_are_equivilent_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => new ClassWithNoMembers().ShouldBeEquivalentTo(new ClassWithNoMembers());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_instances_of_a_struct_having_no_memebers_are_equivilent_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => new StructWithNoMembers().ShouldBeEquivalentTo(new StructWithNoMembers());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_instances_of_Object_are_equivilent_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => new object().ShouldBeEquivalentTo(new object());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+        #endregion
+
         public class ClassOne
         {
             private ClassTwo refOne = new ClassTwo();
@@ -3304,161 +3451,26 @@ namespace FluentAssertions.Specs
                 }
             }
         }
-    }
 
-    [TestClass]
-    public class AssertionScopeSpecs
-    {
-        [TestMethod]
-        public void When_disposed_it_should_throw_any_failures()
+        private enum EnumOne
         {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var scope = new AssertionScope();
-
-            AssertionScope.Current.FailWith("Failure1");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = scope.Dispose;
-            ;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            try
-            {
-                act();
-            }
-            catch (Exception exception)
-            {
-                Assert.IsTrue(exception.Message.StartsWith("Failure1"));
-            }
+            One = 0,
+            Two = 3
         }
 
-        [TestMethod]
-        public void When_multiple_scopes_are_nested_it_should_throw_all_failures_from_the_outer_scope()
+        private enum EnumTwo
         {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var scope = new AssertionScope();
-
-            AssertionScope.Current.FailWith("Failure1");
-
-            using (var nestedScope = new AssertionScope())
-            {
-                nestedScope.FailWith("Failure2");
-
-                using (var deeplyNestedScope = new AssertionScope())
-                {
-                    deeplyNestedScope.FailWith("Failure3");
-                }
-            }
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = scope.Dispose;
-            ;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            try
-            {
-                act();
-            }
-            catch (Exception exception)
-            {
-                Assert.IsTrue(exception.Message.Contains("Failure1"));
-                Assert.IsTrue(exception.Message.Contains("Failure2"));
-                Assert.IsTrue(exception.Message.Contains("Failure3"));
-            }
+            One = 0,
+            Two = 3
         }
 
-        [TestMethod]
-        public void When_a_nested_scope_is_discarded_its_failures_should_also_be_discarded()
+        private class ClassWithNoMembers
         {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var scope = new AssertionScope();
-
-            AssertionScope.Current.FailWith("Failure1");
-
-            using (var nestedScope = new AssertionScope())
-            {
-                nestedScope.FailWith("Failure2");
-
-                using (var deeplyNestedScope = new AssertionScope())
-                {
-                    deeplyNestedScope.FailWith("Failure3");
-                    deeplyNestedScope.Discard();
-                }
-            }
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = scope.Dispose;
-            ;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            try
-            {
-                act();
-            }
-            catch (Exception exception)
-            {
-                Assert.IsTrue(exception.Message.Contains("Failure1"));
-                Assert.IsTrue(exception.Message.Contains("Failure2"));
-                Assert.IsFalse(exception.Message.Contains("Failure3"));
-            }
         }
 
-        [TestMethod]
-        public void When_the_same_failure_is_handled_twice_or_more_it_should_still_report_it_once()
+        private struct StructWithNoMembers
         {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var scope = new AssertionScope();
-
-            AssertionScope.Current.FailWith("Failure");
-            AssertionScope.Current.FailWith("Failure");
-
-            using (var nestedScope = new AssertionScope())
-            {
-                nestedScope.FailWith("Failure");
-                nestedScope.FailWith("Failure");
-            }
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = scope.Dispose;
-            ;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            try
-            {
-                act();
-            }
-            catch (Exception exception)
-            {
-                int matches = new Regex(".*Failure.*").Matches(exception.Message).Count;
-
-                Assert.AreEqual(1, matches);
-            }
         }
-
     }
 
     public class Customer : Entity

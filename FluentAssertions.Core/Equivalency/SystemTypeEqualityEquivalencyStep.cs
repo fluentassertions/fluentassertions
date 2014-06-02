@@ -1,13 +1,19 @@
+using System;
+
 namespace FluentAssertions.Equivalency
 {
-    internal class SimpleEqualityEquivalencyStep : IEquivalencyStep
+    internal class SystemTypeEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return !config.IsRecursive && !context.IsRoot;
+            Type type = context.RuntimeType;
+
+            return (type != null) &&
+                   (type != typeof (object)) &&
+                   (type.Namespace == typeof (int).Namespace);
         }
 
         /// <summary>
@@ -22,6 +28,16 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
         {
+            if (context.Subject is string)
+            {
+                AssertionRule<string> stringRule = new AssertionRule<string>(
+                    ctx =>
+                        ctx.Subject.Should()
+                            .Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
+
+                return stringRule.AssertEquality(context);
+            }
+
             context.Subject.Should().Be(context.Expectation, context.Reason, context.ReasonArgs);
 
             return true;

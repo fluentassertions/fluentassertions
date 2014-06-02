@@ -58,6 +58,8 @@
     <Compile Include="Collections\WhichValueConstraint.cs" />
     <Compile Include="Common\DateTimeExtensions.cs" />
     <Compile Include="Common\NullReflector.cs" />
+    <Compile Include="Equivalency\EnumEqualityStep.cs" />
+    <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
     <Compile Include="Collections\CollectionAssertions.cs" />
     <Compile Include="Collections\GenericCollectionAssertions.cs" />
@@ -81,7 +83,7 @@
     <Compile Include="Equivalency\AssertionResultSet.cs" />
     <Compile Include="Equivalency\AssertionRule.cs" />
     <Compile Include="Equivalency\ByteArrayOrderingRule.cs" />
-    <Compile Include="Equivalency\ComplexTypeEquivalencyStep.cs" />
+    <Compile Include="Equivalency\StructuralEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\CyclicReferenceHandling.cs" />
     <Compile Include="Equivalency\DictionaryEquivalencyStep.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />

@@ -1,13 +1,14 @@
 namespace FluentAssertions.Equivalency
 {
-    internal class SimpleEqualityEquivalencyStep : IEquivalencyStep
+    internal class EnumEqualityStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(EquivalencyValidationContext context,
+            IEquivalencyAssertionOptions config)
         {
-            return !config.IsRecursive && !context.IsRoot;
+            return context.RuntimeType != null && context.RuntimeType.IsEnum;
         }
 
         /// <summary>
@@ -20,7 +21,8 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
+        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent,
+            IEquivalencyAssertionOptions config)
         {
             context.Subject.Should().Be(context.Expectation, context.Reason, context.ReasonArgs);
 
