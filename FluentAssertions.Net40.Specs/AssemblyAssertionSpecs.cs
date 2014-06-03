@@ -9,7 +9,7 @@ namespace FluentAssertions.Specs
     public class AssemblyAssertionSpecs
     {
         [TestMethod]
-        public void Should_succeed_when_asserting_an_assembly_is_not_referenced()
+        public void When_an_assembly_is_not_referenced_and_should_not_reference_is_asserted_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -29,7 +29,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_an_assembly_is_not_referenced()
+        public void When_an_assembly_is_referenced_and_should_not_reference_is_asserted_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -49,7 +49,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_an_assembly_is_referenced()
+        public void When_an_assembly_is_referenced_and_should_reference_is_asserted_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -69,7 +69,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_an_assembly_is_referenced()
+        public void When_an_assembly_is_not_referenced_and_should_reference_is_asserted_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
