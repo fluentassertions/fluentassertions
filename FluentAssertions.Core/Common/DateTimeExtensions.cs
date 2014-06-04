@@ -10,17 +10,13 @@ namespace FluentAssertions.Common
         /// </summary>
         public static DateTimeOffset ToDateTimeOffset(this DateTime dateTime)
         {
-            if (dateTime == DateTime.MinValue)
+            try
             {
-                return DateTimeOffset.MinValue;
+                return DateTime.SpecifyKind(dateTime, DateTimeKind.Local); ;
             }
-            else if (dateTime == DateTime.MaxValue)
+            catch (ArgumentOutOfRangeException)
             {
-                return DateTimeOffset.MaxValue;
-            }
-            else
-            {
-                return DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
+                return new DateTimeOffset(DateTime.SpecifyKind(dateTime, DateTimeKind.Utc), TimeSpan.Zero);
             }
         }
     }

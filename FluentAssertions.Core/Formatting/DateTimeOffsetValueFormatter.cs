@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Formatting
 {
@@ -38,7 +41,7 @@ namespace FluentAssertions.Formatting
 
             if (value is DateTime)
             {
-                dateTime = (DateTime) value;
+                dateTime = ((DateTime)value).ToDateTimeOffset();
             }
             else
             {
@@ -56,6 +59,11 @@ namespace FluentAssertions.Formatting
             {
                 string format = (HasMilliSeconds(dateTime)) ? "HH:mm:ss.fff" : "HH:mm:ss";
                 fragments.Add(dateTime.ToString(format));
+            }
+
+            if (!fragments.Any())
+            {
+                fragments.Add("0001-01-01 00:00:00.000");
             }
 
             return "<" + string.Join(" ", fragments.ToArray()) + ">";
