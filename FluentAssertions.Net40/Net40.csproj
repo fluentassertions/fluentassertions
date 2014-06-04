@@ -89,6 +89,7 @@
     <Compile Include="Execution\XUnitTestFramework.cs" />
     <Compile Include="ObjectAssertionsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\AssemblyAssertions.cs" />
     <Compile Include="Specialized\ExecutionTimeAssertions.cs" />
   </ItemGroup>
   <ItemGroup>
