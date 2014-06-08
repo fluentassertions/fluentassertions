@@ -36,11 +36,12 @@ namespace FluentAssertions.Collections
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
+            int count = enumerable.Count();
 
             Execute.Assertion
-                .ForCondition(!enumerable.Any())
+                .ForCondition(count == 0)
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected {context:collection} to be empty{reason}, but found {0}.", enumerable.Count());
+                .FailWith("Expected {context:collection} to be empty{reason}, but found {0}.", count);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
