@@ -457,6 +457,26 @@ namespace FluentAssertions.Specs
                 "Expected collection to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
 
+        [TestMethod]
+        public void When_asserting_collection_to_be_empty_it_should_enumerate_only_once()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new CountingGenericEnumerable<int>(new int[0]);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().BeEmpty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.GetEnumeratorCallCount.Should().Be(1);
+            
+        }
+
         #endregion
 
         #region Not Be Empty
@@ -479,6 +499,26 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected collection not to be empty because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_collection_to_be_not_empty_it_should_enumerate_only_once()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new CountingGenericEnumerable<int>(new[] { 42 });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().NotBeEmpty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.GetEnumeratorCallCount.Should().Be(1);
+
         }
 
         #endregion
@@ -537,6 +577,26 @@ namespace FluentAssertions.Specs
                     "Expected collection to be null or empty because we want to test the failure message, but found {1, 2, 3}.");
         }
 
+        [TestMethod]
+        public void When_asserting_collection_to_be_null_or_empty_it_should_enumerate_only_once()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new CountingGenericEnumerable<int>(new int[0]);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().BeNullOrEmpty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.GetEnumeratorCallCount.Should().Be(1);
+
+        }
+
         #endregion
 
         #region Not Be Null Or Empty
@@ -593,6 +653,26 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_collection_to_not_be_null_or_empty_it_should_enumerate_only_once()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var collection = new CountingGenericEnumerable<int>(new[] { 42 });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().NotBeNullOrEmpty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.GetEnumeratorCallCount.Should().Be(1);
+
         }
 
         #endregion
