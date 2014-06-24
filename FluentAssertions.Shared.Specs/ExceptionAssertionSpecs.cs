@@ -262,7 +262,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Be(
-                    "Expected System.Exception because IFoo.Do should do that, but no exception was thrown.");
+                    "Expected a <System.Exception> to be thrown because IFoo.Do should do that, but no exception was thrown.");
             }
         }
 
@@ -294,7 +294,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().StartWith(
-                    "Expected System.InvalidOperationException because IFoo.Do should throw that one, but found System.ArgumentException");
+                    "Expected a <System.InvalidOperationException> to be thrown because IFoo.Do should throw that one, but found a <System.ArgumentException>:");
 
                 ex.Message.Should().Contain(actualException.Message);
             }
@@ -801,6 +801,29 @@ namespace FluentAssertions.Specs
             action.ShouldThrow<Exception>();
         }
 
+        [TestMethod]
+        public void When_an_exception_of_a_different_type_is_thrown_it_should_include_the_type_of_the_thrown_exception()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action throwException = () => { throw new ExceptionWithEmptyToString(); };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => throwException.ShouldThrow<NullReferenceException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    string.Format("*System.NullReferenceException*{0}*",
+                        typeof (ExceptionWithEmptyToString)));
+        }
+
         #endregion
 
         #region Not Throw
@@ -911,6 +934,14 @@ namespace FluentAssertions.Specs
         }
 
         public string Property { get; set; }
+    }
+
+    internal class ExceptionWithEmptyToString : Exception
+    {
+        public override string ToString()
+        {
+            return string.Empty;
+        }
     }
 }
 

@@ -41,12 +41,16 @@ namespace FluentAssertions.Specialized
             Execute.Assertion
                 .ForCondition(actualException != null)
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
+                .FailWith("Expected a <{0}> to be thrown{reason}, but no exception was thrown.", typeof(TException));
 
             Execute.Assertion
                 .ForCondition(expectedExceptions.Any())
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), actualException);
+                .FailWith(
+                    "Expected a <{0}> to be thrown{reason}, but found a <{1}>: {3}.",
+                    typeof (TException), actualException.GetType(),
+                    Environment.NewLine,
+                    actualException);
 
             return new ExceptionAssertions<TException>(expectedExceptions);            
         }
