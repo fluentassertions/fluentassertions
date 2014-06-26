@@ -553,62 +553,6 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_deeply_nested_property_of_a_collection_with_an_invalid_value_is_excluded_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new
-            {
-                Text = "Root",
-                Level = new
-                {
-                    Text = "Level1",
-                    Level = new
-                    {
-                        Text = "Level2",
-                    },
-                    Collection = new[]
-                    {
-                        new { Number = 1, Text = "Text" },
-                        new { Number = 2, Text = "Actual" }
-                    }
-                }
-            };
-
-            var expected = new
-            {
-                Text = "Root",
-                Level = new
-                {
-                    Text = "Level1",
-                    Level = new
-                    {
-                        Text = "Level2",
-                    },
-                    Collection = new[]
-                    {
-                        new { Number = 1, Text = "Text" },
-                        new { Number = 2, Text = "Expected" }
-                    }
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected, options => options.
-                Excluding(x => x.Level.Collection[1].Number).
-                Excluding(x => x.Level.Collection[1].Text)
-                );
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
         public void When_a_property_with_a_value_mismatch_is_excluded_using_a_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -779,698 +723,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("*property Property1 to be \"1\", but \"A\" differs near \"A\"*")
                 .WithMessage("*property Property2 to be \"2\", but \"B\" differs near \"B\"*")
                 .WithMessage("*property SubType1.SubProperty1 to be \"3\", but \"C\" differs near \"C\"*");
-        }
-
-        #endregion
-
-        #region Collection Equivalence
-
-        [TestMethod]
-        public void When_two_ordered_lists_are_structurally_equivalent_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_two_unordered_lists_are_structurally_equivalent_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new[]
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            var expectation = new Collection<Customer>
-            {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_two_unordered_lists_are_structurally_equivalent_and_order_is_strict_it_should_fail()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new[]
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            var expectation = new Collection<Customer>
-            {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options.WithStrictOrdering());
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected item[0].Name*Jane*John*item[1].Name*John*Jane*");
-        }
-
-        [TestMethod]
-        public void When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new[]
-            {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
-            };
-
-            var expectation = new[]
-            {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                },
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options
-                .WithStrictOrderingFor(s => s.UnorderedCollection));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*");
-        }
-
-        [TestMethod]
-        public void When_an_unordered_collection_must_be_strict_using_a_predicate_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new[]
-            {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
-            };
-
-            var expectation = new[]
-            {
-                new
-                {
-                    Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                },
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options
-                .WithStrictOrderingFor(s => s.PropertyPath.Contains("UnorderedCollection")));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*");
-        }
-
-        [TestMethod]
-        public void When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 30,
-                    Id = 2
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*item[1].Age*30*24*");
-        }
-
-        [TestMethod]
-        public void When_a_byte_array_does_not_match_strictly_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new
-            {
-                Payload = new byte[] { 1, 2, 3, 4, 5, 6}
-            };
-
-            var expectation = new
-            {
-                Payload = new byte[] { 6, 5, 4, 3, 2, 1}
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*Payload[0]*6*1*");
-        }
-
-        [TestMethod]
-        public void When_no_collection_item_matches_it_should_report_the_closest_match()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 30,
-                    Id = 2
-                }
-            };
-
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 30,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 28,
-                    Id = 1
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*item[1].Age*28*27*");
-        }
-
-        [TestMethod]
-        public void When_two_lists_only_differ_in_excluded_properties_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            var expectation = new List<CustomerDto>
-            {
-                new CustomerDto
-                {
-                    Name = "John",
-                    Age = 27,
-                },
-                new CustomerDto
-                {
-                    Name = "Jane",
-                    Age = 30,
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options
-                .ExcludingMissingProperties()
-                .Excluding(c => c.Age));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_the_subject_contains_same_number_of_items_but_subject_contains_duplicates_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
-
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected item[1].Name to be \"Jane\", but \"John\" differs near*");
-        }
-
-        [TestMethod]
-        public void When_the_subject_contains_more_items_than_expected_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected subject to be a collection with 1 item(s), but found 2*");
-        }
-
-        [TestMethod]
-        public void When_the_subject_contains_less_items_than_expected_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
-
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("*subject to be a collection with 2 item(s), but found 1*");
-        }
-
-        [TestMethod]
-        public void When_the_subject_contains_same_number_of_items_but_expectation_contains_duplicates_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected item[1].Name to be \"John\", but \"Jane\" differs near*");
-        }
-
-        [TestMethod]
-        public void When_the_subject_contains_same_number_of_items_and_both_contain_duplicates_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
-
-            var expectation = new List<Customer>
-            {
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_a_collection_is_compared_to_a_non_collection_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new List<Customer>();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo("hello");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Subject is a collection and cannot be compared with a non-collection type*");
         }
 
         #endregion
@@ -2624,52 +1876,6 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference
-            ()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var logbook = new LogbookCode("SomeKey");
-
-            var logbookEntry = new LogbookEntryProjection
-            {
-                Logbook = logbook,
-                LogbookRelations = new[]
-                {
-                    new LogbookRelation
-                    {
-                        Logbook = logbook
-                    }
-                }
-            };
-
-            var equivalentLogbookEntry = new LogbookEntryProjection
-            {
-                Logbook = logbook,
-                LogbookRelations = new[]
-                {
-                    new LogbookRelation
-                    {
-                        Logbook = logbook
-                    }
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => logbookEntry.ShouldBeEquivalentTo(equivalentLogbookEntry);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-
-        [TestMethod]
         public void When_asserting_types_with_infinite_oject_graphs_are_equivilent_it_should_not_overflow_the_stack()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2783,390 +1989,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
-        }
-
-        #endregion
-
-        #region Nested Enumerables
-
-        [TestMethod]
-        public void When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = new[]
-                {
-                    new Customer
-                    {
-                        Age = 32,
-                        Birthdate = 31.July(1978),
-                        Name = "Jane"
-                    },
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    }
-                }
-            };
-
-            var subject = new
-            {
-                Customers = new[]
-                {
-                    new CustomerDto
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                    new CustomerDto
-                    {
-                        Age = 32,
-                        Birthdate = 31.July(1978),
-                        Name = "Jane"
-                    }
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = new[]
-                {
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                }
-            };
-
-            var subject = new
-            {
-                Customers = new[]
-                {
-                    new CustomerDto
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "Jane"
-                    },
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*Customers[0].Name*John*Jane*");
-        }
-
-        [TestMethod]
-        public void When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new
-            {
-                Customers = "Jane, John"
-            };
-
-            var expected = new
-            {
-                Customers = new[]
-                {
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*property Customers to be*Customer[]*, but*System.String*");
-        }
-
-        [TestMethod]
-        public void When_a_collection_contains_more_items_than_expected_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = new[]
-                {
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                }
-            };
-
-            var subject = new
-            {
-                Customers = new[]
-                {
-                    new CustomerDto
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "Jane"
-                    },
-                    new CustomerDto
-                    {
-                        Age = 24,
-                        Birthdate = 21.September(1973),
-                        Name = "John"
-                    },
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*property Customers to be a collection with 1 item(s), but found 2*");
-        }
-
-        [TestMethod]
-        public void When_a_collection_contains_less_items_than_expected_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = new[]
-                {
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "Jane"
-                    }
-                }
-            };
-
-            var subject = new
-            {
-                Customers = new[]
-                {
-                    new CustomerDto
-                    {
-                        Age = 24,
-                        Birthdate = 21.September(1973),
-                        Name = "John"
-                    },
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*property Customers to be a collection with 2 item(s), but found 1*");
-        }
-
-        [TestMethod]
-        public void When_a_complex_object_graph_with_collections_matches_expectations_it_should_not_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new
-            {
-                Bytes = new byte[]
-                {
-                    1, 2, 3, 4
-                },
-                Object = new
-                {
-                    A = 1,
-                    B = 2
-                }
-            };
-
-            var expected = new
-            {
-                Bytes = new byte[]
-                {
-                    1, 2, 3, 4
-                },
-                Object = new
-                {
-                    A = 1,
-                    B = 2
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key2", "Value2" },
-                    { "Key1", "Value1" }
-                }
-            };
-
-            var subject = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key1", "Value1" },
-                    { "Key2", "Value2" }
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_the_other_property_is_not_a_dictionary_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = "I am a string"
-            };
-
-            var subject = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key2", "Value2" },
-                    { "Key1", "Value1" }
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Property*Customers*dictionary*non-dictionary*");
-        }
-
-        [TestMethod]
-        public void When_the_other_dictionary_does_not_contain_enough_items_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key1", "Value1" },
-                    { "Key2", "Value2" }
-                }
-            };
-
-            var subject = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key1", "Value1" },
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
         }
 
         #endregion
@@ -3507,6 +2329,1282 @@ namespace FluentAssertions.Specs
         private struct StructWithNoMembers
         {
         }
+
+        [TestClass]
+        public class CollectionEquivalencySpecs
+        {
+            [TestMethod]
+            public void
+                When_a_deeply_nested_property_of_a_collection_with_an_invalid_value_is_excluded_it_should_not_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new
+                {
+                    Text = "Root",
+                    Level = new
+                    {
+                        Text = "Level1",
+                        Level = new
+                        {
+                            Text = "Level2",
+                        },
+                        Collection = new[]
+                        {
+                            new {Number = 1, Text = "Text"},
+                            new {Number = 2, Text = "Actual"}
+                        }
+                    }
+                };
+
+                var expected = new
+                {
+                    Text = "Root",
+                    Level = new
+                    {
+                        Text = "Level1",
+                        Level = new
+                        {
+                            Text = "Level2",
+                        },
+                        Collection = new[]
+                        {
+                            new {Number = 1, Text = "Text"},
+                            new {Number = 2, Text = "Expected"}
+                        }
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act =
+                    () =>
+                        subject.ShouldBeEquivalentTo(expected,
+                            options => options.
+                                Excluding(x => x.Level.Collection[1].Number).
+                                Excluding(x => x.Level.Collection[1].Text)
+                            );
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
+
+            #region Collection Equivalence
+
+            [TestMethod]
+            public void
+                When_two_ordered_lists_are_structurally_equivalent_it_should_succeed
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
+
+            [TestMethod]
+            public void
+                When_two_unordered_lists_are_structurally_equivalent_it_should_succeed
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new[]
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new Collection<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
+
+            [TestMethod]
+            public void
+                When_two_unordered_lists_are_structurally_equivalent_and_order_is_strict_it_should_fail
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new[]
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new Collection<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () =>
+                        subject.ShouldAllBeEquivalentTo(expectation,
+                            options => options.WithStrictOrdering());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "Expected item[0].Name*Jane*John*item[1].Name*John*Jane*");
+            }
+
+            [TestMethod]
+            public void
+                When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new[]
+                {
+                    new
+                    {
+                        Name = "John",
+                        UnorderedCollection = new[] {1, 2, 3, 4, 5}
+                    },
+                    new
+                    {
+                        Name = "Jane",
+                        UnorderedCollection = new int[0]
+                    }
+                };
+
+                var expectation = new[]
+                {
+                    new
+                    {
+                        Name = "John",
+                        UnorderedCollection = new[] {5, 4, 3, 2, 1}
+                    },
+                    new
+                    {
+                        Name = "Jane",
+                        UnorderedCollection = new int[0]
+                    },
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () =>
+                        subject.ShouldAllBeEquivalentTo(expectation,
+                            options => options
+                                .WithStrictOrderingFor(
+                                    s => s.UnorderedCollection));
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "*Expected item[0].UnorderedCollection*5 item(s)*0*");
+            }
+
+            [TestMethod]
+            public void
+                When_an_unordered_collection_must_be_strict_using_a_predicate_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new[]
+                {
+                    new
+                    {
+                        Name = "John",
+                        UnorderedCollection = new[] {1, 2, 3, 4, 5}
+                    },
+                    new
+                    {
+                        Name = "Jane",
+                        UnorderedCollection = new int[0]
+                    }
+                };
+
+                var expectation = new[]
+                {
+                    new
+                    {
+                        Name = "John",
+                        UnorderedCollection = new[] {5, 4, 3, 2, 1}
+                    },
+                    new
+                    {
+                        Name = "Jane",
+                        UnorderedCollection = new int[0]
+                    },
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () =>
+                        subject.ShouldAllBeEquivalentTo(expectation,
+                            options => options
+                                .WithStrictOrderingFor(
+                                    s =>
+                                        s.PropertyPath.Contains(
+                                            "UnorderedCollection")));
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "*Expected item[0].UnorderedCollection*5 item(s)*0*");
+            }
+
+            [TestMethod]
+            public void
+                When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                        Id = 2
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage("Expected*item[1].Age*30*24*");
+            }
+
+            [TestMethod]
+            public void
+                When_a_byte_array_does_not_match_strictly_it_should_throw()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new
+                {
+                    Payload = new byte[] {1, 2, 3, 4, 5, 6}
+                };
+
+                var expectation = new
+                {
+                    Payload = new byte[] {6, 5, 4, 3, 2, 1}
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action = () => subject.ShouldBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage("Expected*Payload[0]*6*1*");
+            }
+
+            [TestMethod]
+            public void
+                When_no_collection_item_matches_it_should_report_the_closest_match
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 28,
+                        Id = 1
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage("Expected*item[1].Age*28*27*");
+            }
+
+            [TestMethod]
+            public void
+                When_two_lists_only_differ_in_excluded_properties_it_should_not_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<CustomerDto>
+                {
+                    new CustomerDto
+                    {
+                        Name = "John",
+                        Age = 27,
+                    },
+                    new CustomerDto
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () =>
+                        subject.ShouldAllBeEquivalentTo(expectation,
+                            options => options
+                                .ExcludingMissingProperties()
+                                .Excluding(c => c.Age));
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
+
+            [TestMethod]
+            public void
+                When_the_subject_contains_same_number_of_items_but_subject_contains_duplicates_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "Expected item[1].Name to be \"Jane\", but \"John\" differs near*");
+            }
+
+            [TestMethod]
+            public void
+                When_the_subject_contains_more_items_than_expected_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "Expected subject to be a collection with 1 item(s), but found 2*");
+            }
+
+            [TestMethod]
+            public void
+                When_the_subject_contains_less_items_than_expected_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "*subject to be a collection with 2 item(s), but found 1*");
+            }
+
+            [TestMethod]
+            public void
+                When_the_subject_contains_same_number_of_items_but_expectation_contains_duplicates_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "Expected item[1].Name to be \"John\", but \"Jane\" differs near*");
+            }
+
+            [TestMethod]
+            public void
+                When_the_subject_contains_same_number_of_items_and_both_contain_duplicates_it_should_succeed
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
+
+            [TestMethod]
+            public void
+                When_a_collection_is_compared_to_a_non_collection_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>();
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action = () => subject.ShouldAllBeEquivalentTo("hello");
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "Subject is a collection and cannot be compared with a non-collection type*");
+            }
+
+            #endregion
+
+            #region Cyclic References
+
+            [TestMethod]
+            public void
+                When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var logbook = new EquivalencySpecs.LogbookCode("SomeKey");
+
+                var logbookEntry = new EquivalencySpecs.LogbookEntryProjection
+                {
+                    Logbook = logbook,
+                    LogbookRelations = new[]
+                    {
+                        new EquivalencySpecs.LogbookRelation
+                        {
+                            Logbook = logbook
+                        }
+                    }
+                };
+
+                var equivalentLogbookEntry = new EquivalencySpecs.
+                    LogbookEntryProjection
+                {
+                    Logbook = logbook,
+                    LogbookRelations = new[]
+                    {
+                        new EquivalencySpecs.LogbookRelation
+                        {
+                            Logbook = logbook
+                        }
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act =
+                    () =>
+                        logbookEntry.ShouldBeEquivalentTo(equivalentLogbookEntry);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
+
+            #endregion
+
+            #region Nested Enumerables
+
+            [TestMethodAttribute]
+            public void
+                When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var expected = new
+                {
+                    Customers = new[]
+                    {
+                        new Customer
+                        {
+                            Age = 32,
+                            Birthdate = 31.July(1978),
+                            Name = "Jane"
+                        },
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        }
+                    }
+                };
+
+                var subject = new
+                {
+                    Customers = new[]
+                    {
+                        new CustomerDto
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                        new CustomerDto
+                        {
+                            Age = 32,
+                            Birthdate = 31.July(1978),
+                            Name = "Jane"
+                        }
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
+
+            [TestMethodAttribute]
+            public void
+                When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var expected = new
+                {
+                    Customers = new[]
+                    {
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                    }
+                };
+
+                var subject = new
+                {
+                    Customers = new[]
+                    {
+                        new CustomerDto
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "Jane"
+                        },
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage("*Customers[0].Name*John*Jane*");
+            }
+
+            [TestMethod]
+            public void
+                When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new
+                {
+                    Customers = "Jane, John"
+                };
+
+                var expected = new
+                {
+                    Customers = new[]
+                    {
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "*property Customers to be*Customer[]*, but*System.String*");
+            }
+
+
+            [TestMethod]
+            public void
+                When_a_collection_contains_more_items_than_expected_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var expected = new
+                {
+                    Customers = new[]
+                    {
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                    }
+                };
+
+                var subject = new
+                {
+                    Customers = new[]
+                    {
+                        new CustomerDto
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "Jane"
+                        },
+                        new CustomerDto
+                        {
+                            Age = 24,
+                            Birthdate = 21.September(1973),
+                            Name = "John"
+                        },
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "*property Customers to be a collection with 1 item(s), but found 2*");
+            }
+
+            [TestMethod]
+            public void
+                When_a_collection_contains_less_items_than_expected_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var expected = new
+                {
+                    Customers = new[]
+                    {
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "Jane"
+                        }
+                    }
+                };
+
+                var subject = new
+                {
+                    Customers = new[]
+                    {
+                        new CustomerDto
+                        {
+                            Age = 24,
+                            Birthdate = 21.September(1973),
+                            Name = "John"
+                        },
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "*property Customers to be a collection with 2 item(s), but found 1*");
+            }
+
+            [TestMethodAttribute]
+            public void
+                When_a_complex_object_graph_with_collections_matches_expectations_it_should_not_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new
+                {
+                    Bytes = new byte[]
+                    {
+                        1, 2, 3, 4
+                    },
+                    Object = new
+                    {
+                        A = 1,
+                        B = 2
+                    }
+                };
+
+                var expected = new
+                {
+                    Bytes = new byte[]
+                    {
+                        1, 2, 3, 4
+                    },
+                    Object = new
+                    {
+                        A = 1,
+                        B = 2
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
+
+            [TestMethodAttribute]
+            public void
+                When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var expected = new
+                {
+                    Customers = new Dictionary<string, string>
+                    {
+                        {"Key2", "Value2"},
+                        {"Key1", "Value1"}
+                    }
+                };
+
+                var subject = new
+                {
+                    Customers = new Dictionary<string, string>
+                    {
+                        {"Key1", "Value1"},
+                        {"Key2", "Value2"}
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
+
+            [TestMethodAttribute]
+            public void
+                When_the_other_property_is_not_a_dictionary_it_should_throw()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var expected = new
+                {
+                    Customers = "I am a string"
+                };
+
+                var subject = new
+                {
+                    Customers = new Dictionary<string, string>
+                    {
+                        {"Key2", "Value2"},
+                        {"Key1", "Value1"}
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage("Property*Customers*dictionary*non-dictionary*");
+            }
+
+            [TestMethodAttribute]
+            public void
+                When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var expected = new
+                {
+                    Customers = new Dictionary<string, string>
+                    {
+                        {"Key1", "Value1"},
+                        {"Key2", "Value2"}
+                    }
+                };
+
+                var subject = new
+                {
+                    Customers = new Dictionary<string, string>
+                    {
+                        {"Key1", "Value1"},
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>().WithMessage(
+                    "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
+            }
+
+            #endregion
+        }
     }
 
     public class Customer : Entity
@@ -3591,6 +3689,8 @@ namespace FluentAssertions.Specs
 
     public class DerivedCustomerType : CustomerType
     {
+        public string DerivedInfo { get; set; }
+
         public DerivedCustomerType(string code) : base(code)
         {
         }
