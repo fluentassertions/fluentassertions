@@ -104,6 +104,30 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_asserting_equivilence_on_a_string_it_should_use_string_specific_failure_messages()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+
+            // DateTime is used as an example because the current implemention
+            // would hit the recusion-depth limit if structural equivilence were attempted.
+            string s1= "hello";
+            string s2 = "good-bye";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => s1.ShouldBeEquivalentTo(s2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*to be \"good-bye\" with a length of 8, but \"hello\" has a length of 5*");
+        }
+
         #endregion
 
         #region Selection Rules
@@ -740,13 +764,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => "hello".ShouldBeEquivalentTo(expectation);
+            Action action = () => 123.ShouldBeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Subject is of a non-collection type collection and cannot be compared to a collection*");
+            action.ShouldThrow<AssertFailedException>();
         }
 
         #endregion

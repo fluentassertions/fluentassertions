@@ -24,6 +24,7 @@ namespace FluentAssertions.Equivalency
             new ApplyAssertionRulesEquivalencyStep(),
             new DictionaryEquivalencyStep(),
             new EnumerableEquivalencyStep(),
+            new StringEqualityEquivalencyStep(),
             new SystemTypeEquivalencyStep(),
             new EnumEqualityStep(),
             new StructuralEqualityEquivalencyStep(),

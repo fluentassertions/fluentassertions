@@ -59,6 +59,7 @@
     <Compile Include="Common\DateTimeExtensions.cs" />
     <Compile Include="Common\NullReflector.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
+    <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
     <Compile Include="Collections\CollectionAssertions.cs" />
