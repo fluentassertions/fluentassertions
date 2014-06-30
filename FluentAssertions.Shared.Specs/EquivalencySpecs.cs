@@ -727,6 +727,30 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Collection Equivalence
+
+        [TestMethod]
+        public void When_a_non_collection_is_compared_to_a_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expectation = new List<Customer>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => "hello".ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Subject is of a non-collection type collection and cannot be compared to a collection*");
+        }
+
+        #endregion
+
         #region DateTime Properties
 
         [TestMethod]
