@@ -1986,13 +1986,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var company1 = new MyCompany { Name = "Company" };
             var user1 = new MyUser { Name = "User", Company = company1 };
-            company1.Users = new List<MyUser> { user1 };
             var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
             company1.Logo = logo1;
 
             var company2 = new MyCompany { Name = "Company" };
             var user2 = new MyUser { Name = "User", Company = company2 };
-            company2.Users = new List<MyUser> { user2 };
             var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
             company2.Logo = logo2;
 
@@ -3188,6 +3186,35 @@ namespace FluentAssertions.Specs
             #endregion
 
             #region Cyclic References
+
+            [TestMethod]
+            public void When_the_root_object_is_referenced_from_an_object_in_a_nested_collection_it_should_treat_it_as_a_cyclic_reference()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var company1 = new MyCompany { Name = "Company" };
+                var user1 = new MyUser { Name = "User", Company = company1 };
+                company1.Users = new List<MyUser> { user1 };
+                var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
+                company1.Logo = logo1;
+
+                var company2 = new MyCompany { Name = "Company" };
+                var user2 = new MyUser { Name = "User", Company = company2 };
+                company2.Users = new List<MyUser> { user2 };
+                var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
+                company2.Logo = logo2;
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action = () => company1.ShouldBeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
 
             [TestMethod]
             public void
