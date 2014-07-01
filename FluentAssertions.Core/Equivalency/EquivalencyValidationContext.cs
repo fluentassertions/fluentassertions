@@ -91,20 +91,35 @@ namespace FluentAssertions.Equivalency
             object subject = nestedProperty.GetValue(Subject, null);
             object expectation = matchingProperty.GetValue(Expectation, null);
 
-            return CreateNested(nestedProperty, subject, expectation, "property ",
-                nestedProperty.Name, ".");
+            return CreateNested(
+                nestedProperty,
+                subject,
+                expectation,
+                "property ",
+                nestedProperty.Name,
+                ".");
         }
 
-        public EquivalencyValidationContext CreateForCollectionItem(int index, object subject, object expectation)
+        public EquivalencyValidationContext CreateForCollectionItem<T>(int index, T subject, object expectation)
         {
-            return CreateNested(PropertyInfo, subject, expectation, "item",
-                "[" + index + "]", "");
+            return CreateNested(
+                PropertyInfo,
+                subject,
+                expectation,
+                "item",
+                "[" + index + "]",
+                string.Empty);
         }
 
         public EquivalencyValidationContext CreateForDictionaryItem(object key, object subject, object expectation)
         {
-            return CreateNested(PropertyInfo, subject, expectation, "pair", "[" + key + "]",
-                "");
+            return CreateNested(
+                PropertyInfo,
+                subject,
+                expectation,
+                "pair",
+                "[" + key + "]",
+                string.Empty);
         }
 
         private EquivalencyValidationContext CreateNested(

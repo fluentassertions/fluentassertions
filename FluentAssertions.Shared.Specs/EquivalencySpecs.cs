@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -818,7 +819,6 @@ namespace FluentAssertions.Specs
                     Time = (DateTime?) new DateTime(2013, 12, 9, 15, 58, 0)
                 };
             
-
             var other = 
                 new
                 {
@@ -2430,6 +2430,52 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 act.ShouldNotThrow();
             }
+
+            #region Generics
+
+            [TestMethod]
+            public void When_a_type_implements_multiple_IEnumerable_interfaces_it_should_fail_descriptively()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var enumerable1 = new EnumerableOfStringAndObject();
+                var enumerable2 = new EnumerableOfStringAndObject();
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => enumerable1.ShouldBeEquivalentTo(enumerable2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "Subject is enumerable for more than one type.  " +
+                        "It is not known which type should be use for equivalence.\r\n" +
+                        "IEnumerable is implemented for the following types: System.String, System.Object*");
+            }
+
+            private class EnumerableOfStringAndObject : IEnumerable<string>, IEnumerable<object>
+            {
+                IEnumerator IEnumerable.GetEnumerator()
+                {
+                    return GetEnumerator();
+                }
+
+                IEnumerator<object> IEnumerable<object>.GetEnumerator()
+                {
+                    return GetEnumerator();
+                }
+
+                public IEnumerator<string> GetEnumerator()
+                {
+                    yield return string.Empty;
+                }
+            }
+
+            #endregion
 
             #region Collection Equivalence
 

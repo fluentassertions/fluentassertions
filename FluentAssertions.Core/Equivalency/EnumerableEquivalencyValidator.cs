@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -25,7 +28,7 @@ namespace FluentAssertions.Equivalency
 
         public OrderingRuleCollection OrderingRules { get; set; }
 
-        public void Execute(object[] subject, object[] expectation)
+        public void Execute<T>(T[] subject, object[] expectation)
         {
             if (AssertLengthEquality(subject.Length, expectation.Length))
             {
@@ -48,11 +51,11 @@ namespace FluentAssertions.Equivalency
                     expectationLength, subjectLength);
         }
 
-        private void AssertElementGraphEquivalency(object[] subjects, object[] expectations)
+        private void AssertElementGraphEquivalency<T>(T[] subjects, object[] expectations)
         {
-            matchedSubjectIndexes = new System.Collections.Generic.List<int>();
+            matchedSubjectIndexes = new List<int>();
 
-            for (int index = 0; index < expectations.Length; index++)
+            foreach (int index in Enumerable.Range(0, expectations.Length))
             {
                 object expectation = expectations[index];
 
@@ -67,17 +70,17 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private System.Collections.Generic.List<int> matchedSubjectIndexes;
+        private List<int> matchedSubjectIndexes;
 
-        private void LooselyMatchAgainst(object[] subjects, object expectation, int expectationIndex)
+        private void LooselyMatchAgainst<T>(IList<T> subjects, object expectation, int expectationIndex)
         {
             var results = new AssertionResultSet();
 
-            for (int index = 0; index < subjects.Length; index++)
+            foreach (int index in Enumerable.Range(0, subjects.Count))
             {
                 if (!matchedSubjectIndexes.Contains(index))
                 {
-                    object subject = subjects[index];
+                    T subject = subjects[index];
 
                     results.AddSet(index, TryToMatch(subject, expectation, expectationIndex));
                     if (results.ContainsSuccessfulSet)
@@ -94,7 +97,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private string[] TryToMatch(object subject, object expectation, int expectationIndex)
+        private string[] TryToMatch<T>(T subject, object expectation, int expectationIndex)
         {
             using (var scope = new AssertionScope())
             {
@@ -104,7 +107,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private void StrictlyMatchAgainst(object[] subjects, object expectation, int expectationIndex)
+        private void StrictlyMatchAgainst<T>(T[] subjects, object expectation, int expectationIndex)
         {
             parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex, subjects[expectationIndex], expectation));
         }
