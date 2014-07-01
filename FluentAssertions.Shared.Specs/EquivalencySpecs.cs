@@ -2459,6 +2459,100 @@ namespace FluentAssertions.Specs
                 act.ShouldNotThrow();
             }
 
+            #region Non-Generic Collections
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_collections_it_should_respect_the_declared_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                ICollection collection1 = new NonGenericCollection(new[] { new Car() });
+                ICollection collection2 = new NonGenericCollection(new[] { new Customer() });
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => collection1.ShouldBeEquivalentTo(collection2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("the declared type is object");
+            }
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                ICollection collection1 = new NonGenericCollection(new[] { new Car() });
+                ICollection collection2 = new NonGenericCollection(new[] { new Customer() });
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act =
+                    () =>
+                        collection1.ShouldBeEquivalentTo(collection2,
+                            opts => opts.IncludingAllRuntimeProperties());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>("the types have different properties");
+            }
+
+            private class NonGenericCollection : ICollection
+            {
+                private readonly IList<object> inner;
+
+                public NonGenericCollection(IList<object> inner)
+                {
+                    this.inner = inner;
+                }
+
+                public IEnumerator GetEnumerator()
+                {
+                    foreach (var @object in inner)
+                    {
+                        yield return @object;
+                    }
+                }
+
+                public void CopyTo(Array array, int index)
+                {
+                    ((ICollection)inner).CopyTo(array, index);
+                }
+
+                public int Count
+                {
+                    get
+                    {
+                        return inner.Count;
+                    }
+                }
+
+                public object SyncRoot
+                {
+                    get
+                    {
+                        return ((ICollection)inner).SyncRoot;
+                    }
+                }
+
+                public bool IsSynchronized
+                {
+                    get
+                    {
+                        return ((ICollection)inner).IsSynchronized;
+                    }
+                }
+            }
+
+            #endregion
+
             #region Generics
 
             [TestMethod]
@@ -2483,6 +2577,49 @@ namespace FluentAssertions.Specs
                         "Subject is enumerable for more than one type.  " +
                         "It is not known which type should be use for equivalence.\r\n" +
                         "IEnumerable is implemented for the following types: System.String, System.Object*");
+            }
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_generic_collections_it_should_respect_the_declared_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var collection1 = new Collection<CustomerType> { new DerivedCustomerType("123") };
+                var collection2 = new Collection<CustomerType> { new CustomerType("123") };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => collection1.ShouldBeEquivalentTo(collection2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("the objects are equivalent according to the members on the declared type");
+            }
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_generic_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var collection1 = new Collection<CustomerType> { new DerivedCustomerType("123") };
+                var collection2 = new Collection<CustomerType> { new CustomerType("123") };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act =
+                    () =>
+                        collection1.ShouldBeEquivalentTo(collection2,
+                            opts => opts.IncludingAllRuntimeProperties());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>("the runtime types have different properties");
             }
 
             private class EnumerableOfStringAndObject : IEnumerable<string>, IEnumerable<object>

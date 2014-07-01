@@ -97,7 +97,8 @@ namespace FluentAssertions.Equivalency
                 expectation,
                 "property ",
                 nestedProperty.Name,
-                ".");
+                ".",
+                nestedProperty.PropertyType);
         }
 
         public EquivalencyValidationContext CreateForCollectionItem<T>(int index, T subject, object expectation)
@@ -108,7 +109,8 @@ namespace FluentAssertions.Equivalency
                 expectation,
                 "item",
                 "[" + index + "]",
-                string.Empty);
+                string.Empty,
+                typeof(T));
         }
 
         public EquivalencyValidationContext CreateForDictionaryItem(object key, object subject, object expectation)
@@ -119,12 +121,14 @@ namespace FluentAssertions.Equivalency
                 expectation,
                 "pair",
                 "[" + key + "]",
-                string.Empty);
+                string.Empty,
+                PropertyInfo.PropertyType);
         }
 
         private EquivalencyValidationContext CreateNested(
             PropertyInfo subjectProperty, object subject, object expectation,
-            string memberType, string memberDescription, string separator)
+            string memberType, string memberDescription, string separator,
+            Type compileTimeType)
         {
             string propertyPath = IsRoot ? memberType : PropertyDescription + separator;
 
