@@ -2571,6 +2571,88 @@ namespace FluentAssertions.Specs
                 act.ShouldThrow<AssertFailedException>("the runtime types have different properties");
             }
 
+            [TestMethod]
+            public void When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_is_should_respect_the_declared_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                ICollection collection1 = new List<Car> { new Car() };
+                ICollection collection2 = new List<Customer> { new Customer() };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => collection1.ShouldBeEquivalentTo(collection2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("the declared type is object");
+            }
+
+            [TestMethod]
+            public void When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                ICollection collection1 = new List<Car> { new Car() };
+                ICollection collection2 = new List<Customer> { new Customer() };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act =
+                    () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeProperties());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>("the items have different runtime types");
+            }
+
+            [TestMethod]
+            public void When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
+                IEnumerable<string> collection2 = new EnumerableOfStringAndObject();
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => collection1.ShouldBeEquivalentTo(collection2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("the declared type is assignable to only one IEnumerable interface");
+            }
+
+            [TestMethod]
+            public void When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
+                IEnumerable<string> collection2 = new EnumerableOfStringAndObject();
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act =
+                    () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeProperties());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>("the runtime type is assignable to two IEnumerable interfaces");
+            }
+
             private class EnumerableOfStringAndObject : IEnumerable<string>, IEnumerable<object>
             {
                 IEnumerator IEnumerable.GetEnumerator()

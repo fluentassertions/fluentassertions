@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.Subject != null) && IsGenericCollection(context.Subject);
+            return (context.Subject != null) && IsGenericCollection(context.Subject.GetType());
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            Type[] interfaces = GetIEnumerableInterfaces(context.Subject);
+            Type[] interfaces = GetIEnumerableInterfaces(context.Subject.GetType());
             bool multipleInterfaces = (interfaces.Count() > 1);
 
             if (multipleInterfaces)
@@ -76,32 +76,34 @@ namespace FluentAssertions.Equivalency
         private static bool AssertExpectationIsCollection(object expectation)
         {
             return AssertionScope.Current
-                .ForCondition(IsGenericCollection(expectation))
+                .ForCondition(IsGenericCollection(expectation.GetType()))
                 .FailWith(
                     "{context:Subject} is a collection and cannot be compared with a non-collection type.");
         }
 
-        private static bool IsGenericCollection(object value)
+        private static bool IsGenericCollection(Type type)
         {
-            var enumerableInterfaces = GetIEnumerableInterfaces(value);
+            var enumerableInterfaces = GetIEnumerableInterfaces(type);
 
-            return !(value is string) && enumerableInterfaces.Any();
+            return !typeof(string).IsAssignableFrom(type) && enumerableInterfaces.Any();
         }
 
-        private static Type[] GetIEnumerableInterfaces(object value)
+        private static Type[] GetIEnumerableInterfaces(Type type)
         {
-            return value.GetType()
-                .GetInterfaces()
-                .Where(
-                    type =>
-                        (type.IsGenericType &&
-                         (type.GetGenericTypeDefinition() ==
-                          typeof(IEnumerable<>)))).ToArray();
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                return new[] { type };
+            }
+
+            return
+                type.GetInterfaces()
+                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
+                    .ToArray();
         }
 
         private static Type GetTypeOfEnumeration(EquivalencyValidationContext context)
         {
-            Type interfaceType = GetIEnumerableInterfaces(context.Subject).Single();
+            Type interfaceType = GetIEnumerableInterfaces(context.Subject.GetType()).Single();
 
             return interfaceType.GetGenericArguments().Single();
         }
