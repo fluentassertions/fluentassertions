@@ -132,7 +132,6 @@ namespace FluentAssertions.Equivalency
         {
             string propertyPath = IsRoot ? memberType : PropertyDescription + separator;
 
-            //Bug? Compile time type should be based on property not subject, else we always get all runtime properties.
             return new EquivalencyValidationContext
             {
                 PropertyInfo = subjectProperty,
@@ -142,7 +141,7 @@ namespace FluentAssertions.Equivalency
                 PropertyDescription = propertyPath + memberDescription,
                 Reason = Reason,
                 ReasonArgs = ReasonArgs,
-                CompileTimeType = (subject != null) ? subject.GetType() : null,
+                CompileTimeType = compileTimeType,
             };
         }
     }
