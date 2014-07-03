@@ -89,14 +89,19 @@ namespace FluentAssertions.Equivalency
         internal IEnumerable<PropertyInfo> GetSelectedProperties(EquivalencyValidationContext context, 
             IEquivalencyAssertionOptions config)
         {
-            IEnumerable<PropertyInfo> properties = new List<PropertyInfo>();
+            IEnumerable<PropertyInfo> properties = Enumerable.Empty<PropertyInfo>();
 
             foreach (ISelectionRule selectionRule in config.SelectionRules)
             {
                 properties = selectionRule.SelectProperties(properties, context);
             }
 
-            return properties;
+            return properties.Where(IsNotIndexer);
+        }
+
+        private static bool IsNotIndexer(PropertyInfo property)
+        {
+            return (property.GetIndexParameters().Length == 0);
         }
     }
 }

@@ -382,6 +382,27 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_a_property_is_an_indexer_it_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new ClassWithIndexer {Foo = "test"};
+            var result = new ClassWithIndexer { Foo = "test" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => result.ShouldBeEquivalentTo(expected);
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
         public class BaseWithFoo
         {
             public object Foo { get; set; }
@@ -409,6 +430,21 @@ namespace FluentAssertions.Specs
                 get { return (T)base.Foo; }
 
                 set { base.Foo = value; }
+            }
+        }
+
+        public class ClassWithIndexer
+        {
+            public object Foo { get; set; }
+
+            public string this[int n]
+            {
+                get
+                {
+                    return
+                        n.ToString(
+                            System.Globalization.CultureInfo.InvariantCulture);
+                }
             }
         }
 
