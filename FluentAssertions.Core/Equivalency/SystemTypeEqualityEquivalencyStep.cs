@@ -28,16 +28,6 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
         {
-            if (context.Subject is string)
-            {
-                AssertionRule<string> stringRule = new AssertionRule<string>(
-                    ctx =>
-                        ctx.Subject.Should()
-                            .Be(ctx.Expectation, ctx.Reason, ctx.ReasonArgs));
-
-                return stringRule.AssertEquality(context);
-            }
-
             context.Subject.Should().Be(context.Expectation, context.Reason, context.ReasonArgs);
 
             return true;

@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return true;
+            return (context.PropertyInfo != null);
         }
 
         /// <summary>
@@ -24,12 +24,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            if (context.PropertyInfo != null)
-            {
-                return config.AssertionRules.Any(rule => rule.AssertEquality(context));
-            }
-
-            return false;
+            return config.AssertionRules.Any(rule => rule.AssertEquality(context));
         }
     }
 }
