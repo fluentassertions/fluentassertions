@@ -54,7 +54,9 @@
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AssertionExtensions.WinRT.cs" />
+    <Compile Include="..\FluentAssertions.WinRT80\Common\PlatformInitializer.cs">
+      <Link>Common\PlatformInitializer.cs</Link>
+    </Compile>
     <Compile Include="Execution\MSTestFramework.cs" />
     <Compile Include="Execution\NUnitPclTestFramework.cs" />
     <Compile Include="Execution\TestFrameworkProvider.cs" />
@@ -73,6 +75,7 @@
     <TargetPlatform Include="Windows, Version=8.1" />
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

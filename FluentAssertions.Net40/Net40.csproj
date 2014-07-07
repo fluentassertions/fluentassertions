@@ -67,9 +67,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssertionExtensions.Net40.cs" />
     <Compile Include="Common\AppSettingsConfigurationStore.cs" />
     <Compile Include="Common\DefaultReflectionProvider.cs" />
+    <Compile Include="Common\PlatformInitializer.cs" />
     <Compile Include="EventSourceExtensions.cs" />
     <Compile Include="Execution\GallioTestFramework.cs" />
     <Compile Include="Execution\MbUnitTestFramework.cs" />

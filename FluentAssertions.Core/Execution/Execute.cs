@@ -1,4 +1,6 @@
-﻿namespace FluentAssertions.Execution
+﻿using FluentAssertions.Common;
+
+namespace FluentAssertions.Execution
 {
     /// <summary>
     /// Helper class for verifying a condition and/or throwing a test harness specific exception representing an assertion failure.
@@ -10,7 +12,12 @@
         /// </summary>
         public static AssertionScope Assertion
         {
-            get { return AssertionScope.Current; }
+            get
+            {
+                Services.Initialize();
+
+                return AssertionScope.Current;
+            }
         }
     }
 }

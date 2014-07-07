@@ -101,9 +101,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Compile Include="..\FluentAssertions.WinRT\AssertionExtensions.WinRT.cs">
-      <Link>AssertionExtensions.WinRT.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.WinRT\Execution\MSTestFramework.cs">
       <Link>Execution\MSTestFramework.cs</Link>
     </Compile>
@@ -116,6 +113,7 @@
     <Compile Include="..\FluentAssertions.WinRT\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Common\PlatformInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
@@ -128,6 +126,7 @@
       <Link>FluentAssertions.snk</Link>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>

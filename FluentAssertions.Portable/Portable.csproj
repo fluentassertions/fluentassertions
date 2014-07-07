@@ -53,7 +53,7 @@
     <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
       <Link>EventSourceExtensions.cs</Link>
     </Compile>
-    <Compile Include="AssertionExtensions.Portable.cs" />
+    <Compile Include="Common\PlatformInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

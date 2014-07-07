@@ -1,13 +1,12 @@
-﻿using FluentAssertions.Common;
-using FluentAssertions.Formatting;
+﻿using FluentAssertions.Formatting;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FluentAssertions
+namespace FluentAssertions.Common
 {
-    public static partial class AssertionExtensions
+    public class PlatformInitializer : IPlatformInitializer
     {
-        static AssertionExtensions()
+        public void Initialize()
         {
             Services.ThrowException = message => { throw new AssertFailedException(message); };
             Services.Reflector = new SilverlightReflector();
