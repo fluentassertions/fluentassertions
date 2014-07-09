@@ -57,7 +57,11 @@
     <Compile Include="Collections\SelfReferencingCollectionAssertions.cs" />
     <Compile Include="Collections\WhichValueConstraint.cs" />
     <Compile Include="Common\DateTimeExtensions.cs" />
+    <Compile Include="Common\IAdapterResolver.cs" />
+    <Compile Include="Common\IPlatformInitializer.cs" />
     <Compile Include="Common\NullReflector.cs" />
+    <Compile Include="Common\PlatformAdapter.cs" />
+    <Compile Include="Common\ProbingAdapterResolver.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />

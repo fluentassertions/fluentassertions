@@ -71,6 +71,9 @@
     <Compile Include="..\FluentAssertions.Net40\Common\DefaultReflectionProvider.cs">
       <Link>Common\DefaultReflectionProvider.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Common\PlatformInitializer.cs">
+      <Link>Common\PlatformInitializer.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
       <Link>EventSourceExtensions.cs</Link>
     </Compile>
@@ -98,7 +101,6 @@
     <Compile Include="..\FluentAssertions.Net40\ObjectAssertionsExtensions.cs">
       <Link>ObjectAssertionsExtensions.cs</Link>
     </Compile>
-    <Compile Include="AssertionExtensions.Net45.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

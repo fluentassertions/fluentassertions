@@ -13,7 +13,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FluentAssertions</RootNamespace>
-    <AssemblyName>FluentAssertions.Silverlight</AssemblyName>
+    <AssemblyName>FluentAssertions</AssemblyName>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
@@ -63,7 +63,7 @@
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>Bin\Debug\FluentAssertions.Silverlight.XML</DocumentationFile>
+    <DocumentationFile>Bin\Debug\FluentAssertions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -74,7 +74,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\sl5\FluentAssertions.Silverlight.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\sl5\FluentAssertions.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -104,7 +104,7 @@
     <Reference Include="System.Xml.Linq, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssertionExtensions.Silverlight.cs" />
+    <Compile Include="Common\PlatformInitializer.cs" />
     <Compile Include="Common\SilverlightReflector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

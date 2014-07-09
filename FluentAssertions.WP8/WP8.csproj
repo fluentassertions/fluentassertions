@@ -105,7 +105,7 @@
     <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
       <Link>EventSourceExtensions.cs</Link>
     </Compile>
-    <Compile Include="AssertionExtensions.WP.cs" />
+    <Compile Include="Common\PlatformInitializer.cs" />
     <Compile Include="Common\WpReflector.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />
     <Compile Include="Execution\TestFrameworkProvider.cs" />

@@ -1,12 +1,11 @@
-﻿using FluentAssertions.Common;
-using FluentAssertions.Execution;
+﻿using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 
-namespace FluentAssertions
+namespace FluentAssertions.Common
 {
-    public static partial class AssertionExtensions
+    public class PlatformInitializer : IPlatformInitializer
     {
-        static AssertionExtensions()
+        public void Initialize()
         {
             Services.Configuration = new Configuration(new AppSettingsConfigurationStore());
             Services.ThrowException = TestFrameworkProvider.Throw;
