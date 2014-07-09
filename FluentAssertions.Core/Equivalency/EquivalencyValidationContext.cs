@@ -91,25 +91,44 @@ namespace FluentAssertions.Equivalency
             object subject = nestedProperty.GetValue(Subject, null);
             object expectation = matchingProperty.GetValue(Expectation, null);
 
-            return CreateNested(nestedProperty, subject, expectation, "property ",
-                nestedProperty.Name, ".");
+            return CreateNested(
+                nestedProperty,
+                subject,
+                expectation,
+                "property ",
+                nestedProperty.Name,
+                ".",
+                nestedProperty.PropertyType);
         }
 
-        public EquivalencyValidationContext CreateForCollectionItem(int index, object subject, object expectation)
+        public EquivalencyValidationContext CreateForCollectionItem<T>(int index, T subject, object expectation)
         {
-            return CreateNested(PropertyInfo, subject, expectation, "item",
-                "[" + index + "]", "");
+            return CreateNested(
+                PropertyInfo,
+                subject,
+                expectation,
+                "item",
+                "[" + index + "]",
+                string.Empty,
+                typeof(T));
         }
 
         public EquivalencyValidationContext CreateForDictionaryItem(object key, object subject, object expectation)
         {
-            return CreateNested(PropertyInfo, subject, expectation, "pair", "[" + key + "]",
-                "");
+            return CreateNested(
+                PropertyInfo,
+                subject,
+                expectation,
+                "pair",
+                "[" + key + "]",
+                string.Empty,
+                PropertyInfo.PropertyType);
         }
 
         private EquivalencyValidationContext CreateNested(
             PropertyInfo subjectProperty, object subject, object expectation,
-            string memberType, string memberDescription, string separator)
+            string memberType, string memberDescription, string separator,
+            Type compileTimeType)
         {
             string propertyPath = IsRoot ? memberType : PropertyDescription + separator;
 
@@ -122,7 +141,7 @@ namespace FluentAssertions.Equivalency
                 PropertyDescription = propertyPath + memberDescription,
                 Reason = Reason,
                 ReasonArgs = ReasonArgs,
-                CompileTimeType = (subject != null) ? subject.GetType() : null,
+                CompileTimeType = compileTimeType,
             };
         }
     }
