@@ -1958,26 +1958,6 @@ namespace FluentAssertions.Specs
             public string Key { get; protected set; }
         }
 
-        private class MyCompany
-        {
-            public string Name { get; set; }
-            public MyCompanyLogo Logo { get; set; }
-            public List<MyUser> Users { get; set; }
-        }
-
-        private class MyUser
-        {
-            public string Name { get; set; }
-            public MyCompany Company { get; set; }
-        }
-
-        private class MyCompanyLogo
-        {
-            public string Url { get; set; }
-            public MyCompany Company { get; set; }
-            public MyUser CreatedBy { get; set; }
-        }
-
         [TestMethod]
         public void When_the_root_object_is_referenced_from_a_nested_object_it_should_treat_it_as_a_cyclic_reference()
         {
@@ -2314,37 +2294,6 @@ namespace FluentAssertions.Specs
             }
 
             public string SomeOtherProperty { get; set; }
-        }
-
-        private class ClassWithInfinitelyRecursiveProperty
-        {
-            public ClassWithInfinitelyRecursiveProperty Self
-            {
-                get
-                {
-                    return new ClassWithInfinitelyRecursiveProperty();
-                }
-            }
-        }
-
-        private class ClassWithFiniteRecursiveProperty
-        {
-            private readonly int depth;
-
-            public ClassWithFiniteRecursiveProperty(int recursiveDepth)
-            {
-                depth = recursiveDepth;
-            }
-
-            public ClassWithFiniteRecursiveProperty Self
-            {
-                get
-                {
-                    return depth > 0
-                        ? new ClassWithFiniteRecursiveProperty(depth - 1)
-                        : null;
-                }
-            }
         }
 
         private enum EnumOne
@@ -3671,6 +3620,57 @@ namespace FluentAssertions.Specs
 
             #endregion
         }
+    }
+
+    internal class ClassWithInfinitelyRecursiveProperty
+    {
+        public ClassWithInfinitelyRecursiveProperty Self
+        {
+            get
+            {
+                return new ClassWithInfinitelyRecursiveProperty();
+            }
+        }
+    }
+
+    internal class ClassWithFiniteRecursiveProperty
+    {
+        private readonly int depth;
+
+        public ClassWithFiniteRecursiveProperty(int recursiveDepth)
+        {
+            depth = recursiveDepth;
+        }
+
+        public ClassWithFiniteRecursiveProperty Self
+        {
+            get
+            {
+                return depth > 0
+                    ? new ClassWithFiniteRecursiveProperty(depth - 1)
+                    : null;
+            }
+        }
+    }
+
+    internal class MyCompanyLogo
+    {
+        public string Url { get; set; }
+        public MyCompany Company { get; set; }
+        public MyUser CreatedBy { get; set; }
+    }
+
+    internal class MyUser
+    {
+        public string Name { get; set; }
+        public MyCompany Company { get; set; }
+    }
+
+    internal class MyCompany
+    {
+        public string Name { get; set; }
+        public MyCompanyLogo Logo { get; set; }
+        public List<MyUser> Users { get; set; }
     }
 
     public class Customer : Entity
