@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentAssertions.Equivalency
@@ -9,7 +10,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.PropertyInfo != null);
+            return true;
         }
 
         /// <summary>
@@ -22,9 +23,14 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            return config.AssertionRules.Any(rule => rule.AssertEquality(context));
+            IEnumerable<IEquivalencyStep> assertionRules =
+                config.AssertionRules.Select(assertionRule => new AssertionRuleEquivalencyStepAdaptor(assertionRule));
+
+            return
+                assertionRules.Where(rule => rule.CanHandle(context, config))
+                    .Any(rule => rule.Handle(context, parent, config));
         }
     }
 }

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 
 using FluentAssertions.Common;
@@ -19,7 +17,7 @@ namespace FluentAssertions.Equivalency
         /// Gets the <see cref="ISubjectInfo.PropertyInfo" /> of the property that returned the current object, or 
         /// <c>null</c> if the current object represents the root object.
         /// </summary>
-        public PropertyInfo PropertyInfo { get; private set; }
+        public PropertyInfo PropertyInfo { get; set; }
 
         /// <summary>
         ///   Gets the full path from the root object until the current property, separated by dots.
@@ -29,7 +27,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         ///   Gets a textual description of the current property based on the <see cref="PropertyPath" />.
         /// </summary>
-        public string PropertyDescription { get; private set; }
+        public string PropertyDescription { get; set; }
 
         /// <summary>
         /// Gets the value of the <see cref="ISubjectInfo.PropertyInfo" />
