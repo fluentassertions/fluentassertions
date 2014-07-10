@@ -30,6 +30,9 @@ namespace FluentAssertions.Equivalency
         private readonly List<IEquivalencyStep> equivalencySteps = new List<IEquivalencyStep>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private readonly List<IEquivalencyStep> userEquivalencySteps = new List<IEquivalencyStep>();
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -63,7 +66,7 @@ namespace FluentAssertions.Equivalency
                     new IEquivalencyStep[]
                         {
                             new TryConversionEquivalencyStep(), new ReferenceEqualityEquivalencyStep(),
-                            new ApplyAssertionRulesEquivalencyStep(), new GenericDictionaryEquivalencyStep(),
+                            new AggregateEquivalencyStep(), new GenericDictionaryEquivalencyStep(),
                             new DictionaryEquivalencyStep(), new GenericEnumerableEquivalencyStep(),
                             new EnumerableEquivalencyStep(), new StringEqualityEquivalencyStep(),
                             new SystemTypeEquivalencyStep(), new EnumEqualityStep(),
@@ -118,6 +121,14 @@ namespace FluentAssertions.Equivalency
         IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.EquivalencySteps
         {
             get { return equivalencySteps; }
+        }
+
+        /// <summary>
+        /// Gets an ordered collection of Equivalency steps how a subject is comparted with the expectation.
+        /// </summary>
+        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps
+        {
+            get { return userEquivalencySteps; }
         }
 
         /// <summary>
@@ -337,6 +348,14 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
+        /// </summary>
+        public EquivalencyAssertionOptions<TSubject> Using(IEquivalencyStep equivalencyStep)
+        {
+            return AddEquivalencyStep(equivalencyStep);
+        }
+
+        /// <summary>
         /// Causes all collections to be compared in the order in which the items appear in the expectation.
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> WithStrictOrdering()
@@ -423,7 +442,13 @@ namespace FluentAssertions.Equivalency
 
         private EquivalencyAssertionOptions<TSubject> AddAssertionRule(IAssertionRule assertionRule)
         {
-            assertionRules.Insert(0, assertionRule);
+            AddEquivalencyStep(new AssertionRuleEquivalencyStepAdaptor(assertionRule));
+            return this;
+        }
+
+        private EquivalencyAssertionOptions<TSubject> AddEquivalencyStep(IEquivalencyStep equivalencyStep)
+        {
+            userEquivalencySteps.Insert(0, equivalencyStep);
             return this;
         }
 

@@ -90,7 +90,7 @@
     <Compile Include="Common\ValueFormatterDetectionMode.cs" />
     <Compile Include="Equivalency\AllDeclaredPublicPropertiesSelectionRule.cs" />
     <Compile Include="Equivalency\AllRuntimePublicPropertiesSelectionRule.cs" />
-    <Compile Include="Equivalency\ApplyAssertionRulesEquivalencyStep.cs" />
+    <Compile Include="Equivalency\AggregateEquivalencyStep.cs" />
     <Compile Include="Equivalency\AssertionResultSet.cs" />
     <Compile Include="Equivalency\AssertionRule.cs" />
     <Compile Include="Equivalency\ByteArrayOrderingRule.cs" />

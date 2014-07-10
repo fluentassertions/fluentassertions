@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class ApplyAssertionRulesEquivalencyStep : IEquivalencyStep
+    internal class AggregateEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
@@ -25,8 +25,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            IEnumerable<IEquivalencyStep> assertionRules =
-                config.AssertionRules.Select(assertionRule => new AssertionRuleEquivalencyStepAdaptor(assertionRule));
+            IEnumerable<IEquivalencyStep> assertionRules = config.UserEquivalencySteps;
 
             return
                 assertionRules.Where(rule => rule.CanHandle(context, config))

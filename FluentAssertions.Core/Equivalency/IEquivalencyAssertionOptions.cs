@@ -54,5 +54,10 @@ namespace FluentAssertions.Equivalency
         /// Gets value indicating how the enums should be compared.
         /// </summary>
         EnumEquivalencyHandling EnumEquivalencyHandling { get; }
+
+        /// <summary>
+        /// Gets an ordered collection of Equivalency steps how a subject is comparted with the expectation.
+        /// </summary>
+        IEnumerable<IEquivalencyStep> UserEquivalencySteps { get; }
     }
 }

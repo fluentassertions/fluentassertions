@@ -31,9 +31,9 @@ namespace FluentAssertions.Equivalency
             IEquivalencyAssertionOptions subConfigOptions)
         {
             //Reverse order because Using prepends
-            foreach (var assertionRule in subConfigOptions.AssertionRules.Reverse())
+            foreach (var equivalencyStep in subConfigOptions.UserEquivalencySteps.Reverse())
             {
-                actualOptions.Using(new CollectionMemberAssertionRuleDecorator(assertionRule));
+                actualOptions.Using(new CollectionMemberAssertionRuleDecorator(equivalencyStep));
             }
         }
 
@@ -81,60 +81,50 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private class CollectionMemberAssertionRuleDecorator : IAssertionRule
+        private class CollectionMemberAssertionRuleDecorator : IEquivalencyStep
         {
-            private readonly IAssertionRule assertionRule;
+            private readonly IEquivalencyStep eqivalencyStep;
 
-            public CollectionMemberAssertionRuleDecorator(IAssertionRule equivalencyStep)
+            public CollectionMemberAssertionRuleDecorator(IEquivalencyStep equivalencyStep)
             {
-                assertionRule = equivalencyStep;
+                eqivalencyStep = equivalencyStep;
             }
 
-            public bool AssertEquality(IEquivalencyValidationContext context)
+            public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
             {
-                return assertionRule.AssertEquality(new CollectionMemberEquivalencyValidationContext(context));
+                return eqivalencyStep.CanHandle(CreateAdjustedCopy(context), config);
+            }
+
+            public bool Handle(
+                EquivalencyValidationContext context,
+                IEquivalencyValidator parent,
+                IEquivalencyAssertionOptions config)
+            {
+                var equivalencyValidationContext = CreateAdjustedCopy(context);
+
+                return eqivalencyStep.Handle(equivalencyValidationContext, parent, config);
+            }
+
+            private static EquivalencyValidationContext CreateAdjustedCopy(EquivalencyValidationContext context)
+            {
+                return new EquivalencyValidationContext
+                           {
+                               CompileTimeType = context.CompileTimeType,
+                               Expectation = context.Expectation,
+                               PropertyDescription = context.PropertyDescription,
+                               PropertyInfo = context.PropertyInfo,
+                               PropertyPath =
+                                   CollectionMemberSubjectInfo.GetAdjustedPropertyPath(
+                                       context.PropertyPath),
+                               Reason = context.Reason,
+                               ReasonArgs = context.ReasonArgs,
+                               Subject = context.Subject
+                           };
             }
 
             public override string ToString()
             {
-                return assertionRule.ToString();
-            }
-
-            private class CollectionMemberEquivalencyValidationContext : IEquivalencyValidationContext
-            {
-                internal CollectionMemberEquivalencyValidationContext(IEquivalencyValidationContext context)
-                {
-                    PropertyInfo = context.PropertyInfo;
-                    PropertyPath = CollectionMemberSubjectInfo.GetAdjustedPropertyPath(context.PropertyPath);
-                    PropertyDescription = context.PropertyDescription;
-                    CompileTimeType = context.CompileTimeType;
-                    RuntimeType = context.RuntimeType;
-                    Expectation = context.Expectation;
-                    Reason = context.Reason;
-                    ReasonArgs = context.ReasonArgs;
-                    IsRoot = context.IsRoot;
-                    Subject = context.Subject;
-                }
-
-                public PropertyInfo PropertyInfo { get; private set; }
-
-                public string PropertyPath { get; private set; }
-
-                public string PropertyDescription { get; private set; }
-
-                public Type CompileTimeType { get; private set; }
-
-                public Type RuntimeType { get; private set; }
-
-                public object Expectation { get; private set; }
-
-                public string Reason { get; private set; }
-
-                public object[] ReasonArgs { get; private set; }
-
-                public bool IsRoot { get; private set; }
-
-                public object Subject { get; private set; }
+                return eqivalencyStep.ToString();
             }
         }
 
