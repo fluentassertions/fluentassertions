@@ -126,6 +126,7 @@
       <Link>SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="AssertionExtensions.Net45.cs" />
+    <Compile Include="Execution\XUnit2TestFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

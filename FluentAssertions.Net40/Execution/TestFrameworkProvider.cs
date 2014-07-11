@@ -22,7 +22,10 @@ namespace FluentAssertions.Execution
             { "mbunit", new MbUnitTestFramework() },
             { "gallio", new GallioTestFramework() },
             { "mstest", new MSTestFramework() },
-            { "fallback", new FallbackTestFramework() }
+            { "fallback", new FallbackTestFramework() },
+#if NET45 || WINRT
+            { "xunit2", new XUnit2TestFramework() },
+#endif
         };
 
         private static ITestFramework testFramework;
