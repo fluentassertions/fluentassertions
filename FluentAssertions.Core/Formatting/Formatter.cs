@@ -23,9 +23,6 @@ namespace FluentAssertions.Formatting
             new StringValueFormatter(),
             new ExpressionValueFormatter(),
             new EnumerableValueFormatter(),
-            new XDocumentValueFormatter(),
-            new XElementValueFormatter(),
-            new XAttributeValueFormatter(),
             new ExceptionValueFormatter(),
             new DefaultValueFormatter(),
         };

@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Xml.Linq;
 
 using FluentAssertions.Collections;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
-using FluentAssertions.Xml;
 
 namespace FluentAssertions
 {
@@ -27,33 +25,6 @@ namespace FluentAssertions
         public static Action Invoking<T>(this T subject, Action<T> action)
         {
             return () => action(subject);
-        }
-
-        /// <summary>
-        /// Returns an <see cref="XDocumentAssertions"/> object that can be used to assert the
-        /// current <see cref="XElement"/>.
-        /// </summary>
-        public static XDocumentAssertions Should(this XDocument actualValue)
-        {
-            return new XDocumentAssertions(actualValue);
-        }
-
-        /// <summary>
-        /// Returns an <see cref="XElementAssertions"/> object that can be used to assert the
-        /// current <see cref="XElement"/>.
-        /// </summary>
-        public static XElementAssertions Should(this XElement actualValue)
-        {
-            return new XElementAssertions(actualValue);
-        }
-
-        /// <summary>
-        /// Returns an <see cref="XAttributeAssertions"/> object that can be used to assert the
-        /// current <see cref="XAttribute"/>.
-        /// </summary>
-        public static XAttributeAssertions Should(this XAttribute actualValue)
-        {
-            return new XAttributeAssertions(actualValue);
         }
 
         /// <summary>

@@ -4,7 +4,7 @@ using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
 {
-    internal static class StringExtensions
+    public static class StringExtensions
     {
         /// <summary>
         /// Finds the first index at which the <paramref name="value"/> does not match the <paramref name="expected"/>

@@ -12,6 +12,9 @@ namespace FluentAssertions.Common
             Services.Reflector = new SilverlightReflector();
 
             Formatter.AddFormatter(new AggregateExceptionValueFormatter());
+            Formatter.AddFormatter(new XDocumentValueFormatter());
+            Formatter.AddFormatter(new XElementValueFormatter());
+            Formatter.AddFormatter(new XAttributeValueFormatter());
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Common
 {
-    internal static class ExpressionExtensions
+    public static class ExpressionExtensions
     {
         public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {

@@ -11,7 +11,7 @@
     <RootNamespace>FluentAssertions</RootNamespace>
     <AssemblyName>FluentAssertions.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile336</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
@@ -151,9 +151,6 @@
     <Compile Include="Formatting\StringValueFormatter.cs" />
     <Compile Include="Formatting\TimeSpanValueFormatter.cs" />
     <Compile Include="Formatting\ValueFormatterAttribute.cs" />
-    <Compile Include="Formatting\XAttributeValueFormatter.cs" />
-    <Compile Include="Formatting\XDocumentValueFormatter.cs" />
-    <Compile Include="Formatting\XElementValueFormatter.cs" />
     <Compile Include="NumericAssertionsExtensions.cs" />
     <Compile Include="Numeric\ComparableTypeAssertions.cs" />
     <Compile Include="Numeric\NullableNumericAssertions.cs" />
@@ -194,9 +191,6 @@
     <Compile Include="Types\TypeAssertions.cs" />
     <Compile Include="Types\TypeSelector.cs" />
     <Compile Include="Types\TypeSelectorAssertions.cs" />
-    <Compile Include="Xml\XAttributeAssertions.cs" />
-    <Compile Include="Xml\XDocumentAssertions.cs" />
-    <Compile Include="Xml\XElementAssertions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

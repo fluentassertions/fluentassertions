@@ -11,6 +11,9 @@ namespace FluentAssertions.Common
             Services.ThrowException = TestFrameworkProvider.Throw;
 
             Formatter.AddFormatter(new AggregateExceptionValueFormatter());
+            Formatter.AddFormatter(new XDocumentValueFormatter());
+            Formatter.AddFormatter(new XElementValueFormatter());
+            Formatter.AddFormatter(new XAttributeValueFormatter());
         }
     }
 }

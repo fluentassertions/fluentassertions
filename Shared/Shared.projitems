@@ -15,7 +15,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Execution\FallbackTestFramework.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Execution\ITestFramework.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Execution\LateBoundTestFramework.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\XAttributeValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\XDocumentValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\XElementValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SolutionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\ExecutionTimeAssertions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xml\XAttributeAssertions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xml\XDocumentAssertions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xml\XElementAssertions.cs" />
   </ItemGroup>
 </Project>

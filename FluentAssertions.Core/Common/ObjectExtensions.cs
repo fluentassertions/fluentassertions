@@ -1,6 +1,6 @@
 namespace FluentAssertions.Common
 {
-    internal static class ObjectExtensions
+    public static class ObjectExtensions
     {
         public static bool IsSameOrEqualTo(this object actual, object expected)
         {
