@@ -10,6 +10,7 @@ namespace FluentAssertions.Execution
 
         private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>
         {
+            { "xunit2", new XUnit2TestFramework()},
             { "nunit-pcl", new NUnitPclTestFramework() },
             { "mstest", new MSTestFramework() }
         };

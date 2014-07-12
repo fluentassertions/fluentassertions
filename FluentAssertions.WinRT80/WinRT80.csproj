@@ -101,6 +101,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="..\FluentAssertions.Net45\Execution\XUnit2TestFramework.cs">
+      <Link>Execution\XUnit2TestFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.WinRT\Execution\MSTestFramework.cs">
       <Link>Execution\MSTestFramework.cs</Link>
     </Compile>

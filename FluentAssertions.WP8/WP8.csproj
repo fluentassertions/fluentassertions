@@ -105,6 +105,9 @@
     <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
       <Link>EventSourceExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net45\Execution\XUnit2TestFramework.cs">
+      <Link>Execution\XUnit2TestFramework.cs</Link>
+    </Compile>
     <Compile Include="Common\PlatformInitializer.cs" />
     <Compile Include="Common\WpReflector.cs" />
     <Compile Include="Execution\AssertionHelper.cs" />

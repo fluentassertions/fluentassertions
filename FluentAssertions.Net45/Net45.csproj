@@ -101,6 +101,7 @@
     <Compile Include="..\FluentAssertions.Net40\ObjectAssertionsExtensions.cs">
       <Link>ObjectAssertionsExtensions.cs</Link>
     </Compile>
+    <Compile Include="Execution\XUnit2TestFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

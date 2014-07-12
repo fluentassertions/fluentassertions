@@ -54,6 +54,9 @@
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net45\Execution\XUnit2TestFramework.cs">
+      <Link>Execution\XUnit2TestFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.WinRT80\Common\PlatformInitializer.cs">
       <Link>Common\PlatformInitializer.cs</Link>
     </Compile>
