@@ -22,8 +22,8 @@ namespace FluentAssertions.Formatting
             new NumericValueFormatter(),
             new StringValueFormatter(),
             new ExpressionValueFormatter(),
-            new EnumerableValueFormatter(),
             new ExceptionValueFormatter(),
+            new EnumerableValueFormatter(),
             new DefaultValueFormatter(),
         };
 
