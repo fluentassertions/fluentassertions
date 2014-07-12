@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Primitives
@@ -36,7 +37,8 @@ namespace FluentAssertions.Primitives
 
         #endregion
 
-        protected internal TimeSpanAssertions(DateTimeOffsetAssertions parentAssertions, DateTimeOffset? subject, TimeSpanCondition condition,
+        protected internal TimeSpanAssertions(DateTimeOffsetAssertions parentAssertions, DateTimeOffset? subject,
+            TimeSpanCondition condition,
             TimeSpan timeSpan)
         {
             this.parentAssertions = parentAssertions;
@@ -59,7 +61,27 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> Before(DateTimeOffset target, string because = "", params object[] reasonArgs)
+        public AndConstraint<DateTimeOffsetAssertions> Before(DateTime target, string because = "",
+            params object[] reasonArgs)
+        {
+            return Before(target.ToDateTimeOffset(), because, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a <see cref="DateTimeOffset"/> occurs a specified amount of time before another <see cref="DateTimeOffset"/>.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="DateTimeOffset"/> to compare the subject with.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> Before(DateTimeOffset target, string because = "",
+            params object[] reasonArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(subject.HasValue)
@@ -91,6 +113,25 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="target">
         /// The <see cref="DateTime"/> to compare the subject with.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
+        /// start with the word <i>because</i>, it is prepended to the message.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> After(DateTime target, string because = "",
+            params object[] reasonArgs)
+        {
+            return After(target.ToDateTimeOffset(), because, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a <see cref="DateTimeOffset"/> occurs a specified amount of time after another <see cref="DateTimeOffset"/>.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="DateTimeOffset"/> to compare the subject with.
         /// </param>
         /// <param name="because">
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
