@@ -3,15 +3,15 @@
   <metadata> 
     <id>FluentAssertions</id>
     <title>Fluent Assertions</title>
-    <version>3.0.9999</version>
+    <version>3.1.9999</version>
     <owners>Dennis Doomen</owners>
-    <authors>Dennis Doomen, Martin Opdam</authors>
+    <authors>Dennis Doomen, Oren Novotny, Adam Voss</authors>
     <summary>
-      Fluent methods for asserting the result of TDD/BDD specs for .NET 4.0/4.5 (Desktop and Windows Store), SL 5, WP8 (VS2012 and VS 2013 SDKs). Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
+      Fluent methods for asserting the result of TDD/BDD specs for .NET 4.0/4.5 (Desktop and Windows Store), SL5, WP8, WP8.1 and WPA8.1. Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
     </summary>
     <description>
       A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or 
-      BDD-style unit test. Runs on 4.0 and 4.5 (Desktop and Windows Store), Silverlight 5 and Windows Phone 8. Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
+      BDD-style unit test. Runs on 4.0 and 4.5 (Desktop and Windows Store), Silverlight 5 and Windows Phone 8, 8.1 and 8.1 for Silverlight. Supports the unit test frameworks NUnit, XUnit, MBUnit, Gallio, MSpec, and NSpec.
     </description> 
     <language>en-US</language>
     <licenseUrl>https://github.com/dennisdoomen/FluentAssertions/blob/master/LICENSE</licenseUrl>    
