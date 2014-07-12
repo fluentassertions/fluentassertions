@@ -95,7 +95,7 @@ task BuildPackage {
 	}
 }
 
-task PublishToMyget -precondition { return ($Branch -eq "master" -or $Branch -eq "<default>") -and ($ApiKey -ne "") } {
+task PublishToMyget -precondition { return ($Branch -eq "master" -or $Branch -eq "<default>" -or $Branch -eq "v3.1") -and ($ApiKey -ne "") } {
     TeamCity-Block "Publishing NuGet Package to Myget" {  
 		$packages = Get-ChildItem $PackageDirectory *.nupkg
 		foreach ($package in $packages) {
