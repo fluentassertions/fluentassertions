@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 using FluentAssertions.Execution;
 
@@ -15,7 +12,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.Subject != null) && IsCollection(context.Subject);
+            return IsCollection(context.Subject);
         }
 
         /// <summary>
@@ -30,23 +27,6 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            Type[] interfaces = GetIEnumerableInterfaces(context.Subject);
-            bool multipleInterfaces = (interfaces.Count() > 1);
-
-            if (multipleInterfaces)
-            {
-                IEnumerable<Type> enumerableTypes = interfaces.Select(
-                    type => type.GetGenericArguments().Single());
-
-                AssertionScope.Current.FailWith(
-                    String.Format(
-                        "{{context:Subject}} is enumerable for more than one type.  " +
-                        "It is not known which type should be use for equivalence.{0}" +
-                        "IEnumerable is implemented for the following types: {1}",
-                        Environment.NewLine,
-                        String.Join(", ", enumerableTypes)));
-            }
-
             if (AssertExpectationIsCollection(context.Expectation))
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
@@ -55,17 +35,7 @@ namespace FluentAssertions.Equivalency
                     OrderingRules = config.OrderingRules
                 };
 
-                Type typeOfEnumeration = GetTypeOfEnumeration(context);
-
-                Expression subjectToArray = ToArray(context.Subject, typeOfEnumeration);
-
-                MethodCallExpression executeExpression = Expression.Call(
-                    Expression.Constant(validator),
-                    "Execute",
-                    new Type[] { typeOfEnumeration }, subjectToArray,
-                    Expression.Constant(ToObjectArray(context.Expectation)));
-
-                Expression.Lambda(executeExpression).Compile().DynamicInvoke();
+                validator.Execute(ToArray(context.Subject), ToArray(context.Expectation));
             }
 
             return true;
@@ -75,66 +45,15 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(IsCollection(expectation))
-                .FailWith(
-                    "{context:Subject} is a collection and cannot be compared with a non-collection type.");
+                .FailWith("{context:Subject} is a collection and cannot be compared with a non-collection type.");
         }
 
-        private static bool IsCollection(object expectation)
+        private static bool IsCollection(object value)
         {
-            return IsGenericCollection(expectation) ||
-                   IsNonGenericCollection(expectation);
+            return (!(value is string) && (value is IEnumerable));
         }
 
-        private static bool IsNonGenericCollection(object value)
-        {
-            return !(value is string) && (value is IEnumerable);
-        }
-
-        private static bool IsGenericCollection(object value)
-        {
-            var enumerableInterfaces = GetIEnumerableInterfaces(value);
-
-            return !(value is string) && enumerableInterfaces.Any();
-        }
-
-        private static Type[] GetIEnumerableInterfaces(object value)
-        {
-            return value.GetType()
-                .GetInterfaces()
-                .Where(
-                    type =>
-                        (type.IsGenericType &&
-                         (type.GetGenericTypeDefinition() ==
-                          typeof (IEnumerable<>)))).ToArray();
-        }
-
-        private static Type GetTypeOfEnumeration(EquivalencyValidationContext context)
-        {
-            Type interfaceType =
-                GetIEnumerableInterfaces(context.Subject).SingleOrDefault();
-
-            return (interfaceType == null)
-                ? typeof(object)
-                : interfaceType.GetGenericArguments().Single();
-        }
-
-        private static Expression ToArray(object value, Type typeOfEnumeration)
-        {
-            if (IsGenericCollection(value))
-            {
-                return Expression.Call(
-                    typeof (Enumerable),
-                    "ToArray",
-                    new Type[] {typeOfEnumeration},
-                    Expression.Constant(value));
-            }
-            else
-            {
-                return Expression.Constant(ToObjectArray(value));
-            }
-        }
-
-        private static object[] ToObjectArray(object value)
+        internal static object[] ToArray(object value)
         {
             return ((IEnumerable)value).Cast<object>().ToArray();
         }
