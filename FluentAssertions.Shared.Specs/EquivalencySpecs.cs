@@ -2981,15 +2981,9 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Arrange
                 //-----------------------------------------------------------------------------------------------------------
-                var subject = new
-                {
-                    Payload = new byte[] { 1, 2, 3, 4, 5, 6 }
-                };
+                var subject = new byte[] { 1, 2, 3, 4, 5, 6 };
 
-                var expectation = new
-                {
-                    Payload = new byte[] { 6, 5, 4, 3, 2, 1 }
-                };
+                var expectation = new byte[] { 6, 5, 4, 3, 2, 1 };
 
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
@@ -3000,7 +2994,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 action.ShouldThrow<AssertFailedException>()
-                    .WithMessage("Expected*Payload[0]*6*1*");
+                    .WithMessage("Expected*item[0]*6*1*");
             }
 
             [TestMethod]
