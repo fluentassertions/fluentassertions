@@ -14,7 +14,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.Subject != null) && IsGenericCollection(context.Subject.GetType());
+            var subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+
+            return (context.Subject != null) && IsGenericCollection(subjectType);
         }
 
         /// <summary>
@@ -29,7 +31,9 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            Type[] interfaces = GetIEnumerableInterfaces(context.Subject.GetType());
+            Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+
+            Type[] interfaces = GetIEnumerableInterfaces(subjectType);
             bool multipleInterfaces = (interfaces.Count() > 1);
 
             if (multipleInterfaces)
@@ -54,7 +58,7 @@ namespace FluentAssertions.Equivalency
                     OrderingRules = config.OrderingRules
                 };
 
-                Type typeOfEnumeration = GetTypeOfEnumeration(context);
+                Type typeOfEnumeration = GetTypeOfEnumeration(subjectType);
 
                 Expression subjectToArray = ToArray(context.Subject, typeOfEnumeration);
                 Expression expectationToArray =
@@ -85,7 +89,7 @@ namespace FluentAssertions.Equivalency
         {
             var enumerableInterfaces = GetIEnumerableInterfaces(type);
 
-            return !typeof(string).IsAssignableFrom(type) && enumerableInterfaces.Any();
+            return (!typeof(string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
         }
 
         private static Type[] GetIEnumerableInterfaces(Type type)
@@ -101,9 +105,9 @@ namespace FluentAssertions.Equivalency
                     .ToArray();
         }
 
-        private static Type GetTypeOfEnumeration(EquivalencyValidationContext context)
+        private static Type GetTypeOfEnumeration(Type enumerableType)
         {
-            Type interfaceType = GetIEnumerableInterfaces(context.Subject.GetType()).Single();
+            Type interfaceType = GetIEnumerableInterfaces(enumerableType).Single();
 
             return interfaceType.GetGenericArguments().Single();
         }
