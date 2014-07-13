@@ -2593,109 +2593,7 @@ namespace FluentAssertions.Specs
 
             #region Collection Equivalence
 
-            [TestMethod]
-            public void
-                When_two_ordered_lists_are_structurally_equivalent_it_should_succeed
-                ()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                var subject = new List<Customer>
-                {
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    }
-                };
-
-                var expectation = new List<Customer>
-                {
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    }
-                };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action action =
-                    () => subject.ShouldAllBeEquivalentTo(expectation);
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                action.ShouldNotThrow();
-            }
-
-            [TestMethod]
-            public void
-                When_two_unordered_lists_are_structurally_equivalent_it_should_succeed
-                ()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                var subject = new[]
-                {
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    }
-                };
-
-                var expectation = new Collection<Customer>
-                {
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    },
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action action =
-                    () => subject.ShouldAllBeEquivalentTo(expectation);
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                action.ShouldNotThrow();
-            }
+            #region ShouldAllBeEquivalentTo
 
             [TestMethod]
             public void
@@ -2865,6 +2763,166 @@ namespace FluentAssertions.Specs
 
             [TestMethod]
             public void
+                When_two_lists_only_differ_in_excluded_properties_it_should_not_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<CustomerDto>
+                {
+                    new CustomerDto
+                    {
+                        Name = "John",
+                        Age = 27,
+                    },
+                    new CustomerDto
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () =>
+                        subject.ShouldAllBeEquivalentTo(expectation,
+                            options => options
+                                .ExcludingMissingProperties()
+                                .Excluding(c => c.Age));
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
+
+            #endregion
+
+            [TestMethod]
+            public void
+                When_two_ordered_lists_are_structurally_equivalent_it_should_succeed
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
+
+            [TestMethod]
+            public void
+                When_two_unordered_lists_are_structurally_equivalent_it_should_succeed
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new[]
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new Collection<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
+
+            [TestMethod]
+            public void
                 When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw
                 ()
             {
@@ -2925,12 +2983,12 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 var subject = new
                 {
-                    Payload = new byte[] {1, 2, 3, 4, 5, 6}
+                    Payload = new byte[] { 1, 2, 3, 4, 5, 6 }
                 };
 
                 var expectation = new
                 {
-                    Payload = new byte[] {6, 5, 4, 3, 2, 1}
+                    Payload = new byte[] { 6, 5, 4, 3, 2, 1 }
                 };
 
                 //-----------------------------------------------------------------------------------------------------------
@@ -2996,60 +3054,6 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 action.ShouldThrow<AssertFailedException>()
                     .WithMessage("Expected*item[1].Age*28*27*");
-            }
-
-            [TestMethod]
-            public void
-                When_two_lists_only_differ_in_excluded_properties_it_should_not_throw
-                ()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                var subject = new List<Customer>
-                {
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    }
-                };
-
-                var expectation = new List<CustomerDto>
-                {
-                    new CustomerDto
-                    {
-                        Name = "John",
-                        Age = 27,
-                    },
-                    new CustomerDto
-                    {
-                        Name = "Jane",
-                        Age = 30,
-                    }
-                };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action action =
-                    () =>
-                        subject.ShouldAllBeEquivalentTo(expectation,
-                            options => options
-                                .ExcludingMissingProperties()
-                                .Excluding(c => c.Age));
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                action.ShouldNotThrow();
             }
 
             [TestMethod]
