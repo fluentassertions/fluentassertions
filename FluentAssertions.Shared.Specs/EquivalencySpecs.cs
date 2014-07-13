@@ -2815,6 +2815,72 @@ namespace FluentAssertions.Specs
                 action.ShouldNotThrow();
             }
 
+            [TestMethod]
+            public void When_ShouldAllBeEquivalentTo_utilizes_custom_assertion_rules_the_rules_should_be_respected()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new[]
+                {
+                    new {Value = 
+                        new Customer
+                        {
+                            Name = "John",
+                            Age = 27,
+                            Id = 1
+                        }
+                    },
+                    new {Value = 
+                        new Customer
+                        {
+                            Name = "Jane",
+                            Age = 24,
+                            Id = 2
+                        }
+                    }
+                };
+
+                var expectation = new[]
+                {
+                    new {Value = 
+                        new CustomerDto
+                        {
+                            Name = "John",
+                            Age = 27,
+                        }
+                    },
+                     new { Value =
+                        new CustomerDto
+                        {
+                            Name = "Jane",
+                            Age = 30,
+                        }
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act =
+                    () =>
+                    subject.ShouldAllBeEquivalentTo(
+                        expectation,
+                        opts =>
+                        opts.Using<Customer>(
+                            ctx =>
+                                {
+                                    throw new Exception("Interestingly, Using cannot cross types so this is never hit");
+                                })
+                            .WhenTypeIs<Customer>());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage(string.Format("*to be a {0}, but found a {1}*", typeof(CustomerDto), typeof(Customer)));
+            }
+
             #endregion
 
             [TestMethod]
