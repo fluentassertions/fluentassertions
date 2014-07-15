@@ -522,22 +522,17 @@ namespace FluentAssertions
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
             string because = "", params object[] reasonArgs)
         {
-            ShouldAllBeEquivalentTo(subject, expectation, config => config, because, reasonArgs);
+            subject.ShouldBeEquivalentTo(expectation, because, reasonArgs);
         }
 
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "", params object[] reasonArgs)
         {
-            var context = new EquivalencyValidationContext()
-            {
-                Subject = subject,
-                Expectation = expectation,
-                CompileTimeType = typeof (T),
-                Reason = because,
-                ReasonArgs = reasonArgs
-            };
-
-            new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
+            subject.ShouldBeEquivalentTo<IEnumerable<T>>(
+                expectation,
+                c => c.ForCollectionMemberType<T, IEnumerable<T>>(config),
+                because,
+                reasonArgs);
         }
 
 #if !SILVERLIGHT && !WINRT && !PORTABLE

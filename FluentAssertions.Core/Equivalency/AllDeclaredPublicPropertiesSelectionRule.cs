@@ -22,9 +22,7 @@ namespace FluentAssertions.Equivalency
         /// </returns>
         public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISubjectInfo context)
         {
-            return
-                (context.CompileTimeType ?? typeof (object))
-                    .GetNonPrivateProperties();
+            return context.CompileTimeType.GetNonPrivateProperties();
         }
 
         /// <summary>
