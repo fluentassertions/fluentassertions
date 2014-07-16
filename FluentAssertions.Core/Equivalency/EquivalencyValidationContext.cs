@@ -122,7 +122,7 @@ namespace FluentAssertions.Equivalency
                 "pair",
                 "[" + key + "]",
                 string.Empty,
-                PropertyInfo.PropertyType);
+                (PropertyInfo != null) ? PropertyInfo.PropertyType : RuntimeType);
         }
 
         private EquivalencyValidationContext CreateNested(

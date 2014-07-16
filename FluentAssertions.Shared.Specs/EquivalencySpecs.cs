@@ -3722,6 +3722,10 @@ namespace FluentAssertions.Specs
                 act.ShouldNotThrow();
             }
 
+#endregion
+
+ #region (Nested) Dictionaries
+
             [TestMethodAttribute]
             public void
                 When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
@@ -3827,6 +3831,35 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 act.ShouldThrow<AssertFailedException>().WithMessage(
                     "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
+            }
+
+            [TestMethod]
+            public void When_two_equivalent_dictionaries_are_compared_directly_it_should_succeed()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                var result = new Dictionary<string, int>
+                {
+                    { "C", 0 },
+                    { "B", 0 },
+                    { "A", 0 }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                result.ShouldBeEquivalentTo(new Dictionary<string, int>
+                {
+                    { "A", 0 },
+                    { "B", 0 },
+                    { "C", 0 }
+                });
             }
 
             #endregion
