@@ -2571,88 +2571,6 @@ namespace FluentAssertions.Specs
                 act.ShouldThrow<AssertFailedException>("the runtime types have different properties");
             }
 
-            [TestMethod]
-            public void When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_is_should_respect_the_declared_type()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                ICollection collection1 = new List<Car> { new Car() };
-                ICollection collection2 = new List<Customer> { new Customer() };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action act = () => collection1.ShouldBeEquivalentTo(collection2);
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow("the declared type is object");
-            }
-
-            [TestMethod]
-            public void When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                ICollection collection1 = new List<Car> { new Car() };
-                ICollection collection2 = new List<Customer> { new Customer() };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action act =
-                    () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeProperties());
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<AssertFailedException>("the items have different runtime types");
-            }
-
-            [TestMethod]
-            public void When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
-                IEnumerable<string> collection2 = new EnumerableOfStringAndObject();
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action act = () => collection1.ShouldBeEquivalentTo(collection2);
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow("the declared type is assignable to only one IEnumerable interface");
-            }
-
-            [TestMethod]
-            public void When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                IEnumerable<string> collection1 = new EnumerableOfStringAndObject();
-                IEnumerable<string> collection2 = new EnumerableOfStringAndObject();
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action act =
-                    () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeProperties());
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<AssertFailedException>("the runtime type is assignable to two IEnumerable interfaces");
-            }
-
             private class EnumerableOfStringAndObject : IEnumerable<string>, IEnumerable<object>
             {
                 IEnumerator IEnumerable.GetEnumerator()
@@ -2675,7 +2593,109 @@ namespace FluentAssertions.Specs
 
             #region Collection Equivalence
 
-            #region ShouldAllBeEquivalentTo
+            [TestMethod]
+            public void
+                When_two_ordered_lists_are_structurally_equivalent_it_should_succeed
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
+
+            [TestMethod]
+            public void
+                When_two_unordered_lists_are_structurally_equivalent_it_should_succeed
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new[]
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new Collection<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () => subject.ShouldAllBeEquivalentTo(expectation);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
+            }
 
             [TestMethod]
             public void
@@ -2845,232 +2865,6 @@ namespace FluentAssertions.Specs
 
             [TestMethod]
             public void
-                When_two_lists_only_differ_in_excluded_properties_it_should_not_throw
-                ()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                var subject = new List<Customer>
-                {
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    }
-                };
-
-                var expectation = new List<CustomerDto>
-                {
-                    new CustomerDto
-                    {
-                        Name = "John",
-                        Age = 27,
-                    },
-                    new CustomerDto
-                    {
-                        Name = "Jane",
-                        Age = 30,
-                    }
-                };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action action =
-                    () =>
-                        subject.ShouldAllBeEquivalentTo(expectation,
-                            options => options
-                                .ExcludingMissingProperties()
-                                .Excluding(c => c.Age));
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                action.ShouldNotThrow();
-            }
-
-            [TestMethod]
-            public void When_ShouldAllBeEquivalentTo_utilizes_custom_assertion_rules_the_rules_should_be_respected()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                var subject = new[]
-                {
-                    new {Value = 
-                        new Customer
-                        {
-                            Name = "John",
-                            Age = 27,
-                            Id = 1
-                        }
-                    },
-                    new {Value = 
-                        new Customer
-                        {
-                            Name = "Jane",
-                            Age = 24,
-                            Id = 2
-                        }
-                    }
-                };
-
-                var expectation = new[]
-                {
-                    new {Value = 
-                        new CustomerDto
-                        {
-                            Name = "John",
-                            Age = 27,
-                        }
-                    },
-                     new { Value =
-                        new CustomerDto
-                        {
-                            Name = "Jane",
-                            Age = 30,
-                        }
-                    }
-                };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action act =
-                    () =>
-                    subject.ShouldAllBeEquivalentTo(
-                        expectation,
-                        opts =>
-                        opts.Using<Customer>(
-                            ctx =>
-                                {
-                                    throw new Exception("Interestingly, Using cannot cross types so this is never hit");
-                                })
-                            .WhenTypeIs<Customer>());
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<AssertFailedException>()
-                    .WithMessage(string.Format("*to be a {0}, but found a {1}*", typeof(CustomerDto), typeof(Customer)));
-            }
-
-            #endregion
-
-            [TestMethod]
-            public void
-                When_two_ordered_lists_are_structurally_equivalent_it_should_succeed
-                ()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                var subject = new List<Customer>
-                {
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    }
-                };
-
-                var expectation = new List<Customer>
-                {
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    }
-                };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action action =
-                    () => subject.ShouldAllBeEquivalentTo(expectation);
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                action.ShouldNotThrow();
-            }
-
-            [TestMethod]
-            public void
-                When_two_unordered_lists_are_structurally_equivalent_it_should_succeed
-                ()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                var subject = new[]
-                {
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    }
-                };
-
-                var expectation = new Collection<Customer>
-                {
-                    new Customer
-                    {
-                        Name = "Jane",
-                        Age = 24,
-                        Id = 2
-                    },
-                    new Customer
-                    {
-                        Name = "John",
-                        Age = 27,
-                        Id = 1
-                    },
-                };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action action =
-                    () => subject.ShouldAllBeEquivalentTo(expectation);
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                action.ShouldNotThrow();
-            }
-
-            [TestMethod]
-            public void
                 When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw
                 ()
             {
@@ -3129,9 +2923,15 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Arrange
                 //-----------------------------------------------------------------------------------------------------------
-                var subject = new byte[] { 1, 2, 3, 4, 5, 6 };
+                var subject = new
+                {
+                    Payload = new byte[] {1, 2, 3, 4, 5, 6}
+                };
 
-                var expectation = new byte[] { 6, 5, 4, 3, 2, 1 };
+                var expectation = new
+                {
+                    Payload = new byte[] {6, 5, 4, 3, 2, 1}
+                };
 
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
@@ -3142,7 +2942,7 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 action.ShouldThrow<AssertFailedException>()
-                    .WithMessage("Expected*item[0]*6*1*");
+                    .WithMessage("Expected*Payload[0]*6*1*");
             }
 
             [TestMethod]
@@ -3196,6 +2996,60 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 action.ShouldThrow<AssertFailedException>()
                     .WithMessage("Expected*item[1].Age*28*27*");
+            }
+
+            [TestMethod]
+            public void
+                When_two_lists_only_differ_in_excluded_properties_it_should_not_throw
+                ()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var subject = new List<Customer>
+                {
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
+
+                var expectation = new List<CustomerDto>
+                {
+                    new CustomerDto
+                    {
+                        Name = "John",
+                        Age = 27,
+                    },
+                    new CustomerDto
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action action =
+                    () =>
+                        subject.ShouldAllBeEquivalentTo(expectation,
+                            options => options
+                                .ExcludingMissingProperties()
+                                .Excluding(c => c.Age));
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                action.ShouldNotThrow();
             }
 
             [TestMethod]
