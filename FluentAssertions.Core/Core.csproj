@@ -63,6 +63,7 @@
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
+    <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
@@ -91,7 +92,7 @@
     <Compile Include="Equivalency\StructuralEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\CyclicReferenceHandling.cs" />
     <Compile Include="Equivalency\DictionaryEquivalencyStep.cs" />
-    <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
+    <Compile Include="Equivalency\GenericEnumerableEquivalencyStep.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyValidator.cs" />
     <Compile Include="Equivalency\EquivalencyAssertionOptions.cs" />
     <Compile Include="Equivalency\EquivalencyValidationContext.cs" />
