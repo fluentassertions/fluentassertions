@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssertionExtensions.Actions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EventHandlerFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Execution\FallbackTestFramework.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Execution\ITestFramework.cs" />
