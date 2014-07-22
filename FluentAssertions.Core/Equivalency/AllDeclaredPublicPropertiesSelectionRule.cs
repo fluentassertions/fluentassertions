@@ -34,7 +34,7 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Select all declared properties";
+            return "Include only the declared properties";
         }
     }
 }
