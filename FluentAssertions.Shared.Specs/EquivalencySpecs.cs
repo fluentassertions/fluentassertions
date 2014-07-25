@@ -4046,6 +4046,39 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 act.ShouldThrow<AssertFailedException>().WithMessage(
                     "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
+            }            
+            
+            [TestMethod]
+            public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var projection = new
+                {
+                    ReferencedEquipment = new Dictionary<int, string>
+                    {
+                        { 1, null }
+                    }
+                };
+
+                var persistedProjection = new
+                {
+                    ReferencedEquipment = new Dictionary<int, string>
+                    {
+                        { 1, null }
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => persistedProjection.ShouldBeEquivalentTo(projection);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
             }
 
         #endregion
