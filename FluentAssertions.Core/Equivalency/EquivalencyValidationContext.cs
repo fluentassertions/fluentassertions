@@ -122,7 +122,23 @@ namespace FluentAssertions.Equivalency
                 "pair",
                 "[" + key + "]",
                 string.Empty,
-                (PropertyInfo != null) ? PropertyInfo.PropertyType : subject.GetType());
+                GetDictionaryValueType(subject, CompileTimeType));
+        }
+
+        private Type GetDictionaryValueType(object value, Type compileTimeType)
+        {
+            if (!ReferenceEquals(value, null))
+            {
+                return value.GetType();
+            }
+            else if (compileTimeType.IsGenericType)
+            {
+                return compileTimeType.GetGenericArguments()[1];
+            }
+            else
+            {
+                return typeof(object);
+            }
         }
 
         private EquivalencyValidationContext CreateNested(

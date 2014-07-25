@@ -73,12 +73,18 @@ namespace FluentAssertions.Equivalency
 
                 if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.PropertyPath)))
                 {
-                    IEnumerable<IEquivalencyStep> equivalencySteps =
-                        steps.Where(s => s.CanHandle(context, config));
+                    bool wasHandled = false;
 
-                    bool wasHandled = equivalencySteps.Any(strategy => strategy.Handle(context, this, config));
+                    foreach (var strategy in steps.Where(s => s.CanHandle(context, config)))
+                    {
+                        if (strategy.Handle(context, this, config))
+                        {
+                            wasHandled = true;
+                            break;
+                        }
+                    }
 
-                    if (wasHandled == false)
+                    if (!wasHandled)
                     {
                         Execute.Assertion.FailWith(
                             "No IEquivalencyStep was found to handle the context.  " +

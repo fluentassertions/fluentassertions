@@ -2,10 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using FluentAssertions.Equivalency;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
+using FluentAssertions.Equivalency;
+using FluentAssertions.Execution;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -2226,7 +2232,7 @@ namespace FluentAssertions.Specs
         #region Memberless Objects
 
         [TestMethod]
-        public void When_asserting_instances_of_an_anonymous_type_having_no_memebers_are_equivilent_it_should_pass()
+        public void When_asserting_instances_of_an_anonymous_type_having_no_members_are_equivalent_it_should_pass()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -2240,7 +2246,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_instances_of_a_class_having_no_memebers_are_equivilent_it_should_pass()
+        public void When_asserting_instances_of_a_class_having_no_members_are_equivalent_it_should_pass()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -2268,7 +2274,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_instances_of_Object_are_equivilent_it_should_pass()
+        public void When_asserting_instances_of_Object_are_equivalent_it_should_pass()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -3985,30 +3991,64 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Arrange
                 //-----------------------------------------------------------------------------------------------------------
-                
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
                 var result = new Dictionary<string, int>
                 {
                     { "C", 0 },
                     { "B", 0 },
                     { "A", 0 }
                 };
-
+                
                 //-----------------------------------------------------------------------------------------------------------
-                // Assert
+                // Act
                 //-----------------------------------------------------------------------------------------------------------
-                result.ShouldBeEquivalentTo(new Dictionary<string, int>
+                Action act = () => result.ShouldBeEquivalentTo(new Dictionary<string, int>
                 {
                     { "A", 0 },
                     { "B", 0 },
                     { "C", 0 }
                 });
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
             }
 
-            #endregion
+            [TestMethod]
+            public void When_two_nested_dictionaries_do_not_match_it_should_throw()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var projection = new
+                {
+                    ReferencedEquipment = new Dictionary<int, string>
+                    {
+                        { 1, "Bla1" }
+                    }
+                };
+
+                var persistedProjection = new
+                {
+                    ReferencedEquipment = new Dictionary<int, string>
+                    {
+                        { 1, "Bla2" }
+                    }
+                };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => persistedProjection.ShouldBeEquivalentTo(projection);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>().WithMessage(
+                    "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
+            }
+
+        #endregion
         }
     }
 
