@@ -4080,8 +4080,49 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 act.ShouldNotThrow();
             }
+            
+            [TestMethod]
+            public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash2()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                Guid userId = Guid.NewGuid();
+                
+                var actual = new UserRolesLookupElement();
+                actual.Add(userId, "Admin", "Special");
 
-        #endregion
+                var expected = new UserRolesLookupElement();
+                expected.Add(userId, "Admin", "Other");
+
+               //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => actual.ShouldBeEquivalentTo(expected);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage("Expected*Roles[*][1]*Other*Special*");
+            }
+
+            public class UserRolesLookupElement
+            {
+                private readonly Dictionary<Guid, List<string>> innerRoles = new Dictionary<Guid, List<string>>();
+
+                public virtual Dictionary<Guid, IEnumerable<string>> Roles
+                {
+                    get { return innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z)); }
+                }
+
+                public void Add(Guid userId, params string[] roles)
+                {
+                    innerRoles[userId] = roles.ToList();
+                }
+            }
+
+            #endregion
         }
     }
 
