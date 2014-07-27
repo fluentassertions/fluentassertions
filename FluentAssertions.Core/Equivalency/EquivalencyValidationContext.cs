@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 using FluentAssertions.Common;
@@ -131,7 +133,7 @@ namespace FluentAssertions.Equivalency
             {
                 return value.GetType();
             }
-            else if (compileTimeType.IsGenericType)
+            else if (compileTimeType.Implements(typeof(IDictionary<,>)))
             {
                 return compileTimeType.GetGenericArguments()[1];
             }
