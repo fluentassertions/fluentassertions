@@ -1,4 +1,4 @@
-Fluent Assertions
+﻿Fluent Assertions
 ================
 
 Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test. We currently use it in all our internal and client projects, and it is used in many open-source projects. It runs on the following frameworks:
@@ -22,7 +22,7 @@ The releases are available as Zipped downloads from the [Releases](https://githu
 
 Why?
 ----
-Nothing is more annoying then a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to ["keep out of the debugger hell"](http://codebetter.com/jeremymiller/2005/08/18/testing-granularity-feedback-cycles-and-holistic-development/) and I can only agree with that.
+Nothing is more annoying than a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to ["keep out of the debugger hell"](http://codebetter.com/jeremymiller/2005/08/18/testing-granularity-feedback-cycles-and-holistic-development/) and I can only agree with that.
 
 For instance, only test a single condition per test case. If you don't, and the first condition fails, the test engine will not even try to test the other conditions. But if any of the others fail, you'll be on your own to figure out which one. I often run into this problem when developers try to combine multiple related tests that test a member using different parameters into one test case. If you really need to do that, consider using a parameterized test that is being called by several clearly named test cases.
 
