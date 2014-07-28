@@ -6,11 +6,12 @@
     <SharedGUID>0c23c12c-899f-4ad1-b737-b967a9910c08</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Shared.Specs</Import_RootNamespace>
+    <Import_RootNamespace>FluentAssertions.Specs</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AggregateExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AndWhichConstraintSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionFailureSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BooleanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionAssertionSpecs.cs" />
@@ -21,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)EventAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExecutionTimeAssertionsSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FindAssembly.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluentDateTimeSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FormatterSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericCollectionAssertionOfStringSpecs.cs" />

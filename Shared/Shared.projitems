@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\XDocumentValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\XElementValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SolutionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Specialized\AssemblyAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\ExecutionTimeAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xml\XAttributeAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xml\XDocumentAssertions.cs" />

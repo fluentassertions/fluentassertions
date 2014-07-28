@@ -7,12 +7,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
+
 using FluentAssertions.Collections;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Events;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
+using FluentAssertions.Reflection;
 using FluentAssertions.Specialized;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
@@ -40,14 +42,14 @@ namespace FluentAssertions
 
 #if !SILVERLIGHT && !PORTABLE
 
-        /// <summary>
-        /// Provides methods for asserting the execution time of a method or property.
-        /// </summary>
-        /// <param name="subject">The object that exposes the method or property.</param>
-        /// <param name="action">A reference to the method or property to measure the execution time of.</param>
-        /// <returns>
-        /// Returns an object for asserting that the execution time matches certain conditions.
-        /// </returns>
+    /// <summary>
+    /// Provides methods for asserting the execution time of a method or property.
+    /// </summary>
+    /// <param name="subject">The object that exposes the method or property.</param>
+    /// <param name="action">A reference to the method or property to measure the execution time of.</param>
+    /// <returns>
+    /// Returns an object for asserting that the execution time matches certain conditions.
+    /// </returns>
         public static MemberExecutionTimeAssertions<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action)
         {
             return new MemberExecutionTimeAssertions<T>(subject, action);
@@ -64,6 +66,18 @@ namespace FluentAssertions
         {
             return new ExecutionTimeAssertions(action);
         }
+
+#if !WINRT
+
+        /// <summary>
+        /// Returns an <see cref="AssemblyAssertions"/> object that can be used to assert the
+        /// current <see cref="Assembly"/>.
+        /// </summary>
+        public static AssemblyAssertions Should(this Assembly assembly)
+        {
+            return new AssemblyAssertions(assembly);
+        }
+#endif
 
 #endif
 
@@ -208,9 +222,7 @@ namespace FluentAssertions
         public static DateTimeOffsetAssertions Should(this DateTime actualValue)
         {
             return new DateTimeOffsetAssertions(actualValue.ToDateTimeOffset());
-
         }
-
 
         /// <summary>
         /// Returns an <see cref="DateTimeOffsetAssertions"/> object that can be used to assert the
@@ -221,14 +233,16 @@ namespace FluentAssertions
             return new DateTimeOffsetAssertions(actualValue);
         }
 
-
         /// <summary>
         /// Returns an <see cref="NullableDateTimeOffsetAssertions"/> object that can be used to assert the
         /// current nullable <see cref="DateTime"/>.
         /// </summary>
         public static NullableDateTimeOffsetAssertions Should(this DateTime? actualValue)
         {
-            return new NullableDateTimeOffsetAssertions(actualValue.HasValue ? actualValue.Value.ToDateTimeOffset() : (DateTimeOffset?)null);
+            return
+                new NullableDateTimeOffsetAssertions(actualValue.HasValue
+                    ? actualValue.Value.ToDateTimeOffset()
+                    : (DateTimeOffset?)null);
         }
 
         /// <summary>
@@ -458,7 +472,7 @@ namespace FluentAssertions
         {
             return new PropertyInfoSelectorAssertions(propertyInfoSelector.ToArray());
         }
-        
+
         /// <summary>
         /// Asserts that an object is equivalent to another object. 
         /// </summary>
@@ -505,13 +519,14 @@ namespace FluentAssertions
         /// Zero or more objects to format using the placeholders in <see cref="reason" />.
         /// </param>
         public static void ShouldBeEquivalentTo<T>(this T subject, object expectation,
-            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "", params object[] reasonArgs)
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
+            params object[] reasonArgs)
         {
             var context = new EquivalencyValidationContext
             {
                 Subject = subject,
                 Expectation = expectation,
-                CompileTimeType = typeof (T),
+                CompileTimeType = typeof(T),
                 Reason = because,
                 ReasonArgs = reasonArgs
             };
@@ -526,7 +541,8 @@ namespace FluentAssertions
         }
 
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
-            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "", params object[] reasonArgs)
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
+            params object[] reasonArgs)
         {
             subject.ShouldBeEquivalentTo<IEnumerable<T>>(
                 expectation,
@@ -536,10 +552,10 @@ namespace FluentAssertions
         }
 
 #if !SILVERLIGHT && !WINRT && !PORTABLE
-        /// <summary>
-        ///   Starts monitoring an object for its events.
-        /// </summary>
-        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+    /// <summary>
+    ///   Starts monitoring an object for its events.
+    /// </summary>
+    /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static void MonitorEvents(this object eventSource)
         {
             EventMonitor.AddRecordersFor(eventSource, BuildRecorders);
@@ -579,7 +595,7 @@ namespace FluentAssertions
         {
             EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders((INotifyPropertyChanged)source));
         }
-        
+
         private static EventRecorder[] BuildRecorders(INotifyPropertyChanged eventSource)
         {
             var eventRecorder = new EventRecorder(eventSource, "PropertyChanged");

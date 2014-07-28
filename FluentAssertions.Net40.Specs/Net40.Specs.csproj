@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FluentAssertions.Specs</RootNamespace>
     <AssemblyName>FluentAssertions.Net40.Specs</AssemblyName>
-    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TestProjectType>UnitTest</TestProjectType>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -122,6 +122,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AssemblyA\AssemblyA.csproj">
+      <Project>{7144bd9d-2a5f-45b6-ac5b-e35578d03350}</Project>
+      <Name>AssemblyA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AssemblyB\AssemblyB.csproj">
+      <Project>{d9cccaf6-ff9e-4688-9d96-645e27616ac4}</Project>
+      <Name>AssemblyB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
       <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
       <Name>Core</Name>
