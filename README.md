@@ -111,5 +111,5 @@ If you have any comments or suggestions, please let us know via [twitter](https:
 
 Special thanks
 --------------
-This project would not have been possible without the support of [JetBrains](http://www.jetbrains.com/). We thank them for generously providing us with the [ReSharper](http://www.jetbrains.com/resharper/) licenses necessary to make us productive developers. 
-![Resharper](/resources/logo_resharper.png)
+This project would not have been possible without the support of [JetBrains](http://www.jetbrains.com/). We thank them for generously providing us with the [ReSharper](http://www.jetbrains.com/resharper/) licenses necessary to make us productive developers.   
+![Resharper](resources/logo_resharper.png)
