@@ -1,1 +1,0 @@
-tools\nuget push %1 -ApiKey %2 -Verbosity detailed

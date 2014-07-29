@@ -8,6 +8,7 @@
     $MsBuildLoggerPath = ""
 	$Branch = ""
 	$MsTestPath = "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe"
+	$RunTests = $false
 }
 
 task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Compile, RunTests, BuildPackage, PublishToMyget
@@ -26,7 +27,7 @@ task ApplyAssemblyVersioning {
 		foreach ($info in $infos) {
 		    Write-Host "Updating " + $info.FullName
 			Set-ItemProperty -Path $info.FullName -Name IsReadOnly -Value $false
-
+			
 		    $content = Get-Content $info.FullName
 		    $content = $content -replace '"(\d+)\.(\d+)\.(\d+)"', ('"$1.$2.' + $BuildNumber + '"')
 		    Set-Content -Path $info.FullName $content
@@ -40,9 +41,14 @@ task ApplyPackageVersioning {
 		$fullName = "$BaseDirectory\Package\.nuspec"
 
 	    Set-ItemProperty -Path $fullName -Name IsReadOnly -Value $false
+		
+		$postfix = "";
+		if ($Branch -eq "develop") {
+			$postfix = "-dev"
+		}
 
 	    $content = Get-Content $fullName
-	    $content = $content -replace '<version>(\d+)\.(\d+)\.(\d+)(.*)</version>', ('<version>$1.$2.' + $BuildNumber + '$4</version>')
+	    $content = $content -replace '<version>(\d+)\.(\d+)\.(\d+).*</version>', ('<version>$1.$2.' + $BuildNumber + $postfix + '</version>')
 	    Set-Content -Path $fullName $content
 	}
 }
@@ -60,7 +66,7 @@ task Compile {
     }
 }
 
-task RunTests {
+task RunTests -precondition { return $RunTests -eq $true } {
 	TeamCity-Block "Running unit tests" {
 	
         Run-MsTestWithTeamCityOutput `
@@ -95,7 +101,7 @@ task BuildPackage {
 	}
 }
 
-task PublishToMyget -precondition { return ($Branch -eq "master" -or $Branch -eq "<default>" -or $Branch -eq "v3.1") -and ($ApiKey -ne "") } {
+task PublishToMyget -precondition { return ($Branch -eq "master" -or $Branch -eq "<default>" -or $Branch -eq "develop") -and ($ApiKey -ne "") } {
     TeamCity-Block "Publishing NuGet Package to Myget" {  
 		$packages = Get-ChildItem $PackageDirectory *.nupkg
 		foreach ($package in $packages) {
