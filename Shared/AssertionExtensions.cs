@@ -40,6 +40,13 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
+#if NET45 || WINRT
+        public static Func<Task> Awaiting<T>(this T subject, Func<T, Task> action)
+        {
+            return () => action(subject);
+        }
+#endif
+
 #if !SILVERLIGHT && !PORTABLE
 
     /// <summary>
