@@ -21,7 +21,7 @@ It supports the following unit test frameworks:
 * [NSpec](http://nspec.org/)
 * [MSpec](https://github.com/machine/machine.specifications)
 
-The releases are available as Zipped downloads from the [Releases](https://github.com/dennisdoomen/fluentassertions/releases) section or by getting the corresponding [NuGet package](https://www.nuget.org/packages/FluentAssertions).
+The releases are available as a zipped download in the [Releases](https://github.com/dennisdoomen/fluentassertions/releases) section or as a [NuGet package](https://www.nuget.org/packages/FluentAssertions).
 
 Why?
 ----
@@ -41,7 +41,7 @@ This will be reported as:
 	"0987654321", but
 	"1234567890" differs near "123" (index 0).
 
-The fact that both strings are displayed on a separate line is on purpose and happens if any of them is longer than 8 characters. However, if that's not enough, all assertion methods take an optional formatted reason with placeholders, similarly to String.Format, that you can use to enrich the failure message. For instance, the assertion
+The fact that both strings are displayed on a separate line is not a coincidence and happens if any of them is longer than 8 characters. However, if that's not enough, all assertion methods take an optional explanation (the *because*) that supports formatting placeholders similar to `String.Format` which you can use to enrich the failure message. For instance, the assertion
 
 ```csharp
 new[] { 1, 2, 3 }.Should().Contain(item => item > 3, "at least {0} item should be larger than 3", 1);
@@ -64,12 +64,13 @@ To verify that a collection contains a specified number of elements and that all
 
 ```csharp
 IEnumerable collection = new[] { 1, 2, 3 };
-collection.Should().HaveCount(4, "because we thought we put three items in the collection"))collection.Should().Contain(i => i > 0);
+collection.Should().HaveCount(4, "because we thought we put three items in the collection"))
 ```
 
 The nice thing about the second failing example is that it will throw an exception with the message 
 
 	"Expected <4> items because we thought we put three items in the collection, but found <3>." 
+	
 To verify that a particular business rule is enforced using exceptions.
 
 ```csharp
@@ -85,19 +86,31 @@ action
    .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuanity);
 ```
 
+One neat feature is the ability to chain a specific assertion on top of an assertion that acts on a collection or graph of objects. 
+
+```csharp
+dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
+
+someObject.Should().BeOfType<Exception>().Which.Message.Should().Be("Other Message");
+
+xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.HaveAttribute("attr", "1");
+```
+
+I've run into quite a few of these scenarios in which this chaining would make the unit test a lot easier to read. 
+
 About versioning
 ----------------
 The version numbers of Fluent Assertions releases comply to the Semantic Versioning scheme. In other words, release 1.4.0 only adds backwards-compatible functionality and bug fixes compared to 1.3.0. Release 1.4.1 should only include bug fixes. And if we ever introduce breaking changes, the number increased to 2.0.0.
 
 What do you need to compile the solution?
 -----------------------------
-* Visual Studio 2013 Update 2
+* Visual Studio 2013 Update 2 or later
 * Windows 8.1
 * The Windows Phone 8 SDK
 
 Who are we?
 -----------
-We are a bunch of developers working for Aviva Solutions who highly value software quality, in particular  
+We are a bunch of developers working for Aviva Solutions who highly value software quality, in particular 
 - [Dennis Doomen](https://twitter.com/ddoomen)  
 - [Martin Opdam](https://twitter.com/mpopdam) 
 
@@ -111,5 +124,5 @@ If you have any comments or suggestions, please let us know via [twitter](https:
 
 Special thanks
 --------------
-This project would not have been possible without the support of [JetBrains](http://www.jetbrains.com/). We thank them for generously providing us with the [ReSharper](http://www.jetbrains.com/resharper/) licenses necessary to make us productive developers.   
-![Resharper](resources/logo_resharper.png)
+This project would not have been possible without the support of [JetBrains](http://www.jetbrains.com/). We thank them generously for providing us with the [ReSharper](http://www.jetbrains.com/resharper/) licenses necessary to make us productive developers.   
+![Resharper](./Resources/logo_resharper.png)
