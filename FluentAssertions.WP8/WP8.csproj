@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FluentAssertions</RootNamespace>
-    <AssemblyName>FluentAssertions.WindowsPhone</AssemblyName>
+    <AssemblyName>FluentAssertions</AssemblyName>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>
     </SilverlightVersion>
@@ -48,7 +48,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1591; 1572; 1573;1574; 618</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>Bin\Debug\FluentAssertions.WindowsPhone.XML</DocumentationFile>
+    <DocumentationFile>Bin\Debug\FluentAssertions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,7 +61,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591; 1572; 1573;1574; 618</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>..\Package\Lib\wp8\FluentAssertions.WindowsPhone.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\wp8\FluentAssertions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -79,7 +79,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
-    <DocumentationFile>Bin\x86\Debug\FluentAssertions.WindowsPhone.XML</DocumentationFile>
+    <DocumentationFile>Bin\x86\Debug\FluentAssertions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget />
