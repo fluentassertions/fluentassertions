@@ -2,6 +2,7 @@
     $BaseDirectory = Resolve-Path ..     
     $Nuget = "$BaseDirectory\Tools\NuGet.exe"
 	$SlnFile = "$BaseDirectory\FluentAssertions.sln"
+	$7zip = "$BaseDirectory\Tools\7z.exe"
 	$PackageDirectory = "$BaseDirectory\Package"
 	$ApiKey = ""
     $BuildNumber = 9999
@@ -11,7 +12,7 @@
 	$RunTests = $false
 }
 
-task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Compile, RunTests, BuildPackage, PublishToMyget
+task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Compile, RunTests, BuildZip, BuildPackage, PublishToMyget
 
 task Clean {	
     TeamCity-Block "Clean" {
@@ -92,6 +93,16 @@ task RunTests -precondition { return $RunTests -eq $true } {
 			"WinRT"`
 			"$BaseDirectory\FluentAssertions.WinRT.Specs\bin\Release\FluentAssertions.WinRT.Specs.dll"`
 			"$BaseDirectory\Default.testsettings"
+	}
+}
+
+task BuildZip {
+	TeamCity-Block "Zipping up the binaries" {
+		$assembly = Get-ChildItem -Path $BaseDirectory\Package\Lib -Filter FluentAssertions.dll -Recurse | Select-Object -first 1
+				
+		$versionNumber = $assembly.VersionInfo.ProductVersion
+
+		& $7zip a -r "$BaseDirectory\Package\Fluent.Assertions.$versionNumber.zip" "$BaseDirectory\Package\Lib\*" -y
 	}
 }
 
