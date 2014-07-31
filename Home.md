@@ -731,6 +731,15 @@ AllTypes.From(assembly)
   .ThatImplement<ISomeInterface>()
   .ThatAreInNamespace("Internal.Main.Test");
 ```
+## Assembly References ##
+New in version 3.1 are methods to assert an assembly does or does not reference another assembly. These are typically used to enforce layers within an application, such as for example, asserting the web layer does not reference the data layer. To assert the references, use the the following syntax:
+
+```csharp 
+assembly.Should().Reference(otherAssembly); 
+assembly.Should().NotReference(otherAssembly);
+```
+
+These assertions are only available in the .NET 4 and 4.5 versions of Fluent Assertions as the reflection methods used are not available in Silverlight and Windows Phone and Windows 8 run-times.
 
 ## XML classes ##
 
