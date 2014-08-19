@@ -264,9 +264,23 @@ Full-Width Styles
 
 .inner {
   position: relative;
-  max-width: 1024px;
+  max-width: 1000px;
   padding: 20px 10px;
   margin: 0 auto;
+}
+
+#sidebar_left {
+    background: #f2f2f2;
+      width: 20%;
+    height: 600px;
+    float: left;
+}
+
+#sidebar_right {
+      background: #f2f2f2;
+      width: 18%;
+    height: 600px;
+    float: right;
 }
 
 #forkme_banner {
@@ -359,11 +373,15 @@ Full-Width Styles
 }
 
 #main_content {
-  padding-top: 40px;
+  background: #f2f2f2;
+    padding-top: 40px;
+    width: 60%;
+    display: inline-block;
 }
 
 #footer_wrap {
   background: #212121;
+    clear: both;
 }
 
 
