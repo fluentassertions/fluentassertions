@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -4230,6 +4231,135 @@ namespace FluentAssertions.Specs
             }
 
             #endregion
+        }
+
+        [TestClass]
+        public class DictionaryEquivalencySpecs
+        {
+            [TestMethod]
+            public void When_an_object_implement_two_IDictionary_interfaces_it_should_fail_descriptively()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var object1 = new ClassWithTwoDictionaryImplementations();
+                var object2 = new ClassWithTwoDictionaryImplementations();
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => object1.ShouldBeEquivalentTo(object2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        "Subject is enumerable for more than one type.  "
+                        + "It is not known which type should be use for equivalence.*");
+            }
+
+            private class ClassWithTwoDictionaryImplementations : Dictionary<int, object>, IDictionary<string, object>
+            {
+                IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator()
+                {
+                    return
+                        ((ICollection<KeyValuePair<int, object>>)this).Select(
+                            item =>
+                            new KeyValuePair<string, object>(
+                                item.Key.ToString(CultureInfo.InvariantCulture),
+                                item.Value)).GetEnumerator();
+                }
+
+                public void Add(KeyValuePair<string, object> item)
+                {
+                    ((ICollection<KeyValuePair<int, object>>)this).Add(new KeyValuePair<int, object>(Parse(item.Key), item.Value));
+                }
+
+                public bool Contains(KeyValuePair<string, object> item)
+                {
+                    return
+                        ((ICollection<KeyValuePair<int, object>>)this).Contains(
+                            new KeyValuePair<int, object>(Parse(item.Key), item.Value));
+                }
+
+                public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
+                {
+                    ((ICollection<KeyValuePair<int, object>>)this).Select(
+                        item =>
+                        new KeyValuePair<string, object>(item.Key.ToString(CultureInfo.InvariantCulture), item.Value))
+                        .ToArray()
+                        .CopyTo(array, arrayIndex);
+                }
+
+                public bool Remove(KeyValuePair<string, object> item)
+                {
+                    return
+                        ((ICollection<KeyValuePair<int, object>>)this).Remove(
+                            new KeyValuePair<int, object>(Parse(item.Key), item.Value));
+                }
+
+                bool ICollection<KeyValuePair<string, object>>.IsReadOnly
+                {
+                    get
+                    {
+                        return ((ICollection<KeyValuePair<int, object>>)this).IsReadOnly;
+                    }
+                }
+
+                public bool ContainsKey(string key)
+                {
+                    return ContainsKey(Parse(key));
+                }
+
+                public void Add(string key, object value)
+                {
+                    Add(Parse(key), value);
+                }
+
+                public bool Remove(string key)
+                {
+                    return Remove(Parse(key));
+                }
+
+                public bool TryGetValue(string key, out object value)
+                {
+                    return TryGetValue(Parse(key), out value);
+                }
+
+                public object this[string key]
+                {
+                    get
+                    {
+                        return this[Parse(key)];
+                    }
+                    set
+                    {
+                        this[Parse(key)] = value;
+                    }
+                }
+
+                ICollection<string> IDictionary<string, object>.Keys
+                {
+                    get
+                    {
+                        return Keys.Select(_ => _.ToString(CultureInfo.InvariantCulture)).ToList();
+                    }
+                }
+
+                ICollection<object> IDictionary<string, object>.Values
+                {
+                    get
+                    {
+                        return Values;
+                    }
+                }
+
+                private int Parse(string key)
+                {
+                    return int.Parse(key);
+                }
+            }
         }
     }
 

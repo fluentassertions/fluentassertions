@@ -94,14 +94,22 @@ namespace FluentAssertions.Equivalency
 
         private static Type[] GetIEnumerableInterfaces(Type type)
         {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            Type soughtType = typeof(IEnumerable<>);
+
+            return GetClosedGenericInterfaces(type, soughtType);
+        }
+
+        internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
             {
                 return new[] { type };
             }
 
+            Type[] interfaces = type.GetInterfaces();
             return
-                type.GetInterfaces()
-                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
+                interfaces
+                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == openGenericType)))
                     .ToArray();
         }
 

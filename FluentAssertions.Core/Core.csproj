@@ -65,6 +65,7 @@
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
     <Compile Include="Equivalency\IncludePropertyByPredicateSelectionRule.cs" />
+    <Compile Include="Equivalency\GenericDictionaryEquivalencyStep.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
