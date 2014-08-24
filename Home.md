@@ -164,7 +164,7 @@ emailAddress.Should().Match("*@*.com");
 If the casing of the input string is irrelevant, use this:
 
 ```csharp	
-emailAddress.Should().MatchEquivalentOf(*@*.COM);
+emailAddress.Should().MatchEquivalentOf("*@*.COM");
 ```
 
 And if wildcards aren't enough for you, you can always use some regular expression magic:
