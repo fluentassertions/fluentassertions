@@ -372,10 +372,10 @@ var dictionary3 = new Dictionary<int, string>
 {
     { 3, "Three" },
 };
-```
 
 dictionary1.Should().Equal(dictionary2);
 dictionary1.Should().NotEqual(dictionary3);
+```
 
 Or you can assert that the dictionary contains a certain key or value:
 
