@@ -431,7 +431,7 @@ The following example verifies that the `Foo()` method throws an `InvalidOperati
 ```csharp
 subject.Invoking(y => y.Foo("Hello"))
      .ShouldThrow<InvalidOperationException>()
-     .WithMessage("Hello is not allowed at this moment”);
+     .WithMessage("Hello is not allowed at this moment");
 ```
 
 But if you, like me, prefer the arrange-act-assert syntax, you can also use an action in your act part.
@@ -457,7 +457,7 @@ An alternative syntax for doing the same is by chaining one or more calls to the
 
 ```csharp
 Action act = () => subject.Foo(null)); 
-act.ShouldThrow<ArgumentNullException>().Where(e => e.Message.StartsWith(“did”));
+act.ShouldThrow<ArgumentNullException>().Where(e => e.Message.StartsWith("did"));
 ```
 
 However, we discovered that testing the exception message for a substring is so common, that we changed the default behavior of `WithMessage` to support wildcard expressions and match in a case-insensitive way.
@@ -466,7 +466,7 @@ However, we discovered that testing the exception message for a substring is so 
 Action act = () => subject.Foo(null)); 
 act
   .ShouldThrow<ArgumentNullException>()
-  .WithMessage(“?did*”);
+  .WithMessage("?did*");
 ```
 
 On the other hand, you may want to verify that no exceptions were thrown.
