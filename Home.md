@@ -476,7 +476,9 @@ Action act = () => subject.Foo("Hello"));
 act.ShouldNotThrow();
 ```
 
-I know that a unit test will fail anyhow if an exception was thrown, but this syntax returns a clearer description of the exception that was thrown and fits better to the AAA syntax. If you want to verify that a specific exception is not thrown, and want to ignore others, you can do that using an overload:
+I know that a unit test will fail anyhow if an exception was thrown, but this syntax returns a clearer description of the exception that was thrown and fits better to the AAA syntax. 
+
+If you want to verify that a specific exception is not thrown, and want to ignore others, you can do that using an overload:
 
 ```csharp
 Action act = () => subject.Foo("Hello"));
@@ -491,22 +493,6 @@ func.Enumerating().ShouldThrow<ArgumentException>();
 ```
 
 You do have to use the `Func<T>` type instead of `Action<T>` then.
-
-On the other hand, you may want to verify that no exceptions were thrown.
-
-```csharp
-Action act = () => subject.Foo("Hello"));
-act.ShouldNotThrow();
-```
-
-I know that a unit test will fail anyhow if an exception was thrown, but this syntax returns a clearer description of the exception that was thrown and fits better to the AAA syntax.
-
-If you want to verify that a specific exception is not thrown, and want to ignore others, you can do that using an overload:
-
-```csharp
-Action act = () => subject.Foo("Hello"));
-act.ShouldNotThrow<InvalidOperationException>();
-```
 
 .NET 4.0 and later includes the `AggregateException` which is typically thrown by code that runs through the Parallel Task Library or using the new `async` keyword. All of the above also works for exceptions that are aggregated, whether or not you are asserting on the actual `AggregateException` or any of its (nested) aggregated exceptions.
 
