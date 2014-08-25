@@ -4190,7 +4190,7 @@ namespace FluentAssertions.Specs
             }
             
             [TestMethod]
-            public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash2()
+            public void When_the_dictionary_values_are_handled_by_the_enumerable_equivalency_step_the_type_information_should_be_preserved()
             {
                 //-----------------------------------------------------------------------------------------------------------
                 // Arrange
@@ -4236,6 +4236,93 @@ namespace FluentAssertions.Specs
         [TestClass]
         public class DictionaryEquivalencySpecs
         {
+            #region Non-Generic Dictionaries
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_dictionaries_it_should_respect_the_declared_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                IDictionary dictionary1 = new NonGenericDictionary { { 2001, new Car() } };
+                IDictionary dictionary2 = new NonGenericDictionary { { 2001, new Customer() } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("the declared type of the items is object");
+            }
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_dictionaries_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                IDictionary dictionary1 = new NonGenericDictionary { { 2001, new Car() } };
+                IDictionary dictionary2 = new NonGenericDictionary { { 2001, new Customer() } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act =
+                    () =>
+                        dictionary1.ShouldBeEquivalentTo(dictionary2,
+                            opts => opts.IncludingAllRuntimeProperties());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>("the types have different properties");
+            }
+
+            [TestMethod]
+            public void When_a_non_generic_dictionary_is_typed_as_object_and_runtime_typing_has_not_been_specified_the_declared_type_should_be_respected()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                object object1 = new NonGenericDictionary();
+                object object2 = new NonGenericDictionary();
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => object1.ShouldBeEquivalentTo(object2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<InvalidOperationException>("the type of the subject is object");
+            }
+
+            [TestMethod]
+            public void When_a_non_generic_dictionary_is_typed_as_object_and_runtime_typing_is_specified_the_runtime_type_should_be_respected()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                object object1 = new NonGenericDictionary { { "greeting", "hello" } };
+                object object2 = new NonGenericDictionary { { "greeting", "hello" } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeProperties());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
+            }
+
+            #endregion
+
             [TestMethod]
             public void When_an_object_implements_two_IDictionary_interfaces_it_should_fail_descriptively()
             {
@@ -4257,46 +4344,6 @@ namespace FluentAssertions.Specs
                     .WithMessage(
                         "Subject implements multiple dictionary types.  "
                         + "It is not known which type should be use for equivalence.*");
-            }
-
-            [TestMethod]
-            public void When_a_non_generic_dictionary_is_typed_as_object_and_runtime_typing_has_not_been_specified_the_declared_type_should_be_respected()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                object object1 = new NonGenericDictionary();
-                object object2 = new NonGenericDictionary();
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action act = () => object1.ShouldBeEquivalentTo(object2);
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<InvalidOperationException>("because the type is object");
-            }
-
-            [TestMethod]
-            public void When_a_non_generic_dictionary_is_typed_as_object_and_runtime_typing_is_specified_the_runtime_type_should_be_respected()
-            {
-                //-----------------------------------------------------------------------------------------------------------
-                // Arrange
-                //-----------------------------------------------------------------------------------------------------------
-                object object1 = new NonGenericDictionary { { "greeting", "hello" } };
-                object object2 = new NonGenericDictionary { { "greeting", "hello" } };
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Act
-                //-----------------------------------------------------------------------------------------------------------
-                Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeProperties());
-
-                //-----------------------------------------------------------------------------------------------------------
-                // Assert
-                //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow("because the dictionaries are equivalent");
             }
 
             [TestMethod]
@@ -4424,7 +4471,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<InvalidOperationException>();
+                act.ShouldThrow<InvalidOperationException>("the type of the subject is object");
             }
 
             [TestMethod]
@@ -4444,7 +4491,109 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldNotThrow();
+                act.ShouldNotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
+            }
+
+            [TestMethod]
+            public void When_asserting_the_equivalence_of_generic_dictionaries_it_should_respect_the_declared_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var dictionary1 = new Dictionary<int, CustomerType> { { 0, new DerivedCustomerType("123") } };
+                var dictionary2 = new Dictionary<int, CustomerType> { { 0, new CustomerType("123") } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("the objects are equivalent according to the members on the declared type");
+            }
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_generic_dictionaries_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var dictionary1 = new Dictionary<int, CustomerType> { { 0, new DerivedCustomerType("123") } };
+                var dictionary2 = new Dictionary<int, CustomerType> { { 0, new CustomerType("123") } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act =
+                    () =>
+                        dictionary1.ShouldBeEquivalentTo(dictionary2,
+                            opts => opts.IncludingAllRuntimeProperties());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>("the runtime types have different properties");
+            }
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_generic_dictionaries_the_type_information_should_be_preserved_for_other_equivalency_steps()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                Guid userId = Guid.NewGuid();
+
+                var dictionary1 = new Dictionary<Guid, IEnumerable<string>> { { userId, new List<string> { "Admin", "Special" } } };
+                var dictionary2 = new Dictionary<Guid, IEnumerable<string>> { { userId, new List<string> { "Admin", "Other" } } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>();
+            }
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_non_generic_dictionaries_the_lack_of_type_information_should_be_preserved_for_other_equivalency_steps()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                Guid userId = Guid.NewGuid();
+
+                var dictionary1 = new NonGenericDictionary { { userId, new List<string> { "Admin", "Special" } } };
+                var dictionary2 = new NonGenericDictionary { { userId, new List<string> { "Admin", "Other" } } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("the declared type of the values is 'object'");
+            }
+
+            public class UserRolesLookupElement
+            {
+                private readonly Dictionary<Guid, List<string>> innerRoles = new Dictionary<Guid, List<string>>();
+
+                public virtual Dictionary<Guid, IEnumerable<string>> Roles
+                {
+                    get { return innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z)); }
+                }
+
+                public void Add(Guid userId, params string[] roles)
+                {
+                    innerRoles[userId] = roles.ToList();
+                }
             }
 
             private class NonGenericDictionary : IDictionary
@@ -4659,6 +4808,9 @@ namespace FluentAssertions.Specs
                 }
             }
 
+            /// <summary>
+            /// FakeItEasy can probably handle this in a couple lines, but then it would not be portable.
+            /// </summary>
             private class ClassWithTwoDictionaryImplementations : Dictionary<int, object>, IDictionary<string, object>
             {
                 IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator()

@@ -63,6 +63,9 @@ namespace FluentAssertions.Common
             return Implements(type, typeof (TInterface));
         }
 
+        /// <summary>
+        /// NOTE: This method does not give the expected results with open generics
+        /// </summary>
         public static bool Implements(this Type type, Type expectedBaseType)
         {
             return
