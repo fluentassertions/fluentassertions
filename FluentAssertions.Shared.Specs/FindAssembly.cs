@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 
+#if !NETFX_CORE
+
 namespace FluentAssertions
 {
     public static class FindAssembly
@@ -10,3 +12,5 @@ namespace FluentAssertions
         }
     }
 }
+
+#endif

@@ -1,5 +1,6 @@
-﻿using System;
-    #if !PORTABLE && !SILVERLIGHT
+﻿#if !PORTABLE && !SILVERLIGHT && !NETFX_CORE
+
+using System;
 
 using AssemblyA;
 using AssemblyB;
