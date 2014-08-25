@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-#if !NETFX_CORE
+#if !NETFX_CORE && !WINRT
 
 namespace FluentAssertions
 {
