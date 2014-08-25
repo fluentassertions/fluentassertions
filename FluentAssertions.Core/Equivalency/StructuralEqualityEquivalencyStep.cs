@@ -47,8 +47,7 @@ namespace FluentAssertions.Equivalency
             if (context.IsRoot && !selectedProperties.Any())
             {
                 throw new InvalidOperationException(
-                    "No members were found for comparison.  " +
-                    "This means that any two non-null objects would be found equivilent.  " +
+                    "No properties were found for comparison. " +
                     "Please specify some properties to include in the comparison or choose a more meaningful assertion.");
             }
 
