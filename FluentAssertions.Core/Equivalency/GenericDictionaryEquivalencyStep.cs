@@ -10,20 +10,22 @@ namespace FluentAssertions.Equivalency
     {
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
+            Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+
             return context.Subject != null
-                   && GetIDictionaryInterfaces(context).Any();
+                   && GetIDictionaryInterfaces(subjectType).Any();
         }
 
-        private static Type[] GetIDictionaryInterfaces(EquivalencyValidationContext context)
+        private static Type[] GetIDictionaryInterfaces(Type type)
         {
             return GenericEnumerableEquivalencyStep.GetClosedGenericInterfaces(
-                context.Subject.GetType(),
+                type,
                 typeof(IDictionary<,>));
         }
 
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            Type[] interfaces = GetIDictionaryInterfaces(context);
+            Type[] interfaces = GetIDictionaryInterfaces(context.Subject.GetType());
             bool multipleInterfaces = (interfaces.Count() > 1);
 
             if (multipleInterfaces)

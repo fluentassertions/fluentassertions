@@ -4237,7 +4237,7 @@ namespace FluentAssertions.Specs
         public class DictionaryEquivalencySpecs
         {
             [TestMethod]
-            public void When_an_object_implement_two_IDictionary_interfaces_it_should_fail_descriptively()
+            public void When_an_object_implements_two_IDictionary_interfaces_it_should_fail_descriptively()
             {
                 //-----------------------------------------------------------------------------------------------------------
                 // Arrange
@@ -4257,6 +4257,194 @@ namespace FluentAssertions.Specs
                     .WithMessage(
                         "Subject is enumerable for more than one type.  "
                         + "It is not known which type should be use for equivalence.*");
+            }
+
+            [TestMethod]
+            public void When_a_non_generic_dictionary_is_typed_as_object_and_runtime_typing_has_not_been_specified_the_declared_type_should_be_respected()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                object object1 = new NonGenericDictionary();
+                object object2 = new NonGenericDictionary();
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => object1.ShouldBeEquivalentTo(object2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<InvalidOperationException>("because the type is object");
+            }
+
+            [TestMethod]
+            public void When_a_non_generic_dictionary_is_typed_as_object_and_runtime_typing_is_specified_the_runtime_type_should_be_respected()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                object object1 = new NonGenericDictionary { { "greeting", "hello" } };
+                object object2 = new NonGenericDictionary { { "greeting", "hello" } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeProperties());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("because the dictionaries are equivalent");
+            }
+
+            [TestMethod]
+            public void When_a_generic_dictionary_is_typed_as_object_and_runtime_typing_has_not_been_specified_the_declared_type_should_be_respected()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                object object1 = new Dictionary<string, string> { { "greeting", "hello" } };
+                object object2 = new Dictionary<string, string> { { "greeting", "hello" } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => object1.ShouldBeEquivalentTo(object2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<InvalidOperationException>();
+            }
+
+            [TestMethod]
+            public void When_a_generic_dictionary_is_typed_as_object_and_runtime_typing_has_is_specified_it_should_use_the_runtime_type()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                object object1 = new Dictionary<string, string> { { "greeting", "hello" } };
+                object object2 = new Dictionary<string, string> { { "greeting", "hello" } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeProperties());
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow();
+            }
+
+            private class NonGenericDictionary : IDictionary
+            {
+                private readonly IDictionary dictionary = new Dictionary<object, object>();
+
+                IEnumerator IEnumerable.GetEnumerator()
+                {
+                    return GetEnumerator();
+                }
+
+                public void CopyTo(Array array, int index)
+                {
+                    dictionary.CopyTo(array, index);
+                }
+
+                public int Count
+                {
+                    get
+                    {
+                        return dictionary.Count;
+                    }
+                }
+
+                public bool IsSynchronized
+                {
+                    get
+                    {
+                        return dictionary.IsSynchronized;
+                    }
+                }
+
+                public object SyncRoot
+                {
+                    get
+                    {
+                        return dictionary.SyncRoot;
+                    }
+                }
+
+                public void Add(object key, object value)
+                {
+                    dictionary.Add(key, value);
+                }
+
+                public void Clear()
+                {
+                    dictionary.Clear();
+                }
+
+                public bool Contains(object key)
+                {
+                    return dictionary.Contains(key);
+                }
+
+                public IDictionaryEnumerator GetEnumerator()
+                {
+                    return dictionary.GetEnumerator();
+                }
+
+                public void Remove(object key)
+                {
+                    dictionary.Remove(key);
+                }
+
+                public bool IsFixedSize
+                {
+                    get
+                    {
+                        return dictionary.IsFixedSize;
+                    }
+                }
+
+                public bool IsReadOnly
+                {
+                    get
+                    {
+                        return dictionary.IsReadOnly;
+                    }
+                }
+
+                public object this[object key]
+                {
+                    get
+                    {
+                        return dictionary[key];
+                    }
+                    set
+                    {
+                        dictionary[key] = value;
+                    }
+                }
+
+                public ICollection Keys
+                {
+                    get
+                    {
+                        return dictionary.Keys;
+                    }
+                }
+
+                public ICollection Values
+                {
+                    get
+                    {
+                        return dictionary.Values;
+                    }
+                }
             }
 
             private class ClassWithTwoDictionaryImplementations : Dictionary<int, object>, IDictionary<string, object>

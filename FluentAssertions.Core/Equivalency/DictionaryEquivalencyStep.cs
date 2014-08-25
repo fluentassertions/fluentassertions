@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using FluentAssertions.Execution;
@@ -11,7 +12,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.Subject is IDictionary);
+            Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+
+            return typeof(IDictionary).IsAssignableFrom(subjectType);
         }
 
         /// <summary>
