@@ -2232,7 +2232,7 @@ namespace FluentAssertions.Specs
         #region Memberless Objects
 
         [TestMethod]
-        public void When_asserting_instances_of_an_anonymous_type_having_no_members_are_equivalent_it_should_pass()
+        public void When_asserting_instances_of_an_anonymous_type_having_no_members_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -2246,7 +2246,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_instances_of_a_class_having_no_members_are_equivalent_it_should_pass()
+        public void When_asserting_instances_of_a_class_having_no_members_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -2260,7 +2260,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_instances_of_a_struct_having_no_memebers_are_equivilent_it_should_pass()
+        public void When_asserting_instances_of_a_struct_having_no_memebers_are_equivilent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -2274,12 +2274,33 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_instances_of_Object_are_equivalent_it_should_pass()
+        public void When_asserting_instances_of_Object_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => new object().ShouldBeEquivalentTo(new object());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+
+        [TestMethod]
+        public void When_asserting_instances_of_arrays_of_types_in_System_are_equivalent_it_should_respect_the_declared_type()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            object actual = new int[0];
+            object expectation = new int[0];
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
