@@ -538,6 +538,34 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
         }
+        
+        [TestMethod]
+        public void When_a_reference_to_an_explicit_interface_impl_is_provided_it_should_only_include_those_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IVehicle expected = new ExplicitCar
+            {
+                Wheels = 4
+            };
+
+            IVehicle subject = new ExplicitCar
+            {
+                Wheels = 99999
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
 
         [TestMethod]
         public void When_a_deeply_nested_property_with_a_value_mismatch_is_excluded_it_should_not_throw()
@@ -2309,6 +2337,7 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+
 
         public class ClassOne
         {
@@ -4459,9 +4488,22 @@ namespace FluentAssertions.Specs
         public int Wheels { get; set; }
     }
 
+    public class ExplicitCar : ExplicitVehicle, ICar
+    {
+        public int Wheels { get; set; }
+    }
+
     public class Vehicle : IVehicle
     {
         public int VehicleId { get; set; }
+    }
+
+    public class ExplicitVehicle : IVehicle
+    {
+        int IVehicle.VehicleId
+        {
+            get; set; 
+        }
     }
 
     public interface ICar : IVehicle

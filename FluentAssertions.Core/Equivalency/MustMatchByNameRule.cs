@@ -35,6 +35,11 @@ namespace FluentAssertions.Equivalency
         public PropertyInfo Match(PropertyInfo subjectProperty, object expectation, string propertyPath)
         {
             PropertyInfo compareeProperty = expectation.GetType().FindProperty(subjectProperty.Name, subjectProperty.PropertyType);
+            if ((compareeProperty == null) && ExpectationImplementsPropertyExplicitly(expectation, subjectProperty))
+            {
+                compareeProperty = subjectProperty;
+            }
+            
             if (compareeProperty == null)
             {
                 string path = (propertyPath.Length > 0) ? propertyPath + "." : "property ";
@@ -44,6 +49,12 @@ namespace FluentAssertions.Equivalency
             }
 
             return compareeProperty;
+        }
+
+        private static bool ExpectationImplementsPropertyExplicitly(object expectation, PropertyInfo subjectProperty)
+        {
+            // ReSharper disable once PossibleNullReferenceException
+            return subjectProperty.DeclaringType.IsInstanceOfType(expectation);
         }
 
         /// <summary>
