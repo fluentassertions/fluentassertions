@@ -21,8 +21,9 @@
           <h2 id="project_tagline">Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test.</h2>
 
             <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/dennisdoomen/fluentassertions/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/dennisdoomen/fluentassertions/tarball/master">Download this project as a tar.gz file</a>
+              <a class="zip_download_link" href="https://github.com/dennisdoomen/fluentassertions/zipball/master">Download the sources as a .zip file</a>
+              <a class="bin_download_link" href="https://github.com/dennisdoomen/fluentassertions/releases/download/v3.1.229/Fluent.Assertions.3.1.229.zip">Download the binaries as a zip file</a>
+              <a class="nuget_download_link" href="https://www.nuget.org/packages/FluentAssertions">Go to the NuGet package.</a>
             </section>
         </header>
     </div>
@@ -33,65 +34,6 @@
 
             </section>
             <section id="main_content" class="inner">
-                <h1>
-                    <a name="fluent-assertions" class="anchor" href="#fluent-assertions"><span class="octicon octicon-link"></span></a>Fluent Assertions
-                </h1>
-
-                <p>We use Fluent Assertions in all our internal and client projects, and it is used in many open-source projects. It runs on the following frameworks:</p>
-
-                <ul>
-                    <li>.NET 4.0 and 4.5</li>
-                    <li>Windows Store Apps for Windows 8 and 8.1</li>
-                    <li>Silverlight 5</li>
-                    <li>Windows Phone 8.1</li>
-                    <li>Windows Phone Silverlight 8.0 and 8.1</li>
-                    <li>Portable Class Libraries</li>
-                </ul><p>It supports the following unit test frameworks:</p>
-
-                <ul>
-                    <li>MSTest (Visual Studio 2010, Visual Studio 2012 Update 2 and Visual Studio 2013)</li>
-                    <li><a href="http://www.nunit.org/">NUnit</a></li>
-                    <li><a href="http://xunit.codeplex.com/">XUnit</a></li>
-                    <li><a href="https://github.com/xunit/xunit/releases">XUnit2</a></li>
-                    <li><a href="http://code.google.com/p/mb-unit/">MBUnit</a></li>
-                    <li><a href="http://code.google.com/p/mb-unit/">Gallio</a></li>
-                    <li><a href="http://nspec.org/">NSpec</a></li>
-                    <li><a href="https://github.com/machine/machine.specifications">MSpec</a></li>
-                </ul><p>The releases are available as a zipped download in the <a href="https://github.com/dennisdoomen/fluentassertions/releases">Releases</a> section or as a <a href="https://www.nuget.org/packages/FluentAssertions">NuGet package</a>.</p>
-
-                <h2>
-                    <a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why?
-                </h2>
-
-                <p>Nothing is more annoying than a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to <a href="http://codebetter.com/jeremymiller/2005/08/18/testing-granularity-feedback-cycles-and-holistic-development/">"keep out of the debugger hell"</a> and I can only agree with that.</p>
-
-                <p>For instance, only test a single condition per test case. If you don't, and the first condition fails, the test engine will not even try to test the other conditions. But if any of the others fail, you'll be on your own to figure out which one. I often run into this problem when developers try to combine multiple related tests that test a member using different parameters into one test case. If you really need to do that, consider using a parameterized test that is being called by several clearly named test cases.</p>
-
-                <p>That’s why we designed Fluent Assertions to help you in this area. Not only by using clearly named assertion methods, but also by making sure the failure message provides as much information as possible. Consider this example:</p>
-
-                <div class="highlight highlight-csharp">
-                    <pre><span class="s">"1234567890"</span><span class="p">.</span><span class="n">Should</span><span class="p">().</span><span class="n">Be</span><span class="p">(</span><span class="s">"0987654321"</span><span class="p">);</span>
-</pre>
-                </div>
-
-                <p>This will be reported as: </p>
-
-<pre><code>Expected string to be
-"0987654321", but
-"1234567890" differs near "123" (index 0).
-</code></pre>
-
-                <p>The fact that both strings are displayed on a separate line is not a coincidence and happens if any of them is longer than 8 characters. However, if that's not enough, all assertion methods take an optional explanation (the <em>because</em>) that supports formatting placeholders similar to <code>String.Format</code> which you can use to enrich the failure message. For instance, the assertion</p>
-
-                <div class="highlight highlight-csharp">
-                    <pre><span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span> <span class="p">}.</span><span class="n">Should</span><span class="p">().</span><span class="n">Contain</span><span class="p">(</span><span class="n">item</span> <span class="p">=&gt;</span> <span class="n">item</span> <span class="p">&gt;</span> <span class="m">3</span><span class="p">,</span> <span class="s">"at least {0} item should be larger than 3"</span><span class="p">,</span> <span class="m">1</span><span class="p">);</span>
-</pre>
-                </div>
-
-                <p>will fail with: </p>
-
-<pre><code>Collection {1, 2, 3} should have an item matching (item &gt; 3) because at least 1 item should be larger than 3.
-</code></pre>
 
                 <h2>
                     <a name="examples" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples
@@ -142,6 +84,68 @@
                 </div>
 
                 <p>I've run into quite a few of these scenarios in which this chaining would make the unit test a lot easier to read. </p>
+
+
+
+
+                <h2>
+                    <a name="why" class="anchor" href="#why"><span class="octicon octicon-link"></span></a>Why?
+                </h2>
+
+                <p>Nothing is more annoying than a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to <a href="http://codebetter.com/jeremymiller/2005/08/18/testing-granularity-feedback-cycles-and-holistic-development/">"keep out of the debugger hell"</a> and I can only agree with that.</p>
+
+                <p>For instance, only test a single condition per test case. If you don't, and the first condition fails, the test engine will not even try to test the other conditions. But if any of the others fail, you'll be on your own to figure out which one. I often run into this problem when developers try to combine multiple related tests that test a member using different parameters into one test case. If you really need to do that, consider using a parameterized test that is being called by several clearly named test cases.</p>
+
+                <p>That’s why we designed Fluent Assertions to help you in this area. Not only by using clearly named assertion methods, but also by making sure the failure message provides as much information as possible. Consider this example:</p>
+
+                <div class="highlight highlight-csharp">
+                    <pre><span class="s">"1234567890"</span><span class="p">.</span><span class="n">Should</span><span class="p">().</span><span class="n">Be</span><span class="p">(</span><span class="s">"0987654321"</span><span class="p">);</span>
+</pre>
+                </div>
+
+                <p>This will be reported as: </p>
+
+<pre><code>Expected string to be
+"0987654321", but
+"1234567890" differs near "123" (index 0).
+</code></pre>
+
+                <p>The fact that both strings are displayed on a separate line is not a coincidence and happens if any of them is longer than 8 characters. However, if that's not enough, all assertion methods take an optional explanation (the <em>because</em>) that supports formatting placeholders similar to <code>String.Format</code> which you can use to enrich the failure message. For instance, the assertion</p>
+
+                <div class="highlight highlight-csharp">
+                    <pre><span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span> <span class="p">}.</span><span class="n">Should</span><span class="p">().</span><span class="n">Contain</span><span class="p">(</span><span class="n">item</span> <span class="p">=&gt;</span> <span class="n">item</span> <span class="p">&gt;</span> <span class="m">3</span><span class="p">,</span> <span class="s">"at least {0} item should be larger than 3"</span><span class="p">,</span> <span class="m">1</span><span class="p">);</span>
+</pre>
+                </div>
+
+                <p>will fail with: </p>
+
+<pre><code>Collection {1, 2, 3} should have an item matching (item &gt; 3) because at least 1 item should be larger than 3.
+</code></pre>
+
+                <h2>
+                    <a name="fluent-assertions" class="anchor" href="#fluent-assertions"><span class="octicon octicon-link"></span></a>Supported Frameworks and Libraries
+                </h2>
+
+                <p>It supports the following .NET versions.</p>
+                <ul>
+                    <li>.NET 4.0 and 4.5</li>
+                    <li>Windows Store Apps for Windows 8 and 8.1</li>
+                    <li>Silverlight 5</li>
+                    <li>Windows Phone 8.1</li>
+                    <li>Windows Phone Silverlight 8.0 and 8.1</li>
+                    <li>Portable Class Libraries</li>
+                </ul><p>It supports the following unit test frameworks:</p>
+
+                <ul>
+                    <li>MSTest (Visual Studio 2010, Visual Studio 2012 Update 2 and Visual Studio 2013)</li>
+                    <li><a href="http://www.nunit.org/">NUnit</a></li>
+                    <li><a href="http://xunit.codeplex.com/">XUnit</a></li>
+                    <li><a href="https://github.com/xunit/xunit/releases">XUnit2</a></li>
+                    <li><a href="http://code.google.com/p/mb-unit/">MBUnit</a></li>
+                    <li><a href="http://code.google.com/p/mb-unit/">Gallio</a></li>
+                    <li><a href="http://nspec.org/">NSpec</a></li>
+                    <li><a href="https://github.com/machine/machine.specifications">MSpec</a></li>
+                </ul>
 
                 <h2>
                     <a name="about-versioning" class="anchor" href="#about-versioning"><span class="octicon octicon-link"></span></a>About versioning
