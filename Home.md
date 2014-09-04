@@ -823,7 +823,7 @@ In addition to writing your own extensions, you can influence the way data is fo
 public static class CustomFormatter
 {    
     [ValueFormatter]
-    public static string Foo(SomeClassvalue)    
+    public static string Foo(SomeClassvalue value)    
     {
         return "Property = " + value.Property;   
     }
