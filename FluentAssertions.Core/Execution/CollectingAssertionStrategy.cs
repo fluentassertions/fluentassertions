@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 
 using FluentAssertions.Common;
-using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Execution
 {
@@ -47,7 +46,7 @@ namespace FluentAssertions.Execution
             {
                 var builder = new StringBuilder();
                 builder.AppendLine(string.Join(Environment.NewLine, failureMessages.ToArray()));
-                
+
                 if (context.Any())
                 {
                     foreach (KeyValuePair<string, object> pair in context)
@@ -65,10 +64,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public void HandleFailure(string message)
         {
-            if (!failureMessages.Contains(message))
-            {
-                failureMessages.Add(message);
-            }
+            failureMessages.Add(message);
         }
     }
 }
