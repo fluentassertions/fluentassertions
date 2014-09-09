@@ -28,13 +28,8 @@ task ApplyPackageVersioning {
 
 	    Set-ItemProperty -Path $fullName -Name IsReadOnly -Value $false
 		
-		$postfix = "";
-		if ($Branch -eq "develop") {
-			$postfix = "-dev"
-		}
-
 	    $content = Get-Content $fullName
-	    $content = $content -replace '<version>(\d+)\.(\d+)\.(\d+).*</version>', ('<version>$1.$2.$3-build' + $BuildNumber.ToString("000") + $postfix + '</version>')
+	    $content = $content -replace '<version>(\d+)\.(\d+)\.(\d+).*</version>', ('<version>$1.$2.$3-build' + ("{0:000}" -f $BuildNumber) + '</version>')
 	    Set-Content -Path $fullName $content
 	}
 }
