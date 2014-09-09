@@ -2,16 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
 
 using FluentAssertions.Equivalency;
-using FluentAssertions.Execution;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -173,6 +168,39 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_a_predicate_for_properties_to_include_has_been_specified_it_should_ignore_the_other_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "John"
+            };
+
+            var customer = new
+            {
+                Age = 36,
+                Birthdate = new DateTime(1973, 9, 20),
+                Name = "Dennis"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act 
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(customer, options => options
+                .Including(info => info.PropertyPath.EndsWith("Age"))
+                .Including(info => info.PropertyPath.EndsWith("Birthdate")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_a_non_property_expression_is_provided_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -203,7 +231,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dto.ShouldBeEquivalentTo(dto, options => options.Including(null));
+            Action act = () => dto.ShouldBeEquivalentTo(dto, options => options.Including((Expression<Func<CustomerDto, object>>)null));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2083,9 +2111,9 @@ namespace FluentAssertions.Specs
 
         internal class ExcludeForeignKeysSelectionRule : ISelectionRule
         {
-            public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> properties, ISubjectInfo context)
+            public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> selectedProperties, ISubjectInfo context)
             {
-                return properties.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
+                return selectedProperties.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
             }
         }
 

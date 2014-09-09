@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 using FluentAssertions.Common;
@@ -6,11 +9,19 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Selection rule that adds all public properties of the subject based on its run-time type rather than its
-    /// declared type.
+    /// Selection rule that includes a particular property in the structural comparison.
     /// </summary>
-    internal class AllRuntimePublicPropertiesSelectionRule : ISelectionRule
+    internal class IncludePropertyByPredicateSelectionRule : ISelectionRule
     {
+        private readonly Func<ISubjectInfo, bool> predicate;
+        private readonly string description;
+
+        public IncludePropertyByPredicateSelectionRule(Expression<Func<ISubjectInfo, bool>> predicate)
+        {
+            description = predicate.Body.ToString();
+            this.predicate = predicate.Compile();
+        }
+
         /// <summary>
         /// Adds or removes properties to/from the collection of subject properties that must be included while
         /// comparing two objects for structural equality.
@@ -22,7 +33,20 @@ namespace FluentAssertions.Equivalency
         /// </returns>
         public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> selectedProperties, ISubjectInfo context)
         {
-            return context.RuntimeType.GetNonPrivateProperties();
+            var properties = new List<PropertyInfo>(selectedProperties);
+
+            foreach (PropertyInfo propertyInfo in context.RuntimeType.GetNonPrivateProperties())
+            {
+                if (predicate(new NestedSelectionContext(context, propertyInfo)))
+                {
+                    if (!properties.Any(p => p.IsEquivalentTo(propertyInfo)))
+                    {
+                        properties.Add(propertyInfo);
+                    }
+                }
+            }
+
+            return properties;
         }
 
         /// <summary>
@@ -34,7 +58,7 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Include all runtime properties";
+            return "Exclude property when " + description;
         }
     }
 }
