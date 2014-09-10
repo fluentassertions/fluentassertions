@@ -1,5 +1,7 @@
 ﻿using System;
 
+using FluentAssertions.Formatting;
+
 namespace FluentAssertions.Common
 {
     /// <summary>
@@ -17,7 +19,6 @@ namespace FluentAssertions.Common
 
         #endregion
 
-
         public static void Initialize()
         {
             if (!initialized)
@@ -26,11 +27,11 @@ namespace FluentAssertions.Common
                 {
                     if (!initialized)
                     {
-                        Configuration = new Configuration(new NullConfigurationStore());
-                        Reflector = new NullReflector();
-
-                        var platform = PlatformAdapter.Resolve<IPlatformInitializer>();
-                        platform.Initialize();
+                        var platform = PlatformAdapter.Resolve<IProvidePlatformServices>();
+                        Configuration = platform.Configuration ?? new Configuration(new NullConfigurationStore());
+                        Reflector = platform.Reflector ?? new NullReflector();
+                        ThrowException = platform.Throw;
+                        Formatter.AddPlatformFormatters(platform.Formatters);
 
                         initialized = true;
                     }

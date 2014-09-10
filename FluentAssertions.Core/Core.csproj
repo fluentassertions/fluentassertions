@@ -58,7 +58,7 @@
     <Compile Include="Collections\WhichValueConstraint.cs" />
     <Compile Include="Common\DateTimeExtensions.cs" />
     <Compile Include="Common\IAdapterResolver.cs" />
-    <Compile Include="Common\IPlatformInitializer.cs" />
+    <Compile Include="Common\IProvidePlatformServices.cs" />
     <Compile Include="Common\NullReflector.cs" />
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />

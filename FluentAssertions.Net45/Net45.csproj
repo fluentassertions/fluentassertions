@@ -71,8 +71,8 @@
     <Compile Include="..\FluentAssertions.Net40\Common\DefaultReflectionProvider.cs">
       <Link>Common\DefaultReflectionProvider.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Common\PlatformInitializer.cs">
-      <Link>Common\PlatformInitializer.cs</Link>
+    <Compile Include="..\FluentAssertions.Net40\Common\ProvidePlatformServices.cs">
+      <Link>Common\ProvidePlatformServices.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
       <Link>EventSourceExtensions.cs</Link>
