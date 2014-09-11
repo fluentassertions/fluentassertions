@@ -74,6 +74,17 @@ namespace FluentAssertions.Formatting
         }
 
         /// <summary>
+        /// Removes a custom formatter that was previously added though <see cref="AddFormatter"/>.
+        /// </summary>
+        public static void RemoveFormatter(IValueFormatter formatter)
+        {
+            if (customFormatters.Contains(formatter))
+            {
+                customFormatters.Remove(formatter);
+            }
+        }
+        
+        /// <summary>
         /// Ensures a custom formatter is included in the chain, just before the default formatter is executed.
         /// </summary>
         public static void AddFormatter(IValueFormatter formatter)
