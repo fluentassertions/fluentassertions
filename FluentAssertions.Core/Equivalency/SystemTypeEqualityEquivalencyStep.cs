@@ -13,7 +13,8 @@ namespace FluentAssertions.Equivalency
 
             return (type != null) &&
                    (type != typeof (object)) &&
-                   (type.Namespace == typeof (int).Namespace);
+                   (type.Namespace == typeof (int).Namespace) &&
+                   (!type.IsArray);
         }
 
         /// <summary>

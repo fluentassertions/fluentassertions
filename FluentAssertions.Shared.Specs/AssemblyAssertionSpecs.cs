@@ -1,4 +1,4 @@
-﻿#if !PORTABLE && !SILVERLIGHT && !NETFX_CORE
+﻿#if !PORTABLE && !SILVERLIGHT && !NETFX_CORE && !WINRT
 
 using System;
 

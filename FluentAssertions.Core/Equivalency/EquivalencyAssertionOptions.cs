@@ -193,7 +193,22 @@ namespace FluentAssertions.Equivalency
             RemoveSelectionRule<AllDeclaredPublicPropertiesSelectionRule>();
             RemoveSelectionRule<AllRuntimePublicPropertiesSelectionRule>();
 
-            Using(new IncludePropertySelectionRule(propertyExpression.GetPropertyInfo()));
+            Using(new IncludePropertyByPathSelectionRule(propertyExpression.GetPropertyInfo()));
+            return this;
+        }
+
+        /// <summary>
+        /// Includes the specified property in the equality check.
+        /// </summary>
+        /// <remarks>
+        /// This overrides the default behavior of including all declared properties.
+        /// </remarks>
+        public EquivalencyAssertionOptions<TSubject> Including(Expression<Func<ISubjectInfo, bool>> predicate)
+        {
+            RemoveSelectionRule<AllDeclaredPublicPropertiesSelectionRule>();
+            RemoveSelectionRule<AllRuntimePublicPropertiesSelectionRule>();
+
+            Using(new IncludePropertyByPredicateSelectionRule(predicate));
             return this;
         }
 

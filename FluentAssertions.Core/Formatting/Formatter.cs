@@ -10,10 +10,11 @@ namespace FluentAssertions.Formatting
     /// </summary>
     public static class Formatter
     {
-        /// <summary>
-        /// A list of objects responsible for formatting the objects represented by placeholders.
-        /// </summary>
-        public static readonly List<IValueFormatter> Formatters = new List<IValueFormatter>
+        #region Private Definitions
+
+        private static readonly List<IValueFormatter> customFormatters = new List<IValueFormatter>();
+
+        private static readonly List<IValueFormatter> defaultFormatters = new List<IValueFormatter>
         {
             new AttributeBasedFormatter(),
             new PropertyInfoFormatter(),
@@ -28,6 +29,16 @@ namespace FluentAssertions.Formatting
             new EnumerableValueFormatter(),
             new DefaultValueFormatter(),
         };
+
+        #endregion
+
+        /// <summary>
+        /// A list of objects responsible for formatting the objects represented by placeholders.
+        /// </summary>
+        public static IEnumerable<IValueFormatter> Formatters
+        {
+            get { return customFormatters.Concat(defaultFormatters); }
+        }
 
         /// <summary>
         /// Returns a human-readable representation of a particular object.
@@ -63,13 +74,39 @@ namespace FluentAssertions.Formatting
         }
 
         /// <summary>
+        /// Removes a custom formatter that was previously added though <see cref="AddFormatter"/>.
+        /// </summary>
+        public static void RemoveFormatter(IValueFormatter formatter)
+        {
+            if (customFormatters.Contains(formatter))
+            {
+                customFormatters.Remove(formatter);
+            }
+        }
+        
+        /// <summary>
         /// Ensures a custom formatter is included in the chain, just before the default formatter is executed.
         /// </summary>
         public static void AddFormatter(IValueFormatter formatter)
         {
-            if (!Formatters.Contains(formatter))
+            if (!customFormatters.Contains(formatter))
             {
-                Formatters.Insert(0, formatter);
+                customFormatters.Insert(0, formatter);
+            }
+        }
+
+        /// <summary>
+        /// Allows a platform-specific assembly to add formatters without affecting the ones added by callers of <see cref="AddFormatter"/>.
+        /// </summary>
+        /// <param name="formatters"></param>
+        internal static void AddPlatformFormatters(IValueFormatter[] formatters)
+        {
+            foreach (var formatter in formatters)
+            {
+                if (!defaultFormatters.Contains(formatter))
+                {
+                    defaultFormatters.Insert(0, formatter);
+                }
             }
         }
     }

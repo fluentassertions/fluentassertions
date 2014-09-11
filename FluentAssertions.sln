@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30626.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Build.Package.bat = Build.Package.bat
 		Default.testsettings = Default.testsettings
 		FluentAssertions.snk = FluentAssertions.snk
-		InstallPfx.bat = InstallPfx.bat
-		PushPackage.bat = PushPackage.bat
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -65,6 +63,7 @@ Global
 		Shared\Shared.projitems*{f673cc6b-5747-466f-9ab5-0c7ead5e5f95}*SharedItemsImports = 4
 		Shared\Shared.projitems*{78e63b83-c692-44c5-8503-7e4faf8c4de8}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{d09fc2d5-a5e5-4344-9e42-bced86d21a57}*SharedItemsImports = 4
+		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{f3e17430-fad7-40ad-bf66-e6f23b70bd92}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{00a8d405-6687-47b4-a81c-76b5331d094d}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{6d8311f2-7599-4bd0-b66c-05e8cf77aab0}*SharedItemsImports = 4
 		Shared\Shared.projitems*{81d1792f-3c87-49cf-a502-9f232ff3719c}*SharedItemsImports = 4

@@ -116,7 +116,7 @@
     <Compile Include="..\FluentAssertions.WinRT\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Common\PlatformInitializer.cs" />
+    <Compile Include="Common\ProvidePlatformServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">

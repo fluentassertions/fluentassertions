@@ -58,12 +58,13 @@
     <Compile Include="Collections\WhichValueConstraint.cs" />
     <Compile Include="Common\DateTimeExtensions.cs" />
     <Compile Include="Common\IAdapterResolver.cs" />
-    <Compile Include="Common\IPlatformInitializer.cs" />
+    <Compile Include="Common\IProvidePlatformServices.cs" />
     <Compile Include="Common\NullReflector.cs" />
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
+    <Compile Include="Equivalency\IncludePropertyByPredicateSelectionRule.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
@@ -106,7 +107,7 @@
     <Compile Include="Equivalency\IEquivalencyValidationContext.cs" />
     <Compile Include="Equivalency\IEquivalencyValidator.cs" />
     <Compile Include="Equivalency\IMatchingRule.cs" />
-    <Compile Include="Equivalency\IncludePropertySelectionRule.cs" />
+    <Compile Include="Equivalency\IncludePropertyByPathSelectionRule.cs" />
     <Compile Include="Equivalency\IOrderingRule.cs" />
     <Compile Include="Equivalency\ISelectionRule.cs" />
     <Compile Include="Equivalency\ISubjectInfo.cs" />

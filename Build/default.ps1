@@ -2,36 +2,23 @@
     $BaseDirectory = Resolve-Path ..     
     $Nuget = "$BaseDirectory\Tools\NuGet.exe"
 	$SlnFile = "$BaseDirectory\FluentAssertions.sln"
+	$7zip = "$BaseDirectory\Tools\7z.exe"
 	$PackageDirectory = "$BaseDirectory\Package"
 	$ApiKey = ""
-    $BuildNumber = 9999
+    $BuildNumber = 999
     $MsBuildLoggerPath = ""
 	$Branch = ""
 	$MsTestPath = "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe"
+	$RunTests = $false
 }
 
-task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, Compile, RunTests, BuildPackage, PublishToMyget
+task default -depends Clean, ApplyPackageVersioning, Compile, RunTests, BuildZip, BuildPackage, PublishToMyget
 
 task Clean {	
     TeamCity-Block "Clean" {
 		Get-ChildItem $PackageDirectory *.nupkg | ForEach { Remove-Item $_.FullName }
+		Get-ChildItem $PackageDirectory *.zip | ForEach { Remove-Item $_.FullName }
     }
-}
-
-task ApplyAssemblyVersioning {
-    TeamCity-Block "Updating solution info versions with build number $BuildNumber" {   
-	
-		$infos = Get-ChildItem -Path $BaseDirectory -Filter SolutionInfo.cs -Recurse
-		
-		foreach ($info in $infos) {
-		    Write-Host "Updating " + $info.FullName
-			Set-ItemProperty -Path $info.FullName -Name IsReadOnly -Value $false
-
-		    $content = Get-Content $info.FullName
-		    $content = $content -replace '"(\d+)\.(\d+)\.(\d+)"', ('"$1.$2.' + $BuildNumber + '"')
-		    Set-Content -Path $info.FullName $content
-		}	
-	}
 }
 
 task ApplyPackageVersioning {
@@ -40,9 +27,9 @@ task ApplyPackageVersioning {
 		$fullName = "$BaseDirectory\Package\.nuspec"
 
 	    Set-ItemProperty -Path $fullName -Name IsReadOnly -Value $false
-
+		
 	    $content = Get-Content $fullName
-	    $content = $content -replace '<version>(\d+)\.(\d+)\.(\d+)(.*)</version>', ('<version>$1.$2.' + $BuildNumber + '$4</version>')
+	    $content = $content -replace '<version>(\d+)\.(\d+)\.(\d+).*</version>', ('<version>$1.$2.$3-build' + ("{0:000}" -f $BuildNumber) + '</version>')
 	    Set-Content -Path $fullName $content
 	}
 }
@@ -56,11 +43,11 @@ task Compile {
             $logger = "/logger:JetBrains.BuildServer.MSBuildLoggers.MSBuildLogger," + $MsBuildLoggerPath
         }
             
-	    exec { msbuild /v:d /p:Platform="Any CPU" $SlnFile /p:Configuration=Release /t:Rebuild $logger}
+	    exec { msbuild /v:m /p:Platform="Any CPU" $SlnFile /p:Configuration=Release /t:Rebuild $logger}
     }
 }
 
-task RunTests {
+task RunTests -precondition { return $RunTests -eq $true } {
 	TeamCity-Block "Running unit tests" {
 	
         Run-MsTestWithTeamCityOutput `
@@ -89,13 +76,23 @@ task RunTests {
 	}
 }
 
+task BuildZip {
+	TeamCity-Block "Zipping up the binaries" {
+		$assembly = Get-ChildItem -Path $BaseDirectory\Package\Lib -Filter FluentAssertions.dll -Recurse | Select-Object -first 1
+				
+		$versionNumber = $assembly.VersionInfo.ProductVersion
+
+		& $7zip a -r "$BaseDirectory\Package\Fluent.Assertions.$versionNumber.zip" "$BaseDirectory\Package\Lib\*" -y
+	}
+}
+
 task BuildPackage {
     TeamCity-Block "Building NuGet Package" {  
 		& $Nuget pack "$PackageDirectory\.nuspec" -o "$PackageDirectory\" 
 	}
 }
 
-task PublishToMyget -precondition { return ($Branch -eq "master" -or $Branch -eq "<default>" -or $Branch -eq "v3.1") -and ($ApiKey -ne "") } {
+task PublishToMyget -precondition { return ($Branch -eq "master" -or $Branch -eq "<default>" -or $Branch -eq "develop") -and ($ApiKey -ne "") } {
     TeamCity-Block "Publishing NuGet Package to Myget" {  
 		$packages = Get-ChildItem $PackageDirectory *.nupkg
 		foreach ($package in $packages) {

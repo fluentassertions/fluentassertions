@@ -183,10 +183,10 @@ namespace FluentAssertions.Equivalency
             }
 
             public IEnumerable<PropertyInfo> SelectProperties(
-                IEnumerable<PropertyInfo> properties,
+                IEnumerable<PropertyInfo> selectedProperties,
                 ISubjectInfo context)
             {
-                return selectionRule.SelectProperties(properties, new CollectionMemberSubjectInfo(context));
+                return selectionRule.SelectProperties(selectedProperties, new CollectionMemberSubjectInfo(context));
             }
 
             public override string ToString()
