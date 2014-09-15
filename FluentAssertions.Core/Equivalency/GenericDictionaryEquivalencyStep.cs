@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using FluentAssertions.Execution;
+
 namespace FluentAssertions.Equivalency
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
-    using FluentAssertions.Execution;
-
     internal class GenericDictionaryEquivalencyStep : IEquivalencyStep
     {
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
@@ -39,7 +39,25 @@ namespace FluentAssertions.Equivalency
                         String.Join(", ", (IEnumerable<Type>)interfaces)));
             }
 
+            if (PreconditionsAreMet(context.Expectation))
+            {
+            }
+
             return false;
+        }
+
+        private static bool PreconditionsAreMet(object expectation)
+        {
+            return AssertIsDictionary(expectation);
+        }
+
+        private static bool AssertIsDictionary(object expectation)
+        {
+            Type dictionaryInterface = GetIDictionaryInterfaces(expectation.GetType()).SingleOrDefault();
+
+            return
+                AssertionScope.Current.ForCondition(dictionaryInterface != null)
+                    .FailWith("{context:subject} is a dictionary and cannot be compared with a non-dictionary type.");
         }
     }
 }
