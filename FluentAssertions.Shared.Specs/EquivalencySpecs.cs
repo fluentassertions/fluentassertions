@@ -4300,6 +4300,27 @@ namespace FluentAssertions.Specs
             }
 
             [TestMethod]
+            public void When_a_dictionary_does_not_implement_IDictionary_it_should_still_be_treated_as_a_dictionary()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                IDictionary<string, int> dictionary = new GenericDictionaryNotImplementingIDictionary<string, int> { { "hi", 1 } };
+                ICollection<KeyValuePair<string, int>> collection = new List<KeyValuePair<string, int>> { new KeyValuePair<string, int>( "hi", 1 ) };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => dictionary.ShouldBeEquivalentTo(collection);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage("*is a dictionary and cannot be compared with a non-dictionary type.*");
+            }
+
+            [TestMethod]
             public void When_a_generic_dictionary_is_typed_as_object_and_runtime_typing_has_not_been_specified_the_declared_type_should_be_respected()
             {
                 //-----------------------------------------------------------------------------------------------------------
@@ -4439,6 +4460,110 @@ namespace FluentAssertions.Specs
                 }
 
                 public ICollection Values
+                {
+                    get
+                    {
+                        return dictionary.Values;
+                    }
+                }
+            }
+
+            private class GenericDictionaryNotImplementingIDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+            {
+                private readonly Dictionary<TKey, TValue> dictionary = new Dictionary<TKey, TValue>();
+
+                IEnumerator IEnumerable.GetEnumerator()
+                {
+                    return GetEnumerator();
+                }
+
+                public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+                {
+                    return dictionary.GetEnumerator();
+                }
+
+                void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
+                {
+                    ((ICollection<KeyValuePair<TKey, TValue>>)dictionary).Add(item);
+                }
+
+                public void Clear()
+                {
+                    dictionary.Clear();
+                }
+
+                bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
+                {
+                    return ((ICollection<KeyValuePair<TKey, TValue>>)dictionary).Contains(item);
+                }
+
+                void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+                {
+                    ((ICollection<KeyValuePair<TKey, TValue>>)dictionary).CopyTo(array, arrayIndex);
+                }
+
+                bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
+                {
+                    return ((ICollection<KeyValuePair<TKey, TValue>>)dictionary).Remove(item);
+                }
+
+                public int Count
+                {
+                    get
+                    {
+                        return dictionary.Count;
+                    }
+                }
+
+                public bool IsReadOnly
+                {
+                    get
+                    {
+                        return ((ICollection<KeyValuePair<TKey, TValue>>)dictionary).IsReadOnly;
+                    }
+                }
+
+                public bool ContainsKey(TKey key)
+                {
+                    return dictionary.ContainsKey(key);
+                }
+
+                public void Add(TKey key, TValue value)
+                {
+                    dictionary.Add(key, value);
+                }
+
+                public bool Remove(TKey key)
+                {
+                    return dictionary.Remove(key);
+                }
+
+                public bool TryGetValue(TKey key, out TValue value)
+                {
+                    return dictionary.TryGetValue(key, out value);
+                }
+
+                public TValue this[TKey key]
+                {
+                    get
+                    {
+                        return dictionary[key];
+                    }
+                    set
+                    {
+                        dictionary[key] = value;
+                    }
+                }
+
+                public ICollection<TKey> Keys
+                {
+                    get
+                    {
+                        return dictionary.Keys;
+                    }
+                }
+
+                public ICollection<TValue> Values
                 {
                     get
                     {
