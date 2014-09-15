@@ -4321,6 +4321,66 @@ namespace FluentAssertions.Specs
             }
 
             [TestMethod]
+            public void When_asserting_equivalence_of_generic_dictionaries_and_the_expectation_key_type_is_assignable_from_the_subjects_it_should_pass_if_compatible()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var dictionary1 = new Dictionary<string, string> { { "greeting", "hello" } };
+                var dictionary2 = new Dictionary<object, string> { { "greeting", "hello" } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldNotThrow("the keys are still strings");
+            }
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_generic_dictionaries_and_the_expectation_key_type_is_assignable_from_the_subjects_it_should_fail_if_incompatible()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var dictionary1 = new Dictionary<string, string> { { "greeting", "hello" } };
+                var dictionary2 = new Dictionary<object, string> { { new object(), "hello" } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>();
+            }
+
+            [TestMethod]
+            public void When_asserting_equivalence_of_generic_dictionaries_and_the_expectation_key_type_is_not_assignable_from_the_subjects_it_should_fail()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var dictionary1 = new Dictionary<string, string> { { "greeting", "hello" } };
+                var dictionary2 = new Dictionary<int, string> { { 1234, "hello" } };
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act.ShouldThrow<AssertFailedException>();
+            }
+
+            [TestMethod]
             public void When_a_generic_dictionary_is_typed_as_object_and_runtime_typing_has_not_been_specified_the_declared_type_should_be_respected()
             {
                 //-----------------------------------------------------------------------------------------------------------
