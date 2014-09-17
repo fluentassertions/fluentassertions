@@ -339,7 +339,7 @@ persistedCustomers.Select(c => c.Name).Should().Equal(customers.Select(c => c.Na
 With this new overload, you can rewrite it into:
 
 ```csharp
-persistedCustomers.Should().Equal(customers, c => c.Name);
+persistedCustomers.Should().Equal(customers, (c1, c2) => c1.Name == c2.Name);
 ```
 
 ## Dictionaries ##
