@@ -23,6 +23,14 @@ namespace FluentAssertions
     public static class TimeSpanConversionExtensions
     {
         /// <summary>
+        /// Returns a <see cref="TimeSpan" /> based on a number of ticks.
+        /// </summary>
+        public static TimeSpan Ticks(this int ticks)
+        {
+            return TimeSpan.FromTicks(ticks);
+        }
+        
+        /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of milliseconds.
         /// </summary>
         public static TimeSpan Milliseconds(this int milliseconds)
