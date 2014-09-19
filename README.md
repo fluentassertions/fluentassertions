@@ -122,6 +122,16 @@ The [Xamarin](https://github.com/onovotny/fluentassertions) version has been bui
 
 If you have any comments or suggestions, please let us know via [twitter](https://twitter.com/search?q=fluentassertions&src=typd), through the [issues](https://github.com/dennisdoomen/FluentAssertions/issues) page, or through [StackOverflow](http://stackoverflow.com/questions/tagged/fluent-assertions).
 
+Community Extensions
+--------------------
+
+There are a number of community maintained extension projects.  The ones we are aware of a listed below.  To add yours please fork the repro and send a pull request.
+
+- [FluentAssertions.Ioc.Ninject](https://github.com/kevinkuszyk/FluentAssertions.Ioc.Ninject) for testing Ninject bindings.
+- [FluentAssertions.Mvc](https://github.com/CaseyBurns/FluentAssertions.MVC) for testing MVC applications.
+- [Xamarin](https://github.com/onovotny/fluentassertions) version for Mono support.
+
+
 Special thanks
 --------------
 This project would not have been possible without the support of [JetBrains](http://www.jetbrains.com/). We thank them generously for providing us with the [ReSharper](http://www.jetbrains.com/resharper/) licenses necessary to make us productive developers.   
