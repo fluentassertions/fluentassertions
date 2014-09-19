@@ -4255,7 +4255,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 act.ShouldThrow<AssertFailedException>()
                     .WithMessage(
-                        "Subject is enumerable for more than one type.  "
+                        "Subject implements multiple dictionary types.  "
                         + "It is not known which type should be use for equivalence.*");
             }
 
@@ -4297,6 +4297,29 @@ namespace FluentAssertions.Specs
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
                 act.ShouldNotThrow("because the dictionaries are equivalent");
+            }
+
+            [TestMethod]
+            public void When_two_dictionaries_asserted_to_be_equivalent_have_different_lengths_it_should_fail_descriptively()
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Arrange
+                //-----------------------------------------------------------------------------------------------------------
+                var dictionary1 = new Dictionary<string, string> { { "greeting", "hello" } };
+                var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, {"farewell", "goodbye"} };
+                
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                Action act1 = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
+                Action act2 = () => dictionary2.ShouldBeEquivalentTo(dictionary1);
+
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                act1.ShouldThrow<AssertFailedException>().WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s)*");
+                act2.ShouldThrow<AssertFailedException>().WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s)*");
             }
 
             [TestMethod]
@@ -4357,6 +4380,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
+                //TODO: Look at providing a better error message.
                 act.ShouldThrow<AssertFailedException>();
             }
 
@@ -4377,7 +4401,11 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                act.ShouldThrow<AssertFailedException>();
+                act.ShouldThrow<AssertFailedException>()
+                    .WithMessage(
+                        string.Format(
+                            "*The subject dictionary has keys of type System.String; however, the expected dictionary is not keyed with any compatible types.*{0}*",
+                            typeof(IDictionary<int, string>)));
             }
 
             [TestMethod]
