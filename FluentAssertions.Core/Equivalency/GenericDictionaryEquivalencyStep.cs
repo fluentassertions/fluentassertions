@@ -48,7 +48,7 @@ namespace FluentAssertions.Equivalency
 
             if (PreconditionsAreMet(context.Subject, subjectType, context.Expectation))
             {
-                return false;
+                AssertDictionaryEquivalence(context, parent, config, subjectType);
             }
 
             return true;
@@ -90,7 +90,7 @@ namespace FluentAssertions.Equivalency
             {
                 AssertionScope.Current.FailWith(
                     string.Format(
-                        "The subject dictionary has keys of type {0}; "
+                        "The {{context:subject}} dictionary has keys of type {0}; "
                         + "however, the expected dictionary is not keyed with any compatible types.{1}"
                         + "The expected dictionary implements: {2}",
                         subjectKeyType,
@@ -146,6 +146,57 @@ namespace FluentAssertions.Equivalency
                         "Expected {context:subject} to be a dictionary with {0} item(s), but found {1} item(s).",
                         expectation.Count,
                         subject.Count);
+        }
+
+        private static void AssertDictionaryEquivalence(
+            EquivalencyValidationContext context,
+            IEquivalencyValidator parent,
+            IEquivalencyAssertionOptions config,
+            Type subjectType)
+        {
+            var assertDictionaryEquivalence = Expression.Call(
+                typeof(GenericDictionaryEquivalencyStep),
+                "AssertDictionaryEquivalence",
+                GetDictionaryRelatedTypeArgumentsArray(subjectType, context.Expectation),
+                Expression.Constant(context),
+                Expression.Constant(parent),
+                Expression.Constant(config),
+                Expression.Constant(context.Subject, subjectType),
+                Expression.Constant(context.Expectation));
+
+            Expression.Lambda(assertDictionaryEquivalence).Compile().DynamicInvoke();
+        }
+
+        private static void AssertDictionaryEquivalence
+            <TSubject, TSubjectKey, TSubjectValue, TExpected, TExpectKey, TExpectedValue>(
+            EquivalencyValidationContext context,
+            IEquivalencyValidator parent,
+            IEquivalencyAssertionOptions config,
+            TSubject subject,
+            TExpected expectation) where TExpected : IDictionary<TExpectKey, TExpectedValue>
+            where TSubject : IDictionary<TSubjectKey, TSubjectValue> where TSubjectKey : TExpectKey
+        {
+            foreach (TSubjectKey key in subject.Keys)
+            {
+                TExpectedValue expectedValue;
+
+                if (expectation.TryGetValue(key, out expectedValue))
+                {
+                    if (config.IsRecursive)
+                    {
+                        parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
+
+                    }
+                    else
+                    {
+                        subject[key].Should().Be(expectation[key], context.Reason, context.ReasonArgs);
+                    }
+                }
+                else
+                {
+                    AssertionScope.Current.FailWith("{context:subject} contains unexpected key {0}", key);
+                }
+            }
         }
     }
 }

@@ -4380,8 +4380,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                //TODO: Look at providing a better error message.
-                act.ShouldThrow<AssertFailedException>();
+                act.ShouldThrow<AssertFailedException>().WithMessage("Subject contains unexpected key \"greeting\"*");
             }
 
             [TestMethod]
