@@ -602,7 +602,7 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Expects the current collection to have all elements in ascending order. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -618,7 +618,7 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Expects the current collection to have all elements in descending order. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
