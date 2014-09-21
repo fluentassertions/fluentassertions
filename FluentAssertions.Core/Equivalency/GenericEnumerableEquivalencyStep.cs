@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+            var subjectType = config.GetSubjectType(context);
 
             return (context.Subject != null) && IsGenericCollection(subjectType);
         }
@@ -31,7 +31,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+            Type subjectType = config.GetSubjectType(context);
 
             Type[] interfaces = GetIEnumerableInterfaces(subjectType);
             bool multipleInterfaces = (interfaces.Count() > 1);

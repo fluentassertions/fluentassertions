@@ -15,10 +15,9 @@ namespace FluentAssertions.Equivalency
     {
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+            Type subjectType = config.GetSubjectType(context);
 
-            return context.Subject != null
-                   && GetIDictionaryInterfaces(subjectType).Any();
+            return ((context.Subject != null) && GetIDictionaryInterfaces(subjectType).Any());
         }
 
         private static Type[] GetIDictionaryInterfaces(Type type)
@@ -44,7 +43,7 @@ namespace FluentAssertions.Equivalency
                         String.Join(", ", (IEnumerable<Type>)interfaces)));
             }
 
-            Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+            Type subjectType = config.GetSubjectType(context);
 
             if (PreconditionsAreMet(context.Subject, subjectType, context.Expectation))
             {
@@ -56,7 +55,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool PreconditionsAreMet(object subject, Type subjectType, object expectation)
         {
-            return AssertIsDictionary(subjectType, expectation) && AssertSameLength(subject, subjectType, expectation);
+            return (AssertIsDictionary(subjectType, expectation) && AssertSameLength(subject, subjectType, expectation));
         }
 
         private static bool AssertIsDictionary(Type subjectType, object expectation)

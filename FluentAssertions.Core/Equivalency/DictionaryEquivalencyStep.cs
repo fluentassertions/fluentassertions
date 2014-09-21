@@ -12,7 +12,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+            Type subjectType = config.GetSubjectType(context);
 
             return typeof(IDictionary).IsAssignableFrom(subjectType);
         }
