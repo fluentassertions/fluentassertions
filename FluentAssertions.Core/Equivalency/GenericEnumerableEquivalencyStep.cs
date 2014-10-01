@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 using FluentAssertions.Execution;
 
@@ -60,16 +61,16 @@ namespace FluentAssertions.Equivalency
 
                 Type typeOfEnumeration = GetTypeOfEnumeration(subjectType);
 
-                Expression subjectToArray = ToArray(context.Subject, typeOfEnumeration);
-                Expression expectationToArray =
-                    Expression.Constant(EnumerableEquivalencyStep.ToArray(context.Expectation));
+                object subjectToArray = ToArray(context.Subject, typeOfEnumeration);
+                object[] expectationToArray =
+                    EnumerableEquivalencyStep.ToArray(context.Expectation);
 
                 MethodCallExpression executeExpression = Expression.Call(
                     Expression.Constant(validator),
                     "Execute",
                     new Type[] { typeOfEnumeration },
-                    subjectToArray,
-                    expectationToArray);
+                    Expression.Constant(subjectToArray),
+                    Expression.Constant(expectationToArray));
 
                 Expression.Lambda(executeExpression).Compile().DynamicInvoke();
             }
@@ -112,13 +113,11 @@ namespace FluentAssertions.Equivalency
             return interfaceType.GetGenericArguments().Single();
         }
 
-        private static Expression ToArray(object value, Type typeOfEnumeration)
+        private static object ToArray(object value, Type typeOfEnumeration)
         {
-            return Expression.Call(
-                typeof(Enumerable),
-                "ToArray",
-                new Type[] { typeOfEnumeration },
-                Expression.Constant(value));
+            MethodInfo toArray = typeof(Enumerable).GetMethod("ToArray").MakeGenericMethod(typeOfEnumeration);
+
+            return toArray.Invoke(null, new [] {value});
         }
     }
 }
