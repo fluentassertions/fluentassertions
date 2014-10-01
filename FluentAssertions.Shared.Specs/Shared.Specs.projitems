@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AndWhichConstraintSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionFailureSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssertionScopeSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BooleanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComparableSpecs.cs" />
@@ -28,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GenericCollectionAssertionOfStringSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericCollectionAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericDictionaryAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GenericEquivalencySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GuidAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoSelectorAssertionSpecs.cs" />

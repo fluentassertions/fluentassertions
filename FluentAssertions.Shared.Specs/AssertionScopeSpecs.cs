@@ -1,7 +1,12 @@
 using System;
 using System.Text.RegularExpressions;
+
 using FluentAssertions.Execution;
+#if !OLD_MSTEST
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
@@ -141,7 +146,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = scope.Dispose;
-            ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -154,7 +158,7 @@ namespace FluentAssertions.Specs
             {
                 int matches = new Regex(".*Failure.*").Matches(exception.Message).Count;
 
-                Assert.AreEqual(1, matches);
+                Assert.AreEqual(6, matches);
             }
         }
 
