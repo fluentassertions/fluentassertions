@@ -108,14 +108,27 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertSameLength(object subject, Type subjectType, object expectation)
         {
+            string methodName =
+                GetMethodName(
+                    () =>
+                    AssertSameLength
+                        <Dictionary<object, object>, object, object, Dictionary<object, object>, object, object>(
+                            null,
+                            null));
+
             MethodCallExpression assertSameLength = Expression.Call(
                 typeof(GenericDictionaryEquivalencyStep),
-                "AssertSameLength",
+                methodName,
                 GetDictionaryRelatedTypeArgumentsArray(subjectType, expectation),
                 Expression.Constant(subject, subjectType),
                 Expression.Constant(expectation));
 
             return (bool)Expression.Lambda(assertSameLength).Compile().DynamicInvoke();
+        }
+
+        private static string GetMethodName(Expression<Action> action)
+        {
+            return ((MethodCallExpression)action.Body).Method.Name;
         }
 
         private static Type[] GetDictionaryRelatedTypeArgumentsArray(Type subjectType, object expectation)
@@ -153,9 +166,20 @@ namespace FluentAssertions.Equivalency
             IEquivalencyAssertionOptions config,
             Type subjectType)
         {
+            string methodName =
+                GetMethodName(
+                    () =>
+                    AssertDictionaryEquivalence
+                        <Dictionary<object, object>, object, object, Dictionary<object, object>, object, object>(
+                            null,
+                            null,
+                            null,
+                            null,
+                            null));
+
             var assertDictionaryEquivalence = Expression.Call(
                 typeof(GenericDictionaryEquivalencyStep),
-                "AssertDictionaryEquivalence",
+                methodName,
                 GetDictionaryRelatedTypeArgumentsArray(subjectType, context.Expectation),
                 Expression.Constant(context),
                 Expression.Constant(parent),
