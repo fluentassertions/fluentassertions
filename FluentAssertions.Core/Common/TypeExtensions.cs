@@ -73,6 +73,20 @@ namespace FluentAssertions.Common
                 && (type != expectedBaseType);
         }
 
+        internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
+            {
+                return new[] { type };
+            }
+
+            Type[] interfaces = type.GetInterfaces();
+            return
+                interfaces
+                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == openGenericType)))
+                    .ToArray();
+        }
+
         public static bool IsComplexType(this Type type)
         {
             return HasProperties(type) && (type.Namespace != typeof (int).Namespace);

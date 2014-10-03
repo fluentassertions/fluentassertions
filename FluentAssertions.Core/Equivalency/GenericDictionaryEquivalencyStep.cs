@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
 
         private static Type[] GetIDictionaryInterfaces(Type type)
         {
-            return GenericEnumerableEquivalencyStep.GetClosedGenericInterfaces(
+            return Common.TypeExtensions.GetClosedGenericInterfaces(
                 type,
                 typeof(IDictionary<,>));
         }
