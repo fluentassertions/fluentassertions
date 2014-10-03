@@ -29,7 +29,26 @@ namespace FluentAssertions.Equivalency
 
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            Type[] interfaces = GetIDictionaryInterfaces(context.Subject.GetType());
+            if (PreconditionsAreMet(context, config))
+            {
+                AssertDictionaryEquivalence(context, parent, config);
+            }
+
+            return true;
+        }
+
+        private static bool PreconditionsAreMet(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        {
+            Type subjectType = config.GetSubjectType(context);
+
+            return (AssertImplementsOnlyOneDictionaryInterface(context.Subject)
+                    && AssertIsCompatiblyTypedDictionary(subjectType, context.Expectation)
+                    && AssertSameLength(context.Subject, subjectType, context.Expectation));
+        }
+
+        private static bool AssertImplementsOnlyOneDictionaryInterface(object subject)
+        {
+            Type[] interfaces = GetIDictionaryInterfaces(subject.GetType());
             bool multipleInterfaces = (interfaces.Count() > 1);
 
             if (multipleInterfaces)
@@ -41,24 +60,13 @@ namespace FluentAssertions.Equivalency
                         + "The following IDictionary interfaces are implemented: {1}",
                         Environment.NewLine,
                         String.Join(", ", (IEnumerable<Type>)interfaces)));
-            }
-
-            Type subjectType = config.GetSubjectType(context);
-
-            if (PreconditionsAreMet(context.Subject, subjectType, context.Expectation))
-            {
-                AssertDictionaryEquivalence(context, parent, config, subjectType);
+                return false;
             }
 
             return true;
         }
 
-        private static bool PreconditionsAreMet(object subject, Type subjectType, object expectation)
-        {
-            return (AssertIsDictionary(subjectType, expectation) && AssertSameLength(subject, subjectType, expectation));
-        }
-
-        private static bool AssertIsDictionary(Type subjectType, object expectation)
+        private static bool AssertIsCompatiblyTypedDictionary(Type subjectType, object expectation)
         {
             Type subjectDictionaryType = GetIDictionaryInterfaces(subjectType).Single();
             Type subjectKeyType = GetDictionaryKeyType(subjectDictionaryType);
@@ -163,9 +171,10 @@ namespace FluentAssertions.Equivalency
         private static void AssertDictionaryEquivalence(
             EquivalencyValidationContext context,
             IEquivalencyValidator parent,
-            IEquivalencyAssertionOptions config,
-            Type subjectType)
+            IEquivalencyAssertionOptions config)
         {
+            Type subjectType = config.GetSubjectType(context);
+
             string methodName =
                 GetMethodName(
                     () =>
