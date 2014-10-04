@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AndWhichConstraintSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionFailureSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AssertionScopeSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BooleanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EnumerableEquivalencySpecs.cs" />

@@ -2363,68 +2363,69 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+    }
 
+    #region Test Classes
 
-        public class ClassOne
+    public class ClassOne
+    {
+        private ClassTwo refOne = new ClassTwo();
+        private int valOne = 1;
+
+        public ClassTwo RefOne
         {
-            private ClassTwo refOne = new ClassTwo();
-            private int valOne = 1;
-
-            public ClassTwo RefOne
-            {
-                get { return refOne; }
-                set { refOne = value; }
-            }
-
-            public int ValOne
-            {
-                get { return valOne; }
-                set { valOne = value; }
-            }
+            get { return refOne; }
+            set { refOne = value; }
         }
 
-        public class ClassTwo
+        public int ValOne
         {
-            private int valTwo = 3;
+            get { return valOne; }
+            set { valOne = value; }
+        }
+    }
 
-            public int ValTwo
-            {
-                get { return valTwo; }
-                set { valTwo = value; }
-            }
+    public class ClassTwo
+    {
+        private int valTwo = 3;
+
+        public int ValTwo
+        {
+            get { return valTwo; }
+            set { valTwo = value; }
+        }
+    }
+
+    public class ClassWithWriteOnlyProperty
+    {
+        private int writeOnlyPropertyValue;
+
+        public int WriteOnlyProperty
+        {
+            set { writeOnlyPropertyValue = value; }
         }
 
-        public class ClassWithWriteOnlyProperty
-        {
-            private int writeOnlyPropertyValue;
+        public string SomeOtherProperty { get; set; }
+    }
 
-            public int WriteOnlyProperty
-            {
-                set { writeOnlyPropertyValue = value; }
-            }
+    internal enum EnumOne
+    {
+        One = 0,
+        Two = 3
+    }
 
-            public string SomeOtherProperty { get; set; }
-        }
+    internal enum EnumTwo
+    {
+        One = 0,
+        Two = 3
+    }
 
-        private enum EnumOne
-        {
-            One = 0,
-            Two = 3
-        }
+    internal class ClassWithNoMembers
+    {
+    }
 
-        private enum EnumTwo
-        {
-            One = 0,
-            Two = 3
-        }
-
-        private class ClassWithNoMembers
-        {
-        }
-
-        private struct StructWithNoMembers
-        {
-        }
+    internal struct StructWithNoMembers
+    {
     }
 
     internal class ClassWithInfinitelyRecursiveProperty
@@ -2566,6 +2567,8 @@ namespace FluentAssertions.Specs
         {
         }
     }
+
+    #endregion
 
     #region Nested classes for comparison
 

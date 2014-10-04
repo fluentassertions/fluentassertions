@@ -29,7 +29,10 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(
+            EquivalencyValidationContext context,
+            IEquivalencyValidator parent,
+            IEquivalencyAssertionOptions config)
         {
             Type subjectType = config.GetSubjectType(context);
 
@@ -79,17 +82,26 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertExpectationIsCollection(object expectation)
         {
-            return AssertionScope.Current
-                .ForCondition(IsGenericCollection(expectation.GetType()))
-                .FailWith(
-                    "{context:Subject} is a collection and cannot be compared with a non-collection type.");
+            bool conditionMet = AssertionScope.Current
+                .ForCondition(!ReferenceEquals(expectation, null))
+                .FailWith("{context:Subject} is a collection and cannot be compared to <null>.");
+
+            if (conditionMet)
+            {
+                return AssertionScope.Current
+                    .ForCondition(IsGenericCollection(expectation.GetType()))
+                    .FailWith(
+                        "{context:Subject} is a collection and cannot be compared with a non-collection type.");
+            }
+
+            return conditionMet;
         }
 
         private static bool IsGenericCollection(Type type)
         {
             var enumerableInterfaces = GetIEnumerableInterfaces(type);
 
-            return (!typeof(string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
+            return (!typeof (string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
         }
 
         private static Type[] GetIEnumerableInterfaces(Type type)
