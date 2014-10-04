@@ -13,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class CollectionEquivalencySpecs
+    public class EnumerableEquivalencySpecs
     {
         [TestMethod]
         public void

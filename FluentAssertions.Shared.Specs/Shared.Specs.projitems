@@ -15,7 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)AssertionFailureSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BooleanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionAssertionSpecs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CollectionEquivalencySpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EnumerableEquivalencySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComparableSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeOffsetValueFormatterSpecs.cs" />
