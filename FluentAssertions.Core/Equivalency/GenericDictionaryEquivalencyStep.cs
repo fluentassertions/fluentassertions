@@ -68,7 +68,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertIsCompatiblyTypedDictionary(Type subjectType, object expectation)
         {
-            Type subjectDictionaryType = GetIDictionaryInterfaces(subjectType).Single();
+            Type subjectDictionaryType = GetIDictionaryInterface(subjectType);
             Type subjectKeyType = GetDictionaryKeyType(subjectDictionaryType);
 
             Type[] expectationDictionaryInterfaces = GetIDictionaryInterfaces(expectation.GetType());
@@ -116,20 +116,16 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertSameLength(object subject, Type subjectType, object expectation)
         {
-            string methodName =
-                GetMethodName(
-                    () =>
-                    AssertSameLength
-                        <Dictionary<object, object>, object, object, Dictionary<object, object>, object, object>(
-                            null,
-                            null));
+            string methodName = GetMethodName(() => AssertSameLength<object, object, object, object>(null, null));
 
             MethodCallExpression assertSameLength = Expression.Call(
                 typeof(GenericDictionaryEquivalencyStep),
                 methodName,
-                GetDictionaryRelatedTypeArgumentsArray(subjectType, expectation),
-                Expression.Constant(subject, subjectType),
-                Expression.Constant(expectation));
+                GetDictionaryTypeArguments(subjectType)
+                    .Concat(GetDictionaryTypeArguments(expectation.GetType()))
+                    .ToArray(),
+                Expression.Constant(subject, GetIDictionaryInterface(subjectType)),
+                Expression.Constant(expectation, GetIDictionaryInterface(expectation.GetType())));
 
             return (bool)Expression.Lambda(assertSameLength).Compile().DynamicInvoke();
         }
@@ -139,26 +135,21 @@ namespace FluentAssertions.Equivalency
             return ((MethodCallExpression)action.Body).Method.Name;
         }
 
-        private static Type[] GetDictionaryRelatedTypeArgumentsArray(Type subjectType, object expectation)
+        private static IEnumerable<Type> GetDictionaryTypeArguments(Type subjectType)
         {
-            IEnumerable<Type> subjectTypes = GetDictionaryTypeAndTypeArguments(subjectType);
-            IEnumerable<Type> expectationTypes = GetDictionaryTypeAndTypeArguments(expectation.GetType());
+            var dictionaryType = GetIDictionaryInterface(subjectType);
 
-            return subjectTypes.Concat(expectationTypes).ToArray();
+            return dictionaryType.GetGenericArguments();
         }
 
-        private static IEnumerable<Type> GetDictionaryTypeAndTypeArguments(Type subjectType)
+        private static Type GetIDictionaryInterface(Type subjectType)
         {
-            var dictionaryType = GetIDictionaryInterfaces(subjectType).Single();
-
-            return new[] { subjectType }.Concat(dictionaryType.GetGenericArguments());
+            return GetIDictionaryInterfaces(subjectType).Single();
         }
 
-        private static bool AssertSameLength
-            <TSubject, TSubjectKey, TSubjectValue, TExpected, TExpectKey, TExpectedValue>(
-            TSubject subject,
-            TExpected expectation) where TExpected : IDictionary<TExpectKey, TExpectedValue>
-            where TSubject : IDictionary<TSubjectKey, TSubjectValue>
+        private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectKey, TExpectedValue>(
+            IDictionary<TSubjectKey, TSubjectValue> subject,
+            IDictionary<TExpectKey, TExpectedValue> expectation)
         {
             return
                 AssertionScope.Current.ForCondition(subject.Count == expectation.Count)
@@ -177,36 +168,29 @@ namespace FluentAssertions.Equivalency
 
             string methodName =
                 GetMethodName(
-                    () =>
-                    AssertDictionaryEquivalence
-                        <Dictionary<object, object>, object, object, Dictionary<object, object>, object, object>(
-                            null,
-                            null,
-                            null,
-                            null,
-                            null));
+                    () => AssertDictionaryEquivalence<object, object, object, object>(null, null, null, null, null));
 
             var assertDictionaryEquivalence = Expression.Call(
                 typeof(GenericDictionaryEquivalencyStep),
                 methodName,
-                GetDictionaryRelatedTypeArgumentsArray(subjectType, context.Expectation),
+                GetDictionaryTypeArguments(subjectType)
+                    .Concat(GetDictionaryTypeArguments(context.Expectation.GetType()))
+                    .ToArray(),
                 Expression.Constant(context),
                 Expression.Constant(parent),
                 Expression.Constant(config),
-                Expression.Constant(context.Subject, subjectType),
-                Expression.Constant(context.Expectation));
+                Expression.Constant(context.Subject, GetIDictionaryInterface(subjectType)),
+                Expression.Constant(context.Expectation, GetIDictionaryInterface(context.Expectation.GetType())));
 
             Expression.Lambda(assertDictionaryEquivalence).Compile().DynamicInvoke();
         }
 
-        private static void AssertDictionaryEquivalence
-            <TSubject, TSubjectKey, TSubjectValue, TExpected, TExpectKey, TExpectedValue>(
+        private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectKey, TExpectedValue>(
             EquivalencyValidationContext context,
             IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config,
-            TSubject subject,
-            TExpected expectation) where TExpected : IDictionary<TExpectKey, TExpectedValue>
-            where TSubject : IDictionary<TSubjectKey, TSubjectValue> where TSubjectKey : TExpectKey
+            IDictionary<TSubjectKey, TSubjectValue> subject,
+            IDictionary<TExpectKey, TExpectedValue> expectation) where TSubjectKey : TExpectKey
         {
             foreach (TSubjectKey key in subject.Keys)
             {
