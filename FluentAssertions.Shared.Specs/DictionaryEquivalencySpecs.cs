@@ -100,6 +100,136 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
         }
 
+        [TestMethod]
+        public void When_asserting_equivalence_of_non_generic_dictionaries_the_lack_of_type_information_should_be_preserved_for_other_equivalency_steps()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Guid userId = Guid.NewGuid();
+
+            var dictionary1 = new NonGenericDictionary { { userId, new List<string> { "Admin", "Special" } } };
+            var dictionary2 = new NonGenericDictionary { { userId, new List<string> { "Admin", "Other" } } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow("the declared type of the values is 'object'");
+        }
+
+        private class NonGenericDictionary : IDictionary
+        {
+            private readonly IDictionary dictionary = new Dictionary<object, object>();
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            public void CopyTo(Array array, int index)
+            {
+                dictionary.CopyTo(array, index);
+            }
+
+            public int Count
+            {
+                get
+                {
+                    return dictionary.Count;
+                }
+            }
+
+            public bool IsSynchronized
+            {
+                get
+                {
+                    return dictionary.IsSynchronized;
+                }
+            }
+
+            public object SyncRoot
+            {
+                get
+                {
+                    return dictionary.SyncRoot;
+                }
+            }
+
+            public void Add(object key, object value)
+            {
+                dictionary.Add(key, value);
+            }
+
+            public void Clear()
+            {
+                dictionary.Clear();
+            }
+
+            public bool Contains(object key)
+            {
+                return dictionary.Contains(key);
+            }
+
+            public IDictionaryEnumerator GetEnumerator()
+            {
+                return dictionary.GetEnumerator();
+            }
+
+            public void Remove(object key)
+            {
+                dictionary.Remove(key);
+            }
+
+            public bool IsFixedSize
+            {
+                get
+                {
+                    return dictionary.IsFixedSize;
+                }
+            }
+
+            public bool IsReadOnly
+            {
+                get
+                {
+                    return dictionary.IsReadOnly;
+                }
+            }
+
+            public object this[object key]
+            {
+                get
+                {
+                    return dictionary[key];
+                }
+                set
+                {
+                    dictionary[key] = value;
+                }
+            }
+
+            public ICollection Keys
+            {
+                get
+                {
+                    return dictionary.Keys;
+                }
+            }
+
+            public ICollection Values
+            {
+                get
+                {
+                    return dictionary.Values;
+                }
+            }
+        }
+
         #endregion
 
         [TestMethod]
@@ -336,151 +466,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>();
-        }
-
-        [TestMethod]
-        public void When_asserting_equivalence_of_non_generic_dictionaries_the_lack_of_type_information_should_be_preserved_for_other_equivalency_steps()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            Guid userId = Guid.NewGuid();
-
-            var dictionary1 = new NonGenericDictionary { { userId, new List<string> { "Admin", "Special" } } };
-            var dictionary2 = new NonGenericDictionary { { userId, new List<string> { "Admin", "Other" } } };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dictionary1.ShouldBeEquivalentTo(dictionary2);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow("the declared type of the values is 'object'");
-        }
-
-        public class UserRolesLookupElement
-        {
-            private readonly Dictionary<Guid, List<string>> innerRoles = new Dictionary<Guid, List<string>>();
-
-            public virtual Dictionary<Guid, IEnumerable<string>> Roles
-            {
-                get { return innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z)); }
-            }
-
-            public void Add(Guid userId, params string[] roles)
-            {
-                innerRoles[userId] = roles.ToList();
-            }
-        }
-
-        private class NonGenericDictionary : IDictionary
-        {
-            private readonly IDictionary dictionary = new Dictionary<object, object>();
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
-
-            public void CopyTo(Array array, int index)
-            {
-                dictionary.CopyTo(array, index);
-            }
-
-            public int Count
-            {
-                get
-                {
-                    return dictionary.Count;
-                }
-            }
-
-            public bool IsSynchronized
-            {
-                get
-                {
-                    return dictionary.IsSynchronized;
-                }
-            }
-
-            public object SyncRoot
-            {
-                get
-                {
-                    return dictionary.SyncRoot;
-                }
-            }
-
-            public void Add(object key, object value)
-            {
-                dictionary.Add(key, value);
-            }
-
-            public void Clear()
-            {
-                dictionary.Clear();
-            }
-
-            public bool Contains(object key)
-            {
-                return dictionary.Contains(key);
-            }
-
-            public IDictionaryEnumerator GetEnumerator()
-            {
-                return dictionary.GetEnumerator();
-            }
-
-            public void Remove(object key)
-            {
-                dictionary.Remove(key);
-            }
-
-            public bool IsFixedSize
-            {
-                get
-                {
-                    return dictionary.IsFixedSize;
-                }
-            }
-
-            public bool IsReadOnly
-            {
-                get
-                {
-                    return dictionary.IsReadOnly;
-                }
-            }
-
-            public object this[object key]
-            {
-                get
-                {
-                    return dictionary[key];
-                }
-                set
-                {
-                    dictionary[key] = value;
-                }
-            }
-
-            public ICollection Keys
-            {
-                get
-                {
-                    return dictionary.Keys;
-                }
-            }
-
-            public ICollection Values
-            {
-                get
-                {
-                    return dictionary.Values;
-                }
-            }
         }
 
         private class GenericDictionaryNotImplementingIDictionary<TKey, TValue> : IDictionary<TKey, TValue>
