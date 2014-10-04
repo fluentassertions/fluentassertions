@@ -676,5 +676,282 @@ namespace FluentAssertions.Specs
                 return Int32.Parse(key);
             }
         }
+
+        #region (Nested) Dictionaries
+
+        [TestMethodAttribute]
+        public void
+            When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
+            ()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = new Dictionary<string, string>
+                    {
+                        {"Key2", "Value2"},
+                        {"Key1", "Value1"}
+                    }
+            };
+
+            var subject = new
+            {
+                Customers = new Dictionary<string, string>
+                    {
+                        {"Key1", "Value1"},
+                        {"Key2", "Value2"}
+                    }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethodAttribute]
+        public void
+            When_the_other_property_is_not_a_dictionary_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = "I am a string"
+            };
+
+            var subject = new
+            {
+                Customers = new Dictionary<string, string>
+                    {
+                        {"Key2", "Value2"},
+                        {"Key1", "Value1"}
+                    }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Property*Customers*dictionary*non-dictionary*");
+        }
+
+        [TestMethodAttribute]
+        public void
+            When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
+            ()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new
+            {
+                Customers = new Dictionary<string, string>
+                    {
+                        {"Key1", "Value1"},
+                        {"Key2", "Value2"}
+                    }
+            };
+
+            var subject = new
+            {
+                Customers = new Dictionary<string, string>
+                    {
+                        {"Key1", "Value1"},
+                    }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
+        }
+
+        [TestMethod]
+        public void When_two_equivalent_dictionaries_are_compared_directly_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var result = new Dictionary<string, int>
+                {
+                    { "C", 0 },
+                    { "B", 0 },
+                    { "A", 0 }
+                };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => result.ShouldBeEquivalentTo(new Dictionary<string, int>
+                {
+                    { "A", 0 },
+                    { "B", 0 },
+                    { "C", 0 }
+                });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_two_equivalent_dictionaries_are_compared_directly_as_if_it_is_a_collection_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var result = new Dictionary<string, int?>
+                {
+                    { "C", null },
+                    { "B", 0 },
+                    { "A", 0 }
+                };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => result.ShouldAllBeEquivalentTo(new Dictionary<string, int?>
+                {
+                    { "A", 0 },
+                    { "B", 0 },
+                    { "C", null }
+                });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_two_nested_dictionaries_do_not_match_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var projection = new
+            {
+                ReferencedEquipment = new Dictionary<int, string>
+                    {
+                        { 1, "Bla1" }
+                    }
+            };
+
+            var persistedProjection = new
+            {
+                ReferencedEquipment = new Dictionary<int, string>
+                    {
+                        { 1, "Bla2" }
+                    }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => persistedProjection.ShouldBeEquivalentTo(projection);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
+        }
+
+        [TestMethod]
+        public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var projection = new
+            {
+                ReferencedEquipment = new Dictionary<int, string>
+                    {
+                        { 1, null }
+                    }
+            };
+
+            var persistedProjection = new
+            {
+                ReferencedEquipment = new Dictionary<int, string>
+                    {
+                        { 1, null }
+                    }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => persistedProjection.ShouldBeEquivalentTo(projection);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_the_dictionary_values_are_handled_by_the_enumerable_equivalency_step_the_type_information_should_be_preserved()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Guid userId = Guid.NewGuid();
+
+            var actual = new UserRolesLookupElement();
+            actual.Add(userId, "Admin", "Special");
+
+            var expected = new UserRolesLookupElement();
+            expected.Add(userId, "Admin", "Other");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*Roles[*][1]*Other*Special*");
+        }
+
+        public class UserRolesLookupElement
+        {
+            private readonly Dictionary<Guid, List<string>> innerRoles = new Dictionary<Guid, List<string>>();
+
+            public virtual Dictionary<Guid, IEnumerable<string>> Roles
+            {
+                get { return innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z)); }
+            }
+
+            public void Add(Guid userId, params string[] roles)
+            {
+                innerRoles[userId] = roles.ToList();
+            }
+        }
+
+        #endregion
     }
 }
