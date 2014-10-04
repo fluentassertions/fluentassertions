@@ -21,9 +21,7 @@ namespace FluentAssertions.Equivalency
 
         internal static Type GetSubjectType(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            bool useRuntimeType = ShouldUseRuntimeType(config);
-
-            return useRuntimeType ? context.RuntimeType : context.CompileTimeType;
+            return ShouldUseRuntimeType(config) ? context.RuntimeType : context.CompileTimeType;
         }
 
         private static bool ShouldUseRuntimeType(IEquivalencyAssertionOptions config)
@@ -59,9 +57,18 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertExpectationIsCollection(object expectation)
         {
-            return AssertionScope.Current
+            bool conditionMet = AssertionScope.Current
+                .ForCondition(!ReferenceEquals(expectation, null))
+                .FailWith("{context:Subject} is a collection and cannot be compared to <null>.");
+
+            if (conditionMet)
+            {
+                conditionMet = AssertionScope.Current
                 .ForCondition(IsCollection(expectation.GetType()))
                 .FailWith("{context:Subject} is a collection and cannot be compared with a non-collection type.");
+            }
+
+            return conditionMet;
         }
 
         private static bool IsCollection(Type type)
@@ -71,7 +78,7 @@ namespace FluentAssertions.Equivalency
 
         internal static object[] ToArray(object value)
         {
-            return ((IEnumerable)value).Cast<object>().ToArray();
+            return !ReferenceEquals(value, null) ? ((IEnumerable)value).Cast<object>().ToArray() : null;
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -30,7 +29,8 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent,
+            IEquivalencyAssertionOptions config)
         {
             Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
 
@@ -68,7 +68,7 @@ namespace FluentAssertions.Equivalency
                 MethodCallExpression executeExpression = Expression.Call(
                     Expression.Constant(validator),
                     "Execute",
-                    new Type[] { typeOfEnumeration },
+                    new Type[] {typeOfEnumeration},
                     Expression.Constant(subjectToArray),
                     Expression.Constant(expectationToArray));
 
@@ -80,29 +80,38 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertExpectationIsCollection(object expectation)
         {
-            return AssertionScope.Current
-                .ForCondition(IsGenericCollection(expectation.GetType()))
-                .FailWith(
-                    "{context:Subject} is a collection and cannot be compared with a non-collection type.");
+            bool conditionMet = AssertionScope.Current
+                .ForCondition(!ReferenceEquals(expectation, null))
+                .FailWith("{context:Subject} is a collection and cannot be compared to <null>.");
+
+            if (conditionMet)
+            {
+                return AssertionScope.Current
+                    .ForCondition(IsGenericCollection(expectation.GetType()))
+                    .FailWith(
+                        "{context:Subject} is a collection and cannot be compared with a non-collection type.");
+            }
+
+            return conditionMet;
         }
 
         private static bool IsGenericCollection(Type type)
         {
             var enumerableInterfaces = GetIEnumerableInterfaces(type);
 
-            return (!typeof(string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
+            return (!typeof (string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
         }
 
         private static Type[] GetIEnumerableInterfaces(Type type)
         {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof (IEnumerable<>))
             {
-                return new[] { type };
+                return new[] {type};
             }
 
             return
                 type.GetInterfaces()
-                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
+                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == typeof (IEnumerable<>))))
                     .ToArray();
         }
 
@@ -115,9 +124,9 @@ namespace FluentAssertions.Equivalency
 
         private static object ToArray(object value, Type typeOfEnumeration)
         {
-            MethodInfo toArray = typeof(Enumerable).GetMethod("ToArray").MakeGenericMethod(typeOfEnumeration);
+            MethodInfo toArray = typeof (Enumerable).GetMethod("ToArray").MakeGenericMethod(typeOfEnumeration);
 
-            return toArray.Invoke(null, new [] {value});
+            return toArray.Invoke(null, new[] {value});
         }
     }
 }
