@@ -106,13 +106,13 @@ namespace FluentAssertions.Equivalency
             return interfaceType.GetGenericArguments().Single();
         }
 
-        private static Expression ToArray(object value, Type typeOfEnumeration)
+        private static MethodCallExpression ToArray(object value, Type typeOfEnumeration)
         {
             return Expression.Call(
                 typeof(Enumerable),
                 "ToArray",
                 new Type[] { typeOfEnumeration },
-                Expression.Constant(value));
+                Expression.Constant(value, typeof(IEnumerable<>).MakeGenericType(typeOfEnumeration)));
         }
     }
 }

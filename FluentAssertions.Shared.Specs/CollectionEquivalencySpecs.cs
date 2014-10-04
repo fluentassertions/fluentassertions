@@ -341,6 +341,54 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Private LINQ Types
+
+        [TestMethod]
+        public void When_asserting_the_equivalence_of_equivalent_enumerables_returned_by_Select_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            int[] array = { 1, 2, 3 };
+            IEnumerable<int> enumerable1 = array.Select(_ => _);
+            IEnumerable<int> enumerable2 = array.Select(_ => _);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => enumerable1.ShouldBeEquivalentTo(enumerable2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void
+            When_asserting_the_equivalence_of_equivalent_enumerables_returned_by_Select_using_the_runtime_type_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            int[] array = { 1, 2, 3 };
+            IEnumerable<int> enumerable1 = array.Select(_ => _);
+            IEnumerable<int> enumerable2 = array.Select(_ => _);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => enumerable1.ShouldBeEquivalentTo(enumerable2, opts => opts.IncludingAllRuntimeProperties());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        #endregion
+
         #region Collection Equivalence
 
         #region ShouldAllBeEquivalentTo
