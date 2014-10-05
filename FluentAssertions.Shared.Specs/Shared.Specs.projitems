@@ -16,9 +16,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)AssertionScopeSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BooleanAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EnumerableEquivalencySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComparableSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeOffsetValueFormatterSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DictionaryEquivalencySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EquivalencySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExceptionAssertionSpecs.cs" />
@@ -29,7 +31,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)GenericCollectionAssertionOfStringSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericCollectionAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericDictionaryAssertionSpecs.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GenericEquivalencySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GuidAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoSelectorAssertionSpecs.cs" />

@@ -14,19 +14,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = GetSubjectType(context, config);
+            Type subjectType = config.GetSubjectType(context);
 
             return IsCollection(subjectType);
-        }
-
-        internal static Type GetSubjectType(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
-        {
-            return ShouldUseRuntimeType(config) ? context.RuntimeType : context.CompileTimeType;
-        }
-
-        private static bool ShouldUseRuntimeType(IEquivalencyAssertionOptions config)
-        {
-            return config.SelectionRules.Any(selectionRule => selectionRule is AllRuntimePublicPropertiesSelectionRule);
         }
 
         /// <summary>

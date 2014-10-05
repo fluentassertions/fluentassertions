@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
+
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+            var subjectType = config.GetSubjectType(context);
 
             return (context.Subject != null) && IsGenericCollection(subjectType);
         }
@@ -29,10 +29,12 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent,
+        public bool Handle(
+            EquivalencyValidationContext context,
+            IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+            Type subjectType = config.GetSubjectType(context);
 
             Type[] interfaces = GetIEnumerableInterfaces(subjectType);
             bool multipleInterfaces = (interfaces.Count() > 1);
@@ -61,16 +63,16 @@ namespace FluentAssertions.Equivalency
 
                 Type typeOfEnumeration = GetTypeOfEnumeration(subjectType);
 
-                object subjectToArray = ToArray(context.Subject, typeOfEnumeration);
-                object[] expectationToArray =
-                    EnumerableEquivalencyStep.ToArray(context.Expectation);
+                Expression subjectToArray = ToArray(context.Subject, typeOfEnumeration);
+                Expression expectationToArray =
+                    Expression.Constant(EnumerableEquivalencyStep.ToArray(context.Expectation));
 
                 MethodCallExpression executeExpression = Expression.Call(
                     Expression.Constant(validator),
                     "Execute",
-                    new Type[] {typeOfEnumeration},
-                    Expression.Constant(subjectToArray),
-                    Expression.Constant(expectationToArray));
+                    new Type[] { typeOfEnumeration },
+                    subjectToArray,
+                    expectationToArray);
 
                 Expression.Lambda(executeExpression).Compile().DynamicInvoke();
             }
@@ -104,15 +106,9 @@ namespace FluentAssertions.Equivalency
 
         private static Type[] GetIEnumerableInterfaces(Type type)
         {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof (IEnumerable<>))
-            {
-                return new[] {type};
-            }
+            Type soughtType = typeof(IEnumerable<>);
 
-            return
-                type.GetInterfaces()
-                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == typeof (IEnumerable<>))))
-                    .ToArray();
+            return Common.TypeExtensions.GetClosedGenericInterfaces(type, soughtType);
         }
 
         private static Type GetTypeOfEnumeration(Type enumerableType)
@@ -122,11 +118,13 @@ namespace FluentAssertions.Equivalency
             return interfaceType.GetGenericArguments().Single();
         }
 
-        private static object ToArray(object value, Type typeOfEnumeration)
+        private static MethodCallExpression ToArray(object value, Type typeOfEnumeration)
         {
-            MethodInfo toArray = typeof (Enumerable).GetMethod("ToArray").MakeGenericMethod(typeOfEnumeration);
-
-            return toArray.Invoke(null, new[] {value});
+            return Expression.Call(
+                typeof(Enumerable),
+                "ToArray",
+                new Type[] { typeOfEnumeration },
+                Expression.Constant(value, typeof(IEnumerable<>).MakeGenericType(typeOfEnumeration)));
         }
     }
 }

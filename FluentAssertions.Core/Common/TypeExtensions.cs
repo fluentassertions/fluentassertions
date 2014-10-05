@@ -63,11 +63,28 @@ namespace FluentAssertions.Common
             return Implements(type, typeof (TInterface));
         }
 
+        /// <summary>
+        /// NOTE: This method does not give the expected results with open generics
+        /// </summary>
         public static bool Implements(this Type type, Type expectedBaseType)
         {
             return
                 expectedBaseType.IsAssignableFrom(type)
                 && (type != expectedBaseType);
+        }
+
+        internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
+            {
+                return new[] { type };
+            }
+
+            Type[] interfaces = type.GetInterfaces();
+            return
+                interfaces
+                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == openGenericType)))
+                    .ToArray();
         }
 
         public static bool IsComplexType(this Type type)

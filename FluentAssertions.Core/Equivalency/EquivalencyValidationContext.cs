@@ -115,7 +115,7 @@ namespace FluentAssertions.Equivalency
                 typeof(T));
         }
 
-        public EquivalencyValidationContext CreateForDictionaryItem(object key, object subject, object expectation)
+        public EquivalencyValidationContext CreateForDictionaryItem<TKey, TValue>(TKey key, TValue subject, object expectation)
         {
             return CreateNested(
                 PropertyInfo,
@@ -124,23 +124,7 @@ namespace FluentAssertions.Equivalency
                 "pair",
                 "[" + key + "]",
                 string.Empty,
-                GetDictionaryValueType(subject, CompileTimeType));
-        }
-
-        private Type GetDictionaryValueType(object value, Type compileTimeType)
-        {
-            if (!ReferenceEquals(value, null))
-            {
-                return value.GetType();
-            }
-            else if (compileTimeType.Implements(typeof(IDictionary<,>)))
-            {
-                return compileTimeType.GetGenericArguments()[1];
-            }
-            else
-            {
-                return typeof(object);
-            }
+                typeof(TValue));
         }
 
         private EquivalencyValidationContext CreateNested(

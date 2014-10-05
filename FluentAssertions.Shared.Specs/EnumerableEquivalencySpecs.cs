@@ -1,12 +1,9 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 
-using FluentAssertions.Equivalency;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -16,7 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class CollectionEquivalencySpecs
+    public class EnumerableEquivalencySpecs
     {
         [TestMethod]
         public void
@@ -37,10 +34,10 @@ namespace FluentAssertions.Specs
                         Text = "Level2",
                     },
                     Collection = new[]
-                    {
-                        new { Number = 1, Text = "Text" },
-                        new { Number = 2, Text = "Actual" }
-                    }
+                        {
+                            new {Number = 1, Text = "Text"},
+                            new {Number = 2, Text = "Actual"}
+                        }
                 }
             };
 
@@ -55,10 +52,10 @@ namespace FluentAssertions.Specs
                         Text = "Level2",
                     },
                     Collection = new[]
-                    {
-                        new { Number = 1, Text = "Text" },
-                        new { Number = 2, Text = "Expected" }
-                    }
+                        {
+                            new {Number = 1, Text = "Text"},
+                            new {Number = 2, Text = "Expected"}
+                        }
                 }
             };
 
@@ -102,8 +99,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
+        public void When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -149,17 +145,26 @@ namespace FluentAssertions.Specs
 
             public int Count
             {
-                get { return inner.Count; }
+                get
+                {
+                    return inner.Count;
+                }
             }
 
             public object SyncRoot
             {
-                get { return ((ICollection)inner).SyncRoot; }
+                get
+                {
+                    return ((ICollection)inner).SyncRoot;
+                }
             }
 
             public bool IsSynchronized
             {
-                get { return ((ICollection)inner).IsSynchronized; }
+                get
+                {
+                    return ((ICollection)inner).IsSynchronized;
+                }
             }
         }
 
@@ -212,9 +217,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_asserting_equivalence_of_generic_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type
-            ()
+        public void When_asserting_equivalence_of_generic_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -257,9 +260,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type
-            ()
+        public void When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -280,9 +281,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type
-            ()
+        public void When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -302,9 +301,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail
-            ()
+        public void When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -344,7 +341,57 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Private LINQ Types
+
+        [TestMethod]
+        public void When_asserting_the_equivalence_of_equivalent_enumerables_returned_by_Select_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            int[] array = { 1, 2, 3 };
+            IEnumerable<int> enumerable1 = array.Select(_ => _);
+            IEnumerable<int> enumerable2 = array.Select(_ => _);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => enumerable1.ShouldBeEquivalentTo(enumerable2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void
+            When_asserting_the_equivalence_of_equivalent_enumerables_returned_by_Select_using_the_runtime_type_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            int[] array = { 1, 2, 3 };
+            IEnumerable<int> enumerable1 = array.Select(_ => _);
+            IEnumerable<int> enumerable2 = array.Select(_ => _);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => enumerable1.ShouldBeEquivalentTo(enumerable2, opts => opts.IncludingAllRuntimeProperties());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        #endregion
+
         #region Collection Equivalence
+
+        #region ShouldAllBeEquivalentTo
 
         [TestMethod]
         public void
@@ -355,36 +402,36 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             var expectation = new Collection<Customer>
-            {
-                new Customer
                 {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -411,32 +458,32 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
-            {
-                new
                 {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
-            };
+                    new
+                    {
+                        Name = "John",
+                        UnorderedCollection = new[] {1, 2, 3, 4, 5}
+                    },
+                    new
+                    {
+                        Name = "Jane",
+                        UnorderedCollection = new int[0]
+                    }
+                };
 
             var expectation = new[]
-            {
-                new
                 {
-                    Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                },
-            };
+                    new
+                    {
+                        Name = "John",
+                        UnorderedCollection = new[] {5, 4, 3, 2, 1}
+                    },
+                    new
+                    {
+                        Name = "Jane",
+                        UnorderedCollection = new int[0]
+                    },
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -465,32 +512,32 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
-            {
-                new
                 {
-                    Name = "John",
-                    UnorderedCollection = new[] { 1, 2, 3, 4, 5 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                }
-            };
+                    new
+                    {
+                        Name = "John",
+                        UnorderedCollection = new[] {1, 2, 3, 4, 5}
+                    },
+                    new
+                    {
+                        Name = "Jane",
+                        UnorderedCollection = new int[0]
+                    }
+                };
 
             var expectation = new[]
-            {
-                new
                 {
-                    Name = "John",
-                    UnorderedCollection = new[] { 5, 4, 3, 2, 1 }
-                },
-                new
-                {
-                    Name = "Jane",
-                    UnorderedCollection = new int[0]
-                },
-            };
+                    new
+                    {
+                        Name = "John",
+                        UnorderedCollection = new[] {5, 4, 3, 2, 1}
+                    },
+                    new
+                    {
+                        Name = "Jane",
+                        UnorderedCollection = new int[0]
+                    },
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -521,34 +568,34 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             var expectation = new List<CustomerDto>
-            {
-                new CustomerDto
                 {
-                    Name = "John",
-                    Age = 27,
-                },
-                new CustomerDto
-                {
-                    Name = "Jane",
-                    Age = 30,
-                }
-            };
+                    new CustomerDto
+                    {
+                        Name = "John",
+                        Age = 27,
+                    },
+                    new CustomerDto
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                    }
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -573,62 +620,57 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
-            {
-                new
                 {
-                    Value =
+                    new {Value = 
                         new Customer
                         {
                             Name = "John",
                             Age = 27,
                             Id = 1
                         }
-                },
-                new
-                {
-                    Value =
+                    },
+                    new {Value = 
                         new Customer
                         {
                             Name = "Jane",
                             Age = 24,
                             Id = 2
                         }
-                }
-            };
+                    }
+                };
 
             var expectation = new[]
-            {
-                new
                 {
-                    Value =
+                    new {Value = 
                         new CustomerDto
                         {
                             Name = "John",
                             Age = 27,
                         }
-                },
-                new
-                {
-                    Value =
+                    },
+                     new { Value =
                         new CustomerDto
                         {
                             Name = "Jane",
                             Age = 30,
                         }
-                }
-            };
+                    }
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    subject.ShouldAllBeEquivalentTo(
-                        expectation,
-                        opts =>
-                            opts.Using<Customer>(
-                                ctx => { throw new Exception("Interestingly, Using cannot cross types so this is never hit"); })
-                                .WhenTypeIs<Customer>());
+                subject.ShouldAllBeEquivalentTo(
+                    expectation,
+                    opts =>
+                    opts.Using<Customer>(
+                        ctx =>
+                        {
+                            throw new Exception("Interestingly, Using cannot cross types so this is never hit");
+                        })
+                        .WhenTypeIs<Customer>());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -636,6 +678,8 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format("*to be a {0}, but found a {1}*", typeof(CustomerDto), typeof(Customer)));
         }
+
+        #endregion
 
         [TestMethod]
         public void
@@ -646,36 +690,36 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             var expectation = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -698,36 +742,36 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             var expectation = new Collection<Customer>
-            {
-                new Customer
                 {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -750,36 +794,36 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             var expectation = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 30,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                        Id = 2
+                    }
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -826,36 +870,36 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 30,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                        Id = 2
+                    }
+                };
 
             var expectation = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "Jane",
-                    Age = 30,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 28,
-                    Id = 1
-                }
-            };
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 30,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 28,
+                        Id = 1
+                    }
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -879,36 +923,36 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
 
             var expectation = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -933,30 +977,30 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             var expectation = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -981,30 +1025,30 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
 
             var expectation = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1029,36 +1073,36 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             var expectation = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1083,48 +1127,48 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                }
-            };
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    }
+                };
 
             var expectation = new List<Customer>
-            {
-                new Customer
                 {
-                    Name = "Jane",
-                    Age = 24,
-                    Id = 2
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-                new Customer
-                {
-                    Name = "John",
-                    Age = 27,
-                    Id = 1
-                },
-            };
+                    new Customer
+                    {
+                        Name = "Jane",
+                        Age = 24,
+                        Id = 2
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                    new Customer
+                    {
+                        Name = "John",
+                        Age = 27,
+                        Id = 1
+                    },
+                };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1166,8 +1210,7 @@ namespace FluentAssertions.Specs
         #region Cyclic References
 
         [TestMethod]
-        public void
-            When_the_root_object_is_referenced_from_an_object_in_a_nested_collection_it_should_treat_it_as_a_cyclic_reference()
+        public void When_the_root_object_is_referenced_from_an_object_in_a_nested_collection_it_should_treat_it_as_a_cyclic_reference()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1209,24 +1252,25 @@ namespace FluentAssertions.Specs
             {
                 Logbook = logbook,
                 LogbookRelations = new[]
-                {
-                    new EquivalencySpecs.LogbookRelation
                     {
-                        Logbook = logbook
+                        new EquivalencySpecs.LogbookRelation
+                        {
+                            Logbook = logbook
+                        }
                     }
-                }
             };
 
-            var equivalentLogbookEntry = new EquivalencySpecs.LogbookEntryProjection
+            var equivalentLogbookEntry = new EquivalencySpecs.
+                LogbookEntryProjection
             {
                 Logbook = logbook,
                 LogbookRelations = new[]
-                {
-                    new EquivalencySpecs.LogbookRelation
                     {
-                        Logbook = logbook
+                        new EquivalencySpecs.LogbookRelation
+                        {
+                            Logbook = logbook
+                        }
                     }
-                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1246,7 +1290,7 @@ namespace FluentAssertions.Specs
 
         #region Nested Enumerables
 
-        [TestMethod]
+        [TestMethodAttribute]
         public void
             When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw
             ()
@@ -1257,39 +1301,39 @@ namespace FluentAssertions.Specs
             var expected = new
             {
                 Customers = new[]
-                {
-                    new Customer
                     {
-                        Age = 32,
-                        Birthdate = 31.July(1978),
-                        Name = "Jane"
-                    },
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
+                        new Customer
+                        {
+                            Age = 32,
+                            Birthdate = 31.July(1978),
+                            Name = "Jane"
+                        },
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        }
                     }
-                }
             };
 
             var subject = new
             {
                 Customers = new[]
-                {
-                    new CustomerDto
                     {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                    new CustomerDto
-                    {
-                        Age = 32,
-                        Birthdate = 31.July(1978),
-                        Name = "Jane"
+                        new CustomerDto
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                        new CustomerDto
+                        {
+                            Age = 32,
+                            Birthdate = 31.July(1978),
+                            Name = "Jane"
+                        }
                     }
-                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1303,7 +1347,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [TestMethodAttribute]
         public void
             When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw
             ()
@@ -1314,27 +1358,27 @@ namespace FluentAssertions.Specs
             var expected = new
             {
                 Customers = new[]
-                {
-                    new Customer
                     {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                }
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                    }
             };
 
             var subject = new
             {
                 Customers = new[]
-                {
-                    new CustomerDto
                     {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "Jane"
-                    },
-                }
+                        new CustomerDto
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "Jane"
+                        },
+                    }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1365,14 +1409,14 @@ namespace FluentAssertions.Specs
             var expected = new
             {
                 Customers = new[]
-                {
-                    new Customer
                     {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                }
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                    }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1388,6 +1432,7 @@ namespace FluentAssertions.Specs
                     "*property Customers to be*Customer[]*, but*System.String*");
         }
 
+
         [TestMethod]
         public void
             When_a_collection_contains_more_items_than_expected_it_should_throw
@@ -1399,33 +1444,33 @@ namespace FluentAssertions.Specs
             var expected = new
             {
                 Customers = new[]
-                {
-                    new Customer
                     {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                }
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                    }
             };
 
             var subject = new
             {
                 Customers = new[]
-                {
-                    new CustomerDto
                     {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "Jane"
-                    },
-                    new CustomerDto
-                    {
-                        Age = 24,
-                        Birthdate = 21.September(1973),
-                        Name = "John"
-                    },
-                }
+                        new CustomerDto
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "Jane"
+                        },
+                        new CustomerDto
+                        {
+                            Age = 24,
+                            Birthdate = 21.September(1973),
+                            Name = "John"
+                        },
+                    }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1452,33 +1497,33 @@ namespace FluentAssertions.Specs
             var expected = new
             {
                 Customers = new[]
-                {
-                    new Customer
                     {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "John"
-                    },
-                    new Customer
-                    {
-                        Age = 38,
-                        Birthdate = 20.September(1973),
-                        Name = "Jane"
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "John"
+                        },
+                        new Customer
+                        {
+                            Age = 38,
+                            Birthdate = 20.September(1973),
+                            Name = "Jane"
+                        }
                     }
-                }
             };
 
             var subject = new
             {
                 Customers = new[]
-                {
-                    new CustomerDto
                     {
-                        Age = 24,
-                        Birthdate = 21.September(1973),
-                        Name = "John"
-                    },
-                }
+                        new CustomerDto
+                        {
+                            Age = 24,
+                            Birthdate = 21.September(1973),
+                            Name = "John"
+                        },
+                    }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1507,7 +1552,7 @@ namespace FluentAssertions.Specs
 
             var expectation = new
             {
-                Data = new[] { 1, 2, 3}
+                Data = new[] { 1, 2, 3 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1520,8 +1565,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("*property Data*collection*but*null*");
-        }       
-        
+        }
+
         [TestMethod]
         public void When_the_expected_collection_is_null_it_should_properly_throw()
         {
@@ -1530,7 +1575,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Data = new[] { 1, 2, 3}
+                Data = new[] { 1, 2, 3 }
             };
 
             var expectation = new
@@ -1561,9 +1606,9 @@ namespace FluentAssertions.Specs
             var subject = new
             {
                 Bytes = new byte[]
-                {
-                    1, 2, 3, 4
-                },
+                    {
+                        1, 2, 3, 4
+                    },
                 Object = new
                 {
                     A = 1,
@@ -1574,9 +1619,9 @@ namespace FluentAssertions.Specs
             var expected = new
             {
                 Bytes = new byte[]
-                {
-                    1, 2, 3, 4
-                },
+                    {
+                        1, 2, 3, 4
+                    },
                 Object = new
                 {
                     A = 1,
@@ -1593,283 +1638,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }
-
-        #endregion
-
-        #region (Nested) Dictionaries
-
-        [TestMethod]
-        public void
-            When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
-            ()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key2", "Value2" },
-                    { "Key1", "Value1" }
-                }
-            };
-
-            var subject = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key1", "Value1" },
-                    { "Key2", "Value2" }
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void
-            When_the_other_property_is_not_a_dictionary_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = "I am a string"
-            };
-
-            var subject = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key2", "Value2" },
-                    { "Key1", "Value1" }
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Property*Customers*dictionary*non-dictionary*");
-        }
-
-        [TestMethod]
-        public void
-            When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
-            ()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expected = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key1", "Value1" },
-                    { "Key2", "Value2" }
-                }
-            };
-
-            var subject = new
-            {
-                Customers = new Dictionary<string, string>
-                {
-                    { "Key1", "Value1" },
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
-        }
-
-        [TestMethod]
-        public void When_two_equivalent_dictionaries_are_compared_directly_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var result = new Dictionary<string, int>
-            {
-                { "C", 0 },
-                { "B", 0 },
-                { "A", 0 }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => result.ShouldBeEquivalentTo(new Dictionary<string, int>
-            {
-                { "A", 0 },
-                { "B", 0 },
-                { "C", 0 }
-            });
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_two_equivalent_dictionaries_are_compared_directly_as_if_it_is_a_collection_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var result = new Dictionary<string, int?>
-            {
-                { "C", null },
-                { "B", 0 },
-                { "A", 0 }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => result.ShouldAllBeEquivalentTo(new Dictionary<string, int?>
-            {
-                { "A", 0 },
-                { "B", 0 },
-                { "C", null }
-            });
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_two_nested_dictionaries_do_not_match_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var projection = new
-            {
-                ReferencedEquipment = new Dictionary<int, string>
-                {
-                    { 1, "Bla1" }
-                }
-            };
-
-            var persistedProjection = new
-            {
-                ReferencedEquipment = new Dictionary<int, string>
-                {
-                    { 1, "Bla2" }
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => persistedProjection.ShouldBeEquivalentTo(projection);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
-        }
-
-        [TestMethod]
-        public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var projection = new
-            {
-                ReferencedEquipment = new Dictionary<int, string>
-                {
-                    { 1, null }
-                }
-            };
-
-            var persistedProjection = new
-            {
-                ReferencedEquipment = new Dictionary<int, string>
-                {
-                    { 1, null }
-                }
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => persistedProjection.ShouldBeEquivalentTo(projection);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash2()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            Guid userId = Guid.NewGuid();
-
-            var actual = new UserRolesLookupElement();
-            actual.Add(userId, "Admin", "Special");
-
-            var expected = new UserRolesLookupElement();
-            expected.Add(userId, "Admin", "Other");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expected);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*Roles[*][1]*Other*Special*");
-        }
-
-        public class UserRolesLookupElement
-        {
-            private readonly Dictionary<Guid, List<string>> innerRoles = new Dictionary<Guid, List<string>>();
-
-            public virtual Dictionary<Guid, IEnumerable<string>> Roles
-            {
-                get { return innerRoles.ToDictionary(x => x.Key, y => y.Value.Select(z => z)); }
-            }
-
-            public void Add(Guid userId, params string[] roles)
-            {
-                innerRoles[userId] = roles.ToList();
-            }
         }
 
         #endregion
