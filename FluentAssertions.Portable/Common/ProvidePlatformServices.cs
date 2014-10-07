@@ -17,7 +17,7 @@ namespace FluentAssertions.Common
             get { return new IValueFormatter[] { new AggregateExceptionValueFormatter() }; }
         }
 
-        public Configuration Configuration
+        public IConfigurationStore ConfigurationStore
         {
             get { return null; }
         }

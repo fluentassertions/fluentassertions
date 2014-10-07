@@ -49,14 +49,14 @@ namespace FluentAssertions
 
 #if !SILVERLIGHT && !PORTABLE
 
-    /// <summary>
-    /// Provides methods for asserting the execution time of a method or property.
-    /// </summary>
-    /// <param name="subject">The object that exposes the method or property.</param>
-    /// <param name="action">A reference to the method or property to measure the execution time of.</param>
-    /// <returns>
-    /// Returns an object for asserting that the execution time matches certain conditions.
-    /// </returns>
+        /// <summary>
+        /// Provides methods for asserting the execution time of a method or property.
+        /// </summary>
+        /// <param name="subject">The object that exposes the method or property.</param>
+        /// <param name="action">A reference to the method or property to measure the execution time of.</param>
+        /// <returns>
+        /// Returns an object for asserting that the execution time matches certain conditions.
+        /// </returns>
         public static MemberExecutionTimeAssertions<T> ExecutionTimeOf<T>(this T subject, Expression<Action<T>> action)
         {
             return new MemberExecutionTimeAssertions<T>(subject, action);
@@ -488,8 +488,8 @@ namespace FluentAssertions
         /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
         /// items in the collection are structurally equal. 
-        /// Notice that actual behavior is determined by the <see cref="EquivalencyAssertionOptions{TSubject}.Default"/> instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class.
+        /// Notice that actual behavior is determined by the <see cref="EquivalencyAssertionOptions.Default"/> instance of the 
+        /// <see cref="EquivalencyAssertionOptions"/> class.
         /// </remarks>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
@@ -514,9 +514,9 @@ namespace FluentAssertions
         /// items in the collection are structurally equal. 
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}.Default"/> configuration object that can be used 
+        /// A reference to the <see cref="EquivalencyAssertionOptions.Default"/> configuration object that can be used 
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class.
+        /// <see cref="EquivalencyAssertionOptions"/> class.
         /// </param>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
@@ -538,7 +538,7 @@ namespace FluentAssertions
                 ReasonArgs = reasonArgs
             };
 
-            new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
+            new EquivalencyValidator(config(AssertionOptions.CreateEquivalencyDefaults<T>())).AssertEquality(context);
         }
 
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
@@ -559,10 +559,10 @@ namespace FluentAssertions
         }
 
 #if !SILVERLIGHT && !WINRT && !PORTABLE
-    /// <summary>
-    ///   Starts monitoring an object for its events.
-    /// </summary>
-    /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+        /// <summary>
+        ///   Starts monitoring an object for its events.
+        /// </summary>
+        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static void MonitorEvents(this object eventSource)
         {
             EventMonitor.AddRecordersFor(eventSource, BuildRecorders);
@@ -594,10 +594,10 @@ namespace FluentAssertions
             return eventRecorder;
         }
 #else
-        /// <summary>
-        ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
-        /// </summary>
-        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+    /// <summary>
+    ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
+    /// </summary>
+    /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static void MonitorEvents(this INotifyPropertyChanged eventSource)
         {
             EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders((INotifyPropertyChanged)source));

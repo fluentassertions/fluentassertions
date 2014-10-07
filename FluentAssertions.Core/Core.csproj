@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="AndConstraint.cs" />
     <Compile Include="AndWhichConstraint.cs" />
+    <Compile Include="AssertionOptions.cs" />
     <Compile Include="Collections\SelfReferencingCollectionAssertions.cs" />
     <Compile Include="Collections\WhichValueConstraint.cs" />
     <Compile Include="Common\DateTimeExtensions.cs" />
