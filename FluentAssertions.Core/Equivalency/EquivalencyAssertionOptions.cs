@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
@@ -339,23 +334,29 @@ namespace FluentAssertions.Equivalency
             orderingRules.Add(new ByteArrayOrderingRule());
         }
     }
-
+    /// <summary>
+    /// Represents the run-time type-specific behavior of a structural equivalency assertion.
+    /// </summary>
     public class EquivalencyAssertionOptions<TSubject> : EquivalencyAssertionOptionsBase<EquivalencyAssertionOptions<TSubject>> 
     {
-
-        internal EquivalencyAssertionOptions()
-        {
-        }
-
-        private EnumEquivalencyHandling enumEquivalencyHandling;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IEquivalencyStep> userEquivalencySteps = new List<IEquivalencyStep>();
 
-        internal EquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults) : base(defaults)
-        {
-            throw new NotImplementedException();
-        }
+        private EnumEquivalencyHandling enumEquivalencyHandling;
+        /// <summary>
+        /// Gets a configuration that by default doesn't include any of the subject's properties and doesn't consider any nested objects
+        /// or collections.
+        /// </summary>
+        public static Func<EquivalencyAssertionOptions<TSubject>> Empty =
+            () => new EquivalencyAssertionOptions<TSubject>();
+
+        /// <summary>
+        /// Gets a configuration that compares all declared properties of the subject with equally named properties of the expectation,
+        /// and includes the entire object graph. The names of the properties between the subject and expectation must match.
+        /// </summary>
+        public static Func<EquivalencyAssertionOptions<TSubject>> Default =
+            () => AssertionOptions.CreateEquivalencyDefaults<TSubject>();
 
         EnumEquivalencyHandling IEquivalencyAssertionOptions.EnumEquivalencyHandling
         {
@@ -370,12 +371,9 @@ namespace FluentAssertions.Equivalency
             get { return userEquivalencySteps; }
         }
 
-        /// <summary>
-        /// Gets a configuration that by default doesn't include any of the subject's properties and doesn't consider any nested objects
-        /// or collections.
-        /// </summary>
-        public static Func<EquivalencyAssertionOptions<TSubject>> Empty =
-            () => new EquivalencyAssertionOptions<TSubject>();
+        internal EquivalencyAssertionOptions()
+        {
+        }
 
         /// <summary>
         /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
@@ -445,12 +443,10 @@ namespace FluentAssertions.Equivalency
             return this;
         }
 
-        /// <summary>
-        /// Gets a configuration that compares all declared properties of the subject with equally named properties of the expectation,
-        /// and includes the entire object graph. The names of the properties between the subject and expectation must match.
-        /// </summary>
-        public static Func<EquivalencyAssertionOptions<TSubject>> Default =
-            () => AssertionOptions.CreateEquivalencyDefaults<TSubject>();
+        internal EquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults) : base(defaults)
+        {
+            
+        }
 
         /// <summary>
         /// Excludes the specified (nested) property from the structural equality check.
@@ -502,6 +498,9 @@ namespace FluentAssertions.Equivalency
         }
     }
 
+    /// <summary>
+    /// Represents the run-time type-agnostic behavior of a structural equivalency assertion.
+    /// </summary>
     public class EquivalencyAssertionOptions : EquivalencyAssertionOptionsBase<EquivalencyAssertionOptions>
     {
         internal EquivalencyAssertionOptions()
