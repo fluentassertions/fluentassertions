@@ -2281,6 +2281,86 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected subject to be One, but found One*");
         }
 
+		[TestMethod]
+		public void When_asserting_members_from_different_enum_types_are_equivalent_it_should_fail()
+		{
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+		    var subject = new ClassWithEnumOne();
+		    var expectation = new ClassWithEnumTwo();
+			//-----------------------------------------------------------------------------------------------------------
+			// Arrange / Act
+			//-----------------------------------------------------------------------------------------------------------
+			Action act = () => subject.ShouldBeEquivalentTo(expectation);
+
+			//-----------------------------------------------------------------------------------------------------------
+			// Assert
+			//-----------------------------------------------------------------------------------------------------------
+			act.ShouldThrow<AssertFailedException>()
+				.WithMessage("Expected property Enum to be One, but found One*");
+		}
+
+        [TestMethod]
+        public void When_asserting_members_from_different_enum_types_are_equivalent_by_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithEnumOne(){Enum = EnumOne.One};
+            var expectation = new ClassWithEnumThree(){Enum = EnumeThree.ValueZero};
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation,config => config.CompareEnumsUnderlyingValues());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+      
+
+        [TestMethod]
+        public void When_asserting_members_from_different_enum_types_are_equivalent_by_stringvalue_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithEnumOne(){Enum = EnumOne.Two};
+            var expectation = new ClassWithEnumThree(){Enum = EnumeThree.Two};
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.CompareEnumsAsString());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_members_from_different_char_enum_types_are_equivalent_by_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithEnumCharOne() { Enum = EnumCharOne.B };
+            var expectation = new ClassWithEnumCharTwo() { Enum = EnumCharTwo.ValueB };
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.CompareEnumsUnderlyingValues());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+       
+
         #endregion
 
         #region Memberless Objects
@@ -2414,10 +2494,55 @@ namespace FluentAssertions.Specs
         Two = 3
     }
 
+    internal enum EnumCharOne
+    {
+        A = 'A',
+        B = 'B'
+    }
+
+    internal enum EnumCharTwo
+    {
+        A = 'Z',
+        ValueB = 'B'
+    }
+
     internal enum EnumTwo
     {
         One = 0,
         Two = 3
+    }
+
+    internal enum EnumeThree
+    {
+        ValueZero = 0,
+        Two = 3
+    }
+
+    internal class ClassWithEnumCharOne
+    {
+        public EnumCharOne Enum { get; set; }
+    }
+
+
+    internal class ClassWithEnumCharTwo
+    {
+        public EnumCharTwo Enum { get; set; }
+    }
+
+    internal class ClassWithEnumOne
+    {
+        public EnumOne Enum { get; set; }
+    }
+
+
+    internal class ClassWithEnumTwo
+    {
+        public EnumTwo Enum { get; set; }
+    }
+
+    internal class ClassWithEnumThree
+    {
+        public EnumeThree Enum { get; set; }
     }
 
     internal class ClassWithNoMembers

@@ -1,3 +1,7 @@
+using System;
+using System.Globalization;
+using System.Linq;
+
 namespace FluentAssertions.Equivalency
 {
     internal class EnumEqualityStep : IEquivalencyStep
@@ -24,9 +28,32 @@ namespace FluentAssertions.Equivalency
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            context.Subject.Should().Be(context.Expectation, context.Reason, context.ReasonArgs);
+            switch (config.EnumEquivalencyHandling)
+            {
+                case EnumEquivalencyHandling.CompareUnderlyingValues:
+                    CompareByValue(context);
+                    break;
+                case EnumEquivalencyHandling.CompareAsString:
+                    context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
+                    break;
+                default:
+                    context.Subject.Should().Be(context.Expectation, context.Reason, context.ReasonArgs);
+                    break;
+            }
+
 
             return true;
+        }
+
+        private void CompareByValue(EquivalencyValidationContext context)
+        {
+            var subjectType = Enum.GetUnderlyingType(context.Subject.GetType());
+            var subjectUnderlyingValue = Convert.ChangeType(context.Subject, subjectType, CultureInfo.InvariantCulture);
+
+            var expectationType = Enum.GetUnderlyingType(context.Expectation.GetType());
+            var expectationUnderlyingValue = Convert.ChangeType(context.Expectation, expectationType, CultureInfo.InvariantCulture);
+            
+            subjectUnderlyingValue.Should().Be(expectationUnderlyingValue, context.Reason, context.ReasonArgs);
         }
     }
 }

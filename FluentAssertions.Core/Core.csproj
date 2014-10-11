@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\portable-monotouch+monoandroid\\FluentAssertions.Core.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\portable-monotouch+monoandroid\FluentAssertions.Core.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -63,6 +63,7 @@
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
+    <Compile Include="Equivalency\EnumEquivalencyHandling.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
     <Compile Include="Equivalency\EquivalencyAssertionOptionsExtentions.cs" />
     <Compile Include="Equivalency\IncludePropertyByPredicateSelectionRule.cs" />
