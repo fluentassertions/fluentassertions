@@ -9,8 +9,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context,
-            IEquivalencyAssertionOptions config)
+        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             return context.RuntimeType != null && context.RuntimeType.IsEnum;
         }
@@ -25,22 +24,16 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent,
-            IEquivalencyAssertionOptions config)
+        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            switch (config.EnumEquivalencyHandling)
+            if (config.EnumEquivalencyHandling == EnumEquivalencyHandling.ByValue)
             {
-                case EnumEquivalencyHandling.ByValue:
-                    CompareByValue(context);
-                    break;
-                case EnumEquivalencyHandling.ByName:
-                    context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
-                    break;
-                default:
-                    context.Subject.Should().Be(context.Expectation, context.Reason, context.ReasonArgs);
-                    break;
+                CompareByValue(context);
             }
-
+            else
+            {
+                context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
+            }
 
             return true;
         }
