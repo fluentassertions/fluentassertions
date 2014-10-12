@@ -355,11 +355,11 @@ namespace FluentAssertions.Equivalency
         /// Causes to compare Enum properties using the result of their ToString method.
         /// </summary>
         /// <remarks>
-        /// By default, enums are compared using Enum.Equals.
+        /// By default, enums are compared by value.
         /// </remarks>
-        public EquivalencyAssertionOptions<TSubject> CompareEnumsAsString()
+        public EquivalencyAssertionOptions<TSubject> ComparingEnumsByName()
         {
-            enumEquivalencyHandling = EnumEquivalencyHandling.CompareAsString;
+            enumEquivalencyHandling = EnumEquivalencyHandling.ByName;
             return this;
         }
 
@@ -367,11 +367,11 @@ namespace FluentAssertions.Equivalency
         /// Causes to compare Enum properties using their underlying value only.
         /// </summary>
         /// <remarks>
-        /// By default, enums are compared using Enum.Equals.
+        /// This is the default.
         /// </remarks>
-        public EquivalencyAssertionOptions<TSubject> CompareEnumsUnderlyingValues()
+        public EquivalencyAssertionOptions<TSubject> ComapringEnumsByValue()
         {
-            enumEquivalencyHandling = EnumEquivalencyHandling.CompareUnderlyingValues;
+            enumEquivalencyHandling = EnumEquivalencyHandling.ByValue;
             return this;
         }
 

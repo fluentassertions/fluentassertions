@@ -2263,26 +2263,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected subject to be Two, but found One*");
-        }
-
-        [TestMethod]
-        public void When_asserting_members_from_different_enum_types_are_equivilent_it_should_fail()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange / Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => EnumOne.One.ShouldBeEquivalentTo(EnumTwo.One);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected subject to be One, but found One*");
+                .WithMessage("Expected subject to be 3, but found 0*");
         }
 
 		[TestMethod]
-		public void When_asserting_members_from_different_enum_types_are_equivalent_it_should_fail()
+		public void When_asserting_members_from_different_enum_types_are_equivalent_it_should_compare_by_value_by_default()
 		{
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2297,8 +2282,7 @@ namespace FluentAssertions.Specs
 			//-----------------------------------------------------------------------------------------------------------
 			// Assert
 			//-----------------------------------------------------------------------------------------------------------
-			act.ShouldThrow<AssertFailedException>()
-				.WithMessage("Expected property Enum to be One, but found One*");
+		    act.ShouldNotThrow();
 		}
 
         [TestMethod]
@@ -2312,7 +2296,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation,config => config.CompareEnumsUnderlyingValues());
+            Action act = () => subject.ShouldBeEquivalentTo(expectation,config => config.ComapringEnumsByValue());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2333,7 +2317,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.CompareEnumsAsString());
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.ComparingEnumsByName());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2352,7 +2336,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.CompareEnumsUnderlyingValues());
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.ComapringEnumsByValue());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

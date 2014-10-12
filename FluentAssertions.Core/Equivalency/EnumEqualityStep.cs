@@ -30,10 +30,10 @@ namespace FluentAssertions.Equivalency
         {
             switch (config.EnumEquivalencyHandling)
             {
-                case EnumEquivalencyHandling.CompareUnderlyingValues:
+                case EnumEquivalencyHandling.ByValue:
                     CompareByValue(context);
                     break;
-                case EnumEquivalencyHandling.CompareAsString:
+                case EnumEquivalencyHandling.ByName:
                     context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
                     break;
                 default:
