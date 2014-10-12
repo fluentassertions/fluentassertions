@@ -582,6 +582,15 @@ orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrdering
 
 Notice that for performance reasons, collections of bytes are still compared in exact order.
 
+**Enums**  
+With the standard ``Should().Be()`` method, Enums are compared using .net ``Enum.Equals()`` implementation. This means that the Enums must be of the same type, and have the same underlying value.  
+
+By default, ``ShouldBeEquivalentTo()`` compares the enumeration properties by their underlying value only. An option to compare Enums only by name is also available, using the following configuration :  
+
+```csharp
+orderDto.ShouldBeEquivalentTo(expectation, options => options.ComparingEnumsByName());
+```
+
 **Overriding**  
 In addition to influencing the properties that are including in the comparison, you can also override the actual assertion operation that is executed on a particular property. 
 
