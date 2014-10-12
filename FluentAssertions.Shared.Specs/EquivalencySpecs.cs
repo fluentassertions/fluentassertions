@@ -2265,25 +2265,25 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected subject to be 3, but found 0*");
         }
-
-		[TestMethod]
-		public void When_asserting_members_from_different_enum_types_are_equivalent_it_should_compare_by_value_by_default()
-		{
+       
+        [TestMethod]
+        public void When_asserting_members_from_different_enum_types_are_equivalent_it_should_compare_by_value_by_default()
+        {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-		    var subject = new ClassWithEnumOne();
-		    var expectation = new ClassWithEnumTwo();
-			//-----------------------------------------------------------------------------------------------------------
-			// Arrange / Act
-			//-----------------------------------------------------------------------------------------------------------
-			Action act = () => subject.ShouldBeEquivalentTo(expectation);
-
-			//-----------------------------------------------------------------------------------------------------------
-			// Assert
-			//-----------------------------------------------------------------------------------------------------------
-		    act.ShouldNotThrow();
-		}
+            var subject = new ClassWithEnumOne();
+            var expectation = new ClassWithEnumTwo();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation);
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
 
         [TestMethod]
         public void When_asserting_members_from_different_enum_types_are_equivalent_by_value_it_should_succeed()
