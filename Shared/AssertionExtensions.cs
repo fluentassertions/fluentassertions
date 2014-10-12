@@ -538,7 +538,7 @@ namespace FluentAssertions
                 ReasonArgs = reasonArgs
             };
 
-            new EquivalencyValidator(config(AssertionOptions.CreateEquivalencyDefaults<T>())).AssertEquality(context);
+            new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
         }
 
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,

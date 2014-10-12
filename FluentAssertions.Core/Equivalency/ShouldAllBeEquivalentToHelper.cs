@@ -15,7 +15,7 @@ namespace FluentAssertions.Equivalency
             EquivalencyAssertionOptions<TSubject> optionsToConfigure,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> subConfig)
         {
-            var options = EquivalencyAssertionOptions<T>.Empty();
+            var options = new EquivalencyAssertionOptions<T>();
             options = subConfig(options);
 
             ConfigureOrderingRules(optionsToConfigure, options);

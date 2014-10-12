@@ -348,6 +348,7 @@ namespace FluentAssertions.Equivalency
         /// Gets a configuration that by default doesn't include any of the subject's properties and doesn't consider any nested objects
         /// or collections.
         /// </summary>
+        [Obsolete("Will be removed in v4.0. Instead, use AssertionOptions.AssertEquivalencyUsing method to setup the equivalency assertion defaults")]
         public static Func<EquivalencyAssertionOptions<TSubject>> Empty =
             () => new EquivalencyAssertionOptions<TSubject>();
 
@@ -355,6 +356,7 @@ namespace FluentAssertions.Equivalency
         /// Gets a configuration that compares all declared properties of the subject with equally named properties of the expectation,
         /// and includes the entire object graph. The names of the properties between the subject and expectation must match.
         /// </summary>
+        [Obsolete("Will be removed in v4.0. Instead, use AssertionOptions.AssertEquivalencyUsing method to setup the equivalency assertion defaults")]
         public static Func<EquivalencyAssertionOptions<TSubject>> Default =
             () => AssertionOptions.CreateEquivalencyDefaults<TSubject>();
 
@@ -371,7 +373,7 @@ namespace FluentAssertions.Equivalency
             get { return userEquivalencySteps; }
         }
 
-        internal EquivalencyAssertionOptions()
+        public EquivalencyAssertionOptions()
         {
         }
 
