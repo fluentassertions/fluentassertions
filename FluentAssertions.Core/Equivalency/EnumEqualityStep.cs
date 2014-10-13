@@ -26,13 +26,16 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            if (config.EnumEquivalencyHandling == EnumEquivalencyHandling.ByValue)
+            switch (config.EnumEquivalencyHandling)
             {
-                CompareByValue(context);
-            }
-            else
-            {
-                context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
+                case EnumEquivalencyHandling.ByValue:
+                    CompareByValue(context);
+                    break;
+                case EnumEquivalencyHandling.ByName:
+                    context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
+                    break;
+                default:
+                    throw new InvalidOperationException(string.Format("Don't know how to handle {0}", config.EnumEquivalencyHandling));
             }
 
             return true;
