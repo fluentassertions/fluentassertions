@@ -5,7 +5,10 @@
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>46445a29-4242-4fd4-9138-a47b2dbea736</SharedGUID>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" />
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>
+    </Import_RootNamespace>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssertionExtensions.Actions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionExtensions.cs" />

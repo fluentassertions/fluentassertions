@@ -37,6 +37,8 @@ namespace FluentAssertions.Equivalency
 
         private bool allowInfiniteRecursion;
 
+        private EnumEquivalencyHandling enumEquivalencyHandling;
+
         #endregion
 
         private EquivalencyAssertionOptions()
@@ -120,6 +122,11 @@ namespace FluentAssertions.Equivalency
         CyclicReferenceHandling IEquivalencyAssertionOptions.CyclicReferenceHandling
         {
             get { return cyclicReferenceHandling; }
+        }
+
+        EnumEquivalencyHandling IEquivalencyAssertionOptions.EnumEquivalencyHandling
+        {
+            get { return enumEquivalencyHandling; }
         }
 
         /// <summary>
@@ -341,6 +348,30 @@ namespace FluentAssertions.Equivalency
         public EquivalencyAssertionOptions<TSubject> WithStrictOrderingFor(Expression<Func<ISubjectInfo, bool>> predicate)
         {
             orderingRules.Add(new PredicateBasedOrderingRule(predicate));
+            return this;
+        }
+
+        /// <summary>
+        /// Causes to compare Enum properties using the result of their ToString method.
+        /// </summary>
+        /// <remarks>
+        /// By default, enums are compared by value.
+        /// </remarks>
+        public EquivalencyAssertionOptions<TSubject> ComparingEnumsByName()
+        {
+            enumEquivalencyHandling = EnumEquivalencyHandling.ByName;
+            return this;
+        }
+
+        /// <summary>
+        /// Causes to compare Enum properties using their underlying value only.
+        /// </summary>
+        /// <remarks>
+        /// This is the default.
+        /// </remarks>
+        public EquivalencyAssertionOptions<TSubject> ComapringEnumsByValue()
+        {
+            enumEquivalencyHandling = EnumEquivalencyHandling.ByValue;
             return this;
         }
 

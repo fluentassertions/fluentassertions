@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\portable-monotouch+monoandroid\\FluentAssertions.Core.xml</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\portable-monotouch+monoandroid\FluentAssertions.Core.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -63,6 +63,7 @@
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
+    <Compile Include="Equivalency\EnumEquivalencyHandling.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
     <Compile Include="Equivalency\EquivalencyAssertionOptionsExtentions.cs" />
     <Compile Include="Equivalency\IncludePropertyByPredicateSelectionRule.cs" />
