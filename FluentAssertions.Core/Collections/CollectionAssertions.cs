@@ -368,6 +368,40 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        public AndConstraint<TAssertions> BeEquivalentTo<T>(IEnumerable<T> expected, string because = "", params object[] reasonArgs)
+        {
+            if (expected == null)
+            {
+                throw new NullReferenceException("Cannot verify equivalence against a <null> collection.");
+            }
+
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected {context:collection} to be equivalent to {0}{reason}, but found <null>.", expected);
+
+            List<T> expectedItems = expected.ToList();
+            List<T> actualItems = Subject.Cast<T>().ToList();
+
+            bool haveSameLength = Execute.Assertion
+                .ForCondition(actualItems.Count <= expectedItems.Count)
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but it contains too many items.",
+                    actualItems, expectedItems);
+
+            if (haveSameLength)
+            {
+                T[] missingItems = GetMissingItems(expectedItems, actualItems);
+
+                Execute.Assertion
+                    .ForCondition(missingItems.Length == 0)
+                    .BecauseOf(because, reasonArgs)
+                    .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but it misses {2}.",
+                        actualItems, expectedItems, missingItems);
+            }
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
         /// <summary>
         /// Expects the current collection not to contain all elements of the collection identified by <paramref name="unexpected" />,
         /// regardless of the order. Elements are compared using their <see cref="object.Equals(object)" />.
@@ -450,14 +484,14 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        private static object[] GetMissingItems(IEnumerable<object> expectedItems, IEnumerable<object> actualItems)
+        private static T[] GetMissingItems<T>(IEnumerable<T> expectedItems, IEnumerable<T> actualItems)
         {
-            var missingItems = new List<object>();
-            List<object> subject = actualItems.ToList();
+            List<T> missingItems = new List<T>();
+            List<T> subject = actualItems.ToList();
 
             while (expectedItems.Any())
             {
-                object expectation = expectedItems.First();
+                T expectation = expectedItems.First();
                 if (subject.Contains(expectation))
                 {
                     subject.Remove(expectation);
