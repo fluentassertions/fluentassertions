@@ -102,10 +102,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var formatter = new DateTimeOffsetValueFormatter();
 
-            var dateOnly = new DateTime(1973, 9, 20);
-            var timeOnly = 1.January(0001).At(08, 20, 01);
-            var witoutMilliseconds = 1.May(2012).At(20, 15, 30);
-            var withMilliseconds = 1.May(2012).At(20, 15, 30, 318);
+            var dateOnly = MakeUtcWithoutChangingTime(new DateTime(1973, 9, 20));
+            var timeOnly = MakeUtcWithoutChangingTime(1.January(0001).At(08, 20, 01));
+            var witoutMilliseconds = MakeUtcWithoutChangingTime(1.May(2012).At(20, 15, 30));
+            var withMilliseconds = MakeUtcWithoutChangingTime(1.May(2012).At(20, 15, 30, 318));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -114,6 +114,11 @@ namespace FluentAssertions.Specs
             formatter.ToString(timeOnly, false).Should().Be(formatter.ToString((DateTimeOffset) timeOnly, false));
             formatter.ToString(witoutMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset) witoutMilliseconds, false));
             formatter.ToString(withMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset) withMilliseconds, false));
+        }
+
+        private static DateTime MakeUtcWithoutChangingTime(DateTime date)
+        {
+            return DateTime.SpecifyKind(date, DateTimeKind.Utc);
         }
     }
 }
