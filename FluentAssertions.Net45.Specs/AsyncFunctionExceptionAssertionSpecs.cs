@@ -13,6 +13,39 @@ namespace FluentAssertions.Net45.Specs
     public class AsyncFunctionExceptionAssertionSpecs
     {
         [TestMethod]
+        public void ShouldThrowExactly_when_subject_throws_subclass_of_expected_exception_it_should_fail()
+        {
+            // Arrange
+
+            var asyncObject = new AsyncClass();
+
+            // Act
+
+            Action action = () => asyncObject
+                .Awaiting(async x => await x.ThrowAsync<ArgumentNullException>())
+                .ShouldThrowExactly<ArgumentException>();
+
+            // Assert
+
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type to be System.ArgumentException, but found System.ArgumentNullException.");
+        }
+
+        [TestMethod]
+        public void ShouldThrowExactly_when_subject_throws_expected_exception_it_should_succeed()
+        {
+            // Arrange
+
+            var asyncObject = new AsyncClass();
+
+            // Act and Assert
+
+            asyncObject
+                .Awaiting(async x => await x.ThrowAsync<ArgumentNullException>())
+                .ShouldThrowExactly<ArgumentNullException>();
+        }
+
+        [TestMethod]
         public void When_async_method_throws_expected_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
