@@ -16,22 +16,25 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void ShouldThrowExactly_when_subject_throws_subclass_of_expected_exception_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-
+            //-----------------------------------------------------------------------------------------------------------
             Action a = () => { throw new ArgumentNullException(); };
 
             try
             {
+                //-----------------------------------------------------------------------------------------------------------
                 // Act
-
+                //-----------------------------------------------------------------------------------------------------------
                 a.ShouldThrowExactly<ArgumentException>();
 
                 Assert.Fail("This point should not be reached.");
             }
             catch (AssertFailedException ex)
             {
+                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-
+                //-----------------------------------------------------------------------------------------------------------
                 ex.Message.Should().Match("Expected type to be System.ArgumentException, but found System.ArgumentNullException.");
             }
         }
@@ -39,12 +42,14 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void ShouldThrowExactly_when_subject_throws_expected_exception_it_should_not_do_anything()
         {
+            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-
+            //-----------------------------------------------------------------------------------------------------------
             Action a = () => { throw new ArgumentNullException(); };
 
-            // Act and Assert
-
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             a.ShouldThrowExactly<ArgumentNullException>();
         }
 
@@ -385,16 +390,18 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void WithInnerExceptionExactly_no_paramters_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
         {
+            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-
+            //-----------------------------------------------------------------------------------------------------------
             var innerException = new ArgumentNullException();
 
             Action a = () => { throw new BadImageFormatException("", innerException); };
 
             try
             {
+                //-----------------------------------------------------------------------------------------------------------
                 // Act
-
+                //-----------------------------------------------------------------------------------------------------------
                 a.ShouldThrow<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentException>();
 
@@ -402,8 +409,9 @@ namespace FluentAssertions.Specs
             }
             catch (AssertFailedException ex)
             {
+                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-
+                //-----------------------------------------------------------------------------------------------------------
                 var expectedMessage = BuildExpectedMessageForWithInnerExceptionExactly("Expected inner System.ArgumentException, but found System.ArgumentNullException with message", innerException.Message);
 
                 ex.Message.Should().Be(expectedMessage);
@@ -413,12 +421,14 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void WithInnerExceptionExactly_no_paramters_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
         {
+            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-
+            //-----------------------------------------------------------------------------------------------------------
             Action a = () => { throw new BadImageFormatException("", new ArgumentNullException()); };
 
-            // Act and Assert
-
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             a.ShouldThrow<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentNullException>();
         }
@@ -426,16 +436,18 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void WithInnerExceptionExactly_when_subject_throws_subclass_of_expected_inner_exception_it_should_throw_with_clear_description()
         {
+            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-
+            //-----------------------------------------------------------------------------------------------------------
             var innerException = new ArgumentNullException();
 
             Action a = () => { throw new BadImageFormatException("", innerException); };
 
             try
             {
+                //-----------------------------------------------------------------------------------------------------------
                 // Act
-
+                //-----------------------------------------------------------------------------------------------------------
                 a.ShouldThrow<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentException>("because {0} should do just that", "the action");
 
@@ -443,8 +455,9 @@ namespace FluentAssertions.Specs
             }
             catch (AssertFailedException ex)
             {
+                //-----------------------------------------------------------------------------------------------------------
                 // Assert
-
+                //-----------------------------------------------------------------------------------------------------------
                 var expectedMessage = BuildExpectedMessageForWithInnerExceptionExactly("Expected inner System.ArgumentException because the action should do just that, but found System.ArgumentNullException with message", innerException.Message);
 
                 ex.Message.Should().Be(expectedMessage);
@@ -454,12 +467,14 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void WithInnerExceptionExactly_when_subject_throws_expected_inner_exception_it_should_not_do_anything()
         {
+            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-
+            //-----------------------------------------------------------------------------------------------------------
             Action a = () => { throw new BadImageFormatException("", new ArgumentNullException()); };
 
-            // Act and Assert
-
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             a.ShouldThrow<BadImageFormatException>()
                     .WithInnerExceptionExactly<ArgumentNullException>("because {0} should do just that", "the action");
         }

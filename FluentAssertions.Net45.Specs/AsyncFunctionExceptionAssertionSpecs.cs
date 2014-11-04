@@ -15,18 +15,21 @@ namespace FluentAssertions.Net45.Specs
         [TestMethod]
         public void ShouldThrowExactly_when_subject_throws_subclass_of_expected_exception_it_should_fail()
         {
+            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-
+            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
+            //-----------------------------------------------------------------------------------------------------------
             // Act
-
+            //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentNullException>())
                 .ShouldThrowExactly<ArgumentException>();
 
+            //-----------------------------------------------------------------------------------------------------------
             // Assert
-
+            //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type to be System.ArgumentException, but found System.ArgumentNullException.");
         }
@@ -34,12 +37,14 @@ namespace FluentAssertions.Net45.Specs
         [TestMethod]
         public void ShouldThrowExactly_when_subject_throws_expected_exception_it_should_succeed()
         {
+            //-----------------------------------------------------------------------------------------------------------
             // Arrange
-
+            //-----------------------------------------------------------------------------------------------------------
             var asyncObject = new AsyncClass();
 
-            // Act and Assert
-
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentNullException>())
                 .ShouldThrowExactly<ArgumentNullException>();
