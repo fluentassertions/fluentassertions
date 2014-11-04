@@ -98,6 +98,15 @@ namespace FluentAssertions.Specialized
         }
 
         /// <summary>
+        ///   Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name = "TInnerException" /> (and not a derived exception type).
+        /// </summary>
+        /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
+        public ExceptionAssertions<TException> WithInnerExceptionExactly<TInnerException>()
+        {
+            return WithInnerExceptionExactly<TInnerException>(null, null);
+        }
+
+        /// <summary>
         ///   Asserts that the thrown exception contains an inner exception of type <typeparamref name = "TInnerException" />.
         /// </summary>
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
@@ -119,6 +128,25 @@ namespace FluentAssertions.Specialized
 
             Execute.Assertion
                 .ForCondition(Subject.Any(e => e.InnerException is TInnerException))
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), SingleSubject.InnerException);
+
+            return this;
+        }
+
+        /// <summary>
+        ///   Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name = "TInnerException" /> (and not a derived exception type).
+        /// </summary>
+        /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
+        /// <param name = "reason">The reason why the inner exception should be of the supplied type.</param>
+        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "because" />.</param>
+        public virtual ExceptionAssertions<TException> WithInnerExceptionExactly<TInnerException>(string because,
+            params object[] reasonArgs)
+        {
+            WithInnerException<TInnerException>(because, reasonArgs);
+
+            Execute.Assertion
+                .ForCondition(Subject.Any(e => e.InnerException.GetType() == typeof(TInnerException)))
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), SingleSubject.InnerException);
 
