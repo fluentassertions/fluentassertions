@@ -538,7 +538,9 @@ namespace FluentAssertions
                 ReasonArgs = reasonArgs
             };
 
+#pragma warning disable 618
             new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
+#pragma warning restore 618
         }
 
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,

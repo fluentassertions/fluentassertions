@@ -13,7 +13,7 @@ namespace FluentAssertions
             get { return Services.ConfigurationStore; }
         }
 
-        public static EquivalencyAssertionOptions<T> CreateEquivalencyDefaults<T>()
+        internal static EquivalencyAssertionOptions<T> CreateEquivalencyDefaults<T>()
         {
             return new EquivalencyAssertionOptions<T>(defaults);
         }
