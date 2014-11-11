@@ -110,9 +110,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-
-            // DateTime is used as an example because the current implemention
-            // would hit the recusion-depth limit if structural equivilence were attempted.
             string s1= "hello";
             string s2 = "good-bye";
 
@@ -126,6 +123,50 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("*to be \"good-bye\" with a length of 8, but \"hello\" has a length of 5*");
+        }
+
+        [TestMethod]
+        public void When_asserting_equivalence_of_strings_typed_as_objects_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            
+            // The convoluted construction is so the compiler does not optimize the two objects to be the same.
+            object s1 = new string('h', 2);
+            object s2 = "hh";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => s1.ShouldBeEquivalentTo(s2);
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
+        }
+
+        [TestMethod]
+        public void When_asserting_equivalence_of_ints_typed_as_objects_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object s1 = 1;
+            object s2 = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => s1.ShouldBeEquivalentTo(s2);
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
         }
 
         #endregion
@@ -2342,6 +2383,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne();
             var expectation = new ClassWithEnumTwo();
+
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2361,6 +2403,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne(){Enum = EnumOne.One};
             var expectation = new ClassWithEnumThree(){Enum = EnumeThree.ValueZero};
+
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2372,8 +2415,6 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-      
-
         [TestMethod]
         public void When_asserting_members_from_different_enum_types_are_equivalent_by_stringvalue_it_should_succeed()
         {
@@ -2382,6 +2423,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne(){Enum = EnumOne.Two};
             var expectation = new ClassWithEnumThree(){Enum = EnumeThree.Two};
+
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2401,6 +2443,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumCharOne() { Enum = EnumCharOne.B };
             var expectation = new ClassWithEnumCharTwo() { Enum = EnumCharTwo.ValueB };
+
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2411,7 +2454,26 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-       
+
+        [TestMethod]
+        public void When_asserting_enums_typed_as_object_are_equivalent_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object e1 = EnumOne.One;
+            object e2 = EnumOne.One;
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => e1.ShouldBeEquivalentTo(e2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
+        }
 
         #endregion
 
