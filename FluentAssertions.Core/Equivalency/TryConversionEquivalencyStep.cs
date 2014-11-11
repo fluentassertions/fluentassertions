@@ -33,6 +33,7 @@ namespace FluentAssertions.Equivalency
                 try
                 {
                     context.Subject = Convert.ChangeType(context.Subject, context.Expectation.GetType(), CultureInfo.CurrentCulture);
+                    context.CompileTimeType = context.Expectation.GetType();
                 }
                 catch (FormatException)
                 {

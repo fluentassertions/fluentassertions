@@ -1,3 +1,5 @@
+using System;
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -10,7 +12,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.RuntimeType != null) && (context.RuntimeType == typeof (string));
+            Type subjectType = config.GetSubjectType(context);
+
+            return (subjectType != null) && (subjectType == typeof (string));
         }
 
         /// <summary>

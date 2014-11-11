@@ -11,7 +11,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return context.RuntimeType != null && context.RuntimeType.IsEnum;
+            Type subjectType = config.GetSubjectType(context);
+
+            return subjectType != null && subjectType.IsEnum;
         }
 
         /// <summary>
