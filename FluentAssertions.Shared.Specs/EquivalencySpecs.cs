@@ -110,9 +110,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-
-            // DateTime is used as an example because the current implemention
-            // would hit the recusion-depth limit if structural equivilence were attempted.
             string s1= "hello";
             string s2 = "good-bye";
 
@@ -126,6 +123,50 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("*to be \"good-bye\" with a length of 8, but \"hello\" has a length of 5*");
+        }
+
+        [TestMethod]
+        public void When_asserting_equivalence_of_strings_typed_as_objects_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            
+            // The convoluted construction is so the compiler does not optimize the two objects to be the same.
+            object s1 = new string('h', 2);
+            object s2 = "hh";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => s1.ShouldBeEquivalentTo(s2);
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
+        }
+
+        [TestMethod]
+        public void When_asserting_equivalence_of_ints_typed_as_objects_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object s1 = 1;
+            object s2 = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => s1.ShouldBeEquivalentTo(s2);
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
         }
 
         #endregion
@@ -1227,35 +1268,6 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_objects_have_the_same_properties_with_convertable_values_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new
-            {
-                Age = "37",
-                Birthdate = "1973-09-20",
-            };
-
-            var other = new
-            {
-                Age = 37,
-                Birthdate = new DateTime(1973, 9, 20)
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
         public void When_two_string_properties_do_not_match_it_should_throw_and_state_the_difference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1430,6 +1442,103 @@ namespace FluentAssertions.Specs
 
             public string strProperty { get; set; }
         }
+
+        #endregion
+
+        #region Member Conversion
+
+        [TestMethod]
+        public void When_two_objects_have_the_same_properties_with_convertable_values_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Age = "37",
+                Birthdate = "1973-09-20",
+            };
+
+            var other = new
+            {
+                Age = 37,
+                Birthdate = new DateTime(1973, 9, 20)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(other);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_string_is_declared_equivalent_to_an_int_representing_the_numerals_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string s = "32";
+            int i = 32;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => s.ShouldBeEquivalentTo(i);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_int_is_compared_equivalent_to_a_string_representing_the_number_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            int i = 32;
+            string s = "32";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => i.ShouldBeEquivalentTo(s);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+#if !NETFX_CORE && !WINRT
+
+        [TestMethod]
+        public void When_declaring_equivalent_a_convertable_object_that_is_equivalent_once_conveterted_it_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string s = "This is a test";
+            CustomConvertible o = new CustomConvertible(s);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => o.ShouldBeEquivalentTo(s);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+#endif
 
         #endregion
 
@@ -2274,6 +2383,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne();
             var expectation = new ClassWithEnumTwo();
+
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2293,6 +2403,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne(){Enum = EnumOne.One};
             var expectation = new ClassWithEnumThree(){Enum = EnumeThree.ValueZero};
+
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2304,8 +2415,6 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-      
-
         [TestMethod]
         public void When_asserting_members_from_different_enum_types_are_equivalent_by_stringvalue_it_should_succeed()
         {
@@ -2314,6 +2423,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumOne(){Enum = EnumOne.Two};
             var expectation = new ClassWithEnumThree(){Enum = EnumeThree.Two};
+
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2333,6 +2443,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new ClassWithEnumCharOne() { Enum = EnumCharOne.B };
             var expectation = new ClassWithEnumCharTwo() { Enum = EnumCharTwo.ValueB };
+
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2343,7 +2454,26 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-       
+
+        [TestMethod]
+        public void When_asserting_enums_typed_as_object_are_equivalent_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object e1 = EnumOne.One;
+            object e2 = EnumOne.One;
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => e1.ShouldBeEquivalentTo(e2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
+        }
 
         #endregion
 
@@ -2676,6 +2806,105 @@ namespace FluentAssertions.Specs
         {
         }
     }
+
+#if !NETFX_CORE && !WINRT
+
+    public class CustomConvertible : IConvertible
+    {
+        private readonly string convertedStringValue;
+
+        public CustomConvertible(string convertedStringValue)
+        {
+            this.convertedStringValue = convertedStringValue;
+        }
+
+        public TypeCode GetTypeCode()
+        {
+            throw new InvalidCastException();
+        }
+
+        public bool ToBoolean(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public char ToChar(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public sbyte ToSByte(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public byte ToByte(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public short ToInt16(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public ushort ToUInt16(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public int ToInt32(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public uint ToUInt32(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public long ToInt64(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public ulong ToUInt64(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public float ToSingle(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public double ToDouble(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public decimal ToDecimal(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public DateTime ToDateTime(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        public string ToString(IFormatProvider provider)
+        {
+            return convertedStringValue;
+        }
+
+        public object ToType(Type conversionType, IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+    }
+
+#endif
 
     #endregion
 

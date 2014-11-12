@@ -73,17 +73,17 @@ namespace FluentAssertions.Equivalency
         {
             get
             {
-                Type type = CompileTimeType;
                 if (Subject != null)
                 {
-                    type = Subject.GetType();
-                }
-                else if (PropertyInfo != null)
-                {
-                    type = PropertyInfo.PropertyType;
+                    return Subject.GetType();
                 }
 
-                return type;
+                if (PropertyInfo != null)
+                {
+                    return PropertyInfo.PropertyType;
+                }
+
+                return CompileTimeType;
             }
         }
 

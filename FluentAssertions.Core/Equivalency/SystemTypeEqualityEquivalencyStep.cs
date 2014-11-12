@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type type = context.RuntimeType;
+            Type type = config.GetSubjectType(context);
 
             return (type != null) &&
                    (type != typeof (object)) &&
