@@ -375,6 +375,7 @@ namespace FluentAssertions.Equivalency
 
         public EquivalencyAssertionOptions()
         {
+
         }
 
         /// <summary>
@@ -505,7 +506,7 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     public class EquivalencyAssertionOptions : EquivalencyAssertionOptionsBase<EquivalencyAssertionOptions>
     {
-        internal EquivalencyAssertionOptions()
+        public EquivalencyAssertionOptions()
         {
             IncludingNestedObjects();
             IncludingAllDeclaredProperties();

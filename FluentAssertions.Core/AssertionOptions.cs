@@ -6,7 +6,7 @@ namespace FluentAssertions
 {
     public static class AssertionOptions
     {
-        private static readonly EquivalencyAssertionOptions defaults = new EquivalencyAssertionOptions();
+        private static EquivalencyAssertionOptions defaults = new EquivalencyAssertionOptions();
 
         private static IConfigurationStore Store
         {
@@ -24,9 +24,9 @@ namespace FluentAssertions
         /// <param name="defaultsConfigurer">
         /// An action that is used to configure the defaults.
         /// </param>
-        public static void AssertEquivalencyUsing(Action<EquivalencyAssertionOptions> defaultsConfigurer)
+        public static void AssertEquivalencyUsing(Func<EquivalencyAssertionOptions, EquivalencyAssertionOptions> defaultsConfigurer)
         {
-            defaultsConfigurer(defaults);
+            defaults = defaultsConfigurer(defaults);
         }
     }
 }
