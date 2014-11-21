@@ -3,7 +3,7 @@
 * [Nullable Types](#nullable-types)
 * [Booleans](#booleans)
 * [Strings](#strings)
-* [Numeric Types and IComparable](#numeric-types)
+* [Numeric Types and IComparable](#numeric-types-and-everything-else-that-implements-icomparable)
 * [Dates and times](#dates-and-times)
 * [TimeSpans](#timespans)
 * [Collections](#collections)
