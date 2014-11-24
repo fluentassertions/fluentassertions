@@ -23,7 +23,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringCollectionAssertions> Equal(params string[] expected)
+        public new AndConstraint<StringCollectionAssertions> Equal(params string[] expected)
         {
             return base.Equal(expected.AsEnumerable());
         }
