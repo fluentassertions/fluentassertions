@@ -18,17 +18,14 @@ namespace FluentAssertions.Equivalency
             handle = action;
         }
 
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             Func<ISubjectInfo, bool> predicate = canHandle.Compile();
 
             return predicate(context);
         }
 
-        public bool Handle(
-            EquivalencyValidationContext context,
-            IEquivalencyValidator parent,
-            IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             bool expectationisNull = ReferenceEquals(context.Expectation, null);
 

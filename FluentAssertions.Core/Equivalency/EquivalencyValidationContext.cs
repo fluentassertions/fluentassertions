@@ -84,14 +84,20 @@ namespace FluentAssertions.Equivalency
                 return CompileTimeType;
             }
         }
+    }
 
-        internal EquivalencyValidationContext CreateForNestedProperty(PropertyInfo nestedProperty,
+    internal static class EquivalencyValidationContextExtentions
+    {
+        internal static EquivalencyValidationContext CreateForNestedProperty(
+            this IEquivalencyValidationContext equivalencyValidationContext,
+            PropertyInfo nestedProperty,
             PropertyInfo matchingProperty)
         {
-            object subject = nestedProperty.GetValue(Subject, null);
-            object expectation = matchingProperty.GetValue(Expectation, null);
+            object subject = nestedProperty.GetValue(equivalencyValidationContext.Subject, null);
+            object expectation = matchingProperty.GetValue(equivalencyValidationContext.Expectation, null);
 
             return CreateNested(
+                equivalencyValidationContext,
                 nestedProperty,
                 subject,
                 expectation,
@@ -101,48 +107,68 @@ namespace FluentAssertions.Equivalency
                 nestedProperty.PropertyType);
         }
 
-        public EquivalencyValidationContext CreateForCollectionItem<T>(int index, T subject, object expectation)
+        public static EquivalencyValidationContext CreateForCollectionItem<T>(
+            this IEquivalencyValidationContext equivalencyValidationContext,
+            int index,
+            T subject,
+            object expectation)
         {
             return CreateNested(
-                PropertyInfo,
+                equivalencyValidationContext,
+                equivalencyValidationContext.PropertyInfo,
                 subject,
                 expectation,
                 "item",
                 "[" + index + "]",
-                string.Empty,
+                String.Empty,
                 typeof(T));
         }
 
-        public EquivalencyValidationContext CreateForDictionaryItem<TKey, TValue>(TKey key, TValue subject, object expectation)
+        public static EquivalencyValidationContext CreateForDictionaryItem<TKey, TValue>(
+            this IEquivalencyValidationContext equivalencyValidationContext,
+            TKey key,
+            TValue subject,
+            object expectation)
         {
             return CreateNested(
-                PropertyInfo,
+                equivalencyValidationContext,
+                equivalencyValidationContext.PropertyInfo,
                 subject,
                 expectation,
                 "pair",
                 "[" + key + "]",
-                string.Empty,
+                String.Empty,
                 typeof(TValue));
         }
 
-        private EquivalencyValidationContext CreateNested(
-            PropertyInfo subjectProperty, object subject, object expectation,
-            string memberType, string memberDescription, string separator,
+        private static EquivalencyValidationContext CreateNested(
+            this IEquivalencyValidationContext equivalencyValidationContext,
+            PropertyInfo subjectProperty,
+            object subject,
+            object expectation,
+            string memberType,
+            string memberDescription,
+            string separator,
             Type compileTimeType)
         {
-            string propertyPath = IsRoot ? memberType : PropertyDescription + separator;
+            string propertyPath = equivalencyValidationContext.IsRoot
+                                      ? memberType
+                                      : equivalencyValidationContext.PropertyDescription + separator;
 
             return new EquivalencyValidationContext
-            {
-                PropertyInfo = subjectProperty,
-                Subject = subject,
-                Expectation = expectation,
-                PropertyPath = PropertyPath.Combine(memberDescription, separator),
-                PropertyDescription = propertyPath + memberDescription,
-                Reason = Reason,
-                ReasonArgs = ReasonArgs,
-                CompileTimeType = compileTimeType,
-            };
+                       {
+                           PropertyInfo = subjectProperty,
+                           Subject = subject,
+                           Expectation = expectation,
+                           PropertyPath =
+                               equivalencyValidationContext.PropertyPath.Combine(
+                                   memberDescription,
+                                   separator),
+                           PropertyDescription = propertyPath + memberDescription,
+                           Reason = equivalencyValidationContext.Reason,
+                           ReasonArgs = equivalencyValidationContext.ReasonArgs,
+                           CompileTimeType = compileTimeType,
+                       };
         }
     }
 }

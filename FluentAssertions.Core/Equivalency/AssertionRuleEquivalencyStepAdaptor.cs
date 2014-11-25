@@ -12,15 +12,12 @@ namespace FluentAssertions.Equivalency
             this.assertionRule = assertionRule;
         }
 
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             return (context.PropertyInfo != null);
         }
 
-        public bool Handle(
-            EquivalencyValidationContext context,
-            IEquivalencyValidator parent,
-            IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             return assertionRule.AssertEquality(context);
         }

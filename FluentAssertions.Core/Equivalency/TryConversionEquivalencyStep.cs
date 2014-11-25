@@ -10,7 +10,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             return true;
         }
@@ -25,7 +25,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
+        public virtual bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
         {
             if (!ReferenceEquals(context.Expectation, null) && !ReferenceEquals(context.Subject, null)
                 && !context.Subject.GetType().IsSameOrInherits(context.Expectation.GetType()))

@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
     /// </remarks>
     internal class GenericDictionaryEquivalencyStep : IEquivalencyStep
     {
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             Type subjectType = config.GetSubjectType(context);
 
@@ -27,7 +27,7 @@ namespace FluentAssertions.Equivalency
                 typeof(IDictionary<,>));
         }
 
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             if (PreconditionsAreMet(context, config))
             {
@@ -37,7 +37,7 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool PreconditionsAreMet(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        private static bool PreconditionsAreMet(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             Type subjectType = config.GetSubjectType(context);
 
@@ -160,7 +160,7 @@ namespace FluentAssertions.Equivalency
         }
 
         private static void AssertDictionaryEquivalence(
-            EquivalencyValidationContext context,
+            IEquivalencyValidationContext context,
             IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {

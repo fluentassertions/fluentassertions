@@ -90,13 +90,13 @@ namespace FluentAssertions.Equivalency
                 eqivalencyStep = equivalencyStep;
             }
 
-            public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
             {
                 return eqivalencyStep.CanHandle(CreateAdjustedCopy(context), config);
             }
 
             public bool Handle(
-                EquivalencyValidationContext context,
+                IEquivalencyValidationContext context,
                 IEquivalencyValidator parent,
                 IEquivalencyAssertionOptions config)
             {
@@ -105,7 +105,7 @@ namespace FluentAssertions.Equivalency
                 return eqivalencyStep.Handle(equivalencyValidationContext, parent, config);
             }
 
-            private static EquivalencyValidationContext CreateAdjustedCopy(EquivalencyValidationContext context)
+            private static EquivalencyValidationContext CreateAdjustedCopy(IEquivalencyValidationContext context)
             {
                 return new EquivalencyValidationContext
                            {

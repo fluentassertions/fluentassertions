@@ -5,7 +5,7 @@ namespace FluentAssertions.Equivalency
 {
     internal static class EquivalencyAssertionOptionsExtentions
     {
-        internal static Type GetSubjectType(this IEquivalencyAssertionOptions config, EquivalencyValidationContext context)
+        internal static Type GetSubjectType(this IEquivalencyAssertionOptions config, IEquivalencyValidationContext context)
         {
             bool useRuntimeType = ShouldUseRuntimeType(config);
 

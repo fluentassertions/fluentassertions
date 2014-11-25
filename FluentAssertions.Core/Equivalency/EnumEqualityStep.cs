@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             Type subjectType = config.GetSubjectType(context);
 
@@ -26,7 +26,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             switch (config.EnumEquivalencyHandling)
             {
@@ -43,7 +43,7 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private void CompareByValue(EquivalencyValidationContext context)
+        private void CompareByValue(IEquivalencyValidationContext context)
         {
             var subjectType = Enum.GetUnderlyingType(context.Subject.GetType());
             var subjectUnderlyingValue = Convert.ChangeType(context.Subject, subjectType, CultureInfo.InvariantCulture);
