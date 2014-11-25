@@ -62,6 +62,8 @@
     <Compile Include="Common\NullReflector.cs" />
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
+    <Compile Include="Equivalency\AssertionContext.cs" />
+    <Compile Include="Equivalency\AssertionRuleEquivalencyStep.cs" />
     <Compile Include="Equivalency\AssertionRuleEquivalencyStepAdaptor.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
     <Compile Include="Equivalency\EnumEquivalencyHandling.cs" />
