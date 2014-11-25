@@ -2216,6 +2216,36 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_a_selection_rule_is_added_it_should_appear_in_the_exception_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Name = "123",
+            };
+
+            var expected = new
+            {
+                SomeValue = "hello"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(
+                expected,
+                options => options.Using(new ExcludeForeignKeysSelectionRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format("*{0}*", typeof(ExcludeForeignKeysSelectionRule).Name));
+        }
+
         internal class ExcludeForeignKeysSelectionRule : ISelectionRule
         {
             public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> selectedProperties, ISubjectInfo context)
@@ -2253,6 +2283,38 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_matching_rule_is_added_it_should_appear_in_the_exception_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NameId = "123",
+                SomeValue = "hello"
+            };
+
+            var expected = new
+            {
+                Name = "1234",
+                SomeValue = "hello"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(
+                expected,
+                options => options.Using(new ForeignKeyMatchingRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format("*{0}*", typeof(ForeignKeyMatchingRule).Name));
         }
 
         internal class ForeignKeyMatchingRule : IMatchingRule
@@ -2301,6 +2363,30 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_assertion_rule_is_added_it_appear_in_the_exception_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = 8.July(2012).At(22, 9);
+
+            var expected = 8.July(2012).At(22, 10);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(
+                expected,
+                options => options.Using(new RelaxingDateTimeAssertionRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format("*{0}*", typeof(RelaxingDateTimeAssertionRule).Name));
         }
 
         [TestMethod]
