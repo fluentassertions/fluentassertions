@@ -515,7 +515,7 @@ namespace FluentAssertions.Equivalency
             /// </param>
             public EquivalencyAssertionOptions<TSubject> When(Expression<Func<ISubjectInfo, bool>> predicate)
             {
-                options.AddAssertionRule(new AssertionRule<TProperty>(predicate, action));
+                options.AddEquivalencyStep(new AssertionRuleEquivalencyStep<TProperty>(predicate, action));
                 return options;
             }
         }
