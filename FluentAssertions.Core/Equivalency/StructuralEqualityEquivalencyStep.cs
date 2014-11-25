@@ -66,7 +66,7 @@ namespace FluentAssertions.Equivalency
             var matchingProperty = FindMatchFor(propertyInfo, context, config.MatchingRules);
             if (matchingProperty != null)
             {
-                EquivalencyValidationContext nestedContext = context.CreateForNestedProperty(propertyInfo, matchingProperty);
+                var nestedContext = context.CreateForNestedProperty(propertyInfo, matchingProperty);
                 if (nestedContext != null)
                 {
                     parent.AssertEqualityUsing(nestedContext);

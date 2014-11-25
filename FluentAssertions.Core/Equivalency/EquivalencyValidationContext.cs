@@ -88,7 +88,7 @@ namespace FluentAssertions.Equivalency
 
     internal static class EquivalencyValidationContextExtentions
     {
-        internal static EquivalencyValidationContext CreateForNestedProperty(
+        internal static IEquivalencyValidationContext CreateForNestedProperty(
             this IEquivalencyValidationContext equivalencyValidationContext,
             PropertyInfo nestedProperty,
             PropertyInfo matchingProperty)
@@ -107,7 +107,7 @@ namespace FluentAssertions.Equivalency
                 nestedProperty.PropertyType);
         }
 
-        public static EquivalencyValidationContext CreateForCollectionItem<T>(
+        public static IEquivalencyValidationContext CreateForCollectionItem<T>(
             this IEquivalencyValidationContext equivalencyValidationContext,
             int index,
             T subject,
@@ -124,7 +124,7 @@ namespace FluentAssertions.Equivalency
                 typeof(T));
         }
 
-        public static EquivalencyValidationContext CreateForDictionaryItem<TKey, TValue>(
+        public static IEquivalencyValidationContext CreateForDictionaryItem<TKey, TValue>(
             this IEquivalencyValidationContext equivalencyValidationContext,
             TKey key,
             TValue subject,
@@ -141,7 +141,7 @@ namespace FluentAssertions.Equivalency
                 typeof(TValue));
         }
 
-        private static EquivalencyValidationContext CreateNested(
+        private static IEquivalencyValidationContext CreateNested(
             this IEquivalencyValidationContext equivalencyValidationContext,
             PropertyInfo subjectProperty,
             object subject,

@@ -36,7 +36,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        public void AssertEqualityUsing(EquivalencyValidationContext context)
+        public void AssertEqualityUsing(IEquivalencyValidationContext context)
         {
             if (ContinueRecursion(context.PropertyPath))
             {
