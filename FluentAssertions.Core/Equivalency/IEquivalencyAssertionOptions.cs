@@ -25,6 +25,11 @@ namespace FluentAssertions.Equivalency
         IEnumerable<IAssertionRule> AssertionRules { get; }
 
         /// <summary>
+        /// Gets an ordered collection of Equivalency steps how a subject is comparted with the expectation.
+        /// </summary>
+        IEnumerable<IEquivalencyStep> EquivalencySteps { get; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not the assertion must perform a deep comparison.
         /// </summary>
         bool IsRecursive { get; }

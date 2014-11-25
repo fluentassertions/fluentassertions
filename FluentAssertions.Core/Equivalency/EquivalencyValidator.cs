@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 using FluentAssertions.Execution;
@@ -17,35 +16,11 @@ namespace FluentAssertions.Equivalency
 
         private readonly IEquivalencyAssertionOptions config;
 
-        private readonly List<IEquivalencyStep> steps = new List<IEquivalencyStep>
-        {
-            new TryConversionEquivalencyStep(),
-            new ReferenceEqualityEquivalencyStep(),
-            new ApplyAssertionRulesEquivalencyStep(),
-            new GenericDictionaryEquivalencyStep(),
-            new DictionaryEquivalencyStep(),
-            new GenericEnumerableEquivalencyStep(),
-            new EnumerableEquivalencyStep(),
-            new StringEqualityEquivalencyStep(),
-            new SystemTypeEquivalencyStep(),
-            new EnumEqualityStep(),
-            new StructuralEqualityEquivalencyStep(),
-            new SimpleEqualityEquivalencyStep()
-        };
-
         #endregion
 
         public EquivalencyValidator(IEquivalencyAssertionOptions config)
         {
             this.config = config;
-        }
-
-        /// <summary>
-        /// Provides access the list of steps that are executed in the order of appearance during an equivalency test.
-        /// </summary>
-        public IList<IEquivalencyStep> Steps
-        {
-            get { return steps; }
         }
 
         public void AssertEquality(EquivalencyValidationContext context)
@@ -76,7 +51,7 @@ namespace FluentAssertions.Equivalency
                 {
                     bool wasHandled = false;
 
-                    foreach (var strategy in steps.Where(s => s.CanHandle(context, config)))
+                    foreach (var strategy in config.EquivalencySteps.Where(s => s.CanHandle(context, config)))
                     {
                         if (strategy.Handle(context, this, config))
                         {
