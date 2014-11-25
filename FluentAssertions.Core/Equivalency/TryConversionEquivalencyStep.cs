@@ -25,22 +25,39 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public virtual bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
         {
             if (!ReferenceEquals(context.Expectation, null) && !ReferenceEquals(context.Subject, null)
                 && !context.Subject.GetType().IsSameOrInherits(context.Expectation.GetType()))
             {
-                try
+                Type expectationType = context.Expectation.GetType();
+
+                object convertedSubject;
+                if (TryChangeType(context.Subject, expectationType, out convertedSubject))
                 {
-                    context.Subject = Convert.ChangeType(context.Subject, context.Expectation.GetType(), CultureInfo.CurrentCulture);
-                    context.CompileTimeType = context.Expectation.GetType();
+                    var newContext = context.CreateWithDifferentSubject(convertedSubject, expectationType);
+
+                    structuralEqualityValidator.AssertEqualityUsing(newContext);
+                    return true;
                 }
-                catch (FormatException)
-                {
-                }
-                catch (InvalidCastException)
-                {
-                }
+            }
+
+            return false;
+        }
+
+        private static bool TryChangeType(object subject, Type expectationType, out object conversionResult)
+        {
+            conversionResult = null;
+            try
+            {
+                conversionResult = Convert.ChangeType(subject, expectationType, CultureInfo.CurrentCulture);
+                return true;
+            }
+            catch (FormatException)
+            {
+            }
+            catch (InvalidCastException)
+            {
             }
 
             return false;

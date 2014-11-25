@@ -141,6 +141,24 @@ namespace FluentAssertions.Equivalency
                 typeof(TValue));
         }
 
+        internal static IEquivalencyValidationContext CreateWithDifferentSubject(
+            this IEquivalencyValidationContext context,
+            object subject,
+            Type compileTimeType)
+        {
+            return new EquivalencyValidationContext
+                       {
+                           CompileTimeType = compileTimeType,
+                           Expectation = context.Expectation,
+                           PropertyDescription = context.PropertyDescription,
+                           PropertyInfo = context.PropertyInfo,
+                           PropertyPath = context.PropertyPath,
+                           Reason = context.Reason,
+                           ReasonArgs = context.ReasonArgs,
+                           Subject = subject
+                       };
+        }
+
         private static IEquivalencyValidationContext CreateNested(
             this IEquivalencyValidationContext equivalencyValidationContext,
             PropertyInfo subjectProperty,
