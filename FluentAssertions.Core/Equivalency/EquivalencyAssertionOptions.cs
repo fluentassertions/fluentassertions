@@ -24,9 +24,6 @@ namespace FluentAssertions.Equivalency
         private readonly List<IMatchingRule> matchingRules = new List<IMatchingRule>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IAssertionRule> assertionRules = new List<IAssertionRule>();
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IEquivalencyStep> equivalencySteps = new List<IEquivalencyStep>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -104,15 +101,6 @@ namespace FluentAssertions.Equivalency
         IEnumerable<IMatchingRule> IEquivalencyAssertionOptions.MatchingRules
         {
             get { return matchingRules; }
-        }
-
-        /// <summary>
-        /// Gets an ordered collection of assertion rules that determine how subject properties are compared for equality with
-        /// expectation properties.
-        /// </summary>
-        IEnumerable<IAssertionRule> IEquivalencyAssertionOptions.AssertionRules
-        {
-            get { return assertionRules; }
         }
 
         /// <summary>
@@ -475,9 +463,9 @@ namespace FluentAssertions.Equivalency
                 builder.AppendLine("- " + rule);
             }
 
-            foreach (var rule in assertionRules)
+            foreach (var step in userEquivalencySteps)
             {
-                builder.AppendLine("- " + rule);
+                builder.AppendLine("- " + step);
             }
 
             return builder.ToString();

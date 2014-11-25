@@ -19,12 +19,6 @@ namespace FluentAssertions.Equivalency
         IEnumerable<IMatchingRule> MatchingRules { get; }
 
         /// <summary>
-        /// Gets an ordered collection of assertion rules that determine how subject properties are compared for equality with
-        /// expectation properties.
-        /// </summary>
-        IEnumerable<IAssertionRule> AssertionRules { get; }
-
-        /// <summary>
         /// Gets an ordered collection of Equivalency steps how a subject is comparted with the expectation.
         /// </summary>
         IEnumerable<IEquivalencyStep> EquivalencySteps { get; }
