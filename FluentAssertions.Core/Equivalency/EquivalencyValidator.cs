@@ -74,16 +74,8 @@ namespace FluentAssertions.Equivalency
 
                 if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.PropertyPath)))
                 {
-                    bool wasHandled = false;
-
-                    foreach (var strategy in steps.Where(s => s.CanHandle(context, config)))
-                    {
-                        if (strategy.Handle(context, this, config))
-                        {
-                            wasHandled = true;
-                            break;
-                        }
-                    }
+                    bool wasHandled = steps.Where(s => s.CanHandle(context, config))
+                                           .Any(strategy => strategy.Handle(context, this, config));
 
                     if (!wasHandled)
                     {
