@@ -24,9 +24,6 @@ namespace FluentAssertions.Equivalency
         private readonly List<IMatchingRule> matchingRules = new List<IMatchingRule>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IEquivalencyStep> equivalencySteps = new List<IEquivalencyStep>();
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IEquivalencyStep> userEquivalencySteps = new List<IEquivalencyStep>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -55,23 +52,8 @@ namespace FluentAssertions.Equivalency
         /// Gets a configuration that by default doesn't include any of the subject's properties and doesn't consider any nested objects
         /// or collections.
         /// </summary>
-        public static Func<EquivalencyAssertionOptions<TSubject>> Empty = () =>
-            {
-                var config = new EquivalencyAssertionOptions<TSubject>();
-
-                config.equivalencySteps.AddRange(
-                    new IEquivalencyStep[]
-                        {
-                            new TryConversionEquivalencyStep(), new ReferenceEqualityEquivalencyStep(),
-                            new AggregateEquivalencyStep(), new GenericDictionaryEquivalencyStep(),
-                            new DictionaryEquivalencyStep(), new GenericEnumerableEquivalencyStep(),
-                            new EnumerableEquivalencyStep(), new StringEqualityEquivalencyStep(),
-                            new SystemTypeEquivalencyStep(), new EnumEqualityStep(),
-                            new StructuralEqualityEquivalencyStep(), new SimpleEqualityEquivalencyStep()
-                        });
-
-                return config;
-            };
+        public static Func<EquivalencyAssertionOptions<TSubject>> Empty =
+            () => new EquivalencyAssertionOptions<TSubject>();
 
         /// <summary>
         /// Gets a configuration that compares all declared properties of the subject with equally named properties of the expectation,
@@ -79,7 +61,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public static Func<EquivalencyAssertionOptions<TSubject>> Default = () =>
         {
-            EquivalencyAssertionOptions<TSubject> config = Empty();
+            var config = new EquivalencyAssertionOptions<TSubject>();
             config.IncludingNestedObjects();
             config.IncludingAllDeclaredProperties();
 
@@ -101,14 +83,6 @@ namespace FluentAssertions.Equivalency
         IEnumerable<IMatchingRule> IEquivalencyAssertionOptions.MatchingRules
         {
             get { return matchingRules; }
-        }
-
-        /// <summary>
-        /// Gets an ordered collection of Equivalency steps how a subject is comparted with the expectation.
-        /// </summary>
-        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.EquivalencySteps
-        {
-            get { return equivalencySteps; }
         }
 
         /// <summary>
