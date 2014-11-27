@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -94,7 +96,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var strings = new[] { "string1", "string2", "string3" };
+            IEnumerable<string> strings = new[] { "string1", "string2", "string3" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -108,7 +110,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var strings = new[] { "string1", "string2", "string3" };
+            IEnumerable<string> strings = new[] { "string1", "string2", "string3" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -128,7 +130,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var strings = new List<string> { "string1", "string2" };
+            IEnumerable<string> strings = new[] { "string1", "string2" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -148,7 +150,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            string[] strings = null;
+            const IEnumerable<string> strings = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -189,7 +191,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            List<string> strings = null;
+            const IEnumerable<string> strings = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -209,7 +211,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            List<string> strings = null;
+            const IEnumerable<string> strings = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -226,7 +228,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Only Contain
+        #region Only Contain (Predicate)
 
         [TestMethod]
         public void When_a_collection_contains_items_not_matching_a_predicate_it_should_throw()
@@ -234,7 +236,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new List<int> { 2, 12, 3, 11, 2 };
+            IEnumerable<int> collection = new[] { 2, 12, 3, 11, 2 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -254,7 +256,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var strings = new string[0];
+            IEnumerable<string> strings = Enumerable.Empty<string>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -274,7 +276,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new List<int> { 2, 9, 3, 8, 2 };
+            IEnumerable<int> collection = new[] { 2, 9, 3, 8, 2 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -285,7 +287,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-            ;
         }
 
         #endregion
@@ -299,11 +300,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IEnumerable<int> collection = new[] { 1, 2, 3 };
+            Expression<Func<int, bool>> expression = (item => (item == 2));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().ContainSingle(item => (item == 2));
+            Action act = () => collection.Should().ContainSingle(expression);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -317,7 +319,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<int> collection = new int[0];
+            IEnumerable<int> collection = Enumerable.Empty<int>();
             Expression<Func<int, bool>> expression = (item => (item == 2));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -341,7 +343,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<int> collection = null;
+            const IEnumerable<int> collection = null;
             Expression<Func<int, bool>> expression = (item => (item == 2));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -408,7 +410,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_single_matching_element_is_found_it_should_allow_continuation()
+        public void When_single_item_matching_a_predicate_is_found_it_should_allow_continuation()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -428,6 +430,134 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Contain Single
+
+        [TestMethod]
+        public void When_a_collection_contains_a_single_item_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_empty_collection_contains_a_single_item_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = Enumerable.Empty<int>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            const string expectedMessage = "Expected collection to contain a single item.";
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void When_asserting_a_null_collection_contains_a_single_item_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const IEnumerable<int> collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            const string expectedMessage = "Expected collection to contain a single item but found <null>.";
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void When_non_empty_collection_does_not_contain_a_single_item_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            const string expectedMessage = "Expected collection to contain a single item.";
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void When_non_empty_collection_contains_more_than_a_single_item_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 1, 2 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            const string expectedMessage = "Expected collection to contain a single item.";
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        [TestMethod]
+        public void When_single_item_is_found_it_should_allow_continuation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<int> collection = new[] { 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().ContainSingle().Which.Should().BeGreaterThan(4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            const string expectedMessage = "Expected a value greater than 4, but found 3.";
+
+            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+        }
+
+        #endregion
+
         #region Be In Ascending/Decending Order
 
         [TestMethod]
@@ -440,7 +570,7 @@ namespace FluentAssertions.Specs
             {
                 new { Text = "b", Numeric = 1 },
                 new { Text = "c", Numeric = 2 },
-                new { Text = "a", Numeric = 3 },
+                new { Text = "a", Numeric = 3 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -454,7 +584,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*a*b*c*");
         }
-        
+
         [TestMethod]
         public void When_the_items_are_in_ascending_order_using_the_specified_property_it_should_not_throw()
         {
@@ -465,7 +595,7 @@ namespace FluentAssertions.Specs
             {
                 new { Text = "b", Numeric = 1 },
                 new { Text = "c", Numeric = 2 },
-                new { Text = "a", Numeric = 3 },
+                new { Text = "a", Numeric = 3 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -477,8 +607,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }        
-        
+        }
+
         [TestMethod]
         public void When_the_items_are_not_in_descending_order_using_the_specified_property_it_should_throw()
         {
@@ -489,7 +619,7 @@ namespace FluentAssertions.Specs
             {
                 new { Text = "b", Numeric = 1 },
                 new { Text = "c", Numeric = 2 },
-                new { Text = "a", Numeric = 3 },
+                new { Text = "a", Numeric = 3 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -503,7 +633,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*c*b*a*");
         }
-        
+
         [TestMethod]
         public void When_the_items_are_in_descending_order_using_the_specified_property_it_should_not_throw()
         {
@@ -514,7 +644,7 @@ namespace FluentAssertions.Specs
             {
                 new { Text = "b", Numeric = 3 },
                 new { Text = "c", Numeric = 2 },
-                new { Text = "a", Numeric = 1 },
+                new { Text = "a", Numeric = 1 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -534,7 +664,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new SomeClass[0];
+            var collection = Enumerable.Empty<SomeClass>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -546,14 +676,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_the_collection_is_null_while_asserting_a_particular_order_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection = new SomeClass[0];
+            var collection = Enumerable.Empty<SomeClass>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -566,14 +696,14 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<ArgumentNullException>()
                 .WithMessage("Cannot assert collection ordering without specifying a property*propertyExpression*");
         }
-        
+
         [TestMethod]
         public void When_asserting_the_order_of_a_collection_without_specifying_a_property_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            SomeClass[] collection = null;
+            const IEnumerable<SomeClass> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -585,15 +715,15 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected*Text*found*null*");
-        }        [
-        
-        TestMethod]
+        }
+
+        [TestMethod]
         public void When_asserting_the_order_of_a_collection_with_an_invalid_property_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            SomeClass[] collection = null;
+            const IEnumerable<SomeClass> collection = null;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -607,7 +737,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expression*o.GetHashCode()*is not a valid property expression*");
         }
 
-        private class SomeClass 
+        private class SomeClass
         {
             public string Text { get; set; }
         }
