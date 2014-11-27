@@ -17,22 +17,6 @@ namespace FluentAssertions.Equivalency
 
         private readonly IEquivalencyAssertionOptions config;
 
-        private readonly List<IEquivalencyStep> steps = new List<IEquivalencyStep>
-        {
-            new TryConversionEquivalencyStep(),
-            new ReferenceEqualityEquivalencyStep(),
-            new AggregateEquivalencyStep(),
-            new GenericDictionaryEquivalencyStep(),
-            new DictionaryEquivalencyStep(),
-            new GenericEnumerableEquivalencyStep(),
-            new EnumerableEquivalencyStep(),
-            new StringEqualityEquivalencyStep(),
-            new SystemTypeEquivalencyStep(),
-            new EnumEqualityStep(),
-            new StructuralEqualityEquivalencyStep(),
-            new SimpleEqualityEquivalencyStep()
-        };
-
         #endregion
 
         public EquivalencyValidator(IEquivalencyAssertionOptions config)
@@ -68,6 +52,7 @@ namespace FluentAssertions.Equivalency
                 {
                     bool wasHandled = false;
 
+                    IList<IEquivalencyStep> steps = GetSteps().ToList();
                     foreach (var strategy in steps.Where(s => s.CanHandle(context, config)))
                     {
                         if (strategy.Handle(context, this, config))
@@ -85,6 +70,27 @@ namespace FluentAssertions.Equivalency
                     }
                 }
             }
+        }
+
+        private IEnumerable<IEquivalencyStep> GetSteps()
+        {
+            yield return new TryConversionEquivalencyStep();
+            yield return new ReferenceEqualityEquivalencyStep();
+
+            foreach (var equivalencyStep in config.UserEquivalencySteps)
+            {
+                yield return equivalencyStep;
+            }
+
+            yield return new GenericDictionaryEquivalencyStep();
+            yield return new DictionaryEquivalencyStep();
+            yield return new GenericEnumerableEquivalencyStep();
+            yield return new EnumerableEquivalencyStep();
+            yield return new StringEqualityEquivalencyStep();
+            yield return new SystemTypeEquivalencyStep();
+            yield return new EnumEqualityStep();
+            yield return new StructuralEqualityEquivalencyStep();
+            yield return new SimpleEqualityEquivalencyStep();
         }
 
         private bool ContinueRecursion(string propertyPath)
