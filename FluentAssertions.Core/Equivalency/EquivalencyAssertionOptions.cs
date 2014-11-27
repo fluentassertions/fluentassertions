@@ -369,7 +369,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// This is the default.
         /// </remarks>
-        public EquivalencyAssertionOptions<TSubject> ComapringEnumsByValue()
+        public EquivalencyAssertionOptions<TSubject> ComparingEnumsByValue()
         {
             enumEquivalencyHandling = EnumEquivalencyHandling.ByValue;
             return this;

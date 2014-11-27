@@ -108,7 +108,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <remarks>
         /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
-        /// use <see cref="Be"/>.
+        /// use <see cref="Be(DateTime, string, object[])"/>.
         /// </remarks>
         /// <param name="nearbyTime">
         /// The expected time to compare the actual value with.
@@ -135,7 +135,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <remarks>
         /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
-        /// use <see cref="Be"/>.
+        /// use <see cref="Be(DateTimeOffset, string, object[])"/>.
         /// </remarks>
         /// <param name="nearbyTime">
         /// The expected time to compare the actual value with.

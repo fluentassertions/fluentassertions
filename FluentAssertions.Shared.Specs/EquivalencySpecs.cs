@@ -2407,7 +2407,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation,config => config.ComapringEnumsByValue());
+            Action act = () => subject.ShouldBeEquivalentTo(expectation,config => config.ComparingEnumsByValue());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2447,7 +2447,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.ComapringEnumsByValue());
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
