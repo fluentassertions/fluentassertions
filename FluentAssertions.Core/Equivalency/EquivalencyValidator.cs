@@ -40,14 +40,6 @@ namespace FluentAssertions.Equivalency
             this.config = config;
         }
 
-        /// <summary>
-        /// Provides access the list of steps that are executed in the order of appearance during an equivalency test.
-        /// </summary>
-        public IList<IEquivalencyStep> Steps
-        {
-            get { return steps; }
-        }
-
         public void AssertEquality(EquivalencyValidationContext context)
         {
             using (var scope = new AssertionScope())
