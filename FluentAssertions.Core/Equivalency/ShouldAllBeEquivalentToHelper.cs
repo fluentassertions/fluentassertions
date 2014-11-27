@@ -5,13 +5,13 @@ using System.Reflection;
 
 namespace FluentAssertions.Equivalency
 {
-    internal static class ShouldAllBeEquivalentToHelper
+    public static class ShouldAllBeEquivalentToHelper
     {
         /// <summary>
         /// This converts the configuration provided provided by `ShouldAllBeEquivalentTo`
         /// so that it is usable by `ShouldBeEquivalentTo`
         /// </summary>
-        internal static EquivalencyAssertionOptions<TSubject> ForCollectionMemberType<T, TSubject>(this 
+        public static EquivalencyAssertionOptions<TSubject> ForCollectionMemberType<T, TSubject>(
             EquivalencyAssertionOptions<TSubject> optionsToConfigure,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> subConfig)
         {

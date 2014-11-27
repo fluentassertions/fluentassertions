@@ -312,7 +312,9 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
         /// </summary>
-        public EquivalencyAssertionOptions<TSubject> Using(IEquivalencyStep equivalencyStep)
+        // This method is internal because we do not want it used externally yet.
+        // It is used reflectively by ShouldAllBeEquivalentToHelper.
+        internal EquivalencyAssertionOptions<TSubject> Using(IEquivalencyStep equivalencyStep)
         {
             return AddEquivalencyStep(equivalencyStep);
         }

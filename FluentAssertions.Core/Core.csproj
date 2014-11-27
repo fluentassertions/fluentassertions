@@ -72,6 +72,7 @@
     <Compile Include="Equivalency\IEquivalencyValidationContextExtentions.cs" />
     <Compile Include="Equivalency\IncludePropertyByPredicateSelectionRule.cs" />
     <Compile Include="Equivalency\GenericDictionaryEquivalencyStep.cs" />
+    <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
