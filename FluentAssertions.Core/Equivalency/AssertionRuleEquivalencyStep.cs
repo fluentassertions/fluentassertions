@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
         {
             Func<ISubjectInfo, bool> predicate = canHandle.Compile();
 
-            return predicate(context);
+            return (context.PropertyInfo != null) && predicate(context);
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)

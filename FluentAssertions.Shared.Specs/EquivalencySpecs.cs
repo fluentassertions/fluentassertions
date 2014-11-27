@@ -2412,6 +2412,34 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>();
         }
 
+        [TestMethod]
+        public void When_an_assertion_rule_added_with_the_fluent_api_matches_the_root_object_the_assertion_rule_should_not_apply_to_the_root_object()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = 8.July(2012).At(22, 9);
+
+            var expected = 8.July(2012).At(22, 10);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                subject.ShouldBeEquivalentTo(
+                    expected,
+                    options =>
+                    options.Using<DateTime>(
+                        context => context.Subject.Should().BeCloseTo(context.Expectation, 1000 * 60))
+                        .WhenTypeIs<DateTime>());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
         internal class RelaxingDateTimeAssertionRule : IAssertionRule
         {
             public bool AssertEquality(IEquivalencyValidationContext context)
