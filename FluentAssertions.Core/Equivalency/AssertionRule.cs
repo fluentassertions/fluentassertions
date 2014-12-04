@@ -1,6 +1,5 @@
 using System;
 using System.Linq.Expressions;
-using System.Reflection;
 
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -12,6 +11,7 @@ namespace FluentAssertions.Equivalency
     /// this rule applies to a particular property and executes an action to assert equality.
     /// </summary>
     /// <typeparam name="TSubject">The type of the subject.</typeparam>
+    [Obsolete("This class will be removed in a future version.  Use `EquivalencyAssertionOptions.Using(Action<IAssertionContext<TProperty>>)` from the Fluent API instead.")]
     public class AssertionRule<TSubject> : IAssertionRule
     {
         private readonly Func<ISubjectInfo, bool> predicate;
@@ -66,10 +66,7 @@ namespace FluentAssertions.Equivalency
 
                 if (succeeded)
                 {
-                    var expectation = (context.Expectation != null) ? (TSubject)context.Expectation : default(TSubject);
-
-                    action(new AssertionContext(context.PropertyInfo,
-                        (TSubject)context.Subject, expectation, context.Reason, context.ReasonArgs));
+                    action(AssertionContext<TSubject>.CreateFromEquivalencyValidationContext(context));
                 }
 
                 return true;
@@ -88,25 +85,6 @@ namespace FluentAssertions.Equivalency
         public override string ToString()
         {
             return description;
-        }
-
-        internal class AssertionContext : IAssertionContext<TSubject>
-        {
-            public AssertionContext(PropertyInfo subjectProperty, TSubject subject, TSubject expectation, string because,
-                object[] reasonArgs)
-            {
-                SubjectProperty = subjectProperty;
-                Subject = subject;
-                Expectation = expectation;
-                Reason = because;
-                ReasonArgs = reasonArgs;
-            }
-
-            public PropertyInfo SubjectProperty { get; private set; }
-            public TSubject Subject { get; private set; }
-            public TSubject Expectation { get; private set; }
-            public string Reason { get; set; }
-            public object[] ReasonArgs { get; set; }
         }
     }
 }

@@ -13,11 +13,11 @@ namespace FluentAssertions.Equivalency
         #region Private Definitions
 
         private readonly IEquivalencyValidator parent;
-        private readonly EquivalencyValidationContext context;
+        private readonly IEquivalencyValidationContext context;
 
         #endregion
 
-        public EnumerableEquivalencyValidator(IEquivalencyValidator parent, EquivalencyValidationContext context)
+        public EnumerableEquivalencyValidator(IEquivalencyValidator parent, IEquivalencyValidationContext context)
         {
             this.parent = parent;
             this.context = context;

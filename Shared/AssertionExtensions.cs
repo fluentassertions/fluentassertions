@@ -553,7 +553,7 @@ namespace FluentAssertions
         {
             subject.ShouldBeEquivalentTo<IEnumerable<T>>(
                 expectation,
-                c => c.ForCollectionMemberType<T, IEnumerable<T>>(config),
+                c => ShouldAllBeEquivalentToHelper.ForCollectionMemberType(c, config),
                 because,
                 reasonArgs);
         }

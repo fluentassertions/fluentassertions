@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
-
-using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
@@ -19,7 +15,7 @@ namespace FluentAssertions.Equivalency
         /// Gets the <see cref="ISubjectInfo.PropertyInfo" /> of the property that returned the current object, or 
         /// <c>null</c> if the current object represents the root object.
         /// </summary>
-        public PropertyInfo PropertyInfo { get; private set; }
+        public PropertyInfo PropertyInfo { get; set; }
 
         /// <summary>
         ///   Gets the full path from the root object until the current property, separated by dots.
@@ -29,7 +25,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         ///   Gets a textual description of the current property based on the <see cref="PropertyPath" />.
         /// </summary>
-        public string PropertyDescription { get; private set; }
+        public string PropertyDescription { get; set; }
 
         /// <summary>
         /// Gets the value of the <see cref="ISubjectInfo.PropertyInfo" />
@@ -85,66 +81,6 @@ namespace FluentAssertions.Equivalency
 
                 return CompileTimeType;
             }
-        }
-
-        internal EquivalencyValidationContext CreateForNestedProperty(PropertyInfo nestedProperty,
-            PropertyInfo matchingProperty)
-        {
-            object subject = nestedProperty.GetValue(Subject, null);
-            object expectation = matchingProperty.GetValue(Expectation, null);
-
-            return CreateNested(
-                nestedProperty,
-                subject,
-                expectation,
-                "property ",
-                nestedProperty.Name,
-                ".",
-                nestedProperty.PropertyType);
-        }
-
-        public EquivalencyValidationContext CreateForCollectionItem<T>(int index, T subject, object expectation)
-        {
-            return CreateNested(
-                PropertyInfo,
-                subject,
-                expectation,
-                "item",
-                "[" + index + "]",
-                string.Empty,
-                typeof(T));
-        }
-
-        public EquivalencyValidationContext CreateForDictionaryItem<TKey, TValue>(TKey key, TValue subject, object expectation)
-        {
-            return CreateNested(
-                PropertyInfo,
-                subject,
-                expectation,
-                "pair",
-                "[" + key + "]",
-                string.Empty,
-                typeof(TValue));
-        }
-
-        private EquivalencyValidationContext CreateNested(
-            PropertyInfo subjectProperty, object subject, object expectation,
-            string memberType, string memberDescription, string separator,
-            Type compileTimeType)
-        {
-            string propertyPath = IsRoot ? memberType : PropertyDescription + separator;
-
-            return new EquivalencyValidationContext
-            {
-                PropertyInfo = subjectProperty,
-                Subject = subject,
-                Expectation = expectation,
-                PropertyPath = PropertyPath.Combine(memberDescription, separator),
-                PropertyDescription = propertyPath + memberDescription,
-                Reason = Reason,
-                ReasonArgs = ReasonArgs,
-                CompileTimeType = compileTimeType,
-            };
         }
     }
 }

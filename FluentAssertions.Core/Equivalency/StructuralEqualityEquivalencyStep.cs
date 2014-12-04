@@ -12,7 +12,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             return (context.IsRoot || config.IsRecursive);
         }
@@ -27,7 +27,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             bool expectationIsNotNull = AssertionScope.Current
                 .ForCondition(!ReferenceEquals(context.Expectation, null))
@@ -61,12 +61,12 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private void AssertPropertyEquality(EquivalencyValidationContext context, IEquivalencyValidator parent, PropertyInfo propertyInfo, IEquivalencyAssertionOptions config)
+        private void AssertPropertyEquality(IEquivalencyValidationContext context, IEquivalencyValidator parent, PropertyInfo propertyInfo, IEquivalencyAssertionOptions config)
         {
             var matchingProperty = FindMatchFor(propertyInfo, context, config.MatchingRules);
             if (matchingProperty != null)
             {
-                EquivalencyValidationContext nestedContext = context.CreateForNestedProperty(propertyInfo, matchingProperty);
+                var nestedContext = context.CreateForNestedProperty(propertyInfo, matchingProperty);
                 if (nestedContext != null)
                 {
                     parent.AssertEqualityUsing(nestedContext);
@@ -74,7 +74,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private PropertyInfo FindMatchFor(PropertyInfo propertyInfo, EquivalencyValidationContext context, IEnumerable<IMatchingRule> matchingRules)
+        private PropertyInfo FindMatchFor(PropertyInfo propertyInfo, IEquivalencyValidationContext context, IEnumerable<IMatchingRule> matchingRules)
         {
             var query =
                 from rule in matchingRules
@@ -85,7 +85,7 @@ namespace FluentAssertions.Equivalency
             return query.FirstOrDefault();
         }
 
-        internal IEnumerable<PropertyInfo> GetSelectedProperties(EquivalencyValidationContext context, 
+        internal IEnumerable<PropertyInfo> GetSelectedProperties(IEquivalencyValidationContext context, 
             IEquivalencyAssertionOptions config)
         {
             IEnumerable<PropertyInfo> properties = Enumerable.Empty<PropertyInfo>();

@@ -24,7 +24,7 @@ namespace FluentAssertions.Equivalency
         private readonly List<IMatchingRule> matchingRules = new List<IMatchingRule>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IAssertionRule> assertionRules = new List<IAssertionRule>();
+        private readonly List<IEquivalencyStep> userEquivalencySteps = new List<IEquivalencyStep>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
@@ -43,7 +43,7 @@ namespace FluentAssertions.Equivalency
 
         private EquivalencyAssertionOptions()
         {
-            Using(new MustMatchByNameRule());
+            AddMatchingRule(new MustMatchByNameRule());
 
             orderingRules.Add(new ByteArrayOrderingRule());
         }
@@ -86,12 +86,11 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Gets an ordered collection of assertion rules that determine how subject properties are compared for equality with
-        /// expectation properties.
+        /// Gets an ordered collection of Equivalency steps how a subject is comparted with the expectation.
         /// </summary>
-        IEnumerable<IAssertionRule> IEquivalencyAssertionOptions.AssertionRules
+        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps
         {
-            get { return assertionRules; }
+            get { return userEquivalencySteps; }
         }
 
         /// <summary>
@@ -134,8 +133,8 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> IncludingAllDeclaredProperties()
         {
-            WithoutSelectionRules();
-            Using(new AllDeclaredPublicPropertiesSelectionRule());
+            ClearSelectionRules();
+            AddSelectionRule(new AllDeclaredPublicPropertiesSelectionRule());
             return this;
         }
 
@@ -144,8 +143,8 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> IncludingAllRuntimeProperties()
         {
-            WithoutSelectionRules();
-            Using(new AllRuntimePublicPropertiesSelectionRule());
+            ClearSelectionRules();
+            AddSelectionRule(new AllRuntimePublicPropertiesSelectionRule());
             return this;
         }
 
@@ -155,7 +154,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> ExcludingMissingProperties()
         {
-            WithoutMatchingRules();
+            ClearMatchingRules();
             matchingRules.Add(new TryMatchByNameRule());
             return this;
         }
@@ -166,7 +165,7 @@ namespace FluentAssertions.Equivalency
         /// <returns></returns>
         public EquivalencyAssertionOptions<TSubject> ThrowingOnMissingProperties()
         {
-            WithoutMatchingRules();
+            ClearMatchingRules();
             matchingRules.Add(new MustMatchByNameRule());
             return this;
         }
@@ -176,7 +175,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Excluding(Expression<Func<TSubject, object>> propertyExpression)
         {
-            Using(new ExcludePropertyByPathSelectionRule(propertyExpression.GetPropertyPath()));
+            AddSelectionRule(new ExcludePropertyByPathSelectionRule(propertyExpression.GetPropertyPath()));
             return this;
         }
 
@@ -185,7 +184,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Excluding(Expression<Func<ISubjectInfo, bool>> predicate)
         {
-            Using(new ExcludePropertyByPredicateSelectionRule(predicate));
+            AddSelectionRule(new ExcludePropertyByPredicateSelectionRule(predicate));
             return this;
         }
 
@@ -200,7 +199,7 @@ namespace FluentAssertions.Equivalency
             RemoveSelectionRule<AllDeclaredPublicPropertiesSelectionRule>();
             RemoveSelectionRule<AllRuntimePublicPropertiesSelectionRule>();
 
-            Using(new IncludePropertyByPathSelectionRule(propertyExpression.GetPropertyInfo()));
+            AddSelectionRule(new IncludePropertyByPathSelectionRule(propertyExpression.GetPropertyInfo()));
             return this;
         }
 
@@ -215,7 +214,7 @@ namespace FluentAssertions.Equivalency
             RemoveSelectionRule<AllDeclaredPublicPropertiesSelectionRule>();
             RemoveSelectionRule<AllRuntimePublicPropertiesSelectionRule>();
 
-            Using(new IncludePropertyByPredicateSelectionRule(predicate));
+            AddSelectionRule(new IncludePropertyByPredicateSelectionRule(predicate));
             return this;
         }
 
@@ -260,7 +259,6 @@ namespace FluentAssertions.Equivalency
             return this;
         }
 
-
         /// <summary>
         /// Disables limitations on recursion depth when the structural equality check is configured to include nested objects
         /// </summary>
@@ -270,20 +268,12 @@ namespace FluentAssertions.Equivalency
             return this;
         }
 
-        private void RemoveSelectionRule<T>() where T : ISelectionRule
-        {
-            foreach (T selectionRule in selectionRules.OfType<T>().ToArray())
-            {
-                selectionRules.Remove(selectionRule);
-            }
-        }
-
         /// <summary>
         /// Clears all selection rules, including those that were added by default.
         /// </summary>
         public void WithoutSelectionRules()
         {
-            selectionRules.Clear();
+            ClearSelectionRules();
         }
 
         /// <summary>
@@ -291,7 +281,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public void WithoutMatchingRules()
         {
-            matchingRules.Clear();
+            ClearMatchingRules();
         }
 
         /// <summary>
@@ -299,8 +289,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Using(ISelectionRule selectionRule)
         {
-            selectionRules.Add(selectionRule);
-            return this;
+            return AddSelectionRule(selectionRule);
         }
 
         /// <summary>
@@ -308,8 +297,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Using(IMatchingRule matchingRule)
         {
-            matchingRules.Insert(0, matchingRule);
-            return this;
+            return AddMatchingRule(matchingRule);
         }
 
         /// <summary>
@@ -318,8 +306,17 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Using(IAssertionRule assertionRule)
         {
-            assertionRules.Insert(0, assertionRule);
-            return this;
+            return AddAssertionRule(assertionRule);
+        }
+
+        /// <summary>
+        /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
+        /// </summary>
+        // This method is internal because we do not want it used externally yet.
+        // It is used reflectively by ShouldAllBeEquivalentToHelper.
+        internal EquivalencyAssertionOptions<TSubject> Using(IEquivalencyStep equivalencyStep)
+        {
+            return AddEquivalencyStep(equivalencyStep);
         }
 
         /// <summary>
@@ -375,6 +372,52 @@ namespace FluentAssertions.Equivalency
             return this;
         }
 
+        #region Non-fluent API
+
+        private void RemoveSelectionRule<T>() where T : ISelectionRule
+        {
+            foreach (T selectionRule in selectionRules.OfType<T>().ToArray())
+            {
+                selectionRules.Remove(selectionRule);
+            }
+        }
+
+        private void ClearSelectionRules()
+        {
+            selectionRules.Clear();
+        }
+
+        private void ClearMatchingRules()
+        {
+            matchingRules.Clear();
+        }
+
+        private EquivalencyAssertionOptions<TSubject> AddSelectionRule(ISelectionRule selectionRule)
+        {
+            selectionRules.Add(selectionRule);
+            return this;
+        }
+
+        private EquivalencyAssertionOptions<TSubject> AddMatchingRule(IMatchingRule matchingRule)
+        {
+            matchingRules.Insert(0, matchingRule);
+            return this;
+        }
+
+        private EquivalencyAssertionOptions<TSubject> AddAssertionRule(IAssertionRule assertionRule)
+        {
+            AddEquivalencyStep(new AssertionRuleEquivalencyStepAdaptor(assertionRule));
+            return this;
+        }
+
+        private EquivalencyAssertionOptions<TSubject> AddEquivalencyStep(IEquivalencyStep equivalencyStep)
+        {
+            userEquivalencySteps.Insert(0, equivalencyStep);
+            return this;
+        }
+
+        #endregion
+
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
@@ -396,9 +439,9 @@ namespace FluentAssertions.Equivalency
                 builder.AppendLine("- " + rule);
             }
 
-            foreach (var rule in assertionRules)
+            foreach (var step in userEquivalencySteps)
             {
-                builder.AppendLine("- " + rule);
+                builder.AppendLine("- " + step);
             }
 
             return builder.ToString();
@@ -436,7 +479,7 @@ namespace FluentAssertions.Equivalency
             /// </param>
             public EquivalencyAssertionOptions<TSubject> When(Expression<Func<ISubjectInfo, bool>> predicate)
             {
-                options.Using(new AssertionRule<TProperty>(predicate, action));
+                options.AddEquivalencyStep(new AssertionRuleEquivalencyStep<TProperty>(predicate, action));
                 return options;
             }
         }

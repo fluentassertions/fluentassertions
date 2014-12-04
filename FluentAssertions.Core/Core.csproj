@@ -62,12 +62,17 @@
     <Compile Include="Common\NullReflector.cs" />
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
+    <Compile Include="Equivalency\AssertionContext.cs" />
+    <Compile Include="Equivalency\AssertionRuleEquivalencyStep.cs" />
+    <Compile Include="Equivalency\AssertionRuleEquivalencyStepAdaptor.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
     <Compile Include="Equivalency\EnumEquivalencyHandling.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
     <Compile Include="Equivalency\EquivalencyAssertionOptionsExtentions.cs" />
+    <Compile Include="Equivalency\IEquivalencyValidationContextExtentions.cs" />
     <Compile Include="Equivalency\IncludePropertyByPredicateSelectionRule.cs" />
     <Compile Include="Equivalency\GenericDictionaryEquivalencyStep.cs" />
+    <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
@@ -89,7 +94,6 @@
     <Compile Include="Common\ValueFormatterDetectionMode.cs" />
     <Compile Include="Equivalency\AllDeclaredPublicPropertiesSelectionRule.cs" />
     <Compile Include="Equivalency\AllRuntimePublicPropertiesSelectionRule.cs" />
-    <Compile Include="Equivalency\ApplyAssertionRulesEquivalencyStep.cs" />
     <Compile Include="Equivalency\AssertionResultSet.cs" />
     <Compile Include="Equivalency\AssertionRule.cs" />
     <Compile Include="Equivalency\ByteArrayOrderingRule.cs" />
