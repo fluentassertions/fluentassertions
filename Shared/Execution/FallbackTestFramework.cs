@@ -24,7 +24,7 @@ namespace FluentAssertions.Execution
         }
     }
 
-    internal class AssertionFailedException : Exception
+    public class AssertionFailedException : Exception
     {
         public AssertionFailedException(string message) : base(message)
         {

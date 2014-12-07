@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 using FluentAssertions.Collections;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
@@ -379,8 +380,8 @@ namespace FluentAssertions
         /// irrespective of the type of those objects. Two properties are also equal if one type can be converted to another and the result is equal.
         /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
         /// items in the collection are structurally equal. 
-        /// Notice that actual behavior is determined by the <see cref="EquivalencyAssertionOptions{TSubject}.Default"/> instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class.
+        /// Notice that actual behavior is determined by the <see cref="EquivalencyAssertionOptions.Default"/> instance of the 
+        /// <see cref="EquivalencyAssertionOptions"/> class.
         /// </remarks>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
@@ -405,9 +406,9 @@ namespace FluentAssertions
         /// items in the collection are structurally equal. 
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}.Default"/> configuration object that can be used 
+        /// A reference to the <see cref="EquivalencyAssertionOptions.Default"/> configuration object that can be used 
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class.
+        /// <see cref="EquivalencyAssertionOptions"/> class.
         /// </param>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 

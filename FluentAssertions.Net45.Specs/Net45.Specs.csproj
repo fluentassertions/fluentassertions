@@ -41,7 +41,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
@@ -50,6 +50,12 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Chill">
+      <HintPath>..\packages\Chill.2.0.0-beta0002\Lib\net45\Chill.dll</HintPath>
+    </Reference>
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.16.0\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
@@ -77,6 +83,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AsyncFunctionExceptionAssertionSpecs.cs" />
+    <Compile Include="Chill\AutofacChillContainer.cs" />
+    <Compile Include="Chill\DefaultChillContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

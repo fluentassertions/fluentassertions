@@ -26,7 +26,7 @@ namespace FluentAssertions.Common
             }
         }
 
-        public Configuration Configuration
+        public IConfigurationStore ConfigurationStore
         {
             get { return null; }
         }

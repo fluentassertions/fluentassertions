@@ -16,6 +16,7 @@ namespace FluentAssertions.Common
         private static Configuration configuration;
         private static Action<string> throwException;
         private static IReflector reflector;
+        private static IConfigurationStore configurationStore;
 
         #endregion
 
@@ -28,9 +29,11 @@ namespace FluentAssertions.Common
                     if (!initialized)
                     {
                         var platform = PlatformAdapter.Resolve<IProvidePlatformServices>();
-                        Configuration = platform.Configuration ?? new Configuration(new NullConfigurationStore());
+
+                        ConfigurationStore = platform.ConfigurationStore ?? new NullConfigurationStore();
                         Reflector = platform.Reflector ?? new NullReflector();
                         ThrowException = platform.Throw;
+                        
                         Formatter.AddPlatformFormatters(platform.Formatters);
 
                         initialized = true;
@@ -39,14 +42,30 @@ namespace FluentAssertions.Common
             }
         }
 
+        public static IConfigurationStore ConfigurationStore
+        {
+            get
+            {
+                Initialize();
+
+                return configurationStore;
+            }
+            set { configurationStore = value; }
+        }
+
         public static Configuration Configuration
         {
             get
             {
                 Initialize();
+
+                if (configuration == null)
+                {
+                    configuration = new Configuration(ConfigurationStore);                    
+                }
+
                 return configuration;
             }
-            set { configuration = value; }
         }
 
         public static Action<string> ThrowException
