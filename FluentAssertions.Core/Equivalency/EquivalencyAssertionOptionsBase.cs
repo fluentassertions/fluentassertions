@@ -23,7 +23,7 @@ namespace FluentAssertions.Equivalency
         private readonly List<IMatchingRule> matchingRules = new List<IMatchingRule>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IAssertionRule> assertionRules = new List<IAssertionRule>();
+        private readonly List<IEquivalencyStep> userEquivalencySteps = new List<IEquivalencyStep>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private CyclicReferenceHandling cyclicReferenceHandling = CyclicReferenceHandling.ThrowException;
@@ -36,11 +36,13 @@ namespace FluentAssertions.Equivalency
 
         private bool allowInfiniteRecursion;
 
+        private EnumEquivalencyHandling enumEquivalencyHandling;
+
         #endregion
 
         internal EquivalencyAssertionOptionsBase()
         {
-            Using(new MustMatchByNameRule());
+            AddMatchingRule(new MustMatchByNameRule());
 
             orderingRules.Add(new ByteArrayOrderingRule());
         }
@@ -54,10 +56,11 @@ namespace FluentAssertions.Equivalency
             isRecursive = defaults.IsRecursive;
             cyclicReferenceHandling = defaults.CyclicReferenceHandling;
             allowInfiniteRecursion = defaults.AllowInfiniteRecursion;
+            enumEquivalencyHandling = defaults.EnumEquivalencyHandling;
 
             selectionRules.AddRange(defaults.SelectionRules);
+            userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
             matchingRules.AddRange(defaults.MatchingRules);
-            assertionRules.AddRange(defaults.AssertionRules);
             orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
         }
 
@@ -79,12 +82,11 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Gets an ordered collection of assertion rules that determine how subject properties are compared for equality with
-        /// expectation properties.
+        /// Gets an ordered collection of Equivalency steps how a subject is comparted with the expectation.
         /// </summary>
-        IEnumerable<IAssertionRule> IEquivalencyAssertionOptions.AssertionRules
+        IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps
         {
-            get { return assertionRules; }
+            get { return userEquivalencySteps; }
         }
 
         /// <summary>
@@ -117,6 +119,11 @@ namespace FluentAssertions.Equivalency
             get { return cyclicReferenceHandling; }
         }
 
+        EnumEquivalencyHandling IEquivalencyAssertionOptions.EnumEquivalencyHandling
+        {
+            get { return enumEquivalencyHandling; }
+        }
+
         /// <summary>
         /// Adds all public properties of the subject as far as they are defined on the declared type. 
         /// </summary>
@@ -143,7 +150,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf ExcludingMissingProperties()
         {
-            WithoutMatchingRules();
+            ClearMatchingRules();
             matchingRules.Add(new TryMatchByNameRule());
             return (TSelf)this;
         }
@@ -154,7 +161,7 @@ namespace FluentAssertions.Equivalency
         /// <returns></returns>
         public TSelf ThrowingOnMissingProperties()
         {
-            WithoutMatchingRules();
+            ClearMatchingRules();
             matchingRules.Add(new MustMatchByNameRule());
             return (TSelf)this;
         }
@@ -165,7 +172,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf Excluding(Expression<Func<ISubjectInfo, bool>> predicate)
         {
-            Using(new ExcludePropertyByPredicateSelectionRule(predicate));
+            AddSelectionRule(new ExcludePropertyByPredicateSelectionRule(predicate));
             return (TSelf)this;
         }
 
@@ -220,20 +227,12 @@ namespace FluentAssertions.Equivalency
             return (TSelf)this;
         }
 
-        protected void RemoveSelectionRule<T>() where T : ISelectionRule
-        {
-            foreach (T selectionRule in selectionRules.OfType<T>().ToArray())
-            {
-                selectionRules.Remove(selectionRule);
-            }
-        }
-
         /// <summary>
         /// Clears all selection rules, including those that were added by default.
         /// </summary>
         public void WithoutSelectionRules()
         {
-            selectionRules.Clear();
+            ClearSelectionRules();
         }
 
         /// <summary>
@@ -241,7 +240,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public void WithoutMatchingRules()
         {
-            matchingRules.Clear();
+            ClearMatchingRules();
         }
 
         /// <summary>
@@ -249,8 +248,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf Using(ISelectionRule selectionRule)
         {
-            selectionRules.Add(selectionRule);
-            return (TSelf)this;
+            return AddSelectionRule(selectionRule);
         }
 
         /// <summary>
@@ -258,8 +256,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf Using(IMatchingRule matchingRule)
         {
-            matchingRules.Insert(0, matchingRule);
-            return (TSelf)this;
+            return AddMatchingRule(matchingRule);
         }
 
         /// <summary>
@@ -268,8 +265,17 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf Using(IAssertionRule assertionRule)
         {
-            assertionRules.Insert(0, assertionRule);
-            return (TSelf)this;
+            return AddAssertionRule(assertionRule);
+        }
+
+        /// <summary>
+        /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
+        /// </summary>
+        // This method is internal because we do not want it used externally yet.
+        // It is used reflectively by ShouldAllBeEquivalentToHelper.
+        internal TSelf Using(IEquivalencyStep equivalencyStep)
+        {
+            return AddEquivalencyStep(equivalencyStep);
         }
 
         /// <summary>
@@ -292,6 +298,76 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Causes to compare Enum properties using the result of their ToString method.
+        /// </summary>
+        /// <remarks>
+        /// By default, enums are compared by value.
+        /// </remarks>
+        public TSelf ComparingEnumsByName()
+        {
+            enumEquivalencyHandling = EnumEquivalencyHandling.ByName;
+            return (TSelf) this;
+        }
+
+        /// <summary>
+        /// Causes to compare Enum properties using their underlying value only.
+        /// </summary>
+        /// <remarks>
+        /// This is the default.
+        /// </remarks>
+        public TSelf ComparingEnumsByValue()
+        {
+            enumEquivalencyHandling = EnumEquivalencyHandling.ByValue;
+            return (TSelf) this;
+        }
+
+        #region Non-fluent API
+
+        protected void RemoveSelectionRule<T>() where T : ISelectionRule
+        {
+            foreach (T selectionRule in selectionRules.OfType<T>().ToArray())
+            {
+                selectionRules.Remove(selectionRule);
+            }
+        }
+
+        private void ClearSelectionRules()
+        {
+            selectionRules.Clear();
+        }
+
+        private void ClearMatchingRules()
+        {
+            matchingRules.Clear();
+        }
+
+        protected TSelf AddSelectionRule(ISelectionRule selectionRule)
+        {
+            selectionRules.Add(selectionRule);
+            return (TSelf) this;
+        }
+
+        private TSelf AddMatchingRule(IMatchingRule matchingRule)
+        {
+            matchingRules.Insert(0, matchingRule);
+            return (TSelf) this;
+        }
+
+        private TSelf AddAssertionRule(IAssertionRule assertionRule)
+        {
+            AddEquivalencyStep(new AssertionRuleEquivalencyStepAdaptor(assertionRule));
+            return (TSelf) this;
+        }
+
+        private TSelf AddEquivalencyStep(IEquivalencyStep equivalencyStep)
+        {
+            userEquivalencySteps.Insert(0, equivalencyStep);
+            return (TSelf) this;
+        }
+
+        #endregion
+
+        /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         /// <returns>
@@ -312,9 +388,9 @@ namespace FluentAssertions.Equivalency
                 builder.AppendLine("- " + rule);
             }
 
-            foreach (var rule in assertionRules)
+            foreach (var step in userEquivalencySteps)
             {
-                builder.AppendLine("- " + rule);
+                builder.AppendLine("- " + step);
             }
 
             return builder.ToString();

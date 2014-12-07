@@ -1,19 +1,20 @@
-﻿using System;
-using FluentAssertions.Common;
+﻿#region
+
+using System;
 using FluentAssertions.Equivalency;
+
+#endregion
 
 namespace FluentAssertions
 {
+    /// <summary>
+    /// Holds any global options that control the behavior of FluentAssertions.
+    /// </summary>
     public static class AssertionOptions
     {
         private static EquivalencyAssertionOptions defaults = new EquivalencyAssertionOptions();
 
-        private static IConfigurationStore Store
-        {
-            get { return Services.ConfigurationStore; }
-        }
-
-        internal static EquivalencyAssertionOptions<T> CreateEquivalencyDefaults<T>()
+        internal static EquivalencyAssertionOptions<T> CloneDefaults<T>()
         {
             return new EquivalencyAssertionOptions<T>(defaults);
         }
@@ -24,7 +25,8 @@ namespace FluentAssertions
         /// <param name="defaultsConfigurer">
         /// An action that is used to configure the defaults.
         /// </param>
-        public static void AssertEquivalencyUsing(Func<EquivalencyAssertionOptions, EquivalencyAssertionOptions> defaultsConfigurer)
+        public static void AssertEquivalencyUsing(
+            Func<EquivalencyAssertionOptions, EquivalencyAssertionOptions> defaultsConfigurer)
         {
             defaults = defaultsConfigurer(defaults);
         }
