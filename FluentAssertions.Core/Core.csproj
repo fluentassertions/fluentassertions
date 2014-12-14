@@ -66,6 +66,7 @@
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
     <Compile Include="Equivalency\AllPublicFieldsSelectionRule.cs" />
+    <Compile Include="EquivalencyStepCollection.cs" />
     <Compile Include="Equivalency\AssertionContext.cs" />
     <Compile Include="Equivalency\AssertionRuleEquivalencyStep.cs" />
     <Compile Include="Equivalency\AssertionRuleEquivalencyStepAdaptor.cs" />

@@ -50,7 +50,7 @@ namespace FluentAssertions.Equivalency
 
                 if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.SelectedMemberPath)))
                 {
-                    bool wasHandled = GetSteps().ToList()
+                    bool wasHandled = AssertionOptions.EquivalencySteps
                         .Where(s => s.CanHandle(context, config))
                         .Any(step => step.Handle(context, this, config));
 
@@ -62,22 +62,6 @@ namespace FluentAssertions.Equivalency
                     }
                 }
             }
-        }
-
-        private IEnumerable<IEquivalencyStep> GetSteps()
-        {
-            yield return new TryConversionEquivalencyStep();
-            yield return new ReferenceEqualityEquivalencyStep();
-            yield return new RunAllUserStepsEquivalencyStep();
-            yield return new GenericDictionaryEquivalencyStep();
-            yield return new DictionaryEquivalencyStep();
-            yield return new GenericEnumerableEquivalencyStep();
-            yield return new EnumerableEquivalencyStep();
-            yield return new StringEqualityEquivalencyStep();
-            yield return new SystemTypeEquivalencyStep();
-            yield return new EnumEqualityStep();
-            yield return new StructuralEqualityEquivalencyStep();
-            yield return new SimpleEqualityEquivalencyStep();
         }
 
         private bool ContinueRecursion(string memberAccessPath)
