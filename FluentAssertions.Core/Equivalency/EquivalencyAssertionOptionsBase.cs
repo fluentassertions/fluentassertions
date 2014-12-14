@@ -54,7 +54,7 @@ namespace FluentAssertions.Equivalency
         internal EquivalencyAssertionOptionsBase()
         {
             AddMatchingRule(new MustMatchByNameRule());
-            
+
             orderingRules.Add(new ByteArrayOrderingRule());
         }
 
@@ -302,6 +302,16 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Tries to match the properties of the subject with equally named properties on the expectation. Ignores those 
+        /// properties that don't exist on the expectation and previously registered matching rules.
+        /// </summary>
+        [Obsolete("This method will be removed in a future version.  Use `ExcludingMissingMembers()` instead.")]
+        public TSelf ExcludingMissingProperties()
+        {
+            return ExcludingMissingMembers();
+        }
+
+        /// <summary>
         /// Tries to match the members of the subject with equally named members on the expectation. Ignores those 
         /// members that don't exist on the expectation and previously registered matching rules.
         /// </summary>
@@ -313,13 +323,13 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Tries to match the properties of the subject with equally named properties on the expectation. Ignores those 
-        /// properties that don't exist on the expectation and previously registered matching rules.
+        /// Requires the expectation to have properties which are equally named to properties on the subject.
         /// </summary>
-        [Obsolete("This method will be removed in a future version.  Use `ExcludingMissingMembers()` instead.")]
-        public TSelf ExcludingMissingProperties()
+        /// <returns></returns>
+        [Obsolete("This method will be removed in a future version.  Use `ThrowOnMissingMembers()` instead.")]
+        public TSelf ThrowingOnMissingProperties()
         {
-            return ExcludingMissingMembers();
+            return ThrowingOnMissingMembers();
         }
 
         /// <summary>
@@ -331,16 +341,6 @@ namespace FluentAssertions.Equivalency
             ClearMatchingRules();
             matchingRules.Add(new MustMatchByNameRule());
             return (TSelf)this;
-        }
-
-        /// <summary>
-        /// Requires the expectation to have properties which are equally named to properties on the subject.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("This method will be removed in a future version.  Use `ThrowOnMissingMembers()` instead.")]
-        public TSelf ThrowingOnMissingProperties()
-        {
-            return ThrowingOnMissingMembers();
         }
 
         /// <param name="action">

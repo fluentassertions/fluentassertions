@@ -50,17 +50,9 @@ namespace FluentAssertions.Equivalency
 
                 if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.SelectedMemberPath)))
                 {
-                    bool wasHandled = false;
-
-                    IList<IEquivalencyStep> steps = GetSteps().ToList();
-                    foreach (var strategy in steps.Where(s => s.CanHandle(context, config)))
-                    {
-                        if (strategy.Handle(context, this, config))
-                        {
-                            wasHandled = true;
-                            break;
-                        }
-                    }
+                    bool wasHandled = GetSteps().ToList()
+                        .Where(s => s.CanHandle(context, config))
+                        .Any(step => step.Handle(context, this, config));
 
                     if (!wasHandled)
                     {
@@ -76,12 +68,7 @@ namespace FluentAssertions.Equivalency
         {
             yield return new TryConversionEquivalencyStep();
             yield return new ReferenceEqualityEquivalencyStep();
-
-            foreach (var equivalencyStep in config.UserEquivalencySteps)
-            {
-                yield return equivalencyStep;
-            }
-
+            yield return new RunAllUserStepsEquivalencyStep();
             yield return new GenericDictionaryEquivalencyStep();
             yield return new DictionaryEquivalencyStep();
             yield return new GenericEnumerableEquivalencyStep();

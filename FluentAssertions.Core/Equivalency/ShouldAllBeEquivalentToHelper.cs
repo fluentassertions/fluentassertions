@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace FluentAssertions.Equivalency
 {
+    // SMELL static class with lots of undocumented decorators
     public static class ShouldAllBeEquivalentToHelper
     {
         /// <summary>
@@ -26,7 +27,7 @@ namespace FluentAssertions.Equivalency
             return optionsToConfigure;
         }
 
-        internal static void ConfigureAssertionRules<TActual>(
+        private static void ConfigureAssertionRules<TActual>(
             EquivalencyAssertionOptions<TActual> actualOptions,
             IEquivalencyAssertionOptions subConfigOptions)
         {
@@ -37,7 +38,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        internal static void ConfigureSelectionRules<TActual>(
+        private static void ConfigureSelectionRules<TActual>(
             EquivalencyAssertionOptions<TActual> actualOptions,
             IEquivalencyAssertionOptions subConfigOptions)
         {
@@ -53,7 +54,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        internal static void ConfigureOrderingRules<TActual>(
+        private static void ConfigureOrderingRules<TActual>(
             EquivalencyAssertionOptions<TActual> actualOptions,
             IEquivalencyAssertionOptions subConfigOptions)
         {
@@ -64,7 +65,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        internal static void ConfigureMatchingRules<TActual>(
+        private static void ConfigureMatchingRules<TActual>(
             EquivalencyAssertionOptions<TActual> actualOptions,
             IEquivalencyAssertionOptions subConfigOptions)
         {

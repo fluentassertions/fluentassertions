@@ -86,6 +86,7 @@
     <Compile Include="Equivalency\PropertySelectedMemberInfo.cs" />
     <Compile Include="Equivalency\MemberInfoSelectedMemberInfo.cs" />
     <Compile Include="Equivalency\SelectedMemberInfo.cs" />
+    <Compile Include="Equivalency\RunAllUserStepsEquivalencyStep.cs" />
     <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
