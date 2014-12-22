@@ -48,14 +48,14 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeNull(string because = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, TSubject> NotBeNull(string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected {context:" + Context + "} not to be <null>{reason}.");
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndWhichConstraint<TAssertions, TSubject>((TAssertions)this, Subject);
         }
 
         /// <summary>
