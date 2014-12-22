@@ -801,14 +801,14 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<StringAssertions> NotBeNullOrEmpty(string because = "", params object[] reasonArgs)
+        public AndWhichConstraint<StringAssertions, string> NotBeNullOrEmpty(string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!string.IsNullOrEmpty(Subject))
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected string not to be <null> or empty{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndWhichConstraint<StringAssertions, string>(this, Subject);
         }
 
         /// <summary>
@@ -841,14 +841,14 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<StringAssertions> NotBeNullOrWhiteSpace(string because = "", params object[] reasonArgs)
+        public AndWhichConstraint<StringAssertions, string> NotBeNullOrWhiteSpace(string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!IsBlank(Subject))
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected string not to be <null> or whitespace{reason}, but found {0}.", Subject);
 
-            return new AndConstraint<StringAssertions>(this);
+            return new AndWhichConstraint<StringAssertions, string>(this, Subject);
         }
 
         /// <summary>

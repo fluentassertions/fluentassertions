@@ -56,7 +56,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeEmpty(string because = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, TSubject> NotBeEmpty(string because = "", params object[] reasonArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
@@ -72,7 +72,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected {context:collection} not to be empty{reason}.");
 
-            return new AndConstraint<TAssertions>((TAssertions)this);
+            return new AndWhichConstraint<TAssertions, TSubject>((TAssertions)this, Subject);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeNullOrEmpty(string because = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, TSubject> NotBeNullOrEmpty(string because = "", params object[] reasonArgs)
         {
             return NotBeNull(because, reasonArgs)
                 .And.NotBeEmpty(because, reasonArgs);
