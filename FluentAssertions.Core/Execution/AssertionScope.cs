@@ -143,24 +143,28 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Define the failure message for the assertion.
+        /// Sets the failure message when the assertion is not met. 
         /// </summary>
         /// <remarks>
-        /// If the <paramref name="failureMessage"/> contains the text "{reason}", this will be replaced by the reason as
-        /// defined through <see cref="BecauseOf"/>. Only 10 <paramref name="failureArgs"/> are supported in combination with
-        /// a {reason}.
+        /// In addition to the numbered <see cref="string.Format"/>-style placeholders, messages may contain a few 
+        /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed 
+        /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data 
+        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the 
+        /// current subject can be passed through the {context:description} placeholder. This is used in the message if no 
+        /// explicit context is specified through the <see cref="AssertionScope"/> constructor. 
+        /// Note that only 10 <paramref name="becauseArgs"/> are supported in combination with a {reason}.
         /// </remarks>
-        /// <param name="failureMessage">The format string that represents the failure message.</param>
-        /// <param name="failureArgs">Optional arguments for the <paramref name="failureMessage"/></param>
-        public bool FailWith(string failureMessage, params object[] failureArgs)
+        /// <param name="because">The format string that represents the failure message.</param>
+        /// <param name="becauseArgs">Optional arguments to any numbered placeholders.</param>
+        public bool FailWith(string because, params object[] becauseArgs)
         {
             try
             {
                 if (!succeeded)
                 {
-                    string message = ReplaceReasonTag(failureMessage);
+                    string message = ReplaceReasonTag(because);
                     message = ReplaceTags(message);
-                    message = BuildExceptionMessage(message, failureArgs);
+                    message = BuildExceptionMessage(message, becauseArgs);
 
                     assertionStrategy.HandleFailure(message);
                 }

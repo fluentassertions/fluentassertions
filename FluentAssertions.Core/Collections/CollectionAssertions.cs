@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using FluentAssertions.Common;
@@ -1048,6 +1049,35 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
+        public AndConstraint<TAssertions> StartWith(object element, string because = "", params object[] becauseArgs)
+        {
+            bool succeeded = Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to start with {0}{reason}, but the collection is {1}.", element, null);
+
+            if (succeeded)
+            {
+                succeeded = Execute.Assertion
+                    .ForCondition(Subject.Cast<object>().Any())
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to start with {0}{reason}, but the collection is empty.", element);
+            }
+
+            if (succeeded)
+            {
+                object first = Subject.Cast<object>().FirstOrDefault();
+
+                Execute.Assertion
+                    .ForCondition(first.IsSameOrEqualTo(element))
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to start with {0}{reason}, but found {1}.", element, first);
+            }
+
+            return new AndConstraint<TAssertions>((TAssertions) this);
+        }
+
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
