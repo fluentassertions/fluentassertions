@@ -77,6 +77,7 @@
     <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
+    <Compile Include="Execution\MessageBuilder.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
     <Compile Include="Collections\CollectionAssertions.cs" />
     <Compile Include="Collections\GenericCollectionAssertions.cs" />

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿#region
 
-using FluentAssertions.Common;
-using FluentAssertions.Formatting;
+using System;
+using System.Linq;
+
+#endregion
 
 namespace FluentAssertions.Execution
 {
@@ -18,21 +17,14 @@ namespace FluentAssertions.Execution
         private readonly IAssertionStrategy assertionStrategy;
         private readonly ContextDataItems contextData = new ContextDataItems();
 
-        private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
-
-        /// <summary>
-        /// Represents the phrase that can be used in <see cref="FailWith"/> as a placeholder for the reason of an assertion.
-        /// </summary>
-        private const string ReasonTag = "{reason}";
-
         private string reason;
-        private bool succeeded;
         private bool useLineBreaks;
 
-        [ThreadStatic]
+        [ThreadStatic] 
         private static AssertionScope current;
 
         private AssertionScope parent;
+        private string expectation = "";
 
         public static AssertionScope Current
         {
@@ -45,7 +37,8 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Initializes a new instance of the <see cref="AssertionScope"/> class.
         /// </summary>
-        public AssertionScope() : this(new CollectingAssertionStrategy((current != null) ? current.assertionStrategy : null))
+        public AssertionScope()
+            : this(new CollectingAssertionStrategy((current != null) ? current.assertionStrategy : null))
         {
             parent = current;
             current = this;
@@ -80,14 +73,9 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Specify the condition that must be satisfied.
+        /// Gets a value indicating whether or not the last assertion executed through this scope succeeded.
         /// </summary>
-        /// <param name="condition">If <c>true</c> the assertion will be succesful.</param>
-        public AssertionScope ForCondition(bool condition)
-        {
-            succeeded = condition;
-            return this;
-        }
+        public bool Succeeded { get; private set; }
 
         /// <summary>
         /// Specify the reason why you expect the condition to be <c>true</c>.
@@ -101,49 +89,12 @@ namespace FluentAssertions.Execution
         /// </param>
         public AssertionScope BecauseOf(string because, params object[] reasonArgs)
         {
-            this.reason = SanitizeReason(because, reasonArgs);
+            reason = string.Format(because ?? "", reasonArgs ?? new object[0]);
             return this;
         }
 
-        private string SanitizeReason(string because, object[] reasonArgs)
-        {
-            if (!string.IsNullOrEmpty(because))
-            {
-                because = EnsureIsPrefixedWithBecause(because);
-
-                return StartsWithBlank(because)
-                    ? string.Format(because, reasonArgs)
-                    : " " + string.Format(because, reasonArgs);
-            }
-
-            return "";
-        }
-
-        private string EnsureIsPrefixedWithBecause(string originalReason)
-        {
-            string blanksPrefix = ExtractTrailingBlanksFrom(originalReason);
-            string textWithoutTrailingBlanks = originalReason.Substring(blanksPrefix.Length);
-
-            return !textWithoutTrailingBlanks.StartsWith("because", StringComparison.CurrentCultureIgnoreCase)
-                ? blanksPrefix + "because " + textWithoutTrailingBlanks
-                : originalReason;
-        }
-
-        private string ExtractTrailingBlanksFrom(string text)
-        {
-            string trimmedText = text.TrimStart(blanks);
-            int trailingBlanksCount = text.Length - trimmedText.Length;
-
-            return text.Substring(0, trailingBlanksCount);
-        }
-
-        private bool StartsWithBlank(string text)
-        {
-            return (text.Length > 0) && blanks.Any(blank => text[0] == blank);
-        }
-
         /// <summary>
-        /// Sets the failure message when the assertion is not met. 
+        /// Sets the expectation part of the failure message when the assertion is not met. 
         /// </summary>
         /// <remarks>
         /// In addition to the numbered <see cref="string.Format"/>-style placeholders, messages may contain a few 
@@ -153,83 +104,65 @@ namespace FluentAssertions.Execution
         /// current subject can be passed through the {context:description} placeholder. This is used in the message if no 
         /// explicit context is specified through the <see cref="AssertionScope"/> constructor. 
         /// Note that only 10 <paramref name="becauseArgs"/> are supported in combination with a {reason}.
+        /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
+        /// expectation. 
         /// </remarks>
-        /// <param name="because">The format string that represents the failure message.</param>
-        /// <param name="becauseArgs">Optional arguments to any numbered placeholders.</param>
-        public bool FailWith(string because, params object[] becauseArgs)
+        public AssertionScope WithExpectation(string expectation, params object[] args)
+        {
+            this.expectation = new MessageBuilder(useLineBreaks).Build(expectation, args, reason, contextData);
+            return this;
+        }
+
+        /// <summary>
+        /// Specify the condition that must be satisfied.
+        /// </summary>
+        /// <param name="condition">If <c>true</c> the assertion will be succesful.</param>
+        public AssertionScope ForCondition(bool condition)
+        {
+            Succeeded = condition;
+            return this;
+        }
+
+
+        /// <summary>
+        /// Sets the failure message when the assertion is not met, or completes the failure message set to a 
+        /// prior call to to <see cref="WithExpectation"/>.
+        /// </summary>
+        /// <remarks>
+        /// In addition to the numbered <see cref="string.Format"/>-style placeholders, messages may contain a few 
+        /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed 
+        /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data 
+        /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the 
+        /// current subject can be passed through the {context:description} placeholder. This is used in the message if no 
+        /// explicit context is specified through the <see cref="AssertionScope"/> constructor. 
+        /// Note that only 10 <paramref name="args"/> are supported in combination with a {reason}.
+        /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
+        /// expectation. 
+        /// </remarks>
+        /// <param name="message">The format string that represents the failure message.</param>
+        /// <param name="args">Optional arguments to any numbered placeholders.</param>
+        public bool FailWith(string message, params object[] args)
         {
             try
             {
-                if (!succeeded)
+                if (!Succeeded)
                 {
-                    string message = ReplaceReasonTag(because);
-                    message = ReplaceTags(message);
-                    message = BuildExceptionMessage(message, becauseArgs);
+                    string result = new MessageBuilder(useLineBreaks).Build(message, args, reason, contextData);
 
-                    assertionStrategy.HandleFailure(message);
+                    if (!string.IsNullOrEmpty(expectation))
+                    {
+                        result = expectation + result;
+                    }
+
+                    assertionStrategy.HandleFailure(result);
                 }
 
-                return succeeded;
+                return Succeeded;
             }
             finally
             {
-                succeeded = false;
+                Succeeded = false;
             }
-        }
-
-        private string ReplaceReasonTag(string failureMessage)
-        {
-            return !string.IsNullOrEmpty(reason)
-                ? ReplaceReasonTagWithFormatSpecification(failureMessage)
-                : failureMessage.Replace(ReasonTag, string.Empty);
-        }
-
-        private static string ReplaceReasonTagWithFormatSpecification(string failureMessage)
-        {
-            if (failureMessage.Contains(ReasonTag))
-            {
-                string message = IncrementAllFormatSpecifiers(failureMessage);
-                return message.Replace(ReasonTag, "{0}");
-            }
-
-            return failureMessage;
-        }
-
-        private string ReplaceTags(string message)
-        {
-            var regex = new Regex(@"\{(?<key>[a-z|A-Z]+)(?:\:(?<default>[a-z|A-Z|\s]+))?\}");
-            return regex.Replace(message, match =>
-            {
-                string key = match.Groups["key"].Value;
-                return contextData.AsStringOrDefault(key) ?? match.Groups["default"].Value;
-            });
-        }
-
-        private static string IncrementAllFormatSpecifiers(string message)
-        {
-            for (int index = 9; index >= 0; index--)
-            {
-                int newIndex = index + 1;
-                string oldTag = "{" + index + "}";
-                string newTag = "{" + newIndex + "}";
-                message = message.Replace(oldTag, newTag);
-            }
-
-            return message;
-        }
-
-        private string BuildExceptionMessage(string failureMessage, object[] failureArgs)
-        {
-            var values = new List<string>();
-            if (!string.IsNullOrEmpty(reason))
-            {
-                values.Add(reason);
-            }
-
-            values.AddRange(failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)));
-
-            string formattedMessage = values.Any() ? string.Format(failureMessage, values.ToArray()) : failureMessage;
-            return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}").Capitalize();
         }
 
         public void AddNonReportable(string key, object value)
@@ -248,6 +181,14 @@ namespace FluentAssertions.Execution
         public string[] Discard()
         {
             return assertionStrategy.DiscardFailures().ToArray();
+        }
+
+        /// <summary>
+        /// Gets data associated with the current scope and identified by <paramref name="key"/>.
+        /// </summary>
+        public T Get<T>(string key)
+        {
+            return contextData.Get<T>(key);
         }
 
         /// <summary>
@@ -271,13 +212,25 @@ namespace FluentAssertions.Execution
                 assertionStrategy.ThrowIfAny(contextData.Reportable);
             }
         }
+    }
 
-        /// <summary>
-        /// Gets data associated with the current scope and identified by <paramref name="key"/>.
-        /// </summary>
-        public T Get<T>(string key)
+    public class Continuation
+    {
+        private readonly AssertionScope scope;
+
+        public Continuation(AssertionScope scope)
         {
-            return contextData.Get<T>(key);
+            this.scope = scope;
+        }
+
+        public AssertionScope Then
+        {
+            get { return scope; }
+        }
+
+        public bool Succeeded
+        {
+            get { return scope.Succeeded; }
         }
     }
 }
