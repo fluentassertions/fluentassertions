@@ -72,7 +72,7 @@
     <Compile Include="Equivalency\EquivalencyAssertionOptionsBase.cs" />
     <Compile Include="Equivalency\EquivalencyAssertionOptionsExtentions.cs" />
     <Compile Include="Equivalency\IEquivalencyValidationContextExtentions.cs" />
-    <Compile Include="Equivalency\IncludePropertyByPredicateSelectionRule.cs" />
+    <Compile Include="Equivalency\IncludeMemberByPredicateSelectionRule.cs" />
     <Compile Include="Equivalency\GenericDictionaryEquivalencyStep.cs" />
     <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
@@ -108,8 +108,8 @@
     <Compile Include="Equivalency\EquivalencyAssertionOptions.cs" />
     <Compile Include="Equivalency\EquivalencyValidationContext.cs" />
     <Compile Include="Equivalency\EquivalencyValidator.cs" />
-    <Compile Include="Equivalency\ExcludePropertyByPathSelectionRule.cs" />
-    <Compile Include="Equivalency\ExcludePropertyByPredicateSelectionRule.cs" />
+    <Compile Include="Equivalency\ExcludeMemberByPathSelectionRule.cs" />
+    <Compile Include="Equivalency\ExcludeMemberByPredicateSelectionRule.cs" />
     <Compile Include="Equivalency\IAssertionContext.cs" />
     <Compile Include="Equivalency\IAssertionRule.cs" />
     <Compile Include="Equivalency\IEquivalencyAssertionOptions.cs" />
@@ -117,7 +117,7 @@
     <Compile Include="Equivalency\IEquivalencyValidationContext.cs" />
     <Compile Include="Equivalency\IEquivalencyValidator.cs" />
     <Compile Include="Equivalency\IMatchingRule.cs" />
-    <Compile Include="Equivalency\IncludePropertyByPathSelectionRule.cs" />
+    <Compile Include="Equivalency\IncludeMemberByPathSelectionRule.cs" />
     <Compile Include="Equivalency\IOrderingRule.cs" />
     <Compile Include="Equivalency\ISelectionRule.cs" />
     <Compile Include="Equivalency\ISubjectInfo.cs" />

@@ -45,7 +45,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Excluding(Expression<Func<TSubject, object>> propertyExpression)
         {
-            AddSelectionRule(new ExcludePropertyByPathSelectionRule(propertyExpression.GetPropertyPath()));
+            AddSelectionRule(new ExcludeMemberByPathSelectionRule(propertyExpression.GetPropertyPath()));
             return this;
         }
 
@@ -60,7 +60,7 @@ namespace FluentAssertions.Equivalency
             RemoveSelectionRule<AllDeclaredPublicPropertiesSelectionRule>();
             RemoveSelectionRule<AllRuntimePublicPropertiesSelectionRule>();
 
-            AddSelectionRule(new IncludePropertyByPathSelectionRule(propertyExpression.GetPropertyInfo()));
+            AddSelectionRule(new IncludeMemberByPathSelectionRule(propertyExpression.GetPropertyInfo()));
             return this;
         }
 
@@ -75,7 +75,7 @@ namespace FluentAssertions.Equivalency
             RemoveSelectionRule<AllDeclaredPublicPropertiesSelectionRule>();
             RemoveSelectionRule<AllRuntimePublicPropertiesSelectionRule>();
 
-            AddSelectionRule(new IncludePropertyByPredicateSelectionRule(predicate));
+            AddSelectionRule(new IncludeMemberByPredicateSelectionRule(predicate));
             return this;
         }
 

@@ -172,7 +172,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf Excluding(Expression<Func<ISubjectInfo, bool>> predicate)
         {
-            AddSelectionRule(new ExcludePropertyByPredicateSelectionRule(predicate));
+            AddSelectionRule(new ExcludeMemberByPredicateSelectionRule(predicate));
             return (TSelf)this;
         }
 

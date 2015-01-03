@@ -10,11 +10,11 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Selection rule that removes a particular property from the structural comparison.
     /// </summary>
-    internal class ExcludePropertyByPathSelectionRule : ISelectionRule
+    internal class ExcludeMemberByPathSelectionRule : ISelectionRule
     {
         private readonly string propertyPathToExclude;
 
-        public ExcludePropertyByPathSelectionRule(string propertyPathToExclude)
+        public ExcludeMemberByPathSelectionRule(string propertyPathToExclude)
         {
             this.propertyPathToExclude = propertyPathToExclude;
         }

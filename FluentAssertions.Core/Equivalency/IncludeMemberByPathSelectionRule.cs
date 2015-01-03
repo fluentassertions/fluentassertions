@@ -9,11 +9,11 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Selection rule that includes a particular property in the structural comparison.
     /// </summary>
-    internal class IncludePropertyByPathSelectionRule : ISelectionRule
+    internal class IncludeMemberByPathSelectionRule : ISelectionRule
     {
         private readonly PropertyInfo propertyInfo;
 
-        public IncludePropertyByPathSelectionRule(PropertyInfo propertyInfo)
+        public IncludeMemberByPathSelectionRule(PropertyInfo propertyInfo)
         {
             this.propertyInfo = propertyInfo;
         }

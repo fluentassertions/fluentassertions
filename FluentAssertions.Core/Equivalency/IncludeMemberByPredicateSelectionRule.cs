@@ -1,20 +1,22 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using FluentAssertions.Common;
+
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Selection rule that removes a particular property from the structural comparison based on a predicate.
+    /// Selection rule that includes a particular property in the structural comparison.
     /// </summary>
-    internal class ExcludePropertyByPredicateSelectionRule : ISelectionRule
+    internal class IncludeMemberByPredicateSelectionRule : ISelectionRule
     {
         private readonly Func<ISubjectInfo, bool> predicate;
         private readonly string description;
 
-        public ExcludePropertyByPredicateSelectionRule(Expression<Func<ISubjectInfo, bool>> predicate)
+        public IncludeMemberByPredicateSelectionRule(Expression<Func<ISubjectInfo, bool>> predicate)
         {
             description = predicate.Body.ToString();
             this.predicate = predicate.Compile();
@@ -31,7 +33,20 @@ namespace FluentAssertions.Equivalency
         /// </returns>
         public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> selectedProperties, ISubjectInfo context)
         {
-            return selectedProperties.Where(p => !predicate(new NestedSelectionContext(context, p))).ToArray();
+            var properties = new List<PropertyInfo>(selectedProperties);
+
+            foreach (PropertyInfo propertyInfo in context.RuntimeType.GetNonPrivateProperties())
+            {
+                if (predicate(new NestedSelectionContext(context, propertyInfo)))
+                {
+                    if (!properties.Any(p => p.IsEquivalentTo(propertyInfo)))
+                    {
+                        properties.Add(propertyInfo);
+                    }
+                }
+            }
+
+            return properties;
         }
 
         /// <summary>
