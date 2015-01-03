@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 using FluentAssertions.Common;
@@ -10,37 +9,27 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Selection rule that removes a particular property from the structural comparison.
     /// </summary>
-    internal class ExcludeMemberByPathSelectionRule : ISelectionRule
+    internal class ExcludeMemberByPathSelectionRule : IMemberSelectionRule
     {
-        private readonly string propertyPathToExclude;
+        private readonly string pathToExclude;
 
-        public ExcludeMemberByPathSelectionRule(string propertyPathToExclude)
+        public ExcludeMemberByPathSelectionRule(string pathToExclude)
         {
-            this.propertyPathToExclude = propertyPathToExclude;
+            this.pathToExclude = pathToExclude;
         }
 
-        /// <summary>
-        /// Adds or removes properties to/from the collection of subject properties that must be included while
-        /// comparing two objects for structural equality.
-        /// </summary>
-        /// <param name="selectedProperties">
-        /// A collection of properties that was prepopulated by other selection rules. Can be empty.
-        /// </param>
-        /// <returns>
-        /// The collection of properties after applying this rule. Can contain less or more than was passed in.
-        /// </returns>
-        public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> selectedProperties, ISubjectInfo context)
+        public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
-            string propertyPath = context.PropertyPath;
-            if (!ContainsIndexingQualifiers(propertyPathToExclude))
+            string path = context.SelectedMemberPath;
+            if (!ContainsIndexingQualifiers(pathToExclude))
             {
-                propertyPath = RemoveInitialIndexQualifier(propertyPath);
+                path = RemoveInitialIndexQualifier(path);
             }
 
-            return selectedProperties.Where(pi => propertyPathToExclude != propertyPath.Combine(pi.Name)).ToArray();
+            return selectedMembers.Where(memberInfo => (path.Combine(memberInfo.Name) != pathToExclude)).ToArray();
         }
 
-        private bool ContainsIndexingQualifiers(string path)
+        private static bool ContainsIndexingQualifiers(string path)
         {
             return path.Contains("[") && path.Contains("]");
         }
@@ -49,7 +38,7 @@ namespace FluentAssertions.Equivalency
         {
             var indexQualifierRegex = new Regex(@"^\[\d+]");
 
-            if (!indexQualifierRegex.IsMatch(propertyPathToExclude))
+            if (!indexQualifierRegex.IsMatch(pathToExclude))
             {
                 var match = indexQualifierRegex.Match(propertyPath);
                 if (match.Success)
@@ -61,15 +50,9 @@ namespace FluentAssertions.Equivalency
             return propertyPath;
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
-        /// </returns>
         public override string ToString()
         {
-            return "Exclude property " + propertyPathToExclude;
+            return "Exclude member " + pathToExclude;
         }
     }
 }

@@ -4,10 +4,32 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using FluentAssertions.Equivalency;
+
 namespace FluentAssertions.Common
 {
     public static class ExpressionExtensions
     {
+        public static ISelectedMemberInfo GetSelectedMemberInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
+        {
+            if (ReferenceEquals(expression, null))
+            {
+                throw new NullReferenceException("Expected an expression, but found <null>.");
+            }
+
+            MemberInfo memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
+                                    AttemptToGetMemberInfoFromMemberExpression(expression);
+
+            var propertyInfo = memberInfo as PropertyInfo;
+            if (propertyInfo != null)
+            {
+                return SelectedMemberInfo.Create(propertyInfo);
+            }
+
+            throw new ArgumentException(
+                string.Format("Expression <{0}> cannot be used to select a member.", expression.Body));
+        }
+
         public static PropertyInfo GetPropertyInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
             if (ReferenceEquals(expression, null))
@@ -15,8 +37,10 @@ namespace FluentAssertions.Common
                 throw new NullReferenceException("Expected a property expression, but found <null>.");
             }
 
-            var propertyInfo = AttemptToGetPropertyInfoFromCastExpression(expression) ??
-                AttemptToGetPropertyInfoFromPropertyExpression(expression);
+            var memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
+                             AttemptToGetMemberInfoFromMemberExpression(expression);
+
+            var propertyInfo = memberInfo as PropertyInfo;
 
             if (propertyInfo == null)
             {
@@ -26,24 +50,24 @@ namespace FluentAssertions.Common
             return propertyInfo;
         }
 
-        private static PropertyInfo AttemptToGetPropertyInfoFromPropertyExpression<T, TValue>(
+        private static MemberInfo AttemptToGetMemberInfoFromMemberExpression<T, TValue>(
             Expression<Func<T, TValue>> expression)
         {
             var memberExpression = expression.Body as MemberExpression;
             if (memberExpression != null)
             {
-                return (PropertyInfo)memberExpression.Member;
+                return memberExpression.Member;
             }
 
             return null;
         }
 
-        private static PropertyInfo AttemptToGetPropertyInfoFromCastExpression<T, TValue>(Expression<Func<T, TValue>> expression)
+        private static MemberInfo AttemptToGetMemberInfoFromCastExpression<T, TValue>(Expression<Func<T, TValue>> expression)
         {
             var castExpression = expression.Body as UnaryExpression;
             if (castExpression != null)
             {
-                return (PropertyInfo)((MemberExpression)castExpression.Operand).Member;
+                return ((MemberExpression)castExpression.Operand).Member;
             }
 
             return null;
@@ -93,7 +117,7 @@ namespace FluentAssertions.Common
 
                     default:
                         throw new ArgumentException(
-                            "Expression {" + propertyExpression.Body + "} is not a valid property expression");
+                            string.Format("Expression <{0}> cannot be used to select a member.", propertyExpression.Body));
                 }
             }
 

@@ -111,11 +111,12 @@ namespace FluentAssertions.Equivalency
                            {
                                CompileTimeType = context.CompileTimeType,
                                Expectation = context.Expectation,
-                               PropertyDescription = context.PropertyDescription,
-                               PropertyInfo = context.PropertyInfo,
-                               PropertyPath =
+
+                               SelectedMemberDescription = context.SelectedMemberDescription,
+                               SelectedMemberInfo = context.SelectedMemberInfo,
+                               SelectedMemberPath =
                                    CollectionMemberSubjectInfo.GetAdjustedPropertyPath(
-                                       context.PropertyPath),
+                                       context.SelectedMemberPath),
                                Reason = context.Reason,
                                ReasonArgs = context.ReasonArgs,
                                Subject = context.Subject
@@ -143,18 +144,18 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private class CollectionMemberMatchingRuleDecorator : IMatchingRule
+        private class CollectionMemberMatchingRuleDecorator : IMemberMatchingRule
         {
-            private readonly IMatchingRule matchingRule;
+            private readonly IMemberMatchingRule matchingRule;
 
-            public CollectionMemberMatchingRuleDecorator(IMatchingRule matchingRule)
+            public CollectionMemberMatchingRuleDecorator(IMemberMatchingRule matchingRule)
             {
                 this.matchingRule = matchingRule;
             }
 
-            public PropertyInfo Match(PropertyInfo subjectProperty, object expectation, string propertyPath)
+            public ISelectedMemberInfo Match(ISelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
             {
-                return matchingRule.Match(subjectProperty, expectation, propertyPath);
+                return matchingRule.Match(subjectMember, expectation, memberPath, config);
             }
 
             public override string ToString()
@@ -163,20 +164,18 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private class CollectionMemberSelectionRuleDecorator : ISelectionRule
+        private class CollectionMemberSelectionRuleDecorator : IMemberSelectionRule
         {
-            private readonly ISelectionRule selectionRule;
+            private readonly IMemberSelectionRule selectionRule;
 
-            public CollectionMemberSelectionRuleDecorator(ISelectionRule selectionRule)
+            public CollectionMemberSelectionRuleDecorator(IMemberSelectionRule selectionRule)
             {
                 this.selectionRule = selectionRule;
             }
 
-            public IEnumerable<PropertyInfo> SelectProperties(
-                IEnumerable<PropertyInfo> selectedProperties,
-                ISubjectInfo context)
+            public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
             {
-                return selectionRule.SelectProperties(selectedProperties, new CollectionMemberSubjectInfo(context));
+                return selectionRule.SelectMembers(selectedMembers, new CollectionMemberSubjectInfo(context), config);
             }
 
             public override string ToString()
@@ -190,9 +189,9 @@ namespace FluentAssertions.Equivalency
             public CollectionMemberSubjectInfo(ISubjectInfo subjectInfo)
             {
                 CompileTimeType = subjectInfo.CompileTimeType;
-                PropertyDescription = subjectInfo.PropertyDescription;
-                PropertyInfo = subjectInfo.PropertyInfo;
-                PropertyPath = GetAdjustedPropertyPath(subjectInfo.PropertyPath);
+                SelectedMemberDescription = subjectInfo.SelectedMemberDescription;
+                SelectedMemberInfo = subjectInfo.SelectedMemberInfo;
+                SelectedMemberPath = GetAdjustedPropertyPath(subjectInfo.SelectedMemberPath);
                 RuntimeType = subjectInfo.RuntimeType;
             }
 
@@ -201,15 +200,43 @@ namespace FluentAssertions.Equivalency
                 return propertyPath.Substring(propertyPath.IndexOf(".", StringComparison.Ordinal) + 1);
             }
 
-            public PropertyInfo PropertyInfo { get; private set; }
+            public ISelectedMemberInfo SelectedMemberInfo { get; private set; }
 
-            public string PropertyPath { get; private set; }
+            public string SelectedMemberPath { get; private set; }
 
-            public string PropertyDescription { get; private set; }
+            public string SelectedMemberDescription { get; private set; }
 
             public Type CompileTimeType { get; private set; }
 
             public Type RuntimeType { get; private set; }
+
+            [Obsolete]
+            public PropertyInfo PropertyInfo
+            {
+                get
+                {
+                    var propertySelectedMemberInfo = SelectedMemberInfo as PropertySelectedMemberInfo;
+
+                    if (propertySelectedMemberInfo != null)
+                    {
+                        return propertySelectedMemberInfo.PropertyInfo;
+                    }
+
+                    return null;
+                }
+            }
+
+            [Obsolete]
+            public string PropertyPath
+            {
+                get { return SelectedMemberPath; }
+            }
+
+            [Obsolete]
+            public string PropertyDescription
+            {
+                get { return SelectedMemberDescription; }
+            }
         }
     }
 }

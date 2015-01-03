@@ -734,7 +734,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentException>()
-                .WithMessage("Expression*o.GetHashCode()*is not a valid property expression*");
+                .WithMessage("Expression*o.GetHashCode()*cannot be used to select a member*");
         }
 
         private class SomeClass

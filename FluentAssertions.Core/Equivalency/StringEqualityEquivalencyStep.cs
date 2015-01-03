@@ -94,7 +94,7 @@ namespace FluentAssertions.Equivalency
 
         private static string GetSubjectDescription(IEquivalencyValidationContext context)
         {
-            return context.IsRoot ? "subject" : context.PropertyDescription;
+            return context.IsRoot ? "subject" : context.SelectedMemberDescription;
         }
     }
 }

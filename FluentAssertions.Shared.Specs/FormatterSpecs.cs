@@ -109,7 +109,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Contain("Property 'ThrowingProperty' threw an exception");
+            result.Should().Contain("Member 'ThrowingProperty' threw an exception");
         }
 
         [TestMethod]

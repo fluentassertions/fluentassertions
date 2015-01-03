@@ -1,11 +1,10 @@
 using System;
-using System.Linq;
 
 namespace FluentAssertions.Equivalency
 {
     internal static class EquivalencyAssertionOptionsExtentions
     {
-        internal static Type GetSubjectType(this IEquivalencyAssertionOptions config, IEquivalencyValidationContext context)
+        internal static Type GetSubjectType(this IEquivalencyAssertionOptions config, ISubjectInfo context)
         {
             bool useRuntimeType = ShouldUseRuntimeType(config);
 
@@ -14,7 +13,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool ShouldUseRuntimeType(IEquivalencyAssertionOptions config)
         {
-            return config.SelectionRules.Any(selectionRule => selectionRule is AllRuntimePublicPropertiesSelectionRule);
+            return config.UseRuntimeTyping;
         }
     }
 }

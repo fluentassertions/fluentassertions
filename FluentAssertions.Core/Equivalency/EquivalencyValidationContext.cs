@@ -7,28 +7,46 @@ namespace FluentAssertions.Equivalency
     {
         public EquivalencyValidationContext()
         {
-            PropertyDescription = "";
-            PropertyPath = "";
+            SelectedMemberDescription = "";
+            SelectedMemberPath = "";
+        }
+
+        public ISelectedMemberInfo SelectedMemberInfo { get; set; }
+
+        public string SelectedMemberPath { get; set; }
+
+        public string SelectedMemberDescription { get; set; }
+
+        [Obsolete]
+        public PropertyInfo PropertyInfo
+        {
+            get
+            {
+                var propertySelectedMemberInfo = SelectedMemberInfo as PropertySelectedMemberInfo;
+
+                if (propertySelectedMemberInfo != null)
+                {
+                    return propertySelectedMemberInfo.PropertyInfo;
+                }
+
+                return null;
+            }
+        }
+
+        [Obsolete]
+        public string PropertyPath
+        {
+            get { return SelectedMemberPath; }
+        }
+
+        [Obsolete]
+        public string PropertyDescription
+        {
+            get { return SelectedMemberDescription; }
         }
 
         /// <summary>
-        /// Gets the <see cref="ISubjectInfo.PropertyInfo" /> of the property that returned the current object, or 
-        /// <c>null</c> if the current object represents the root object.
-        /// </summary>
-        public PropertyInfo PropertyInfo { get; set; }
-
-        /// <summary>
-        ///   Gets the full path from the root object until the current property, separated by dots.
-        /// </summary>
-        public string PropertyPath { get; set; }
-
-        /// <summary>
-        ///   Gets a textual description of the current property based on the <see cref="PropertyPath" />.
-        /// </summary>
-        public string PropertyDescription { get; set; }
-
-        /// <summary>
-        /// Gets the value of the <see cref="ISubjectInfo.PropertyInfo" />
+        /// Gets the value of the <see cref="ISubjectInfo.SelectedMemberInfo" />
         /// </summary>
         public object Subject { get; set; }
 
@@ -53,7 +71,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool IsRoot
         {
-            get { return (PropertyDescription.Length == 0); }
+            get { return (SelectedMemberDescription.Length == 0); }
         }
 
         /// <summary>
@@ -74,9 +92,9 @@ namespace FluentAssertions.Equivalency
                     return Subject.GetType();
                 }
 
-                if (PropertyInfo != null)
+                if (SelectedMemberInfo != null)
                 {
-                    return PropertyInfo.PropertyType;
+                    return SelectedMemberInfo.MemberType;
                 }
 
                 return CompileTimeType;

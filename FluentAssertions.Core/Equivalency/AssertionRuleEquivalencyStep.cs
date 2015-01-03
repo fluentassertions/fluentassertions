@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
         {
             Func<ISubjectInfo, bool> predicate = canHandle.Compile();
 
-            return ((context.PropertyInfo != null) && predicate(context));
+            return ((context.SelectedMemberInfo != null) && predicate(context));
         }
 
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
@@ -33,9 +33,9 @@ namespace FluentAssertions.Equivalency
                 AssertionScope.Current.ForCondition(
                     expectationisNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
                     .FailWith(
-                        "Expected " + context.PropertyDescription + " to be a {0}{reason}, but found a {1}",
+                        "Expected " + context.SelectedMemberDescription + " to be a {0}{reason}, but found a {1}",
                         !expectationisNull ? context.Expectation.GetType() : null,
-                        context.PropertyInfo.PropertyType);
+                        context.SelectedMemberInfo.MemberType);
 
             if (succeeded)
             {

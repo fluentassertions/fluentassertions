@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -7,6 +8,7 @@ namespace FluentAssertions.Equivalency
     /// Represents a rule that defines which properties of the subject-under-test to include while comparing
     /// two objects for structural equality.
     /// </summary>
+    [Obsolete("This interface will be removed in a future version.  Use `IMemberSelectionRule` instead.")]
     public interface ISelectionRule
     {
         /// <summary>
