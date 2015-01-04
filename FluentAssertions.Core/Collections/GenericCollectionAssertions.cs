@@ -74,7 +74,7 @@ namespace FluentAssertions.Collections
                     .ForCondition(unordered.SequenceEqual(expectation))
                     .BecauseOf(because, args)
                     .FailWith("Expected collection {0} to be ordered by {1}{reason} and result in {2}.",
-                        Subject, propertyExpression.GetPropertyPath(), expectation);
+                        Subject, propertyExpression.GetMemberPath(), expectation);
             }
             
             return new AndConstraint<GenericCollectionAssertions<T>>(this);
@@ -92,7 +92,7 @@ namespace FluentAssertions.Collections
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, args)
                 .FailWith("Expected collection to be ordered by {0}{reason} but found <null>.",
-                    propertyExpression.GetPropertyPath());
+                    propertyExpression.GetMemberPath());
         }
 
         private enum SortDirection

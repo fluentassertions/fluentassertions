@@ -76,11 +76,11 @@ namespace FluentAssertions.Common
         /// <summary>
         /// Gets a dotted path of property names representing the property expression. E.g. Parent.Child.Sibling.Name.
         /// </summary>
-        public static string GetPropertyPath<TDeclaringType, TPropertyType>(
-            this Expression<Func<TDeclaringType, TPropertyType>> propertyExpression)
+        public static string GetMemberPath<TDeclaringType, TPropertyType>(
+            this Expression<Func<TDeclaringType, TPropertyType>> expression)
         {
             var segments = new List<string>();
-            Expression node = propertyExpression;
+            Expression node = expression;
 
             while (node != null)
             {
@@ -95,11 +95,11 @@ namespace FluentAssertions.Common
                         var unaryExpression = (UnaryExpression)node;
                         node = unaryExpression.Operand;
                         break;
-                    
+
                     case ExpressionType.MemberAccess:
                         var memberExpression = (MemberExpression)node;
                         node = memberExpression.Expression;
-                        
+
                         segments.Add(memberExpression.Member.Name);
                         break;
 
@@ -117,11 +117,18 @@ namespace FluentAssertions.Common
 
                     default:
                         throw new ArgumentException(
-                            string.Format("Expression <{0}> cannot be used to select a member.", propertyExpression.Body));
+                            string.Format("Expression <{0}> cannot be used to select a member.", expression.Body));
                 }
             }
 
             return string.Join(".", segments.AsEnumerable().Reverse().ToArray()).Replace(".[", "[");
+        }
+
+        [Obsolete("This method will be removed in a future version.  Use `GetMemberPath(expression)` instead.")]
+        public static string GetPropertyPath<TDeclaringType, TPropertyType>(
+            this Expression<Func<TDeclaringType, TPropertyType>> propertyExpression)
+        {
+            return GetMemberPath(propertyExpression);
         }
     }
 }

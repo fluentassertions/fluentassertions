@@ -46,7 +46,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> Excluding(Expression<Func<TSubject, object>> expression)
         {
-            AddSelectionRule(new ExcludeMemberByPathSelectionRule(expression.GetPropertyPath()));
+            AddSelectionRule(new ExcludeMemberByPathSelectionRule(expression.GetMemberPath()));
             return this;
         }
 
@@ -88,7 +88,7 @@ namespace FluentAssertions.Equivalency
         public EquivalencyAssertionOptions<TSubject> WithStrictOrderingFor(
             Expression<Func<TSubject, object>> expression)
         {
-            orderingRules.Add(new PathBasedOrderingRule(expression.GetPropertyPath()));
+            orderingRules.Add(new PathBasedOrderingRule(expression.GetMemberPath()));
             return this;
         }
     }
