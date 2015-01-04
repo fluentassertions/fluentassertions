@@ -23,7 +23,7 @@ namespace FluentAssertions.Equivalency
         Type DeclaringType { get; }
 
         /// <summary>
-        /// Returns the property value of a specified object with optional index values for indexed properties or methods.
+        /// Returns the member value of a specified object with optional index values for indexed properties or methods.
         /// </summary>
         object GetValue(object obj, object[] index);
     }

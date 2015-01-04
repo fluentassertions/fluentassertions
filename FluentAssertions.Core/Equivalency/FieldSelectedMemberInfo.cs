@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace FluentAssertions.Equivalency
@@ -17,6 +18,11 @@ namespace FluentAssertions.Equivalency
 
         public override object GetValue(object obj, object[] index)
         {
+            if ((index != null) && index.Any())
+            {
+                throw new TargetParameterCountException("Parameter count mismatch.");
+            }
+
             return fieldInfo.GetValue(obj);
         }
 
