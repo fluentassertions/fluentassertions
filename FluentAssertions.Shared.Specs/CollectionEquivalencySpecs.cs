@@ -560,7 +560,7 @@ namespace FluentAssertions.Specs
                 () =>
                     subject.ShouldAllBeEquivalentTo(expectation,
                         options => options
-                            .ExcludingMissingProperties()
+                            .ExcludingMissingMembers()
                             .Excluding(c => c.Age));
 
             //-----------------------------------------------------------------------------------------------------------

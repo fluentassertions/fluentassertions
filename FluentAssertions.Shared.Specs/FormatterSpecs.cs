@@ -211,10 +211,40 @@ namespace FluentAssertions.Specs
             result.Should().ContainEquivalentOf("maximum recursion depth");
         }
 
+        [TestMethod]
+        public void When_formatting_with_default_behavior_it_should_include_non_private_fields()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var stuffWithAField = new StuffWithAField {Field = "Some Text"};
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            string result = Formatter.ToString(stuffWithAField);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().Contain("Field").And.Contain("Some Text");
+            result.Should().NotContain("privateField");
+        }
+
         public class BaseStuff
         {
             public int StuffId { get; set; }
             public string Description { get; set; }
+        }
+
+        public class StuffWithAField
+        {
+            public int StuffId { get; set; }
+            public string Description { get; set; }
+            public string Field;
+#pragma warning disable 169
+            private string privateField;
+#pragma warning restore 169
         }
 
         public class Stuff<TChild> : BaseStuff

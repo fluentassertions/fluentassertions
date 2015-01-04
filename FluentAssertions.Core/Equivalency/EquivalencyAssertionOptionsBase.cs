@@ -42,6 +42,8 @@ namespace FluentAssertions.Equivalency
 
         private bool includeProperties;
 
+        private bool includeFields;
+
         #endregion
 
         internal EquivalencyAssertionOptionsBase()
@@ -63,6 +65,7 @@ namespace FluentAssertions.Equivalency
             enumEquivalencyHandling = defaults.EnumEquivalencyHandling;
             useRuntimeTyping = defaults.UseRuntimeTyping;
             includeProperties = defaults.IncludeProperties;
+            includeFields = defaults.IncludeFields;
 
             selectionRules.AddRange(defaults.SelectionRules);
             userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
@@ -140,14 +143,20 @@ namespace FluentAssertions.Equivalency
             get { return includeProperties; }
         }
 
+        bool IEquivalencyAssertionOptions.IncludeFields
+        {
+            get { return includeFields; }
+        }
+
         /// <summary>
         /// Causes inclusion of only public properties of the subject as far as they are defined on the declared type. 
         /// </summary>
         public TSelf IncludingAllDeclaredProperties()
         {
-            RespectDeclaredType();
+            RespectingDeclaredType();
 
-            includeProperties = true;
+            ExcludingFields();
+            IncludingProperties();
 
             ReconfigureSelectionRules();
 
@@ -159,23 +168,110 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf IncludingAllRuntimeProperties()
         {
-            RespectRuntimeType();
+            RespectingRuntimeType();
 
-            includeProperties = true;
+            ExcludingFields();
+            IncludingProperties();
 
             ReconfigureSelectionRules();
 
             return (TSelf)this;
         }
 
-        private void RespectRuntimeType()
+        /// <summary>
+        ///  Causes inclusion of only public fields of the subject as far as they are defined on the declared type. 
+        /// </summary>
+        public TSelf IncludingAllDeclaredFields()
         {
-            useRuntimeTyping = true;
+            RespectingDeclaredType();
+
+            IncludingFields();
+            ExcludingProperties();
+
+            ReconfigureSelectionRules();
+
+            return (TSelf)this;
         }
 
-        private void RespectDeclaredType()
+        /// <summary>
+        ///  Causes inclusion of only public fields of the subject based on its run-time type rather than its declared type.
+        /// </summary>
+        public TSelf IncludingAllRuntimeFields()
+        {
+            RespectingRuntimeType();
+
+            IncludingFields();
+            ExcludingProperties();
+
+            ReconfigureSelectionRules();
+
+            return (TSelf)this;
+        }
+        
+        /// <summary>
+        ///  Causes inclusion of only public members of the subject as far as they are defined on the declared type. 
+        /// </summary>
+        public TSelf IncludingAllDeclaredMembers()
+        {
+            RespectingDeclaredType();
+
+            IncludingFields();
+            IncludingProperties();
+
+            ReconfigureSelectionRules();
+
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        ///  Causes inclusion of only public members of the subject based on its run-time type rather than its declared type.
+        /// </summary>
+        public TSelf IncludingAllRuntimeMembers()
+        {
+            RespectingRuntimeType();
+
+            IncludingFields();
+            IncludingProperties();
+
+            ReconfigureSelectionRules();
+
+            return (TSelf)this;
+        }
+
+        private TSelf IncludingFields()
+        {
+            includeFields = true;
+            return (TSelf)this;
+        }
+
+        private TSelf ExcludingFields()
+        {
+            includeFields = false;
+            return (TSelf)this;
+        }
+
+        private TSelf IncludingProperties()
+        {
+            includeProperties = true;
+            return (TSelf)this;
+        }
+
+        private TSelf ExcludingProperties()
+        {
+            includeProperties = false;
+            return (TSelf)this;
+        }
+
+        private TSelf RespectingRuntimeType()
+        {
+            useRuntimeTyping = true;
+            return (TSelf)this;
+        }
+
+        private TSelf RespectingDeclaredType()
         {
             useRuntimeTyping = false;
+            return (TSelf)this;
         }
 
         /// <summary>
@@ -330,8 +426,8 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
-        /// NOTE: These matching rules do not apply to the root object.
+        /// Adds an assertion rule to the ones already added by default, and which is evaluated before all existing rules.
+        /// NOTE: These assertion rules do not apply to the root object.
         /// </summary>
         public TSelf Using(IAssertionRule assertionRule)
         {
@@ -339,7 +435,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
+        /// Adds an equivalency step rule to the ones already added by default, and which is evaluated before previous user-registered steps
         /// </summary>
         public TSelf Using(IEquivalencyStep equivalencyStep)
         {
@@ -402,17 +498,20 @@ namespace FluentAssertions.Equivalency
         protected void RemoveStandardSelectionRules()
         {
             RemoveSelectionRule<AllPublicPropertiesSelectionRule>();
+            RemoveSelectionRule<AllPublicFieldsSelectionRule>();
 
-            RespectDeclaredType();
-            includeProperties = true;
+            RespectingDeclaredType();
+            IncludingFields();
+            IncludingProperties();
         }
 
         private void ClearSelectionRules()
         {
             selectionRules.Clear();
 
-            RespectDeclaredType();
-            includeProperties = true;
+            RespectingDeclaredType();
+            IncludingFields();
+            IncludingProperties();
         }
 
         private void ClearMatchingRules()
@@ -456,6 +555,11 @@ namespace FluentAssertions.Equivalency
             if (includeProperties)
             {
                 yield return new AllPublicPropertiesSelectionRule();
+            }
+
+            if (includeFields)
+            {
+                yield return new AllPublicFieldsSelectionRule();
             }
         }
 

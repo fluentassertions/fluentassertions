@@ -20,10 +20,19 @@ namespace FluentAssertions.Common
             MemberInfo memberInfo = AttemptToGetMemberInfoFromCastExpression(expression) ??
                                     AttemptToGetMemberInfoFromMemberExpression(expression);
 
-            var propertyInfo = memberInfo as PropertyInfo;
-            if (propertyInfo != null)
+            if (memberInfo != null)
             {
-                return SelectedMemberInfo.Create(propertyInfo);
+                var propertyInfo = memberInfo as PropertyInfo;
+                if (propertyInfo != null)
+                {
+                    return SelectedMemberInfo.Create(propertyInfo);
+                }
+
+                var fieldInfo = memberInfo as FieldInfo;
+                if (fieldInfo != null)
+                {
+                    return SelectedMemberInfo.Create(fieldInfo);
+                }
             }
 
             throw new ArgumentException(

@@ -5,6 +5,9 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class MatchAllOrderingRule : IOrderingRule
     {
+        /// <summary>
+        /// Determines if ordering of the member refered to by the current <paramref name="subjectInfo"/> is relevant.
+        /// </summary>
         public bool AppliesTo(ISubjectInfo subjectInfo)
         {
             return true;

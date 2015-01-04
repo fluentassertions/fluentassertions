@@ -170,6 +170,108 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
         }
 
+        [TestMethod]
+        public void When_all_field_of_the_object_are_equal_equivalency_should_pass()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var object1 = new ClassWithOnlyAField { Value = 1 };
+            var object2 = new ClassWithOnlyAField { Value = 1 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => object1.ShouldBeEquivalentTo(object2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_all_field_of_the_object_are_not_equal_equivalency_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var object1 = new ClassWithOnlyAField { Value = 1 };
+            var object2 = new ClassWithOnlyAField { Value = 101 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => object1.ShouldBeEquivalentTo(object2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_a_field_on_the_subject_matches_a_property_the_members_should_match_for_equivalence()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var onlyAField = new ClassWithOnlyAField { Value = 1 };
+            var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => onlyAField.ShouldBeEquivalentTo(onlyAProperty);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected member Value to be 101, but found 1.*");
+        }
+
+        [TestMethod]
+        public void When_asserting_equivalence_including_only_fields_it_should_not_match_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var onlyAField = new ClassWithOnlyAField { Value = 1 };
+            object onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => onlyAField.ShouldBeEquivalentTo(onlyAProperty, opts => opts.IncludingAllDeclaredFields());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Subject has member Value that the other object does not have.*");
+        }
+
+        [TestMethod]
+        public void When_asserting_equivalence_including_only_properties_it_should_not_match_fields()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var onlyAField = new ClassWithOnlyAField { Value = 1 };
+            var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => onlyAProperty.ShouldBeEquivalentTo(onlyAField, opts => opts.IncludingAllDeclaredProperties());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Subject has member Value that the other object does not have.*");
+        }
+
         #endregion
 
         #region Selection Rules
@@ -281,6 +383,69 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_including_fields_it_should_succeed_if_just_the_included_field_match()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    class1.ShouldBeEquivalentTo(class2, opts => opts.Including(_ => _.Field1).Including(_ => _.Field2));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow("the only selected fields have the same value");
+        }
+
+        [TestMethod]
+        public void When_including_fields_it_should_fail_if_any_included_field_do_not_match()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    class1.ShouldBeEquivalentTo(class2,
+                        opts => opts.Including(_ => _.Field1).Including(_ => _.Field2).Including(_ => _.Field3));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected member Field3*");
+        }
+
+        [TestMethod]
         public void When_only_the_excluded_property_doesnt_match_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -304,6 +469,64 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             dto.ShouldBeEquivalentTo(customer, options => options.Excluding(d => d.Name));
+        }
+
+        [TestMethod]
+        public void When_excluding_members_it_should_pass_if_only_the_excluded_members_are_different()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+            };
+
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    class1.ShouldBeEquivalentTo(class2,
+                        opts => opts.Excluding(_ => _.Field3).Excluding(_ => _.Property1));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow("the non-excluded fields have the same value");
+        }
+
+        [TestMethod]
+        public void When_excluding_members_it_should_fail_if_any_non_excluded_members_are_different()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+            };
+
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.Excluding(_ => _.Property1));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected member Field3*");
         }
 
         [TestMethod]
@@ -332,39 +555,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dto.ShouldBeEquivalentTo(customer, options => options.ExcludingMissingProperties());
+            Action act = () => dto.ShouldBeEquivalentTo(customer, options => options.ExcludingMissingMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_a_property_shared_by_anonymous_types_doesnt_match_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new
-            {
-                Age = 36,
-            };
-
-            var other = new
-            {
-                Age = 37,
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other, options => options.ExcludingMissingProperties());
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -414,6 +610,27 @@ namespace FluentAssertions.Specs
                 Birthdate = new DateTime(1973, 9, 20),
                 Name = "John"
             };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(other);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_field_is_private_it_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithAPrivateField(1234) {Value = 1};
+
+            var other = new ClassWithAPrivateField(54321) {Value = 1};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -850,6 +1067,252 @@ namespace FluentAssertions.Specs
                 .WithMessage("*member Property1 to be \"1\", but \"A\" differs near \"A\"*")
                 .WithMessage("*member Property2 to be \"2\", but \"B\" differs near \"B\"*")
                 .WithMessage("*member SubType1.SubProperty1 to be \"3\", but \"C\" differs near \"C\"*");
+        }
+
+        [TestMethod]
+        public void When_using_IncludingAllDeclaredFields_properties_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllDeclaredFields());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_using_IncludingAllRuntimeFields_the_runtime_type_should_be_used_and_properties_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            object class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllRuntimeFields());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_using_IncludingAllDeclaredProperties_fields_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            var class2 = new ClassWithSomeFieldsAndProperties
+            {
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllDeclaredProperties());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_using_IncludingAllRuntimeProperties_the_runtime_type_should_be_used_and_fields_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            object class2 = new ClassWithSomeFieldsAndProperties
+            {
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllRuntimeProperties());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_using_IncludingAllDeclaredMembers_and_both_properties_and_fields_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Property1 = "sit",
+            };
+
+            var class2 = new ClassWithSomeFieldsAndProperties();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllDeclaredMembers());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
+        }
+
+        [TestMethod]
+        public void When_using_IncludingAllRuntimeMembers_the_runtime_type_should_be_used_and_both_properties_and_fields_included()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            object class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Property1 = "sit",
+            };
+
+            object class2 = new ClassWithSomeFieldsAndProperties();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllRuntimeMembers());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
+        }
+
+        #endregion
+
+        #region Matching Rules
+
+        [TestMethod]
+        public void When_using_ExcludingMissingMembers_both_fields_and_properties_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var class1 = new ClassWithSomeFieldsAndProperties
+            {
+                Field1 = "Lorem",
+                Field2 = "ipsum",
+                Field3 = "dolor",
+                Property1 = "sit",
+                Property2 = "amet",
+                Property3 = "consectetur"
+            };
+
+            var class2 = new
+            {
+                Field1 = "Lorem",
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.ExcludingMissingMembers());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_property_shared_by_anonymous_types_doesnt_match_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Age = 36,
+            };
+
+            var other = new
+            {
+                Age = 37,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(other, options => options.ExcludingMissingMembers());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
         }
 
         #endregion
@@ -1833,7 +2296,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected, options => options.ExcludingMissingProperties());
+            Action act = () => subject.ShouldBeEquivalentTo(expected, options => options.ExcludingMissingMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2811,6 +3274,45 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<InvalidOperationException>();
         }
 
+        [TestMethod]
+        public void When_an_type_only_exposes_fields_but_fields_are_ignored_in_the_equivalence_comparision_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var object1 = new ClassWithOnlyAField { Value = 1 };
+            var object2 = new ClassWithOnlyAField { Value = 101 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllDeclaredProperties());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>("the objects have no members to compare.");
+        }
+
+        [TestMethod]
+        public void When_an_type_only_exposes_properties_but_properties_are_ignored_in_the_equivalence_comparision_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var object1 = new ClassWithOnlyAProperty { Value = 1 };
+            var object2 = new ClassWithOnlyAProperty { Value = 101 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllDeclaredFields());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>("the objects have no members to compare.");
+        }
 
         [TestMethod]
         public void When_asserting_instances_of_arrays_of_types_in_System_are_equivalent_it_should_respect_the_declared_type()
@@ -2939,6 +3441,26 @@ namespace FluentAssertions.Specs
     {
     }
 
+    internal class ClassWithOnlyAField
+    {
+        public int Value;
+    }
+
+    internal class ClassWithAPrivateField : ClassWithOnlyAField
+    {
+        private int value;
+
+        public ClassWithAPrivateField(int value)
+        {
+            this.value = value;
+        }
+    }
+
+    internal class ClassWithOnlyAProperty
+    {
+        public int Value { get; set; }
+    }
+
     internal struct StructWithNoMembers
     {
     }
@@ -2972,6 +3494,21 @@ namespace FluentAssertions.Specs
                     : null;
             }
         }
+    }
+
+    internal class ClassWithSomeFieldsAndProperties
+    {
+        public string Field1;
+
+        public string Field2;
+
+        public string Field3;
+
+        public string Property1 { get; set; }
+
+        public string Property2 { get; set; }
+
+        public string Property3 { get; set; }
     }
 
     internal class MyCompanyLogo
