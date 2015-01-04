@@ -17,10 +17,10 @@ namespace FluentAssertions.Equivalency
         #region Private Definitions
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<ISelectionRule> selectionRules = new List<ISelectionRule>();
+        private readonly List<IMemberSelectionRule> selectionRules = new List<IMemberSelectionRule>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly List<IMatchingRule> matchingRules = new List<IMatchingRule>();
+        private readonly List<IMemberMatchingRule> matchingRules = new List<IMemberMatchingRule>();
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly List<IEquivalencyStep> userEquivalencySteps = new List<IEquivalencyStep>();
@@ -38,12 +38,16 @@ namespace FluentAssertions.Equivalency
 
         private EnumEquivalencyHandling enumEquivalencyHandling;
 
+        private bool useRuntimeTyping;
+
+        private bool includeProperties;
+
         #endregion
 
         internal EquivalencyAssertionOptionsBase()
         {
             AddMatchingRule(new MustMatchByNameRule());
-
+            
             orderingRules.Add(new ByteArrayOrderingRule());
         }
 
@@ -57,6 +61,8 @@ namespace FluentAssertions.Equivalency
             cyclicReferenceHandling = defaults.CyclicReferenceHandling;
             allowInfiniteRecursion = defaults.AllowInfiniteRecursion;
             enumEquivalencyHandling = defaults.EnumEquivalencyHandling;
+            useRuntimeTyping = defaults.UseRuntimeTyping;
+            includeProperties = defaults.IncludeProperties;
 
             selectionRules.AddRange(defaults.SelectionRules);
             userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
@@ -65,18 +71,18 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Gets an ordered collection of selection rules that define what properties are included.
+        /// Gets an ordered collection of selection rules that define what members are included.
         /// </summary>
-        IEnumerable<ISelectionRule> IEquivalencyAssertionOptions.SelectionRules
+        IEnumerable<IMemberSelectionRule> IEquivalencyAssertionOptions.SelectionRules
         {
             get { return selectionRules; }
         }
 
         /// <summary>
-        /// Gets an ordered collection of matching rules that determine which subject properties are matched with which
-        /// expectation properties.
+        /// Gets an ordered collection of matching rules that determine which subject members are matched with which
+        /// expectation members.
         /// </summary>
-        IEnumerable<IMatchingRule> IEquivalencyAssertionOptions.MatchingRules
+        IEnumerable<IMemberMatchingRule> IEquivalencyAssertionOptions.MatchingRules
         {
             get { return matchingRules; }
         }
@@ -124,31 +130,68 @@ namespace FluentAssertions.Equivalency
             get { return enumEquivalencyHandling; }
         }
 
+        bool IEquivalencyAssertionOptions.UseRuntimeTyping
+        {
+            get { return useRuntimeTyping; }
+        }
+
+        bool IEquivalencyAssertionOptions.IncludeProperties
+        {
+            get { return includeProperties; }
+        }
+
         /// <summary>
-        /// Adds all public properties of the subject as far as they are defined on the declared type. 
+        /// Causes inclusion of only public properties of the subject as far as they are defined on the declared type. 
         /// </summary>
         public TSelf IncludingAllDeclaredProperties()
         {
-            WithoutSelectionRules();
-            Using(new AllDeclaredPublicPropertiesSelectionRule());
+            RespectDeclaredType();
+
+            includeProperties = true;
+
+            ReconfigureSelectionRules();
+
             return (TSelf)this;
         }
 
         /// <summary>
-        /// Adds all public properties of the subject based on its run-time type rather than its declared type.
+        ///  Causes inclusion of only public properties of the subject based on its run-time type rather than its declared type.
         /// </summary>
         public TSelf IncludingAllRuntimeProperties()
         {
-            WithoutSelectionRules();
-            Using(new AllRuntimePublicPropertiesSelectionRule());
+            RespectRuntimeType();
+
+            includeProperties = true;
+
+            ReconfigureSelectionRules();
+
+            return (TSelf)this;
+        }
+
+        private void RespectRuntimeType()
+        {
+            useRuntimeTyping = true;
+        }
+
+        private void RespectDeclaredType()
+        {
+            useRuntimeTyping = false;
+        }
+
+        /// <summary>
+        /// Excludes a (nested) property based on a predicate from the structural equality check.
+        /// </summary>
+        public TSelf Excluding(Expression<Func<ISubjectInfo, bool>> predicate)
+        {
+            AddSelectionRule(new ExcludeMemberByPredicateSelectionRule(predicate));
             return (TSelf)this;
         }
 
         /// <summary>
-        /// Tries to match the properties of the subject with equally named properties on the expectation. Ignores those 
-        /// properties that don't exist on the expectation.
+        /// Tries to match the members of the subject with equally named members on the expectation. Ignores those 
+        /// members that don't exist on the expectation and previously registered matching rules.
         /// </summary>
-        public TSelf ExcludingMissingProperties()
+        public TSelf ExcludingMissingMembers()
         {
             ClearMatchingRules();
             matchingRules.Add(new TryMatchByNameRule());
@@ -156,24 +199,33 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Requires the expectation to have properties which are equally named to properties on the subject.
+        /// Tries to match the properties of the subject with equally named properties on the expectation. Ignores those 
+        /// properties that don't exist on the expectation and previously registered matching rules.
+        /// </summary>
+        [Obsolete]
+        public TSelf ExcludingMissingProperties()
+        {
+            return ExcludingMissingMembers();
+        }
+
+        /// <summary>
+        /// Requires the expectation to have members which are equally named to members on the subject.
         /// </summary>
         /// <returns></returns>
-        public TSelf ThrowingOnMissingProperties()
+        public TSelf ThrowingOnMissingMembers()
         {
             ClearMatchingRules();
             matchingRules.Add(new MustMatchByNameRule());
             return (TSelf)this;
         }
-
-        
         /// <summary>
-        /// Excludes a (nested) property based on a predicate from the structural equality check.
+        /// Requires the expectation to have properties which are equally named to properties on the subject.
         /// </summary>
-        public TSelf Excluding(Expression<Func<ISubjectInfo, bool>> predicate)
+        /// <returns></returns>
+        [Obsolete]
+        public TSelf ThrowingOnMissingProperties()
         {
-            AddSelectionRule(new ExcludePropertyByPredicateSelectionRule(predicate));
-            return (TSelf)this;
+            return ThrowingOnMissingMembers();
         }
 
         /// <param name="action">
@@ -246,7 +298,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Adds a selection rule to the ones already added by default, and which is evaluated after all existing rules.
         /// </summary>
-        public TSelf Using(ISelectionRule selectionRule)
+        public TSelf Using(IMemberSelectionRule selectionRule)
         {
             return AddSelectionRule(selectionRule);
         }
@@ -254,9 +306,27 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
         /// </summary>
-        public TSelf Using(IMatchingRule matchingRule)
+        public TSelf Using(IMemberMatchingRule matchingRule)
         {
             return AddMatchingRule(matchingRule);
+        }
+
+        /// <summary>
+        /// Adds a selection rule to the ones already added by default, and which is evaluated after all existing rules.
+        /// </summary>
+        [Obsolete]
+        public TSelf Using(ISelectionRule selectionRule)
+        {
+            return AddSelectionRule(new ObsoleteSelectionRuleAdapter(selectionRule));
+        }
+
+        /// <summary>
+        /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
+        /// </summary>
+        [Obsolete]
+        public TSelf Using(IMatchingRule matchingRule)
+        {
+            return AddMatchingRule(new ObsoleteMatchingRuleAdapter(matchingRule));
         }
 
         /// <summary>
@@ -271,9 +341,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
         /// </summary>
-        // This method is internal because we do not want it used externally yet.
-        // It is used reflectively by ShouldAllBeEquivalentToHelper.
-        internal TSelf Using(IEquivalencyStep equivalencyStep)
+        public TSelf Using(IEquivalencyStep equivalencyStep)
         {
             return AddEquivalencyStep(equivalencyStep);
         }
@@ -310,7 +378,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Causes to compare Enum properties using their underlying value only.
+        /// Causes to compare Enum members using their underlying value only.
         /// </summary>
         /// <remarks>
         /// This is the default.
@@ -323,7 +391,7 @@ namespace FluentAssertions.Equivalency
 
         #region Non-fluent API
 
-        protected void RemoveSelectionRule<T>() where T : ISelectionRule
+        protected void RemoveSelectionRule<T>() where T : IMemberSelectionRule
         {
             foreach (T selectionRule in selectionRules.OfType<T>().ToArray())
             {
@@ -331,9 +399,20 @@ namespace FluentAssertions.Equivalency
             }
         }
 
+        protected void RemoveStandardSelectionRules()
+        {
+            RemoveSelectionRule<AllPublicPropertiesSelectionRule>();
+
+            RespectDeclaredType();
+            includeProperties = true;
+        }
+
         private void ClearSelectionRules()
         {
             selectionRules.Clear();
+
+            RespectDeclaredType();
+            includeProperties = true;
         }
 
         private void ClearMatchingRules()
@@ -341,13 +420,13 @@ namespace FluentAssertions.Equivalency
             matchingRules.Clear();
         }
 
-        protected TSelf AddSelectionRule(ISelectionRule selectionRule)
+        protected TSelf AddSelectionRule(IMemberSelectionRule selectionRule)
         {
             selectionRules.Add(selectionRule);
             return (TSelf) this;
         }
 
-        private TSelf AddMatchingRule(IMatchingRule matchingRule)
+        private TSelf AddMatchingRule(IMemberMatchingRule matchingRule)
         {
             matchingRules.Insert(0, matchingRule);
             return (TSelf) this;
@@ -365,6 +444,21 @@ namespace FluentAssertions.Equivalency
             return (TSelf) this;
         }
 
+        private void ReconfigureSelectionRules()
+        {
+            selectionRules.Clear();
+
+            selectionRules.AddRange(CreateSelectionRules());
+        }
+
+        private IEnumerable<IMemberSelectionRule> CreateSelectionRules()
+        {
+            if (includeProperties)
+            {
+                yield return new AllPublicPropertiesSelectionRule();
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -377,6 +471,8 @@ namespace FluentAssertions.Equivalency
         public override string ToString()
         {
             var builder = new StringBuilder();
+
+            builder.AppendLine(string.Format("- Use {0} types and members", useRuntimeTyping ? "runtime" : "declared"));
 
             foreach (var rule in selectionRules)
             {
@@ -399,28 +495,28 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Defines additional overrides when used with <see cref="EquivalencyAssertionOptions.When"/>
         /// </summary>
-        public class Restriction<TProperty>
+        public class Restriction<TMember>
         {
-            private readonly Action<IAssertionContext<TProperty>> action;
+            private readonly Action<IAssertionContext<TMember>> action;
             private readonly TSelf options;
 
-            public Restriction(TSelf options, Action<IAssertionContext<TProperty>> action)
+            public Restriction(TSelf options, Action<IAssertionContext<TMember>> action)
             {
                 this.options = options;
                 this.action = action;
             }
 
             /// <summary>
-            /// Allows overriding the way structural equality is applied to (nested) objects of tyoe <typeparamref name="TPropertyType"/>
+            /// Allows overriding the way structural equality is applied to (nested) objects of tyoe <typeparamref name="TMemberType"/>
             /// </summary>
-            public TSelf WhenTypeIs<TPropertyType>()
+            public TSelf WhenTypeIs<TMemberType>()
             {
-                When(info => info.RuntimeType.IsSameOrInherits(typeof(TPropertyType)));
+                When(info => info.RuntimeType.IsSameOrInherits(typeof(TMemberType)));
                 return options;
             }
 
             /// <summary>
-            /// Allows overriding the way structural equality is applied to particular properties.
+            /// Allows overriding the way structural equality is applied to particular members.
             /// </summary>
             /// <param name="predicate">
             /// A predicate based on the <see cref="ISubjectInfo"/> of the subject that is used to identify the property for which the
@@ -428,7 +524,7 @@ namespace FluentAssertions.Equivalency
             /// </param>
             public TSelf When(Expression<Func<ISubjectInfo, bool>> predicate)
             {
-                options.Using(new AssertionRule<TProperty>(predicate, action));
+                options.Using(new AssertionRule<TMember>(predicate, action));
                 return options;
             }
         }

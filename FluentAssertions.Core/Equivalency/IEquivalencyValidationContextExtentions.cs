@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 
 using FluentAssertions.Common;
 
@@ -7,26 +6,26 @@ namespace FluentAssertions.Equivalency
 {
     internal static class IEquivalencyValidationContextExtentions
     {
-        internal static IEquivalencyValidationContext CreateForNestedProperty(
+        internal static IEquivalencyValidationContext CreateForNestedMember(
             this IEquivalencyValidationContext equivalencyValidationContext,
-            PropertyInfo nestedProperty,
-            PropertyInfo matchingProperty)
+            ISelectedMemberInfo nestedMember,
+            ISelectedMemberInfo matchingProperty)
         {
-            object subject = nestedProperty.GetValue(equivalencyValidationContext.Subject, null);
+            object subject = nestedMember.GetValue(equivalencyValidationContext.Subject, null);
             object expectation = matchingProperty.GetValue(equivalencyValidationContext.Expectation, null);
 
             return CreateNested(
                 equivalencyValidationContext,
-                nestedProperty,
+                nestedMember,
                 subject,
                 expectation,
-                "property ",
-                nestedProperty.Name,
+                "member ",
+                nestedMember.Name,
                 ".",
-                nestedProperty.PropertyType);
+                nestedMember.MemberType);
         }
 
-        public static IEquivalencyValidationContext CreateForCollectionItem<T>(
+        internal static IEquivalencyValidationContext CreateForCollectionItem<T>(
             this IEquivalencyValidationContext equivalencyValidationContext,
             int index,
             T subject,
@@ -34,7 +33,7 @@ namespace FluentAssertions.Equivalency
         {
             return CreateNested(
                 equivalencyValidationContext,
-                equivalencyValidationContext.PropertyInfo,
+                equivalencyValidationContext.SelectedMemberInfo,
                 subject,
                 expectation,
                 "item",
@@ -43,7 +42,7 @@ namespace FluentAssertions.Equivalency
                 typeof(T));
         }
 
-        public static IEquivalencyValidationContext CreateForDictionaryItem<TKey, TValue>(
+        internal static IEquivalencyValidationContext CreateForDictionaryItem<TKey, TValue>(
             this IEquivalencyValidationContext equivalencyValidationContext,
             TKey key,
             TValue subject,
@@ -51,7 +50,7 @@ namespace FluentAssertions.Equivalency
         {
             return CreateNested(
                 equivalencyValidationContext,
-                equivalencyValidationContext.PropertyInfo,
+                equivalencyValidationContext.SelectedMemberInfo,
                 subject,
                 expectation,
                 "pair",
@@ -69,9 +68,9 @@ namespace FluentAssertions.Equivalency
                        {
                            CompileTimeType = compileTimeType,
                            Expectation = context.Expectation,
-                           PropertyDescription = context.PropertyDescription,
-                           PropertyInfo = context.PropertyInfo,
-                           PropertyPath = context.PropertyPath,
+                           SelectedMemberDescription = context.SelectedMemberDescription,
+                           SelectedMemberInfo = context.SelectedMemberInfo,
+                           SelectedMemberPath = context.SelectedMemberPath,
                            Reason = context.Reason,
                            ReasonArgs = context.ReasonArgs,
                            Subject = subject
@@ -80,7 +79,7 @@ namespace FluentAssertions.Equivalency
 
         private static IEquivalencyValidationContext CreateNested(
             this IEquivalencyValidationContext equivalencyValidationContext,
-            PropertyInfo subjectProperty,
+            ISelectedMemberInfo subjectProperty,
             object subject,
             object expectation,
             string memberType,
@@ -90,18 +89,18 @@ namespace FluentAssertions.Equivalency
         {
             string propertyPath = equivalencyValidationContext.IsRoot
                                       ? memberType
-                                      : equivalencyValidationContext.PropertyDescription + separator;
+                                      : equivalencyValidationContext.SelectedMemberDescription + separator;
 
             return new EquivalencyValidationContext
                        {
-                           PropertyInfo = subjectProperty,
+                           SelectedMemberInfo = subjectProperty,
                            Subject = subject,
                            Expectation = expectation,
-                           PropertyPath =
-                               equivalencyValidationContext.PropertyPath.Combine(
+                           SelectedMemberPath =
+                               equivalencyValidationContext.SelectedMemberPath.Combine(
                                    memberDescription,
                                    separator),
-                           PropertyDescription = propertyPath + memberDescription,
+                           SelectedMemberDescription = propertyPath + memberDescription,
                            Reason = equivalencyValidationContext.Reason,
                            ReasonArgs = equivalencyValidationContext.ReasonArgs,
                            CompileTimeType = compileTimeType,

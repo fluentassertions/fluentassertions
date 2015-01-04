@@ -504,7 +504,7 @@ namespace FluentAssertions.Specs
                         options => options
                             .WithStrictOrderingFor(
                                 s =>
-                                    s.PropertyPath.Contains(
+                                    s.SelectedMemberPath.Contains(
                                         "UnorderedCollection")));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1393,7 +1393,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "*property Customers to be*Customer[]*, but*System.String*");
+                    "*member Customers to be*Customer[]*, but*System.String*");
         }
 
 
@@ -1447,7 +1447,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "*property Customers to be a collection with 1 item(s), but found 2*");
+                    "*member Customers to be a collection with 1 item(s), but found 2*");
         }
 
         [TestMethod]
@@ -1500,7 +1500,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "*property Customers to be a collection with 2 item(s), but found 1*");
+                    "*member Customers to be a collection with 2 item(s), but found 1*");
         }
 
         [TestMethod]
@@ -1619,7 +1619,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Property*Customers*dictionary*non-dictionary*");
+                .WithMessage("Member*Customers*dictionary*non-dictionary*");
         }
 
         [TestMethod]

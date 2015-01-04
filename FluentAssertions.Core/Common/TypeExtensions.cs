@@ -4,11 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using FluentAssertions.Equivalency;
+
 namespace FluentAssertions.Common
 {
     public static class TypeExtensions
     {
-        private const BindingFlags PublicPropertiesFlag =
+        private const BindingFlags PublicMembersFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
         /// <summary>
@@ -42,9 +44,9 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Determines whether two <see cref="PropertyInfo"/> objects refer to the same property.
+        /// Determines whether two <see cref="ISelectedMemberInfo"/> objects refer to the same member.
         /// </summary>
-        public static bool IsEquivalentTo(this PropertyInfo property, PropertyInfo otherProperty)
+        public static bool IsEquivalentTo(this ISelectedMemberInfo property, ISelectedMemberInfo otherProperty)
         {
             return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
                     otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) &&
@@ -95,8 +97,19 @@ namespace FluentAssertions.Common
         private static bool HasProperties(Type type)
         {
             return type
-                .GetProperties(PublicPropertiesFlag)
+                .GetProperties(PublicMembersFlag)
                 .Any();
+        }
+
+        /// <summary>
+        /// Finds a member by its case-sensitive name.
+        /// </summary>
+        /// <returns>
+        /// Returns <c>null</c> if no such member exists.
+        /// </returns>
+        public static ISelectedMemberInfo FindMember(this Type type, string memberName, Type preferredType)
+        {
+            return SelectedMemberInfo.Create(FindProperty(type, memberName, preferredType));
         }
 
         /// <summary>
@@ -108,7 +121,7 @@ namespace FluentAssertions.Common
         public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
         {
             IEnumerable<PropertyInfo> properties =
-                type.GetProperties(PublicPropertiesFlag)
+                type.GetProperties(PublicMembersFlag)
                     .Where(pi => pi.Name == propertyName)
                     .ToList();
             
@@ -117,11 +130,20 @@ namespace FluentAssertions.Common
                 : properties.SingleOrDefault();
         }
 
+        public static IEnumerable<ISelectedMemberInfo> GetNonPrivateMembers(this Type typeToReflect)
+        {
+            return
+                GetNonPrivateProperties(typeToReflect)
+                    .Select(SelectedMemberInfo.Create)
+                    .ToArray();
+        }
+
         public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)
         {
             var query =
                 from propertyInfo in GetPropertiesFromHierarchy(typeToReflect)
                 where HasNonPrivateGetter(propertyInfo)
+                where !propertyInfo.IsIndexer()
                 where (filter == null) || filter.Contains(propertyInfo.Name)
                 select propertyInfo;
 
@@ -130,9 +152,16 @@ namespace FluentAssertions.Common
 
         private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect)
         {
+            return GetMembersFromHierarchy(typeToReflect, GetPublicProperties);
+        }
+
+        private static IEnumerable<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
+            Type typeToReflect,
+            Func<Type, IEnumerable<TMemberInfo>> getMembers) where TMemberInfo : MemberInfo
+        {
             if (IsInterface(typeToReflect))
             {
-                var propertyInfos = new List<PropertyInfo>();
+                var propertyInfos = new List<TMemberInfo>();
 
                 var considered = new List<Type>();
                 var queue = new Queue<Type>();
@@ -150,9 +179,9 @@ namespace FluentAssertions.Common
                         queue.Enqueue(subInterface);
                     }
 
-                    IEnumerable<PropertyInfo> typeProperties = GetPublicProperties(subType);
+                    IEnumerable<TMemberInfo> typeProperties = getMembers(subType);
 
-                    IEnumerable<PropertyInfo> newPropertyInfos = typeProperties.Where(x => !propertyInfos.Contains(x));
+                    IEnumerable<TMemberInfo> newPropertyInfos = typeProperties.Where(x => !propertyInfos.Contains(x));
 
                     propertyInfos.InsertRange(0, newPropertyInfos);
                 }
@@ -161,7 +190,7 @@ namespace FluentAssertions.Common
             }
             else
             {
-                return GetPublicProperties(typeToReflect);
+                return getMembers(typeToReflect);
             }
         }
 
@@ -177,7 +206,7 @@ namespace FluentAssertions.Common
 
         private static IEnumerable<PropertyInfo> GetPublicProperties(Type type)
         {
-            return type.GetProperties(PublicPropertiesFlag);
+            return type.GetProperties(PublicMembersFlag);
         }
 
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
@@ -189,6 +218,11 @@ namespace FluentAssertions.Common
         public static MethodInfo GetMethodNamed(this Type type, string methodName)
         {
             return type.GetMethod(methodName);
+        }
+
+        internal static bool IsIndexer(this PropertyInfo member)
+        {
+            return (member.GetIndexParameters().Length != 0);
         }
     }
 }

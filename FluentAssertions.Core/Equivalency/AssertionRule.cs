@@ -61,8 +61,8 @@ namespace FluentAssertions.Equivalency
                 bool succeeded =
                     AssertionScope.Current
                         .ForCondition(expectationisNull || context.Expectation.GetType().IsSameOrInherits(typeof(TSubject)))
-                        .FailWith("Expected " + context.PropertyDescription + " to be a {0}{reason}, but found a {1}",
-                            !expectationisNull ? context.Expectation.GetType() : null, context.PropertyInfo.PropertyType);
+                        .FailWith("Expected " + context.SelectedMemberDescription + " to be a {0}{reason}, but found a {1}",
+                            !expectationisNull ? context.Expectation.GetType() : null, context.SelectedMemberInfo.MemberType);
 
                 if (succeeded)
                 {

@@ -5,7 +5,7 @@ using System.Linq;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Collection of <see cref="PropertyPathOrderingRule"/>s.
+    /// Collection of <see cref="PathBasedOrderingRule"/>s.
     /// </summary>
     public class OrderingRuleCollection : IEnumerable<IOrderingRule>
     {

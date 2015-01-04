@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace FluentAssertions.Equivalency
 {
-    public class PredicateBasedOrderingRule : IOrderingRule
+    internal class PredicateBasedOrderingRule : IOrderingRule
     {
         private readonly Func<ISubjectInfo, bool> predicate;
 
@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Determines if ordering of the property refered to by the current <paramref name="subjectInfo"/> is relevant.
+        /// Determines if ordering of the member refered to by the current <paramref name="subjectInfo"/> is relevant.
         /// </summary>
         public bool AppliesTo(ISubjectInfo subjectInfo)
         {

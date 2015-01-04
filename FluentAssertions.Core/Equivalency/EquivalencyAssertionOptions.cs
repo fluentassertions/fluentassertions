@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq.Expressions;
+
 using FluentAssertions.Common;
 
 #endregion
@@ -15,7 +16,7 @@ namespace FluentAssertions.Equivalency
         EquivalencyAssertionOptionsBase<EquivalencyAssertionOptions<TSubject>>
     {
         /// <summary>
-        /// Gets a configuration that by default doesn't include any of the subject's properties and doesn't consider any nested objects
+        /// Gets a configuration that by default doesn't include any of the subject's members and doesn't consider any nested objects
         /// or collections.
         /// </summary>
         [Obsolete(
@@ -24,8 +25,8 @@ namespace FluentAssertions.Equivalency
                 () => new EquivalencyAssertionOptions<TSubject>();
 
         /// <summary>
-        /// Gets a configuration that compares all declared properties of the subject with equally named properties of the expectation,
-        /// and includes the entire object graph. The names of the properties between the subject and expectation must match.
+        /// Gets a configuration that compares all declared members of the subject with equally named members of the expectation,
+        /// and includes the entire object graph. The names of the members between the subject and expectation must match.
         /// </summary>
         [Obsolete(
             "Will be removed in v4.0. Instead, use AssertionOptions.AssertEquivalencyUsing method to setup the equivalency assertion defaults"
@@ -39,54 +40,55 @@ namespace FluentAssertions.Equivalency
         internal EquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults) : base(defaults)
         {
         }
-
+		
         /// <summary>
-        /// Excludes the specified (nested) property from the structural equality check.
+        /// Excludes the specified (nested) member from the structural equality check.
         /// </summary>
-        public EquivalencyAssertionOptions<TSubject> Excluding(Expression<Func<TSubject, object>> propertyExpression)
+        public EquivalencyAssertionOptions<TSubject> Excluding(Expression<Func<TSubject, object>> expression)
         {
-            AddSelectionRule(new ExcludePropertyByPathSelectionRule(propertyExpression.GetPropertyPath()));
+            AddSelectionRule(new ExcludeMemberByPathSelectionRule(expression.GetPropertyPath()));
             return this;
         }
 
         /// <summary>
-        /// Includes the specified property in the equality check.
+        /// Includes the specified member in the equality check.
         /// </summary>
         /// <remarks>
-        /// This overrides the default behavior of including all declared properties.
+        /// This overrides the default behavior of including all declared members.
         /// </remarks>
-        public EquivalencyAssertionOptions<TSubject> Including(Expression<Func<TSubject, object>> propertyExpression)
+        public EquivalencyAssertionOptions<TSubject> Including(Expression<Func<TSubject, object>> expression)
         {
-            RemoveSelectionRule<AllDeclaredPublicPropertiesSelectionRule>();
-            RemoveSelectionRule<AllRuntimePublicPropertiesSelectionRule>();
+            RemoveStandardSelectionRules();
 
-            AddSelectionRule(new IncludePropertyByPathSelectionRule(propertyExpression.GetPropertyInfo()));
+            ISelectedMemberInfo selectedMemberInfo = expression.GetSelectedMemberInfo();
+
+            AddSelectionRule(
+                new IncludeMemberByPathSelectionRule(selectedMemberInfo));
             return this;
         }
 
         /// <summary>
-        /// Includes the specified property in the equality check.
+        /// Includes the specified member in the equality check.
         /// </summary>
         /// <remarks>
-        /// This overrides the default behavior of including all declared properties.
+        /// This overrides the default behavior of including all declared members.
         /// </remarks>
         public EquivalencyAssertionOptions<TSubject> Including(Expression<Func<ISubjectInfo, bool>> predicate)
         {
-            RemoveSelectionRule<AllDeclaredPublicPropertiesSelectionRule>();
-            RemoveSelectionRule<AllRuntimePublicPropertiesSelectionRule>();
+            RemoveStandardSelectionRules();
 
-            AddSelectionRule(new IncludePropertyByPredicateSelectionRule(predicate));
+            AddSelectionRule(new IncludeMemberByPredicateSelectionRule(predicate));
             return this;
         }
 
         /// <summary>
-        /// Causes the collection identified by <paramref name="propertyExpression"/> to be compared in the order 
+        /// Causes the collection identified by <paramref name="expression"/> to be compared in the order 
         /// in which the items appear in the expectation.
         /// </summary>
         public EquivalencyAssertionOptions<TSubject> WithStrictOrderingFor(
-            Expression<Func<TSubject, object>> propertyExpression)
+            Expression<Func<TSubject, object>> expression)
         {
-            orderingRules.Add(new PropertyPathOrderingRule(propertyExpression.GetPropertyPath()));
+            orderingRules.Add(new PathBasedOrderingRule(expression.GetPropertyPath()));
             return this;
         }
     }

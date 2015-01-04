@@ -746,7 +746,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Property*Customers*dictionary*non-dictionary*");
+                .WithMessage("Member*Customers*dictionary*non-dictionary*");
         }
 
         [TestMethodAttribute]

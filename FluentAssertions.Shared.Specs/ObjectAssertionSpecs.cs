@@ -569,7 +569,7 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<AssertFailedException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable, but serialization failed with:") &&
-                    ex.Message.Contains("property Name to be"));
+                    ex.Message.Contains("member Name to be"));
         }
 
         internal class UnserializableClass
@@ -706,7 +706,7 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<AssertFailedException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable, but serialization failed with:") &&
-                    ex.Message.Contains("property Name to be"));
+                    ex.Message.Contains("member Name to be"));
         }
 
         internal class NonPublicClass

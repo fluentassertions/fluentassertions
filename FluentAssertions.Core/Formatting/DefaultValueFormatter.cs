@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 
 namespace FluentAssertions.Formatting
 {
@@ -73,7 +75,7 @@ namespace FluentAssertions.Formatting
             return ReferenceEquals(value.ToString(), null) || value.ToString().Equals(value.GetType().ToString());
         }
 
-        private string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel, IList<object> processedObjects)
+        private static string GetTypeAndPublicPropertyValues(object obj, int nestedPropertyLevel, IList<object> processedObjects)
         {
             var builder = new StringBuilder();
 
@@ -87,9 +89,8 @@ namespace FluentAssertions.Formatting
             builder.AppendLine(type.FullName);
             builder.AppendLine(CreateWhitespaceForLevel(nestedPropertyLevel) + "{");
 
-            IEnumerable<PropertyInfo> properties;
-            properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (PropertyInfo propertyInfo in properties.OrderBy(pi => pi.Name))
+            IEnumerable<ISelectedMemberInfo> properties = type.GetNonPrivateMembers();
+            foreach (var propertyInfo in properties.OrderBy(pi => pi.Name))
             {
                 builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1, processedObjects));
             }
@@ -99,27 +100,27 @@ namespace FluentAssertions.Formatting
             return builder.ToString();
         }
 
-        private string GetPropertyValueTextFor(object value, PropertyInfo propertyInfo, int nextPropertyNestingLevel,
+        private static string GetPropertyValueTextFor(object value, ISelectedMemberInfo selectedMemberInfo, int nextMemberNestingLevel,
             IList<object> processedObjects)
         {
             object propertyValue;
 
             try
             {
-                propertyValue = propertyInfo.GetValue(value, null);
+                propertyValue = selectedMemberInfo.GetValue(value, null);
             }
             catch (Exception ex)
             {
-                propertyValue = string.Format("[Property '{0}' threw an exception: '{1}']", propertyInfo.Name, ex.Message);
+                propertyValue = string.Format("[Member '{0}' threw an exception: '{1}']", selectedMemberInfo.Name, ex.Message);
             }
 
             return string.Format("{0}{1} = {2}",
-                CreateWhitespaceForLevel(nextPropertyNestingLevel),
-                propertyInfo.Name,
-                Formatter.ToString(propertyValue, false, processedObjects, nextPropertyNestingLevel));
+                CreateWhitespaceForLevel(nextMemberNestingLevel),
+                selectedMemberInfo.Name,
+                Formatter.ToString(propertyValue, false, processedObjects, nextMemberNestingLevel));
         }
 
-        private string CreateWhitespaceForLevel(int level)
+        private static string CreateWhitespaceForLevel(int level)
         {
             return new string(' ', level*SpacesPerIndentionLevel);
         }

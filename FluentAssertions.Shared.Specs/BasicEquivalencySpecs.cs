@@ -231,8 +231,8 @@ namespace FluentAssertions.Specs
             // Act 
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeEquivalentTo(customer, options => options
-                .Including(info => info.PropertyPath.EndsWith("Age"))
-                .Including(info => info.PropertyPath.EndsWith("Birthdate")));
+                .Including(info => info.SelectedMemberPath.EndsWith("Age"))
+                .Including(info => info.SelectedMemberPath.EndsWith("Birthdate")));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -257,7 +257,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentException>().WithMessage(
-                "Cannot use <d.GetType()> when a property expression is expected.");
+                "Expression <d.GetType()> cannot be used to select a member.");
         }
 
         [TestMethod]
@@ -277,7 +277,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<NullReferenceException>().WithMessage(
-                "Expected a property expression, but found <null>.");
+                "Expected an expression, but found <null>.");
         }
 
         [TestMethod]
@@ -575,7 +575,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property VehicleId*99999*but*1*");
+                .WithMessage("Expected member VehicleId*99999*but*1*");
         }
 
         [TestMethod]
@@ -715,7 +715,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeEquivalentTo(expected, config =>
-                config.Excluding(ctx => ctx.PropertyPath == "Level.Level.Text"));
+                config.Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -747,7 +747,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Subject has property City that the other object does not have*");
+                "Subject has member City that the other object does not have*");
         }
 
         [TestMethod]
@@ -776,7 +776,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Type to be*Int32*, but found*String*");
+                .WithMessage("Expected member Type to be*Int32*, but found*String*");
         }
 
         [TestMethod]
@@ -801,7 +801,7 @@ namespace FluentAssertions.Specs
             Action act = () => subject.ShouldBeEquivalentTo(other,
                 o => o
                     .Using<object>(c => ((Type)c.Subject).AssemblyQualifiedName.Should().Be((string)c.Expectation))
-                    .When(si => si.PropertyPath == "Type"));
+                    .When(si => si.SelectedMemberPath == "Type"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -847,9 +847,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("*property Property1 to be \"1\", but \"A\" differs near \"A\"*")
-                .WithMessage("*property Property2 to be \"2\", but \"B\" differs near \"B\"*")
-                .WithMessage("*property SubType1.SubProperty1 to be \"3\", but \"C\" differs near \"C\"*");
+                .WithMessage("*member Property1 to be \"1\", but \"A\" differs near \"A\"*")
+                .WithMessage("*member Property2 to be \"2\", but \"B\" differs near \"B\"*")
+                .WithMessage("*member SubType1.SubProperty1 to be \"3\", but \"C\" differs near \"C\"*");
         }
 
         #endregion
@@ -967,7 +967,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Time to be <null>, but found <2013-12-09 15:58:00>.*");
+                "Expected member Time to be <null>, but found <2013-12-09 15:58:00>.*");
         }
 
         [TestMethod]
@@ -998,7 +998,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Time to be <2013-12-09 15:58:00>, but found <null>.*");
+                "Expected member Time to be <2013-12-09 15:58:00>, but found <null>.*");
         }
 
         [TestMethod]
@@ -1059,7 +1059,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Time to be <null>, but found <2013-12-09 15:58:00>.*");
+                "Expected member Time to be <null>, but found <2013-12-09 15:58:00>.*");
         }
 
         [TestMethod]
@@ -1119,7 +1119,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Time to be <2013-12-09 15:58:00>, but found <null>.*");
+                "Expected member Time to be <2013-12-09 15:58:00>, but found <null>.*");
         }
 
         #endregion
@@ -1203,7 +1203,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Age to be 37 because they are the same, but found 36*");
+                "Expected member Age to be 37 because they are the same, but found 36*");
         }
 
         [TestMethod]
@@ -1231,7 +1231,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Name to be <null>, but found \"Dennis\"*");
+                "Expected member Name to be <null>, but found \"Dennis\"*");
         }
 
         [TestMethod]
@@ -1265,7 +1265,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Values[1] to be 4, but found 2*");
+                "Expected member Values[1] to be 4, but found 2*");
         }
 
         [TestMethod]
@@ -1293,7 +1293,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected property Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
+                "Expected member Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
         }
 
         [TestMethod]
@@ -1372,7 +1372,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeEquivalentTo(expectation, options => options
                 .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
-                .When(info => info.PropertyPath.EndsWith("Date")));
+                .When(info => info.SelectedMemberPath.EndsWith("Date")));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1698,7 +1698,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected property Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5)*");
+                    "Expected member Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5)*");
         }
 
         [TestMethod]
@@ -1732,7 +1732,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level to be <null>*, but found*Level1*Level2*");
+                .WithMessage("Expected member Level to be <null>*, but found*Level1*Level2*");
         }
 
         [TestMethod]
@@ -1767,7 +1767,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level to be*Level1Dto*Level2*, but found <null>*");
+                .WithMessage("Expected member Level to be*Level1Dto*Level2*, but found <null>*");
         }
 
         [TestMethod]
@@ -1803,7 +1803,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Subject has property Level.OtherProperty that the other object does not have*");
+                .WithMessage("Subject has member Level.OtherProperty that the other object does not have*");
         }
 
         [TestMethod]
@@ -1884,7 +1884,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected property Level.Level.Text to be *A wrong text value*but \r\n\"Level2\"*length*");
+                    "Expected member Level.Level.Text to be *A wrong text value*but \r\n\"Level2\"*length*");
         }
 
         [TestMethod]
@@ -1926,7 +1926,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property RefOne.ValTwo to be 2, but found 3*");
+                .WithMessage("Expected member RefOne.ValTwo to be 2, but found 3*");
         }
 
         #endregion
@@ -1971,7 +1971,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property Level.Root.Level to be*but it contains a cyclic reference*");
+                .WithMessage("Expected member Level.Root.Level to be*but it contains a cyclic reference*");
         }
 
         [TestMethod]
@@ -2247,13 +2247,88 @@ namespace FluentAssertions.Specs
                 .WithMessage(string.Format("*{0}*", typeof(ExcludeForeignKeysSelectionRule).Name));
         }
 
-        internal class ExcludeForeignKeysSelectionRule : ISelectionRule
+        internal class ExcludeForeignKeysSelectionRule : IMemberSelectionRule
+        {
+            public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            {
+                return selectedMembers.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
+            }
+        }
+
+        #region Obsolete
+
+        [TestMethod]
+        [Obsolete]
+        public void When_an_obsolete_selection_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NameId = "123",
+                SomeValue = "hello"
+            };
+
+            var expected = new
+            {
+                SomeValue = "hello"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(
+                expected,
+                options => options.Using(new ObsoleteExcludeForeignKeysSelectionRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        [Obsolete]
+        public void When_an_obsolete_selection_rule_is_added_it_should_appear_in_the_exception_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Name = "123",
+            };
+
+            var expected = new
+            {
+                SomeValue = "hello"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(
+                expected,
+                options => options.Using(new ObsoleteExcludeForeignKeysSelectionRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format("*{0}*", typeof(ExcludeForeignKeysSelectionRule).Name));
+        }
+
+        [Obsolete]
+        internal class ObsoleteExcludeForeignKeysSelectionRule : ISelectionRule
         {
             public IEnumerable<PropertyInfo> SelectProperties(IEnumerable<PropertyInfo> selectedProperties, ISubjectInfo context)
             {
                 return selectedProperties.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
             }
         }
+
+        #endregion
 
         [TestMethod]
         public void When_a_matching_rule_is_added_it_should_preceed_all_existing_rules()
@@ -2318,7 +2393,94 @@ namespace FluentAssertions.Specs
                 .WithMessage(string.Format("*{0}*", typeof(ForeignKeyMatchingRule).Name));
         }
 
-        internal class ForeignKeyMatchingRule : IMatchingRule
+        internal class ForeignKeyMatchingRule : IMemberMatchingRule
+        {
+            public ISelectedMemberInfo Match(ISelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
+            {
+                string name = subjectMember.Name;
+                if (name.EndsWith("Id"))
+                {
+                    name = name.Replace("Id", "");
+                }
+
+#if !WINRT && !WINDOWS_PHONE_APP
+                return SelectedMemberInfo.Create(expectation.GetType().GetProperty(name));
+#else
+                return SelectedMemberInfo.Create(expectation.GetType()
+                                  .GetRuntimeProperty(name));
+#endif
+            }
+        }
+
+        #region Obsolete
+
+        [TestMethod]
+        [Obsolete]
+        public void When_an_obsolete_matching_rule_is_added_it_should_preceed_all_existing_rules()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NameId = "123",
+                SomeValue = "hello"
+            };
+
+            var expected = new
+            {
+                Name = "123",
+                SomeValue = "hello"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(
+                expected,
+                options => options.Using(new ObsoleteForeignKeyMatchingRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        [Obsolete]
+        public void When_an_obsolete_matching_rule_is_added_it_should_appear_in_the_exception_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NameId = "123",
+                SomeValue = "hello"
+            };
+
+            var expected = new
+            {
+                Name = "1234",
+                SomeValue = "hello"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(
+                expected,
+                options => options.Using(new ObsoleteForeignKeyMatchingRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format("*{0}*", typeof(ObsoleteForeignKeyMatchingRule).Name));
+        }
+
+        [Obsolete]
+        internal class ObsoleteForeignKeyMatchingRule : IMatchingRule
         {
             public PropertyInfo Match(PropertyInfo subjectProperty, object expectation, string propertyPath)
             {
@@ -2336,6 +2498,8 @@ namespace FluentAssertions.Specs
 #endif
             }
         }
+
+        #endregion
 
         [TestMethod]
         public void When_an_assertion_rule_is_added_it_should_preceed_all_existing_rules()

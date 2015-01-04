@@ -39,16 +39,16 @@ namespace FluentAssertions.Equivalency
 
         public void AssertEqualityUsing(IEquivalencyValidationContext context)
         {
-            if (ContinueRecursion(context.PropertyPath))
+            if (ContinueRecursion(context.SelectedMemberPath))
             {
                 AssertionScope scope = AssertionScope.Current;
-                scope.AddNonReportable("context", context.IsRoot ? "subject" : context.PropertyDescription);
+                scope.AddNonReportable("context", context.IsRoot ? "subject" : context.SelectedMemberDescription);
                 scope.AddNonReportable("subject", context.Subject);
                 scope.AddNonReportable("expectation", context.Expectation);
 
                 var objectTracker = scope.Get<ObjectTracker>("objects");
 
-                if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.PropertyPath)))
+                if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.SelectedMemberPath)))
                 {
                     bool wasHandled = false;
 
@@ -93,9 +93,9 @@ namespace FluentAssertions.Equivalency
             yield return new SimpleEqualityEquivalencyStep();
         }
 
-        private bool ContinueRecursion(string propertyPath)
+        private bool ContinueRecursion(string memberAccessPath)
         {
-            if (config.AllowInfiniteRecursion || !HasReachedMaximumRecursionDepth(propertyPath))
+            if (config.AllowInfiniteRecursion || !HasReachedMaximumRecursionDepth(memberAccessPath))
             {
                 return true;
             }
@@ -107,8 +107,8 @@ namespace FluentAssertions.Equivalency
                 "or the object graph's depth is very high or infinite.  " +
                 "This limitation may be disabled using the config parameter." +
                 Environment.NewLine + Environment.NewLine +
-                "The property path when max depth was hit was: " +
-                propertyPath);
+                "The member access chain when max depth was hit was: " +
+                memberAccessPath);
 
             return false;
         }
