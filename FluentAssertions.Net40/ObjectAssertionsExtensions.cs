@@ -13,7 +13,7 @@ namespace FluentAssertions
     {
         /// <summary>
         /// Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains
-        /// the values of all properties.
+        /// the values of all members.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -30,7 +30,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Asserts that an object can be serialized and deserialized using the binary serializer and that it stills retains
-        /// the values of all properties.
+        /// the values of all members.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -48,7 +48,7 @@ namespace FluentAssertions
                 object deserializedObject = CreateCloneUsingBinarySerializer(assertions.Subject);
 
                 EquivalencyAssertionOptions<T> defaultOptions = new EquivalencyAssertionOptions<T>()
-                    .IncludingAllRuntimeProperties();
+                    .IncludingAllRuntimeMembers();
 
                 ((T)deserializedObject).ShouldBeEquivalentTo(assertions.Subject, _ => options(defaultOptions));
             }
@@ -76,7 +76,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Asserts that an object can be serialized and deserialized using the XML serializer and that it stills retains
-        /// the values of all properties.
+        /// the values of all members.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -93,7 +93,7 @@ namespace FluentAssertions
                 object deserializedObject = CreateCloneUsingXmlSerializer(assertions.Subject);
 
                 deserializedObject.ShouldBeEquivalentTo(assertions.Subject,
-                    options => options.IncludingAllRuntimeProperties());
+                    options => options.IncludingAllRuntimeMembers());
             }
             catch (Exception exc)
             {
