@@ -202,7 +202,7 @@ namespace FluentAssertions.Equivalency
         /// Tries to match the properties of the subject with equally named properties on the expectation. Ignores those 
         /// properties that don't exist on the expectation and previously registered matching rules.
         /// </summary>
-        [Obsolete]
+        [Obsolete("This method will be removed in a future version.  Use `ExcludingMissingMembers()` instead.")]
         public TSelf ExcludingMissingProperties()
         {
             return ExcludingMissingMembers();
@@ -222,7 +222,7 @@ namespace FluentAssertions.Equivalency
         /// Requires the expectation to have properties which are equally named to properties on the subject.
         /// </summary>
         /// <returns></returns>
-        [Obsolete]
+        [Obsolete("This method will be removed in a future version.  Use `ThrowOnMissingMembers()` instead.")]
         public TSelf ThrowingOnMissingProperties()
         {
             return ThrowingOnMissingMembers();
@@ -314,7 +314,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Adds a selection rule to the ones already added by default, and which is evaluated after all existing rules.
         /// </summary>
-        [Obsolete]
+        [Obsolete("This method will be removed in a future version.  Use `Using(IMemberSelectionRule)` instead.")]
         public TSelf Using(ISelectionRule selectionRule)
         {
             return AddSelectionRule(new ObsoleteSelectionRuleAdapter(selectionRule));
@@ -323,7 +323,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
         /// </summary>
-        [Obsolete]
+        [Obsolete("This method will be removed in a future version.  Use `Using(IMemberMatchingRule)` instead.")]
         public TSelf Using(IMatchingRule matchingRule)
         {
             return AddMatchingRule(new ObsoleteMatchingRuleAdapter(matchingRule));
