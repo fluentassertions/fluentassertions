@@ -118,7 +118,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                     collection1.ShouldBeEquivalentTo(collection2,
-                        opts => opts.IncludingAllRuntimeProperties());
+                        opts => opts.IncludingAllRuntimeMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -229,7 +229,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                     collection1.ShouldBeEquivalentTo(collection2,
-                        opts => opts.IncludingAllRuntimeProperties());
+                        opts => opts.IncludingAllRuntimeMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -274,7 +274,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeProperties());
+                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -319,7 +319,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeProperties());
+                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -560,7 +560,7 @@ namespace FluentAssertions.Specs
                 () =>
                     subject.ShouldAllBeEquivalentTo(expectation,
                         options => options
-                            .ExcludingMissingProperties()
+                            .ExcludingMissingMembers()
                             .Excluding(c => c.Age));
 
             //-----------------------------------------------------------------------------------------------------------

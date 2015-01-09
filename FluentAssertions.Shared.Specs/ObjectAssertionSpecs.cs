@@ -454,7 +454,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new SerializableClass
             {
-                Name = "John"
+                Name = "John",
+                Id = 2
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -581,6 +582,8 @@ namespace FluentAssertions.Specs
         public class SerializableClass
         {
             public string Name { get; set; }
+
+            public int Id;
         }
 
         [Serializable]
@@ -642,7 +645,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new XmlSerializableClass
             {
-                Name = "John"
+                Name = "John",
+                Id = 1
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -717,6 +721,8 @@ namespace FluentAssertions.Specs
         public class XmlSerializableClass
         {
             public string Name { get; set; }
+
+            public int Id;
         }
 
         public class XmlSerializableClassNotRestoringAllProperties : IXmlSerializable

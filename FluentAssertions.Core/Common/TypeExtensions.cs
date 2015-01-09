@@ -109,7 +109,8 @@ namespace FluentAssertions.Common
         /// </returns>
         public static ISelectedMemberInfo FindMember(this Type type, string memberName, Type preferredType)
         {
-            return SelectedMemberInfo.Create(FindProperty(type, memberName, preferredType));
+            return SelectedMemberInfo.Create(FindProperty(type, memberName, preferredType)) ??
+                   SelectedMemberInfo.Create(FindField(type, memberName, preferredType));
         }
 
         /// <summary>
@@ -130,11 +131,30 @@ namespace FluentAssertions.Common
                 : properties.SingleOrDefault();
         }
 
+        /// <summary>
+        /// Finds the field by a case-sensitive name.
+        /// </summary>
+        /// <returns>
+        /// Returns <c>null</c> if no such property exists.
+        /// </returns>
+        public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
+        {
+            IEnumerable<FieldInfo> properties =
+                type.GetFields(PublicMembersFlag)
+                    .Where(pi => pi.Name == fieldName)
+                    .ToList();
+
+            return (properties.Count() > 1)
+                ? properties.SingleOrDefault(p => p.FieldType == preferredType)
+                : properties.SingleOrDefault();
+        }
+
         public static IEnumerable<ISelectedMemberInfo> GetNonPrivateMembers(this Type typeToReflect)
         {
             return
                 GetNonPrivateProperties(typeToReflect)
                     .Select(SelectedMemberInfo.Create)
+                    .Concat(GetNonPrivateFields(typeToReflect).Select(SelectedMemberInfo.Create))
                     .ToArray();
         }
 
@@ -148,6 +168,22 @@ namespace FluentAssertions.Common
                 select propertyInfo;
 
             return query.ToArray();
+        }
+
+        public static IEnumerable<FieldInfo> GetNonPrivateFields(this Type typeToReflect)
+        {
+            var query =
+                from fieldInfo in GetFieldsFromHierarchy(typeToReflect)
+                where !fieldInfo.IsPrivate
+                where !fieldInfo.IsFamily
+                select fieldInfo;
+
+            return query.ToArray();
+        }
+
+        private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect)
+        {
+            return GetMembersFromHierarchy(typeToReflect, GetPublicFields);
         }
 
         private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect)
@@ -207,6 +243,11 @@ namespace FluentAssertions.Common
         private static IEnumerable<PropertyInfo> GetPublicProperties(Type type)
         {
             return type.GetProperties(PublicMembersFlag);
+        }
+
+        private static IEnumerable<FieldInfo> GetPublicFields(Type type)
+        {
+            return type.GetFields(PublicMembersFlag);
         }
 
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)

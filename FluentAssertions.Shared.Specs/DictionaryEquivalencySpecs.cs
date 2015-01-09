@@ -52,7 +52,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                 dictionary1.ShouldBeEquivalentTo(dictionary2,
-                    opts => opts.IncludingAllRuntimeProperties());
+                    opts => opts.IncludingAllRuntimeMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -92,7 +92,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeProperties());
+            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -395,7 +395,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeProperties());
+            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -438,7 +438,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                 dictionary1.ShouldBeEquivalentTo(dictionary2,
-                    opts => opts.IncludingAllRuntimeProperties());
+                    opts => opts.IncludingAllRuntimeMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

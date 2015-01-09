@@ -18,6 +18,12 @@ namespace FluentAssertions.Equivalency
                     .FindProperty(subjectMember.Name, subjectMember.MemberType));
             }
 
+            if ((compareeSelectedMemberInfoInfo == null) && config.IncludeFields)
+            {
+                compareeSelectedMemberInfoInfo = SelectedMemberInfo.Create(expectation.GetType()
+                    .FindField(subjectMember.Name, subjectMember.MemberType));
+            }
+
             if ((compareeSelectedMemberInfoInfo == null) && ExpectationImplementsMemberExplicitly(expectation, subjectMember))
             {
                 compareeSelectedMemberInfoInfo = subjectMember;
