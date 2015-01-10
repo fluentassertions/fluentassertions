@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using FluentAssertions.Common;
 
 #endregion
 
@@ -20,22 +21,23 @@ namespace FluentAssertions.Execution
         private string reason;
         private bool useLineBreaks;
 
-        [ThreadStatic] 
+        [ThreadStatic]
         private static AssertionScope current;
 
         private AssertionScope parent;
         private string expectation = "";
-
-        public static AssertionScope Current
-        {
-            get { return current ?? new AssertionScope(new DefaultAssertionStrategy()); }
-            set { current = value; }
-        }
+        private readonly bool evaluateCondition = true;
 
         #endregion
 
+        private AssertionScope(IAssertionStrategy _assertionStrategy)
+        {
+            assertionStrategy = _assertionStrategy;
+            parent = null;
+        }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssertionScope"/> class.
+        /// Starts an unnamed scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
         /// </summary>
         public AssertionScope()
             : this(new CollectingAssertionStrategy((current != null) ? current.assertionStrategy : null))
@@ -49,15 +51,35 @@ namespace FluentAssertions.Execution
             }
         }
 
-        public AssertionScope(string context) : this()
+        /// <summary>
+        /// Starts a named scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
+        /// </summary>
+        public AssertionScope(string context)
         {
             AddNonReportable("context", context);
         }
 
-        private AssertionScope(IAssertionStrategy _assertionStrategy)
+        /// <summary>
+        /// Creates a nested scope used during chaining.
+        /// </summary>
+        internal AssertionScope(AssertionScope sourceScope, bool sourceSucceeded)
         {
-            assertionStrategy = _assertionStrategy;
-            parent = null;
+            assertionStrategy = sourceScope.assertionStrategy;
+            contextData = sourceScope.contextData;
+            reason = sourceScope.reason;
+            useLineBreaks = sourceScope.useLineBreaks;
+            parent = sourceScope.parent;
+            expectation = sourceScope.expectation;
+            evaluateCondition = sourceSucceeded;
+        }
+
+        /// <summary>
+        /// Gets the current thread-specific assertion scope. 
+        /// </summary>
+        public static AssertionScope Current
+        {
+            get { return current ?? new AssertionScope(new DefaultAssertionStrategy()); }
+            private set { current = value; }
         }
 
         /// <summary>
@@ -114,15 +136,31 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Specify the condition that must be satisfied.
+        /// Allows to safely select the subject for successive assertions, even when the prior assertion has failed.
         /// </summary>
-        /// <param name="condition">If <c>true</c> the assertion will be succesful.</param>
-        public AssertionScope ForCondition(bool condition)
+        /// <paramref name="selector">
+        /// Selector which result is passed to successive calls to <see cref="ForCondition"/>.
+        /// </paramref>
+        public GivenSelector<T> Given<T>(Func<T> selector)
         {
-            Succeeded = condition;
-            return this;
+            return new GivenSelector<T>(selector, evaluateCondition, this);
         }
 
+        /// <summary>
+        /// Specify the condition that must be satisfied.
+        /// </summary>
+        /// <param name="condition">
+        /// If <c>true</c> the assertion will be treated as succesful and no exceptions will be thrown.
+        /// </param>
+        public AssertionScope ForCondition(bool condition)
+        {
+            if (evaluateCondition)
+            {
+                Succeeded = condition;
+            }
+
+            return this;
+        }
 
         /// <summary>
         /// Sets the failure message when the assertion is not met, or completes the failure message set to a 
@@ -141,11 +179,11 @@ namespace FluentAssertions.Execution
         /// </remarks>
         /// <param name="message">The format string that represents the failure message.</param>
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
-        public bool FailWith(string message, params object[] args)
+        public Continuation FailWith(string message, params object[] args)
         {
             try
             {
-                if (!Succeeded)
+                if (evaluateCondition && !Succeeded)
                 {
                     string result = new MessageBuilder(useLineBreaks).Build(message, args, reason, contextData);
 
@@ -154,10 +192,10 @@ namespace FluentAssertions.Execution
                         result = expectation + result;
                     }
 
-                    assertionStrategy.HandleFailure(result);
+                    assertionStrategy.HandleFailure(result.Capitalize());
                 }
 
-                return Succeeded;
+                return new Continuation(this, Succeeded);
             }
             finally
             {
@@ -211,26 +249,6 @@ namespace FluentAssertions.Execution
             {
                 assertionStrategy.ThrowIfAny(contextData.Reportable);
             }
-        }
-    }
-
-    public class Continuation
-    {
-        private readonly AssertionScope scope;
-
-        public Continuation(AssertionScope scope)
-        {
-            this.scope = scope;
-        }
-
-        public AssertionScope Then
-        {
-            get { return scope; }
-        }
-
-        public bool Succeeded
-        {
-            get { return scope.Succeeded; }
         }
     }
 }

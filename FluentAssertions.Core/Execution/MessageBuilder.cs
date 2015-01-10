@@ -36,30 +36,15 @@ namespace FluentAssertions.Execution
 
         public string Build(string message, object[] messageArgs, string reason, ContextDataItems contextData)
         {
-            string result = SubstituteReasonTag(message, reason);
+            string result = SubstituteReasonTag(message, SanitizeReason(reason));
             result = SubstituteContextualTags(result, contextData);
-            result = FormatArgumentPlaceholders(result, messageArgs, SanitizeReason(reason));
+            result = FormatArgumentPlaceholders(result, messageArgs);
             return result;
         }
 
-        // SMELL: just substitutes the reason tag with an ordinary formatting tag.
         private string SubstituteReasonTag(string failureMessage, string reason)
         {
-            return !String.IsNullOrEmpty(reason)
-                ? ReplaceReasonTagWithFormatSpecification(failureMessage)
-                : failureMessage.Replace(ReasonTag, String.Empty);
-        }
-
-        // SMELL: should use regex to do this
-        private static string ReplaceReasonTagWithFormatSpecification(string failureMessage)
-        {
-            if (failureMessage.Contains(ReasonTag))
-            {
-                string message = IncrementAllFormatSpecifiers(failureMessage);
-                return message.Replace(ReasonTag, "{0}");
-            }
-
-            return failureMessage;
+            return Regex.Replace(failureMessage, ReasonTag, reason);
         }
 
         private string SubstituteContextualTags(string message, ContextDataItems contextData)
@@ -72,31 +57,13 @@ namespace FluentAssertions.Execution
             });
         }
 
-        private static string IncrementAllFormatSpecifiers(string message)
-        {
-            for (int index = 9; index >= 0; index--)
-            {
-                int newIndex = index + 1;
-                string oldTag = "{" + index + "}";
-                string newTag = "{" + newIndex + "}";
-                message = message.Replace(oldTag, newTag);
-            }
-
-            return message;
-        }
-
-        private string FormatArgumentPlaceholders(string failureMessage, object[] failureArgs, string reason)
+        private string FormatArgumentPlaceholders(string failureMessage, object[] failureArgs)
         {
             var values = new List<string>();
-            if (!String.IsNullOrEmpty(reason))
-            {
-                values.Add(reason);
-            }
-
             values.AddRange(failureArgs.Select(a => Formatter.ToString(a, useLineBreaks)));
 
             string formattedMessage = values.Any() ? String.Format(failureMessage, values.ToArray()) : failureMessage;
-            return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}").Capitalize();
+            return formattedMessage.Replace("{{{{", "{{").Replace("}}}}", "}}");
         }
 
         private string SanitizeReason(string reason)

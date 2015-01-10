@@ -1050,30 +1050,35 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that the collection starts with the specified <paramref name="element"/>.
+        /// </summary>
+        /// <param name="element">
+        /// The element that is expected to appear at the start of the collection. The object's <see cref="object.Equals(object)"/>
+        /// is used to compare the element.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
         public AndConstraint<TAssertions> StartWith(object element, string because = "", params object[] becauseArgs)
         {
-            bool succeeded = Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
+            Execute.Assertion
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to start with {0}{reason}, but the collection is {1}.", element, null);
-
-            if (succeeded)
-            {
-                succeeded = Execute.Assertion
-                    .ForCondition(Subject.Cast<object>().Any())
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to start with {0}{reason}, but the collection is empty.", element);
-            }
-
-            if (succeeded)
-            {
-                object first = Subject.Cast<object>().FirstOrDefault();
-
-                Execute.Assertion
-                    .ForCondition(first.IsSameOrEqualTo(element))
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to start with {0}{reason}, but found {1}.", element, first);
-            }
+                .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", element)
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .FailWith("but the collection is {0}.", (object)null)
+                .Then
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.Any())
+                .FailWith("but the collection is empty.")
+                .Then
+                .Given(objects => objects.FirstOrDefault())
+                .ForCondition(first => first.IsSameOrEqualTo(element))
+                .FailWith("but found {0}.", first => first);
 
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
