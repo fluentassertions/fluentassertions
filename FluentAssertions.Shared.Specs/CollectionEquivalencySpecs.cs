@@ -1,3 +1,4 @@
+using FluentAssertions.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -567,6 +568,90 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_two_collections_have_properties_of_the_contained_items_excluded_but_still_differ_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var list1 = new[] {new KeyValuePair<int, int>(1, 123)};
+            var list2 = new[] {new KeyValuePair<int, int>(2, 321)};
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => list1.ShouldAllBeEquivalentTo(list2, config => config.Excluding(ctx => ctx.Key));
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected item[0].Value to be 321, but found 123.*");
+        }
+
+        [TestMethod]
+        public void When_ShouldAllBeEquivalentTo_has_selection_rules_configured_they_should_be_evaluated_from_right_to_left()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var list1 = new[] {new {Value = 3}};
+            var list2 = new[] {new {Value = 2}};
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => list1.ShouldAllBeEquivalentTo(list2, config =>
+            {
+                config.WithoutSelectionRules();
+                config.Using(new SelectNoMembersSelectionRule());
+                config.Using(new SelectPropertiesSelectionRule());
+                return config;
+            });
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("*to be 2, but found 3*");
+        }
+
+        private class SelectPropertiesSelectionRule : IMemberSelectionRule
+        {
+            public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            {
+                return context.CompileTimeType.GetNonPrivateProperties().Select(SelectedMemberInfo.Create);
+            }
+        }
+
+        private class SelectNoMembersSelectionRule : IMemberSelectionRule
+        {
+            public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            {
+                return Enumerable.Empty<ISelectedMemberInfo>();
+            }
+        }
+
+        [TestMethod]
+        public void When_two_collections_have_nested_members_of_the_contained_equivalent_but_not_equal_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var list1 = new[] {new {Nested = new ClassWithOnlyAProperty {Value = 1}}};
+            var list2 = new[] {new {Nested = new {Value = 1}}};
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => list1.ShouldAllBeEquivalentTo(list2, opts => opts);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]

@@ -15,7 +15,7 @@ namespace FluentAssertions.Equivalency
             EquivalencyAssertionOptions<TSubject> optionsToConfigure,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> subConfig)
         {
-            var options = new EquivalencyAssertionOptions<T>();
+            EquivalencyAssertionOptions<T> options = EquivalencyAssertionOptions<T>.Default();
             options = subConfig(options);
 
             ConfigureOrderingRules(optionsToConfigure, options);
@@ -47,8 +47,7 @@ namespace FluentAssertions.Equivalency
                 actualOptions.WithoutSelectionRules();
             }
 
-            //Reverse order because Using prepends
-            foreach (var selectionRule in opts.SelectionRules.Reverse())
+            foreach (var selectionRule in opts.SelectionRules)
             {
                 actualOptions.Using(new CollectionMemberSelectionRuleDecorator(selectionRule));
             }
