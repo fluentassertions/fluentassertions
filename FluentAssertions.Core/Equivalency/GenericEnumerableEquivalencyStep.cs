@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -66,7 +67,7 @@ namespace FluentAssertions.Equivalency
 
                 MethodCallExpression executeExpression = Expression.Call(
                     Expression.Constant(validator),
-                    "Execute",
+                    ExpressionExtensions.GetMethodName(() => validator.Execute<object>(null,null)),
                     new Type[] { typeOfEnumeration },
                     subjectToArray,
                     expectationToArray);

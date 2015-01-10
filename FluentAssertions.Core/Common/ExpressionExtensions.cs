@@ -139,5 +139,10 @@ namespace FluentAssertions.Common
         {
             return GetMemberPath(propertyExpression);
         }
+
+        internal static string GetMethodName(Expression<Action> action)
+        {
+            return ((MethodCallExpression)action.Body).Method.Name;
+        }
     }
 }

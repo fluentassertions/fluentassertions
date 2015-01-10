@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -116,7 +117,8 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertSameLength(object subject, Type subjectType, object expectation)
         {
-            string methodName = GetMethodName(() => AssertSameLength<object, object, object, object>(null, null));
+            string methodName =
+                ExpressionExtensions.GetMethodName(() => AssertSameLength<object, object, object, object>(null, null));
 
             MethodCallExpression assertSameLength = Expression.Call(
                 typeof(GenericDictionaryEquivalencyStep),
@@ -128,11 +130,6 @@ namespace FluentAssertions.Equivalency
                 Expression.Constant(expectation, GetIDictionaryInterface(expectation.GetType())));
 
             return (bool)Expression.Lambda(assertSameLength).Compile().DynamicInvoke();
-        }
-
-        private static string GetMethodName(Expression<Action> action)
-        {
-            return ((MethodCallExpression)action.Body).Method.Name;
         }
 
         private static IEnumerable<Type> GetDictionaryTypeArguments(Type subjectType)
@@ -167,7 +164,7 @@ namespace FluentAssertions.Equivalency
             Type subjectType = config.GetSubjectType(context);
 
             string methodName =
-                GetMethodName(
+                ExpressionExtensions.GetMethodName(
                     () => AssertDictionaryEquivalence<object, object, object, object>(null, null, null, null, null));
 
             var assertDictionaryEquivalence = Expression.Call(
