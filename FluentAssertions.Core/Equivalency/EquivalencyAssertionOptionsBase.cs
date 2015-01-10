@@ -431,7 +431,8 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf Using(IAssertionRule assertionRule)
         {
-            return AddAssertionRule(assertionRule);
+            userEquivalencySteps.Insert(0, new AssertionRuleEquivalencyStepAdaptor(assertionRule));
+            return (TSelf) this;
         }
 
         /// <summary>
@@ -531,15 +532,9 @@ namespace FluentAssertions.Equivalency
             return (TSelf) this;
         }
 
-        private TSelf AddAssertionRule(IAssertionRule assertionRule)
-        {
-            AddEquivalencyStep(new AssertionRuleEquivalencyStepAdaptor(assertionRule));
-            return (TSelf) this;
-        }
-
         private TSelf AddEquivalencyStep(IEquivalencyStep equivalencyStep)
         {
-            userEquivalencySteps.Insert(0, equivalencyStep);
+            userEquivalencySteps.Add(equivalencyStep);
             return (TSelf) this;
         }
 

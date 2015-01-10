@@ -543,6 +543,37 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_multiple_asertion_rules_are_added__they_should_be_executed_from_right_to_left()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Created = 8.July(2012).At(22, 9)
+            };
+
+            var expected = new
+            {
+                Created = 8.July(2012).At(22, 10)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    subject.ShouldBeEquivalentTo(expected,
+                        opts => opts.Using(new AlwaysFailAssertionRule()).Using(new RelaxingDateTimeAssertionRule()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow(
+                "a different assertion rule should handle the comparision before the exception throwing assertion rule is hit");
+        }
+
+        [TestMethod]
         public void When_an_assertion_rule_added_with_the_fluent_api_matches_the_root_object_the_assertion_rule_should_not_apply_to_the_root_object()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -570,17 +601,167 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>();
         }
 
+        internal class AlwaysFailAssertionRule : IAssertionRule
+        {
+            public bool AssertEquality(IEquivalencyValidationContext context)
+            {
+                throw new Exception("Failed");
+            }
+        }
+
         internal class RelaxingDateTimeAssertionRule : IAssertionRule
         {
             public bool AssertEquality(IEquivalencyValidationContext context)
             {
                 if (context.Subject is DateTime)
                 {
-                    ((DateTime) context.Subject).Should().BeCloseTo((DateTime) context.Expectation, 1000*60);
+                    ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1000 * 60);
                     return true;
                 }
                 return false;
             }
+        }
+
+        [TestMethod]
+        public void When_multiple_asertion_rules_are_added_with_the_fluent_api_they_should_be_executed_from_right_to_left()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithOnlyAProperty();
+            var expected = new ClassWithOnlyAProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    subject.ShouldBeEquivalentTo(expected,
+                        opts =>
+                            opts.Using<object>(context => { throw new Exception(); })
+                                .When(s => true)
+                                .Using<object>(context => { })
+                                .When(s => true));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow(
+                "a different assertion rule should handle the comparision before the exception throwing assertion rule is hit");
+        }
+
+        #endregion
+
+        #region Equivalency Steps
+
+        [TestMethod]
+        public void When_an_equivalency_step_handles_the_comparison_later_equivalency_steps_should_not_be_ran()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithOnlyAProperty();
+            var expected = new ClassWithOnlyAProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    subject.ShouldBeEquivalentTo(expected,
+                        opts =>
+                            opts.Using(new AlwayHandleEquivalencyStep())
+                                .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_stil_be_ran()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithOnlyAProperty();
+            var expected = new ClassWithOnlyAProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    subject.ShouldBeEquivalentTo(expected,
+                        opts =>
+                            opts.Using(new NeverHandleEquivalencyStep())
+                                .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<InvalidOperationException>();
+        }
+
+        [TestMethod]
+        public void When_multiple_equivalency_steps_are_added_they_should_be_executed_from_right_to_left()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithOnlyAProperty();
+            var expected = new ClassWithOnlyAProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () =>
+                    subject.ShouldBeEquivalentTo(expected,
+                        opts =>
+                            opts.Using(new ThrowExceptionEquivalencyStep<NotSupportedException>())
+                                .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<NotSupportedException>();
+        }
+
+
+        internal class ThrowExceptionEquivalencyStep<TException> : CanHandleAnythingEquivalencyStep where TException : Exception, new()
+        {
+            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            {
+                throw new TException();
+            }
+        }
+
+        internal class AlwayHandleEquivalencyStep : CanHandleAnythingEquivalencyStep
+        {
+            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            {
+                return true;
+            }
+        }
+
+        internal class NeverHandleEquivalencyStep : CanHandleAnythingEquivalencyStep
+        {
+            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            {
+                return false;
+            }
+        }
+
+        internal abstract class CanHandleAnythingEquivalencyStep : IEquivalencyStep
+        {
+            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+            {
+                return true;
+            }
+
+            public abstract bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config);
         }
 
         #endregion
