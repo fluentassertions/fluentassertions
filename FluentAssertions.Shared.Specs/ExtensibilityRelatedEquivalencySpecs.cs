@@ -342,6 +342,129 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Assertion Rules
+        
+        [TestMethod]
+        public void When_equally_named_properties_are_type_incompatible_and_assertion_rule_exists_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Type = typeof(String),
+            };
+
+            var other = new
+            {
+                Type = typeof(String).AssemblyQualifiedName,
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(other,
+                o => o
+                    .Using<object>(c => ((Type)c.Subject).AssemblyQualifiedName.Should().Be((string)c.Expectation))
+                    .When(si => si.SelectedMemberPath == "Type"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_assertion_is_overridden_for_a_predicate_it_should_use_the_provided_action()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Date = 14.July(2012).At(12, 59, 59)
+            };
+
+            var expectation = new
+            {
+                Date = 14.July(2012).At(13, 0, 0)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, options => options
+                .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+                .When(info => info.SelectedMemberPath.EndsWith("Date")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_assertion_is_overridden_for_all_types_it_should_use_the_provided_action_for_all_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Date = 21.July(2012).At(11, 8, 59),
+                Nested = new
+                {
+                    NestedDate = 14.July(2012).At(12, 59, 59)
+                }
+            };
+
+            var expectation = new
+            {
+                Date = 21.July(2012).At(11, 9, 0),
+                Nested = new
+                {
+                    NestedDate = 14.July(2012).At(13, 0, 0)
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, options =>
+                options
+                    .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
+                    .WhenTypeIs<DateTime>());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_nullable_property_is_overriden_with_a_custom_asserrtion_it_should_use_it()
+        {
+            var actual = new SimpleWithNullable
+            {
+                nullableIntegerProperty = 1,
+                strProperty = "I haz a string!"
+            };
+
+            var expected = new SimpleWithNullable
+            {
+                strProperty = "I haz a string!"
+            };
+
+            actual.ShouldBeEquivalentTo(expected,
+                opt => opt.Using<Int64>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<Int64>()
+                );
+        }
+
+        internal class SimpleWithNullable
+        {
+            public Int64? nullableIntegerProperty { get; set; }
+
+            public string strProperty { get; set; }
+        }
 
         [TestMethod]
         public void When_an_assertion_rule_is_added_it_should_preceed_all_existing_rules()
