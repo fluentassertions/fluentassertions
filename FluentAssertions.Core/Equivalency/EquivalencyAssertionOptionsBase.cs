@@ -44,6 +44,11 @@ namespace FluentAssertions.Equivalency
 
         private bool includeFields;
 
+        /// <summary>
+        /// A value indicating whether the default selection rules need to be prepended or not.
+        /// </summary>
+        private bool mustAddSelectionRules = true;
+
         #endregion
 
         internal EquivalencyAssertionOptionsBase()
@@ -67,10 +72,39 @@ namespace FluentAssertions.Equivalency
             includeProperties = defaults.IncludeProperties;
             includeFields = defaults.IncludeFields;
 
-            selectionRules.AddRange(defaults.SelectionRules);
+            selectionRules.AddRange(defaults.SelectionRules.Where(IsNotStandardSelectionRule));
+
+            if (IncludesIncludingSelectionRule(defaults.SelectionRules))
+            {
+                mustAddSelectionRules = false;
+            }
+
             userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
             matchingRules.AddRange(defaults.MatchingRules);
             orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
+        }
+
+        private static bool IncludesIncludingSelectionRule(IEnumerable<IMemberSelectionRule> memberSelectionRules)
+        {
+            Type[] standardIncludingSelectionRules =
+            {
+                typeof (IncludeMemberByPredicateSelectionRule),
+                typeof (IncludeMemberByPathSelectionRule)
+            };
+
+            return memberSelectionRules.Any(
+                selectionRule => standardIncludingSelectionRules.Contains(selectionRule.GetType()));
+        }
+
+        private static bool IsNotStandardSelectionRule(IMemberSelectionRule selectionRule)
+        {
+            Type[] standardSelectionRules =
+            {
+                typeof (AllPublicFieldsSelectionRule),
+                typeof (AllPublicPropertiesSelectionRule)
+            };
+
+            return !standardSelectionRules.Contains(selectionRule.GetType());
         }
 
         /// <summary>
@@ -78,7 +112,15 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         IEnumerable<IMemberSelectionRule> IEquivalencyAssertionOptions.SelectionRules
         {
-            get { return selectionRules; }
+            get
+            {
+                if (mustAddSelectionRules)
+                {
+                    return CreateSelectionRules().Concat(selectionRules).ToArray();
+                }
+
+                return selectionRules;
+            }
         }
 
         /// <summary>
@@ -151,9 +193,12 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Causes inclusion of only public properties of the subject as far as they are defined on the declared type. 
         /// </summary>
+        /// <remarks>
+        /// This clears all previously registered selection rules.
+        /// </remarks>
         public TSelf IncludingAllDeclaredProperties()
         {
-            RespectingDeclaredType();
+            RespectingDeclaredTypes();
 
             ExcludingFields();
             IncludingProperties();
@@ -166,9 +211,12 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         ///  Causes inclusion of only public properties of the subject based on its run-time type rather than its declared type.
         /// </summary>
+        /// <remarks>
+        ///  This clears all previously registered selection rules.
+        /// </remarks>
         public TSelf IncludingAllRuntimeProperties()
         {
-            RespectingRuntimeType();
+            RespectingRuntimeTypes();
 
             ExcludingFields();
             IncludingProperties();
@@ -179,96 +227,66 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        ///  Causes inclusion of only public fields of the subject as far as they are defined on the declared type. 
+        ///  Instructs the comparison to include fields. 
         /// </summary>
-        public TSelf IncludingAllDeclaredFields()
-        {
-            RespectingDeclaredType();
-
-            IncludingFields();
-            ExcludingProperties();
-
-            ReconfigureSelectionRules();
-
-            return (TSelf)this;
-        }
-
-        /// <summary>
-        ///  Causes inclusion of only public fields of the subject based on its run-time type rather than its declared type.
-        /// </summary>
-        public TSelf IncludingAllRuntimeFields()
-        {
-            RespectingRuntimeType();
-
-            IncludingFields();
-            ExcludingProperties();
-
-            ReconfigureSelectionRules();
-
-            return (TSelf)this;
-        }
-        
-        /// <summary>
-        ///  Causes inclusion of only public members of the subject as far as they are defined on the declared type. 
-        /// </summary>
-        public TSelf IncludingAllDeclaredMembers()
-        {
-            RespectingDeclaredType();
-
-            IncludingFields();
-            IncludingProperties();
-
-            ReconfigureSelectionRules();
-
-            return (TSelf)this;
-        }
-
-        /// <summary>
-        ///  Causes inclusion of only public members of the subject based on its run-time type rather than its declared type.
-        /// </summary>
-        public TSelf IncludingAllRuntimeMembers()
-        {
-            RespectingRuntimeType();
-
-            IncludingFields();
-            IncludingProperties();
-
-            ReconfigureSelectionRules();
-
-            return (TSelf)this;
-        }
-
-        private TSelf IncludingFields()
+        /// <remarks>
+        ///  This is part of the default behavior.
+        /// </remarks>
+        public TSelf IncludingFields()
         {
             includeFields = true;
             return (TSelf)this;
         }
 
-        private TSelf ExcludingFields()
+        /// <summary>
+        ///  Instructs the comparison to exclude fields. 
+        /// </summary>
+        /// <remarks>
+        ///  This does not preclude use of `Including`.
+        /// </remarks>
+        public TSelf ExcludingFields()
         {
             includeFields = false;
             return (TSelf)this;
         }
 
-        private TSelf IncludingProperties()
+        /// <summary>
+        ///  Instructs the comparison to include properties.  
+        /// </summary>
+        /// <remarks>
+        ///  This is part of the default behavior.
+        /// </remarks>
+        public TSelf IncludingProperties()
         {
             includeProperties = true;
             return (TSelf)this;
         }
 
-        private TSelf ExcludingProperties()
+        /// <summary>
+        ///  Instructs the comparison to exclude properties. 
+        /// </summary>
+        /// <remarks>
+        ///  This does not preclude use of `Including`.
+        /// </remarks>
+        public TSelf ExcludingProperties()
         {
             includeProperties = false;
             return (TSelf)this;
         }
 
-        private TSelf RespectingRuntimeType()
+        /// <summary>
+        /// Instructs the comparison to respect the subject's runtime type.
+        /// </summary>
+        public TSelf RespectingRuntimeTypes()
         {
             useRuntimeTyping = true;
             return (TSelf)this;
         }
 
-        private TSelf RespectingDeclaredType()
+        /// <summary>
+        /// Instructs the comparison to respect the subject's declared type.
+        /// </summary>
+        public TSelf RespectingDeclaredTypes()
         {
             useRuntimeTyping = false;
             return (TSelf)this;
@@ -410,18 +428,30 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Adds a selection rule to the ones already added by default, and which is evaluated after all existing rules.
         /// </summary>
+        /// <remarks>
+        /// Using this method will cause all fields to be excluded. 
+        /// </remarks>
         [Obsolete("This method will be removed in a future version.  Use `Using(IMemberSelectionRule)` instead.")]
         public TSelf Using(ISelectionRule selectionRule)
         {
+            // The adapter forces the exclusion, but explicitly stating it here for clarity
+            // and in case any thing external looks at the configuration setting
+            ExcludingFields();
             return AddSelectionRule(new ObsoleteSelectionRuleAdapter(selectionRule));
         }
 
         /// <summary>
         /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
         /// </summary>
+        /// <remarks>
+        /// Using this method will cause all fields to be excluded. 
+        /// </remarks>
         [Obsolete("This method will be removed in a future version.  Use `Using(IMemberMatchingRule)` instead.")]
         public TSelf Using(IMatchingRule matchingRule)
         {
+            // The adapter forces the exclusion, but explicitly stating it here for clarity
+            // and in case any thing external looks at the configuration setting
+            ExcludingFields();
             return AddMatchingRule(new ObsoleteMatchingRuleAdapter(matchingRule));
         }
 
@@ -498,19 +528,14 @@ namespace FluentAssertions.Equivalency
 
         protected void RemoveStandardSelectionRules()
         {
-            RemoveSelectionRule<AllPublicPropertiesSelectionRule>();
-            RemoveSelectionRule<AllPublicFieldsSelectionRule>();
-
-            RespectingDeclaredType();
-            IncludingFields();
-            IncludingProperties();
+            mustAddSelectionRules = false;
         }
 
         private void ClearSelectionRules()
         {
             selectionRules.Clear();
 
-            RespectingDeclaredType();
+            RespectingDeclaredTypes();
             IncludingFields();
             IncludingProperties();
         }
@@ -542,7 +567,7 @@ namespace FluentAssertions.Equivalency
         {
             selectionRules.Clear();
 
-            selectionRules.AddRange(CreateSelectionRules());
+            mustAddSelectionRules = true;
         }
 
         private IEnumerable<IMemberSelectionRule> CreateSelectionRules()

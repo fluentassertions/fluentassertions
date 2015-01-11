@@ -47,8 +47,8 @@ namespace FluentAssertions
             {
                 object deserializedObject = CreateCloneUsingBinarySerializer(assertions.Subject);
 
-                EquivalencyAssertionOptions<T> defaultOptions = new EquivalencyAssertionOptions<T>()
-                    .IncludingAllRuntimeMembers();
+                EquivalencyAssertionOptions<T> defaultOptions = EquivalencyAssertionOptions<T>.Default()
+                    .RespectingRuntimeTypes().IncludingFields().IncludingProperties();
 
                 ((T)deserializedObject).ShouldBeEquivalentTo(assertions.Subject, _ => options(defaultOptions));
             }
@@ -93,7 +93,7 @@ namespace FluentAssertions
                 object deserializedObject = CreateCloneUsingXmlSerializer(assertions.Subject);
 
                 deserializedObject.ShouldBeEquivalentTo(assertions.Subject,
-                    options => options.IncludingAllRuntimeMembers());
+                    options => options.RespectingRuntimeTypes().IncludingFields().IncludingProperties());
             }
             catch (Exception exc)
             {
