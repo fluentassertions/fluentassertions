@@ -105,7 +105,7 @@ namespace FluentAssertions.Equivalency
             IncludingFields();
             IncludingProperties();
 
-            RespectingDeclaredType();
+            RespectingDeclaredTypes();
         }
     }
 }

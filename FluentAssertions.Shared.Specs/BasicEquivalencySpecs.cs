@@ -1091,7 +1091,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.ExcludingProperties().RespectingRuntimeType());
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.ExcludingProperties().RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1213,7 +1213,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.RespectingRuntimeType());
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

@@ -198,7 +198,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public TSelf IncludingAllDeclaredProperties()
         {
-            RespectingDeclaredType();
+            RespectingDeclaredTypes();
 
             ExcludingFields();
             IncludingProperties();
@@ -216,7 +216,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public TSelf IncludingAllRuntimeProperties()
         {
-            RespectingRuntimeType();
+            RespectingRuntimeTypes();
 
             ExcludingFields();
             IncludingProperties();
@@ -277,7 +277,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Instructs the comparison to respect the subject's runtime type.
         /// </summary>
-        public TSelf RespectingRuntimeType()
+        public TSelf RespectingRuntimeTypes()
         {
             useRuntimeTyping = true;
             return (TSelf)this;
@@ -286,7 +286,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Instructs the comparison to respect the subject's declared type.
         /// </summary>
-        public TSelf RespectingDeclaredType()
+        public TSelf RespectingDeclaredTypes()
         {
             useRuntimeTyping = false;
             return (TSelf)this;
@@ -535,7 +535,7 @@ namespace FluentAssertions.Equivalency
         {
             selectionRules.Clear();
 
-            RespectingDeclaredType();
+            RespectingDeclaredTypes();
             IncludingFields();
             IncludingProperties();
         }

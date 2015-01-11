@@ -119,7 +119,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                     collection1.ShouldBeEquivalentTo(collection2,
-                        opts => opts.RespectingRuntimeType());
+                        opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -230,7 +230,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                     collection1.ShouldBeEquivalentTo(collection2,
-                        opts => opts.RespectingRuntimeType());
+                        opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -275,7 +275,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.RespectingRuntimeType());
+                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -320,7 +320,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.RespectingRuntimeType());
+                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
