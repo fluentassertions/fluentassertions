@@ -242,7 +242,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => onlyAField.ShouldBeEquivalentTo(onlyAProperty, opts => opts.IncludingAllDeclaredFields());
+            Action act = () => onlyAField.ShouldBeEquivalentTo(onlyAProperty, opts => opts.ExcludingProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1040,7 +1040,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_using_IncludingAllDeclaredFields_properties_should_be_ignored()
+        public void When_excluding_properties_it_should_still_compare_fields()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1055,22 +1055,22 @@ namespace FluentAssertions.Specs
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor" };
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "color" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllDeclaredFields());
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.ExcludingProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
+            act.ShouldThrow<AssertFailedException>().WithMessage("*color*dolor*");
         }
 
         [TestMethod]
-        public void When_using_IncludingAllRuntimeFields_the_runtime_type_should_be_used_and_properties_should_be_ignored()
+        public void When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1091,7 +1091,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllRuntimeFields());
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.ExcludingProperties().RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1170,7 +1170,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_using_IncludingAllDeclaredMembers_and_both_properties_and_fields_included()
+        public void When_both_field_and_properties_are_configured_for_inclusion_both_should_be_included()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1187,7 +1187,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllDeclaredMembers());
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingFields().IncludingProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1196,7 +1196,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_using_IncludingAllRuntimeMembers_the_runtime_type_should_be_used_and_both_properties_and_fields_included()
+        public void When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1213,7 +1213,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllRuntimeMembers());
+                () => class1.ShouldBeEquivalentTo(class2, opts => opts.RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2748,7 +2748,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllDeclaredFields());
+            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.ExcludingProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

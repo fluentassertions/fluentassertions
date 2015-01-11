@@ -38,7 +38,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_equivalence_of_dictionaries_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
+        public void When_asserting_equivalence_of_dictionaries_and_configured_to_respect_runtime_type_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -52,7 +52,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                 dictionary1.ShouldBeEquivalentTo(dictionary2,
-                    opts => opts.IncludingAllRuntimeMembers());
+                    opts => opts.RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -92,7 +92,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeMembers());
+            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -395,7 +395,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllRuntimeMembers());
+            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -438,7 +438,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                 dictionary1.ShouldBeEquivalentTo(dictionary2,
-                    opts => opts.IncludingAllRuntimeMembers());
+                    opts => opts.RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

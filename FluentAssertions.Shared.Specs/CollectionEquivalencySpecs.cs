@@ -119,7 +119,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                     collection1.ShouldBeEquivalentTo(collection2,
-                        opts => opts.IncludingAllRuntimeMembers());
+                        opts => opts.RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -215,7 +215,7 @@ namespace FluentAssertions.Specs
 
         [TestMethod]
         public void
-            When_asserting_equivalence_of_generic_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type
+            When_asserting_equivalence_of_generic_collections_and_configured_to_use_runtime_type_information_it_should_respect_the_runtime_type
             ()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -230,7 +230,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                     collection1.ShouldBeEquivalentTo(collection2,
-                        opts => opts.IncludingAllRuntimeMembers());
+                        opts => opts.RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -275,7 +275,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeMembers());
+                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -320,7 +320,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.IncludingAllRuntimeMembers());
+                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.RespectingRuntimeType());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

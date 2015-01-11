@@ -101,7 +101,11 @@ namespace FluentAssertions.Equivalency
         public EquivalencyAssertionOptions()
         {
             IncludingNestedObjects();
-            IncludingAllDeclaredMembers();
+
+            IncludingFields();
+            IncludingProperties();
+
+            RespectingDeclaredType();
         }
     }
 }
