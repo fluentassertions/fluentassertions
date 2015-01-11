@@ -1082,6 +1082,39 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
+        
+        /// <summary>
+        /// Asserts that the collection ends with the specified <paramref name="element"/>.
+        /// </summary>
+        /// <param name="element">
+        /// The element that is expected to appear at the end of the collection. The object's <see cref="object.Equals(object)"/>
+        /// is used to compare the element.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> EndWith(object element, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", element)
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .FailWith("but the collection is {0}.", (object)null)
+                .Then
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.Any())
+                .FailWith("but the collection is empty.")
+                .Then
+                .Given(objects => objects.LastOrDefault())
+                .ForCondition(first => first.IsSameOrEqualTo(element))
+                .FailWith("but found {0}.", first => first);
+
+            return new AndConstraint<TAssertions>((TAssertions) this);
+        }
 
 
         /// <summary>
