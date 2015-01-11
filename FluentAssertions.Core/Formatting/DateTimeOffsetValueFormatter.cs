@@ -8,6 +8,8 @@ namespace FluentAssertions.Formatting
 {
     public class DateTimeOffsetValueFormatter : IValueFormatter
     {
+        public TimeSpan TimeZoneOffset = TimeZoneInfo.Local.BaseUtcOffset;
+
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
         /// </summary>
@@ -66,7 +68,34 @@ namespace FluentAssertions.Formatting
                 fragments.Add("0001-01-01 00:00:00.000");
             }
 
-            return "<" + string.Join(" ", fragments.ToArray()) + ">";
+            if (HasDate(dateTime))
+            {
+                fragments.Add(FormatOffset(dateTime.Offset));
+            }
+
+            return "<" + string.Join(" ", fragments.Where(f => !string.IsNullOrWhiteSpace(f))) + ">";
+        }
+
+        private string FormatOffset(TimeSpan offset)
+        {
+            if (offset == TimeZoneOffset)
+                return null;
+
+            if (offset == TimeSpan.Zero)
+                return "UTC";
+
+            var sign = offset < TimeSpan.Zero ? "-" : "+";
+            var absoluteOffset = offset < TimeSpan.Zero ? -offset : offset;
+            string offsetStr;
+
+            if (absoluteOffset.Ticks == absoluteOffset.Hours * TimeSpan.TicksPerHour)
+                offsetStr = absoluteOffset.Hours.ToString();
+            else if (absoluteOffset.Ticks == absoluteOffset.Hours * TimeSpan.TicksPerHour + absoluteOffset.Minutes * TimeSpan.TicksPerMinute)
+                offsetStr = string.Format("{0}:{1:00}", absoluteOffset.Hours, absoluteOffset.Minutes);
+            else
+                throw new ArgumentException("Offset is supposed to be in whole minutes");
+
+            return "UTC" + sign + offsetStr;
         }
 
         private static bool HasTime(DateTimeOffset dateTime)
