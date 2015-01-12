@@ -79,10 +79,14 @@ namespace FluentAssertions.Formatting
         private string FormatOffset(TimeSpan offset)
         {
             if (offset == TimeZoneOffset)
+            {
                 return null;
+            }
 
             if (offset == TimeSpan.Zero)
+            {
                 return "UTC";
+            }
 
             var absoluteOffset = (offset < TimeSpan.Zero) ? -offset : offset;
 
@@ -92,7 +96,7 @@ namespace FluentAssertions.Formatting
             {
                 formattedOffset = absoluteOffset.Hours.ToString();
             }
-            else if (absoluteOffset.Ticks == absoluteOffset.Hours * TimeSpan.TicksPerHour + absoluteOffset.Minutes * TimeSpan.TicksPerMinute)
+            else if (absoluteOffset.Ticks == (absoluteOffset.Hours * TimeSpan.TicksPerHour) + (absoluteOffset.Minutes * TimeSpan.TicksPerMinute))
             {
                 formattedOffset = string.Format("{0}:{1:00}", absoluteOffset.Hours, absoluteOffset.Minutes);
             }
