@@ -84,18 +84,25 @@ namespace FluentAssertions.Formatting
             if (offset == TimeSpan.Zero)
                 return "UTC";
 
-            var sign = offset < TimeSpan.Zero ? "-" : "+";
-            var absoluteOffset = offset < TimeSpan.Zero ? -offset : offset;
-            string offsetStr;
+            var absoluteOffset = (offset < TimeSpan.Zero) ? -offset : offset;
+
+            string formattedOffset;
 
             if (absoluteOffset.Ticks == absoluteOffset.Hours * TimeSpan.TicksPerHour)
-                offsetStr = absoluteOffset.Hours.ToString();
+            {
+                formattedOffset = absoluteOffset.Hours.ToString();
+            }
             else if (absoluteOffset.Ticks == absoluteOffset.Hours * TimeSpan.TicksPerHour + absoluteOffset.Minutes * TimeSpan.TicksPerMinute)
-                offsetStr = string.Format("{0}:{1:00}", absoluteOffset.Hours, absoluteOffset.Minutes);
+            {
+                formattedOffset = string.Format("{0}:{1:00}", absoluteOffset.Hours, absoluteOffset.Minutes);
+            }
             else
+            {
                 throw new ArgumentException("Offset is supposed to be in whole minutes");
+            }
 
-            return "UTC" + sign + offsetStr;
+            var sign = (offset < TimeSpan.Zero) ? "-" : "+";
+            return "UTC" + sign + formattedOffset;
         }
 
         private static bool HasTime(DateTimeOffset dateTime)
