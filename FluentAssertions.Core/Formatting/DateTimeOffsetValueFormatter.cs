@@ -8,7 +8,17 @@ namespace FluentAssertions.Formatting
 {
     public class DateTimeOffsetValueFormatter : IValueFormatter
     {
-        public TimeSpan TimeZoneOffset = TimeZoneInfo.Local.BaseUtcOffset;
+        public DateTimeOffsetValueFormatter()
+        {
+            TimeZoneOffset = TimeZoneInfo.Local.BaseUtcOffset;
+        }
+
+        public DateTimeOffsetValueFormatter(TimeSpan offset)
+        {
+            TimeZoneOffset = offset;
+        }
+
+        public TimeSpan TimeZoneOffset { get; private set; }
 
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
@@ -88,15 +98,15 @@ namespace FluentAssertions.Formatting
                 return "UTC";
             }
 
-            var absoluteOffset = (offset < TimeSpan.Zero) ? -offset : offset;
+            TimeSpan absoluteOffset = (offset < TimeSpan.Zero) ? -offset : offset;
 
             string formattedOffset;
 
-            if (absoluteOffset.Ticks == absoluteOffset.Hours * TimeSpan.TicksPerHour)
+            if (IsWholeHour(absoluteOffset))
             {
                 formattedOffset = absoluteOffset.Hours.ToString();
             }
-            else if (absoluteOffset.Ticks == (absoluteOffset.Hours * TimeSpan.TicksPerHour) + (absoluteOffset.Minutes * TimeSpan.TicksPerMinute))
+            else if (IsWholeMinutes(absoluteOffset))
             {
                 formattedOffset = string.Format("{0}:{1:00}", absoluteOffset.Hours, absoluteOffset.Minutes);
             }
@@ -105,8 +115,19 @@ namespace FluentAssertions.Formatting
                 throw new ArgumentException("Offset is supposed to be in whole minutes");
             }
 
-            var sign = (offset < TimeSpan.Zero) ? "-" : "+";
+            string sign = (offset < TimeSpan.Zero) ? "-" : "+";
             return "UTC" + sign + formattedOffset;
+        }
+
+        private static bool IsWholeHour(TimeSpan absoluteOffset)
+        {
+            return absoluteOffset.Ticks == (absoluteOffset.Hours * TimeSpan.TicksPerHour);
+        }
+
+        private static bool IsWholeMinutes(TimeSpan absoluteOffset)
+        {
+            return absoluteOffset.Ticks == 
+                ((absoluteOffset.Hours * TimeSpan.TicksPerHour) + (absoluteOffset.Minutes * TimeSpan.TicksPerMinute));
         }
 
         private static bool HasTime(DateTimeOffset dateTime)

@@ -94,43 +94,53 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_a_DateTimeOffset_is_formatted_it_should_mention_offset()
+        public void When_a_date_time_offset_is_formatted_against_a_specific_time_zone_it_should_include_the_currect_offset()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var nonUtcFormatter = new DateTimeOffsetValueFormatter { TimeZoneOffset = TimeSpan.FromHours(8) };
-            var utcFormatter = new DateTimeOffsetValueFormatter { TimeZoneOffset = TimeSpan.Zero };
-
-            Func<DateTimeOffset, string> formatNonUtc = value => nonUtcFormatter.ToString(value, false);
-            Func<DateTimeOffset, string> formatUtc = value => utcFormatter.ToString(value, false);
+            var formatter = new DateTimeOffsetValueFormatter(TimeSpan.FromHours(8));
+            
+            Func<DateTimeOffset, string> format = value => formatter.ToString(value, false);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            formatNonUtc(new DateTimeOffset(2015, 11, 15, 0, 0, 0, TimeSpan.FromHours(13))).Should().Be("<2015-11-15 UTC+13>");
-            formatNonUtc(new DateTimeOffset(2015, 11, 1, 21, 0, 0, -TimeSpan.FromHours(1))).Should().Be("<2015-11-01 21:00:00 UTC-1>");
-            formatNonUtc(new DateTimeOffset(2014, 12, 30, 15, 41, 58, -new TimeSpan(7, 2, 0))).Should().Be("<2014-12-30 15:41:58 UTC-7:02>");
-            formatNonUtc(new DateTimeOffset(2014, 12, 30, 0, 0, 0, new TimeSpan(8, 48, 0))).Should().Be("<2014-12-30 UTC+8:48>");
-            formatNonUtc(new DateTimeOffset(1996, 3, 8, 11, 35, 14, TimeSpan.Zero)).Should().Be("<1996-03-08 11:35:14 UTC>");
-            formatNonUtc(new DateTimeOffset(2015, 11, 15, 0, 0, 0, TimeSpan.FromHours(8))).Should().Be("<2015-11-15>");
-
-            formatUtc(new DateTimeOffset(1987, 3, 15, 13, 16, 19, TimeSpan.Zero)).Should().Be("<1987-03-15 13:16:19>");
-            formatUtc(new DateTimeOffset(2015, 11, 15, 0, 0, 0, TimeSpan.FromHours(8))).Should().Be("<2015-11-15 UTC+8>");
+            format(new DateTimeOffset(2015, 11, 15, 0, 0, 0, TimeSpan.FromHours(13))).Should().Be("<2015-11-15 UTC+13>");
+            format(new DateTimeOffset(2015, 11, 1, 21, 0, 0, -TimeSpan.FromHours(1))).Should().Be("<2015-11-01 21:00:00 UTC-1>");
+            format(new DateTimeOffset(2014, 12, 30, 15, 41, 58, -new TimeSpan(7, 2, 0))).Should().Be("<2014-12-30 15:41:58 UTC-7:02>");
+            format(new DateTimeOffset(2014, 12, 30, 0, 0, 0, new TimeSpan(8, 48, 0))).Should().Be("<2014-12-30 UTC+8:48>");
+            format(new DateTimeOffset(1996, 3, 8, 11, 35, 14, TimeSpan.Zero)).Should().Be("<1996-03-08 11:35:14 UTC>");
+            format(new DateTimeOffset(2015, 11, 15, 0, 0, 0, TimeSpan.FromHours(8))).Should().Be("<2015-11-15>");
         }
 
         [TestMethod]
-        public void
-            When_a_DateTimeOffsetValueFormatter_is_created_it_should_default_TimeZoneOffset_to_current_local()
+        public void When_a_date_time_offset_is_formatted_against_a_null_time_zone_it_should_include_the_correct_offset()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var formatter = new DateTimeOffsetValueFormatter(TimeSpan.Zero);
+
+            Func<DateTimeOffset, string> format = value => formatter.ToString(value, false);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            format(new DateTimeOffset(1987, 3, 15, 13, 16, 19, TimeSpan.Zero)).Should().Be("<1987-03-15 13:16:19>");
+            format(new DateTimeOffset(2015, 11, 15, 0, 0, 0, TimeSpan.FromHours(8))).Should().Be("<2015-11-15 UTC+8>");
+        }
+
+        [TestMethod]
+        public void When_the_default_constructor_is_used_it_should_use_the_local_time_zone_info_offset()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
             //-----------------------------------------------------------------------------------------------------------
             var formatter = new DateTimeOffsetValueFormatter();
 
             //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
+            // Assert
             //-----------------------------------------------------------------------------------------------------------
             formatter.TimeZoneOffset.Should().Be(TimeZoneInfo.Local.BaseUtcOffset);
         }
