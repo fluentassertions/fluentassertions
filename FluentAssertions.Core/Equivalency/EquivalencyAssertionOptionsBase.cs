@@ -133,7 +133,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Gets an ordered collection of Equivalency steps how a subject is comparted with the expectation.
+        /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
         /// </summary>
         IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps
         {
@@ -332,6 +332,7 @@ namespace FluentAssertions.Equivalency
             matchingRules.Add(new MustMatchByNameRule());
             return (TSelf)this;
         }
+
         /// <summary>
         /// Requires the expectation to have properties which are equally named to properties on the subject.
         /// </summary>
@@ -631,7 +632,7 @@ namespace FluentAssertions.Equivalency
             }
 
             /// <summary>
-            /// Allows overriding the way structural equality is applied to (nested) objects of tyoe <typeparamref name="TMemberType"/>
+            /// Allows overriding the way structural equality is applied to (nested) objects of type <typeparamref name="TMemberType"/>
             /// </summary>
             public TSelf WhenTypeIs<TMemberType>()
             {

@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Returns  the closest match compared to the set identified by the provided <paramref name="key"/> or
-        /// an empty array if one of the results represents a succesful assertion. 
+        /// an empty array if one of the results represents a successful assertion. 
         /// </summary>
         /// <remarks>
         ///  The closest match is the set that contains the least amount of failures, or no failures at all, and preferably 

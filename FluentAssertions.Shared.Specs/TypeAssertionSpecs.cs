@@ -597,7 +597,7 @@ namespace FluentAssertions.Primitives
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
     /// <summary>
-    /// A class that intentianalty has the exact same name and namespace as the ObjectAssertions from the FluentAssertions
+    /// A class that intentionally has the exact same name and namespace as the ObjectAssertions from the FluentAssertions
     /// assembly. This class is used to test the behavior of comparisons on such types.
     /// </summary>
     internal class ObjectAssertions
