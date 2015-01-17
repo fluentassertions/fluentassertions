@@ -28,7 +28,7 @@ namespace FluentAssertions.Equivalency
         /// equivalency validation.
         /// </summary>
         /// <remarks>
-        /// The behavior of a cyclic reference is determined byt he <see cref="CyclicReferenceHandling"/> constructor
+        /// The behavior of a cyclic reference is determined by the <see cref="CyclicReferenceHandling"/> constructor
         /// parameter.
         /// </remarks>
         public bool IsCyclicReference(ObjectReference reference)

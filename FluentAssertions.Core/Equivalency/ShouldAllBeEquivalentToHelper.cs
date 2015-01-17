@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency
             EquivalencyAssertionOptions<TActual> actualOptions,
             IEquivalencyAssertionOptions subConfigOptions)
         {
-            //Reverse order because Using prepends
+            // Reverse order because Using prepends
             foreach (var equivalencyStep in subConfigOptions.UserEquivalencySteps.Reverse())
             {
                 actualOptions.Using(new CollectionMemberAssertionRuleDecorator(equivalencyStep));
@@ -73,7 +73,7 @@ namespace FluentAssertions.Equivalency
                 actualOptions.WithoutMatchingRules();
             }
 
-            //Reverse order because Using prepends
+            // Reverse order because Using prepends
             foreach (var matchingRule in subConfigOptions.MatchingRules.Reverse())
             {
                 actualOptions.Using(new CollectionMemberMatchingRuleDecorator(matchingRule));

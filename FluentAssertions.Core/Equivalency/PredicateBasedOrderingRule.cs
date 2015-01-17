@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Determines if ordering of the member refered to by the current <paramref name="subjectInfo"/> is relevant.
+        /// Determines if ordering of the member referred to by the current <paramref name="subjectInfo"/> is relevant.
         /// </summary>
         public bool AppliesTo(ISubjectInfo subjectInfo)
         {

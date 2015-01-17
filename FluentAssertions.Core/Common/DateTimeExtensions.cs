@@ -12,7 +12,7 @@ namespace FluentAssertions.Common
         {
             try
             {
-                return DateTime.SpecifyKind(dateTime, DateTimeKind.Local); ;
+                return DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
             }
             catch (ArgumentOutOfRangeException)
             {

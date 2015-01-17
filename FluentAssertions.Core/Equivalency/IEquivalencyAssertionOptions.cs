@@ -19,7 +19,7 @@ namespace FluentAssertions.Equivalency
         IEnumerable<IMemberMatchingRule> MatchingRules { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the assertion must perform a deep comparison.
+        /// Gets a value indicating whether or not the assertion must perform a deep comparison.
         /// </summary>
         bool IsRecursive { get; }
 

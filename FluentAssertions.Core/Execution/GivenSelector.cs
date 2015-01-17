@@ -29,10 +29,10 @@ namespace FluentAssertions.Execution
         /// Specify the condition that must be satisfied upon the subject selected through a prior selector.
         /// </summary>
         /// <param name="condition">
-        /// If <c>true</c> the assertion will be treated as succesful and no exceptions will be thrown.
+        /// If <c>true</c> the assertion will be treated as successful and no exceptions will be thrown.
         /// </param>
         /// <remarks>
-        /// The condition will not be evaluted if the prior assertion failed, nor will <see cref="FailWith(string,System.Func{T,object}[])"/>
+        /// The condition will not be evaluated if the prior assertion failed, nor will <see cref="FailWith(string,System.Func{T,object}[])"/>
         /// throw any exceptions.
         /// </remarks>
         public GivenSelector<T> ForCondition(Func<T, bool> predicate)

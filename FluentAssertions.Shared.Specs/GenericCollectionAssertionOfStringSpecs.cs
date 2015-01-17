@@ -119,7 +119,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () =>  collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
+            Action action = () => collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
             
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1816,7 +1816,7 @@ namespace FluentAssertions.Specs
 
             var methods =
                 from method in methodInfo
-                where !method.IsSpecialName //Exclude Properties
+                where !method.IsSpecialName // Exclude Properties
                 where method.DeclaringType != typeof (object)
                 select new {method.Name, method.ReturnType};
 

@@ -350,7 +350,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IFoo testSubject = A.Fake<IFoo>();;
+            IFoo testSubject = A.Fake<IFoo>();
             A.CallTo(() => testSubject.Do())
                 .Throws(new AggregateException("Outer Message",
                     new Exception("Inner Message")));

@@ -48,6 +48,7 @@ namespace FluentAssertions.Numeric
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
+
         /// <summary>
         /// Asserts that the integral number value is exactly the same as the <paramref name="expected"/> value.
         /// </summary>
