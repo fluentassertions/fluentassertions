@@ -102,7 +102,7 @@ namespace Chill.Autofac
         /// you to do so. (such as autofac)
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public static void RegisterConcreteType<T>(this TestBase testBase) where  T : class
+        public static void RegisterConcreteType<T>(this TestBase testBase) where T : class
         {
             testBase.Container.RegisterType<T>();
         }

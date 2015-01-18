@@ -25,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\FluentAssertions.XML</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Package\Lib\portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.XML</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>

@@ -13,6 +13,7 @@
       <Value>params</Value>
       <Value>satisfied</Value>
       <Value>specified</Value>
+      <Value>autofac</Value>
     </CollectionProperty>
   </GlobalSettings>
   <Analyzers>
