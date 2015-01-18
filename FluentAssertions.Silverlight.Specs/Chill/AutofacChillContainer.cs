@@ -31,7 +31,10 @@ namespace Chill.Autofac
             get
             {
                 if (_container == null)
+                {
                     _container = _containerBuilder.Build();
+                }
+
                 return _container;
             }
         }
