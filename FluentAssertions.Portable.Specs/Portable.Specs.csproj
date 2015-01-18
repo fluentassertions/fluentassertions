@@ -77,8 +77,9 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Chill">
-      <HintPath>..\packages\Chill.2.0.0-beta0002\Lib\portable-net4+sl5+MonoAndroid1+MonoTouch1\Chill.dll</HintPath>
+    <Reference Include="Chill, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Chill.2.1.0\Lib\portable-net4+sl5+MonoAndroid1+MonoTouch1\Chill.dll</HintPath>
     </Reference>
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.16.0\lib\net35\FakeItEasy.dll</HintPath>
@@ -106,16 +107,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.IO, Version=1.5.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Chill.2.0.0-beta0002\Lib\portable-net4+sl5+MonoAndroid1+MonoTouch1\System.IO.dll</HintPath>
+      <HintPath>..\packages\Chill.2.1.0\Lib\portable-net4+sl5+MonoAndroid1+MonoTouch1\System.IO.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Runtime, Version=2.6.9.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Chill.2.0.0-beta0002\Lib\portable-net4+sl5+MonoAndroid1+MonoTouch1\System.Runtime.dll</HintPath>
+      <HintPath>..\packages\Chill.2.1.0\Lib\portable-net4+sl5+MonoAndroid1+MonoTouch1\System.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks, Version=2.6.9.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Chill.2.0.0-beta0002\Lib\portable-net4+sl5+MonoAndroid1+MonoTouch1\System.Threading.Tasks.dll</HintPath>
+      <HintPath>..\packages\Chill.2.1.0\Lib\portable-net4+sl5+MonoAndroid1+MonoTouch1\System.Threading.Tasks.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -162,6 +163,7 @@
     <None Include="..\FluentAssertions.snk">
       <Link>FluentAssertions.snk</Link>
     </None>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="..\FluentAssertions.Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\FluentAssertions.Shared.Specs\Shared.Specs.projitems')" />

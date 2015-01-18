@@ -53,8 +53,9 @@
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Chill">
-      <HintPath>..\packages\Chill.2.0.0-beta0002\Lib\net45\Chill.dll</HintPath>
+    <Reference Include="Chill, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Chill.2.1.0\Lib\net45\Chill.dll</HintPath>
     </Reference>
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.16.0\lib\net40\FakeItEasy.dll</HintPath>

@@ -45,7 +45,7 @@ namespace Chill.Autofac
         }
 
 
-        public void RegisterType<T>()
+        public void RegisterType<T>() where T : class 
         {
             Container.ComponentRegistry.Register(RegistrationBuilder.ForType<T>().InstancePerLifetimeScope().CreateRegistration());
         }
@@ -82,7 +82,7 @@ namespace Chill.Autofac
         }
 
 
-        public bool IsRegistered<T>()
+        public bool IsRegistered<T>() where T : class
         {
             return IsRegistered(typeof(T));
         }
@@ -90,6 +90,21 @@ namespace Chill.Autofac
         public bool IsRegistered(System.Type type)
         {
             return Container.IsRegistered(type);
+        }
+    }
+
+    public static class TestBaseExtensions
+    {
+        /// <summary>
+        /// Explicitly register a type so that it will be created from the chill container from now on. 
+        /// 
+        /// This is handy if you wish to create a concrete type from a container that typically doesn't allow
+        /// you to do so. (such as autofac)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public static void RegisterConcreteType<T>(this TestBase testBase) where  T : class
+        {
+            testBase.Container.RegisterType<T>();
         }
     }
 }
