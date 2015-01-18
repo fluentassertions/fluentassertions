@@ -116,10 +116,9 @@
   <ItemGroup>
     <Reference Include="Autofac">
       <HintPath>..\packages\Autofac.3.5.2\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Autofac.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Chill">
-      <HintPath>..\packages\Chill.2.0.0-beta0002\Lib\portable-net45+windows8+windowsphone8+wpa+MonoAndroid1+MonoTouch1\Chill.dll</HintPath>
+      <HintPath>..\packages\Chill.2.1.0\Lib\portable-net45+windows8+windowsphone8+wpa+MonoAndroid1+MonoTouch1\Chill.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="..\FluentAssertions.Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\FluentAssertions.Shared.Specs\Shared.Specs.projitems')" />
