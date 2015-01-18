@@ -64,7 +64,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Creates an error message in case the specifed <paramref name="actual"/> type differs from the 
+        /// Creates an error message in case the specified <paramref name="actual"/> type differs from the 
         /// <paramref name="expected"/> type.
         /// </summary>
         /// <returns>

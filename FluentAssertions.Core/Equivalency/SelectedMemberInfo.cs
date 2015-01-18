@@ -4,7 +4,7 @@ using FluentAssertions.Common;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Provides factory methods for acquring ISelectedMemberInfo objects
+    /// Provides factory methods for acquiring ISelectedMemberInfo objects
     /// </summary>
     public static class SelectedMemberInfo
     {

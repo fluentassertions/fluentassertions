@@ -9,7 +9,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Gets the value of the object refered to by the key.
+        /// Gets the value of the object referred to by the key.
         /// </summary>
         public TValue WhichValue { get; private set; }
     }

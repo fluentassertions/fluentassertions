@@ -29,10 +29,10 @@ namespace FluentAssertions.Execution
         /// Specify the condition that must be satisfied upon the subject selected through a prior selector.
         /// </summary>
         /// <param name="condition">
-        /// If <c>true</c> the assertion will be treated as succesful and no exceptions will be thrown.
+        /// If <c>true</c> the assertion will be treated as successful and no exceptions will be thrown.
         /// </param>
         /// <remarks>
-        /// The condition will not be evaluted if the prior assertion failed, nor will <see cref="FailWith(string,System.Func{T,object}[])"/>
+        /// The condition will not be evaluated if the prior assertion failed, nor will <see cref="FailWith(string,System.Func{T,object}[])"/>
         /// throw any exceptions.
         /// </remarks>
         public GivenSelector<T> ForCondition(Func<T, bool> predicate)
@@ -65,7 +65,7 @@ namespace FluentAssertions.Execution
         /// prior call to to <see cref="WithExpectation"/>.
         /// </summary>
         /// <remarks>
-        /// In addition to the numbered <see cref="string.Format"/>-style placeholders, messages may contain a few 
+        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few 
         /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed 
         /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data 
         /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the 
@@ -92,7 +92,7 @@ namespace FluentAssertions.Execution
         /// prior call to to <see cref="WithExpectation"/>.
         /// </summary>
         /// <remarks>
-        /// In addition to the numbered <see cref="string.Format"/>-style placeholders, messages may contain a few 
+        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few 
         /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed 
         /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data 
         /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the 

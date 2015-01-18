@@ -120,7 +120,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that all occurences of the event originated from the <param name="expectedSender"/>.
+        /// Asserts that all occurrences of the event originated from the <param name="expectedSender"/>.
         /// </summary>
         public static IEventRecorder WithSender(this IEventRecorder eventRecorder, object expectedSender)
         {

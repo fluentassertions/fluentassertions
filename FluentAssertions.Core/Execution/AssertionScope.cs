@@ -119,16 +119,18 @@ namespace FluentAssertions.Execution
         /// Sets the expectation part of the failure message when the assertion is not met. 
         /// </summary>
         /// <remarks>
-        /// In addition to the numbered <see cref="string.Format"/>-style placeholders, messages may contain a few 
+        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few 
         /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed 
         /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data 
         /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the 
         /// current subject can be passed through the {context:description} placeholder. This is used in the message if no 
         /// explicit context is specified through the <see cref="AssertionScope"/> constructor. 
-        /// Note that only 10 <paramref name="becauseArgs"/> are supported in combination with a {reason}.
+        /// Note that only 10 <paramref name="args"/> are supported in combination with a {reason}.
         /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
         /// expectation. 
         /// </remarks>
+        ///  <param name="message">The format string that represents the failure message.</param>
+        /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public AssertionScope WithExpectation(string expectation, params object[] args)
         {
             this.expectation = new MessageBuilder(useLineBreaks).Build(expectation, args, reason, contextData);
@@ -150,7 +152,7 @@ namespace FluentAssertions.Execution
         /// Specify the condition that must be satisfied.
         /// </summary>
         /// <param name="condition">
-        /// If <c>true</c> the assertion will be treated as succesful and no exceptions will be thrown.
+        /// If <c>true</c> the assertion will be treated as successful and no exceptions will be thrown.
         /// </param>
         public AssertionScope ForCondition(bool condition)
         {
@@ -167,7 +169,7 @@ namespace FluentAssertions.Execution
         /// prior call to to <see cref="WithExpectation"/>.
         /// </summary>
         /// <remarks>
-        /// In addition to the numbered <see cref="string.Format"/>-style placeholders, messages may contain a few 
+        /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few 
         /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed 
         /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data 
         /// passed through <see cref="AddNonReportable"/> and <see cref="AddReportable"/>. Finally, a description of the 

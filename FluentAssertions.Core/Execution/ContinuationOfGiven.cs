@@ -19,7 +19,7 @@ namespace FluentAssertions.Execution
         }
 
         /// <summary>
-        /// Continuous the assertion chain if the previous assertion was succesful.
+        /// Continuous the assertion chain if the previous assertion was successful.
         /// </summary>
         public GivenSelector<TSubject> Then
         {
