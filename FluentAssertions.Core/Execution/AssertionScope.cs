@@ -150,7 +150,7 @@ namespace FluentAssertions.Execution
         /// Specify the condition that must be satisfied.
         /// </summary>
         /// <param name="condition">
-        /// If <c>true</c> the assertion will be treated as succesful and no exceptions will be thrown.
+        /// If <c>true</c> the assertion will be treated as successful and no exceptions will be thrown.
         /// </param>
         public AssertionScope ForCondition(bool condition)
         {

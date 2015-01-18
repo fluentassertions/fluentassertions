@@ -455,8 +455,7 @@ namespace FluentAssertions.Specs
             };
 
             actual.ShouldBeEquivalentTo(expected,
-                opt => opt.Using<Int64>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<Int64>()
-                );
+                opt => opt.Using<Int64>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<Int64>());
         }
 
         internal class SimpleWithNullable

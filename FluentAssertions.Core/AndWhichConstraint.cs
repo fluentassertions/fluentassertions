@@ -12,7 +12,7 @@ namespace FluentAssertions
     /// further matches to be performed on the matched condition as well as the parent constraint.
     /// </summary>
     /// <typeparam name="TParentConstraint">The type of the original constraint that was matched</typeparam>
-    /// <typeparam name="TMatchedElement">The type of the matched object which the parent constarint matched</typeparam>
+    /// <typeparam name="TMatchedElement">The type of the matched object which the parent constraint matched</typeparam>
     public class AndWhichConstraint<TParentConstraint, TMatchedElement> : AndConstraint<TParentConstraint>
     {
         private readonly Lazy<TMatchedElement> matchedConstraint;

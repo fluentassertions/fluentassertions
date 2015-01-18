@@ -40,7 +40,7 @@ namespace FluentAssertions.Equivalency
         internal EquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults) : base(defaults)
         {
         }
-		
+
         /// <summary>
         /// Excludes the specified (nested) member from the structural equality check.
         /// </summary>

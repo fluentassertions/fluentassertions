@@ -71,8 +71,7 @@ namespace FluentAssertions.Specs
                     subject.ShouldBeEquivalentTo(expected,
                         options => options.
                             Excluding(x => x.Level.Collection[1].Number).
-                            Excluding(x => x.Level.Collection[1].Text)
-                        );
+                            Excluding(x => x.Level.Collection[1].Text));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

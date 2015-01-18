@@ -60,7 +60,7 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Asserts that the number of items in the dictionary matches a condition stated by a predicate.
         /// </summary>
-        /// <param name="countPredicate">The predicate which must be statisfied by the amount of items.</param>
+        /// <param name="countPredicate">The predicate which must be satisfied by the amount of items.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -333,7 +333,7 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", expected, Subject);
             }
             
-            var missingKeys =  expectedKeys.Where(key => !Subject.ContainsKey(key));
+            var missingKeys = expectedKeys.Where(key => !Subject.ContainsKey(key));
 
             if (missingKeys.Any())
             {

@@ -56,8 +56,7 @@ namespace FluentAssertions.Common
         public static bool IsSameOrInherits(this Type actualType, Type expectedType)
         {
             return (actualType == expectedType) ||
-                   (expectedType.IsAssignableFrom(actualType))
-                ;
+                   (expectedType.IsAssignableFrom(actualType));
         }
 
         public static bool Implements<TInterface>(this Type type)
@@ -209,7 +208,10 @@ namespace FluentAssertions.Common
                     var subType = queue.Dequeue();
                     foreach (var subInterface in GetInterfaces(subType))
                     {
-                        if (considered.Contains(subInterface)) continue;
+                        if (considered.Contains(subInterface))
+                        {
+                            continue;
+                        }
 
                         considered.Add(subInterface);
                         queue.Enqueue(subInterface);

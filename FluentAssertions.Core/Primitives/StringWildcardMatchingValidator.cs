@@ -75,7 +75,7 @@ namespace FluentAssertions.Primitives
         public bool IgnoreCase { get; set; }
 
         /// <summary>
-        /// Ignores the difference betweeen environment newline differences
+        /// Ignores the difference between environment newline differences
         /// </summary>
         public bool IgnoreNewLineDifferences { get; set; }
     }

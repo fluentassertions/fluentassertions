@@ -131,7 +131,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () =>  collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
+            Action action = () => collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
             
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1821,7 +1821,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected collection to contain items in ascending order because numbers are ordered," +
-                    " but found {1, 6, 12, 15, 12, 17, 26} where item at index 3 is in wrong order."); ;
+                    " but found {1, 6, 12, 15, 12, 17, 26} where item at index 3 is in wrong order.");
         }
 
         [TestMethod]

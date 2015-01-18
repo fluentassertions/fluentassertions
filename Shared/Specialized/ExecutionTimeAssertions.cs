@@ -8,7 +8,7 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Specialized
 {
     /// <summary>
-    /// Provides methods for asserting that the execution time of an <see cref="Action"/> satifies certain conditions.
+    /// Provides methods for asserting that the execution time of an <see cref="Action"/> satisfies certain conditions.
     /// </summary>
     public class ExecutionTimeAssertions
     {
@@ -57,7 +57,7 @@ namespace FluentAssertions.Specialized
     }
 
     /// <summary>
-    /// Provides methods for asserting that the execution time of an object member satifies certain conditions.
+    /// Provides methods for asserting that the execution time of an object member satisfies certain conditions.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class MemberExecutionTimeAssertions<T> : ExecutionTimeAssertions

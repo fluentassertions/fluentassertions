@@ -12,7 +12,6 @@ namespace FluentAssertions.Collections
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expectation state.
     /// </summary>
-//    [DebuggerNonUserCode]
     public class SelfReferencingCollectionAssertions<T, TAssertions> : CollectionAssertions<IEnumerable<T>, TAssertions>
         where TAssertions : SelfReferencingCollectionAssertions<T, TAssertions>
     {
@@ -302,7 +301,7 @@ namespace FluentAssertions.Collections
         /// <summary>
         /// Expects the current collection to contain only a single item matching the specified <paramref name="predicate"/>.
         /// </summary>
-        /// <param name="predicate">The predictes that will be used to find the matching items.</param>
+        /// <param name="predicate">The predicate that will be used to find the matching items.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
