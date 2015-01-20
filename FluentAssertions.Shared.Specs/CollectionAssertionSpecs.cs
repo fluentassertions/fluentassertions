@@ -2521,7 +2521,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*assignable*string");
+                .WithMessage("Expected*assignable*string*");
         }
 
         #endregion

@@ -64,6 +64,26 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts than an instance of the subject type is assignable variable of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type to which instances of the type should be assignable.</typeparam>
+        /// <param name="because">The reason why instances of the type should be assignable to the type.</param>
+        /// <param name="reasonArgs">The parameters used when formatting the <paramref name="because"/>.</param>
+        /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
+        public new AndConstraint<TypeAssertions> BeAssignableTo<T>(string because = "", params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(typeof(T).IsAssignableFrom(Subject))
+                .BecauseOf(because, reasonArgs)
+                .FailWith(
+                    "Expected {context:" + Context + "} {0} to be assignable to {1}{reason}, but it is not",
+                    Subject,
+                    typeof(T));
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Creates an error message in case the specified <paramref name="actual"/> type differs from the 
         /// <paramref name="expected"/> type.
         /// </summary>
