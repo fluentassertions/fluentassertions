@@ -206,6 +206,7 @@
     <Compile Include="Specialized\ExceptionAssertions.cs" />
     <Compile Include="Specialized\IExtractExceptions.cs" />
     <Compile Include="TimeSpanConversionExtensions.cs" />
+    <Compile Include="TypeEnumerableExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="Types\AllTypes.cs" />
     <Compile Include="Types\MethodInfoAssertions.cs" />
