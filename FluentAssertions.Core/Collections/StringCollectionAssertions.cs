@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentAssertions.Collections
@@ -130,7 +131,7 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected, string because, object reasonArg,
+        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected, string because = null, object reasonArg = null,
             params object[] reasonArgs)
         {
             var args = new List<object> { reasonArg };
@@ -143,6 +144,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
         /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
+        [Obsolete("Will be removed in v4.0.  Please use `And` to chain assertions or construct the enumerable yourself.  If you are wanting to specify the \"because\" reason, name the parameter with `because:`")]
         public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList,
             string additionalExpectedItem)
         {
@@ -157,6 +159,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
         /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
+        [Obsolete("Will be removed in v4.0.  Please use `And` to chain assertions or construct the enumerable yourself.  If you are wanting to specify the \"because\" reason, name the parameter with `because:`")]
         public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList,
             IEnumerable<string> additionalExpectedItems)
         {

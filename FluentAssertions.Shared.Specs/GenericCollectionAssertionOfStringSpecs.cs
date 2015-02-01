@@ -1835,5 +1835,25 @@ namespace FluentAssertions.Specs
                             .IsAssignableFrom(method.ReturnType));
 #endif
         }
+
+        [TestMethod]
+        public void When_asserting_a_string_collection_contains_an_element_it_should_allow_specifying_the_reason_via_named_parameter()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new List<string> {"hello", "world"};
+            var actual = new List<string> { "hello", "world" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => expected.Should().Contain(actual, because: "they are in the collection");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
     }
 }
