@@ -1116,6 +1116,47 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
+        /// <summary>
+        /// Asserts that the <paramref name="expectation"/> element directly precedes the <paramref name="successor"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> HaveElementPreceding(object successor, object expectation, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to have {0} precede {1}{reason}, ", expectation, successor)
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.Any())
+                .FailWith("but the collection is empty.")
+                .Then
+                .ForCondition(subject => HasPredecessor(successor, subject))
+                .FailWith("but found nothing.")
+                .Then
+                .Given(subject => PredecessorOf(successor, subject))
+                .ForCondition(predecessor => predecessor.IsSameOrEqualTo(expectation))
+                .FailWith("but found {0}.", predecessor => predecessor);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        private bool HasPredecessor(object successor, IEnumerable<object> subject)
+        {
+            object[] collection = subject.ToArray();
+            return (Array.IndexOf(collection, successor) > 0);
+        }
+
+        private object PredecessorOf(object succesor, IEnumerable<object> subject)
+        {
+            object[] collection = subject.ToArray();
+            int index = Array.IndexOf(collection, succesor);
+            return (index > 0) ? collection[0] : null;
+        }
 
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
