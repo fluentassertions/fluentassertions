@@ -1144,11 +1144,10 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
-
+        
         private bool HasPredecessor(object successor, IEnumerable<object> subject)
         {
-            object[] collection = subject.ToArray();
-            return (Array.IndexOf(collection, successor) > 0);
+            return !ReferenceEquals(subject.First(), successor);
         }
 
         private object PredecessorOf(object succesor, IEnumerable<object> subject)
@@ -1156,6 +1155,47 @@ namespace FluentAssertions.Collections
             object[] collection = subject.ToArray();
             int index = Array.IndexOf(collection, succesor);
             return (index > 0) ? collection[0] : null;
+        }
+        
+        /// <summary>
+        /// Asserts that the <paramref name="expectation"/> element directly succeeds the <paramref name="predecessor"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> HaveElementSucceeding(object predecessor, object expectation, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected {context:collection} to have {0} succeed {1}{reason}, ", expectation, predecessor)
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.Any())
+                .FailWith("but the collection is empty.")
+                .Then
+                .ForCondition(subject => HasSuccessor(predecessor, subject))
+                .FailWith("but found nothing.")
+                .Then
+                .Given(subject => SuccessorOf(predecessor, subject))
+                .ForCondition(successor => successor.IsSameOrEqualTo(expectation))
+                .FailWith("but found {0}.", successor => successor);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        private bool HasSuccessor(object predecessor, IEnumerable<object> subject)
+        {
+            return !ReferenceEquals(subject.Last(), predecessor);
+        }
+
+        private object SuccessorOf(object predecessor, IEnumerable<object> subject)
+        {
+            object[] collection = subject.ToArray();
+            int index = Array.IndexOf(collection, predecessor);
+            return (index < (collection.Length - 1)) ? collection[index + 1] : null;
         }
 
         /// <summary>
