@@ -272,6 +272,42 @@ namespace FluentAssertions.Specs
                 .WithMessage("Subject has member Value that the other object does not have.*");
         }
 
+        [TestMethod]
+        public void
+            When_asserting_equivalence_of_objects_including_enumerables_it_should_print_the_failure_message_only_once()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var record = new
+            {
+                Member1 = "",
+                Member2 = new[] {"", ""},
+            };
+            var record2 = new
+            {
+                Member1 = "different",
+                Member2 = new[] {"", ""},
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => record.ShouldBeEquivalentTo(record2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(@"Expected member Member1 to be 
+
+""different"" with a length of 9, but 
+
+"""" has a length of 0.
+
+
+With configuration:*");
+        }
+
         #endregion
 
         #region Selection Rules

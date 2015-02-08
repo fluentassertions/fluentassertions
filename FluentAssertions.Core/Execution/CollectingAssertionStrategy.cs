@@ -11,14 +11,6 @@ namespace FluentAssertions.Execution
     {
         private readonly List<string> failureMessages = new List<string>();
 
-        public CollectingAssertionStrategy(IAssertionStrategy parent)
-        {
-            if (parent != null)
-            {
-                failureMessages.AddRange(parent.FailureMessages);
-            }
-        }
-
         /// <summary>
         /// Returns the messages for the assertion failures that happened until now.
         /// </summary>
