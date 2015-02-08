@@ -40,7 +40,7 @@ namespace FluentAssertions.Execution
         /// Starts an unnamed scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
         /// </summary>
         public AssertionScope()
-            : this(new CollectingAssertionStrategy((current != null) ? current.assertionStrategy : null))
+            : this(new CollectingAssertionStrategy())
         {
             parent = current;
             current = this;

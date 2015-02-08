@@ -155,7 +155,7 @@ namespace FluentAssertions.Specs
             {
                 int matches = new Regex(".*Failure.*").Matches(exception.Message).Count;
 
-                Assert.AreEqual(6, matches);
+                Assert.AreEqual(4, matches);
             }
         }
 
