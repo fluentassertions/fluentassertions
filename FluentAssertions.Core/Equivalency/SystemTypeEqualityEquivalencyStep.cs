@@ -2,7 +2,7 @@ using System;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class SystemTypeEquivalencyStep : IEquivalencyStep
+    public class SystemTypeEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.

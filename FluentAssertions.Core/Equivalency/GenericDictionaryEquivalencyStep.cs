@@ -12,7 +12,7 @@ namespace FluentAssertions.Equivalency
     /// I think (but did not try) this would have been easier using 'dynamic' but that is
     /// precluded by some of the PCL targets.
     /// </remarks>
-    internal class GenericDictionaryEquivalencyStep : IEquivalencyStep
+    public class GenericDictionaryEquivalencyStep : IEquivalencyStep
     {
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {

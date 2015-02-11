@@ -5,7 +5,7 @@ using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class TryConversionEquivalencyStep : IEquivalencyStep
+    public class TryConversionEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.

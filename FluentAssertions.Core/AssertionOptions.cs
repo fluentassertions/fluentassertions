@@ -18,23 +18,7 @@ namespace FluentAssertions
 
         static AssertionOptions()
         {
-            EquivalencySteps = new EquivalencyStepCollection(GetDefaultSteps());
-        }
-
-        private static IEnumerable<IEquivalencyStep> GetDefaultSteps()
-        {
-            yield return new TryConversionEquivalencyStep();
-            yield return new ReferenceEqualityEquivalencyStep();
-            yield return new RunAllUserStepsEquivalencyStep();
-            yield return new GenericDictionaryEquivalencyStep();
-            yield return new DictionaryEquivalencyStep();
-            yield return new GenericEnumerableEquivalencyStep();
-            yield return new EnumerableEquivalencyStep();
-            yield return new StringEqualityEquivalencyStep();
-            yield return new SystemTypeEquivalencyStep();
-            yield return new EnumEqualityStep();
-            yield return new StructuralEqualityEquivalencyStep();
-            yield return new SimpleEqualityEquivalencyStep();
+            EquivalencySteps = new EquivalencyStepCollection();
         }
 
         internal static EquivalencyAssertionOptions<T> CloneDefaults<T>()

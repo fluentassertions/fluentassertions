@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Linq;
+using FluentAssertions.Execution;
+using System;
 using Chill;
 using FluentAssertions.Equivalency;
 #if !OLD_MSTEST
@@ -12,6 +14,15 @@ namespace FluentAssertions.Specs
 {
     namespace AssertionOptionsSpecs
     {
+        public class Given_temporary_global_assertion_options : GivenWhenThen
+        {
+            protected override void Dispose(bool disposing)
+            {
+                AssertionOptions.AssertEquivalencyUsing(options => new EquivalencyAssertionOptions());
+                base.Dispose(disposing);
+            }
+        }
+
         [TestClass]
         public class When_assertion_doubles_should_always_allow_small_deviations : Given_temporary_global_assertion_options
         {
@@ -98,12 +109,171 @@ namespace FluentAssertions.Specs
             }
         }
 
-        public class Given_temporary_global_assertion_options : GivenWhenThen
+        public class Given_temporary_equivalency_steps : GivenWhenThen
         {
+
+
             protected override void Dispose(bool disposing)
             {
-                AssertionOptions.AssertEquivalencyUsing(options => new EquivalencyAssertionOptions());
+                Steps.Reset();
                 base.Dispose(disposing);
+            }
+
+            protected static EquivalencyStepCollection Steps
+            {
+                get { return AssertionOptions.EquivalencySteps; }
+            }
+        }
+
+        [TestClass]
+        public class When_inserting_a_step : Given_temporary_equivalency_steps
+        {
+            public When_inserting_a_step()
+            {
+                When(() =>
+                {
+                    Steps.Insert<MyEquivalencyStep>();
+                });
+            }
+
+            [TestMethod]
+            public void Then_it_should_precede_all_other_steps()
+            {
+                var addedStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
+
+                Steps.Should().StartWith(addedStep);
+            }
+        }
+
+        [TestClass]
+        public class When_inserting_a_step_before_another : Given_temporary_equivalency_steps
+        {
+            public When_inserting_a_step_before_another()
+            {
+                When(() =>
+                {
+                    Steps.InsertBefore<DictionaryEquivalencyStep, MyEquivalencyStep>();
+                });
+            }
+
+            [TestMethod]
+            public void Then_it_should_precede_that_particular_step()
+            {
+                var addedStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
+                var successor = Steps.LastOrDefault(s => s is DictionaryEquivalencyStep);
+
+                Steps.Should().HaveElementPreceding(successor, addedStep);
+            }
+        }
+        
+        [TestClass]
+        public class When_appending_a_step : Given_temporary_equivalency_steps
+        {
+            public When_appending_a_step()
+            {
+                When(() =>
+                {
+                    Steps.Add<MyEquivalencyStep>();
+                });
+            }
+
+            [TestMethod]
+            public void Then_it_should_precede_the_final_builtin_step()
+            {
+                var equivalencyStep = Steps.LastOrDefault(s => s is SimpleEqualityEquivalencyStep);
+                var subjectStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
+
+                Steps.Should().HaveElementPreceding(equivalencyStep, subjectStep);
+            }
+        }
+        
+        [TestClass]
+        public class When_appending_a_step_after_another : Given_temporary_equivalency_steps
+        {
+            public When_appending_a_step_after_another()
+            {
+                When(() =>
+                {
+                    Steps.AddAfter<DictionaryEquivalencyStep, MyEquivalencyStep>();
+                });
+            }
+
+            [TestMethod]
+            public void Then_it_should_precede_the_final_builtin_step()
+            {
+                var addedStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
+                var predecessor = Steps.LastOrDefault(s => s is DictionaryEquivalencyStep);
+
+                Steps.Should().HaveElementSucceeding(predecessor, addedStep);
+            }
+        }
+        
+        [TestClass]
+        public class When_appending_a_step_and_no_builtin_steps_are_there : Given_temporary_equivalency_steps
+        {
+            public When_appending_a_step_and_no_builtin_steps_are_there()
+            {
+                When(() =>
+                {
+                    Steps.Clear();
+                    Steps.Add<MyEquivalencyStep>();
+                });
+            }
+
+            [TestMethod]
+            public void Then_it_should_precede_the_simple_equality_step()
+            {
+                var subjectStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
+
+                Steps.Should().EndWith(subjectStep);
+            }
+        }
+
+        [TestClass]
+        public class When_removing_a_specific_step : Given_temporary_equivalency_steps
+        {
+            public When_removing_a_specific_step()
+            {
+                When(() =>
+                {
+                    Steps.Remove<SimpleEqualityEquivalencyStep>();
+                });
+            }
+
+            [TestMethod]
+            public void Then_it_should_precede_the_simple_equality_step()
+            {
+                Steps.Should().NotContain(s => s is SimpleEqualityEquivalencyStep);
+            }
+        }
+        
+        [TestClass]
+        public class When_removing_a_specific_step_that_doesnt_exist : Given_temporary_equivalency_steps
+        {
+            public When_removing_a_specific_step_that_doesnt_exist()
+            {
+                WhenAction = () => Steps.Remove<MyEquivalencyStep>();
+            }
+
+            [TestMethod]
+            public void Then_it_should_precede_the_simple_equality_step()
+            {
+                WhenAction.ShouldNotThrow();
+            }
+        }
+
+        internal class MyEquivalencyStep : IEquivalencyStep
+        {
+            public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+            {
+                return true;
+            }
+
+            public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            {
+                Execute.Assertion.FailWith(GetType().FullName);
+          
+                return true;
             }
         }
     }

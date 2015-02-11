@@ -1,10 +1,13 @@
+#region
+
 using System;
 using System.Globalization;
-using System.Linq;
+
+#endregion
 
 namespace FluentAssertions.Equivalency
 {
-    internal class EnumEqualityStep : IEquivalencyStep
+    public class EnumEqualityStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
@@ -26,7 +29,8 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
+            IEquivalencyAssertionOptions config)
         {
             switch (config.EnumEquivalencyHandling)
             {
@@ -34,10 +38,13 @@ namespace FluentAssertions.Equivalency
                     CompareByValue(context);
                     break;
                 case EnumEquivalencyHandling.ByName:
-                    context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
+                    context.Subject.ToString()
+                        .Should()
+                        .Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
                     break;
                 default:
-                    throw new InvalidOperationException(string.Format("Don't know how to handle {0}", config.EnumEquivalencyHandling));
+                    throw new InvalidOperationException(string.Format("Don't know how to handle {0}",
+                        config.EnumEquivalencyHandling));
             }
 
             return true;
@@ -49,8 +56,9 @@ namespace FluentAssertions.Equivalency
             var subjectUnderlyingValue = Convert.ChangeType(context.Subject, subjectType, CultureInfo.InvariantCulture);
 
             var expectationType = Enum.GetUnderlyingType(context.Expectation.GetType());
-            var expectationUnderlyingValue = Convert.ChangeType(context.Expectation, expectationType, CultureInfo.InvariantCulture);
-            
+            var expectationUnderlyingValue = Convert.ChangeType(context.Expectation, expectationType,
+                CultureInfo.InvariantCulture);
+
             subjectUnderlyingValue.Should().Be(expectationUnderlyingValue, context.Reason, context.ReasonArgs);
         }
     }
