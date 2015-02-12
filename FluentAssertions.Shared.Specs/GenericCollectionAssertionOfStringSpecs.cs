@@ -244,13 +244,24 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_with_items_is_empty()
+        public void When_the_collection_is_not_empty_unexpectedly_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = new[] { "one", "two", "three" };
-            var assertions = collection.Should();
-            assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().BeEmpty("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to be empty because we want to test the failure message, but found 3.");
+                .WithMessage("Expected collection to be empty because we want to test the failure message, but found*one*two*three*");
         }
 
         [TestMethod]

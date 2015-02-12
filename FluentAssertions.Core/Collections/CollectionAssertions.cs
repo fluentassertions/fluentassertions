@@ -29,20 +29,15 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> BeEmpty(string because = "", params object[] reasonArgs)
         {
-            if (ReferenceEquals(Subject, null))
-            {
-                Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
-                    .FailWith("Expected {context:collection} to be empty{reason}, but found {0}.", Subject);
-            }
-
-            IEnumerable<object> enumerable = Subject.Cast<object>();
-            int count = enumerable.Count();
-
             Execute.Assertion
-                .ForCondition(count == 0)
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected {context:collection} to be empty{reason}, but found {0}.", count);
+                .WithExpectation("Expected {context:collection} to be empty{reason}, ")
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .FailWith("but found {0}.", Subject)
+                .Then
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(collection => !collection.Any())
+                .FailWith("but found {0}.", collection => collection);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
