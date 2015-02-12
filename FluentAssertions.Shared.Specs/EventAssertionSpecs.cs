@@ -577,6 +577,19 @@ namespace FluentAssertions.Specs
             referenceToSubject.IsAlive.Should().BeFalse();
         }
 
+#if NET40 || NET45
+
+        [TestMethod]
+        public void When_the_fallback_assertion_exception_crosses_appdomain_boundaries_it_should_be_serializable()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            new AssertFailedException("").Should().BeBinarySerializable();
+        }
+
+#endif
+
         #endregion
 
         internal class EventRaisingClass : INotifyPropertyChanged

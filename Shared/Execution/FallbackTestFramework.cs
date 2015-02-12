@@ -1,5 +1,3 @@
-using System;
-
 namespace FluentAssertions.Execution
 {
     /// <summary>
@@ -21,14 +19,6 @@ namespace FluentAssertions.Execution
         public void Throw(string message)
         {
             throw new AssertionFailedException(message);
-        }
-    }
-
-    public class AssertionFailedException : Exception
-    {
-        public AssertionFailedException(string message) : base(message)
-        {
-            
         }
     }
 }
