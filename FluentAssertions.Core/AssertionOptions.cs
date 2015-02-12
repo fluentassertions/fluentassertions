@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 
 #endregion
@@ -25,6 +26,16 @@ namespace FluentAssertions
         {
             return new EquivalencyAssertionOptions<T>(defaults);
         }
+
+        /// <summary>
+        /// Defines a predicate with which the <see cref="EquivalencyValidator"/> determines if it should process 
+        /// an object's properties or not. 
+        /// </summary>
+        /// <returns>
+        /// Returns <c>true</c> if the object should be treated as a value type and its <see cref="object.Equals(object)"/>
+        /// must be used during a structural equivalency check.
+        /// </returns>
+        public static Func<Type, bool> IsValueType = type => (type.Namespace == typeof (int).Namespace);
 
         /// <summary>
         /// Allows configuring the defaults used during a structural equivalency assertion.

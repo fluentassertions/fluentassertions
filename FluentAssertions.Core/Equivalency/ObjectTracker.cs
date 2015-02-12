@@ -35,7 +35,7 @@ namespace FluentAssertions.Equivalency
         {
             bool isCyclic = false;
 
-            if (reference.IsReference)
+            if (reference.IsComplexType)
             {
                 if (references.Contains(reference))
                 {

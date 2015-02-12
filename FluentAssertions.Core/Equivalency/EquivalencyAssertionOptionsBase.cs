@@ -44,6 +44,8 @@ namespace FluentAssertions.Equivalency
 
         private bool includeFields;
 
+        private List<Type> valueTypes = new List<Type>(); 
+
         /// <summary>
         /// A value indicating whether the default selection rules need to be prepended or not.
         /// </summary>
@@ -188,6 +190,14 @@ namespace FluentAssertions.Equivalency
         bool IEquivalencyAssertionOptions.IncludeFields
         {
             get { return includeFields; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the <paramref name="type"/> should be treated as having value semantics.
+        /// </summary>
+        bool IEquivalencyAssertionOptions.IsValueType(Type type)
+        {
+            return valueTypes.Contains(type) || AssertionOptions.IsValueType(type);
         }
 
         /// <summary>
@@ -514,6 +524,16 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingEnumsByValue()
         {
             enumEquivalencyHandling = EnumEquivalencyHandling.ByValue;
+            return (TSelf) this;
+        }
+
+        /// <summary>
+        /// Marks the <typeparamref name="T"/> as a value type which must be compared using its 
+        /// <see cref="object.Equals(object)"/> method.
+        /// </summary>
+        public TSelf ComparingByValue<T>()
+        {
+            valueTypes.Add(typeof(T));
             return (TSelf) this;
         }
 

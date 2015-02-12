@@ -2,7 +2,10 @@ using System;
 
 namespace FluentAssertions.Equivalency
 {
-    public class SystemTypeEquivalencyStep : IEquivalencyStep
+    /// <summary>
+    /// Ensures that types that are marked as value types are treated as such.
+    /// </summary>
+    public class ValueTypeEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
@@ -11,10 +14,11 @@ namespace FluentAssertions.Equivalency
         {
             Type type = config.GetSubjectType(context);
 
-            return (type != null) &&
-                   (type != typeof (object)) &&
-                   (type.Namespace == typeof (int).Namespace) &&
-                   (!type.IsArray);
+            return 
+                (type != null) && 
+                (type != typeof (object)) && 
+                config.IsValueType(type) && 
+                !type.IsArray;
         }
 
         /// <summary>

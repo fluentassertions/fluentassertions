@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace FluentAssertions.Equivalency
@@ -63,5 +64,10 @@ namespace FluentAssertions.Equivalency
         /// Gets a value indicating whether fields should be considered.
         /// </summary>
         bool IncludeFields { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the <paramref name="type"/> should be treated as having value semantics.
+        /// </summary>
+        bool IsValueType(Type type);
     }
 }

@@ -90,7 +90,7 @@
     <Compile Include="Equivalency\RunAllUserStepsEquivalencyStep.cs" />
     <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
-    <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
+    <Compile Include="Equivalency\ValueTypeEquivalencyStep.cs" />
     <Compile Include="Execution\Continuation.cs" />
     <Compile Include="Execution\MessageBuilder.cs" />
     <Compile Include="Execution\ContinuationOfGiven.cs" />
