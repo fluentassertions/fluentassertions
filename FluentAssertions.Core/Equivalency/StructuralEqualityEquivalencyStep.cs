@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class StructuralEqualityEquivalencyStep : IEquivalencyStep
+    public class StructuralEqualityEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.

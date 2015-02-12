@@ -1,6 +1,6 @@
 ﻿namespace FluentAssertions.Equivalency
 {
-    internal class ReferenceEqualityEquivalencyStep : IEquivalencyStep
+    public class ReferenceEqualityEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.

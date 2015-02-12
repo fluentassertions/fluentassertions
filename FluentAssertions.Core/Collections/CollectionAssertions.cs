@@ -575,7 +575,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain the specified elements in the exact same order. Elements are compared
+        /// Expects the current collection to contain the specified elements in the exact same order, not necessarily consecutive.
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
@@ -585,9 +585,11 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain the specified elements in the exact same order. Elements are compared
-        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// Expects the current collection to contain the specified elements in the exact same order, not necessarily consecutive.
         /// </summary>
+        /// <remarks>
+        /// Elements are compared using their <see cref="object.Equals(object)" /> implementation. 
+        /// </remarks>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -1154,7 +1156,7 @@ namespace FluentAssertions.Collections
         {
             object[] collection = subject.ToArray();
             int index = Array.IndexOf(collection, succesor);
-            return (index > 0) ? collection[0] : null;
+            return (index > 0) ? collection[index - 1] : null;
         }
         
         /// <summary>

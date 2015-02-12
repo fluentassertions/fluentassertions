@@ -90,14 +90,12 @@ namespace FluentAssertions.Common
 
         public static bool IsComplexType(this Type type)
         {
-            return HasProperties(type) && (type.Namespace != typeof (int).Namespace);
+            return HasProperties(type) && !AssertionOptions.IsValueType(type);
         }
 
         private static bool HasProperties(Type type)
         {
-            return type
-                .GetProperties(PublicMembersFlag)
-                .Any();
+            return type.GetProperties(PublicMembersFlag).Any();
         }
 
         /// <summary>

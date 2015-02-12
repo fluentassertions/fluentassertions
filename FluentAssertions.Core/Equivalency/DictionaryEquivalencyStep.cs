@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class DictionaryEquivalencyStep : IEquivalencyStep
+    public class DictionaryEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.

@@ -66,6 +66,7 @@
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
     <Compile Include="Equivalency\AllPublicFieldsSelectionRule.cs" />
+    <Compile Include="EquivalencyStepCollection.cs" />
     <Compile Include="Equivalency\AssertionContext.cs" />
     <Compile Include="Equivalency\AssertionRuleEquivalencyStep.cs" />
     <Compile Include="Equivalency\AssertionRuleEquivalencyStepAdaptor.cs" />
@@ -86,9 +87,10 @@
     <Compile Include="Equivalency\PropertySelectedMemberInfo.cs" />
     <Compile Include="Equivalency\MemberInfoSelectedMemberInfo.cs" />
     <Compile Include="Equivalency\SelectedMemberInfo.cs" />
+    <Compile Include="Equivalency\RunAllUserStepsEquivalencyStep.cs" />
     <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
-    <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
+    <Compile Include="Equivalency\ValueTypeEquivalencyStep.cs" />
     <Compile Include="Execution\Continuation.cs" />
     <Compile Include="Execution\MessageBuilder.cs" />
     <Compile Include="Execution\ContinuationOfGiven.cs" />

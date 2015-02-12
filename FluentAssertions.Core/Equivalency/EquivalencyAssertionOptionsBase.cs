@@ -44,6 +44,8 @@ namespace FluentAssertions.Equivalency
 
         private bool includeFields;
 
+        private List<Type> valueTypes = new List<Type>(); 
+
         /// <summary>
         /// A value indicating whether the default selection rules need to be prepended or not.
         /// </summary>
@@ -54,7 +56,7 @@ namespace FluentAssertions.Equivalency
         internal EquivalencyAssertionOptionsBase()
         {
             AddMatchingRule(new MustMatchByNameRule());
-            
+
             orderingRules.Add(new ByteArrayOrderingRule());
         }
 
@@ -191,6 +193,14 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Gets a value indicating whether the <paramref name="type"/> should be treated as having value semantics.
+        /// </summary>
+        bool IEquivalencyAssertionOptions.IsValueType(Type type)
+        {
+            return valueTypes.Contains(type) || AssertionOptions.IsValueType(type);
+        }
+
+        /// <summary>
         /// Causes inclusion of only public properties of the subject as far as they are defined on the declared type. 
         /// </summary>
         /// <remarks>
@@ -302,6 +312,16 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Tries to match the properties of the subject with equally named properties on the expectation. Ignores those 
+        /// properties that don't exist on the expectation and previously registered matching rules.
+        /// </summary>
+        [Obsolete("This method will be removed in a future version.  Use `ExcludingMissingMembers()` instead.")]
+        public TSelf ExcludingMissingProperties()
+        {
+            return ExcludingMissingMembers();
+        }
+
+        /// <summary>
         /// Tries to match the members of the subject with equally named members on the expectation. Ignores those 
         /// members that don't exist on the expectation and previously registered matching rules.
         /// </summary>
@@ -313,13 +333,13 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Tries to match the properties of the subject with equally named properties on the expectation. Ignores those 
-        /// properties that don't exist on the expectation and previously registered matching rules.
+        /// Requires the expectation to have properties which are equally named to properties on the subject.
         /// </summary>
-        [Obsolete("This method will be removed in a future version.  Use `ExcludingMissingMembers()` instead.")]
-        public TSelf ExcludingMissingProperties()
+        /// <returns></returns>
+        [Obsolete("This method will be removed in a future version.  Use `ThrowOnMissingMembers()` instead.")]
+        public TSelf ThrowingOnMissingProperties()
         {
-            return ExcludingMissingMembers();
+            return ThrowingOnMissingMembers();
         }
 
         /// <summary>
@@ -331,16 +351,6 @@ namespace FluentAssertions.Equivalency
             ClearMatchingRules();
             matchingRules.Add(new MustMatchByNameRule());
             return (TSelf)this;
-        }
-
-        /// <summary>
-        /// Requires the expectation to have properties which are equally named to properties on the subject.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("This method will be removed in a future version.  Use `ThrowOnMissingMembers()` instead.")]
-        public TSelf ThrowingOnMissingProperties()
-        {
-            return ThrowingOnMissingMembers();
         }
 
         /// <param name="action">
@@ -514,6 +524,16 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingEnumsByValue()
         {
             enumEquivalencyHandling = EnumEquivalencyHandling.ByValue;
+            return (TSelf) this;
+        }
+
+        /// <summary>
+        /// Marks the <typeparamref name="T"/> as a value type which must be compared using its 
+        /// <see cref="object.Equals(object)"/> method.
+        /// </summary>
+        public TSelf ComparingByValue<T>()
+        {
+            valueTypes.Add(typeof(T));
             return (TSelf) this;
         }
 

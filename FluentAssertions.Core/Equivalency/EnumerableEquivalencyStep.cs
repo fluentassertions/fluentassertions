@@ -7,7 +7,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class EnumerableEquivalencyStep : IEquivalencyStep
+    public class EnumerableEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the verificationScope subject and/or expectation.

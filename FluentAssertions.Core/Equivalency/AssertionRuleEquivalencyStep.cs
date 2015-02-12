@@ -6,7 +6,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
+    public class AssertionRuleEquivalencyStep<TSubject> : IEquivalencyStep
     {
         private readonly Expression<Func<ISubjectInfo, bool>> canHandle;
 

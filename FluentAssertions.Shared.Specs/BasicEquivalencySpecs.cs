@@ -1,3 +1,4 @@
+using System.Net;
 using System;
 using System.Globalization;
 using System.Collections.Generic;
@@ -83,14 +84,14 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_equivilence_on_a_type_from_System_it_should_not_do_a_structural_comparision()
+        public void When_asserting_equivalence_on_a_value_type_from_system_it_should_not_do_a_structural_comparision()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
 
             // DateTime is used as an example because the current implemention
-            // would hit the recusion-depth limit if structural equivilence were attempted.
+            // would hit the recursion-depth limit if structural equivalence were attempted.
             DateTime date1 = DateTime.Parse("2011-01-01");
             DateTime date2 = DateTime.Parse("2011-01-01");
 
@@ -104,6 +105,36 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+        
+#if !WINRT && !NETFX_CORE && !WINDOWS_PHONE_APP && !SILVERLIGHT
+        [TestMethod]
+        public void When_asserting_equivalence_on_a_reference_type_from_system_it_should_not_do_a_structural_comparision()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                Address = IPAddress.Parse("1.2.3.4"), Word = "a"
+            };
+            
+            var expected = new
+            {
+                Address = IPAddress.Parse("1.2.3.4"), Word = "a"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected, 
+                options => options.ComparingByValue<IPAddress>());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+#endif
 
         [TestMethod]
         public void When_asserting_equivilence_on_a_string_it_should_use_string_specific_failure_messages()

@@ -2558,13 +2558,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act 
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().HaveElementPreceding("mick", "john", "because of some reason");
+            Action act = () => collection.Should().HaveElementPreceding("john", "cris", "because of some reason");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected*john*precede*mick*because*reason*found*cris*");
+                .WithMessage("Expected*cris*precede*john*because*reason*found*mick*");
         }
 
         [TestMethod]
