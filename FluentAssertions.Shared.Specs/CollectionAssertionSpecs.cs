@@ -319,7 +319,7 @@ namespace FluentAssertions.Specs
         #region Be Empty
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_without_items_is_empty()
+        public void When_collection_is_empty_as_expected_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -333,7 +333,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_collection_with_items_is_empty()
+        public void When_collection_is_not_empty_unexpectedly_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -343,29 +343,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().BeEmpty();
+            Action act = () => collection.Should().BeEmpty("that's what we expect");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
-        }
-
-        [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_with_items_is_empty()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = new [] { 1, 2, 3 };
-            var assertions = collection.Should();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to be empty because we want to test the failure message, but found 3.");
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*to be empty because that's what we expect, but found*1*2*3*");
         }
 
         [TestMethod]
