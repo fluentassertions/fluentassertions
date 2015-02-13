@@ -89,7 +89,7 @@ namespace FluentAssertions.Formatting
             builder.AppendLine(type.FullName);
             builder.AppendLine(CreateWhitespaceForLevel(nestedPropertyLevel) + "{");
 
-            IEnumerable<ISelectedMemberInfo> properties = type.GetNonPrivateMembers();
+            IEnumerable<SelectedMemberInfo> properties = type.GetNonPrivateMembers();
             foreach (var propertyInfo in properties.OrderBy(pi => pi.Name))
             {
                 builder.AppendLine(GetPropertyValueTextFor(obj, propertyInfo, nestedPropertyLevel + 1, processedObjects));
@@ -100,7 +100,7 @@ namespace FluentAssertions.Formatting
             return builder.ToString();
         }
 
-        private static string GetPropertyValueTextFor(object value, ISelectedMemberInfo selectedMemberInfo, int nextMemberNestingLevel,
+        private static string GetPropertyValueTextFor(object value, SelectedMemberInfo selectedMemberInfo, int nextMemberNestingLevel,
             IList<object> processedObjects)
         {
             object propertyValue;

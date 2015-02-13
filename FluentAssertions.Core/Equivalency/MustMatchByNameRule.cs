@@ -8,9 +8,9 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class MustMatchByNameRule : IMemberMatchingRule
     {
-        public ISelectedMemberInfo Match(ISelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
+        public SelectedMemberInfo Match(SelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
         {
-            ISelectedMemberInfo compareeSelectedMemberInfoInfo = null;
+            SelectedMemberInfo compareeSelectedMemberInfoInfo = null;
 
             if (config.IncludeProperties)
             {
@@ -40,7 +40,7 @@ namespace FluentAssertions.Equivalency
             return compareeSelectedMemberInfoInfo;
         }
 
-        private static bool ExpectationImplementsMemberExplicitly(object expectation, ISelectedMemberInfo subjectMember)
+        private static bool ExpectationImplementsMemberExplicitly(object expectation, SelectedMemberInfo subjectMember)
         {
             return subjectMember.DeclaringType.IsInstanceOfType(expectation);
         }

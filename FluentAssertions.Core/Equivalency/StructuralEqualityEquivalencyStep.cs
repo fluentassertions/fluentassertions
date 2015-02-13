@@ -31,7 +31,7 @@ namespace FluentAssertions.Equivalency
                         context.Expectation,
                         context.Subject);
 
-            IEnumerable<ISelectedMemberInfo> selectedMembers = GetSelectedMembers(context, config).ToArray();
+            IEnumerable<SelectedMemberInfo> selectedMembers = GetSelectedMembers(context, config).ToArray();
             if (context.IsRoot && !selectedMembers.Any())
             {
                 throw new InvalidOperationException(
@@ -49,7 +49,7 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static void AssertMemberEquality(IEquivalencyValidationContext context, IEquivalencyValidator parent, ISelectedMemberInfo selectedMemberInfo, IEquivalencyAssertionOptions config)
+        private static void AssertMemberEquality(IEquivalencyValidationContext context, IEquivalencyValidator parent, SelectedMemberInfo selectedMemberInfo, IEquivalencyAssertionOptions config)
         {
             var matchingMember = FindMatchFor(selectedMemberInfo, context, config);
             if (matchingMember != null)
@@ -62,7 +62,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private static ISelectedMemberInfo FindMatchFor(ISelectedMemberInfo selectedMemberInfo, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        private static SelectedMemberInfo FindMatchFor(SelectedMemberInfo selectedMemberInfo, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             var query =
                 from rule in config.MatchingRules
@@ -73,10 +73,10 @@ namespace FluentAssertions.Equivalency
             return query.FirstOrDefault();
         }
 
-        internal IEnumerable<ISelectedMemberInfo> GetSelectedMembers(IEquivalencyValidationContext context, 
+        internal IEnumerable<SelectedMemberInfo> GetSelectedMembers(IEquivalencyValidationContext context, 
             IEquivalencyAssertionOptions config)
         {
-            IEnumerable<ISelectedMemberInfo> members = Enumerable.Empty<ISelectedMemberInfo>();
+            IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();
 
             foreach (var selectionRule in config.SelectionRules)
             {

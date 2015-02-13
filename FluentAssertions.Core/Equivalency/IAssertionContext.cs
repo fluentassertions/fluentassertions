@@ -7,10 +7,10 @@ namespace FluentAssertions.Equivalency
     public interface IAssertionContext<TSubject>
     {
         /// <summary>
-        /// Gets the <see cref="ISelectedMemberInfo"/> of the member that returned the current object, or <c>null</c> if the current
+        /// Gets the <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> of the member that returned the current object, or <c>null</c> if the current
         /// object represents the root object.
         /// </summary>
-        ISelectedMemberInfo SubjectProperty { get; }
+        SelectedMemberInfo SubjectProperty { get; }
 
         /// <summary>
         /// Gets the value of the <see cref="SubjectProperty" />

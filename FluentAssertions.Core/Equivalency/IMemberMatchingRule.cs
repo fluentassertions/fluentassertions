@@ -15,7 +15,7 @@ namespace FluentAssertions.Equivalency
         /// simply return <c>null</c>.
         /// </remarks>
         /// <param name="subjectMember">
-        /// The <see cref="ISelectedMemberInfo"/> of the subject's member for which a match must be found. Can never
+        /// The <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> of the subject's member for which a match must be found. Can never
         /// be <c>null</c>.
         /// </param>
         /// <param name="expectation">
@@ -26,9 +26,9 @@ namespace FluentAssertions.Equivalency
         /// </param>
         /// <param name="config"></param>
         /// <returns>
-        /// Returns the <see cref="SelectedMemberInfo"/> of the property with which to compare the subject with, or <c>null</c>
+        /// Returns the <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> of the property with which to compare the subject with, or <c>null</c>
         /// if no match was found.
         /// </returns>
-        ISelectedMemberInfo Match(ISelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config);
+        SelectedMemberInfo Match(SelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config);
     }
 }

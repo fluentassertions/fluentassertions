@@ -44,9 +44,9 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Determines whether two <see cref="ISelectedMemberInfo"/> objects refer to the same member.
+        /// Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> objects refer to the same member.
         /// </summary>
-        public static bool IsEquivalentTo(this ISelectedMemberInfo property, ISelectedMemberInfo otherProperty)
+        public static bool IsEquivalentTo(this SelectedMemberInfo property, SelectedMemberInfo otherProperty)
         {
             return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
                     otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) &&
@@ -104,7 +104,7 @@ namespace FluentAssertions.Common
         /// <returns>
         /// Returns <c>null</c> if no such member exists.
         /// </returns>
-        public static ISelectedMemberInfo FindMember(this Type type, string memberName, Type preferredType)
+        public static SelectedMemberInfo FindMember(this Type type, string memberName, Type preferredType)
         {
             return SelectedMemberInfo.Create(FindProperty(type, memberName, preferredType)) ??
                    SelectedMemberInfo.Create(FindField(type, memberName, preferredType));
@@ -146,7 +146,7 @@ namespace FluentAssertions.Common
                 : properties.SingleOrDefault();
         }
 
-        public static IEnumerable<ISelectedMemberInfo> GetNonPrivateMembers(this Type typeToReflect)
+        public static IEnumerable<SelectedMemberInfo> GetNonPrivateMembers(this Type typeToReflect)
         {
             return
                 GetNonPrivateProperties(typeToReflect)

@@ -11,7 +11,7 @@ namespace FluentAssertions.Equivalency
             SelectedMemberPath = "";
         }
 
-        public ISelectedMemberInfo SelectedMemberInfo { get; set; }
+        public SelectedMemberInfo SelectedMemberInfo { get; set; }
 
         public string SelectedMemberPath { get; set; }
 

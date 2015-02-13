@@ -10,7 +10,7 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class AllPublicFieldsSelectionRule : IMemberSelectionRule
     {
-        public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
             return
                 selectedMembers.Union(

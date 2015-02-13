@@ -10,7 +10,7 @@ namespace FluentAssertions.Common
 {
     public static class ExpressionExtensions
     {
-        public static ISelectedMemberInfo GetSelectedMemberInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
+        public static SelectedMemberInfo GetSelectedMemberInfo<T, TValue>(this Expression<Func<T, TValue>> expression)
         {
             if (ReferenceEquals(expression, null))
             {

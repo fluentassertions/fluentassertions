@@ -8,8 +8,8 @@ namespace FluentAssertions.Equivalency
     {
         internal static IEquivalencyValidationContext CreateForNestedMember(
             this IEquivalencyValidationContext equivalencyValidationContext,
-            ISelectedMemberInfo nestedMember,
-            ISelectedMemberInfo matchingProperty)
+            SelectedMemberInfo nestedMember,
+            SelectedMemberInfo matchingProperty)
         {
             object subject = nestedMember.GetValue(equivalencyValidationContext.Subject, null);
             object expectation = matchingProperty.GetValue(equivalencyValidationContext.Expectation, null);
@@ -79,7 +79,7 @@ namespace FluentAssertions.Equivalency
 
         private static IEquivalencyValidationContext CreateNested(
             this IEquivalencyValidationContext equivalencyValidationContext,
-            ISelectedMemberInfo subjectProperty,
+            SelectedMemberInfo subjectProperty,
             object subject,
             object expectation,
             string memberType,

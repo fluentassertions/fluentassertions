@@ -20,11 +20,11 @@ namespace FluentAssertions.Equivalency
             this.predicate = predicate.Compile();
         }
 
-        public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
-            var members = new List<ISelectedMemberInfo>(selectedMembers);
+            var members = new List<SelectedMemberInfo>(selectedMembers);
 
-            foreach (ISelectedMemberInfo selectedMemberInfo in context.RuntimeType.GetNonPrivateMembers())
+            foreach (SelectedMemberInfo selectedMemberInfo in context.RuntimeType.GetNonPrivateMembers())
             {
                 if (predicate(new NestedSelectionContext(context, selectedMemberInfo)))
                 {

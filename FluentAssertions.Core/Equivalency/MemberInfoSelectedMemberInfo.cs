@@ -6,7 +6,7 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// A partial ISelectedMemberInfo implementation that delegates to a MemberInfo object
     /// </summary>
-    internal abstract class MemberInfoSelectedMemberInfo : ISelectedMemberInfo
+    internal abstract class MemberInfoSelectedMemberInfo : SelectedMemberInfo
     {
         private readonly MemberInfo memberInfo;
 
@@ -15,18 +15,15 @@ namespace FluentAssertions.Equivalency
             this.memberInfo = memberInfo;
         }
 
-        public string Name
+        public override string Name
         {
             get { return memberInfo.Name; }
         }
 
-        public Type DeclaringType
+        public override Type DeclaringType
         {
             get { return memberInfo.DeclaringType; }
         }
-
-        public abstract Type MemberType { get; }
-        public abstract object GetValue(object obj, object[] index);
 
         protected bool Equals(MemberInfoSelectedMemberInfo other)
         {

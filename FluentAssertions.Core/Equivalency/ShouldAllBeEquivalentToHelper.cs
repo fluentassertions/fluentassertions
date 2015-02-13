@@ -153,7 +153,7 @@ namespace FluentAssertions.Equivalency
                 this.matchingRule = matchingRule;
             }
 
-            public ISelectedMemberInfo Match(ISelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
+            public SelectedMemberInfo Match(SelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
             {
                 return matchingRule.Match(subjectMember, expectation, memberPath, config);
             }
@@ -173,7 +173,7 @@ namespace FluentAssertions.Equivalency
                 this.selectionRule = selectionRule;
             }
 
-            public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
             {
                 return selectionRule.SelectMembers(selectedMembers, new CollectionMemberSubjectInfo(context), config);
             }
@@ -200,7 +200,7 @@ namespace FluentAssertions.Equivalency
                 return propertyPath.Substring(propertyPath.IndexOf(".", StringComparison.Ordinal) + 1);
             }
 
-            public ISelectedMemberInfo SelectedMemberInfo { get; private set; }
+            public SelectedMemberInfo SelectedMemberInfo { get; private set; }
 
             public string SelectedMemberPath { get; private set; }
 

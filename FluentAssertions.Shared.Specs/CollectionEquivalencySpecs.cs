@@ -619,7 +619,7 @@ namespace FluentAssertions.Specs
 
         private class SelectPropertiesSelectionRule : IMemberSelectionRule
         {
-            public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
             {
                 return context.CompileTimeType.GetNonPrivateProperties().Select(SelectedMemberInfo.Create);
             }
@@ -627,9 +627,9 @@ namespace FluentAssertions.Specs
 
         private class SelectNoMembersSelectionRule : IMemberSelectionRule
         {
-            public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
             {
-                return Enumerable.Empty<ISelectedMemberInfo>();
+                return Enumerable.Empty<SelectedMemberInfo>();
             }
         }
 

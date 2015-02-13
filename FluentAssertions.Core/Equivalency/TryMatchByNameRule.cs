@@ -7,7 +7,7 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class TryMatchByNameRule : IMemberMatchingRule
     {
-        public ISelectedMemberInfo Match(ISelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
+        public SelectedMemberInfo Match(SelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
         {
             return expectation.GetType().FindMember(subjectMember.Name, subjectMember.MemberType);
         }
