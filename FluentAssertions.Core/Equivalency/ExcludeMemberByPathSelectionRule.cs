@@ -18,7 +18,7 @@ namespace FluentAssertions.Equivalency
             this.pathToExclude = pathToExclude;
         }
 
-        public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
             string path = context.SelectedMemberPath;
             if (!ContainsIndexingQualifiers(pathToExclude))

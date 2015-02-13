@@ -12,7 +12,7 @@ namespace FluentAssertions.Equivalency
             this.obsoleteMatchingRule = obsoleteMatchingRule;
         }
 
-        public ISelectedMemberInfo Match(ISelectedMemberInfo subjectMember, object expectation, string memberPath,
+        public SelectedMemberInfo Match(SelectedMemberInfo subjectMember, object expectation, string memberPath,
             IEquivalencyAssertionOptions config)
         {
             var propertySelectedMemberInfo = subjectMember as PropertySelectedMemberInfo;

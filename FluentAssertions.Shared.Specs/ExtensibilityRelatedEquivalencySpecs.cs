@@ -83,7 +83,7 @@ namespace FluentAssertions.Specs
 
         internal class ExcludeForeignKeysSelectionRule : IMemberSelectionRule
         {
-            public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
             {
                 return selectedMembers.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
             }
@@ -233,7 +233,7 @@ namespace FluentAssertions.Specs
 
         internal class ForeignKeyMatchingRule : IMemberMatchingRule
         {
-            public ISelectedMemberInfo Match(ISelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
+            public SelectedMemberInfo Match(SelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
             {
                 string name = subjectMember.Name;
                 if (name.EndsWith("Id"))

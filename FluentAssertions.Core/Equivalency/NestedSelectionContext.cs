@@ -9,7 +9,7 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class NestedSelectionContext : ISubjectInfo
     {
-        public NestedSelectionContext(ISubjectInfo context, ISelectedMemberInfo selectedMemberInfo)
+        public NestedSelectionContext(ISubjectInfo context, SelectedMemberInfo selectedMemberInfo)
         {
             SelectedMemberPath = context.SelectedMemberPath.Combine(selectedMemberInfo.Name);
             SelectedMemberDescription = context.SelectedMemberDescription.Combine(selectedMemberInfo.Name);
@@ -18,7 +18,7 @@ namespace FluentAssertions.Equivalency
             SelectedMemberInfo = selectedMemberInfo;
         }
 
-        public ISelectedMemberInfo SelectedMemberInfo { get; private set; }
+        public SelectedMemberInfo SelectedMemberInfo { get; private set; }
 
         public string SelectedMemberPath { get; private set; }
 

@@ -4,7 +4,7 @@ namespace FluentAssertions.Equivalency
 {
     internal class AssertionContext<TSubject> : IAssertionContext<TSubject>
     {
-        public AssertionContext(ISelectedMemberInfo subjectProperty, TSubject subject, TSubject expectation, string because,
+        public AssertionContext(SelectedMemberInfo subjectProperty, TSubject subject, TSubject expectation, string because,
                                 object[] reasonArgs)
         {
             SubjectProperty = subjectProperty;
@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
             ReasonArgs = reasonArgs;
         }
 
-        public ISelectedMemberInfo SubjectProperty { get; private set; }
+        public SelectedMemberInfo SubjectProperty { get; private set; }
         public TSubject Subject { get; private set; }
         public TSubject Expectation { get; private set; }
         public string Reason { get; set; }

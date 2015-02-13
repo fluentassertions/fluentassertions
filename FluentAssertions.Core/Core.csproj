@@ -80,13 +80,12 @@
     <Compile Include="Equivalency\IMatchingRule.cs" />
     <Compile Include="Equivalency\IncludeMemberByPredicateSelectionRule.cs" />
     <Compile Include="Equivalency\GenericDictionaryEquivalencyStep.cs" />
-    <Compile Include="Equivalency\ISelectedMemberInfo.cs" />
+    <Compile Include="Equivalency\SelectedMemberInfo.cs" />
     <Compile Include="Equivalency\ISelectionRule.cs" />
     <Compile Include="Equivalency\ObsoleteMatchingRuleAdapter.cs" />
     <Compile Include="Equivalency\ObsoleteSelectionRuleAdapter.cs" />
     <Compile Include="Equivalency\PropertySelectedMemberInfo.cs" />
     <Compile Include="Equivalency\MemberInfoSelectedMemberInfo.cs" />
-    <Compile Include="Equivalency\SelectedMemberInfo.cs" />
     <Compile Include="Equivalency\RunAllUserStepsEquivalencyStep.cs" />
     <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />

@@ -60,7 +60,7 @@ namespace FluentAssertions.Equivalency
         {
             RemoveStandardSelectionRules();
 
-            ISelectedMemberInfo selectedMemberInfo = expression.GetSelectedMemberInfo();
+            SelectedMemberInfo selectedMemberInfo = expression.GetSelectedMemberInfo();
 
             AddSelectionRule(
                 new IncludeMemberByPathSelectionRule(selectedMemberInfo));

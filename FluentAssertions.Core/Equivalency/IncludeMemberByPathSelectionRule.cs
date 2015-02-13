@@ -10,16 +10,16 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class IncludeMemberByPathSelectionRule : IMemberSelectionRule
     {
-        private readonly ISelectedMemberInfo selectedMemberInfo;
+        private readonly SelectedMemberInfo selectedMemberInfo;
 
-        public IncludeMemberByPathSelectionRule(ISelectedMemberInfo selectedMemberInfo)
+        public IncludeMemberByPathSelectionRule(SelectedMemberInfo selectedMemberInfo)
         {
             this.selectedMemberInfo = selectedMemberInfo;
         }
 
-        public IEnumerable<ISelectedMemberInfo> SelectMembers(IEnumerable<ISelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
-            List<ISelectedMemberInfo> members = selectedMembers.ToList();
+            List<SelectedMemberInfo> members = selectedMembers.ToList();
 
             if (!members.Any(member => member.IsEquivalentTo(selectedMemberInfo)))
             {
