@@ -12,5 +12,10 @@ namespace FluentAssertions.Equivalency
         {
             return true;
         }
+
+        public override string ToString()
+        {
+            return "Always be strict about the collection order";
+        }
     }
 }

@@ -52,7 +52,7 @@ namespace FluentAssertions.Equivalency
 
         public override string ToString()
         {
-            return "Exclude member " + pathToExclude;
+            return "Exclude member root." + pathToExclude;
         }
     }
 }
