@@ -35,8 +35,8 @@ namespace FluentAssertions.Specs
                new { Input = new TimeSpan(2, 0, 0, 12, 0), Output = "2d and 12s" },
                new { Input = TimeSpan.FromSeconds(90), Output = "1m and 30s" },
                new { Input = TimeSpan.FromMilliseconds(10), Output = "0.010s" },
-               new { Input = TimeSpan.MinValue, Output = "min-value" },
-               new { Input = TimeSpan.MaxValue, Output = "max-value" }
+               new { Input = TimeSpan.MinValue, Output = "min time span" },
+               new { Input = TimeSpan.MaxValue, Output = "max time span" }
             };
 
             //-----------------------------------------------------------------------------------------------------------

@@ -39,12 +39,12 @@ namespace FluentAssertions.Formatting
 
             if (timeSpan == TimeSpan.MinValue)
             {
-                return "min-value";
+                return "min time span";
             }
 
             if (timeSpan == TimeSpan.MaxValue)
             {
-                return "max-value";
+                return "max time span";
             }
 
             IEnumerable<string> fragments = GetNonZeroFragments(timeSpan);
