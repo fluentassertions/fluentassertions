@@ -81,7 +81,7 @@ namespace FluentAssertions.Execution
             }
 
             IEnumerable<Assembly> assemblies =
-                from file in await folder.GetFilesAsync()
+                from file in await folder.GetFilesAsync().AsTask().ConfigureAwait(false)
                 where (file.FileType == ".dll") || (file.FileType == ".exe")
                 let assm = TryLoadAssembly(new AssemblyName()
                 {
