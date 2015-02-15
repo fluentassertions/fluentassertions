@@ -618,20 +618,40 @@ namespace FluentAssertions.Equivalency
             var builder = new StringBuilder();
 
             builder.AppendLine(string.Format("- Use {0} types and members", useRuntimeTyping ? "runtime" : "declared"));
+            if (isRecursive)
+            {
+                if (allowInfiniteRecursion)
+                {
+                    builder.AppendLine("- Recurse indefinitely");
+                }
+            }
 
-            foreach (var rule in selectionRules)
+            builder.AppendFormat("- Compare enums by {0}",
+                (enumEquivalencyHandling == EnumEquivalencyHandling.ByName) ? "name" : "value");
+
+            if (cyclicReferenceHandling == CyclicReferenceHandling.Ignore)
+            {
+                builder.AppendFormat("- Ignoring cyclic references");
+            }
+
+            foreach (IMemberSelectionRule rule in selectionRules)
             {
                 builder.AppendLine("- " + rule);
             }
 
-            foreach (var rule in matchingRules)
+            foreach (IMemberMatchingRule rule in matchingRules)
             {
                 builder.AppendLine("- " + rule);
             }
 
-            foreach (var step in userEquivalencySteps)
+            foreach (IEquivalencyStep step in userEquivalencySteps)
             {
                 builder.AppendLine("- " + step);
+            }
+
+            foreach (IOrderingRule rule in orderingRules)
+            {
+                builder.AppendLine("- " + rule);
             }
 
             return builder.ToString();

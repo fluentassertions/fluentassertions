@@ -50,5 +50,10 @@ namespace FluentAssertions.Equivalency
 
             return sourcePath;
         }
+
+        public override string ToString()
+        {
+            return "Be strict about the order of collection items when path is " + path;
+        }
     }
 }

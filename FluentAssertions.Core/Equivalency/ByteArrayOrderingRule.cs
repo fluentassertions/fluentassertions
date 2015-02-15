@@ -14,5 +14,10 @@ namespace FluentAssertions.Equivalency
         {
             return subjectInfo.CompileTimeType.Implements<IEnumerable<byte>>();
         }
+
+        public override string ToString()
+        {
+            return "Be strict about the order of items in byte arrays";
+        }
     }
 }
