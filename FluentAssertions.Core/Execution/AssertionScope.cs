@@ -54,7 +54,7 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Starts a named scope within which multiple assertions can be executed and which will not throw until the scope is disposed.
         /// </summary>
-        public AssertionScope(string context)
+        public AssertionScope(string context) : this()
         {
             AddNonReportable("context", context);
         }
