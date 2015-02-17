@@ -626,12 +626,12 @@ namespace FluentAssertions.Equivalency
                 }
             }
 
-            builder.AppendFormat("- Compare enums by {0}",
+            builder.AppendFormat("- Compare enums by {0}" + Environment.NewLine,
                 (enumEquivalencyHandling == EnumEquivalencyHandling.ByName) ? "name" : "value");
 
             if (cyclicReferenceHandling == CyclicReferenceHandling.Ignore)
             {
-                builder.AppendFormat("- Ignoring cyclic references");
+                builder.AppendLine("- Ignoring cyclic references");
             }
 
             foreach (IMemberSelectionRule rule in selectionRules)
