@@ -11,7 +11,7 @@ namespace FluentAssertions.Common
     {
         Action<string> Throw { get; }
         IValueFormatter[] Formatters { get; }
-        Configuration Configuration { get; }
+        IConfigurationStore ConfigurationStore { get; }
         IReflector Reflector { get; }
     }
 }

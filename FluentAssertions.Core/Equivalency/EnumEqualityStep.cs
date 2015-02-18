@@ -1,14 +1,22 @@
+#region
+
+using System;
+using System.Globalization;
+
+#endregion
+
 namespace FluentAssertions.Equivalency
 {
-    internal class EnumEqualityStep : IEquivalencyStep
+    public class EnumEqualityStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context,
-            IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return context.RuntimeType != null && context.RuntimeType.IsEnum;
+            Type subjectType = config.GetSubjectType(context);
+
+            return subjectType != null && subjectType.IsEnum;
         }
 
         /// <summary>
@@ -21,12 +29,37 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent,
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            context.Subject.Should().Be(context.Expectation, context.Reason, context.ReasonArgs);
+            switch (config.EnumEquivalencyHandling)
+            {
+                case EnumEquivalencyHandling.ByValue:
+                    CompareByValue(context);
+                    break;
+                case EnumEquivalencyHandling.ByName:
+                    context.Subject.ToString()
+                        .Should()
+                        .Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
+                    break;
+                default:
+                    throw new InvalidOperationException(string.Format("Don't know how to handle {0}",
+                        config.EnumEquivalencyHandling));
+            }
 
             return true;
+        }
+
+        private void CompareByValue(IEquivalencyValidationContext context)
+        {
+            var subjectType = Enum.GetUnderlyingType(context.Subject.GetType());
+            var subjectUnderlyingValue = Convert.ChangeType(context.Subject, subjectType, CultureInfo.InvariantCulture);
+
+            var expectationType = Enum.GetUnderlyingType(context.Expectation.GetType());
+            var expectationUnderlyingValue = Convert.ChangeType(context.Expectation, expectationType,
+                CultureInfo.InvariantCulture);
+
+            subjectUnderlyingValue.Should().Be(expectationUnderlyingValue, context.Reason, context.ReasonArgs);
         }
     }
 }

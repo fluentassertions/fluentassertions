@@ -119,7 +119,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () =>  collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
+            Action action = () => collection.Should().HaveCount(4, "because we want to test the failure {0}", "message");
             
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -244,13 +244,24 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_collection_with_items_is_empty()
+        public void When_the_collection_is_not_empty_unexpectedly_it_should_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = new[] { "one", "two", "three" };
-            var assertions = collection.Should();
-            assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().BeEmpty("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to be empty because we want to test the failure message, but found 3.");
+                .WithMessage("Expected collection to be empty because we want to test the failure message, but found*one*two*three*");
         }
 
         [TestMethod]
@@ -1816,7 +1827,7 @@ namespace FluentAssertions.Specs
 
             var methods =
                 from method in methodInfo
-                where !method.IsSpecialName //Exclude Properties
+                where !method.IsSpecialName // Exclude Properties
                 where method.DeclaringType != typeof (object)
                 select new {method.Name, method.ReturnType};
 
@@ -1834,6 +1845,26 @@ namespace FluentAssertions.Specs
                         typeof(AndConstraint<StringCollectionAssertions>)
                             .IsAssignableFrom(method.ReturnType));
 #endif
+        }
+
+        [TestMethod]
+        public void When_asserting_a_string_collection_contains_an_element_it_should_allow_specifying_the_reason_via_named_parameter()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new List<string> {"hello", "world"};
+            var actual = new List<string> { "hello", "world" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => expected.Should().Contain(actual, because: "they are in the collection");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
     }
 }

@@ -25,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
     <DocumentationFile>bin\Debug\FluentAssertions.Core.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Package\Lib\portable-monotouch+monoandroid+xamarin.ios\FluentAssertions.Core.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -54,6 +56,7 @@
     </Compile>
     <Compile Include="AndConstraint.cs" />
     <Compile Include="AndWhichConstraint.cs" />
+    <Compile Include="AssertionOptions.cs" />
     <Compile Include="Collections\SelfReferencingCollectionAssertions.cs" />
     <Compile Include="Collections\WhichValueConstraint.cs" />
     <Compile Include="Common\DateTimeExtensions.cs" />
@@ -62,11 +65,35 @@
     <Compile Include="Common\NullReflector.cs" />
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
+    <Compile Include="Equivalency\AllPublicFieldsSelectionRule.cs" />
+    <Compile Include="EquivalencyStepCollection.cs" />
+    <Compile Include="Equivalency\AssertionContext.cs" />
+    <Compile Include="Equivalency\AssertionRuleEquivalencyStep.cs" />
+    <Compile Include="Equivalency\AssertionRuleEquivalencyStepAdaptor.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
+    <Compile Include="Equivalency\EnumEquivalencyHandling.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
-    <Compile Include="Equivalency\IncludePropertyByPredicateSelectionRule.cs" />
+    <Compile Include="Equivalency\EquivalencyAssertionOptionsBase.cs" />
+    <Compile Include="Equivalency\EquivalencyAssertionOptionsExtentions.cs" />
+    <Compile Include="Equivalency\FieldSelectedMemberInfo.cs" />
+    <Compile Include="Equivalency\IEquivalencyValidationContextExtentions.cs" />
+    <Compile Include="Equivalency\IMatchingRule.cs" />
+    <Compile Include="Equivalency\IncludeMemberByPredicateSelectionRule.cs" />
+    <Compile Include="Equivalency\GenericDictionaryEquivalencyStep.cs" />
+    <Compile Include="Equivalency\SelectedMemberInfo.cs" />
+    <Compile Include="Equivalency\ISelectionRule.cs" />
+    <Compile Include="Equivalency\ObsoleteMatchingRuleAdapter.cs" />
+    <Compile Include="Equivalency\ObsoleteSelectionRuleAdapter.cs" />
+    <Compile Include="Equivalency\PropertySelectedMemberInfo.cs" />
+    <Compile Include="Equivalency\MemberInfoSelectedMemberInfo.cs" />
+    <Compile Include="Equivalency\RunAllUserStepsEquivalencyStep.cs" />
+    <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
-    <Compile Include="Equivalency\SystemTypeEqualityEquivalencyStep.cs" />
+    <Compile Include="Equivalency\ValueTypeEquivalencyStep.cs" />
+    <Compile Include="Execution\Continuation.cs" />
+    <Compile Include="Execution\MessageBuilder.cs" />
+    <Compile Include="Execution\ContinuationOfGiven.cs" />
+    <Compile Include="Execution\GivenSelector.cs" />
     <Compile Include="InternalAssertionExtensions.cs" />
     <Compile Include="Collections\CollectionAssertions.cs" />
     <Compile Include="Collections\GenericCollectionAssertions.cs" />
@@ -84,9 +111,7 @@
     <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Common\TypeExtensions.cs" />
     <Compile Include="Common\ValueFormatterDetectionMode.cs" />
-    <Compile Include="Equivalency\AllDeclaredPublicPropertiesSelectionRule.cs" />
-    <Compile Include="Equivalency\AllRuntimePublicPropertiesSelectionRule.cs" />
-    <Compile Include="Equivalency\ApplyAssertionRulesEquivalencyStep.cs" />
+    <Compile Include="Equivalency\AllPublicPropertiesSelectionRule.cs" />
     <Compile Include="Equivalency\AssertionResultSet.cs" />
     <Compile Include="Equivalency\AssertionRule.cs" />
     <Compile Include="Equivalency\ByteArrayOrderingRule.cs" />
@@ -98,18 +123,18 @@
     <Compile Include="Equivalency\EquivalencyAssertionOptions.cs" />
     <Compile Include="Equivalency\EquivalencyValidationContext.cs" />
     <Compile Include="Equivalency\EquivalencyValidator.cs" />
-    <Compile Include="Equivalency\ExcludePropertyByPathSelectionRule.cs" />
-    <Compile Include="Equivalency\ExcludePropertyByPredicateSelectionRule.cs" />
+    <Compile Include="Equivalency\ExcludeMemberByPathSelectionRule.cs" />
+    <Compile Include="Equivalency\ExcludeMemberByPredicateSelectionRule.cs" />
     <Compile Include="Equivalency\IAssertionContext.cs" />
     <Compile Include="Equivalency\IAssertionRule.cs" />
     <Compile Include="Equivalency\IEquivalencyAssertionOptions.cs" />
     <Compile Include="Equivalency\IEquivalencyStep.cs" />
     <Compile Include="Equivalency\IEquivalencyValidationContext.cs" />
     <Compile Include="Equivalency\IEquivalencyValidator.cs" />
-    <Compile Include="Equivalency\IMatchingRule.cs" />
-    <Compile Include="Equivalency\IncludePropertyByPathSelectionRule.cs" />
+    <Compile Include="Equivalency\IMemberMatchingRule.cs" />
+    <Compile Include="Equivalency\IncludeMemberByPathSelectionRule.cs" />
     <Compile Include="Equivalency\IOrderingRule.cs" />
-    <Compile Include="Equivalency\ISelectionRule.cs" />
+    <Compile Include="Equivalency\IMemberSelectionRule.cs" />
     <Compile Include="Equivalency\ISubjectInfo.cs" />
     <Compile Include="Equivalency\MatchAllOrderingRule.cs" />
     <Compile Include="Equivalency\MustMatchByNameRule.cs" />
@@ -118,7 +143,7 @@
     <Compile Include="Equivalency\ObjectTracker.cs" />
     <Compile Include="Equivalency\OrderingRuleCollection.cs" />
     <Compile Include="Equivalency\PredicateBasedOrderingRule.cs" />
-    <Compile Include="Equivalency\PropertyPathOrderingRule.cs" />
+    <Compile Include="Equivalency\PathBasedOrderingRule.cs" />
     <Compile Include="Equivalency\ReferenceEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\SimpleEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\TryConversionEquivalencyStep.cs" />
@@ -182,6 +207,7 @@
     <Compile Include="Specialized\ExceptionAssertions.cs" />
     <Compile Include="Specialized\IExtractExceptions.cs" />
     <Compile Include="TimeSpanConversionExtensions.cs" />
+    <Compile Include="TypeEnumerableExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="Types\AllTypes.cs" />
     <Compile Include="Types\MethodInfoAssertions.cs" />
@@ -196,6 +222,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

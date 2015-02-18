@@ -7,28 +7,16 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class EnumerableEquivalencyStep : IEquivalencyStep
+    public class EnumerableEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the verificationScope subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = GetSubjectType(context, config);
+            Type subjectType = config.GetSubjectType(context);
 
             return IsCollection(subjectType);
-        }
-
-        internal static Type GetSubjectType(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
-        {
-            bool useRuntimeType = ShouldUseRuntimeType(config);
-
-            return useRuntimeType ? context.RuntimeType : context.CompileTimeType;
-        }
-
-        private static bool ShouldUseRuntimeType(IEquivalencyAssertionOptions config)
-        {
-            return config.SelectionRules.Any(selectionRule => selectionRule is AllRuntimePublicPropertiesSelectionRule);
         }
 
         /// <summary>
@@ -41,7 +29,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             if (AssertExpectationIsCollection(context.Expectation))
             {
@@ -59,9 +47,18 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertExpectationIsCollection(object expectation)
         {
-            return AssertionScope.Current
+            bool conditionMet = AssertionScope.Current
+                .ForCondition(!ReferenceEquals(expectation, null))
+                .FailWith("{context:Subject} is a collection and cannot be compared to <null>.");
+
+            if (conditionMet)
+            {
+                conditionMet = AssertionScope.Current
                 .ForCondition(IsCollection(expectation.GetType()))
                 .FailWith("{context:Subject} is a collection and cannot be compared with a non-collection type.");
+            }
+
+            return conditionMet;
         }
 
         private static bool IsCollection(Type type)
@@ -71,7 +68,7 @@ namespace FluentAssertions.Equivalency
 
         internal static object[] ToArray(object value)
         {
-            return ((IEnumerable)value).Cast<object>().ToArray();
+            return !ReferenceEquals(value, null) ? ((IEnumerable)value).Cast<object>().ToArray() : null;
         }
     }
 }

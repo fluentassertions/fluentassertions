@@ -13,11 +13,11 @@ namespace FluentAssertions.Equivalency
         #region Private Definitions
 
         private readonly IEquivalencyValidator parent;
-        private readonly EquivalencyValidationContext context;
+        private readonly IEquivalencyValidationContext context;
 
         #endregion
 
-        public EnumerableEquivalencyValidator(IEquivalencyValidator parent, EquivalencyValidationContext context)
+        public EnumerableEquivalencyValidator(IEquivalencyValidator parent, IEquivalencyValidationContext context)
         {
             this.parent = parent;
             this.context = context;
@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency
 
         public void Execute<T>(T[] subject, object[] expectation)
         {
-            if (AssertLengthEquality(subject.Length, expectation.Length))
+            if (AssertIsNotNull(subject) && AssertLengthEquality(subject.Length, expectation.Length))
             {
                 if (Recursive)
                 {
@@ -41,6 +41,13 @@ namespace FluentAssertions.Equivalency
                     subject.Should().BeEquivalentTo(expectation);
                 }
             }
+        }
+
+        private bool AssertIsNotNull(object subject)
+        {
+            return AssertionScope.Current
+                .ForCondition(!ReferenceEquals(subject, null))
+                .FailWith("Expected {context:subject} to be a collection, but found <null>.");
         }
 
         private bool AssertLengthEquality(int subjectLength, int expectationLength)

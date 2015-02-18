@@ -1,5 +1,3 @@
-using System.Reflection;
-
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
@@ -9,10 +7,10 @@ namespace FluentAssertions.Equivalency
     public interface IAssertionContext<TSubject>
     {
         /// <summary>
-        /// Gets the <see cref="PropertyInfo"/> of the property that returned the current object, or <c>null</c> if the current
+        /// Gets the <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> of the member that returned the current object, or <c>null</c> if the current
         /// object represents the root object.
         /// </summary>
-        PropertyInfo SubjectProperty { get; }
+        SelectedMemberInfo SubjectProperty { get; }
 
         /// <summary>
         /// Gets the value of the <see cref="SubjectProperty" />
@@ -20,7 +18,7 @@ namespace FluentAssertions.Equivalency
         TSubject Subject { get; }
 
         /// <summary>
-        /// Gets the value of the expectation object that was matched with the subject using a <see cref="IMatchingRule"/>.
+        /// Gets the value of the expectation object that was matched with the subject using a <see cref="IMemberMatchingRule"/>.
         /// </summary>
         TSubject Expectation { get; }
 

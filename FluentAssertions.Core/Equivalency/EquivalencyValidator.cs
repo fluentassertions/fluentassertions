@@ -17,34 +17,11 @@ namespace FluentAssertions.Equivalency
 
         private readonly IEquivalencyAssertionOptions config;
 
-        private readonly List<IEquivalencyStep> steps = new List<IEquivalencyStep>
-        {
-            new TryConversionEquivalencyStep(),
-            new ReferenceEqualityEquivalencyStep(),
-            new ApplyAssertionRulesEquivalencyStep(),
-            new DictionaryEquivalencyStep(),
-            new GenericEnumerableEquivalencyStep(),
-            new EnumerableEquivalencyStep(),
-            new StringEqualityEquivalencyStep(),
-            new SystemTypeEquivalencyStep(),
-            new EnumEqualityStep(),
-            new StructuralEqualityEquivalencyStep(),
-            new SimpleEqualityEquivalencyStep()
-        };
-
         #endregion
 
         public EquivalencyValidator(IEquivalencyAssertionOptions config)
         {
             this.config = config;
-        }
-
-        /// <summary>
-        /// Provides access the list of steps that are executed in the order of appearance during an equivalency test.
-        /// </summary>
-        public IList<IEquivalencyStep> Steps
-        {
-            get { return steps; }
         }
 
         public void AssertEquality(EquivalencyValidationContext context)
@@ -60,29 +37,22 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        public void AssertEqualityUsing(EquivalencyValidationContext context)
+        public void AssertEqualityUsing(IEquivalencyValidationContext context)
         {
-            if (ContinueRecursion(context.PropertyPath))
+            if (ContinueRecursion(context.SelectedMemberPath))
             {
                 AssertionScope scope = AssertionScope.Current;
-                scope.AddNonReportable("context", context.IsRoot ? "subject" : context.PropertyDescription);
+                scope.AddNonReportable("context", context.IsRoot ? "subject" : context.SelectedMemberDescription);
                 scope.AddNonReportable("subject", context.Subject);
                 scope.AddNonReportable("expectation", context.Expectation);
 
                 var objectTracker = scope.Get<ObjectTracker>("objects");
 
-                if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.PropertyPath)))
+                if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.SelectedMemberPath)))
                 {
-                    bool wasHandled = false;
-
-                    foreach (var strategy in steps.Where(s => s.CanHandle(context, config)))
-                    {
-                        if (strategy.Handle(context, this, config))
-                        {
-                            wasHandled = true;
-                            break;
-                        }
-                    }
+                    bool wasHandled = AssertionOptions.EquivalencySteps
+                        .Where(s => s.CanHandle(context, config))
+                        .Any(step => step.Handle(context, this, config));
 
                     if (!wasHandled)
                     {
@@ -94,9 +64,9 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private bool ContinueRecursion(string propertyPath)
+        private bool ContinueRecursion(string memberAccessPath)
         {
-            if (config.AllowInfiniteRecursion || !HasReachedMaximumRecursionDepth(propertyPath))
+            if (config.AllowInfiniteRecursion || !HasReachedMaximumRecursionDepth(memberAccessPath))
             {
                 return true;
             }
@@ -108,8 +78,8 @@ namespace FluentAssertions.Equivalency
                 "or the object graph's depth is very high or infinite.  " +
                 "This limitation may be disabled using the config parameter." +
                 Environment.NewLine + Environment.NewLine +
-                "The property path when max depth was hit was: " +
-                propertyPath);
+                "The member access chain when max depth was hit was: " +
+                memberAccessPath);
 
             return false;
         }

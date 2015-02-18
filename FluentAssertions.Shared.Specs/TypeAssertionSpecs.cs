@@ -363,6 +363,56 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region BeAssignableTo
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_its_own_type_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().BeAssignableTo<DummyImplementingClass>();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_to_its_base_type_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().BeAssignableTo<DummyBaseClass>();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_to_an_implemented_interface_type_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().BeAssignableTo<IDisposable>();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_it_should_fail_with_a_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Type someType = typeof(DummyImplementingClass);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someType.Invoking(
+                x => x.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message"))
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format(
+                    "Expected type {0} to be assignable to {1} because we want to test the failure message, but it is not",
+                    typeof(DummyImplementingClass), typeof(DateTime)));
+        }
+
+        #endregion
+
         #region BeDecoratedWith
 
         [TestMethod]
@@ -597,7 +647,7 @@ namespace FluentAssertions.Primitives
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
     /// <summary>
-    /// A class that intentianalty has the exact same name and namespace as the ObjectAssertions from the FluentAssertions
+    /// A class that intentionally has the exact same name and namespace as the ObjectAssertions from the FluentAssertions
     /// assembly. This class is used to test the behavior of comparisons on such types.
     /// </summary>
     internal class ObjectAssertions

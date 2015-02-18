@@ -1,17 +1,20 @@
+using System;
 using System.Collections;
 
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class DictionaryEquivalencyStep : IEquivalencyStep
+    public class DictionaryEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.Subject is IDictionary);
+            Type subjectType = config.GetSubjectType(context);
+
+            return typeof(IDictionary).IsAssignableFrom(subjectType);
         }
 
         /// <summary>
@@ -24,7 +27,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public virtual bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public virtual bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             var subject = (IDictionary)context.Subject;
             var expectation = context.Expectation as IDictionary;
@@ -47,20 +50,24 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool PreconditionsAreMet(EquivalencyValidationContext context, IDictionary expectation, IDictionary subject)
+        private static bool PreconditionsAreMet(IEquivalencyValidationContext context, IDictionary expectation, IDictionary subject)
         {
-            bool success = AssertionScope.Current
+            return (AssertIsDictionary(expectation) && AssertSameLength(expectation, subject));
+        }
+
+        private static bool AssertIsDictionary(IDictionary expectation)
+        {
+            return AssertionScope.Current
                 .ForCondition(expectation != null)
                 .FailWith("{context:subject} is a dictionary and cannot be compared with a non-dictionary type.");
+        }
 
-            if (success)
-            {
-                success = AssertionScope.Current
-                    .ForCondition(subject.Keys.Count == expectation.Keys.Count)
-                    .FailWith("Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s).",
-                                     expectation.Keys.Count, subject.Keys.Count);
-            }
-            return success;
+        private static bool AssertSameLength(IDictionary expectation, IDictionary subject)
+        {
+            return AssertionScope.Current
+                .ForCondition(subject.Keys.Count == expectation.Keys.Count)
+                .FailWith("Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s).",
+                    expectation.Keys.Count, subject.Keys.Count);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace FluentAssertions.Equivalency
@@ -10,22 +11,16 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Gets an ordered collection of selection rules that define what properties are included.
         /// </summary>
-        IEnumerable<ISelectionRule> SelectionRules { get; }
+        IEnumerable<IMemberSelectionRule> SelectionRules { get; }
 
         /// <summary>
         /// Gets an ordered collection of matching rules that determine which subject properties are matched with which
         /// expectation properties.
         /// </summary>
-        IEnumerable<IMatchingRule> MatchingRules { get; }
+        IEnumerable<IMemberMatchingRule> MatchingRules { get; }
 
         /// <summary>
-        /// Gets an ordered collection of assertion rules that determine how subject properties are compared for equality with
-        /// expectation properties.
-        /// </summary>
-        IEnumerable<IAssertionRule> AssertionRules { get; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the assertion must perform a deep comparison.
+        /// Gets a value indicating whether or not the assertion must perform a deep comparison.
         /// </summary>
         bool IsRecursive { get; }
 
@@ -44,5 +39,35 @@ namespace FluentAssertions.Equivalency
         /// ordering is irrelevant.
         /// </summary>
         OrderingRuleCollection OrderingRules { get; }
+        
+        /// <summary>
+        /// Gets value indicating how the enums should be compared.
+        /// </summary>
+        EnumEquivalencyHandling EnumEquivalencyHandling { get; }
+
+        /// <summary>
+        /// Gets an ordered collection of Equivalency steps how a subject is compared with the expectation.
+        /// </summary>
+        IEnumerable<IEquivalencyStep> UserEquivalencySteps { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the runtime type should be used rather than the declared type.
+        /// </summary>
+        bool UseRuntimeTyping { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether properties should be considered.
+        /// </summary>
+        bool IncludeProperties { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether fields should be considered.
+        /// </summary>
+        bool IncludeFields { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the <paramref name="type"/> should be treated as having value semantics.
+        /// </summary>
+        bool IsValueType(Type type);
     }
 }

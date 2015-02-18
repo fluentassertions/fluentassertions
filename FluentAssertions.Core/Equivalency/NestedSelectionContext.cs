@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
@@ -10,30 +9,48 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class NestedSelectionContext : ISubjectInfo
     {
-        public NestedSelectionContext(ISubjectInfo context, PropertyInfo propertyInfo)
+        public NestedSelectionContext(ISubjectInfo context, SelectedMemberInfo selectedMemberInfo)
         {
-            PropertyPath = context.PropertyPath.Combine(propertyInfo.Name);
-            PropertyDescription = context.PropertyDescription.Combine(propertyInfo.Name);
-            CompileTimeType = propertyInfo.PropertyType;
-            RuntimeType = propertyInfo.PropertyType;
-            PropertyInfo = propertyInfo;
+            SelectedMemberPath = context.SelectedMemberPath.Combine(selectedMemberInfo.Name);
+            SelectedMemberDescription = context.SelectedMemberDescription.Combine(selectedMemberInfo.Name);
+            CompileTimeType = selectedMemberInfo.MemberType;
+            RuntimeType = selectedMemberInfo.MemberType;
+            SelectedMemberInfo = selectedMemberInfo;
         }
 
-        /// <summary>
-        /// Gets the <see cref="ISubjectInfo.PropertyInfo"/> of the property that returned the current object, or 
-        /// <c>null</c> if the current  object represents the root object.
-        /// </summary>
-        public PropertyInfo PropertyInfo { get; private set; }
+        public SelectedMemberInfo SelectedMemberInfo { get; private set; }
 
-        /// <summary>
-        /// Gets the full path from the root object until the current property, separated by dots.
-        /// </summary>
-        public string PropertyPath { get; private set; }
+        public string SelectedMemberPath { get; private set; }
 
-        /// <summary>
-        /// Gets a textual description of the current property based on the <see cref="ISubjectInfo.PropertyPath"/>.
-        /// </summary>
-        public string PropertyDescription { get; private set; }
+        public string SelectedMemberDescription { get; private set; }
+
+        [Obsolete]
+        public PropertyInfo PropertyInfo
+        {
+            get
+            {
+                var propertySelectedMemberInfo = SelectedMemberInfo as PropertySelectedMemberInfo;
+
+                if (propertySelectedMemberInfo != null)
+                {
+                    return propertySelectedMemberInfo.PropertyInfo;
+                }
+
+                return null;
+            }
+        }
+
+        [Obsolete]
+        public string PropertyPath
+        {
+            get { return SelectedMemberPath; }
+        }
+
+        [Obsolete]
+        public string PropertyDescription
+        {
+            get { return SelectedMemberDescription; }
+        }
 
         /// <summary>
         /// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the 

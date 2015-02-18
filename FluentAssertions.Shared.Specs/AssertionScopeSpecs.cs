@@ -1,7 +1,12 @@
 using System;
 using System.Text.RegularExpressions;
+
 using FluentAssertions.Execution;
+#if !OLD_MSTEST
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FluentAssertions.Specs
 {
@@ -22,7 +27,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = scope.Dispose;
-            ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -61,7 +65,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = scope.Dispose;
-            ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -103,7 +106,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = scope.Dispose;
-            ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -141,7 +143,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = scope.Dispose;
-            ;
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -154,9 +155,29 @@ namespace FluentAssertions.Specs
             {
                 int matches = new Regex(".*Failure.*").Matches(exception.Message).Count;
 
-                Assert.AreEqual(1, matches);
+                Assert.AreEqual(4, matches);
             }
         }
 
+        [TestMethod]
+        public void When_an_assertion_fails_in_a_named_scope_it_should_use_the_name_as_the_assertion_context()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope("foo"))
+                {
+                    new[] {1, 2, 3}.Should().Equal(3, 2, 1);
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected foo to be equal to*");
+        }
     }
 }

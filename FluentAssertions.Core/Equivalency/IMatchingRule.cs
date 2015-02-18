@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 
 namespace FluentAssertions.Equivalency
@@ -6,6 +7,7 @@ namespace FluentAssertions.Equivalency
     /// Represents a rule that defines how to map the properties from the subject-under-test with the properties 
     /// on the expectation object. 
     /// </summary>
+    [Obsolete("This interface will be removed in a future version.  Use `IMemberMatchingRule` instead.")]
     public interface IMatchingRule
     {
         /// <summary>

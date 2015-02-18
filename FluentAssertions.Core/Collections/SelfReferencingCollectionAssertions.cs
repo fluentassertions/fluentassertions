@@ -12,7 +12,6 @@ namespace FluentAssertions.Collections
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="IEnumerable{T}"/> is in the expectation state.
     /// </summary>
-//    [DebuggerNonUserCode]
     public class SelfReferencingCollectionAssertions<T, TAssertions> : CollectionAssertions<IEnumerable<T>, TAssertions>
         where TAssertions : SelfReferencingCollectionAssertions<T, TAssertions>
     {
@@ -270,11 +269,39 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Expects the current collection to contain only a single item.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] reasonArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, reasonArgs)
+                    .FailWith("Expected {context:collection} to contain a single item but found <null>.");
+            }
+
+            if (Subject.Count() != 1)
+            {
+                Execute.Assertion
+                       .BecauseOf(because, reasonArgs)
+                       .FailWith("Expected {context:collection} to contain a single item.");
+            }
+
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Single());
+        }
 
         /// <summary>
         /// Expects the current collection to contain only a single item matching the specified <paramref name="predicate"/>.
         /// </summary>
-        /// <param name="predicate">The predictes that will be used to find the matching items.</param>
+        /// <param name="predicate">The predicate that will be used to find the matching items.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.

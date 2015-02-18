@@ -606,7 +606,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a string contains another (fragment of a) string.
         /// </summary>
         /// <param name="expected">
-        /// The (fragement of a) string that the current string should contain.
+        /// The (fragment of a) string that the current string should contain.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -671,7 +671,7 @@ namespace FluentAssertions.Primitives
         /// Asserts that a string does not contain another (fragment of a) string.
         /// </summary>
         /// <param name="expected">
-        /// The (fragement of a) string that the current string should not contain.
+        /// The (fragment of a) string that the current string should not contain.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 

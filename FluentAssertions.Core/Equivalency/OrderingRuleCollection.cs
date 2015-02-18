@@ -5,11 +5,26 @@ using System.Linq;
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
-    /// Collection of <see cref="PropertyPathOrderingRule"/>s.
+    /// Collection of <see cref="PathBasedOrderingRule"/>s.
     /// </summary>
     public class OrderingRuleCollection : IEnumerable<IOrderingRule>
     {
         private readonly List<IOrderingRule> rules = new List<IOrderingRule>();
+
+        /// <summary>
+        /// Initializes a new collection of ordering rules.
+        /// </summary>
+        public OrderingRuleCollection()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new collection of ordering rules based on an existing collection of ordering rules.
+        /// </summary>
+        public OrderingRuleCollection(IEnumerable<IOrderingRule> orderingRules)
+        {
+            rules.AddRange(orderingRules);
+        }
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.

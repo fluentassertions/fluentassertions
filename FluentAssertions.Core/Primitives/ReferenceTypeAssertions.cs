@@ -151,13 +151,13 @@ namespace FluentAssertions.Primitives
         /// <typeparam name="T">The type to which the object should be assignable.</typeparam>
         /// <param name="because">The reason why the object should be assignable to the type.</param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="because"/>.</param>
-        /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
+        /// <returns>An <see cref="AndWhichConstraint{TAssertions, T}"/> which can be used to chain assertions.</returns>
         public AndWhichConstraint<TAssertions, T> BeAssignableTo<T>(string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
-                .ForCondition(typeof(T).IsAssignableFrom(Subject.GetType()))
+                .ForCondition(Subject is T)
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} does not implement {0}",
+                .FailWith("Expected {context:" + Context + "} to be assignable to {0}{reason}, but {1} is not",
                     typeof(T),
                     Subject.GetType());
 
@@ -167,7 +167,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that the <paramref name="predicate" /> is satisfied.
         /// </summary>
-        /// <param name="predicate">The predicate which must be statisfied by the <typeparamref name="TSubject" />.</param>
+        /// <param name="predicate">The predicate which must be satisfied by the <typeparamref name="TSubject" />.</param>
         /// <param name="because">The reason why the predicate should be satisfied.</param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="because" />.</param>
         /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>
@@ -181,7 +181,7 @@ namespace FluentAssertions.Primitives
         /// <summary>
         /// Asserts that the <paramref name="predicate" /> is satisfied.
         /// </summary>
-        /// <param name="predicate">The predicate which must be statisfied by the <typeparamref name="TSubject" />.</param>
+        /// <param name="predicate">The predicate which must be satisfied by the <typeparamref name="TSubject" />.</param>
         /// <param name="because">The reason why the predicate should be satisfied.</param>
         /// <param name="reasonArgs">The parameters used when formatting the <paramref name="because" />.</param>
         /// <returns>An <see cref="AndConstraint{T}" /> which can be used to chain assertions.</returns>

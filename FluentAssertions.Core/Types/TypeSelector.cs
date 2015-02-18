@@ -12,9 +12,7 @@ namespace FluentAssertions.Types
     {
         private List<Type> types;
 
-        public TypeSelector(
-            IEnumerable<Type> types
-            )
+        public TypeSelector(IEnumerable<Type> types)
         {
             this.types = types.ToList();
         }
@@ -53,9 +51,9 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatAreDecoratedWith<TAttribute>()
         {
-            types = types.Where(t =>
-                t.GetCustomAttributes(typeof(TAttribute), true).Length > 0
-                ).ToList();
+            types = types
+                .Where(t => t.GetCustomAttributes(typeof(TAttribute), true).Length > 0)
+                .ToList();
             return this;
         }
 

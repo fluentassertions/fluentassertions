@@ -12,9 +12,9 @@ namespace FluentAssertions.Common
             get { return TestFrameworkProvider.Throw; }
         }
 
-        public Configuration Configuration
+        public IConfigurationStore ConfigurationStore
         {
-            get { return new Configuration(new AppSettingsConfigurationStore()); }
+            get { return new AppSettingsConfigurationStore(); }
         }
 
         public IReflector Reflector

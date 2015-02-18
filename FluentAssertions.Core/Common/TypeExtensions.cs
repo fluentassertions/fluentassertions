@@ -4,11 +4,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using FluentAssertions.Equivalency;
+
 namespace FluentAssertions.Common
 {
     public static class TypeExtensions
     {
-        private const BindingFlags PublicPropertiesFlag =
+        private const BindingFlags PublicMembersFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
         /// <summary>
@@ -42,9 +44,9 @@ namespace FluentAssertions.Common
         }
 
         /// <summary>
-        /// Determines whether two <see cref="PropertyInfo"/> objects refer to the same property.
+        /// Determines whether two <see cref="FluentAssertions.Equivalency.SelectedMemberInfo"/> objects refer to the same member.
         /// </summary>
-        public static bool IsEquivalentTo(this PropertyInfo property, PropertyInfo otherProperty)
+        public static bool IsEquivalentTo(this SelectedMemberInfo property, SelectedMemberInfo otherProperty)
         {
             return (property.DeclaringType.IsSameOrInherits(otherProperty.DeclaringType) ||
                     otherProperty.DeclaringType.IsSameOrInherits(property.DeclaringType)) &&
@@ -54,8 +56,7 @@ namespace FluentAssertions.Common
         public static bool IsSameOrInherits(this Type actualType, Type expectedType)
         {
             return (actualType == expectedType) ||
-                   (expectedType.IsAssignableFrom(actualType))
-                ;
+                   (expectedType.IsAssignableFrom(actualType));
         }
 
         public static bool Implements<TInterface>(this Type type)
@@ -63,6 +64,9 @@ namespace FluentAssertions.Common
             return Implements(type, typeof (TInterface));
         }
 
+        /// <summary>
+        /// NOTE: This method does not give the expected results with open generics
+        /// </summary>
         public static bool Implements(this Type type, Type expectedBaseType)
         {
             return
@@ -70,16 +74,40 @@ namespace FluentAssertions.Common
                 && (type != expectedBaseType);
         }
 
+        internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
+            {
+                return new[] { type };
+            }
+
+            Type[] interfaces = type.GetInterfaces();
+            return
+                interfaces
+                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == openGenericType)))
+                    .ToArray();
+        }
+
         public static bool IsComplexType(this Type type)
         {
-            return HasProperties(type) && (type.Namespace != typeof (int).Namespace);
+            return HasProperties(type) && !AssertionOptions.IsValueType(type);
         }
 
         private static bool HasProperties(Type type)
         {
-            return type
-                .GetProperties(PublicPropertiesFlag)
-                .Any();
+            return type.GetProperties(PublicMembersFlag).Any();
+        }
+
+        /// <summary>
+        /// Finds a member by its case-sensitive name.
+        /// </summary>
+        /// <returns>
+        /// Returns <c>null</c> if no such member exists.
+        /// </returns>
+        public static SelectedMemberInfo FindMember(this Type type, string memberName, Type preferredType)
+        {
+            return SelectedMemberInfo.Create(FindProperty(type, memberName, preferredType)) ??
+                   SelectedMemberInfo.Create(FindField(type, memberName, preferredType));
         }
 
         /// <summary>
@@ -91,7 +119,7 @@ namespace FluentAssertions.Common
         public static PropertyInfo FindProperty(this Type type, string propertyName, Type preferredType)
         {
             IEnumerable<PropertyInfo> properties =
-                type.GetProperties(PublicPropertiesFlag)
+                type.GetProperties(PublicMembersFlag)
                     .Where(pi => pi.Name == propertyName)
                     .ToList();
             
@@ -100,22 +128,73 @@ namespace FluentAssertions.Common
                 : properties.SingleOrDefault();
         }
 
+        /// <summary>
+        /// Finds the field by a case-sensitive name.
+        /// </summary>
+        /// <returns>
+        /// Returns <c>null</c> if no such property exists.
+        /// </returns>
+        public static FieldInfo FindField(this Type type, string fieldName, Type preferredType)
+        {
+            IEnumerable<FieldInfo> properties =
+                type.GetFields(PublicMembersFlag)
+                    .Where(pi => pi.Name == fieldName)
+                    .ToList();
+
+            return (properties.Count() > 1)
+                ? properties.SingleOrDefault(p => p.FieldType == preferredType)
+                : properties.SingleOrDefault();
+        }
+
+        public static IEnumerable<SelectedMemberInfo> GetNonPrivateMembers(this Type typeToReflect)
+        {
+            return
+                GetNonPrivateProperties(typeToReflect)
+                    .Select(SelectedMemberInfo.Create)
+                    .Concat(GetNonPrivateFields(typeToReflect).Select(SelectedMemberInfo.Create))
+                    .ToArray();
+        }
+
         public static IEnumerable<PropertyInfo> GetNonPrivateProperties(this Type typeToReflect, IEnumerable<string> filter = null)
         {
             var query =
                 from propertyInfo in GetPropertiesFromHierarchy(typeToReflect)
                 where HasNonPrivateGetter(propertyInfo)
+                where !propertyInfo.IsIndexer()
                 where (filter == null) || filter.Contains(propertyInfo.Name)
                 select propertyInfo;
 
             return query.ToArray();
         }
 
+        public static IEnumerable<FieldInfo> GetNonPrivateFields(this Type typeToReflect)
+        {
+            var query =
+                from fieldInfo in GetFieldsFromHierarchy(typeToReflect)
+                where !fieldInfo.IsPrivate
+                where !fieldInfo.IsFamily
+                select fieldInfo;
+
+            return query.ToArray();
+        }
+
+        private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type typeToReflect)
+        {
+            return GetMembersFromHierarchy(typeToReflect, GetPublicFields);
+        }
+
         private static IEnumerable<PropertyInfo> GetPropertiesFromHierarchy(Type typeToReflect)
+        {
+            return GetMembersFromHierarchy(typeToReflect, GetPublicProperties);
+        }
+
+        private static IEnumerable<TMemberInfo> GetMembersFromHierarchy<TMemberInfo>(
+            Type typeToReflect,
+            Func<Type, IEnumerable<TMemberInfo>> getMembers) where TMemberInfo : MemberInfo
         {
             if (IsInterface(typeToReflect))
             {
-                var propertyInfos = new List<PropertyInfo>();
+                var propertyInfos = new List<TMemberInfo>();
 
                 var considered = new List<Type>();
                 var queue = new Queue<Type>();
@@ -127,15 +206,18 @@ namespace FluentAssertions.Common
                     var subType = queue.Dequeue();
                     foreach (var subInterface in GetInterfaces(subType))
                     {
-                        if (considered.Contains(subInterface)) continue;
+                        if (considered.Contains(subInterface))
+                        {
+                            continue;
+                        }
 
                         considered.Add(subInterface);
                         queue.Enqueue(subInterface);
                     }
 
-                    IEnumerable<PropertyInfo> typeProperties = GetPublicProperties(subType);
+                    IEnumerable<TMemberInfo> typeProperties = getMembers(subType);
 
-                    IEnumerable<PropertyInfo> newPropertyInfos = typeProperties.Where(x => !propertyInfos.Contains(x));
+                    IEnumerable<TMemberInfo> newPropertyInfos = typeProperties.Where(x => !propertyInfos.Contains(x));
 
                     propertyInfos.InsertRange(0, newPropertyInfos);
                 }
@@ -144,7 +226,7 @@ namespace FluentAssertions.Common
             }
             else
             {
-                return GetPublicProperties(typeToReflect);
+                return getMembers(typeToReflect);
             }
         }
 
@@ -160,7 +242,12 @@ namespace FluentAssertions.Common
 
         private static IEnumerable<PropertyInfo> GetPublicProperties(Type type)
         {
-            return type.GetProperties(PublicPropertiesFlag);
+            return type.GetProperties(PublicMembersFlag);
+        }
+
+        private static IEnumerable<FieldInfo> GetPublicFields(Type type)
+        {
+            return type.GetFields(PublicMembersFlag);
         }
 
         private static bool HasNonPrivateGetter(PropertyInfo propertyInfo)
@@ -172,6 +259,11 @@ namespace FluentAssertions.Common
         public static MethodInfo GetMethodNamed(this Type type, string methodName)
         {
             return type.GetMethod(methodName);
+        }
+
+        internal static bool IsIndexer(this PropertyInfo member)
+        {
+            return (member.GetIndexParameters().Length != 0);
         }
     }
 }

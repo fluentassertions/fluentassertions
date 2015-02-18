@@ -13,17 +13,12 @@ namespace FluentAssertions
     [DebuggerNonUserCode]
     public static class TypeExtensions
     {
-        private const BindingFlags PublicPropertiesFlag =
-            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-
         /// <summary>
         /// Returns the types that are visible outside the specified <see cref="Assembly"/>.
         /// </summary>
         public static TypeSelector Types(this Assembly assembly)
         {
-            return new TypeSelector(
-                assembly.GetTypes()
-                );
+            return new TypeSelector(assembly.GetTypes());
         }
 
         /// <summary>

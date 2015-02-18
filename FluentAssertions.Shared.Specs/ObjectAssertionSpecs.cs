@@ -199,6 +199,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var someObject = new object();
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -374,36 +375,63 @@ namespace FluentAssertions.Specs
         #region BeAssignableTo
 
         [TestMethod]
-        public void Should_succeed_when_asserting_object_assignable_to_for_same_type()
+        public void When_asserting_an_object_is_assignable_its_own_type_it_should_succeed()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var someObject = new DummyImplementingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             someObject.Should().BeAssignableTo<DummyImplementingClass>();
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_object_assignable_to_base_type()
+        public void When_asserting_an_object_is_assignable_to_its_base_type_it_should_succeed()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var someObject = new DummyImplementingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             someObject.Should().BeAssignableTo<DummyBaseClass>();
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_object_assignable_to_implemented_interface_type()
+        public void When_asserting_an_object_is_assignable_to_an_implemented_interface_type_it_should_succeed()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var someObject = new DummyImplementingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             someObject.Should().BeAssignableTo<IDisposable>();
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_object_assignable_to_not_implemented_type()
+        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_it_should_fail_with_a_descriptive_message()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var someObject = new DummyImplementingClass();
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
             someObject.Invoking(
                 x => x.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected object to be assignable to {1} because we want to test the failure message, but {0} does not implement {1}",
+                    "Expected object to be assignable to {1} because we want to test the failure message, but {0} is not",
                     typeof(DummyImplementingClass), typeof(DateTime)));
         }
 
@@ -454,7 +482,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new SerializableClass
             {
-                Name = "John"
+                Name = "John",
+                Id = 2
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -569,7 +598,7 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<AssertFailedException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable, but serialization failed with:") &&
-                    ex.Message.Contains("property Name to be"));
+                    ex.Message.Contains("member Name to be"));
         }
 
         internal class UnserializableClass
@@ -581,6 +610,8 @@ namespace FluentAssertions.Specs
         public class SerializableClass
         {
             public string Name { get; set; }
+
+            public int Id;
         }
 
         [Serializable]
@@ -642,7 +673,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new XmlSerializableClass
             {
-                Name = "John"
+                Name = "John",
+                Id = 1
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -706,7 +738,7 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<AssertFailedException>()
                 .Where(ex =>
                     ex.Message.Contains("to be serializable, but serialization failed with:") &&
-                    ex.Message.Contains("property Name to be"));
+                    ex.Message.Contains("member Name to be"));
         }
 
         internal class NonPublicClass
@@ -717,6 +749,8 @@ namespace FluentAssertions.Specs
         public class XmlSerializableClass
         {
             public string Name { get; set; }
+
+            public int Id;
         }
 
         public class XmlSerializableClassNotRestoringAllProperties : IXmlSerializable

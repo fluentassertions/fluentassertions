@@ -1,16 +1,20 @@
+using System;
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class StringEqualityEquivalencyStep : IEquivalencyStep
+    public class StringEqualityEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return (context.RuntimeType != null) && (context.RuntimeType == typeof (string));
+            Type subjectType = config.GetSubjectType(context);
+
+            return (subjectType != null) && (subjectType == typeof (string));
         }
 
         /// <summary>
@@ -23,8 +27,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context,
-            IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             if (!ValidateAgainstNulls(context))
             {
@@ -47,7 +50,7 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool ValidateAgainstNulls(EquivalencyValidationContext context)
+        private static bool ValidateAgainstNulls(IEquivalencyValidationContext context)
         {
             object expected = context.Expectation;
             object subject = context.Subject;
@@ -67,7 +70,7 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool ValidateAgainstType<T>(EquivalencyValidationContext context)
+        private static bool ValidateAgainstType<T>(IEquivalencyValidationContext context)
         {
             bool expectationisNull = ReferenceEquals(context.Expectation, null);
 
@@ -89,9 +92,9 @@ namespace FluentAssertions.Equivalency
 
         }
 
-        private static string GetSubjectDescription(EquivalencyValidationContext context)
+        private static string GetSubjectDescription(IEquivalencyValidationContext context)
         {
-            return context.IsRoot ? "subject" : context.PropertyDescription;
+            return context.IsRoot ? "subject" : context.SelectedMemberDescription;
         }
     }
 }

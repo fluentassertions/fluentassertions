@@ -5,7 +5,7 @@ namespace FluentAssertions.Execution
     /// <summary>
     /// Defines a strategy for handling failures in a <see cref="AssertionScope"/>.
     /// </summary>
-    internal interface IAssertionStrategy
+    public interface IAssertionStrategy
     {
         /// <summary>
         /// Returns the messages for the assertion failures that happened until now.

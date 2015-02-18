@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class GenericEnumerableEquivalencyStep : IEquivalencyStep
+    public class GenericEnumerableEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the verificationScope subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+            var subjectType = config.GetSubjectType(context);
 
             return (context.Subject != null) && IsGenericCollection(subjectType);
         }
@@ -29,9 +30,9 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = EnumerableEquivalencyStep.GetSubjectType(context, config);
+            Type subjectType = config.GetSubjectType(context);
 
             Type[] interfaces = GetIEnumerableInterfaces(subjectType);
             bool multipleInterfaces = (interfaces.Count() > 1);
@@ -66,7 +67,7 @@ namespace FluentAssertions.Equivalency
 
                 MethodCallExpression executeExpression = Expression.Call(
                     Expression.Constant(validator),
-                    "Execute",
+                    ExpressionExtensions.GetMethodName(() => validator.Execute<object>(null,null)),
                     new Type[] { typeOfEnumeration },
                     subjectToArray,
                     expectationToArray);
@@ -79,30 +80,33 @@ namespace FluentAssertions.Equivalency
 
         private static bool AssertExpectationIsCollection(object expectation)
         {
-            return AssertionScope.Current
-                .ForCondition(IsGenericCollection(expectation.GetType()))
-                .FailWith(
-                    "{context:Subject} is a collection and cannot be compared with a non-collection type.");
+            bool conditionMet = AssertionScope.Current
+                .ForCondition(!ReferenceEquals(expectation, null))
+                .FailWith("{context:Subject} is a collection and cannot be compared to <null>.");
+
+            if (conditionMet)
+            {
+                return AssertionScope.Current
+                    .ForCondition(IsGenericCollection(expectation.GetType()))
+                    .FailWith(
+                        "{context:Subject} is a collection and cannot be compared with a non-collection type.");
+            }
+
+            return conditionMet;
         }
 
         private static bool IsGenericCollection(Type type)
         {
             var enumerableInterfaces = GetIEnumerableInterfaces(type);
 
-            return (!typeof(string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
+            return (!typeof (string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
         }
 
         private static Type[] GetIEnumerableInterfaces(Type type)
         {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-            {
-                return new[] { type };
-            }
+            Type soughtType = typeof(IEnumerable<>);
 
-            return
-                type.GetInterfaces()
-                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == typeof(IEnumerable<>))))
-                    .ToArray();
+            return Common.TypeExtensions.GetClosedGenericInterfaces(type, soughtType);
         }
 
         private static Type GetTypeOfEnumeration(Type enumerableType)
@@ -112,13 +116,13 @@ namespace FluentAssertions.Equivalency
             return interfaceType.GetGenericArguments().Single();
         }
 
-        private static Expression ToArray(object value, Type typeOfEnumeration)
+        private static MethodCallExpression ToArray(object value, Type typeOfEnumeration)
         {
             return Expression.Call(
                 typeof(Enumerable),
                 "ToArray",
                 new Type[] { typeOfEnumeration },
-                Expression.Constant(value));
+                Expression.Constant(value, typeof(IEnumerable<>).MakeGenericType(typeOfEnumeration)));
         }
     }
 }

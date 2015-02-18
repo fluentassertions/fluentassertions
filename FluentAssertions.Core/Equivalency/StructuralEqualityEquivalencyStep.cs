@@ -1,33 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
 {
-    internal class StructuralEqualityEquivalencyStep : IEquivalencyStep
+    public class StructuralEqualityEquivalencyStep : IEquivalencyStep
     {
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
-        public bool CanHandle(EquivalencyValidationContext context, IEquivalencyAssertionOptions config)
+        public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             return (context.IsRoot || config.IsRecursive);
         }
 
-        /// <summary>
-        /// Applies a step as part of the task to compare two objects for structural equality.
-        /// </summary>
-        /// <value>
-        /// Should return <c>true</c> if the subject matches the expectation or if no additional assertions
-        /// have to be executed. Should return <c>false</c> otherwise.
-        /// </value>
-        /// <remarks>
-        /// May throw when preconditions are not met or if it detects mismatching data.
-        /// </remarks>
-        public bool Handle(EquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             bool expectationIsNotNull = AssertionScope.Current
                 .ForCondition(!ReferenceEquals(context.Expectation, null))
@@ -43,30 +31,30 @@ namespace FluentAssertions.Equivalency
                         context.Expectation,
                         context.Subject);
 
-            IEnumerable<PropertyInfo> selectedProperties = GetSelectedProperties(context, config).ToArray();
-            if (context.IsRoot && !selectedProperties.Any())
+            IEnumerable<SelectedMemberInfo> selectedMembers = GetSelectedMembers(context, config).ToArray();
+            if (context.IsRoot && !selectedMembers.Any())
             {
                 throw new InvalidOperationException(
-                    "No properties were found for comparison. " +
-                    "Please specify some properties to include in the comparison or choose a more meaningful assertion.");
+                    "No members were found for comparison. " +
+                    "Please specify some members to include in the comparison or choose a more meaningful assertion.");
             }
 
             if (expectationIsNotNull && subjectIsNotNull)
             {
-                foreach (PropertyInfo propertyInfo in selectedProperties)
+                foreach (var selectedMemberInfo in selectedMembers)
                 {
-                    AssertPropertyEquality(context, parent, propertyInfo, config);
+                    AssertMemberEquality(context, parent, selectedMemberInfo, config);
                 }
             }
             return true;
         }
 
-        private void AssertPropertyEquality(EquivalencyValidationContext context, IEquivalencyValidator parent, PropertyInfo propertyInfo, IEquivalencyAssertionOptions config)
+        private static void AssertMemberEquality(IEquivalencyValidationContext context, IEquivalencyValidator parent, SelectedMemberInfo selectedMemberInfo, IEquivalencyAssertionOptions config)
         {
-            var matchingProperty = FindMatchFor(propertyInfo, context, config.MatchingRules);
-            if (matchingProperty != null)
+            var matchingMember = FindMatchFor(selectedMemberInfo, context, config);
+            if (matchingMember != null)
             {
-                EquivalencyValidationContext nestedContext = context.CreateForNestedProperty(propertyInfo, matchingProperty);
+                var nestedContext = context.CreateForNestedMember(selectedMemberInfo, matchingMember);
                 if (nestedContext != null)
                 {
                     parent.AssertEqualityUsing(nestedContext);
@@ -74,33 +62,28 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private PropertyInfo FindMatchFor(PropertyInfo propertyInfo, EquivalencyValidationContext context, IEnumerable<IMatchingRule> matchingRules)
+        private static SelectedMemberInfo FindMatchFor(SelectedMemberInfo selectedMemberInfo, IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             var query =
-                from rule in matchingRules
-                let match = rule.Match(propertyInfo, context.Expectation, context.PropertyDescription)
+                from rule in config.MatchingRules
+                let match = rule.Match(selectedMemberInfo, context.Expectation, context.SelectedMemberDescription, config)
                 where match != null
                 select match;
 
             return query.FirstOrDefault();
         }
 
-        internal IEnumerable<PropertyInfo> GetSelectedProperties(EquivalencyValidationContext context, 
+        internal IEnumerable<SelectedMemberInfo> GetSelectedMembers(IEquivalencyValidationContext context, 
             IEquivalencyAssertionOptions config)
         {
-            IEnumerable<PropertyInfo> properties = Enumerable.Empty<PropertyInfo>();
+            IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();
 
-            foreach (ISelectionRule selectionRule in config.SelectionRules)
+            foreach (var selectionRule in config.SelectionRules)
             {
-                properties = selectionRule.SelectProperties(properties, context);
+                members = selectionRule.SelectMembers(members, context, config);
             }
 
-            return properties.Where(IsNotIndexer);
-        }
-
-        private static bool IsNotIndexer(PropertyInfo property)
-        {
-            return (property.GetIndexParameters().Length == 0);
+            return members;
         }
     }
 }

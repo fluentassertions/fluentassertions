@@ -50,3 +50,4 @@ using System.Runtime.InteropServices;
                               "3ba08f61d466cff5d80a7f28ba197bbf8796085213e7a3406f970d2a4874932fed35db546e89af" +
                               "2da88c194bf1b7f7ac70de7988c78406f7629c547283061282a825616eb7eb48a9514a75709429" +
                               "36020a9bb37dca9ff60b778309900851575614491c6d25018fadb75828f4c7a17bf2d7dc86e7b6eafc5d8f")]
+[assembly: InternalsVisibleTo("Chill")]
