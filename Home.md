@@ -424,6 +424,9 @@ theGuid.Should().NotBeEmpty();
 Guid.Empty.Should().BeEmpty();
 ```
 
+## Enums ##
+With the standard ``Should().Be()`` method, Enums are compared using .NET's ``Enum.Equals()`` implementation. This means that the Enums must be of the same type, and have the same underlying value.
+
 ## Exceptions ##
 
 The following example verifies that the `Foo()` method throws an `InvalidOperationException` which `Message` property has a specific value.
@@ -512,48 +515,65 @@ act.ShouldNotThrow();
 
 ## Object graph comparison ##
 
-Consider the class `Order` and its wire-transfer equivalent `OrderDto` (a so-called DTO). Suppose also that an order has one or more `Product`s and an associated `Customer`. Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresponding `CustomerDto`. Now if you want to make sure that all the properties of all the objects in the `OrderDto` object graph match the equally named properties of the `Order` object graph, you can do this. 
+Consider the class `Order` and its wire-transfer equivalent `OrderDto` (a so-called DTO). Suppose also that an order has one or more `Product`s and an associated `Customer`. Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresponding `CustomerDto`. You may want to make sure that all exposed members of all the objects in the `OrderDto` object graph match the equally named members of the `Order` object graph.
 
+You may assert the structural equality of two object graphs with `ShouldbeEquivalentTo`:
 ```csharp
-orderDto.ShouldBeEquivalentTo(order); 
+orderDto.ShouldBeEquivalentTo(order);
 ```
 
-The comparison is recursive by default and all properties of the `OrderDto` must be available on the  `Order`. If not, an exception is thrown. To be safe, FA will recurse up to 10 levels deep by default, but if you want to force it to go as deep as possible, use the `AllowingInfiniteRecursion` option.  On the other hand, if you want to disable recursion, just use this option:
+**Recursion**
+
+The comparison is recursive by default.
+
+To avoid infinite recursion, Fluent Assertions will recurse up to 10 levels deep by default, but if you want to force it to go as deep as possible, use the `AllowingInfiniteRecursion` option.
+On the other hand, if you want to disable recursion, just use this option:
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => 
     options.ExcludingNestedObjects());
 ```
 
-You have fine-grained control on how this comparison continues. For instance, you may only want to include the properties both object graphs have:
+### Matching Members ###
+
+All public members of the `OrderDto` must be available on the  `Order` having the same name.  If any members are missing, an exception will be thrown.
+However, you may customize this behavior.
+
+If you want to include only the members both object graphs have:
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => 
-    options.ExcludingMissingProperties());
+    options.ExcludingMissingMembers());
 ```
 
-You can also exclude certain (potentially deeply nested) properties using the `Excluding()` method. 
+### Selecting Members ###
+
+If you want to exclude exclude certain (potentially deeply nested) properties using the `Excluding()` method:
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => 
     options.Excluding(o => o.Customer.Name));
 ```
 
-Obviously, `Excluding()` and `ExcludingMissingProperties()` can be combined. Maybe farfetched, but you may even decide to exclude a property on a particular nested object by its index. 
+The `Excluding()` method on the options object also takes a lambda expression that offers a bit more flexibility for deciding what member to exclude:
+
+```csharp
+orderDto.ShouldBeEquivalentTo(order, options => options 
+    .Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text")); 
+```
+This expression has access to the property path, the property info and the subject’s run-time and compile-time type.
+
+
+Maybe far-fetched, but you may even decide to exclude a member on a particular nested object by its index. 
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => 
     options.Excluding(o => o.Products[1].Status)); 
 ```
 
-The `Excluding()` method on the options object also takes a lambda expression that offers a bit more flexibility for deciding what property to include. 
+Of course, `Excluding()` and `ExcludingMissingMembers()` can be combined.
 
-```csharp
-orderDto.ShouldBeEquivalentTo(order, options => options 
-    .Excluding(ctx => ctx.PropertyPath == "Level.Level.Text")); 
-```
-
-This expression has access to the property path, the property info and the subject’s run-time and compile-time type. You could also take a different approach and explicitly tell FA which properties to include. 
+You can also take a different approach and explicitly tell Fluent Assertions which members to include:
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => option
@@ -561,38 +581,8 @@ orderDto.ShouldBeEquivalentTo(order, options => option
     .Including(o => o.Date)); 
 ```
 
-**Collections and dictionaries**  
-The original `ShouldHave()` extension method does support collections, but it doesn’t allow you to influence the comparison based on the actual collection type, neither does it support (nested) dictionaries. The new extension method `ShouldAllBeEquivalentTo()` does support that so you can now take the 2nd example from the post and apply it on a collection of `OrderDtos`. 
-
-```csharp
-orderDtos.ShouldAllBeEquivalentTo(orders, options => options.Excluding(o => o.Customer.Name)); 
-```
-
-And did you know that Fluent Assertions will, by default, ignore the order of the items in the collections, regardless of whether the collection is at the root of the object graph or tucked away in a nested property? If the order is important, you can override the default behavior with the following option:
-
-```csharp
-orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrdering());
-```
-
-You can even tell FA to use strict ordering only for a particular collection or dictionary property, similar to how you exclude certain properties:
-
-```csharp
-orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrderingFor(s => s.Products));
-```
-
-Notice that for performance reasons, collections of bytes are still compared in exact order.
-
-**Enums**  
-With the standard ``Should().Be()`` method, Enums are compared using .net ``Enum.Equals()`` implementation. This means that the Enums must be of the same type, and have the same underlying value.  
-
-By default, ``ShouldBeEquivalentTo()`` compares the enumeration properties by their underlying value only. An option to compare Enums only by name is also available, using the following configuration :  
-
-```csharp
-orderDto.ShouldBeEquivalentTo(expectation, options => options.ComparingEnumsByName());
-```
-
-**Overriding**  
-In addition to influencing the properties that are including in the comparison, you can also override the actual assertion operation that is executed on a particular property. 
+### Equivalency Comparison Behavior ###
+In addition to influencing the members that are including in the comparison, you can also override the actual assertion operation that is executed on a particular member. 
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => options
@@ -600,7 +590,7 @@ orderDto.ShouldBeEquivalentTo(order, options => options
     .When(info => info.PropertyPath.EndsWith("Date"))); 
 ```
 
-If you want to do this for all properties of a certain type, you can shorten the above call like this. 
+If you want to do this for all members of a certain type, you can shorten the above call like this. 
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => options 
@@ -608,16 +598,48 @@ orderDto.ShouldBeEquivalentTo(order, options => options
     .WhenTypeIs<DateTime>(); 
 ```
 
-**Extensibility**  
-Internally the comparison process consists of three phases. 
+####Enums####
+By default, ``ShouldBeEquivalentTo()`` compares Enum members by the Enum's underlying numeric value. An option to compare Enums only by name is also available, using the following configuration :
 
-1. Select the properties of the subject object to include in the comparison.  
-2. Find a matching property on the expectation object and decide what to do if it can’t find any.  
-3. Select the appropriate assertion method for the property’s type and execute it.  
+```csharp
+orderDto.ShouldBeEquivalentTo(expectation, options => options.ComparingEnumsByName());
+```
 
-Each of these phases is executed by one or more implementations of `ISelectionRule`, `IMatchingRule` and  `IAssertionRule` that are maintained by the `EquivalencyAssertionOptions`. 
+###Collections and Dictionaries###
+The original `ShouldAllBeEquivalentTo()` extension method does support collections, but it doesn’t allow you to influence the comparison based on the actual collection type, nor does it support (nested) dictionaries. The new extension method `ShouldAllBeEquivalentTo()` supports this so you can configure comparisons on the type of items in the collection.
 
-The `ExcludePropertyByPredicateSelectionRule` for example, is added to the collection of selection rules when you use the `Excluding(property expression)` method on the options parameter of `ShouldBeEquivalentTo()`. Even the `Using().When()` construct in the previous section is doing nothing more than inserting an `AssertionRule<TSubject>` in to the list of assertion rules. Creating your own rule is quite straightforward.
+Considering our running example, you could use the following against a collection of `OrderDto`s: 
+
+```csharp
+orderDtos.ShouldAllBeEquivalentTo(orders, options => options.Excluding(o => o.Customer.Name)); 
+```
+
+**Ordering**
+
+Fluent Assertions will, by default, ignore the order of the items in the collections, regardless of whether the collection is at the root of the object graph or tucked away in a nested property. If the order is important, you can override the default behavior with the following option:
+
+```csharp
+orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrdering());
+```
+
+You can even tell FA to use strict ordering only for a particular collection or dictionary member, similar to how you exclude certain members:
+
+```csharp
+orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrderingFor(s => s.Products));
+```
+
+**Notice:** For performance reasons, collections of bytes are still compared in exact order.
+
+### Extensibility ###
+Internally the structural comparison process consists of three phases which repeats as the comparison recurses:
+
+1. Select the members of the subject object to include in the comparison.  
+2. Find a matching member on the expectation object and decide what to do if it can’t find any.  
+3. Select the appropriate assertion method for the member’s type and execute it.  
+
+Three main extension points exist: `IEquivalencyStep`, `IMemberSelectionRule`, `IMemberMatchingRule`.  You may add your own implementations using the `Using` method overloads on `EquivalencyAssertionOptions`.
+
+Fluent Assertions uses these same interfaces to provide its  built-in functionality.  Internally, for example, `ExcludeMemberByPredicateSelectionRule`, is added to the collection of selection rules when you use the `Excluding(expression)` method on the options parameter of `ShouldBeEquivalentTo()`. Even the `Using().When()` construct in the previous section is doing nothing more than inserting an `IEquivalencyStep` in to the list of equivalency steps. Creating your own rules is quite straightforward.
   
 1. Choose the appropriate phase that the rule should influence 
 2. Select the corresponding interface 
@@ -627,8 +649,6 @@ The `ExcludePropertyByPredicateSelectionRule` for example, is added to the colle
 ```csharp
 subject.ShouldBeEquivalentTo(expected, options => options.Using(new ExcludeForeignKeysSelectionRule()));
 ```
-
-You can go even further because the entire execution plan is dictated by the collection of `IEquivalencyStep` objects exposed by the `Steps` property of the `EquivalencyValidator` class. You can reorder, remove or even add your own step. Check out the [code on GitHub](https://github.com/dennisdoomen/fluentassertions/blob/master/FluentAssertions.Net35/Equivalency/EquivalencyValidator.cs) for some ideas.
 
 ## Event Monitoring ##
 
