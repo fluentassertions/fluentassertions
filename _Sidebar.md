@@ -11,7 +11,6 @@
 * [Guids](#guids)
 * [Exceptions](#exceptions)
 * [Object graph comparison](#object-graph-comparison)
-* [Property Comparison (*obsolete*)](#property-comparison)
 * [Event Monitoring](#event-monitoring)
 * [Type, Method and property assertions](#type-assertions)
 * [Assembly references](#assembly-references)
