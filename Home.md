@@ -534,6 +534,21 @@ orderDto.ShouldBeEquivalentTo(order, options =>
     options.ExcludingNestedObjects());
 ```
 
+**Member type**
+
+By default, Fluent Assertions uses an object's or member's declared (compile-time) type for its comparisons and when selecting members on the subject object.  That is to say if the subject is a `OrderDto` but the variable it is assigned to has type `object` no members would be found.  This behavior can be configured and you can choose to use Runtime types if you prefer:
+
+```csharp
+// Use runtime type information
+orderDto.ShouldBeEquivalentTo(order, options => 
+    options.RespectingRuntimeTypes());
+	
+// Use declared type information
+orderDto.ShouldBeEquivalentTo(order, options => 
+    options.RespectingDeclaredTypes());	
+```
+
+
 ### Matching Members ###
 
 All public members of the `OrderDto` must be available on the  `Order` having the same name.  If any members are missing, an exception will be thrown.
@@ -548,7 +563,7 @@ orderDto.ShouldBeEquivalentTo(order, options =>
 
 ### Selecting Members ###
 
-If you want to exclude exclude certain (potentially deeply nested) properties using the `Excluding()` method:
+If you want to exclude exclude certain (potentially deeply nested) individual members using the `Excluding()` method:
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => 
@@ -561,7 +576,6 @@ The `Excluding()` method on the options object also takes a lambda expression th
 orderDto.ShouldBeEquivalentTo(order, options => options 
     .Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text")); 
 ```
-This expression has access to the property path, the property info and the subject’s run-time and compile-time type.
 
 
 Maybe far-fetched, but you may even decide to exclude a member on a particular nested object by its index. 
@@ -576,10 +590,35 @@ Of course, `Excluding()` and `ExcludingMissingMembers()` can be combined.
 You can also take a different approach and explicitly tell Fluent Assertions which members to include:
 
 ```csharp
-orderDto.ShouldBeEquivalentTo(order, options => option
+orderDto.ShouldBeEquivalentTo(order, options => options
     .Including(o => o.OrderNumber)
     .Including(o => o.Date)); 
 ```
+
+**Including Properties and/or Fields**
+
+You may also configure member inclusion more more broadly.  Barring other configuration, Fluent Assertions will include all all [public] properties and fields.  This behavior can be configured:
+
+```csharp
+// Include Fields
+orderDto.ShouldBeEquivalentTo(order, options => options
+	.IncludingFields();
+
+// Include Properties
+orderDto.ShouldBeEquivalentTo(order, options => options
+	.IncludingProperties();
+	
+// Exclude Fields
+orderDto.ShouldBeEquivalentTo(order, options => options
+	.ExcludingFields();
+	
+// Exclude Properties
+orderDto.ShouldBeEquivalentTo(order, options => options
+	.ExcludingProperties();
+```
+
+This configuration affects the initial inclusion of members and happens before any `Exclude`s or other `IMemberSelectionRule`s.  This configuration also affects matching.  For example, that if properties are excluded, properties will not be inspected when looking for a match on the expected object.
+
 
 ### Equivalency Comparison Behavior ###
 In addition to influencing the members that are including in the comparison, you can also override the actual assertion operation that is executed on a particular member. 
@@ -587,7 +626,7 @@ In addition to influencing the members that are including in the comparison, you
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => options
     .Using<DateTime>(ctx => ctx.Date.Should().BeCloseTo(ctx.Date, 1000))
-    .When(info => info.PropertyPath.EndsWith("Date"))); 
+    .When(info => info.SelectedMemberPath.EndsWith("Date"))); 
 ```
 
 If you want to do this for all members of a certain type, you can shorten the above call like this. 
@@ -598,7 +637,8 @@ orderDto.ShouldBeEquivalentTo(order, options => options
     .WhenTypeIs<DateTime>(); 
 ```
 
-####Enums####
+**Enums**
+
 By default, ``ShouldBeEquivalentTo()`` compares Enum members by the Enum's underlying numeric value. An option to compare Enums only by name is also available, using the following configuration :
 
 ```csharp
@@ -616,7 +656,7 @@ orderDtos.ShouldAllBeEquivalentTo(orders, options => options.Excluding(o => o.Cu
 
 **Ordering**
 
-Fluent Assertions will, by default, ignore the order of the items in the collections, regardless of whether the collection is at the root of the object graph or tucked away in a nested property. If the order is important, you can override the default behavior with the following option:
+Fluent Assertions will, by default, ignore the order of the items in the collections, regardless of whether the collection is at the root of the object graph or tucked away in a nested property or field. If the order is important, you can override the default behavior with the following option:
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrdering());
@@ -628,10 +668,10 @@ You can even tell FA to use strict ordering only for a particular collection or 
 orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrderingFor(s => s.Products));
 ```
 
-**Notice:** For performance reasons, collections of bytes are still compared in exact order.
+**Notice:** For performance reasons, collections of bytes are compared in exact order.
 
 ### Extensibility ###
-Internally the structural comparison process consists of three phases which repeats as the comparison recurses:
+Internally the structural comparison process consists of three phases which repeat as the comparison recurses:
 
 1. Select the members of the subject object to include in the comparison.  
 2. Find a matching member on the expectation object and decide what to do if it can’t find any.  
