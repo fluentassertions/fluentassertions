@@ -504,14 +504,18 @@ Talking about the `async` keyword, you can also verify that an asynchronously ex
 ```csharp
 Func<Task> act = async () => { await asyncObject.ThrowAsync<ArgumentException>(); };
 act.ShouldThrow<InvalidOperationException>();
-```
-
-or
-
-```csharp
-Func<Task> act = async () => { await asyncObject.SucceedAsync(); };
 act.ShouldNotThrow();
 ```
+
+Alternatively, you can use the `Awaiting` method like this:
+
+```csharp
+Func<Task> act = () => asyncObject.Awaiting(async x => await x.ThrowAsync<ArgumentException>())
+act.ShouldThrow<ArgumentException>();
+```
+
+Both give you the same results, so it's just a matter of personal preference. 
+
 
 ## Object graph comparison ##
 
@@ -587,12 +591,12 @@ orderDto.ShouldBeEquivalentTo(order, options =>
 
 Of course, `Excluding()` and `ExcludingMissingMembers()` can be combined.
 
-You can also take a different approach and explicitly tell Fluent Assertions which members to include:
+You can also take a different approach and explicitly tell Fluent Assertions which members to include. You can directly specify a property expression or use a predicate that acts on the provided `ISubjectInfo`.  
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => options
     .Including(o => o.OrderNumber)
-    .Including(o => o.Date)); 
+	.Including(pi => pi.PropertyPath.EndsWidth("Date")); 
 ```
 
 **Including Properties and/or Fields**
@@ -884,7 +888,7 @@ Execute.Assertion
 **Formatters**  
 In addition to writing your own extensions, you can influence the way data is formatted with these two techniques.
 
-* You can alter the list of `IValueFormatter` objects on the Formatter class with your own implementation of that interface. Just make sure your own formatter precedes any of the built-in ones.
+* You can alter the list of `IValueFormatter` objects on the `Formatter` class with your own implementation of that interface using its methods `AddFormatter` and `RemoveFormatter`. 
 
 * You can override the way Fluent Assertions formats objects in an error message by annotating a static method with the `[ValueFormatter]` attribute. If a class doesn’t override `ToString()`, the built-in `DefaultValueFormatter` will render an object graph of that object. But you can now override that using a construct like this:
 
