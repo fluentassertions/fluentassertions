@@ -274,12 +274,12 @@ timeSpan.Should().BeGreaterOrEqual(someOtherTimeSpan);
 Similarly to the [date and time assertions](#dates-and-times), `BeCloseTo` is also available for time spans:
 
 ```csharp
-timeSpan.Should().BeCloseTo(new TimeSpan(13, 0, 0), 5.Milliseconds());
+timeSpan.Should().BeCloseTo(new TimeSpan(13, 0, 0), 10.Ticks());
 ```
 
 ## Collections ##
 
-A collection object in .NET is so versatile that the number of assertions on them require the same level of versatility.  
+A collection object in .NET is so versatile that the number of assertions on them require the same level of versatility. Most, if not all, are so self-explanatory that we'll just list them here.   
 
 ```csharp
 IEnumerable collection = new[] { 1, 2, 5, 8 };
@@ -297,8 +297,13 @@ collection.Should().NotBeEquivalent(8, 2, 3, 5);
 collection.Should().HaveCount(c => c > 3).And.OnlyHaveUniqueItems();
 collection.Should().HaveSameCount(new[] {6, 2, 0, 5});
 
+collection.Should().StartWith(element);
+collection.Should().EndWith(element);
+
 collection.Should().BeSubsetOf(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, });
 
+collection.Should().ContainSingle();
+collection.Should().ContainSingle(x => x > 3);
 collection.Should().Contain(8).And.HaveElementAt(2, 5).And.NotBeSubsetOf(new[] {11, 56});
 collection.Should().Contain(x => x > 3); 
 collection.Should().Contain(collection, 5, 6); // It should contain the original items, plus 5 and 6.
@@ -311,6 +316,9 @@ collection.Should().ContainInOrder(new[] { 1, 5, 8 });
 collection.Should().NotContain(82);
 collection.Should().NotContainNulls();
 collection.Should().NotContain(x => x > 10);
+
+collection.Should().HaveElementPreceding(successor, element);
+collection.Should().HaveElementSucceeding(predecessor, element);
 
 collection.Should().BeEmpty();
 collection.Should().BeNullorEmpty();
@@ -425,7 +433,7 @@ Guid.Empty.Should().BeEmpty();
 ```
 
 ## Enums ##
-With the standard ``Should().Be()`` method, Enums are compared using .NET's ``Enum.Equals()`` implementation. This means that the Enums must be of the same type, and have the same underlying value.
+With the standard `Should().Be()` method, Enums are compared using .NET's `Enum.Equals()` implementation. This means that the Enums must be of the same type, and have the same underlying value.
 
 ## Exceptions ##
 
@@ -456,7 +464,7 @@ act.ShouldThrow<ArgumentNullException>()
  .And.ParamName.Should().Equal("message");
 ```
 
-An alternative syntax for doing the same is by chaining one or more calls to the `Where()` method introduced in version 1.4.0:
+An alternative syntax for doing the same is by chaining one or more calls to the `Where()` method:
 
 ```csharp
 Action act = () => subject.Foo(null)); 
@@ -497,6 +505,8 @@ func.Enumerating().ShouldThrow<ArgumentException>();
 
 You do have to use the `Func<T>` type instead of `Action<T>` then.
 
+The exception throwing API follows the same rules as the `try`...`catch`...construction does. In other words, if you're expecting a certain exception to be (not) thrown, and a more specific exception is thrown instead, it would still satisfy the assertion. So throwing an `ApplicationException` when an `Exception` was expected will not fail the assertion. However, if you really want to be explicit about the exact type of exception, you can use `ShouldThrowExactly` and `WithInnerExceptionExactly`.  
+
 .NET 4.0 and later includes the `AggregateException` which is typically thrown by code that runs through the Parallel Task Library or using the new `async` keyword. All of the above also works for exceptions that are aggregated, whether or not you are asserting on the actual `AggregateException` or any of its (nested) aggregated exceptions.
 
 Talking about the `async` keyword, you can also verify that an asynchronously executed method throws or doesn't throw an exception:
@@ -516,21 +526,18 @@ act.ShouldThrow<ArgumentException>();
 
 Both give you the same results, so it's just a matter of personal preference. 
 
-
 ## Object graph comparison ##
 
-Consider the class `Order` and its wire-transfer equivalent `OrderDto` (a so-called DTO). Suppose also that an order has one or more `Product`s and an associated `Customer`. Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresponding `CustomerDto`. You may want to make sure that all exposed members of all the objects in the `OrderDto` object graph match the equally named members of the `Order` object graph.
+Consider the class `Order` and its wire-transfer equivalent `OrderDto` (a so-called [DTO](http://en.wikipedia.org/wiki/Data_transfer_object)). Suppose also that an order has one or more `Product`s and an associated `Customer`. Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresponding `CustomerDto`. You may want to make sure that all exposed members of all the objects in the `OrderDto` object graph match the equally named members of the `Order` object graph.
 
 You may assert the structural equality of two object graphs with `ShouldbeEquivalentTo`:
 ```csharp
 orderDto.ShouldBeEquivalentTo(order);
 ```
 
-**Recursion**
+### Recursion ###
 
-The comparison is recursive by default.
-
-To avoid infinite recursion, Fluent Assertions will recurse up to 10 levels deep by default, but if you want to force it to go as deep as possible, use the `AllowingInfiniteRecursion` option.
+The comparison is recursive by default. To avoid infinite recursion, Fluent Assertions will recurse up to 10 levels deep by default, but if you want to force it to go as deep as possible, use the `AllowingInfiniteRecursion` option.
 On the other hand, if you want to disable recursion, just use this option:
 
 ```csharp
@@ -538,9 +545,9 @@ orderDto.ShouldBeEquivalentTo(order, options =>
     options.ExcludingNestedObjects());
 ```
 
-**Member type**
+### Member type ###
 
-By default, Fluent Assertions uses an object's or member's declared (compile-time) type for its comparisons and when selecting members on the subject object.  That is to say if the subject is a `OrderDto` but the variable it is assigned to has type `object` no members would be found.  This behavior can be configured and you can choose to use Runtime types if you prefer:
+By default, Fluent Assertions uses an object's or member's declared (compile-time) type for its comparisons and when selecting members on the subject object.  That is to say if the subject is a `OrderDto` but the variable it is assigned to has type `object` no members would be found. This behavior can be configured and you can choose to use run-time types if you prefer:
 
 ```csharp
 // Use runtime type information
@@ -552,13 +559,9 @@ orderDto.ShouldBeEquivalentTo(order, options =>
     options.RespectingDeclaredTypes());	
 ```
 
-
 ### Matching Members ###
 
-All public members of the `OrderDto` must be available on the  `Order` having the same name.  If any members are missing, an exception will be thrown.
-However, you may customize this behavior.
-
-If you want to include only the members both object graphs have:
+All public members of the `OrderDto` must be available on the `Order` having the same name.  If any members are missing, an exception will be thrown. However, you may customize this behavior. For instance, if you want to include only the members both object graphs have:
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => 
@@ -567,7 +570,7 @@ orderDto.ShouldBeEquivalentTo(order, options =>
 
 ### Selecting Members ###
 
-If you want to exclude exclude certain (potentially deeply nested) individual members using the `Excluding()` method:
+If you want to exclude certain (potentially deeply nested) individual members using the `Excluding()` method:
 
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => 
@@ -580,7 +583,6 @@ The `Excluding()` method on the options object also takes a lambda expression th
 orderDto.ShouldBeEquivalentTo(order, options => options 
     .Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text")); 
 ```
-
 
 Maybe far-fetched, but you may even decide to exclude a member on a particular nested object by its index. 
 
@@ -599,9 +601,9 @@ orderDto.ShouldBeEquivalentTo(order, options => options
 	.Including(pi => pi.PropertyPath.EndsWidth("Date")); 
 ```
 
-**Including Properties and/or Fields**
+### Including properties and/or fields ###
 
-You may also configure member inclusion more more broadly.  Barring other configuration, Fluent Assertions will include all all [public] properties and fields.  This behavior can be configured:
+You may also configure member inclusion more broadly. Barring other configuration, Fluent Assertions will include all `public` properties and fields. This behavior can be changed:
 
 ```csharp
 // Include Fields
@@ -641,7 +643,7 @@ orderDto.ShouldBeEquivalentTo(order, options => options
     .WhenTypeIs<DateTime>(); 
 ```
 
-**Enums**
+### Enums ###
 
 By default, ``ShouldBeEquivalentTo()`` compares Enum members by the Enum's underlying numeric value. An option to compare Enums only by name is also available, using the following configuration :
 
@@ -649,7 +651,7 @@ By default, ``ShouldBeEquivalentTo()`` compares Enum members by the Enum's under
 orderDto.ShouldBeEquivalentTo(expectation, options => options.ComparingEnumsByName());
 ```
 
-###Collections and Dictionaries###
+### Collections and Dictionaries ###
 The original `ShouldAllBeEquivalentTo()` extension method does support collections, but it doesn’t allow you to influence the comparison based on the actual collection type, nor does it support (nested) dictionaries. The new extension method `ShouldAllBeEquivalentTo()` supports this so you can configure comparisons on the type of items in the collection.
 
 Considering our running example, you could use the following against a collection of `OrderDto`s: 
@@ -658,7 +660,7 @@ Considering our running example, you could use the following against a collectio
 orderDtos.ShouldAllBeEquivalentTo(orders, options => options.Excluding(o => o.Customer.Name)); 
 ```
 
-**Ordering**
+### Ordering ###
 
 Fluent Assertions will, by default, ignore the order of the items in the collections, regardless of whether the collection is at the root of the object graph or tucked away in a nested property or field. If the order is important, you can override the default behavior with the following option:
 
@@ -674,6 +676,19 @@ orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrdering
 
 **Notice:** For performance reasons, collections of bytes are compared in exact order.
 
+### Global Configuration ###
+Even though the structural equivalency API is pretty flexible, you might want to change some of these options on a global scale. This is where the static class `AssertionOptions` comes into play. For instance, to always compare enumerations by name, use the following statement:
+
+```csharp
+AssertionOptions.AssertEquivalencyUsing(options => options.ComparingEnumsByValue);
+``` 
+
+All the options available to an individual call to `ShouldBeEquivalenTo` are supported, with the exception of some of the overloads that are specific to the type of the subject (for obvious reasons). You can even change the algorithm that Fluent Assertions uses to determine if an object should be treated as a value type. Simply replace the `AssertionOptions.IsValueType` predicate with your own:
+
+```csharp
+AssertionOptions.IsValueType = type => // a custom algorithm 
+```  
+
 ### Extensibility ###
 Internally the structural comparison process consists of three phases which repeat as the comparison recurses:
 
@@ -681,7 +696,7 @@ Internally the structural comparison process consists of three phases which repe
 2. Find a matching member on the expectation object and decide what to do if it can’t find any.  
 3. Select the appropriate assertion method for the member’s type and execute it.  
 
-Three main extension points exist: `IEquivalencyStep`, `IMemberSelectionRule`, `IMemberMatchingRule`.  You may add your own implementations using the `Using` method overloads on `EquivalencyAssertionOptions`.
+Three main extension points exist: `IEquivalencyStep`, `IMemberSelectionRule`, `IMemberMatchingRule`.  You may add your own implementations using the `Using` method overloads on `EquivalencyAssertionOptions`, or if you want to make it a global change, to the `AssertionOptions.EquivalencySteps` collection. 
 
 Fluent Assertions uses these same interfaces to provide its  built-in functionality.  Internally, for example, `ExcludeMemberByPredicateSelectionRule`, is added to the collection of selection rules when you use the `Excluding(expression)` method on the options parameter of `ShouldBeEquivalentTo()`. Even the `Using().When()` construct in the previous section is doing nothing more than inserting an `IEquivalencyStep` in to the list of equivalency steps. Creating your own rules is quite straightforward.
   
@@ -732,7 +747,7 @@ Or, if your project is .NET 3.5 or 4.0 based:
 subject.ShouldNotRaise("SomeOtherEvent");
 ```
 
-**Important Limitation:** Due to limitations in Silverlight, Windows Phone and .NET for Windows Store Apps, only the ShouldRaisePropertyChangeFor() and  ShouldNotRaisePropertyChangeFor() methods are supported in those versions.
+**Important Limitation:** Due to limitations in Silverlight, Windows Phone and .NET for Windows Store Apps, only the `ShouldRaisePropertyChangeFor` and `ShouldNotRaisePropertyChangeFor` methods are supported in those versions.
 
 ## Type, Method and property assertions ##
 
@@ -791,7 +806,8 @@ Alternatively you can use this more fluent syntax instead.
 AllTypes.From(assembly)
   .ThatAreDecoratedWith<SomeAttribute>()
   .ThatImplement<ISomeInterface>()
-  .ThatAreInNamespace("Internal.Main.Test");
+  .ThatDeriveFrom<IDisposable>()
+  .ThatAreUnderNamespace("Internal.Main.Test");
 ```
 ## Assembly References ##
 New in version 3.1 are methods to assert an assembly does or does not reference another assembly. These are typically used to enforce layers within an application, such as for example, asserting the web layer does not reference the data layer. To assert the references, use the the following syntax:
