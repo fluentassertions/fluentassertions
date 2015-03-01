@@ -220,6 +220,7 @@
     <Compile Include="TypeEnumerableExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="Types\AllTypes.cs" />
+    <Compile Include="Types\MemberInfoAssertions.cs" />
     <Compile Include="Types\MethodInfoAssertions.cs" />
     <Compile Include="Types\MethodInfoSelector.cs" />
     <Compile Include="Types\MethodInfoSelectorAssertions.cs" />
