@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 
 using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Types
 {
@@ -14,7 +11,7 @@ namespace FluentAssertions.Types
     /// </summary>
     [DebuggerNonUserCode]
     public class PropertyInfoAssertions :
-        ReferenceTypeAssertions<PropertyInfo, PropertyInfoAssertions>
+        MemberInfoAssertions<PropertyInfo, PropertyInfoAssertions>
     {
         public PropertyInfoAssertions(PropertyInfo propertyInfo)
         {
@@ -69,33 +66,6 @@ namespace FluentAssertions.Types
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
 
-        /// <summary>
-        /// Asserts that the selected property is decorated with the specified <typeparamref name="TAttribute"/>.
-        /// </summary>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndWhichConstraint<PropertyInfoAssertions, TAttribute> BeDecoratedWith<TAttribute>(string because = "",
-            params object[] reasonArgs)
-            where TAttribute : Attribute
-        {
-            IEnumerable<TAttribute> attributes =
-                Subject.GetCustomAttributes(false).OfType<TAttribute>();
-            TAttribute attribute = attributes.FirstOrDefault();
-
-            Execute.Assertion
-                .ForCondition(attribute != null)
-                .BecauseOf(because, reasonArgs)
-                .FailWith("Expected property " + GetDescriptionFor(Subject) +
-                          " to be decorated with {0}{reason}, but that attribute was not found.", typeof(TAttribute));
-
-            return new AndWhichConstraint<PropertyInfoAssertions, TAttribute>(this, attributes);
-        }
-
         internal static bool IsGetterNonVirtual(PropertyInfo property)
         {
             MethodInfo getter = property.GetGetMethod(true);
@@ -109,12 +79,17 @@ namespace FluentAssertions.Types
                 property.DeclaringType, property.Name);
         }
 
+        internal override string SubjectDescription
+        {
+            get { return GetDescriptionFor(Subject); }
+        }
+
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected override string Context
         {
-            get { return "property info"; }
+            get { return "property"; }
         }
     }
 }

@@ -48,15 +48,16 @@ namespace FluentAssertions.Types
             string because = "", params object[] reasonArgs)
             where TAttribute : Attribute
         {
-            string failureMessage = "Expected {0} " + SubjectDescription +
-                                    " to be decorated with {1}{reason}, but that attribute was not found.";
+            string failureMessage = String.Format("Expected {0} {1}" +
+                                                  " to be decorated with {2}{{reason}}, but that attribute was not found.",
+                                                  Context, SubjectDescription, typeof (TAttribute));
 
             IEnumerable<TAttribute> attributes = GetMatchingAttributes(isMatchingAttributePredicate);
 
             Execute.Assertion
                 .ForCondition(attributes.Any())
                 .BecauseOf(because, reasonArgs)
-                .FailWith(failureMessage, Context, typeof(TAttribute));
+                .FailWith(failureMessage);
 
             return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes);
         }

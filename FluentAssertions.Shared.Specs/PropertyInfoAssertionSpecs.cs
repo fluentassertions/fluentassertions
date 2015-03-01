@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
-
-
+using FluentAssertions.Common;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -163,6 +162,60 @@ namespace FluentAssertions.Specs
                .WithMessage("Expected property String " +
                    "FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
                    "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_property_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
+#else
+            PropertyInfo propertyInfo =
+                typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
+#endif
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>(d => d.Value == "NotARealValue", "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected property String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
+                        "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
+                        " but that attribute was not found.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_property_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
+#else
+            PropertyInfo propertyInfo =
+                typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>(d => d.Value == "Value");
+
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
