@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-
+using System.Threading.Tasks;
 using FluentAssertions.Common;
 using FluentAssertions.Types;
 
@@ -188,6 +188,49 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>();
         }
+
+        [TestMethod]
+        public void When_asserting_a_method_is_async_and_it_is_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsAsync).GetMethodNamed("PublicAsyncDoNothing");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().BeAsync();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_method_is_async_but_it_is_not_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithNonAsyncMethods).GetMethodNamed("PublicDoNothing");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().BeAsync("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected subject Void FluentAssertions.Specs.ClassWithNonAsyncMethods.PublicDoNothing" +
+                    " to be async because we want to test the error message," +
+                    " but it is not async.");
+        }
     }
 
     #region Internal classes used in unit tests
@@ -262,6 +305,39 @@ namespace FluentAssertions.Specs
         }
 
         private void PrivateDoNothing()
+        {
+        }
+    }
+
+    internal class ClassWithAllMethodsAsync
+    {
+        public async Task PublicAsyncDoNothing()
+        {
+            await Task.Factory.StartNew(() => { });
+        }
+
+        internal async void InternalAsyncDoNothing()
+        {
+            await Task.Factory.StartNew(() => { });
+        }
+
+        protected async void ProtectedAsyncDoNothing()
+        {
+            await Task.Factory.StartNew(() => { });
+        }
+    }
+
+    internal class ClassWithNonAsyncMethods
+    {
+        public void PublicDoNothing()
+        {
+        }
+
+        internal void InternalDoNothing()
+        {
+        }
+
+        protected void ProtectedDoNothing()
         {
         }
     }
