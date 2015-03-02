@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Linq.Expressions;
 
 using FluentAssertions.Common;
@@ -193,6 +194,22 @@ namespace FluentAssertions.Types
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="Type"/> implements Interface <paramref name="interfaceType"/>.
+        /// </summary>
+        /// <param name="interfaceType">The interface that should be implemented.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<TypeAssertions> Implement(Type interfaceType, string because = "", params object[] reasonArgs)
+        {
+            Execute.Assertion.ForCondition(Subject.GetInterfaces().Contains(interfaceType))
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected type {0} to implement interface {1}{reason}.", Subject, interfaceType);
 
             return new AndConstraint<TypeAssertions>(this);
         }

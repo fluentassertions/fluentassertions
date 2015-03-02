@@ -580,6 +580,48 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_asserting_a_type_that_implements_an_interface_implements_that_interface_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof (ClassThatImplementsInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().Implement(typeof (DummyInterface));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_does_not_implement_an_interface_implements_that_interface_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof (ClassThatDoesNotImplementInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().Implement(typeof(DummyInterface), "because we want to test the error message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassThatDoesNotImplementInterface to implement " +
+                             "interface FluentAssertions.Specs.DummyInterface because we want to test the error message.");
+        }
+
+        [TestMethod]
         public void When_asserting_a_selection_of_types_with_unexpected_attribute_property_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -637,6 +679,18 @@ namespace FluentAssertions.Specs
             Name = name;
             IsEnabled = isEnabled;
         }
+    }
+
+    public interface DummyInterface
+    {
+    }
+
+    public class ClassThatImplementsInterface : DummyInterface
+    {
+    }
+
+    public class ClassThatDoesNotImplementInterface
+    {
     }
 
     #endregion
