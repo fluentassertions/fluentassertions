@@ -580,7 +580,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_implements_an_interface_implements_that_interface_it_should_succeed()
+        public void When_asserting_that_a_type_that_implements_an_interface_implements_that_interface_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -619,6 +619,48 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassThatDoesNotImplementInterface to implement " +
                              "interface FluentAssertions.Specs.DummyInterface because we want to test the error message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_no_properties_does_not_have_a_named_property_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithoutMembers); 
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveProperty("Property");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_a_property_does_not_have_a_property_with_that_name_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveProperty("PublicProperty", "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected String FluentAssertions.Specs.ClassWithMembers.PublicProperty to not exist because we want to " +
+                             "test the error message, but it does.");
         }
 
         [TestMethod]
@@ -692,6 +734,13 @@ namespace FluentAssertions.Specs
     public class ClassThatDoesNotImplementInterface
     {
     }
+
+    public class ClassWithMembers
+    {
+        public string PublicProperty { get; set; }
+    }
+
+    public class ClassWithoutMembers { }
 
     #endregion
 }

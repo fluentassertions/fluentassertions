@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-
+using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -210,6 +210,30 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(Subject.GetInterfaces().Contains(interfaceType))
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected type {0} to implement interface {1}{reason}.", Subject, interfaceType);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not expose a property named <paramref name="name"/>.
+        /// </summary>
+        /// <param name="typeAssertions">The TypeAssertion we are extending.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="name">The name of the method.</param>
+        public AndConstraint<TypeAssertions> NotHaveProperty(string name, string because = "", params object[] reasonArgs)
+        {
+            PropertyInfo propertyInfo = Subject.GetProperty(name);
+
+            string failureMessage = "Expected {0} to not exist{{reason}}, but it does.";
+
+            if (propertyInfo != null)
+                failureMessage = String.Format(failureMessage, PropertyInfoAssertions.GetDescriptionFor(propertyInfo));
+
+            Execute.Assertion.ForCondition(propertyInfo == null)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(failureMessage);
 
             return new AndConstraint<TypeAssertions>(this);
         }
