@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GenericCollectionAssertionsSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GenericDictionaryAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GuidAssertionSpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MethodBaseAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoSelectorAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MethodInfoSelectorSpecs.cs" />

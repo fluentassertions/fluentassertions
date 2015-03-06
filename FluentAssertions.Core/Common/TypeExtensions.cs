@@ -13,6 +13,9 @@ namespace FluentAssertions.Common
         private const BindingFlags PublicMembersFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
+        private const BindingFlags AllMembersFlag =
+            PublicMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
+
         /// <summary>
         /// Determines whether the specified method has been annotated with a specific attribute.
         /// </summary>
@@ -258,7 +261,12 @@ namespace FluentAssertions.Common
 
         public static MethodInfo GetMethodNamed(this Type type, string methodName)
         {
-            return type.GetMethod(methodName);
+            return type.GetMethod(methodName, AllMembersFlag);
+        }
+
+        public static PropertyInfo GetPropertyNamed(this Type type, string propertyName)
+        {
+            return type.GetProperty(propertyName, AllMembersFlag);
         }
 
         internal static bool IsIndexer(this PropertyInfo member)
