@@ -181,7 +181,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithOnlyWritableProperties));
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithWriteOnlyProperties));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -227,9 +227,9 @@ namespace FluentAssertions.Specs
         public string ReadWriteProperty { get { return ""; } set { } }
     }
 
-    internal class ClassWithOnlyWritableProperties
+    internal class ClassWithWriteOnlyProperties
     {
-        public string ReadWriteProperty { set { } }
+        public string WriteOnlyProperty { set { } }
     }
 
     internal class ClassWithAllPropertiesDecoratedWithDummyAttribute
