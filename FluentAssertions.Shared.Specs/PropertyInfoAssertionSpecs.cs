@@ -341,6 +341,31 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_a_read_only_property_is_expected_to_not_be_readable_it_should_throw_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadOnlyProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().NotBeReadable("that's required");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property ReadOnlyProperty not to have a getter because that's required.");
+        }
+
+        [TestMethod]
         public void When_a_read_write_property_is_expected_to_be_readable_it_should_not_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------

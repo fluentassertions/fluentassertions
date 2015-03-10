@@ -149,6 +149,29 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the selected property does not have a getter.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> NotBeReadable(
+            string because = "", params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!Subject.CanRead)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(
+                    "Expected {context:property} {0} not to have a getter{reason}.",
+                    Subject);
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the selected property returns a specified type.
         /// </summary>
         /// <param name="propertyType">The expected type of the property.</param>
