@@ -67,6 +67,29 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the selected property does not have a setter.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> NotBeWritable(
+            string because = "", params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!Subject.CanWrite)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(
+                    "Expected {context:property} {0} not to have a setter{reason}.",
+                    Subject);
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the selected property has a getter.
         /// </summary>
         /// <param name="because">
