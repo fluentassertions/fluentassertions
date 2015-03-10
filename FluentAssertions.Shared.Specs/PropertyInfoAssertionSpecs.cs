@@ -411,6 +411,53 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_a_public_write_private_read_property_is_expected_to_be_public_writeable_it_should_not_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetRuntimeProperty("WritePrivateReadProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetProperty("WritePrivateReadProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifiers.Public, "that's required");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_private_write_public_read_property_is_expected_to_be_public_writeable_it_should_throw_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadPrivateWriteProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifiers.Public, "that's required");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected method set_ReadPrivateWriteProperty to be Public because that's required, but it is Private.");
+        }
+
+        [TestMethod]
         public void When_a_String_property_is_expected_to_return_a_String_it_does_not_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------

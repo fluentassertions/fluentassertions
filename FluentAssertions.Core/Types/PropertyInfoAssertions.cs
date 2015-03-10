@@ -67,6 +67,26 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the selected property has a setter with the specified C# access modifier.
+        /// </summary>
+        /// <param name="accessModifier">The getter's expected C# access modifier.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifiers accessModifier, string because, params object[] reasonArgs)
+        {
+            Subject.Should().BeWritable(because, reasonArgs);
+
+            Subject.GetSetMethod(true).Should().HaveAccessModifier(accessModifier, because, reasonArgs);
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the selected property does not have a setter.
         /// </summary>
         /// <param name="because">
