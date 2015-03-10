@@ -225,11 +225,13 @@ namespace FluentAssertions.Specs
         public string ReadOnlyProperty { get { return ""; } }
         public string ReadOnlyProperty2 { get { return ""; } }
         public string ReadWriteProperty { get { return ""; } set { } }
+        public string ReadPrivateWriteProperty { get; private set; }
     }
 
     internal class ClassWithWriteOnlyProperties
     {
         public string WriteOnlyProperty { set { } }
+        public string WritePrivateReadProperty { set; private get; }
     }
 
     internal class ClassWithAllPropertiesDecoratedWithDummyAttribute

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Types;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -312,6 +313,53 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_public_read_private_write_property_is_expected_to_be_public_readable_it_should_not_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadPrivateWriteProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifiers.Public, "that's required");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_private_read_public_write_property_is_expected_to_be_public_readable_it_should_throw_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetRuntimeProperty("WritePrivateReadProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetProperty("WritePrivateReadProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifiers.Public, "that's required");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected method get_WritePrivateReadProperty to be Public because that's required, but it is Private.");
         }
 
         [TestMethod]
