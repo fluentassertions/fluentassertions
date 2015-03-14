@@ -186,10 +186,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage(
-                    "Subject is enumerable for more than one type.  " +
-                    "It is not known which type should be use for equivalence.\r\n" +
-                    "IEnumerable is implemented for the following types: System.String, System.Object*");
+                .WithMessage("*System.String*System.Object*cannot determine*");
         }
 
         [TestMethod]
@@ -324,7 +321,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>("the runtime type is assignable to two IEnumerable interfaces");
+            act.ShouldThrow<AssertFailedException>("the runtime type is assignable to two IEnumerable interfaces")
+                .WithMessage("*cannot determine which one*");
         }
 
         private class EnumerableOfStringAndObject : IEnumerable<string>, IEnumerable<object>
@@ -1230,8 +1228,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_a_collection_is_compared_to_a_non_collection_it_should_throw
+        public void When_a_collection_is_compared_to_a_non_collection_it_should_throw
             ()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1247,9 +1244,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage(
-                    "Subject is a collection and cannot be compared with a non-collection type*");
+            action.ShouldThrow<AssertFailedException>().WithMessage(
+                    "Expected subject to be \"hello\", but found {empty}*");
         }
 
         #endregion
