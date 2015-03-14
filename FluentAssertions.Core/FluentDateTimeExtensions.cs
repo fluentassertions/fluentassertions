@@ -147,6 +147,15 @@ namespace FluentAssertions
       }
 
       /// <summary>
+      /// Returns a new <see cref="DateTimeOffset"/> value for the specified <paramref name="date"/> and time with the specified
+      /// <paramref name="hours"/>, <paramref name="minutes"/> and optionally <paramref name="seconds"/>.
+      /// </summary>
+      public static DateTimeOffset At(this DateTimeOffset date, int hours, int minutes, int seconds = 0, int milliseconds = 0)
+      {
+          return new DateTimeOffset(date.Year, date.Month, date.Day, hours, minutes, seconds, milliseconds, date.Offset);
+      }
+
+      /// <summary>
       /// Returns a new <see cref="DateTime"/> value that is the current <see cref="TimeSpan"/> before the
       /// specified <paramref name="sourceDateTime"/>.
       /// </summary>

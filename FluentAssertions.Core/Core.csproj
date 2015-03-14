@@ -183,10 +183,13 @@
     <Compile Include="Numeric\NullableNumericAssertions.cs" />
     <Compile Include="Numeric\NumericAssertions.cs" />
     <Compile Include="Primitives\BooleanAssertions.cs" />
+    <Compile Include="Primitives\DateTimeAssertions.cs" />
     <Compile Include="Primitives\DateTimeOffsetAssertions.cs" />
+    <Compile Include="Primitives\DateTimeOffsetRangeAssertions.cs" />
     <Compile Include="Primitives\GuidAssertions.cs" />
     <Compile Include="Primitives\NegatedStringStartValidator.cs" />
     <Compile Include="Primitives\NullableBooleanAssertions.cs" />
+    <Compile Include="Primitives\NullableDateTimeAssertions.cs" />
     <Compile Include="Primitives\NullableDateTimeOffsetAssertions.cs" />
     <Compile Include="Primitives\NullableGuidAssertions.cs" />
     <Compile Include="Primitives\NullableSimpleTimeSpanAssertions.cs" />
@@ -198,8 +201,9 @@
     <Compile Include="Primitives\StringStartValidator.cs" />
     <Compile Include="Primitives\StringValidator.cs" />
     <Compile Include="Primitives\StringWildcardMatchingValidator.cs" />
-    <Compile Include="Primitives\TimeSpanAssertions.cs" />
+    <Compile Include="Primitives\DateTimeRangeAssertions.cs" />
     <Compile Include="Primitives\TimeSpanCondition.cs" />
+    <Compile Include="Primitives\TimeSpanPredicate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyChangedSourceExtensions.cs" />
     <Compile Include="Specialized\ActionAssertions.cs" />
