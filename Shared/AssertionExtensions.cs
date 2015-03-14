@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Xml.Linq;
 
 using FluentAssertions.Collections;
-using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Events;
 using FluentAssertions.Numeric;
@@ -223,12 +222,12 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="DateTimeOffsetAssertions"/> object that can be used to assert the
+        /// Returns an <see cref="DateTimeAssertions"/> object that can be used to assert the
         /// current <see cref="DateTime"/>.
         /// </summary>
-        public static DateTimeOffsetAssertions Should(this DateTime actualValue)
+        public static DateTimeAssertions Should(this DateTime actualValue)
         {
-            return new DateTimeOffsetAssertions(actualValue.ToDateTimeOffset());
+            return new DateTimeAssertions(actualValue);
         }
 
         /// <summary>
@@ -241,15 +240,13 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="NullableDateTimeOffsetAssertions"/> object that can be used to assert the
+        /// Returns an <see cref="NullableDateTimeAssertions"/> object that can be used to assert the
         /// current nullable <see cref="DateTime"/>.
         /// </summary>
-        public static NullableDateTimeOffsetAssertions Should(this DateTime? actualValue)
+        public static NullableDateTimeAssertions Should(this DateTime? actualValue)
         {
             return
-                new NullableDateTimeOffsetAssertions(actualValue.HasValue
-                    ? actualValue.Value.ToDateTimeOffset()
-                    : (DateTimeOffset?)null);
+                new NullableDateTimeAssertions(actualValue);
         }
 
         /// <summary>

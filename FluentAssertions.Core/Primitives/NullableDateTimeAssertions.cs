@@ -5,21 +5,21 @@ using FluentAssertions.Execution;
 namespace FluentAssertions.Primitives
 {
     /// <summary>
-    /// Contains a number of methods to assert that a nullable <see cref="DateTimeOffset"/> is in the expected state.
+    /// Contains a number of methods to assert that a nullable <see cref="DateTime"/> or <see cref="DateTimeOffset"/> is in the expected state.
     /// </summary>
     /// <remarks>
     /// You can use the <see cref="FluentDateTimeExtensions"/> for a more fluent way of specifying a <see cref="DateTime"/>.
     /// </remarks>
     [DebuggerNonUserCode]
-    public class NullableDateTimeOffsetAssertions : DateTimeOffsetAssertions
+    public class NullableDateTimeAssertions : DateTimeAssertions
     {
-        public NullableDateTimeOffsetAssertions(DateTimeOffset? expected)
+        public NullableDateTimeAssertions(DateTime? expected)
             : base(expected)
         {
         }
 
         /// <summary>
-        /// Asserts that a nullable <see cref="DateTimeOffset"/> value is not <c>null</c>.
+        /// Asserts that a nullable <see cref="DateTime"/> value is not <c>null</c>.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
@@ -28,18 +28,18 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>      
-        public AndConstraint<NullableDateTimeOffsetAssertions> HaveValue(string because = "", params object[] reasonArgs)
+        public AndConstraint<NullableDateTimeAssertions> HaveValue(string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected variable to have a value{reason}, but found {0}", Subject);
 
-            return new AndConstraint<NullableDateTimeOffsetAssertions>(this);
+            return new AndConstraint<NullableDateTimeAssertions>(this);
         }
 
         /// <summary>
-        /// Asserts that a nullable <see cref="DateTimeOffset"/> value is <c>null</c>.
+        /// Asserts that a nullable <see cref="DateTime"/> value is <c>null</c>.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
@@ -48,15 +48,14 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>      
-        public AndConstraint<NullableDateTimeOffsetAssertions> NotHaveValue(string because = "",
-            params object[] reasonArgs)
+        public AndConstraint<NullableDateTimeAssertions> NotHaveValue(string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue)
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Did not expect variable to have a value{reason}, but found {0}", Subject);
 
-            return new AndConstraint<NullableDateTimeOffsetAssertions>(this);
+            return new AndConstraint<NullableDateTimeAssertions>(this);
         }
 
         /// <summary>
@@ -70,15 +69,14 @@ namespace FluentAssertions.Primitives
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<DateTimeOffsetAssertions> Be(DateTimeOffset? expected, string because = "",
-            params object[] reasonArgs)
+        public AndConstraint<DateTimeAssertions> Be(DateTime? expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject == expected)
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
-            return new AndConstraint<DateTimeOffsetAssertions>(this);
+            return new AndConstraint<DateTimeAssertions>(this);
         }
     }
 }
