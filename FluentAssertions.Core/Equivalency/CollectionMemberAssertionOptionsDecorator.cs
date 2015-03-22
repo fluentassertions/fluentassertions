@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions.Equivalency.Matching;
+using FluentAssertions.Equivalency.Ordering;
+using FluentAssertions.Equivalency.Selection;
 
 namespace FluentAssertions.Equivalency
 {

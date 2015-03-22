@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Selection
 {
     /// <summary>
     /// Selection rule that includes a particular member in the structural comparison.

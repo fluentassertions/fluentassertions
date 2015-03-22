@@ -1,7 +1,7 @@
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Matching
 {
     /// <summary>
     /// Requires the expectation object to have a member with the exact same name.

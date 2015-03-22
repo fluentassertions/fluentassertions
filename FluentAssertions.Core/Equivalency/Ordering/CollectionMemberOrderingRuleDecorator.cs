@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Ordering
 {
     internal class CollectionMemberOrderingRuleDecorator : IOrderingRule
     {

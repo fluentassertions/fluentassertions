@@ -1,4 +1,4 @@
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Matching
 {
     internal class CollectionMemberMatchingRuleDecorator : IMemberMatchingRule
     {

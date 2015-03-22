@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Ordering
 {
     internal class PredicateBasedOrderingRule : IOrderingRule
     {

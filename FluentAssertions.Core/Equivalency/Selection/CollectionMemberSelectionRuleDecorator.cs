@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Selection
 {
     internal class CollectionMemberSelectionRuleDecorator : IMemberSelectionRule
     {

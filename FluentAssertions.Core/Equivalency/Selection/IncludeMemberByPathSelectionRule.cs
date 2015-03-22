@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Selection
 {
     /// <summary>
     /// Selection rule that includes a particular property in the structural comparison.

@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency.Ordering;
+using FluentAssertions.Equivalency.Selection;
 
 #endregion
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Matching
 {
     [Obsolete]
     internal class ObsoleteMatchingRuleAdapter : IMemberMatchingRule

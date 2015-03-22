@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Selection
 {
     [Obsolete]
     internal class ObsoleteSelectionRuleAdapter : IMemberSelectionRule

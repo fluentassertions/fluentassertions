@@ -5,6 +5,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency.Matching;
+using FluentAssertions.Equivalency.Ordering;
+using FluentAssertions.Equivalency.Selection;
 
 namespace FluentAssertions.Equivalency
 {
@@ -451,7 +454,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public TSelf Using(IAssertionRule assertionRule)
         {
-            userEquivalencySteps.Insert(0, new AssertionRuleEquivalencyStepAdaptor(assertionRule));
+            userEquivalencySteps.Insert(0, new AssertionRuleEquivalencyStepAdapter(assertionRule));
             return (TSelf) this;
         }
 

@@ -3,11 +3,11 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Adaptor allowing an IAssertionRule to be used where a IEquivalencyStep is required.
     /// </summary>
-    internal class AssertionRuleEquivalencyStepAdaptor : IEquivalencyStep
+    internal class AssertionRuleEquivalencyStepAdapter : IEquivalencyStep
     {
         private readonly IAssertionRule assertionRule;
 
-        public AssertionRuleEquivalencyStepAdaptor(IAssertionRule assertionRule)
+        public AssertionRuleEquivalencyStepAdapter(IAssertionRule assertionRule)
         {
             this.assertionRule = assertionRule;
         }
