@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Selection
 {
     /// <summary>
     /// Represents a selection context of a nested property

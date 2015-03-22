@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Selection
 {
     /// <summary>
     /// Selection rule that removes a particular property from the structural comparison.
@@ -16,6 +15,11 @@ namespace FluentAssertions.Equivalency
         public ExcludeMemberByPathSelectionRule(string pathToExclude)
         {
             this.pathToExclude = pathToExclude;
+        }
+
+        public bool IncludesMembers
+        {
+            get { return false; }
         }
 
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)

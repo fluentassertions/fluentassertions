@@ -1,20 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Selection
 {
     /// <summary>
-    /// Selection rule that adds all public fields of the subject. 
+    /// Selection rule that adds all public properties of the subject.
     /// </summary>
-    internal class AllPublicFieldsSelectionRule : IMemberSelectionRule
+    internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
     {
+        public bool IncludesMembers
+        {
+            get { return false; }
+        }
+
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
             return
                 selectedMembers.Union(
-                    config.GetSubjectType(context).GetNonPrivateFields().Select(SelectedMemberInfo.Create));
+                    config.GetSubjectType(context).GetNonPrivateProperties().Select(SelectedMemberInfo.Create));
         }
 
         /// <summary>
@@ -26,7 +30,7 @@ namespace FluentAssertions.Equivalency
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Include all non-private fields";
+            return "Include all non-private properties";
         }
     }
 }

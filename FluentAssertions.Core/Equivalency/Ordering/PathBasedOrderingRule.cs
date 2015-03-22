@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Ordering
 {
     /// <summary>
     /// Represents a rule for determining whether or not a certain collection within the object graph should be compared using

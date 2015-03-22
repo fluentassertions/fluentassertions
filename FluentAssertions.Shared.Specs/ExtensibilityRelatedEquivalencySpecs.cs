@@ -83,9 +83,19 @@ namespace FluentAssertions.Specs
 
         internal class ExcludeForeignKeysSelectionRule : IMemberSelectionRule
         {
+            public bool OverridesStandardIncludeRules
+            {
+                get { return false; }
+            }
+
             public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
             {
                 return selectedMembers.Where(pi => !pi.Name.EndsWith("Id")).ToArray();
+            }
+
+            bool IMemberSelectionRule.IncludesMembers
+            {
+                get { return OverridesStandardIncludeRules; }
             }
         }
 

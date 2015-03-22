@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Ordering
 {
     /// <summary>
     /// Ordering rule that ensures that byte arrays are always compared in strict ordering since it would cause a 

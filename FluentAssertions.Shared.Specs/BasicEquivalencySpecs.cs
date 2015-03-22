@@ -16,7 +16,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class EquivalencySpecs
+    public class BasicEquivalencySpecs
     {
         #region General
 

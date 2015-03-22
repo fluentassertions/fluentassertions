@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using FluentAssertions.Common;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Selection
 {
     /// <summary>
     /// Selection rule that includes a particular member in the structural comparison.
@@ -18,6 +18,11 @@ namespace FluentAssertions.Equivalency
         {
             description = predicate.Body.ToString();
             this.predicate = predicate.Compile();
+        }
+
+        public bool IncludesMembers
+        {
+            get { return true; }
         }
 
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace FluentAssertions.Equivalency
+namespace FluentAssertions.Equivalency.Selection
 {
     [Obsolete]
     internal class ObsoleteSelectionRuleAdapter : IMemberSelectionRule
@@ -13,6 +13,11 @@ namespace FluentAssertions.Equivalency
         public ObsoleteSelectionRuleAdapter(ISelectionRule obsoleteSelectionRule)
         {
             this.obsoleteSelectionRule = obsoleteSelectionRule;
+        }
+
+        public bool IncludesMembers
+        {
+            get { return false; }
         }
 
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
