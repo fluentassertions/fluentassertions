@@ -15,6 +15,11 @@ namespace FluentAssertions.Equivalency
             this.obsoleteSelectionRule = obsoleteSelectionRule;
         }
 
+        public bool IncludesMembers
+        {
+            get { return false; }
+        }
+
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
             IEnumerable<PropertyInfo> propertyInfos =

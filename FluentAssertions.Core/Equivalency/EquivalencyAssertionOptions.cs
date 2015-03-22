@@ -1,8 +1,8 @@
 #region
 
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
-
 using FluentAssertions.Common;
 
 #endregion
@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
     /// Represents the run-time type-specific behavior of a structural equivalency assertion.
     /// </summary>
     public class EquivalencyAssertionOptions<TSubject> :
-        EquivalencyAssertionOptionsBase<EquivalencyAssertionOptions<TSubject>>
+        SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions<TSubject>>
     {
         /// <summary>
         /// Gets a configuration that by default doesn't include any of the subject's members and doesn't consider any nested objects
@@ -21,8 +21,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         [Obsolete(
             "Will be removed in v4.0. Instead, use AssertionOptions.AssertEquivalencyUsing method to setup the equivalency assertion defaults"
-            )] public static Func<EquivalencyAssertionOptions<TSubject>> Empty =
-                () => new EquivalencyAssertionOptions<TSubject>();
+            )]
+        public static Func<EquivalencyAssertionOptions<TSubject>> Empty =
+            () => new EquivalencyAssertionOptions<TSubject>();
 
         /// <summary>
         /// Gets a configuration that compares all declared members of the subject with equally named members of the expectation,
@@ -30,8 +31,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         [Obsolete(
             "Will be removed in v4.0. Instead, use AssertionOptions.AssertEquivalencyUsing method to setup the equivalency assertion defaults"
-            )] public static Func<EquivalencyAssertionOptions<TSubject>> Default =
-                () => AssertionOptions.CloneDefaults<TSubject>();
+            )]
+        public static Func<EquivalencyAssertionOptions<TSubject>> Default =
+            () => AssertionOptions.CloneDefaults<TSubject>();
 
         public EquivalencyAssertionOptions()
         {
@@ -58,12 +60,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public EquivalencyAssertionOptions<TSubject> Including(Expression<Func<TSubject, object>> expression)
         {
-            RemoveStandardSelectionRules();
-
-            SelectedMemberInfo selectedMemberInfo = expression.GetSelectedMemberInfo();
-
-            AddSelectionRule(
-                new IncludeMemberByPathSelectionRule(selectedMemberInfo));
+            AddSelectionRule(new IncludeMemberByPathSelectionRule(expression.GetSelectedMemberInfo()));
             return this;
         }
 
@@ -75,8 +72,6 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public EquivalencyAssertionOptions<TSubject> Including(Expression<Func<ISubjectInfo, bool>> predicate)
         {
-            RemoveStandardSelectionRules();
-
             AddSelectionRule(new IncludeMemberByPredicateSelectionRule(predicate));
             return this;
         }
@@ -91,12 +86,22 @@ namespace FluentAssertions.Equivalency
             orderingRules.Add(new PathBasedOrderingRule(expression.GetMemberPath()));
             return this;
         }
+
+        /// <summary>
+        /// Creates a new set of options based on the current instance which acts on a <see cref="IEnumerable{TSubject}"/>
+        /// </summary>
+        /// <returns></returns>
+        public EquivalencyAssertionOptions<IEnumerable<TSubject>> AsCollection()
+        {
+            return new EquivalencyAssertionOptions<IEnumerable<TSubject>>(
+                new CollectionMemberAssertionOptionsDecorator(this));
+        }
     }
 
     /// <summary>
     /// Represents the run-time type-agnostic behavior of a structural equivalency assertion.
     /// </summary>
-    public class EquivalencyAssertionOptions : EquivalencyAssertionOptionsBase<EquivalencyAssertionOptions>
+    public class EquivalencyAssertionOptions : SelfReferenceEquivalencyAssertionOptions<EquivalencyAssertionOptions>
     {
         public EquivalencyAssertionOptions()
         {

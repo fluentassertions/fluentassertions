@@ -11,8 +11,8 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Represents the run-time behavior of a structural equivalency assertion.
     /// </summary>
-    public abstract class EquivalencyAssertionOptionsBase<TSelf> : IEquivalencyAssertionOptions
-        where TSelf : EquivalencyAssertionOptionsBase<TSelf>
+    public abstract class SelfReferenceEquivalencyAssertionOptions<TSelf> : IEquivalencyAssertionOptions
+        where TSelf : SelfReferenceEquivalencyAssertionOptions<TSelf>
     {
         #region Private Definitions
 
@@ -44,16 +44,11 @@ namespace FluentAssertions.Equivalency
 
         private bool includeFields;
 
-        private List<Type> valueTypes = new List<Type>(); 
-
-        /// <summary>
-        /// A value indicating whether the default selection rules need to be prepended or not.
-        /// </summary>
-        private bool mustAddSelectionRules = true;
+        private readonly List<Type> valueTypes = new List<Type>(); 
 
         #endregion
 
-        internal EquivalencyAssertionOptionsBase()
+        internal SelfReferenceEquivalencyAssertionOptions()
         {
             AddMatchingRule(new MustMatchByNameRule());
 
@@ -63,7 +58,7 @@ namespace FluentAssertions.Equivalency
         /// <summary>
         /// Creates an instance of the equivalency assertions options based on defaults previously configured by the caller.
         /// </summary>
-        protected EquivalencyAssertionOptionsBase(IEquivalencyAssertionOptions defaults)
+        protected SelfReferenceEquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults)
         {
             allowInfiniteRecursion = defaults.AllowInfiniteRecursion;
             isRecursive = defaults.IsRecursive;
@@ -74,39 +69,13 @@ namespace FluentAssertions.Equivalency
             includeProperties = defaults.IncludeProperties;
             includeFields = defaults.IncludeFields;
 
-            selectionRules.AddRange(defaults.SelectionRules.Where(IsNotStandardSelectionRule));
-
-            if (IncludesIncludingSelectionRule(defaults.SelectionRules))
-            {
-                mustAddSelectionRules = false;
-            }
-
+            selectionRules.AddRange(defaults.SelectionRules);
             userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
             matchingRules.AddRange(defaults.MatchingRules);
             orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
-        }
 
-        private static bool IncludesIncludingSelectionRule(IEnumerable<IMemberSelectionRule> memberSelectionRules)
-        {
-            Type[] standardIncludingSelectionRules =
-            {
-                typeof (IncludeMemberByPredicateSelectionRule),
-                typeof (IncludeMemberByPathSelectionRule)
-            };
-
-            return memberSelectionRules.Any(
-                selectionRule => standardIncludingSelectionRules.Contains(selectionRule.GetType()));
-        }
-
-        private static bool IsNotStandardSelectionRule(IMemberSelectionRule selectionRule)
-        {
-            Type[] standardSelectionRules =
-            {
-                typeof (AllPublicFieldsSelectionRule),
-                typeof (AllPublicPropertiesSelectionRule)
-            };
-
-            return !standardSelectionRules.Contains(selectionRule.GetType());
+            RemoveSelectionRule<AllPublicPropertiesSelectionRule>();
+            RemoveSelectionRule<AllPublicFieldsSelectionRule>();
         }
 
         /// <summary>
@@ -116,12 +85,22 @@ namespace FluentAssertions.Equivalency
         {
             get
             {
-                if (mustAddSelectionRules)
+                bool hasConflictingRules = selectionRules.Any(rule => rule.IncludesMembers);
+                
+                if (includeProperties && !hasConflictingRules)
                 {
-                    return CreateSelectionRules().Concat(selectionRules).ToArray();
+                    yield return new AllPublicPropertiesSelectionRule();
                 }
 
-                return selectionRules;
+                if (includeFields && !hasConflictingRules)
+                {
+                    yield return new AllPublicFieldsSelectionRule();
+                }
+
+                foreach (IMemberSelectionRule rule in selectionRules)
+                {
+                    yield return rule;
+                }
             }
         }
 
@@ -213,7 +192,7 @@ namespace FluentAssertions.Equivalency
             ExcludingFields();
             IncludingProperties();
 
-            ReconfigureSelectionRules();
+            WithoutSelectionRules();
 
             return (TSelf)this;
         }
@@ -231,7 +210,7 @@ namespace FluentAssertions.Equivalency
             ExcludingFields();
             IncludingProperties();
 
-            ReconfigureSelectionRules();
+            WithoutSelectionRules();
 
             return (TSelf)this;
         }
@@ -409,7 +388,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public void WithoutSelectionRules()
         {
-            ClearSelectionRules();
+            selectionRules.Clear();
         }
 
         /// <summary>
@@ -547,20 +526,6 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        protected void RemoveStandardSelectionRules()
-        {
-            mustAddSelectionRules = false;
-        }
-
-        private void ClearSelectionRules()
-        {
-            selectionRules.Clear();
-
-            RespectingDeclaredTypes();
-            IncludingFields();
-            IncludingProperties();
-        }
-
         private void ClearMatchingRules()
         {
             matchingRules.Clear();
@@ -582,26 +547,6 @@ namespace FluentAssertions.Equivalency
         {
             userEquivalencySteps.Add(equivalencyStep);
             return (TSelf) this;
-        }
-
-        private void ReconfigureSelectionRules()
-        {
-            selectionRules.Clear();
-
-            mustAddSelectionRules = true;
-        }
-
-        private IEnumerable<IMemberSelectionRule> CreateSelectionRules()
-        {
-            if (includeProperties)
-            {
-                yield return new AllPublicPropertiesSelectionRule();
-            }
-
-            if (includeFields)
-            {
-                yield return new AllPublicFieldsSelectionRule();
-            }
         }
 
         #endregion

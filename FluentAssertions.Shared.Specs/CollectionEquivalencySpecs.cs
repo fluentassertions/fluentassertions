@@ -1,11 +1,9 @@
-using FluentAssertions.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -19,10 +17,10 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class CollectionEquivalencySpecs
     {
+        #region Include & Exclude
+
         [TestMethod]
-        public void
-            When_a_deeply_nested_property_of_a_collection_with_an_invalid_value_is_excluded_it_should_not_throw
-            ()
+        public void When_a_deeply_nested_property_of_a_collection_with_an_invalid_value_is_excluded_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -35,7 +33,7 @@ namespace FluentAssertions.Specs
                     Text = "Level1",
                     Level = new
                     {
-                        Text = "Level2",
+                        Text = "Level2"
                     },
                     Collection = new[]
                     {
@@ -53,7 +51,7 @@ namespace FluentAssertions.Specs
                     Text = "Level1",
                     Level = new
                     {
-                        Text = "Level2",
+                        Text = "Level2"
                     },
                     Collection = new[]
                     {
@@ -66,18 +64,42 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act =
-                () =>
-                    subject.ShouldBeEquivalentTo(expected,
-                        options => options.
-                            Excluding(x => x.Level.Collection[1].Number).
-                            Excluding(x => x.Level.Collection[1].Text));
+            Action act = () => subject.ShouldBeEquivalentTo(expected, options => options.
+                Excluding(x => x.Level.Collection[1].Number).
+                Excluding(x => x.Level.Collection[1].Text));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+
+        [TestMethod]
+        public void When_a_specific_property_is_included_it_should_ignore_the_rest_of_the_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var result = new[] {new {A = "aaa", B = "bbb"}};
+
+            var expected = new
+            {
+                A = "aaa",
+                B = "ccc"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => result.ShouldAllBeEquivalentTo(new[] {expected}, options => options.Including(x => x.A));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        #endregion
 
         #region Non-Generic Collections
 
@@ -384,7 +406,7 @@ namespace FluentAssertions.Specs
                     Name = "John",
                     Age = 27,
                     Id = 1
-                },
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -514,9 +536,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_two_lists_only_differ_in_excluded_properties_it_should_not_throw
-            ()
+        public void When_two_lists_only_differ_in_excluded_properties_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -542,12 +562,12 @@ namespace FluentAssertions.Specs
                 new CustomerDto
                 {
                     Name = "John",
-                    Age = 27,
+                    Age = 27
                 },
                 new CustomerDto
                 {
                     Name = "Jane",
-                    Age = 30,
+                    Age = 30
                 }
             };
 
@@ -568,7 +588,8 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_two_collections_have_properties_of_the_contained_items_excluded_but_still_differ_it_should_throw()
+        public void
+            When_two_collections_have_properties_of_the_contained_items_excluded_but_still_differ_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -589,7 +610,8 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_has_selection_rules_configured_they_should_be_evaluated_from_right_to_left()
+        public void
+            When_ShouldAllBeEquivalentTo_has_selection_rules_configured_they_should_be_evaluated_from_right_to_left()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -617,28 +639,70 @@ namespace FluentAssertions.Specs
 
         private class SelectPropertiesSelectionRule : IMemberSelectionRule
         {
-            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
+                ISubjectInfo context, IEquivalencyAssertionOptions config)
             {
                 return context.CompileTimeType.GetNonPrivateProperties().Select(SelectedMemberInfo.Create);
+            }
+
+            public bool OverridesStandardIncludeRules
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            bool IMemberSelectionRule.IncludesMembers
+            {
+                get { return OverridesStandardIncludeRules; }
             }
         }
 
         private class SelectNoMembersSelectionRule : IMemberSelectionRule
         {
-            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+            public bool OverridesStandardIncludeRules
+            {
+                get { return true; }
+            }
+
+            public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
+                ISubjectInfo context, IEquivalencyAssertionOptions config)
             {
                 return Enumerable.Empty<SelectedMemberInfo>();
+            }
+
+            bool IMemberSelectionRule.IncludesMembers
+            {
+                get { return OverridesStandardIncludeRules; }
             }
         }
 
         [TestMethod]
-        public void When_two_collections_have_nested_members_of_the_contained_equivalent_but_not_equal_it_should_not_throw()
+        public void
+            When_two_collections_have_nested_members_of_the_contained_equivalent_but_not_equal_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var list1 = new[] {new {Nested = new ClassWithOnlyAProperty {Value = 1}}};
-            var list2 = new[] {new {Nested = new {Value = 1}}};
+            var list1 = new[]
+            {
+                new
+                {
+                    Nested = new ClassWithOnlyAProperty
+                    {
+                        Value = 1
+                    }
+                }
+            };
+
+            var list2 = new[]
+            {
+                new
+                {
+                    Nested = new
+                    {
+                        Value = 1
+                    }
+                }
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -689,7 +753,7 @@ namespace FluentAssertions.Specs
                         new CustomerDto
                         {
                             Name = "John",
-                            Age = 27,
+                            Age = 27
                         }
                 },
                 new
@@ -698,7 +762,7 @@ namespace FluentAssertions.Specs
                         new CustomerDto
                         {
                             Name = "Jane",
-                            Age = 30,
+                            Age = 30
                         }
                 }
             };
@@ -815,7 +879,7 @@ namespace FluentAssertions.Specs
                     Name = "John",
                     Age = 27,
                     Id = 1
-                },
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -980,7 +1044,7 @@ namespace FluentAssertions.Specs
                     Name = "John",
                     Age = 27,
                     Id = 1
-                },
+                }
             };
 
             var expectation = new List<Customer>
@@ -1044,7 +1108,7 @@ namespace FluentAssertions.Specs
                     Name = "John",
                     Age = 27,
                     Id = 1
-                },
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1076,7 +1140,7 @@ namespace FluentAssertions.Specs
                     Name = "John",
                     Age = 27,
                     Id = 1
-                },
+                }
             };
 
             var expectation = new List<Customer>
@@ -1146,7 +1210,7 @@ namespace FluentAssertions.Specs
                     Name = "John",
                     Age = 27,
                     Id = 1
-                },
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1212,7 +1276,7 @@ namespace FluentAssertions.Specs
                     Name = "John",
                     Age = 27,
                     Id = 1
-                },
+                }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1245,7 +1309,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>().WithMessage(
-                    "Expected subject to be \"hello\", but found {empty}*");
+                "Expected subject to be \"hello\", but found {empty}*");
         }
 
         #endregion
@@ -1291,26 +1355,26 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var logbook = new EquivalencySpecs.LogbookCode("SomeKey");
+            var logbook = new BasicEquivalencySpecs.LogbookCode("SomeKey");
 
-            var logbookEntry = new EquivalencySpecs.LogbookEntryProjection
+            var logbookEntry = new BasicEquivalencySpecs.LogbookEntryProjection
             {
                 Logbook = logbook,
                 LogbookRelations = new[]
                 {
-                    new EquivalencySpecs.LogbookRelation
+                    new BasicEquivalencySpecs.LogbookRelation
                     {
                         Logbook = logbook
                     }
                 }
             };
 
-            var equivalentLogbookEntry = new EquivalencySpecs.LogbookEntryProjection
+            var equivalentLogbookEntry = new BasicEquivalencySpecs.LogbookEntryProjection
             {
                 Logbook = logbook,
                 LogbookRelations = new[]
                 {
-                    new EquivalencySpecs.LogbookRelation
+                    new BasicEquivalencySpecs.LogbookRelation
                     {
                         Logbook = logbook
                     }
@@ -1723,7 +1787,7 @@ namespace FluentAssertions.Specs
             {
                 Customers = new Dictionary<string, string>
                 {
-                    {"Key1", "Value1"},
+                    {"Key1", "Value1"}
                 }
             };
 

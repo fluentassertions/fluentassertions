@@ -9,6 +9,11 @@ namespace FluentAssertions.Equivalency
     public interface IMemberSelectionRule
     {
         /// <summary>
+        /// Gets a value indicating whether this rule should override the default selection rules that include all members. 
+        /// </summary>
+        bool IncludesMembers { get; }
+
+        /// <summary>
         /// Adds or removes properties to/from the collection of subject members that must be included while
         /// comparing two objects for structural equality.
         /// </summary>

@@ -10,6 +10,11 @@ namespace FluentAssertions.Equivalency
     /// </summary>
     internal class AllPublicPropertiesSelectionRule : IMemberSelectionRule
     {
+        public bool IncludesMembers
+        {
+            get { return false; }
+        }
+
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
             return

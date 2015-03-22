@@ -17,6 +17,11 @@ namespace FluentAssertions.Equivalency
             this.selectedMemberInfo = selectedMemberInfo;
         }
 
+        public bool IncludesMembers
+        {
+            get { return true; }
+        }
+
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
             List<SelectedMemberInfo> members = selectedMembers.ToList();

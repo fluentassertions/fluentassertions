@@ -20,6 +20,11 @@ namespace FluentAssertions.Equivalency
             this.predicate = predicate.Compile();
         }
 
+        public bool IncludesMembers
+        {
+            get { return true; }
+        }
+
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
             var members = new List<SelectedMemberInfo>(selectedMembers);

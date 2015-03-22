@@ -70,10 +70,15 @@
     <Compile Include="Equivalency\AssertionContext.cs" />
     <Compile Include="Equivalency\AssertionRuleEquivalencyStep.cs" />
     <Compile Include="Equivalency\AssertionRuleEquivalencyStepAdaptor.cs" />
+    <Compile Include="Equivalency\CollectionMemberAssertionRuleDecorator.cs" />
+    <Compile Include="Equivalency\CollectionMemberMatchingRuleDecorator.cs" />
+    <Compile Include="Equivalency\CollectionMemberOrderingRuleDecorator.cs" />
+    <Compile Include="Equivalency\CollectionMemberSelectionRuleDecorator.cs" />
+    <Compile Include="Equivalency\CollectionMemberSubjectInfo.cs" />
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
     <Compile Include="Equivalency\EnumEquivalencyHandling.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
-    <Compile Include="Equivalency\EquivalencyAssertionOptionsBase.cs" />
+    <Compile Include="Equivalency\SelfReferenceEquivalencyAssertionOptions.cs" />
     <Compile Include="Equivalency\EquivalencyAssertionOptionsExtentions.cs" />
     <Compile Include="Equivalency\FieldSelectedMemberInfo.cs" />
     <Compile Include="Equivalency\IEquivalencyValidationContextExtentions.cs" />
@@ -87,7 +92,7 @@
     <Compile Include="Equivalency\PropertySelectedMemberInfo.cs" />
     <Compile Include="Equivalency\MemberInfoSelectedMemberInfo.cs" />
     <Compile Include="Equivalency\RunAllUserStepsEquivalencyStep.cs" />
-    <Compile Include="Equivalency\ShouldAllBeEquivalentToHelper.cs" />
+    <Compile Include="Equivalency\CollectionMemberAssertionOptionsDecorator.cs" />
     <Compile Include="Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="Equivalency\ValueTypeEquivalencyStep.cs" />
     <Compile Include="Execution\Continuation.cs" />

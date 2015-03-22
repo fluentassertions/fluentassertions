@@ -18,6 +18,11 @@ namespace FluentAssertions.Equivalency
             this.pathToExclude = pathToExclude;
         }
 
+        public bool IncludesMembers
+        {
+            get { return false; }
+        }
+
         public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
         {
             string path = context.SelectedMemberPath;
