@@ -76,15 +76,18 @@ namespace FluentAssertions.Primitives
         public AndConstraint<ObjectAssertions> HaveFlag(Enum expectedFlag, string because = "", 
             params object[] reasonArgs)
         {
-            Enum subject = Subject as Enum;
-
-            Subject.Should().BeOfType(expectedFlag.GetType(), because, reasonArgs);
-
             Execute.Assertion
-                .ForCondition(subject != null && subject.HasFlag(expectedFlag))
                 .BecauseOf(because, reasonArgs)
-                .FailWith("The enum was expected to have flag {0} but found {1}{reason}.", expectedFlag, subject);
-
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .FailWith("Expected type to be {0}{reason}, but found <null>.", expectedFlag.GetType())
+                .Then
+                .ForCondition(Subject.GetType() == expectedFlag.GetType())
+                .FailWith("Expected the enum to be of type {0} type but found {1}{reason}.", expectedFlag.GetType(), Subject.GetType())
+                .Then
+                .Given(() => Subject as Enum)
+                .ForCondition(@enum => @enum.HasFlag(expectedFlag))
+                .FailWith("The enum was expected to have flag {0} but found {1}{reason}.", _ => expectedFlag, @enum => @enum);
+           
             return new AndConstraint<ObjectAssertions>(this);
         }
 

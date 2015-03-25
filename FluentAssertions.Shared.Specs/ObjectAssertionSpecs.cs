@@ -488,7 +488,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected type*TestEnum*Object*");
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*type*TestEnum*Object*");
         }
 
         [TestMethod]
@@ -526,7 +526,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected type*OtherEnum*TestEnum*");
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*type*OtherEnum*TestEnum*");
         }
 
         [TestMethod]
