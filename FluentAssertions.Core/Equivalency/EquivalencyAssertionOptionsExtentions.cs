@@ -2,9 +2,13 @@ using System;
 
 namespace FluentAssertions.Equivalency
 {
-    internal static class EquivalencyAssertionOptionsExtentions
+    public static class EquivalencyAssertionOptionsExtentions
     {
-        internal static Type GetSubjectType(this IEquivalencyAssertionOptions config, ISubjectInfo context)
+        /// <summary>
+        ///     Returns either the Runtime or Compile-time  the type of the subject based on the configuration's UseRuntimeTyping
+        ///     setting.
+        /// </summary>
+        public static Type GetSubjectType(this IEquivalencyAssertionOptions config, ISubjectInfo context)
         {
             bool useRuntimeType = ShouldUseRuntimeType(config);
 
