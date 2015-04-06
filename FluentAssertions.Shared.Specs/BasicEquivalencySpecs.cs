@@ -43,7 +43,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_scenario_it_should_behavior()
+        public void When_comparing_nested_collection_with_a_null_value_it_should_fail_with_the_correct_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2632,7 +2632,7 @@ With configuration:*");
         #region Enums
 
         [TestMethod]
-        public void When_asserting_the_same_enum_member_is_equivilent_it_should_succeed()
+        public void When_asserting_the_same_enum_member_is_equivalent_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -2646,7 +2646,7 @@ With configuration:*");
         }
 
         [TestMethod]
-        public void When_asserting_different_enum_members_are_equivilent_it_should_fail()
+        public void When_asserting_different_enum_members_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -2757,9 +2757,40 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
+            act.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_a_numeric_member_is_compared_with_an_enum_it_should_respect_the_enum_options()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new
+            {
+                Property = 1
+            };
+
+            var expected = new
+            {
+                Property = TestEnum.First
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expected, options => options.ComparingEnumsByValue());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        public enum TestEnum
+        {
+            First = 1
+        }
         #endregion
 
         #region Memberless Objects

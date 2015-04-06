@@ -5,8 +5,7 @@ namespace FluentAssertions.Equivalency
     public static class EquivalencyAssertionOptionsExtentions
     {
         /// <summary>
-        ///     Returns either the Runtime or Compile-time  the type of the subject based on the configuration's UseRuntimeTyping
-        ///     setting.
+        ///     Returns either the run-time or compile-time type of the subject based on the options provided by the caller.
         /// </summary>
         public static Type GetSubjectType(this IEquivalencyAssertionOptions config, ISubjectInfo context)
         {
