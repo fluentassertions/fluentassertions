@@ -81,7 +81,7 @@
     <Compile Include="Equivalency\SelfReferenceEquivalencyAssertionOptions.cs" />
     <Compile Include="Equivalency\EquivalencyAssertionOptionsExtentions.cs" />
     <Compile Include="Equivalency\FieldSelectedMemberInfo.cs" />
-    <Compile Include="Equivalency\IEquivalencyValidationContextExtentions.cs" />
+    <Compile Include="Equivalency\EquivalencyValidationContextExtentions.cs" />
     <Compile Include="Equivalency\IMatchingRule.cs" />
     <Compile Include="Equivalency\Selection\IncludeMemberByPredicateSelectionRule.cs" />
     <Compile Include="Equivalency\GenericDictionaryEquivalencyStep.cs" />

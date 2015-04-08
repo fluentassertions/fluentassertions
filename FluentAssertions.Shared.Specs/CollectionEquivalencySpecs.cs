@@ -370,9 +370,7 @@ namespace FluentAssertions.Specs
         #region Collection Equivalence
 
         [TestMethod]
-        public void
-            When_two_unordered_lists_are_structurally_equivalent_and_order_is_strict_it_should_fail
-            ()
+        public void When_two_unordered_lists_are_structurally_equivalent_and_order_is_strict_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -412,10 +410,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action =
-                () =>
-                    subject.ShouldAllBeEquivalentTo(expectation,
-                        options => options.WithStrictOrdering());
+            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options.WithStrictOrdering());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -426,9 +421,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw
-            ()
+        public void When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -587,6 +580,69 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
+        private class MyObject
+        {
+            public string MyString { get; set; }
+            public MyChildObject Child { get; set; }
+        }
+
+        private class MyChildObject
+        {
+            public int Id { get; set; }
+            
+            public string MyChildString { get; set; }
+
+            public override bool Equals(object obj)
+            {
+                return (obj is MyChildObject) && (((MyChildObject)obj).Id == this.Id);
+            }
+
+            public override int GetHashCode()
+            {
+                return Id.GetHashCode();
+            }
+        }
+
+        [TestMethod]
+        public void When_nested_objects_are_excluded_from_collections_it_should_use_simple_equality_semantics()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            MyObject actual = new MyObject
+            {
+                MyString = "identical string",
+                Child = new MyChildObject
+                {
+                    Id = 1, 
+                    MyChildString = "identical string"
+                }
+            };
+
+            MyObject expectation = new MyObject
+            {
+                MyString = "identical string",
+                Child = new MyChildObject
+                {
+                    Id = 1,
+                    MyChildString = "DIFFERENT STRING"
+                }
+            };
+
+            IList<MyObject> actualList = new List<MyObject> { actual };
+            IList<MyObject> expectationList = new List<MyObject> { expectation };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actualList.ShouldAllBeEquivalentTo(expectationList, opt => opt.ExcludingNestedObjects());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
         [TestMethod]
         public void
             When_two_collections_have_properties_of_the_contained_items_excluded_but_still_differ_it_should_throw()
@@ -601,7 +657,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => list1.ShouldAllBeEquivalentTo(list2, config => config.Excluding(ctx => ctx.Key));
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -629,7 +684,6 @@ namespace FluentAssertions.Specs
                 config.Using(new SelectPropertiesSelectionRule());
                 return config;
             });
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1539,7 +1593,6 @@ namespace FluentAssertions.Specs
                 .WithMessage(
                     "*member Customers to be*Customer[]*, but*System.String*");
         }
-
 
         [TestMethod]
         public void

@@ -71,7 +71,12 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool IsRoot
         {
-            get { return (SelectedMemberDescription.Length == 0); }
+            get
+            {
+                // SMELL: That prefix should be obtained from some kind of constant
+                return (SelectedMemberDescription.Length == 0) ||
+                       (RootIsCollection && SelectedMemberDescription.StartsWith("item[") && !SelectedMemberDescription.Contains("."));
+            }
         }
 
         /// <summary>
@@ -99,6 +104,17 @@ namespace FluentAssertions.Equivalency
 
                 return CompileTimeType;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on 
+        /// the collection type and not on the root itself.
+        /// </summary>
+        public bool RootIsCollection { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{{Path=\"{0}\", Subject={1}, Expectation={2}}}", SelectedMemberDescription, Subject, Expectation);
         }
     }
 }
