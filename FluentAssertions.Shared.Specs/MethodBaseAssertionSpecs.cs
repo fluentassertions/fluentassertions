@@ -64,11 +64,19 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             PropertyInfo propertyInfo = typeof(TestClass).GetPropertyNamed("ProtectedSetProperty");
 
+            MethodInfo setMethod;
+
+#if NETFX_CORE || WINRT
+            setMethod = propertyInfo.SetMethod;
+#else
+            setMethod = propertyInfo.GetSetMethod(true);
+#endif
+
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.GetSetMethod(true).Should().HaveAccessModifier(CSharpAccessModifiers.Protected);
+                setMethod.Should().HaveAccessModifier(CSharpAccessModifiers.Protected);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -84,11 +92,18 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             PropertyInfo propertyInfo = typeof(TestClass).GetPropertyNamed("ProtectedSetProperty");
 
+            MethodInfo setMethod;
+
+#if NETFX_CORE || WINRT
+            setMethod = propertyInfo.SetMethod;
+#else
+            setMethod = propertyInfo.GetSetMethod(true);
+#endif
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.GetSetMethod(true)
+                setMethod
                     .Should()
                     .HaveAccessModifier(CSharpAccessModifiers.Public, "because we want to test the failure");
 
@@ -107,11 +122,19 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             PropertyInfo propertyInfo = typeof(TestClass).GetPropertyNamed("PublicGetProperty");
 
+            MethodInfo getMethod;
+
+#if NETFX_CORE || WINRT
+            getMethod = propertyInfo.SetMethod;
+#else
+            getMethod = propertyInfo.GetSetMethod(true);
+#endif
+
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.GetGetMethod(true).Should().HaveAccessModifier(CSharpAccessModifiers.Public);
+                getMethod.Should().HaveAccessModifier(CSharpAccessModifiers.Public);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -127,11 +150,19 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             PropertyInfo propertyInfo = typeof(TestClass).GetPropertyNamed("PublicGetProperty");
 
+            MethodInfo getMethod;
+
+#if NETFX_CORE || WINRT
+            getMethod = propertyInfo.SetMethod;
+#else
+            getMethod = propertyInfo.GetSetMethod(true);
+#endif
+
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.GetGetMethod(true)
+                getMethod
                     .Should()
                     .HaveAccessModifier(CSharpAccessModifiers.Internal, "because we want to test the failure");
 
