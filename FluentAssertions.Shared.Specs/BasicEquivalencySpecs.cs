@@ -2107,6 +2107,34 @@ With configuration:*");
         }
 
         [TestMethod]
+        public void When_nested_objects_should_be_excluded_it_should_do_a_simple_equality_check_instead()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var item = new Item
+            {
+                Child = new Item()
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => item.ShouldBeEquivalentTo(new Item(), options => options.ExcludingNestedObjects());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*Item*null*");
+        }
+
+        public class Item
+        {
+            public Item Child { get; set; }
+        }
+
+        [TestMethod]
         public void When_not_all_the_properties_of_the_nested_objects_are_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
