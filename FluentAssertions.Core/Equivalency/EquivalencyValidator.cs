@@ -42,7 +42,7 @@ namespace FluentAssertions.Equivalency
             if (ContinueRecursion(context.SelectedMemberPath))
             {
                 AssertionScope scope = AssertionScope.Current;
-                scope.AddNonReportable("context", context.IsRoot ? "subject" : context.SelectedMemberDescription);
+                scope.AddNonReportable("context", (context.SelectedMemberDescription.Length == 0) ? "subject" : context.SelectedMemberDescription);
                 scope.AddNonReportable("subject", context.Subject);
                 scope.AddNonReportable("expectation", context.Expectation);
 

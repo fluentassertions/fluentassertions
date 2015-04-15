@@ -498,7 +498,7 @@ namespace FluentAssertions
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
             string because = "", params object[] reasonArgs)
         {
-            subject.ShouldBeEquivalentTo(expectation, because, reasonArgs);
+            subject.ShouldAllBeEquivalentTo(expectation, options => options, because, reasonArgs);
         }
 
         /// <summary>
@@ -532,11 +532,17 @@ namespace FluentAssertions
             EquivalencyAssertionOptions<IEnumerable<T>> source = config(EquivalencyAssertionOptions<T>.Default()).AsCollection();
 #pragma warning restore 618
 
-            subject.ShouldBeEquivalentTo(
-                expectation,
-                c => source,
-                because,
-                reasonArgs);
+            var context = new EquivalencyValidationContext
+            {
+                Subject = subject,
+                Expectation = expectation,
+                RootIsCollection = true,
+                CompileTimeType = typeof(IEnumerable<T>),
+                Reason = because,
+                ReasonArgs = reasonArgs
+            };
+
+            new EquivalencyValidator(source).AssertEquality(context);
         }
 
         /// <summary>
