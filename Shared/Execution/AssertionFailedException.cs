@@ -1,5 +1,9 @@
 using System;
 
+#if NET40 || NET45
+using System.Runtime.Serialization;
+#endif
+
 namespace FluentAssertions.Execution
 {
     /// <summary>
@@ -14,5 +18,14 @@ namespace FluentAssertions.Execution
         {
             
         }
-    }
+
+#if NET40 || NET45
+		protected AssertionFailedException(SerializationInfo info, StreamingContext context) 
+            : base(info, context)
+        {
+
+		}
+#endif
+
+	}
 }
