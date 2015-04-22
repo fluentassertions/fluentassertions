@@ -20,12 +20,12 @@ namespace FluentAssertions.Execution
         }
 
 #if NET40 || NET45
-		protected AssertionFailedException(SerializationInfo info, StreamingContext context) 
+        protected AssertionFailedException(SerializationInfo info, StreamingContext context) 
             : base(info, context)
         {
 
-		}
+        }
 #endif
 
-	}
+    }
 }
