@@ -113,5 +113,24 @@ namespace FluentAssertions.Execution
 
             return new ContinuationOfGiven<T>(this, parentScope);
         }
+
+        /// <summary>
+        /// Sets the failure message when the assertion is not met, or completes the failure message set to a 
+        /// prior call to to <see cref="WithExpectation"/>.
+        /// </summary>
+        /// <remarks>
+        /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
+        /// expectation. 
+        /// </remarks>
+        /// <param name="message">The format string that represents the failure message.</param>
+        public ContinuationOfGiven<T> FailWith(string message)
+        {
+            if (evaluateCondition)
+            {
+                parentScope.FailWith(message, new object[0]);
+            }
+
+            return new ContinuationOfGiven<T>(this, parentScope);
+        }
     }
 }
