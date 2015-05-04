@@ -25,11 +25,16 @@ namespace FluentAssertions.Common
 
         #endregion
 
-        public ProbingAdapterResolver() : this(Assembly.Load)
-        {
-        }
+        public ProbingAdapterResolver() :
+#if DNXCORE
+			this(name => Assembly.Load(new AssemblyName(name)))
+#else
+			this(Assembly.Load)
+#endif
+		{
+		}
 
-        public ProbingAdapterResolver(Func<string, Assembly> assemblyLoader)
+		public ProbingAdapterResolver(Func<string, Assembly> assemblyLoader)
         {
             this.assemblyLoader = assemblyLoader;
         }
