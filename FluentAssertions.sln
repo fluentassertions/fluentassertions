@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
@@ -59,6 +59,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFrameworks", "TestFrameworks", "{4D8FA213-8724-4C43-B68A-F018148D238C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnit2.Specs", "TestFrameworks\XUnit2.Specs\XUnit2.Specs.csproj", "{F50C8F77-3778-4432-84EC-B9B2B502E708}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dnx", "FluentAssertions.Dnx\Dnx.xproj", "{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -374,6 +376,26 @@ Global
 		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|x64.ActiveCfg = Release|Any CPU
 		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|x86.ActiveCfg = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|ARM.Build.0 = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|x64.Build.0 = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Debug|x86.Build.0 = Debug|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|ARM.ActiveCfg = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|ARM.Build.0 = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|x64.ActiveCfg = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|x64.Build.0 = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|x86.ActiveCfg = Release|Any CPU
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -399,6 +421,7 @@ Global
 		{D9CCCAF6-FF9E-4688-9D96-645E27616AC4} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{F50C8F77-3778-4432-84EC-B9B2B502E708} = {4D8FA213-8724-4C43-B68A-F018148D238C}
+		{68394B82-226B-4FBA-88F6-4C4BEA4D28C5} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = FluentAssertions.Silverlight\Silverlight.csproj

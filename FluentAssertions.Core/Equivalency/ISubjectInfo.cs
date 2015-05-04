@@ -43,11 +43,11 @@ namespace FluentAssertions.Equivalency
         [Obsolete("This property will be removed in a future version.  Use `SelectedMemberDescription` instead.")]
         string PropertyDescription { get; }
 
-        /// <summary>
-        /// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the 
-        /// same <see cref="Type"/> as the <see cref="RuntimeType"/> property does.
-        /// </summary>
-        Type CompileTimeType { get; }
+		/// <summary>
+		/// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the 
+		/// same <see cref="System.Type"/> as the <see cref="RuntimeType"/> property does.
+		/// </summary>
+		Type CompileTimeType { get; }
 
         /// <summary>
         /// Gets the run-time type of the current object.

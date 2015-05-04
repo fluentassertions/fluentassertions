@@ -1,5 +1,8 @@
 using System;
 using System.Collections;
+#if DNXCORE
+using System.Reflection;
+#endif
 
 using FluentAssertions.Execution;
 
@@ -13,9 +16,12 @@ namespace FluentAssertions.Equivalency
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
             Type subjectType = config.GetSubjectType(context);
-
-            return typeof(IDictionary).IsAssignableFrom(subjectType);
-        }
+#if DNXCORE
+			return typeof(IDictionary).GetTypeInfo().IsAssignableFrom(subjectType.GetTypeInfo());
+#else
+			return typeof(IDictionary).IsAssignableFrom(subjectType);
+#endif
+		}
 
         /// <summary>
         /// Applies a step as part of the task to compare two objects for structural equality.

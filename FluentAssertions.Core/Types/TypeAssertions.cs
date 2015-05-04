@@ -2,6 +2,10 @@ using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
+#if DNXCORE
+using System.Reflection;
+#endif
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -73,8 +77,12 @@ namespace FluentAssertions.Types
         public new AndConstraint<TypeAssertions> BeAssignableTo<T>(string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
-                .ForCondition(typeof(T).IsAssignableFrom(Subject))
-                .BecauseOf(because, reasonArgs)
+#if DNXCORE
+				.ForCondition(typeof(T).GetTypeInfo().IsAssignableFrom(Subject.GetTypeInfo()))
+#else
+				.ForCondition(typeof(T).IsAssignableFrom(Subject))
+#endif
+				.BecauseOf(because, reasonArgs)
                 .FailWith(
                     "Expected {context:" + Context + "} {0} to be assignable to {1}{reason}, but it is not",
                     Subject,
@@ -160,8 +168,12 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             Execute.Assertion
-                .ForCondition(Subject.IsDecoratedWith<TAttribute>())
-                .BecauseOf(because, reasonArgs)
+#if DNXCORE
+				.ForCondition(Subject.GetTypeInfo().IsDecoratedWith<TAttribute>())
+#else
+				.ForCondition(Subject.IsDecoratedWith<TAttribute>())
+#endif
+				.BecauseOf(because, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1}{reason}, but the attribute was not found.",
                     Subject, typeof (TAttribute));
 
@@ -189,8 +201,12 @@ namespace FluentAssertions.Types
             BeDecoratedWith<TAttribute>(because, reasonArgs);
 
             Execute.Assertion
-                .ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
-                .BecauseOf(because, reasonArgs)
+#if DNXCORE
+				.ForCondition(Subject.GetTypeInfo().HasMatchingAttribute(isMatchingAttributePredicate))
+#else
+				.ForCondition(Subject.HasMatchingAttribute(isMatchingAttributePredicate))
+#endif
+				.BecauseOf(because, reasonArgs)
                 .FailWith("Expected type {0} to be decorated with {1} that matches {2}{reason}, but no matching attribute was found.",
                     Subject, typeof(TAttribute), isMatchingAttributePredicate.Body);
 

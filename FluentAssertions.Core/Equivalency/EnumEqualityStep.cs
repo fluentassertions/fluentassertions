@@ -1,7 +1,9 @@
 #region
 
 using System;
-using System.Globalization;
+#if DNXCORE
+using System.Reflection;
+#endif
 
 #endregion
 
@@ -14,10 +16,16 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetSubjectType(context);
-
-            return ((subjectType != null) && subjectType.IsEnum) ||
+#if DNXCORE
+			TypeInfo subjectType = config.GetSubjectType(context).GetTypeInfo();
+			return ((subjectType != null) && subjectType.IsEnum) ||
+                   ((context.Expectation != null) && context.Expectation.GetType().GetTypeInfo().IsEnum);
+#else
+			Type subjectType = config.GetSubjectType(context);
+			return ((subjectType != null) && subjectType.IsEnum) ||
                    ((context.Expectation != null) && context.Expectation.GetType().IsEnum);
+#endif
+
         }
 
         /// <summary>

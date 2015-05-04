@@ -74,9 +74,12 @@ namespace FluentAssertions.Common
                 && (type != expectedBaseType);
         }
 
-        internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
+		internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
         {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
+#if DNXCORE
+			return GetClosedGenericInterfaces(type.GetTypeInfo(), openGenericType);
+#else
+			if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
             {
                 return new[] { type };
             }
@@ -86,9 +89,27 @@ namespace FluentAssertions.Common
                 interfaces
                     .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == openGenericType)))
                     .ToArray();
-        }
+#endif
+		}
 
-        public static bool IsComplexType(this Type type)
+#if DNXCORE
+		internal static Type[] GetClosedGenericInterfaces(TypeInfo type, Type openGenericType)
+        {
+			if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
+            {
+                return new[] { type.AsType() };
+            }
+
+            var interfaces = type.AsType().GetInterfaces().Select(i => new { Type = i, TypeInfo = i.GetTypeInfo() });
+            return
+                interfaces
+                    .Where(t => (t.TypeInfo.IsGenericType && (t.Type.GetGenericTypeDefinition() == openGenericType)))
+					.Select(t => t.Type)
+                    .ToArray();
+        }
+#endif
+
+		public static bool IsComplexType(this Type type)
         {
             return HasProperties(type) && !AssertionOptions.IsValueType(type);
         }
@@ -232,8 +253,12 @@ namespace FluentAssertions.Common
 
         private static bool IsInterface(Type typeToReflect)
         {
-            return typeToReflect.IsInterface;
-        }
+#if DNXCORE
+			return typeToReflect.GetTypeInfo().IsInterface;
+#else
+			return typeToReflect.IsInterface;
+#endif
+		}
 
         private static IEnumerable<Type> GetInterfaces(Type type)
         {
