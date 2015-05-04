@@ -64,6 +64,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dnx", "FluentAssertions.Dnx
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Shared.projitems*{e6f895fa-ae44-4750-87f1-d18a7d974377}*SharedItemsImports = 4
+		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{442c9b50-6f91-4cba-8d4e-b470e5cc3d5f}*SharedItemsImports = 4
 		Shared\Shared.projitems*{46445a29-4242-4fd4-9138-a47b2dbea736}*SharedItemsImports = 13
 		Shared\Shared.projitems*{135391a1-b669-423f-8d8c-04b60dcfb8b1}*SharedItemsImports = 4
 		Shared\Shared.projitems*{f673cc6b-5747-466f-9ab5-0c7ead5e5f95}*SharedItemsImports = 4
@@ -71,7 +73,10 @@ Global
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{d09fc2d5-a5e5-4344-9e42-bced86d21a57}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{f3e17430-fad7-40ad-bf66-e6f23b70bd92}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{00a8d405-6687-47b4-a81c-76b5331d094d}*SharedItemsImports = 4
+		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{6d8311f2-7599-4bd0-b66c-05e8cf77aab0}*SharedItemsImports = 4
 		Shared\Shared.projitems*{81d1792f-3c87-49cf-a502-9f232ff3719c}*SharedItemsImports = 4
+		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{0220d206-62e4-4352-89ec-424e0f04d2d3}*SharedItemsImports = 4
+		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{11e362b9-2a11-4452-ad28-1f8ac14ae87b}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
 		Shared\Shared.projitems*{0ec1cb90-4d32-4020-bcdb-0ab290a355c2}*SharedItemsImports = 4
 		Shared\Shared.projitems*{ce8a220a-faa6-469d-b9b8-5f1834685861}*SharedItemsImports = 4
