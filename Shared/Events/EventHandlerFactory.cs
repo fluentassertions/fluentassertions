@@ -26,10 +26,13 @@ namespace FluentAssertions.Events
                 eventSignature.Name + "DynamicHandler",
                 returnType,
                 AppendParameterListThisReference(parameters),
-                recorder.GetType()
-                .Module);
+				recorder.GetType()
+#if DNXCORE
+				.GetTypeInfo()
+#endif
+				.Module);
 #else
-            var eventHandler = new DynamicMethod(
+			var eventHandler = new DynamicMethod(
                 eventSignature.Name + "DynamicHandler",
                 returnType,
                 AppendParameterListThisReference(parameters));
@@ -61,7 +64,10 @@ namespace FluentAssertions.Events
                 
                 // Box value-type parameters
                 if (parameters[index]
-                    .IsValueType)
+#if DNXCORE
+					.GetTypeInfo()
+#endif
+					.IsValueType)
                 {
                     ilGen.Emit(OpCodes.Box, parameters[index]);
                 }
@@ -134,7 +140,10 @@ namespace FluentAssertions.Events
         private static bool TypeIsDelegate(Type d)
         {
             if (d
-                .BaseType != typeof (MulticastDelegate))
+#if DNXCORE
+				.GetTypeInfo()
+#endif
+				.BaseType != typeof (MulticastDelegate))
             {
                 return false;
             }

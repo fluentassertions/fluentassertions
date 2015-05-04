@@ -73,7 +73,7 @@ namespace FluentAssertions
             return new ExecutionTimeAssertions(action);
         }
 
-#if !WINRT
+#if !WINRT && !DNXCORE
 
         /// <summary>
         /// Returns an <see cref="AssemblyAssertions"/> object that can be used to assert the
