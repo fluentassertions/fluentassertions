@@ -22,6 +22,11 @@
     "../Shared/Execution/ITestFramework.cs"
   ],
   "frameworks": {
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Xml": "4.0.0.0"
+      }
+    },
     "dnx451": {
       "frameworkAssemblies": {
         "System.Reflection.Extensions": "4.0.0.0",
