@@ -53,9 +53,17 @@ namespace FluentAssertions.Common
         private static object ResolveAdapter(Assembly assembly, Type interfaceType)
         {
             string typeName = MakeAdapterTypeName(interfaceType);
-
-            Type type = assembly.GetType(typeName, throwOnError: false);
-            if (type != null)
+#if DNXCORE
+			Type type = null;
+			try
+			{
+				type = assembly.GetType(typeName);
+			}
+			catch { /* swallow error until throwOnError overload available to DNX */ }
+#else
+			Type type = assembly.GetType(typeName, throwOnError: false);
+#endif
+			if (type != null)
             {
                 return Activator.CreateInstance(type);
             }
@@ -86,9 +94,13 @@ namespace FluentAssertions.Common
 
         private Assembly ProbeForPlatformSpecificAssembly()
         {
-            var assemblyName = new AssemblyName(GetType().Assembly.FullName) { Name = "FluentAssertions" };
+#if DNXCORE
+			var assemblyName = new AssemblyName(GetType().GetTypeInfo().Assembly.FullName) { Name = "FluentAssertions" };
+#else
+			var assemblyName = new AssemblyName(GetType().Assembly.FullName) { Name = "FluentAssertions" };
+#endif
 
-            try
+			try
             {
                 return assemblyLoader(assemblyName.FullName);
             }

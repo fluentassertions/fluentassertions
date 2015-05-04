@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+#if DNXCORE
+using System.Reflection;
+#endif
+
 namespace FluentAssertions.Types
 {
     /// <summary>
@@ -30,8 +34,12 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDeriveFrom<TBase>()
         {
-            types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToList();
-            return this;
+#if DNXCORE
+			types = types.Where(type => type.GetTypeInfo().IsSubclassOf(typeof(TBase))).ToList();
+#else
+			types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToList();
+#endif
+			return this;
         }
 
         /// <summary>
@@ -41,8 +49,13 @@ namespace FluentAssertions.Types
         {
             types = types.Where(t =>
                 typeof(TInterface)
-                    .IsAssignableFrom(t) && (t != typeof(TInterface)
-                        )).ToList();
+#if DNXCORE
+					.GetTypeInfo()
+					.IsAssignableFrom(t.GetTypeInfo()) && (t != typeof(TInterface)
+#else
+					.IsAssignableFrom(t) && (t != typeof(TInterface)
+#endif
+						)).ToList();
             return this;
         }
 
@@ -52,8 +65,12 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreDecoratedWith<TAttribute>()
         {
             types = types
-                .Where(t => t.GetCustomAttributes(typeof(TAttribute), true).Length > 0)
-                .ToList();
+#if DNXCORE
+				.Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
+#else
+				.Where(t => t.GetCustomAttributes(typeof(TAttribute), true).Length > 0)
+#endif
+				.ToList();
             return this;
         }
 

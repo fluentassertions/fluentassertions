@@ -3,6 +3,10 @@ using System;
 using System.Collections;
 using System.Linq;
 
+#if DNXCORE
+using System.Reflection;
+#endif
+
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -63,10 +67,21 @@ namespace FluentAssertions.Equivalency
 
         private static bool IsCollection(Type type)
         {
-            return !typeof(string).IsAssignableFrom(type) && typeof(IEnumerable).IsAssignableFrom(type);
-        }
+#if DNXCORE
+			return IsCollection(type.GetTypeInfo());
+#else
+			return !typeof(string).IsAssignableFrom(type) && typeof(IEnumerable).IsAssignableFrom(type);
+#endif
+		}
 
-        internal static object[] ToArray(object value)
+#if DNXCORE
+		private static bool IsCollection(TypeInfo type)
+		{
+			return !typeof(string).GetTypeInfo().IsAssignableFrom(type) && typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(type);
+		}
+#endif
+
+		internal static object[] ToArray(object value)
         {
             return !ReferenceEquals(value, null) ? ((IEnumerable)value).Cast<object>().ToArray() : null;
         }

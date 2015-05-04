@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+
+#if DNXCORE
+using System.Reflection;
+#endif
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -35,8 +40,8 @@ namespace FluentAssertions.Equivalency
             Type subjectType = config.GetSubjectType(context);
 
             var interfaceTypes = GetIEnumerableInterfaces(subjectType)
-                .Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")
-                .ToList();
+				.Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")
+				.ToList();
 
             AssertionScope.Current
                 .ForCondition(interfaceTypes.Count() == 1)

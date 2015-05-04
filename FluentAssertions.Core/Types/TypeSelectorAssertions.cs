@@ -4,6 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
+#if DNXCORE
+using System.Reflection;
+#endif
+
 using FluentAssertions.Execution;
 using FluentAssertions.Common;
 
@@ -43,8 +47,12 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             IEnumerable<Type> typesWithoutAttribute = Subject
-                .Where(type => !type.IsDecoratedWith<TAttribute>())
-                .ToArray();
+#if DNXCORE
+				.Where(type => !type.GetTypeInfo().IsDecoratedWith<TAttribute>())
+#else
+				.Where(type => !type.IsDecoratedWith<TAttribute>())
+#endif
+				.ToArray();
 
             Execute.Assertion
                 .ForCondition(!typesWithoutAttribute.Any())
@@ -75,8 +83,12 @@ namespace FluentAssertions.Types
             where TAttribute : Attribute
         {
             IEnumerable<Type> typesWithoutMatchingAttribute = Subject
-                .Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate))
-                .ToArray();
+#if DNXCORE
+				.Where(type => !type.GetTypeInfo().HasMatchingAttribute(isMatchingAttributePredicate))
+#else
+				.Where(type => !type.HasMatchingAttribute(isMatchingAttributePredicate))
+#endif
+				.ToArray();
 
             Execute.Assertion
                 .ForCondition(!typesWithoutMatchingAttribute.Any())

@@ -1,3 +1,7 @@
+#if DNXCORE
+using System.Reflection;
+#endif
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -42,8 +46,8 @@ namespace FluentAssertions.Equivalency.Matching
 
         private static bool ExpectationImplementsMemberExplicitly(object expectation, SelectedMemberInfo subjectMember)
         {
-            return subjectMember.DeclaringType.IsInstanceOfType(expectation);
-        }
+			return subjectMember.DeclaringType.IsInstanceOfType(expectation);
+		}
 
         /// <filterpriority>2</filterpriority>
         public override string ToString()

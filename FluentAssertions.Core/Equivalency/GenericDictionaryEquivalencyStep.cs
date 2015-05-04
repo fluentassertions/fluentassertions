@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
+#if DNXCORE
+using System.Reflection;
+#endif
+
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -81,10 +85,15 @@ namespace FluentAssertions.Equivalency
                 return false;
             }
 
-            Type[] suitableDictionaryInterfaces = expectationDictionaryInterfaces.Where(
+#if DNXCORE
+			Type[] suitableDictionaryInterfaces = expectationDictionaryInterfaces.Where(
+                @interface => GetDictionaryKeyType(@interface).GetTypeInfo().IsAssignableFrom(subjectKeyType.GetTypeInfo())).ToArray();
+#else
+			Type[] suitableDictionaryInterfaces = expectationDictionaryInterfaces.Where(
                 @interface => GetDictionaryKeyType(@interface).IsAssignableFrom(subjectKeyType)).ToArray();
+#endif
 
-            if (suitableDictionaryInterfaces.Count() > 1)
+			if (suitableDictionaryInterfaces.Count() > 1)
             {
                 // Code could be written to handle this better, but is it really worth the effort?
                 AssertionScope.Current.FailWith(

@@ -16,12 +16,18 @@
     "*.dll"
   ],
   "compile": [
+    "../FluentAssertions.Core/**/*.cs",
     "../FluentAssertions.Net45/**/*.cs",
     "../Shared/Execution/LateBoundTestFramework.cs",
     "../Shared/Execution/ITestFramework.cs"
   ],
   "frameworks": {
-    "dnx451": { },
+    "dnx451": {
+      "frameworkAssemblies": {
+        "System.Runtime": "4.0.10.0",
+        "System.Xml": "4.0.0.0"
+      }
+    },
     "dnxcore50": {
       "compilationOptions": {
         "define": [
@@ -29,10 +35,19 @@
         ]
       },
       "dependencies": {
+        "Microsoft.CSharp": "4.0.0-beta-22816",
         "System.Collections": "4.0.10-beta-22816",
+        "System.Diagnostics.Debug": "4.0.10-beta-*",
+        "System.Diagnostics.Tools": "4.0.0-beta-22830",
+        "System.Globalization": "4.0.10-beta-22830",
         "System.Linq": "4.0.0-beta-22816",
+        "System.Reflection": "4.0.10-beta-*",
+        "System.Reflection.Extensions": "4.0.0-beta-22830",
+        "System.Reflection.TypeExtensions": "4.0.0-beta-22830",
+        "System.Runtime.Extensions": "4.0.10-beta-22830",
+        "System.Text.RegularExpressions": "4.0.10-beta-22830",
         "System.Threading": "4.0.10-beta-22816",
-        "Microsoft.CSharp": "4.0.0-beta-22816"
+        "System.Xml.XmlSerializer": "4.0.10-beta-22830"
       }
     }
   }
