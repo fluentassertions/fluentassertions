@@ -1,0 +1,39 @@
+﻿{
+  "title": "FluentAssertions.Dnx",
+  "version": "1.0.0-*",
+  "owners": [ "Dennis Doomen" ],
+  "authors": [ "Dennis Doomen", "Oren Novotny", "Adam Voss" ],
+  "summary": "Fluent methods for asserting the result of TDD/BDD specs for .NET 4.0/4.5 (Desktop and Windows Store), SL5, WP8, WP8.1 and WPA8.1. Supports the unit test frameworks NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.",
+  "description": "A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style unit test. Runs on 4.0 and 4.5 (Desktop and Windows Store), Silverlight 5 and Windows Phone 8, 8.1 and 8.1 for Silverlight. Supports the unit test frameworks NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.",
+  "copyright": "Copyright Dennis Doomen 2010-2014",
+  "projectUrl": "http://www.fluentassertions.com",
+  "licenseUrl": "https://github.com/dennisdoomen/FluentAssertions/blob/master/LICENSE",
+  "tags": [ "MSTest", "xUnit", "xUnit2", "NUnit", "MSpec", "NSpec", "Gallio", "MbUnit", "TDD", "BDD", "Fluent", "Silverlight", "WinRT", "WP8", "WP8.1", "WPA8.1" ],
+  "dependencies": {
+  },
+  "exclude": [
+    "../FluentAssertions.Net45/Properties/AssemblyInfo.cs",
+    "*.dll"
+  ],
+  "compile": [
+    "../FluentAssertions.Net45/**/*.cs",
+    "../Shared/Execution/LateBoundTestFramework.cs",
+    "../Shared/Execution/ITestFramework.cs"
+  ],
+  "frameworks": {
+    "dnx451": { },
+    "dnxcore50": {
+      "compilationOptions": {
+        "define": [
+          "DNXCORE"
+        ]
+      },
+      "dependencies": {
+        "System.Collections": "4.0.10-beta-22816",
+        "System.Linq": "4.0.0-beta-22816",
+        "System.Threading": "4.0.10-beta-22816",
+        "Microsoft.CSharp": "4.0.0-beta-22816"
+      }
+    }
+  }
+}

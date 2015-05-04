@@ -315,20 +315,20 @@ namespace FluentAssertions
             return new NullableSimpleTimeSpanAssertions(actualValue);
         }
 
-        /// <summary>
-        /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
-        /// </summary>
-        public static TypeAssertions Should(this Type subject)
+		/// <summary>
+		/// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
+		/// current <see cref="System.Type"/>.
+		/// </summary>
+		public static TypeAssertions Should(this Type subject)
         {
             return new TypeAssertions(subject);
         }
 
-        /// <summary>
-        /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
-        /// </summary>
-        public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
+		/// <summary>
+		/// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
+		/// current <see cref="System.Type"/>.
+		/// </summary>
+		public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
         {
             return new TypeSelectorAssertions(typeSelector.ToArray());
         }
