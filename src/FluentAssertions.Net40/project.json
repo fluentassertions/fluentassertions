@@ -1,0 +1,25 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "",
+  "authors": [ "" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "FluentAssertions.Core": ""
+  },
+
+  "exclude": [
+    "*.dll"
+  ],
+  "compile": [
+    "../../FluentAssertions.Net40/**/*.cs",
+    "../../Shared/**.*.cs"
+  ],
+
+  "frameworks": {
+    "net40": {
+    }
+  }
+}

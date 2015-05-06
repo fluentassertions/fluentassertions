@@ -1,7 +1,7 @@
 using System;
-
 using System.Collections;
 using System.Linq;
+using System.Reflection;
 
 using FluentAssertions.Execution;
 
@@ -63,7 +63,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool IsCollection(Type type)
         {
-            return !typeof(string).IsAssignableFrom(type) && typeof(IEnumerable).IsAssignableFrom(type);
+            return !typeof(string).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()) && typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo());
         }
 
         internal static object[] ToArray(object value)

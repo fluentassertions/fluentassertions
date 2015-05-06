@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Reflection;
 
 using FluentAssertions.Execution;
 
@@ -14,7 +15,7 @@ namespace FluentAssertions.Equivalency
         {
             Type subjectType = config.GetSubjectType(context);
 
-            return typeof(IDictionary).IsAssignableFrom(subjectType);
+            return typeof(IDictionary).GetTypeInfo().IsAssignableFrom(subjectType.GetTypeInfo());
         }
 
         /// <summary>

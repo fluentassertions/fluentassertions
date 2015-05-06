@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
@@ -35,7 +36,7 @@ namespace FluentAssertions.Equivalency
             Type subjectType = config.GetSubjectType(context);
 
             var interfaceTypes = GetIEnumerableInterfaces(subjectType)
-                .Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")
+                .Select(type => "IEnumerable<" + type.GetTypeInfo().GenericTypeArguments.Single() + ">")
                 .ToList();
 
             AssertionScope.Current

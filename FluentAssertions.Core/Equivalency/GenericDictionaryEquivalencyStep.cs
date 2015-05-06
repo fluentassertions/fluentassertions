@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
@@ -82,7 +83,7 @@ namespace FluentAssertions.Equivalency
             }
 
             Type[] suitableDictionaryInterfaces = expectationDictionaryInterfaces.Where(
-                @interface => GetDictionaryKeyType(@interface).IsAssignableFrom(subjectKeyType)).ToArray();
+                @interface => GetDictionaryKeyType(@interface).GetTypeInfo().IsAssignableFrom(subjectKeyType.GetTypeInfo())).ToArray();
 
             if (suitableDictionaryInterfaces.Count() > 1)
             {

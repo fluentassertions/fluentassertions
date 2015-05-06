@@ -1,0 +1,39 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "",
+  "authors": [ "" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "FluentAssertions.Core": ""
+  },
+
+  "exclude": [
+    "*.dll"
+  ],
+  "compile": [
+    "../../FluentAssertions.Net45/**/*.cs",
+    "../../Shared/**.*.cs"
+  ],
+  "compileFiles": [
+    "../../FluentAssertions.Net40/EventSourceExtensions.cs",
+    "../../FluentAssertions.Net40/ObjectAssertionsExtensions.cs",
+    "../../FluentAssertions.Net40/Common/AppSettingsConfigurationStore.cs",
+    "../../FluentAssertions.Net40/Common/DefaultReflectionProvider.cs",
+    "../../FluentAssertions.Net40/Common/ProvidePlatformServices.cs",
+    "../../FluentAssertions.Net40/Execution/GallioTestFramework.cs",
+    "../../FluentAssertions.Net40/Execution/MbUnitTestFramework.cs",
+    "../../FluentAssertions.Net40/Execution/MSpecFramework.cs",
+    "../../FluentAssertions.Net40/Execution/MSTestFramework.cs",
+    "../../FluentAssertions.Net40/Execution/NUnitTestFramework.cs",
+    "../../FluentAssertions.Net40/Execution/TestFrameworkProvider.cs",
+    "../../FluentAssertions.Net40/Execution/XUnitTestFramework.cs"
+  ],
+
+  "frameworks": {
+    "net45": {
+    }
+  }
+}

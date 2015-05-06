@@ -32,9 +32,16 @@ namespace FluentAssertions.Common
         public ProbingAdapterResolver(Func<string, Assembly> assemblyLoader)
         {
             this.assemblyLoader = assemblyLoader;
-        }
+		}
 
-        public object Resolve(Type type)
+#if NO_ASSEMBLY_LOAD_NAME
+		public ProbingAdapterResolver(Func<AssemblyName, Assembly> assemblyLoader)
+		{
+			this.assemblyLoader = name => assemblyLoader(new AssemblyName(name));
+		}
+#endif
+
+		public object Resolve(Type type)
         {
             lock (lockable)
             {
@@ -54,7 +61,7 @@ namespace FluentAssertions.Common
         {
             string typeName = MakeAdapterTypeName(interfaceType);
 
-            Type type = assembly.GetType(typeName, throwOnError: false);
+            Type type = assembly.GetType(typeName);
             if (type != null)
             {
                 return Activator.CreateInstance(type);
@@ -86,7 +93,7 @@ namespace FluentAssertions.Common
 
         private Assembly ProbeForPlatformSpecificAssembly()
         {
-            var assemblyName = new AssemblyName(GetType().Assembly.FullName) { Name = "FluentAssertions" };
+            var assemblyName = new AssemblyName(GetType().GetTypeInfo().Assembly.FullName) { Name = "FluentAssertions" };
 
             try
             {

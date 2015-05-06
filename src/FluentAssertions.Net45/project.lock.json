@@ -1,0 +1,11 @@
+{
+  "locked": false,
+  "version": -9998,
+  "projectFileDependencyGroups": {
+    "": [
+      "FluentAssertions.Core "
+    ],
+    ".NETFramework,Version=v4.5": []
+  },
+  "libraries": {}
+}

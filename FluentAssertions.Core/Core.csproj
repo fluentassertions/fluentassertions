@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NO_TYPEINFO, CUSTOM_ATTRIBUTEDATA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
@@ -65,6 +65,7 @@
     <Compile Include="Common\NullReflector.cs" />
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
+    <Compile Include="CustomAttributeData.cs" />
     <Compile Include="Equivalency\Selection\AllPublicFieldsSelectionRule.cs" />
     <Compile Include="EquivalencyStepCollection.cs" />
     <Compile Include="Equivalency\AssertionContext.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="TimeSpanConversionExtensions.cs" />
     <Compile Include="TypeEnumerableExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
+    <Compile Include="TypeInfo.cs" />
     <Compile Include="Types\AllTypes.cs" />
     <Compile Include="Types\MethodInfoAssertions.cs" />
     <Compile Include="Types\MethodInfoSelector.cs" />
