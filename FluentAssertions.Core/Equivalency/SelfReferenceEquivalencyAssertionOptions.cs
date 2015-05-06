@@ -622,6 +622,7 @@ namespace FluentAssertions.Equivalency
             /// <summary>
             /// Allows overriding the way structural equality is applied to (nested) objects of type <typeparamref name="TMemberType"/>
             /// </summary>
+			[Obsolete]
             public TSelf WhenTypeIs<TMemberType>()
             {
                 When(info => info.RuntimeType.IsSameOrInherits(typeof(TMemberType)));
@@ -635,6 +636,7 @@ namespace FluentAssertions.Equivalency
             /// A predicate based on the <see cref="ISubjectInfo"/> of the subject that is used to identify the property for which the
             /// override applies.
             /// </param>
+			[Obsolete]
             public TSelf When(Expression<Func<ISubjectInfo, bool>> predicate)
             {
                 options.Using(new AssertionRule<TMember>(predicate, action));

@@ -33,6 +33,7 @@ namespace FluentAssertions.Specs
             }
         }
 
+		[Obsolete]
         [TestClass]
         public class When_assertion_doubles_should_always_allow_small_deviations :
             Given_temporary_global_assertion_options
@@ -66,6 +67,7 @@ namespace FluentAssertions.Specs
             }
         }
 
+		[Obsolete]
         [TestClass]
         public class When_local_similar_options_are_used : Given_temporary_global_assertion_options
         {

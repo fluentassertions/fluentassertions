@@ -49,7 +49,7 @@ namespace FluentAssertions.Common
 		public static bool IsDecoratedWith<TAttribute>(this Type type)
 			where TAttribute : Attribute
 		{
-			return type.GetTypeInfo().CustomAttributes.Any(attribute => attribute.AttributeType is TAttribute);
+			return type.GetTypeInfo().CustomAttributes.Any(attribute => attribute.AttributeType == typeof(TAttribute));
 		}
 
 		private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type)

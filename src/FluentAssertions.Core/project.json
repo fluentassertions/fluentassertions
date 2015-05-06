@@ -77,6 +77,7 @@
         "System.Reflection.TypeExtensions": "4.0.0-beta-22904",
         "System.Runtime.Extensions": "4.0.10-beta-22904",
         "System.Text.RegularExpressions": "4.0.10-beta-22904",
+        "System.Threading": "4.0.10-beta-22816",
         "System.Xml.XmlSerializer": "4.0.10-beta-22904"
       }
     }
