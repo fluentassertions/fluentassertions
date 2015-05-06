@@ -73,7 +73,7 @@ namespace FluentAssertions
             return new ExecutionTimeAssertions(action);
         }
 
-#if !WINRT
+#if !WINRT && !DNXCORE
 
         /// <summary>
         /// Returns an <see cref="AssemblyAssertions"/> object that can be used to assert the
@@ -87,11 +87,11 @@ namespace FluentAssertions
 
 #endif
 
-        /// <summary>
-        /// Returns an <see cref="XDocumentAssertions"/> object that can be used to assert the
-        /// current <see cref="XElement"/>.
-        /// </summary>
-        public static XDocumentAssertions Should(this XDocument actualValue)
+		/// <summary>
+		/// Returns an <see cref="XDocumentAssertions"/> object that can be used to assert the
+		/// current <see cref="XElement"/>.
+		/// </summary>
+		public static XDocumentAssertions Should(this XDocument actualValue)
         {
             return new XDocumentAssertions(actualValue);
         }
@@ -608,7 +608,7 @@ namespace FluentAssertions
 #pragma warning restore 618
         }
 
-#if !SILVERLIGHT && !WINRT && !PORTABLE
+#if !SILVERLIGHT && !WINRT && !PORTABLE && !DNXCORE
         /// <summary>
         ///   Starts monitoring an object for its events.
         /// </summary>
@@ -644,11 +644,11 @@ namespace FluentAssertions
             return eventRecorder;
         }
 #else
-    /// <summary>
-    ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
-    /// </summary>
-    /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
-        public static void MonitorEvents(this INotifyPropertyChanged eventSource)
+		/// <summary>
+		///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
+		/// </summary>
+		/// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+		public static void MonitorEvents(this INotifyPropertyChanged eventSource)
         {
             EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders((INotifyPropertyChanged)source));
         }

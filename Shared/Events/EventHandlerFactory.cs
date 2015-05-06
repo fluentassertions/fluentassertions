@@ -1,5 +1,5 @@
 
-#if !WINRT && !PORTABLE
+#if !WINRT && !PORTABLE && !DNXCORE
 using System;
 using System.Reflection;
 using System.Reflection.Emit;

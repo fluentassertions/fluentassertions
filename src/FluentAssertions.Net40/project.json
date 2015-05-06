@@ -11,11 +11,12 @@
   },
 
   "exclude": [
-    "*.dll"
+    "*.dll",
+    "../../FluentAssertions.Net40/Properties/AssemblyInfo.cs"
   ],
   "compile": [
     "../../FluentAssertions.Net40/**/*.cs",
-    "../../Shared/**.*.cs"
+    "../../Shared/**/*.cs"
   ],
 
   "frameworks": {

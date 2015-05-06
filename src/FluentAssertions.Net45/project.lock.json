@@ -5,7 +5,9 @@
     "": [
       "FluentAssertions.Core "
     ],
-    ".NETFramework,Version=v4.5": []
+    ".NETFramework,Version=v4.5": [
+      "framework/System.Configuration >= 4.0.0.0"
+    ]
   },
   "libraries": {}
 }
