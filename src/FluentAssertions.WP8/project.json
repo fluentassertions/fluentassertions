@@ -31,10 +31,9 @@
 	],
 
 	"frameworks": {
-		"win8": {
-			"dependencies": {
-				"System.Reflection.Emit": "4.0.0-beta-22904",
-				"System.Reflection.Emit.Lightweight": "4.0.0-beta-22904"
+		"wp8": {
+			"frameworkAssemblies": {
+				"System.Xml.Linq": ""
 			}
 		}
 	}
