@@ -161,3 +161,4 @@ Package/Lib
 
 # vNext / dnx
 project.lock.json
+.vs/
