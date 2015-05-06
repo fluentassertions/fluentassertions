@@ -15,15 +15,15 @@ namespace FluentAssertions
 
 		public Assembly Assembly { get { return type.Assembly; } }
 
+#if CUSTOM_ATTRIBUTEDATA
 		public CustomAttributeData[] CustomAttributes
 		{
 			get
 			{
-#if CUSTOM_ATTRIBUTEDATA
 				return CustomAttributeData.From(type.GetCustomAttributes(false));
-#endif
-			}
+            }
 		}
+#endif
 
 		public bool IsEnum { get { return type.IsEnum; } }
 
