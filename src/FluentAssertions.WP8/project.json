@@ -1,0 +1,41 @@
+﻿{
+	"version": "1.0.0-*",
+	"description": "",
+	"authors": [ "" ],
+	"tags": [ "" ],
+	"projectUrl": "",
+	"licenseUrl": "",
+
+	"dependencies": {
+		"FluentAssertions.Core": ""
+	},
+
+	"compilationOptions": {
+		"define": [
+			"SILVERLIGHT",
+			"WINDOWS_PHONE"
+		]
+	},
+
+	"exclude": [
+		"*.dll",
+		"../../FluentAssertions.WP8/Properties/AssemblyInfo.cs"
+	],
+	"compile": [
+		"../../FluentAssertions.WP8/**/*.cs",
+		"../../Shared/**/*.cs"
+	],
+	"compileFiles": [
+		"../../FluentAssertions.Net40/EventSourceExtensions.cs",
+		"../../FluentAssertions.Net45/Execution/XUnit2TestFramework.cs"
+	],
+
+	"frameworks": {
+		"win8": {
+			"dependencies": {
+				"System.Reflection.Emit": "4.0.0-beta-22904",
+				"System.Reflection.Emit.Lightweight": "4.0.0-beta-22904"
+			}
+		}
+	}
+}

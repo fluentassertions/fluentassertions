@@ -61,6 +61,9 @@ namespace FluentAssertions.Events
                 
                 // Box value-type parameters
                 if (parameters[index]
+#if WINDOWS_PHONE
+                    .GetTypeInfo()
+#endif
                     .IsValueType)
                 {
                     ilGen.Emit(OpCodes.Box, parameters[index]);
@@ -134,6 +137,9 @@ namespace FluentAssertions.Events
         private static bool TypeIsDelegate(Type d)
         {
             if (d
+#if WINDOWS_PHONE
+                .GetTypeInfo()
+#endif
                 .BaseType != typeof (MulticastDelegate))
             {
                 return false;

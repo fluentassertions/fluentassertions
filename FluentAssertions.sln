@@ -70,6 +70,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FluentAssertions.Net45", "s
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FluentAssertions.DnxCore50", "src\FluentAssertions.DnxCore50\FluentAssertions.DnxCore50.xproj", "{99AB378B-785B-400B-B726-A3CD214A50FC}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FluentAssertions.WP8", "src\FluentAssertions.WP8\FluentAssertions.WP8.xproj", "{33608992-4F3F-4927-886C-2A9598BA338C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Shared\Shared.projitems*{e6f895fa-ae44-4750-87f1-d18a7d974377}*SharedItemsImports = 4
@@ -483,6 +485,26 @@ Global
 		{99AB378B-785B-400B-B726-A3CD214A50FC}.Release|x64.Build.0 = Release|Any CPU
 		{99AB378B-785B-400B-B726-A3CD214A50FC}.Release|x86.ActiveCfg = Release|Any CPU
 		{99AB378B-785B-400B-B726-A3CD214A50FC}.Release|x86.Build.0 = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|ARM.Build.0 = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|x64.Build.0 = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Debug|x86.Build.0 = Debug|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|ARM.ActiveCfg = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|ARM.Build.0 = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|x64.ActiveCfg = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|x64.Build.0 = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|x86.ActiveCfg = Release|Any CPU
+		{33608992-4F3F-4927-886C-2A9598BA338C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -513,6 +535,7 @@ Global
 		{69651791-7FF2-4E66-8529-3D027AF8E6BA} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{5DB2658D-4877-4BE7-BDB1-C8BFAFFD5787} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{99AB378B-785B-400B-B726-A3CD214A50FC} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{33608992-4F3F-4927-886C-2A9598BA338C} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = FluentAssertions.Silverlight\Silverlight.csproj

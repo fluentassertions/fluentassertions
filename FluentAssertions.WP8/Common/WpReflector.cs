@@ -9,6 +9,7 @@ namespace FluentAssertions.Common
     {
         public IEnumerable<Type> GetAllTypesFromAppDomain(Func<Assembly, bool> predicate)
         {
+            // well bawls...
             return AppDomain.CurrentDomain
                 .GetAssemblies()
                 .Where(predicate)
