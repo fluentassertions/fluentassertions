@@ -20,6 +20,11 @@
 				"FluentAssertions.Net45": ""
 			}
 		},
+		"sl5": {
+			"dependencies": {
+				"FluentAssertions.SL5": ""
+			}
+		},
 		"wp8": {
 			"dependencies": {
 				"FluentAssertions.WP8": ""
