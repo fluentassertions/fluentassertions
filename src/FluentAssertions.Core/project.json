@@ -34,9 +34,6 @@
 	},
 
 	"frameworks": {
-		// currently can't get pcl profiles working correctly
-		//".NETPortable,Version=v4.0,Profile=Profile328": {
-		//},
 		"net40": {
 			"compilationOptions": {
 				"define": [
