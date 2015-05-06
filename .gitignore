@@ -157,3 +157,7 @@ $RECYCLE.BIN/
 Package/Lib
 *.nupkg
 *.zip
+
+
+# vNext / dnx
+project.lock.json
