@@ -36,7 +36,7 @@ namespace FluentAssertions.Execution
             {
                 string prefix = AssemblyName + ",";
 
-#if !PORTABLE && !DNXCORE &&!WINDOWS_PHONE
+#if !PORTABLE && !DNXCORE
                 assembly = AppDomain.CurrentDomain
                     .GetAssemblies()
                     .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase));

@@ -58,29 +58,23 @@
 				"System.Xml": "4.0.0.0"
 			}
 		},
-		"win8": {
+		"wp8": {
 			"compilationOptions": {
 				"define": [
-					"NO_ASSEMBLY_LOAD_NAME",
 					"NO_SUBCLASSOF"
 				]
 			},
-			"dependencies": {
-				"Microsoft.CSharp": "4.0.0-beta-22904",
-				"System.Collections": "4.0.10-beta-22904",
-				"System.Diagnostics.Debug": "4.0.10-beta-22904",
-				"System.Globalization": "4.0.10-beta-22904",
-				"System.Linq": "4.0.0-beta-22904",
-				"System.ObjectModel": "4.0.10-beta-22904",
-				"System.Runtime": "4.0.20-beta-22904",
-				"System.Runtime.Extensions": "4.0.10-beta-22904",
-				"System.Reflection": "4.0.10-beta-22904",
-				"System.Reflection.Extensions": "4.0.0-beta-22904",
-				"System.Reflection.TypeExtensions": "4.0.0-beta-22904",
-				"System.Text.RegularExpressions": "4.0.10-beta-22904",
-				"System.Threading": "4.0.10-beta-22904",
-				"System.Threading.Tasks": "4.0.10-beta-22904",
-				"System.Xml.XDocument": "4.0.10-beta-22904"
+			"frameworkAssemblies": {
+				
+				"Microsoft.Phone": "",
+				"mscorlib": "",
+				"System.Core": "",
+				"System.Linq": "",
+				"System.Linq.Expressions": "",
+				"System.ObjectModel": "",
+				"System.Text.RegularExpressions": "",
+				"System.Runtime": "",
+				"System.Xml": ""
 			}
 		},
 		"dnxcore50": {
