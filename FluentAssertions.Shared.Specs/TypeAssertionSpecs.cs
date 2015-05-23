@@ -634,9 +634,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_asserting_a_type_that_does_not_implement_an_interface_implements_that_interface_it_should_throw_with_descriptive_message
-            ()
+        public void When_asserting_a_type_that_does_not_implement_an_interface_implements_that_interface_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -655,6 +653,94 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassThatDoesNotImplementInterface to implement " +
                              "interface FluentAssertions.Specs.IDummyInterface because we want to test the error message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_implements_a_NonInterface_type_Then_it_should_throw_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassThatDoesNotImplementInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().Implement(typeof(DateTime), "because we want to test the error message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>()
+                .WithMessage("Must be an interface Type.\r\nParameter name: interfaceType");
+        }
+
+        #endregion
+
+        #region NotImplement
+
+        [TestMethod]
+        public void When_asserting_that_a_type_that_does_not_implement_an_interface_does_not_implement_that_interface_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassThatDoesNotImplementInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotImplement(typeof(IDummyInterface));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_implements_an_interface_does_not_implement_that_interface_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassThatImplementsInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotImplement(typeof(IDummyInterface), "because we want to test the error message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassThatImplementsInterface to not implement interface " +
+                             "FluentAssertions.Specs.IDummyInterface because we want to test the error message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_does_not_implement_a_NonInterface_type_Then_it_should_throw_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassThatDoesNotImplementInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotImplement(typeof(DateTime), "because we want to test the error message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>()
+                .WithMessage("Must be an interface Type.\r\nParameter name: interfaceType");
         }
 
         #endregion
