@@ -720,14 +720,14 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().HaveProperty(typeof(int), "PublicProperty", "because we want to test the error {0}", "message");
+                type.Should().HaveProperty(typeof(int), "PrivateWriteProtectedReadProperty", "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected String FluentAssertions.Specs.ClassWithMembers.PublicProperty to be of type System.Int32 because we want to test the error message, but it is not.");
+                    "Expected String FluentAssertions.Specs.ClassWithMembers.PrivateWriteProtectedReadProperty to be of type System.Int32 because we want to test the error message, but it is not.");
         }
 
         #endregion
@@ -768,15 +768,89 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveProperty("PublicProperty", "because we want to test the error {0}", "message");
+                type.Should().NotHaveProperty("PrivateWriteProtectedReadProperty", "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected String FluentAssertions.Specs.ClassWithMembers.PublicProperty to not exist because we want to " +
+                    "Expected String FluentAssertions.Specs.ClassWithMembers.PrivateWriteProtectedReadProperty to not exist because we want to " +
                     "test the error message, but it does.");
+        }
+
+        #endregion
+
+        #region HaveIndexer
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_an_indexer_does_have_an_indexer_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveIndexer(typeof(string), new[] { typeof(string) })
+                    .Which.Should()
+                        .BeWritable(CSharpAccessModifiers.Internal)
+                        .And.BeReadable(CSharpAccessModifiers.Private);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_does_not_have_an_indexer_does_have_an_indexer_with_that_type_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithNoMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveIndexer(typeof(string), new [] {typeof(int), typeof(Type)}, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected String FluentAssertions.Specs.ClassWithNoMembers[System.Int32, System.Type] to exist because we want to test the error" +
+                    " message, but it does not.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_does_have_an_indexer_with_different_parameters_does_have_an_indexer_with_that_type_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveIndexer(typeof(string), new[] { typeof(int), typeof(Type) }, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected String FluentAssertions.Specs.ClassWithMembers[System.Int32, System.Type] to exist because we want to test the error" +
+                    " message, but it does not.");
         }
 
         #endregion
@@ -824,9 +898,9 @@ namespace FluentAssertions.Specs
 
     public class ClassWithMembers
     {
-        public string PublicProperty { get; set; }
-        public string PublicWritePrivateReadProperty { private get{ return null; } set { } }
         protected string PrivateWriteProtectedReadProperty { private set { } get { return null; } }
+        internal string this[string str] { private get { return str; } set { } }
+        internal protected string this[int i] { get { return i.ToString(); } private set { } }
     }
 
     public class ClassWithoutMembers { }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -223,7 +224,9 @@ namespace FluentAssertions.Types
         /// <param name="name">The name of the property.</param>
         public AndConstraint<TypeAssertions> NotHaveProperty(string name, string because = "", params object[] reasonArgs)
         {
-            PropertyInfo propertyInfo = Subject.GetProperty(name);
+            PropertyInfo propertyInfo = Subject
+                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                    .SingleOrDefault(p => !p.IsIndexer() && p.Name == name);
 
             string propertyInfoDescription = "";
 
@@ -269,6 +272,42 @@ namespace FluentAssertions.Types
                 .BecauseOf(because, reasonArgs)
                 .FailWith(String.Format("Expected {0} to be of type {1}{{reason}}, but it is not.",
                     propertyInfoDescription, propertyType));
+
+            return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has an indexer of type <paramref name="indexerType"/>.
+        /// with parameter types <paramref name="parameterTypes"/>.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="indexerType">The type of the indexer.</param>
+        /// <param name="parameterTypes">The parameter types for the indexer.</param>
+        public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveIndexer(Type indexerType, IEnumerable<Type> parameterTypes, string because = "", params object[] reasonArgs)
+        {
+            PropertyInfo propertyInfo = Subject
+                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                    .SingleOrDefault(p => p.IsIndexer() && p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(parameterTypes));
+
+            string propertyInfoDescription = "";
+
+            if (propertyInfo != null)
+            {
+                propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
+            }
+
+            Execute.Assertion.ForCondition(propertyInfo != null)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(String.Format("Expected {0} {1}[{2}] to exist{{reason}}, but it does not.",
+                    indexerType.Name, Subject.FullName, 
+                    parameterTypes.Select(p => p.FullName).Aggregate((p,c) => p + ", " + c)));
+
+            Execute.Assertion.ForCondition(propertyInfo.PropertyType == indexerType)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(String.Format("Expected {0} to be of type {1}{{reason}}, but it is not.",
+                    propertyInfoDescription, indexerType));
 
             return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
         }
