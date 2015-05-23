@@ -22,8 +22,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
-            Type sameType = typeof(ClassWithAttribute);
+            Type type = typeof (ClassWithAttribute);
+            Type sameType = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -43,8 +43,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
-            Type differentType = typeof(ClassWithoutAttribute);
+            Type type = typeof (ClassWithAttribute);
+            Type differentType = typeof (ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -64,8 +64,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
-            Type differentType = typeof(ClassWithoutAttribute);
+            Type type = typeof (ClassWithAttribute);
+            Type differentType = typeof (ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -79,7 +79,7 @@ namespace FluentAssertions.Specs
 
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected type to be FluentAssertions.Specs.ClassWithoutAttribute" +
-                    " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             Type nullType = null;
-            Type someType = typeof(ClassWithAttribute);
+            Type someType = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -102,7 +102,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected type to be FluentAssertions.Specs.ClassWithAttribute" +
-                    " because we want to test the error message, but found <null>.");
+                " because we want to test the error message, but found <null>.");
         }
 
         [TestMethod]
@@ -111,7 +111,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type someType = typeof(ClassWithAttribute);
+            Type someType = typeof (ClassWithAttribute);
             Type nullType = null;
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected type to be <null>" +
-                    " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
         }
 
         [TestMethod]
@@ -137,10 +137,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
-            Type typeFromThisAssembly = typeof(ObjectAssertions);
+            Type typeFromThisAssembly = typeof (ObjectAssertions);
 #if !WINRT && !WINDOWS_PHONE_APP
             Type typeFromOtherAssembly =
-                typeof(TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
+                typeof (TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 #else
             Type typeFromOtherAssembly =
                 Type.GetType("FluentAssertions.Primitives.ObjectAssertions,FluentAssertions.Core");
@@ -160,8 +160,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             const string expectedMessage =
                 "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*]" +
-                    " because we want to test the error message, but found " +
-                        "[FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
+                " because we want to test the error message, but found " +
+                "[FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
@@ -172,7 +172,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
+            Type type = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -192,7 +192,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
+            Type type = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -212,7 +212,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
+            Type type = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -226,7 +226,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected type to be FluentAssertions.Specs.ClassWithoutAttribute because we want to test " +
-                        "the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                    "the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
         }
 
         #endregion
@@ -239,8 +239,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
-            Type otherType = typeof(ClassWithoutAttribute);
+            Type type = typeof (ClassWithAttribute);
+            Type otherType = typeof (ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -260,8 +260,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
-            Type sameType = typeof(ClassWithAttribute);
+            Type type = typeof (ClassWithAttribute);
+            Type sameType = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -281,8 +281,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
-            Type sameType = typeof(ClassWithAttribute);
+            Type type = typeof (ClassWithAttribute);
+            Type sameType = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -295,7 +295,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*]" +
-                    " because we want to test the error message.");
+                             " because we want to test the error message.");
         }
 
         [TestMethod]
@@ -304,7 +304,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
+            Type type = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -324,7 +324,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
+            Type type = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -344,7 +344,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(ClassWithAttribute);
+            Type type = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -358,7 +358,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*] because we want to test " +
-                        "the error message.");
+                    "the error message.");
         }
 
         #endregion
@@ -371,7 +371,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            typeof(DummyImplementingClass).Should().BeAssignableTo<DummyImplementingClass>();
+            typeof (DummyImplementingClass).Should().BeAssignableTo<DummyImplementingClass>();
         }
 
         [TestMethod]
@@ -380,7 +380,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            typeof(DummyImplementingClass).Should().BeAssignableTo<DummyBaseClass>();
+            typeof (DummyImplementingClass).Should().BeAssignableTo<DummyBaseClass>();
         }
 
         [TestMethod]
@@ -389,7 +389,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            typeof(DummyImplementingClass).Should().BeAssignableTo<IDisposable>();
+            typeof (DummyImplementingClass).Should().BeAssignableTo<IDisposable>();
         }
 
         [TestMethod]
@@ -398,7 +398,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Type someType = typeof(DummyImplementingClass);
+            Type someType = typeof (DummyImplementingClass);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
@@ -408,7 +408,7 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
                     "Expected type {0} to be assignable to {1} because we want to test the failure message, but it is not",
-                    typeof(DummyImplementingClass), typeof(DateTime)));
+                    typeof (DummyImplementingClass), typeof (DateTime)));
         }
 
         #endregion
@@ -421,7 +421,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithAttribute = typeof(ClassWithAttribute);
+            Type typeWithAttribute = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -441,7 +441,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
+            Type typeWithoutAttribute = typeof (ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -461,7 +461,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
+            Type typeWithoutAttribute = typeof (ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -476,8 +476,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutAttribute to be decorated with " +
-                    "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
-                        "was not found.");
+                             "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
+                             "was not found.");
         }
 
         [TestMethod]
@@ -486,7 +486,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithAttribute = typeof(ClassWithAttribute);
+            Type typeWithAttribute = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -507,7 +507,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithAttribute = typeof(ClassWithAttribute);
+            Type typeWithAttribute = typeof (ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -521,11 +521,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to be decorated with " +
-                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
-                        "but no matching attribute was found.");
+                             "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
+                             "but no matching attribute was found.");
         }
-
-        #endregion
 
         [TestMethod]
         public void When_asserting_a_selection_of_decorated_types_is_decorated_with_an_attribute_it_should_succeed()
@@ -558,9 +556,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var types = new TypeSelector(new[]
             {
-                typeof(ClassWithAttribute),
-                typeof(ClassWithoutAttribute),
-                typeof(OtherClassWithoutAttribute)
+                typeof (ClassWithAttribute),
+                typeof (ClassWithoutAttribute),
+                typeof (OtherClassWithoutAttribute)
             });
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -574,10 +572,46 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected all types to be decorated with FluentAssertions.Specs.DummyClassAttribute" +
-                    " because we do, but the attribute was not found on the following types:\r\n" +
-                    "FluentAssertions.Specs.ClassWithoutAttribute\r\n" +
-                    "FluentAssertions.Specs.OtherClassWithoutAttribute");
+                             " because we do, but the attribute was not found on the following types:\r\n" +
+                             "FluentAssertions.Specs.ClassWithoutAttribute\r\n" +
+                             "FluentAssertions.Specs.OtherClassWithoutAttribute");
         }
+
+
+        [TestMethod]
+        public void When_asserting_a_selection_of_types_with_unexpected_attribute_property_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(new[]
+            {
+                typeof (ClassWithAttribute),
+                typeof (ClassWithoutAttribute),
+                typeof (OtherClassWithoutAttribute)
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                types.Should()
+                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected all types to be decorated with FluentAssertions.Specs.DummyClassAttribute" +
+                             " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
+                             " but no matching attribute was found on the following types:\r\n" +
+                             "FluentAssertions.Specs.ClassWithoutAttribute\r\n" +
+                             "FluentAssertions.Specs.OtherClassWithoutAttribute");
+        }
+
+        #endregion
+
+        #region Implement
 
         [TestMethod]
         public void When_asserting_that_a_type_that_implements_an_interface_implements_that_interface_it_should_succeed()
@@ -600,7 +634,9 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_not_implement_an_interface_implements_that_interface_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_a_type_that_does_not_implement_an_interface_implements_that_interface_it_should_throw_with_descriptive_message
+            ()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -611,7 +647,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().Implement(typeof(IDummyInterface), "because we want to test the error message");
+                type.Should().Implement(typeof (IDummyInterface), "because we want to test the error message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -621,13 +657,90 @@ namespace FluentAssertions.Specs
                              "interface FluentAssertions.Specs.IDummyInterface because we want to test the error message.");
         }
 
+        #endregion
+
+        #region HaveProperty
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_a_property_does_have_a_named_property_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveProperty(typeof(string), "PrivateWriteProtectedReadProperty")
+                    .Which.Should()
+                        .BeWritable(CSharpAccessModifiers.Private)
+                        .And.BeReadable(CSharpAccessModifiers.Protected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_does_not_have_a_property_does_have_a_property_with_that_name_and_type_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithNoMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveProperty(typeof(string), "PublicProperty", "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected String FluentAssertions.Specs.ClassWithNoMembers.PublicProperty to exist because we want to " +
+                    "test the error message, but it does not.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_does_have_a_property_does_have_a_property_with_that_name_but_different_type_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveProperty(typeof(int), "PublicProperty", "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected String FluentAssertions.Specs.ClassWithMembers.PublicProperty to be of type System.Int32 because we want to test the error message, but it is not.");
+        }
+
+        #endregion
+
+        #region NotHaveProperty
+
         [TestMethod]
         public void When_asserting_a_type_that_has_no_properties_does_not_have_a_named_property_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var type = typeof(ClassWithoutMembers); 
+            var type = typeof (ClassWithoutMembers);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -642,12 +755,14 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_a_property_does_not_have_a_property_with_that_name_it_should_throw_with_descriptive_message()
+        public void
+            When_asserting_a_type_that_has_a_property_does_not_have_a_property_with_that_name_it_should_throw_with_descriptive_message
+            ()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var type = typeof(ClassWithMembers);
+            var type = typeof (ClassWithMembers);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -659,40 +774,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected String FluentAssertions.Specs.ClassWithMembers.PublicProperty to not exist because we want to " +
-                             "test the error message, but it does.");
+                .WithMessage(
+                    "Expected String FluentAssertions.Specs.ClassWithMembers.PublicProperty to not exist because we want to " +
+                    "test the error message, but it does.");
         }
 
-        [TestMethod]
-        public void When_asserting_a_selection_of_types_with_unexpected_attribute_property_it_should_throw()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            var types = new TypeSelector(new[]
-            {
-                typeof(ClassWithAttribute),
-                typeof(ClassWithoutAttribute),
-                typeof(OtherClassWithoutAttribute)
-            });
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                types.Should()
-                    .BeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected all types to be decorated with FluentAssertions.Specs.DummyClassAttribute" +
-                    " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
-                    " but no matching attribute was found on the following types:\r\n" +
-                    "FluentAssertions.Specs.ClassWithoutAttribute\r\n" +
-                    "FluentAssertions.Specs.OtherClassWithoutAttribute");
-        }
+        #endregion
     }
 
     #region Internal classes used in unit tests
@@ -739,6 +826,7 @@ namespace FluentAssertions.Specs
     {
         public string PublicProperty { get; set; }
         public string PublicWritePrivateReadProperty { private get{ return null; } set { } }
+        protected string PrivateWriteProtectedReadProperty { private set { } get { return null; } }
     }
 
     public class ClassWithoutMembers { }

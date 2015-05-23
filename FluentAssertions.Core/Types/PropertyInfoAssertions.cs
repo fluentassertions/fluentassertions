@@ -77,7 +77,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifiers accessModifier, string because, params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifiers accessModifier, string because = "", params object[] reasonArgs)
         {
             Subject.Should().BeWritable(because, reasonArgs);
 
@@ -119,7 +119,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeReadable(string because, params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeReadable(string because = "", params object[] reasonArgs)
         {
             Execute.Assertion.ForCondition(Subject.CanRead)
                 .BecauseOf(because, reasonArgs)
@@ -139,7 +139,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifiers accessModifier, string because, params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifiers accessModifier, string because = "", params object[] reasonArgs)
         {
             Subject.Should().BeReadable(because, reasonArgs);
 

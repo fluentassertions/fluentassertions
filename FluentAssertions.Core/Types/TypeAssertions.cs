@@ -217,27 +217,60 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the current type does not expose a property named <paramref name="name"/>.
         /// </summary>
-        /// <param name="typeAssertions">The TypeAssertion we are extending.</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
         ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
-        /// <param name="name">The name of the method.</param>
+        /// <param name="name">The name of the property.</param>
         public AndConstraint<TypeAssertions> NotHaveProperty(string name, string because = "", params object[] reasonArgs)
         {
             PropertyInfo propertyInfo = Subject.GetProperty(name);
 
-            string failureMessage = "Expected {0} to not exist{{reason}}, but it does.";
+            string propertyInfoDescription = "";
 
             if (propertyInfo != null)
             {
-                failureMessage = String.Format(failureMessage, PropertyInfoAssertions.GetDescriptionFor(propertyInfo));
+                propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
             }
 
             Execute.Assertion.ForCondition(propertyInfo == null)
                 .BecauseOf(because, reasonArgs)
-                .FailWith(failureMessage);
+                .FailWith(string.Format("Expected {0} to not exist{{reason}}, but it does.", propertyInfoDescription));
 
             return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has a property of type <paramref name="propertyType"/> named <paramref name="name"/>.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="propertyType">The type of the property.</param>
+        /// <param name="name">The name of the property.</param>
+        public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty(Type propertyType, string name, string because = "", params object[] reasonArgs)
+        {
+            PropertyInfo propertyInfo = Subject
+                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                    .SingleOrDefault(p => !p.IsIndexer() && p.Name == name);
+
+            string propertyInfoDescription = "";
+
+            if (propertyInfo != null)
+            {
+                propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
+            }
+
+            Execute.Assertion.ForCondition(propertyInfo != null)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(String.Format("Expected {0} {1}.{2} to exist{{reason}}, but it does not.",
+                    propertyType.Name, Subject.FullName, name));
+            
+            Execute.Assertion.ForCondition(propertyInfo.PropertyType == propertyType)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(String.Format("Expected {0} to be of type {1}{{reason}}, but it is not.",
+                    propertyInfoDescription, propertyType));
+
+            return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
         }
 
         /// <summary>
