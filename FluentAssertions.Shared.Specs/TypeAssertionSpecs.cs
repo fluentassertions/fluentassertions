@@ -941,7 +941,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region NotHaveProperty
+        #region NotHaveIndexer
 
         [TestMethod]
         public void When_asserting_a_type_that_has_no_indexers_does_not_have_an_indexer_it_should_succeed()
@@ -983,6 +983,73 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected indexer FluentAssertions.Specs.ClassWithMembers[System.String] to not exist because we want to " +
+                    "test the error message, but it does.");
+        }
+
+        #endregion
+
+        #region NotHaveMethod
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_no_methods_does_not_have_a_method_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithoutMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveMethod("NonExistantMethod", new Type[] {});
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_a_methods_does_not_have_an_overload_of_that_method_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveMethod("VoidMethod", new [] { typeof(string) });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_a_method_does_not_have_that_method_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveMethod("VoidMethod", new Type[] {}, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected method Void FluentAssertions.Specs.ClassWithMembers.VoidMethod() to not exist because we want to " +
                     "test the error message, but it does.");
         }
 
@@ -1034,6 +1101,7 @@ namespace FluentAssertions.Specs
         protected string PrivateWriteProtectedReadProperty { private set { } get { return null; } }
         internal string this[string str] { private get { return str; } set { } }
         internal protected string this[int i] { get { return i.ToString(); } private set { } }
+        private void VoidMethod() { }
     }
 
     public class ClassWithoutMembers { }

@@ -326,7 +326,7 @@ namespace FluentAssertions.Types
                 .BecauseOf(because, reasonArgs)
                 .FailWith(String.Format("Expected indexer {0}[{1}] to not exist{{reason}}, but it does.",
                     Subject.FullName,
-                    parameterTypes.Select(p => p.FullName).Aggregate((p, c) => p + ", " + c)));
+                    GetParameterString(parameterTypes)));
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -356,8 +356,8 @@ namespace FluentAssertions.Types
             Execute.Assertion.ForCondition(propertyInfo != null)
                 .BecauseOf(because, reasonArgs)
                 .FailWith(String.Format("Expected {0} {1}[{2}] to exist{{reason}}, but it does not.",
-                    indexerType.Name, Subject.FullName, 
-                    parameterTypes.Select(p => p.FullName).Aggregate((p,c) => p + ", " + c)));
+                    indexerType.Name, Subject.FullName,
+                    GetParameterString(parameterTypes)));
 
             Execute.Assertion.ForCondition(propertyInfo.PropertyType == indexerType)
                 .BecauseOf(because, reasonArgs)
@@ -365,6 +365,46 @@ namespace FluentAssertions.Types
                     propertyInfoDescription, indexerType));
 
             return new AndWhichConstraint<TypeAssertions, PropertyInfo>(this, propertyInfo);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not expose a method named <paramref name="name"/>
+        /// with parameter types <paramref name="parameterTypes"/>.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="name">The name of the method.</param>
+        /// <param name="parameterTypes">The method parameter types.</param>
+        public AndConstraint<TypeAssertions> NotHaveMethod(string name, IEnumerable<Type> parameterTypes, string because = "", params object[] reasonArgs)
+        {
+            MethodInfo methodInfo = Subject
+                    .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                    .SingleOrDefault(m => m.Name == name && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
+
+            string methodInfoDescription = "";
+
+            if (methodInfo != null)
+            {
+                methodInfoDescription = MethodInfoAssertions.GetDescriptionFor(methodInfo);
+            }
+
+            Execute.Assertion.ForCondition(methodInfo == null)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(string.Format("Expected method {0}({1}) to not exist{{reason}}, but it does.", methodInfoDescription,
+                    GetParameterString(parameterTypes)));
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        private string GetParameterString(IEnumerable<Type> parameterTypes)
+        {
+            if (!parameterTypes.Any())
+            {
+                return String.Empty;
+            }
+
+            return parameterTypes.Select(p => p.FullName).Aggregate((p, c) => p + ", " + c);
         }
 
         /// <summary>
