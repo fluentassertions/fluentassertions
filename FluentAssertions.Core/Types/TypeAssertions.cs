@@ -277,6 +277,35 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the current type does not expose an indexer that takes parameter types <paramref name="parameterTypes"/>.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="parameterTypes">The expected indexer's parameter types.</param>
+        public AndConstraint<TypeAssertions> NotHaveIndexer(IEnumerable<Type> parameterTypes, string because = "", params object[] reasonArgs)
+        {
+            PropertyInfo propertyInfo = Subject
+                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                    .SingleOrDefault(p => p.IsIndexer() && p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(parameterTypes));
+
+            string propertyInfoDescription = "";
+
+            if (propertyInfo != null)
+            {
+                propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
+            }
+
+            Execute.Assertion.ForCondition(propertyInfo == null)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(String.Format("Expected indexer {0}[{1}] to not exist{{reason}}, but it does.",
+                    Subject.FullName,
+                    parameterTypes.Select(p => p.FullName).Aggregate((p, c) => p + ", " + c)));
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the current type has an indexer of type <paramref name="indexerType"/>.
         /// with parameter types <paramref name="parameterTypes"/>.
         /// </summary>

@@ -854,6 +854,53 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+
+        #region NotHaveProperty
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_no_indexers_does_not_have_an_indexer_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithoutMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveIndexer(new [] {typeof(string)});
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_an_indexer_does_not_have_an_indexer_with_those_parameters_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveIndexer(new [] {typeof(string)}, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected indexer FluentAssertions.Specs.ClassWithMembers[System.String] to not exist because we want to " +
+                    "test the error message, but it does.");
+        }
+
+        #endregion
     }
 
     #region Internal classes used in unit tests
