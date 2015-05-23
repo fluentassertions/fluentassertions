@@ -47,7 +47,7 @@ namespace FluentAssertions.Types
         /// Asserts that the current subject is async
         /// 
         /// </summary>
-        /// <param name="methodInfoAssertion">The targetted MethodInfoAssertion</param>
+        /// <param name="methodInfoAssertion">The targeted MethodInfoAssertion</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
         ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>

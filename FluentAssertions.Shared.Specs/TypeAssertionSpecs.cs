@@ -591,7 +591,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().Implement(typeof (DummyInterface));
+                type.Should().Implement(typeof (IDummyInterface));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -611,14 +611,14 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().Implement(typeof(DummyInterface), "because we want to test the error message");
+                type.Should().Implement(typeof(IDummyInterface), "because we want to test the error message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassThatDoesNotImplementInterface to implement " +
-                             "interface FluentAssertions.Specs.DummyInterface because we want to test the error message.");
+                             "interface FluentAssertions.Specs.IDummyInterface because we want to test the error message.");
         }
 
         [TestMethod]
@@ -723,11 +723,11 @@ namespace FluentAssertions.Specs
         }
     }
 
-    public interface DummyInterface
+    public interface IDummyInterface
     {
     }
 
-    public class ClassThatImplementsInterface : DummyInterface
+    public class ClassThatImplementsInterface : IDummyInterface
     {
     }
 
@@ -738,6 +738,7 @@ namespace FluentAssertions.Specs
     public class ClassWithMembers
     {
         public string PublicProperty { get; set; }
+        public string PublicWritePrivateReadProperty { private get{ return null; } set { } }
     }
 
     public class ClassWithoutMembers { }

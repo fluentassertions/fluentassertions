@@ -229,7 +229,9 @@ namespace FluentAssertions.Types
             string failureMessage = "Expected {0} to not exist{{reason}}, but it does.";
 
             if (propertyInfo != null)
+            {
                 failureMessage = String.Format(failureMessage, PropertyInfoAssertions.GetDescriptionFor(propertyInfo));
+            }
 
             Execute.Assertion.ForCondition(propertyInfo == null)
                 .BecauseOf(because, reasonArgs)

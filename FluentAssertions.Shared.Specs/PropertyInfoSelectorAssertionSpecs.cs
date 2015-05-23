@@ -231,7 +231,7 @@ namespace FluentAssertions.Specs
     internal class ClassWithWriteOnlyProperties
     {
         public string WriteOnlyProperty { set { } }
-        public string WritePrivateReadProperty { set; private get; }
+        public string WritePrivateReadProperty { private get; set; }
     }
 
     internal class ClassWithAllPropertiesDecoratedWithDummyAttribute
