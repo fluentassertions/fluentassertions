@@ -73,7 +73,7 @@ namespace FluentAssertions
             return new ExecutionTimeAssertions(action);
         }
 
-#if !WINRT
+#endif
 
         /// <summary>
         /// Returns an <see cref="AssemblyAssertions"/> object that can be used to assert the
@@ -83,9 +83,6 @@ namespace FluentAssertions
         {
             return new AssemblyAssertions(assembly);
         }
-#endif
-
-#endif
 
         /// <summary>
         /// Returns an <see cref="XDocumentAssertions"/> object that can be used to assert the
