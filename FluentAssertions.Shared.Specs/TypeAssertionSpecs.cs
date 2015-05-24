@@ -1051,6 +1051,133 @@ namespace FluentAssertions.Specs
                 type.Should()
                     .HaveExplicitProperty(interfaceType, "NonExistantProperty");
 
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
+                    "FluentAssertions.Specs.IDummyInterface.");
+        }
+
+        #endregion
+
+        #region HaveExplicitMethod
+
+        [TestMethod]
+        public void When_asserting_that_a_type_explicitly_implements_a_method_which_it_does_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(ExplicitInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveExplicitMethod(interfaceType, "ExplicitMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_type_explicitly_implements_a_method_which_it_implements_implicitly_and_explicitly_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(ExplicitInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveExplicitMethod(interfaceType, "ExplicitImplicitMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_type_explicitly_implements_a_method_which_it_implements_implicitly_it_should_fail_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(ExplicitInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveExplicitMethod(interfaceType, "ImplicitMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
+                    "FluentAssertions.Specs.ExplicitInterface.ImplicitStringProperty, but it does not.");
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_type_explicitly_implements_a_method_which_it_does_not_implement_it_should_fail_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(ExplicitInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveExplicitMethod(interfaceType, "NonExistantMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
+                    "FluentAssertions.Specs.ExplicitInterface.NonExistantProperty, but it does not.");
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_type_explicitly_implements_a_method_from_an_unimplemented_interface_it_should_fail_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(IDummyInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveExplicitMethod(interfaceType, "NonExistantProperty");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1483,6 +1610,10 @@ namespace FluentAssertions.Specs
         string ExplicitInterface.ExplicitStringProperty { set { } }
         public string ExplicitImplicitStringProperty { get; set; }
         string ExplicitInterface.ExplicitImplicitStringProperty { get; set; }
+        public void ImplicitMethod() { } 
+        void ExplicitInterface.ExplicitMethod() { }
+        public void ExplicitImplicitMethod() { }
+        void ExplicitInterface.ExplicitImplicitMethod() { }
     }
 
     public interface ExplicitInterface
@@ -1490,6 +1621,9 @@ namespace FluentAssertions.Specs
         string ImplicitStringProperty { get; }
         string ExplicitStringProperty { set; }
         string ExplicitImplicitStringProperty { get; set; }
+        void ImplicitMethod();
+        void ExplicitMethod();
+        void ExplicitImplicitMethod();
     }
 
     public class ClassWithoutMembers { }
