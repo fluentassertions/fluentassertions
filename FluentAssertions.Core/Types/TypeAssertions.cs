@@ -368,6 +368,30 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the current type has a method named <paramref name="name"/>with parameter types <paramref name="parameterTypes"/>.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="indexerType">The type of the indexer.</param>
+        /// <param name="name">The name of the method.</param>
+        /// <param name="parameterTypes">The parameter types for the indexer.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveMethod(String name, IEnumerable<Type> parameterTypes, string because = "", params object[] reasonArgs)
+        {
+            MethodInfo methodInfo = Subject
+                    .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                    .SingleOrDefault(m => m.Name == name && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
+
+            Execute.Assertion.ForCondition(methodInfo != null)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(String.Format("Expected method {0}.{1}({2}) to exist{{reason}}, but it does not.",
+                    Subject.FullName, name,
+                    GetParameterString(parameterTypes)));
+
+            return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
+        }
+
+        /// <summary>
         /// Asserts that the current type does not expose a method named <paramref name="name"/>
         /// with parameter types <paramref name="parameterTypes"/>.
         /// </summary>

@@ -988,6 +988,80 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region HaveMethod
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_an_method_does_have_that_method_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveMethod("VoidMethod", new Type[] { })
+                    .Which.Should()
+                        .HaveAccessModifier(CSharpAccessModifiers.Private)
+                        .And.ReturnVoid();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_does_not_have_a_method_does_have_that_method_with_the_specified_parameter_types_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithNoMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveMethod("NonExistantMethod", new[] { typeof(int), typeof(Type) }, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected method FluentAssertions.Specs.ClassWithNoMembers.NonExistantMethod(System.Int32, System.Type) to exist " +
+                    "because we want to test the error message, but it does not.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_does_have_a_method_with_different_parameters_does_have_a_method_with_that_type_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveMethod("VoidMethod", new[] { typeof(int), typeof(Type) }, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected method FluentAssertions.Specs.ClassWithMembers.VoidMethod(System.Int32, System.Type) to exist " +
+                    "because we want to test the error message, but it does not.");
+        }
+
+        #endregion
+
         #region NotHaveMethod
 
         [TestMethod]
