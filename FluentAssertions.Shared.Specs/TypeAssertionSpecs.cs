@@ -1317,6 +1317,133 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region NotHaveExplicitProperty
+
+        [TestMethod]
+        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_which_it_does_it_should_fail_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(ExplicitInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveExplicitMethod(interfaceType, "ExplicitMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions.Specs.ExplicitInterface.ExplicitMethod, but it does.");
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_and_explicitly_it_should_throw_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(ExplicitInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveExplicitMethod(interfaceType, "ExplicitImplicitMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions.Specs.ExplicitInterface.ExplicitImplicitMethod, but it does.");
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(ExplicitInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveExplicitMethod(interfaceType, "ImplicitMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_which_it_does_not_implement_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(ExplicitInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveExplicitMethod(interfaceType, "NonExistantMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_from_an_unimplemented_interface_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            var interfaceType = typeof(IDummyInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveExplicitMethod(interfaceType, "NonExistantMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
+                             "FluentAssertions.Specs.IDummyInterface.");
+        }
+
+        #endregion
+
         #region HaveIndexer
 
         [TestMethod]

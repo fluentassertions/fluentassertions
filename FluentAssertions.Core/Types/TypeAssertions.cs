@@ -380,6 +380,31 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the current type does not explicitly implement a method named 
+        /// <paramref name="name"/> from interface <paramref name="interfaceType" />.
+        /// </summary>
+        /// <param name="interfaceType">The type of the interface.</param>
+        /// <param name="name">The name of the method.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///     is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<TypeAssertions> NotHaveExplicitMethod(Type interfaceType, string name, string because = "", params object[] reasonArgs)
+        {
+            Subject.Should().Implement(interfaceType, because, reasonArgs);
+
+            var explicitlyImplementsProperty =
+                Subject.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                    .Any(m => m.Name == string.Format("{0}.{1}", interfaceType.FullName, name) && m.IsFinal);
+
+            Execute.Assertion.ForCondition(!explicitlyImplementsProperty)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(String.Format("Expected {0} to not explicitly implement {1}.{2}{{reason}}, but it does.",
+                    Subject.FullName, interfaceType.FullName, name));
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the current type explicitly implements a method named <paramref name="name"/> 
         /// from interface <paramref name="interfaceType" />.
         /// </summary>
