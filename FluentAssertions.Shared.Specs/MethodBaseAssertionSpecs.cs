@@ -15,6 +15,122 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class MethodBaseAssertionSpecs
     {
+        #region Return
+
+        [TestMethod]
+        public void When_asserting_that_a_string_method_returns_string_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("InternalMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().Return(typeof(string));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_that_an_int_method_returns_string_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("IntMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().Return(typeof(string), "because we want to test the failure");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected the return type of method IntMethod to be System.String  because we want to test the " +
+                             "failure, but it is \"System.Int32\".");
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_void_method_returns_string_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("VoidMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().Return(typeof(string), "because we want to test the failure");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected the return type of method VoidMethod to be System.String  because we want to test the " +
+                             "failure, but it is \"System.Void\".");
+        }
+
+        #endregion
+
+        #region ReturnVoid
+
+        [TestMethod]
+        public void When_asserting_that_a_void_method_returns_void_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("PrivateMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().ReturnVoid();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_that_a_method_whose_ReturnType_is_not_void_returns_void_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("InternalMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Protected, "because we want to test the failure");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected method InternalMethod to be Protected because we want to test the failure, but it is " +
+                             "Internal.");
+        }
+
+        #endregion
+
+        #region HaveAccessModifier
+
         [TestMethod]
         public void When_asserting_a_private_member_is_private_it_should_not_throw()
         {
@@ -56,6 +172,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected method PrivateMethod to be Protected because we want to test the failure, but it is " +
                              "Private.");
         }
+
         [TestMethod]
         public void When_asserting_a_protected_member_is_protected_it_should_not_throw()
         {
@@ -114,6 +231,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected method set_ProtectedSetProperty to be Public because we want to test the failure, but it" +
                              " is Protected.");
         }
+
         [TestMethod]
         public void When_asserting_a_public_member_is_public_it_should_not_throw()
         {
@@ -125,9 +243,9 @@ namespace FluentAssertions.Specs
             MethodInfo getMethod;
 
 #if NETFX_CORE || WINRT
-            getMethod = propertyInfo.SetMethod;
+            getMethod = propertyInfo.GetMethod;
 #else
-            getMethod = propertyInfo.GetSetMethod(true);
+            getMethod = propertyInfo.GetGetMethod(true);
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -153,9 +271,9 @@ namespace FluentAssertions.Specs
             MethodInfo getMethod;
 
 #if NETFX_CORE || WINRT
-            getMethod = propertyInfo.SetMethod;
+            getMethod = propertyInfo.GetMethod;
 #else
-            getMethod = propertyInfo.GetSetMethod(true);
+            getMethod = propertyInfo.GetGetMethod(true);
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -173,6 +291,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected method get_PublicGetProperty to be Internal because we want to test the failure, but it" +
                              " is Public.");
         }
+
         [TestMethod]
         public void When_asserting_an_internal_member_is_internal_it_should_not_throw()
         {
@@ -215,6 +334,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected method InternalMethod to be ProtectedInternal because we want to test the failure, but" +
                              " it is Internal.");
         }
+
         [TestMethod]
         public void When_asserting_a_protected_internal_member_is_protected_internal_it_should_not_throw()
         {
@@ -256,19 +376,25 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected method InternalMethod to be Private because we want to test the failure, but it is " +
                              "Internal.");
         }
+
+        #endregion
     }
 
     #region Internal classes used in unit tests
 
     class TestClass
     {
+        public void VoidMethod() { }
+
+        public int IntMethod() { return 0; }
+
         private void PrivateMethod() {}
 
         public string PublicGetProperty { get; private set; }
 
         protected string ProtectedSetProperty { private get; set; }
 
-        internal void InternalMethod() {}
+        internal string InternalMethod() { return null; }
 
         protected internal void ProtectedInternalMethod() { }
     }
