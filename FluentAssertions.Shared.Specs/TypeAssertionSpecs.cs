@@ -944,7 +944,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof (ExplicitInterface);
+            var interfaceType = typeof (IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -967,7 +967,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -990,7 +990,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1005,7 +1005,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.ExplicitInterface.ImplicitStringProperty, but it does not.");
+                    "FluentAssertions.Specs.IExplicitInterface.ImplicitStringProperty, but it does not.");
         }
 
         [TestMethod]
@@ -1016,7 +1016,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1031,7 +1031,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.ExplicitInterface.NonExistantProperty, but it does not.");
+                    "FluentAssertions.Specs.IExplicitInterface.NonExistantProperty, but it does not.");
         }
 
         [TestMethod]
@@ -1072,7 +1072,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1087,7 +1087,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.ExplicitInterface.ExplicitStringProperty, but it does.");
+                    "FluentAssertions.Specs.IExplicitInterface.ExplicitStringProperty, but it does.");
         }
 
         [TestMethod]
@@ -1098,7 +1098,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1113,7 +1113,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.ExplicitInterface.ExplicitImplicitStringProperty, but it does."); 
+                    "FluentAssertions.Specs.IExplicitInterface.ExplicitImplicitStringProperty, but it does."); 
         }
 
         [TestMethod]
@@ -1124,7 +1124,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1147,7 +1147,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1199,7 +1199,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1222,7 +1222,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1245,7 +1245,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1260,7 +1260,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.ExplicitInterface.ImplicitMethod, but it does not.");
+                    "FluentAssertions.Specs.IExplicitInterface.ImplicitMethod, but it does not.");
         }
 
         [TestMethod]
@@ -1271,7 +1271,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1286,7 +1286,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to explicitly implement " +
-                    "FluentAssertions.Specs.ExplicitInterface.NonExistantMethod, but it does not.");
+                    "FluentAssertions.Specs.IExplicitInterface.NonExistantMethod, but it does not.");
         }
 
         [TestMethod]
@@ -1327,7 +1327,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1342,7 +1342,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.ExplicitInterface.ExplicitMethod, but it does.");
+                    "FluentAssertions.Specs.IExplicitInterface.ExplicitMethod, but it does.");
         }
 
         [TestMethod]
@@ -1353,7 +1353,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1368,7 +1368,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.ExplicitInterface.ExplicitImplicitMethod, but it does.");
+                    "FluentAssertions.Specs.IExplicitInterface.ExplicitImplicitMethod, but it does.");
         }
 
         [TestMethod]
@@ -1379,7 +1379,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1402,7 +1402,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof(ExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1852,25 +1852,25 @@ namespace FluentAssertions.Specs
     {
         protected internal ClassWithMembers() { }
         private ClassWithMembers(String str) { }
-        protected string PrivateWriteProtectedReadProperty { private set { } get { return null; } }
+        protected string PrivateWriteProtectedReadProperty { get { return null; } private set { } }
         internal string this[string str] { private get { return str; } set { } }
-        internal protected string this[int i] { get { return i.ToString(); } private set { } }
+        protected internal string this[int i] { get { return i.ToString(); } private set { } }
         private void VoidMethod() { }
     }
 
-    public class ClassExplicitlyImplementingInterface : ExplicitInterface
+    public class ClassExplicitlyImplementingInterface : IExplicitInterface
     {
         public string ImplicitStringProperty { get { return null; } private set { } }
-        string ExplicitInterface.ExplicitStringProperty { set { } }
+        string IExplicitInterface.ExplicitStringProperty { set { } }
         public string ExplicitImplicitStringProperty { get; set; }
-        string ExplicitInterface.ExplicitImplicitStringProperty { get; set; }
+        string IExplicitInterface.ExplicitImplicitStringProperty { get; set; }
         public void ImplicitMethod() { } 
-        void ExplicitInterface.ExplicitMethod() { }
+        void IExplicitInterface.ExplicitMethod() { }
         public void ExplicitImplicitMethod() { }
-        void ExplicitInterface.ExplicitImplicitMethod() { }
+        void IExplicitInterface.ExplicitImplicitMethod() { }
     }
 
-    public interface ExplicitInterface
+    public interface IExplicitInterface
     {
         string ImplicitStringProperty { get; }
         string ExplicitStringProperty { set; }
