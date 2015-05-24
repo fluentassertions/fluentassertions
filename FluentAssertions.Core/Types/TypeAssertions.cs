@@ -392,6 +392,40 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the current type has a constructor with parameter types <paramref name="parameterTypes"/>.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="indexerType">The type of the indexer.</param>
+        /// <param name="parameterTypes">The parameter types for the indexer.</param>
+        public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveConstructor(IEnumerable<Type> parameterTypes, string because = "", params object[] reasonArgs)
+        {
+            ConstructorInfo constructorInfo = Subject
+                    .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                    .SingleOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
+
+            Execute.Assertion.ForCondition(constructorInfo != null)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(String.Format("Expected constructor {0}({1}) to exist{{reason}}, but it does not.",
+                    Subject.FullName,
+                    GetParameterString(parameterTypes)));
+
+            return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has a default constructor.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndWhichConstraint<TypeAssertions, ConstructorInfo> HaveDefaultConstructor(string because = "", params object[] reasonArgs)
+        {
+            return HaveConstructor(new Type[] {}, because, reasonArgs);
+        }
+
+        /// <summary>
         /// Asserts that the current type does not expose a method named <paramref name="name"/>
         /// with parameter types <paramref name="parameterTypes"/>.
         /// </summary>

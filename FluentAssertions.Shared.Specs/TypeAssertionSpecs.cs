@@ -988,6 +988,107 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region HaveConstructor
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_a_constructor_does_have_that_constructor_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveConstructor(new Type[] { typeof(string) })
+                    .Which.Should()
+                        .HaveAccessModifier(CSharpAccessModifiers.Private);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_does_not_have_a_constructor_does_have_that_constructor_with_the_specified_parameter_types_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithNoMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveConstructor(new[] { typeof(int), typeof(Type) }, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected constructor FluentAssertions.Specs.ClassWithNoMembers(System.Int32, System.Type) to exist because " +
+                    "we want to test the error message, but it does not.");
+        }
+
+        #endregion
+
+        #region HaveDefaultConstructor
+
+        [TestMethod]
+        public void When_asserting_a_type_that_has_a_default_constructor_does_have_that_default_constructor_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveDefaultConstructor()
+                    .Which.Should()
+                        .HaveAccessModifier(CSharpAccessModifiers.ProtectedInternal);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_type_that_does_not_have_a_default_constructor_does_have_a_default_constructor_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithNoMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveDefaultConstructor("because the compiler generates one even if not explicitly defined.")
+                    .Which.Should()
+                        .HaveAccessModifier(CSharpAccessModifiers.Public);
+
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        #endregion
+
         #region HaveMethod
 
         [TestMethod]
@@ -1172,6 +1273,8 @@ namespace FluentAssertions.Specs
 
     public class ClassWithMembers
     {
+        protected internal ClassWithMembers() { }
+        private ClassWithMembers(String str) { }
         protected string PrivateWriteProtectedReadProperty { private set { } get { return null; } }
         internal string this[string str] { private get { return str; } set { } }
         internal protected string this[int i] { get { return i.ToString(); } private set { } }

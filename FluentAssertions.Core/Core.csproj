@@ -224,6 +224,7 @@
     <Compile Include="Types\CSharpAccessModifiers.cs" />
     <Compile Include="Types\MethodBaseAssertions.cs" />
     <Compile Include="Types\MemberInfoAssertions.cs" />
+    <Compile Include="Types\ConstructorInfoAssertions.cs" />
     <Compile Include="Types\MethodInfoAssertions.cs" />
     <Compile Include="Types\MethodInfoSelector.cs" />
     <Compile Include="Types\MethodInfoSelectorAssertions.cs" />
