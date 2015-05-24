@@ -221,6 +221,27 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="Type"/> is derived from <see cref="Type"/> <paramref name="baseType"/>.
+        /// </summary>
+        /// <param name="baseType">The Type that should be derived from.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<TypeAssertions> BeDerivedFrom(Type baseType, string because = "", params object[] reasonArgs)
+        {
+            if (baseType.IsInterface)
+            {
+                throw new ArgumentException("Must not be an interface Type.", "baseType");
+            }
+
+            Execute.Assertion.ForCondition(Subject.IsSubclassOf(baseType))
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected type {0} to be derived from {1}{reason}.", Subject, baseType);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="Type"/> does not implement Interface <paramref name="interfaceType"/>.
         /// </summary>
         /// <param name="interfaceType">The interface that should be implemented.</param>
