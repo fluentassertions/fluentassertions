@@ -266,6 +266,11 @@ namespace FluentAssertions.Common
                 .SingleOrDefault(m => m.Name == methodName && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
 
+        public static bool HasMethod(this Type type, string methodName, IEnumerable<Type> parameterTypes)
+        {
+            return type.GetMethod(methodName, parameterTypes) != null;
+        }
+
         public static MethodInfo GetParameterlessMethod(this Type type, string methodName)
         {
             return type.GetMethod(methodName, Enumerable.Empty<Type>());
@@ -296,9 +301,16 @@ namespace FluentAssertions.Common
                 .SingleOrDefault(p => p.IsIndexer() && p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(parameterTypes));
         }
 
-        internal static bool IsIndexer(this PropertyInfo member)
+        public static bool IsIndexer(this PropertyInfo member)
         {
             return (member.GetIndexParameters().Length != 0);
+        }
+
+        public static ConstructorInfo GetConstructor(this Type type, IEnumerable<Type> parameterTypes)
+        {
+            return type
+                .GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+                .SingleOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
     }
 }

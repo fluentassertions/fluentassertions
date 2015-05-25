@@ -141,7 +141,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Private);
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.Private);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -161,7 +161,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Protected, "we want to test the error {0}", "message");
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.Protected, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -191,7 +191,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                setMethod.Should().HaveAccessModifier(CSharpAccessModifiers.Protected);
+                setMethod.Should().HaveAccessModifier(CSharpAccessModifier.Protected);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -220,7 +220,7 @@ namespace FluentAssertions.Specs
             Action act = () =>
                 setMethod
                     .Should()
-                    .HaveAccessModifier(CSharpAccessModifiers.Public, "we want to test the error {0}", "message");
+                    .HaveAccessModifier(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -250,7 +250,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                getMethod.Should().HaveAccessModifier(CSharpAccessModifiers.Public);
+                getMethod.Should().HaveAccessModifier(CSharpAccessModifier.Public);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -280,7 +280,7 @@ namespace FluentAssertions.Specs
             Action act = () =>
                 getMethod
                     .Should()
-                    .HaveAccessModifier(CSharpAccessModifiers.Internal, "we want to test the error {0}", "message");
+                    .HaveAccessModifier(CSharpAccessModifier.Internal, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -302,7 +302,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Internal);
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.Internal);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -322,7 +322,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.ProtectedInternal, "because we want to test the" +
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.ProtectedInternal, "because we want to test the" +
                                                                                                 " error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -345,7 +345,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.ProtectedInternal);
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.ProtectedInternal);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -365,7 +365,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Private, "we want to test the error {0}", "message");
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifier.Private, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert

@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types
@@ -36,7 +36,7 @@ namespace FluentAssertions.Types
                                     " to be virtual{reason}, but it is not.";
 
             Execute.Assertion
-                .ForCondition(!IsGetterNonVirtual(Subject))
+                .ForCondition(Subject.IsVirtual())
                 .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage);
 
@@ -69,7 +69,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected property has a setter with the specified C# access modifier.
         /// </summary>
-        /// <param name="accessModifier">The getter's expected C# access modifier.</param>
+        /// <param name="accessModifier">The expected C# access modifier.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -77,7 +77,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifiers accessModifier, string because = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "", params object[] reasonArgs)
         {
             Subject.Should().BeWritable(because, reasonArgs);
 
@@ -131,7 +131,7 @@ namespace FluentAssertions.Types
         /// <summary>
         /// Asserts that the selected property has a getter with the specified C# access modifier.
         /// </summary>
-        /// <param name="accessModifier">The getter's expected C# access modifier.</param>
+        /// <param name="accessModifier">The expected C# access modifier.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -139,7 +139,7 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifiers accessModifier, string because = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "", params object[] reasonArgs)
         {
             Subject.Should().BeReadable(because, reasonArgs);
 
@@ -191,12 +191,6 @@ namespace FluentAssertions.Types
 
 
             return new AndConstraint<PropertyInfoAssertions>(this);
-        }
-
-        internal static bool IsGetterNonVirtual(PropertyInfo property)
-        {
-            MethodInfo getter = property.GetGetMethod(true);
-            return MethodInfoAssertions.IsNonVirtual(getter);
         }
 
         internal static string GetDescriptionFor(PropertyInfo property)

@@ -1,17 +1,24 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types
 {
+    /// <summary>
+    /// Contains a number of methods to assert that a <see cref="MethodBase"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
     public abstract class MethodBaseAssertions<TSubject, TAssertions> : MemberInfoAssertions<TSubject, TAssertions>
         where TSubject : MethodBase
         where TAssertions : MethodBaseAssertions<TSubject, TAssertions>
     {
         /// <summary>
-        /// Asserts that the selected member is has the specified C# access modifier.
+        /// Asserts that the selected member has the specified C# <paramref name="accessModifier"/>.
         /// </summary>
+        /// <param name="accessModifier">The expected C# access modifier.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -20,7 +27,7 @@ namespace FluentAssertions.Types
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TAssertions> HaveAccessModifier(
-            CSharpAccessModifiers accessModifier, string because = "", params object[] reasonArgs)
+            CSharpAccessModifier accessModifier, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion.ForCondition(accessModifier == Subject.GetCSharpAccessModifier())
                 .BecauseOf(because, reasonArgs)

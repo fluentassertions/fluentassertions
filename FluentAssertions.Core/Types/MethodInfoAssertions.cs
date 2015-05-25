@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types
@@ -36,7 +36,7 @@ namespace FluentAssertions.Types
                                     " to be virtual{reason}, but it is not virtual.";
 
             Execute.Assertion
-                .ForCondition(!IsNonVirtual(Subject))
+                .ForCondition(!Subject.IsNonVirtual())
                 .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage);
 
@@ -44,10 +44,8 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current subject is async
-        /// 
+        /// Asserts that the selected method is async. 
         /// </summary>
-        /// <param name="methodInfoAssertion">The targeted MethodInfoAssertion</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
         ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
         /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
@@ -58,7 +56,7 @@ namespace FluentAssertions.Types
                         " to be async{reason}, but it is not.";
 
             Execute.Assertion
-                .ForCondition(!IsNonAsync())
+                .ForCondition(Subject.IsAsync())
                 .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage);
 
@@ -66,7 +64,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected MethodBase returns void.
+        /// Asserts that the selected MethodInfo returns void.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -86,8 +84,9 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected MethodBase returns <paramref name="returnType"/>.
+        /// Asserts that the selected MethodInfo returns <paramref name="returnType"/>.
         /// </summary>
+        /// <param name="returnType">The expected return type.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -95,7 +94,6 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        /// <param name="returnType">The expected return type.</param>
         public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return(Type returnType, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion.ForCondition(returnType == Subject.ReturnType)
@@ -117,16 +115,6 @@ namespace FluentAssertions.Types
         internal override string SubjectDescription
         {
             get { return GetDescriptionFor(Subject); }
-        }
-
-        internal static bool IsNonVirtual(MethodInfo method)
-        {
-            return !method.IsVirtual || method.IsFinal;
-        }
-
-        internal bool IsNonAsync()
-        {
-            return !GetMatchingAttributes<Attribute>(a => a.GetType().FullName.Equals("System.Runtime.CompilerServices.AsyncStateMachineAttribute")).Any();
         }
 
         protected override string Context

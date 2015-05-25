@@ -1,19 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using FluentAssertions.Execution;
 
 namespace FluentAssertions.Types
 {
     /// <summary>
-    /// Contains a number of methods to assert that a <see cref="MethodInfo"/> is in the expected state.
+    /// Contains a number of methods to assert that a <see cref="ConstructorInfo"/> is in the expected state.
     /// </summary>
     [DebuggerNonUserCode]
-    public class ConstructorInfoAssertions :
-        MethodBaseAssertions<ConstructorInfo, ConstructorInfoAssertions>
+    public class ConstructorInfoAssertions : MethodBaseAssertions<ConstructorInfo, ConstructorInfoAssertions>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConstructorInfoAssertions"/> class.
+        /// </summary>
+        /// <param name="constructorInfo">The constructorInfo from which to select properties.</param>
         public ConstructorInfoAssertions(ConstructorInfo constructorInfo)
         {
             Subject = constructorInfo;

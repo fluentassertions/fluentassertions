@@ -1,6 +1,6 @@
-﻿namespace FluentAssertions.Types
+﻿namespace FluentAssertions.Common
 {
-    public enum CSharpAccessModifiers
+    public enum CSharpAccessModifier
     {
         Public,
         Private,

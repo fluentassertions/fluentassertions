@@ -199,9 +199,9 @@ namespace FluentAssertions.Specs
 
     internal class ClassWithAllPropertiesVirtual
     {
-        public virtual string PublicVirtualProperty { get; set; }
+        public virtual string PublicVirtualProperty { set {} }
 
-        internal virtual string InternalVirtualProperty { get; set; }
+        internal virtual string InternalVirtualProperty { get { return null; } }
 
         protected virtual string ProtectedVirtualProperty { get; set; }
     }

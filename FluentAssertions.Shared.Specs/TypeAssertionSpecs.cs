@@ -1,5 +1,6 @@
 using System;
-
+using System.Linq;
+using FluentAssertions.Common;
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
 
@@ -830,8 +831,8 @@ namespace FluentAssertions.Specs
                 type.Should()
                     .HaveProperty(typeof(string), "PrivateWriteProtectedReadProperty")
                     .Which.Should()
-                        .BeWritable(CSharpAccessModifiers.Private)
-                        .And.BeReadable(CSharpAccessModifiers.Protected);
+                        .BeWritable(CSharpAccessModifier.Private)
+                        .And.BeReadable(CSharpAccessModifier.Protected);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1205,7 +1206,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "ExplicitMethod");
+                    .HaveExplicitMethod(interfaceType, "ExplicitMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1228,7 +1229,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "ExplicitImplicitMethod");
+                    .HaveExplicitMethod(interfaceType, "ExplicitImplicitMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1251,7 +1252,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "ImplicitMethod");
+                    .HaveExplicitMethod(interfaceType, "ImplicitMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1277,7 +1278,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "NonExistantMethod");
+                    .HaveExplicitMethod(interfaceType, "NonExistantMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1303,7 +1304,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .HaveExplicitMethod(interfaceType, "NonExistantProperty");
+                    .HaveExplicitMethod(interfaceType, "NonExistantProperty", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1333,7 +1334,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "ExplicitMethod");
+                    .NotHaveExplicitMethod(interfaceType, "ExplicitMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1359,7 +1360,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "ExplicitImplicitMethod");
+                    .NotHaveExplicitMethod(interfaceType, "ExplicitImplicitMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1385,7 +1386,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "ImplicitMethod");
+                    .NotHaveExplicitMethod(interfaceType, "ImplicitMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1408,7 +1409,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "NonExistantMethod");
+                    .NotHaveExplicitMethod(interfaceType, "NonExistantMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1431,7 +1432,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod(interfaceType, "NonExistantMethod");
+                    .NotHaveExplicitMethod(interfaceType, "NonExistantMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1460,8 +1461,8 @@ namespace FluentAssertions.Specs
                 type.Should()
                     .HaveIndexer(typeof(string), new[] { typeof(string) })
                     .Which.Should()
-                        .BeWritable(CSharpAccessModifiers.Internal)
-                        .And.BeReadable(CSharpAccessModifiers.Private);
+                        .BeWritable(CSharpAccessModifier.Internal)
+                        .And.BeReadable(CSharpAccessModifier.Private);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1581,7 +1582,7 @@ namespace FluentAssertions.Specs
                 type.Should()
                     .HaveConstructor(new Type[] { typeof(string) })
                     .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifiers.Private);
+                        .HaveAccessModifier(CSharpAccessModifier.Private);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1631,7 +1632,7 @@ namespace FluentAssertions.Specs
                 type.Should()
                     .HaveDefaultConstructor()
                     .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifiers.ProtectedInternal);
+                        .HaveAccessModifier(CSharpAccessModifier.ProtectedInternal);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1654,7 +1655,7 @@ namespace FluentAssertions.Specs
                 type.Should()
                     .HaveDefaultConstructor("because the compiler generates one even if not explicitly defined.")
                     .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifiers.Public);
+                        .HaveAccessModifier(CSharpAccessModifier.Public);
 
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -1682,7 +1683,7 @@ namespace FluentAssertions.Specs
                 type.Should()
                     .HaveMethod("VoidMethod", new Type[] { })
                     .Which.Should()
-                        .HaveAccessModifier(CSharpAccessModifiers.Private)
+                        .HaveAccessModifier(CSharpAccessModifier.Private)
                         .And.ReturnVoid();
 
             //-------------------------------------------------------------------------------------------------------------------

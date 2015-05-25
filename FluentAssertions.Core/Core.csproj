@@ -62,9 +62,11 @@
     <Compile Include="Common\DateTimeExtensions.cs" />
     <Compile Include="Common\IAdapterResolver.cs" />
     <Compile Include="Common\IProvidePlatformServices.cs" />
+    <Compile Include="Common\MethodInfoExtensions.cs" />
     <Compile Include="Common\NullReflector.cs" />
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
+    <Compile Include="Common\PropertyInfoExtensions.cs" />
     <Compile Include="Equivalency\MultiDimensionalArrayEquivalencyStep.cs" />
     <Compile Include="Equivalency\Selection\AllPublicFieldsSelectionRule.cs" />
     <Compile Include="EquivalencyStepCollection.cs" />
@@ -220,8 +222,8 @@
     <Compile Include="TypeEnumerableExtensions.cs" />
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="Types\AllTypes.cs" />
-    <Compile Include="Types\CSharpAccessModifierExtensions.cs" />
-    <Compile Include="Types\CSharpAccessModifiers.cs" />
+    <Compile Include="Common\CSharpAccessModifierExtensions.cs" />
+    <Compile Include="Common\CSharpAccessModifier.cs" />
     <Compile Include="Types\MethodBaseAssertions.cs" />
     <Compile Include="Types\MemberInfoAssertions.cs" />
     <Compile Include="Types\ConstructorInfoAssertions.cs" />

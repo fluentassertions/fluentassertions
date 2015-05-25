@@ -59,7 +59,7 @@ namespace FluentAssertions.Types
         {
             var query =
                 from method in SubjectMethods
-                where MethodInfoAssertions.IsNonVirtual(method)
+                where method.IsNonVirtual()
                 select method;
 
             return query.ToArray();

@@ -1,13 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Types
 {
+    /// <summary>
+    /// Contains a number of methods to assert that a <see cref="MemberInfo"/> is in the expected state.
+    /// </summary>
+    [DebuggerNonUserCode]
     public abstract class MemberInfoAssertions<TSubject, TAssertions> : ReferenceTypeAssertions<TSubject, TAssertions>
         where TSubject : MemberInfo 
         where TAssertions : MemberInfoAssertions<TSubject, TAssertions>
@@ -52,7 +58,7 @@ namespace FluentAssertions.Types
                                                   " to be decorated with {2}{{reason}}, but that attribute was not found.",
                                                   Context, SubjectDescription, typeof (TAttribute));
 
-            IEnumerable<TAttribute> attributes = GetMatchingAttributes(isMatchingAttributePredicate);
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
 
             Execute.Assertion
                 .ForCondition(attributes.Any())
@@ -73,16 +79,6 @@ namespace FluentAssertions.Types
             {
                 return String.Format("{0}.{1}", Subject.DeclaringType, Subject.Name);
             }
-        }
-
-        internal IEnumerable<TAttribute> GetMatchingAttributes<TAttribute>(Expression<Func<TAttribute, bool>> isMatchingAttributePredicate) where TAttribute : Attribute
-        {
-            IEnumerable<TAttribute> attributes = Subject.GetCustomAttributes(
-                typeof(TAttribute), false)
-                .Cast<TAttribute>()
-                .Where(isMatchingAttributePredicate.Compile());
-
-            return attributes;
         }
     }
 }

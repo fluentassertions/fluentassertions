@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using FluentAssertions.Common;
 using FluentAssertions.Types;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -547,7 +548,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifiers.Public, "that's required");
+            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifier.Public, "that's required");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -570,7 +571,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifiers.Public, "we want to test the error {0}", "message");
+            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -598,7 +599,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifiers.Public, "that's required");
+            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifier.Public, "that's required");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -621,7 +622,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifiers.Public, "we want to test the error {0}", "message");
+            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
