@@ -2,8 +2,6 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
-using FluentAssertions.Types;
-
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -15,8 +13,10 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class MethodInfoAssertionSpecs
     {
+        #region BeVirtual
+
         [TestMethod]
-        public void When_asserting_a_method_is_virtual_and_it_is_it_should_succeed()
+        public void When_asserting_a_method_is_virtual_and_it_is_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -36,7 +36,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_method_is_virtual_but_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_method_is_virtual_but_it_is_not_then_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -58,8 +58,12 @@ namespace FluentAssertions.Specs
                     " but it is not virtual.");
         }
 
+        #endregion
+
+        #region BeDecoratedWithOfT
+
         [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_attribute_and_it_is_it_should_succeed()
+        public void When_asserting_a_method_is_decorated_with_attribute_and_it_is_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -98,7 +102,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_an_attribute_but_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_method_is_decorated_with_an_attribute_but_it_is_not_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -122,7 +126,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_should_succeed()
+        public void When_asserting_a_method_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -142,7 +146,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_method_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -189,8 +193,12 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>();
         }
 
+        #endregion
+
+        #region BeAsync
+
         [TestMethod]
-        public void When_asserting_a_method_is_async_and_it_is_it_should_succeed()
+        public void When_asserting_a_method_is_async_and_it_is_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -210,7 +218,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_method_is_async_but_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_method_is_async_but_it_is_not_then_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -229,8 +237,10 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected subject Void FluentAssertions.Specs.ClassWithNonAsyncMethods.PublicDoNothing" +
                     " to be async because we want to test the error message," +
-                    " but it is not async.");
+                    " but it is not.");
         }
+
+        #endregion
     }
 
     #region Internal classes used in unit tests
@@ -316,12 +326,12 @@ namespace FluentAssertions.Specs
             await Task.Factory.StartNew(() => { });
         }
 
-        internal async void InternalAsyncDoNothing()
+        internal async Task InternalAsyncDoNothing()
         {
             await Task.Factory.StartNew(() => { });
         }
 
-        protected async void ProtectedAsyncDoNothing()
+        protected async Task ProtectedAsyncDoNothing()
         {
             await Task.Factory.StartNew(() => { });
         }
@@ -329,16 +339,19 @@ namespace FluentAssertions.Specs
 
     internal class ClassWithNonAsyncMethods
     {
-        public void PublicDoNothing()
+        public Task PublicDoNothing()
         {
+            return null;
         }
 
-        internal void InternalDoNothing()
+        internal Task InternalDoNothing()
         {
+            return null;
         }
 
-        protected void ProtectedDoNothing()
+        protected Task ProtectedDoNothing()
         {
+            return null;
         }
     }
 

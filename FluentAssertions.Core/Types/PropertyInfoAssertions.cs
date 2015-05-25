@@ -33,7 +33,7 @@ namespace FluentAssertions.Types
         {
             string failureMessage = "Expected property " +
                                     GetDescriptionFor(Subject) +
-                                    " to be virtual{reason}, but it is not virtual.";
+                                    " to be virtual{reason}, but it is not.";
 
             Execute.Assertion
                 .ForCondition(!IsGetterNonVirtual(Subject))

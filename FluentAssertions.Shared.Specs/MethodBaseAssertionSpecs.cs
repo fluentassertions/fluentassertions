@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Reflection;
-using System.Threading.Tasks;
 using FluentAssertions.Common;
-using FluentAssertions.Execution;
 using FluentAssertions.Types;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -18,27 +16,7 @@ namespace FluentAssertions.Specs
         #region Return
 
         [TestMethod]
-        public void When_asserting_that_a_string_method_returns_string_it_succeeds()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("InternalMethod");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                methodInfo.Should().Return(typeof(string));
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [TestMethod]
-        public void When_asserting_that_an_int_method_returns_string_it_fails_with_a_useful_message()
+        public void When_asserting_an_int_method_returns_int_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -49,18 +27,38 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().Return(typeof(string), "because we want to test the failure");
+                methodInfo.Should().Return(typeof(int));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_int_method_returns_string_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("IntMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().Return(typeof(string), "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected the return type of method IntMethod to be System.String  because we want to test the " +
-                             "failure, but it is \"System.Int32\".");
+                             "error message, but it is \"System.Int32\".");
         }
 
         [TestMethod]
-        public void When_asserting_that_a_void_method_returns_string_it_fails_with_a_useful_message()
+        public void When_asserting_a_void_method_returns_string_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -71,14 +69,14 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().Return(typeof(string), "because we want to test the failure");
+                methodInfo.Should().Return(typeof(string), "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected the return type of method VoidMethod to be System.String  because we want to test the " +
-                             "failure, but it is \"System.Void\".");
+                             "error message, but it is \"System.Void\".");
         }
 
         #endregion
@@ -86,12 +84,12 @@ namespace FluentAssertions.Specs
         #region ReturnVoid
 
         [TestMethod]
-        public void When_asserting_that_a_void_method_returns_void_it_succeeds()
+        public void When_asserting_a_void_method_returns_void_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("PrivateMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("VoidMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -106,25 +104,25 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_method_whose_ReturnType_is_not_void_returns_void_it_succeeds()
+        public void When_asserting_an_int_method_returns_void_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("InternalMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("IntMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Protected, "because we want to test the failure");
+                methodInfo.Should().ReturnVoid("because we want to test the error message {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method InternalMethod to be Protected because we want to test the failure, but it is " +
-                             "Internal.");
+                .WithMessage("Expected the return type of method IntMethod to be void  because we want to test the error message " +
+                             "message, but it is \"System.Int32\".");
         }
 
         #endregion
@@ -132,7 +130,7 @@ namespace FluentAssertions.Specs
         #region HaveAccessModifier
 
         [TestMethod]
-        public void When_asserting_a_private_member_is_private_it_should_not_throw()
+        public void When_asserting_a_private_member_is_private_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -152,7 +150,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_private_member_is_not_private_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_private_member_is_not_private_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -163,18 +161,18 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Protected, "because we want to test the failure");
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Protected, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method PrivateMethod to be Protected because we want to test the failure, but it is " +
+                .WithMessage("Expected method PrivateMethod to be Protected because we want to test the error message, but it is " +
                              "Private.");
         }
 
         [TestMethod]
-        public void When_asserting_a_protected_member_is_protected_it_should_not_throw()
+        public void When_asserting_a_protected_member_is_protected_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -202,7 +200,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_protected_member_is_not_protected_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_protected_member_is_not_protected_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -222,18 +220,18 @@ namespace FluentAssertions.Specs
             Action act = () =>
                 setMethod
                     .Should()
-                    .HaveAccessModifier(CSharpAccessModifiers.Public, "because we want to test the failure");
+                    .HaveAccessModifier(CSharpAccessModifiers.Public, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method set_ProtectedSetProperty to be Public because we want to test the failure, but it" +
+                .WithMessage("Expected method set_ProtectedSetProperty to be Public because we want to test the error message, but it" +
                              " is Protected.");
         }
 
         [TestMethod]
-        public void When_asserting_a_public_member_is_public_it_should_not_throw()
+        public void When_asserting_a_public_member_is_public_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -261,7 +259,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_public_member_is_not_public_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_public_member_is_not_public_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -282,18 +280,18 @@ namespace FluentAssertions.Specs
             Action act = () =>
                 getMethod
                     .Should()
-                    .HaveAccessModifier(CSharpAccessModifiers.Internal, "because we want to test the failure");
+                    .HaveAccessModifier(CSharpAccessModifiers.Internal, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method get_PublicGetProperty to be Internal because we want to test the failure, but it" +
+                .WithMessage("Expected method get_PublicGetProperty to be Internal because we want to test the error message, but it" +
                              " is Public.");
         }
 
         [TestMethod]
-        public void When_asserting_an_internal_member_is_internal_it_should_not_throw()
+        public void When_asserting_an_internal_member_is_internal_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -313,7 +311,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_internal_member_is_not_internal_it_should_throw_with_a_useful_message()
+        public void When_asserting_an_internal_member_is_not_internal_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -325,18 +323,18 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.ProtectedInternal, "because we want to test the" +
-                                                                                                " failure");
+                                                                                                " error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method InternalMethod to be ProtectedInternal because we want to test the failure, but" +
+                .WithMessage("Expected method InternalMethod to be ProtectedInternal because we want to test the error message, but" +
                              " it is Internal.");
         }
 
         [TestMethod]
-        public void When_asserting_a_protected_internal_member_is_protected_internal_it_should_not_throw()
+        public void When_asserting_a_protected_internal_member_is_protected_internal_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -356,7 +354,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_protected_internal_member_is_not_protected_internal_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_protected_internal_member_is_not_protected_internal_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -367,13 +365,13 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Private, "because we want to test the failure");
+                methodInfo.Should().HaveAccessModifier(CSharpAccessModifiers.Private, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method InternalMethod to be Private because we want to test the failure, but it is " +
+                .WithMessage("Expected method InternalMethod to be Private because we want to test the error message, but it is " +
                              "Internal.");
         }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using FluentAssertions.Common;
 using FluentAssertions.Types;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -13,8 +12,10 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class PropertyInfoAssertionSpecs
     {
+        #region BeVirtual
+
         [TestMethod]
-        public void When_a_virtual_property_is_expected_to_be_virtual_it_should_succeed()
+        public void When_asserting_that_a_property_is_virtual_and_it_is_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -38,7 +39,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_non_virtual_property_is_expected_to_be_virtual_it_should_throw()
+        public void When_asserting_that_a_property_is_virtual_and_it_is_not_then_it_fails_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -62,11 +63,15 @@ namespace FluentAssertions.Specs
                .WithMessage(
                    "Expected property String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
                        " to be virtual because we want to test the error message," +
-                       " but it is not virtual.");
+                       " but it is not.");
         }
 
+        #endregion
+
+        #region BeDecortatedWithOfT
+
         [TestMethod]
-        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_it_should_succeed()
+        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -90,7 +95,7 @@ namespace FluentAssertions.Specs
         }        
         
         [TestMethod]
-        public void When_a_property_is_decorated_with_an_attribute_it_should_allow_chaining_assertions()
+        public void When_a_property_is_decorated_with_an_attribute_it_allow_chaining_assertions()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -114,7 +119,7 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        public void When_a_property_is_decorated_with_an_attribute_and_multiple_attributes_match_continuation_using_the_matched_value_should_fail()
+        public void When_a_property_is_decorated_with_an_attribute_and_multiple_attributes_match_continuation_using_the_matched_value_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -138,7 +143,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_not_it_throw_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -166,7 +171,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_property_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_property_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_throw_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -194,7 +199,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_property_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_should_succeed()
+        public void When_asserting_a_property_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -219,41 +224,45 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+        #endregion
+
+        #region BeWritable
+
         [TestMethod]
-        public void When_a_read_only_property_is_expected_to_be_writable_it_should_throw()
+        public void When_asserting_a_readonly_property_is_writable_it_fails_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadOnlyProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadOnlyProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadOnlyProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable("that's required");
+            Action action = () => propertyInfo.Should().BeWritable("we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property ReadOnlyProperty to have a setter because that's required.");
+                .WithMessage("Expected property ReadOnlyProperty to have a setter because we want to test the error message.");
         }
         
         [TestMethod]
-        public void When_a_read_write_property_is_expected_to_be_writable_it_should_not_throw()
+        public void When_asserting_a_readwrite_property_is_writable_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadWriteProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadWriteProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -268,15 +277,42 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_write_only_property_is_expected_to_be_readable_it_should_throw()
+        public void When_asserting_a_writeonly_property_is_writable_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetRuntimeProperty("WriteOnlyProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetProperty("WriteOnlyProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().BeWritable("that's required");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        #endregion
+
+        #region BeReadable
+
+        [TestMethod]
+        public void When_asserting_a_readonly_property_is_readable_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadOnlyProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadOnlyProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -287,38 +323,63 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property WriteOnlyProperty to have a getter because that's required, but it does not.");
+            action.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void When_a_write_only_property_is_expected_to_not_be_writeable_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_readwrite_property_is_readable_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetRuntimeProperty("WriteOnlyProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetProperty("WriteOnlyProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().NotBeWritable("that's required");
+            Action action = () => propertyInfo.Should().BeReadable("that's required");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_writeonly_property_is_readable_it_fails_with_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().BeReadable("we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property WriteOnlyProperty not to have a setter because that's required.");
+                .WithMessage("Expected property WriteOnlyProperty to have a getter because we want to test the error message, but it does not.");
         }
 
+        #endregion
+
+        #region NotBeWritable
+
         [TestMethod]
-        public void When_a_readonly_property_is_expected_to_not_be_writable_it_should_not_throw()
+        public void When_asserting_a_readonly_property_is_not_writable_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -341,7 +402,61 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_read_only_property_is_expected_to_not_be_readable_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_readwrite_property_is_not_writable_it_fails_with_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().NotBeWritable("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property ReadWriteProperty not to have a setter because we want to test the error message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_writeonly_property_is_not_writeable_it_fails_with_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().NotBeWritable("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property WriteOnlyProperty not to have a setter because we want to test the error message.");
+        }
+
+        #endregion
+
+        #region NotBeReadable
+
+        [TestMethod]
+        public void When_asserting_a_readonly_property_is_not_readable_it_fails_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -350,6 +465,56 @@ namespace FluentAssertions.Specs
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
 #else
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadOnlyProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().NotBeReadable("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property ReadOnlyProperty not to have a getter because we want to test the error message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_readwrite_property_is_not_readable_it_fails_with_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().NotBeReadable("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected property ReadWriteProperty not to have a getter because we want to test the error message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_writeonly_property_is_not_readable_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -360,44 +525,23 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected property ReadOnlyProperty not to have a getter because that's required.");
-        }
-
-        [TestMethod]
-        public void When_a_read_write_property_is_expected_to_be_readable_it_should_not_throw()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable("that's required");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
         }
 
+        #endregion
+
+        #region BeReadableAccessModifier
+
         [TestMethod]
-        public void When_a_public_read_private_write_property_is_expected_to_be_public_readable_it_should_not_throw()
+        public void When_asserting_a_public_read_private_write_property_is_public_readable_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadPrivateWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadPrivateWriteProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -412,39 +556,43 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_private_read_public_write_property_is_expected_to_be_public_readable_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_private_read_public_write_property_is_public_readable_it_fails_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetRuntimeProperty("WritePrivateReadProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WritePrivateReadProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetProperty("WritePrivateReadProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WritePrivateReadProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifiers.Public, "that's required");
+            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifiers.Public, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method get_WritePrivateReadProperty to be Public because that's required, but it is Private.");
+                .WithMessage("Expected method get_WritePrivateReadProperty to be Public because we want to test the error message, but it is Private.");
         }
 
+        #endregion
+
+        #region BeWritableAccessModifier
+
         [TestMethod]
-        public void When_a_public_write_private_read_property_is_expected_to_be_public_writeable_it_should_not_throw()
+        public void When_asserting_a_public_write_private_read_property_is_public_writeable_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetRuntimeProperty("WritePrivateReadProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WritePrivateReadProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithWriteOnlyProperties).GetProperty("WritePrivateReadProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WritePrivateReadProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -459,39 +607,43 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_private_write_public_read_property_is_expected_to_be_public_writeable_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_private_write_public_read_property_is_public_writeable_it_fails_with_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadPrivateWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadPrivateWriteProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifiers.Public, "that's required");
+            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifiers.Public, "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected method set_ReadPrivateWriteProperty to be Public because that's required, but it is Private.");
+                .WithMessage("Expected method set_ReadPrivateWriteProperty to be Public because we want to test the error message, but it is Private.");
         }
 
+        #endregion
+
+        #region Return
+
         [TestMethod]
-        public void When_a_String_property_is_expected_to_return_a_String_it_does_not_throw()
+        public void When_asserting_a_String_property_returns_a_String_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("StringProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -506,27 +658,44 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_String_property_is_expected_to_return_an_Int32_it_should_throw_with_a_descriptive_message()
+        public void When_asserting_a_String_property_returns_an_Int32_it_throw_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
 #if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
 #else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("StringProperty");
 #endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().Return(typeof(Int32));
+            Action action = () => propertyInfo.Should().Return(typeof(Int32), "we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected Type of property ReadWriteProperty to be System.Int32, but it is System.String.");
+                .WithMessage("Expected Type of property StringProperty to be System.Int32 because we want to test the error " +
+                             "message, but it is System.String.");
         }
+
+        #endregion
+
+        #region Internal classes used in unit tests
+
+        private class ClassWithProperties
+        {
+            public string ReadOnlyProperty { get { return ""; } }
+            public string ReadPrivateWriteProperty { get; private set; }
+            public string ReadWriteProperty { get; set; }
+            public string WritePrivateReadProperty { private get; set; }
+            public string WriteOnlyProperty { set{} }
+            public string StringProperty { get; set; }
+        }
+
+        #endregion
     }
 }

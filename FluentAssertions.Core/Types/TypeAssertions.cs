@@ -143,7 +143,7 @@ namespace FluentAssertions.Types
             Execute.Assertion
                 .ForCondition(Subject != unexpected)
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected type not to be [" + unexpected.AssemblyQualifiedName + "]{reason}.");
+                .FailWith("Expected type not to be [" + unexpected.AssemblyQualifiedName + "]{reason}, but it is.");
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -215,7 +215,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(Subject.GetInterfaces().Contains(interfaceType))
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected type {0} to implement interface {1}{reason}.", Subject, interfaceType);
+                .FailWith("Expected type {0} to implement interface {1}{reason}, but it does not.", Subject, interfaceType);
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -236,7 +236,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(Subject.IsSubclassOf(baseType))
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected type {0} to be derived from {1}{reason}.", Subject, baseType);
+                .FailWith("Expected type {0} to be derived from {1}{reason}, but it is not.", Subject, baseType);
 
             return new AndConstraint<TypeAssertions>(this);
         }
@@ -257,7 +257,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(!Subject.GetInterfaces().Contains(interfaceType))
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected type {0} to not implement interface {1}{reason}.", Subject, interfaceType);
+                .FailWith("Expected type {0} to not implement interface {1}{reason}, but it does.", Subject, interfaceType);
 
             return new AndConstraint<TypeAssertions>(this);
         }

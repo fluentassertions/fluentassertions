@@ -17,7 +17,7 @@ namespace FluentAssertions.Specs
         #region Be
 
         [TestMethod]
-        public void When_type_is_equal_to_the_same_type_it_should_succeed()
+        public void When_type_is_equal_to_the_same_type_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -38,7 +38,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_equal_to_another_type_it_should_throw()
+        public void When_type_is_equal_to_another_type_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_equal_to_another_type_it_should_throw_with_descriptive_message()
+        public void When_type_is_equal_to_another_type_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -83,7 +83,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_equality_of_a_type_but_the_type_is_null_it_should_throw()
+        public void When_asserting_equality_of_a_type_but_the_type_is_null_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -95,7 +95,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                nullType.Should().Be(someType, "because we want to test the error message");
+                nullType.Should().Be(someType, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -106,7 +106,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_equality_of_a_type_with_null_it_should_throw()
+        public void When_asserting_equality_of_a_type_with_null_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -118,7 +118,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                someType.Should().Be(nullType, "because we want to test the error message");
+                someType.Should().Be(nullType, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -129,7 +129,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_equal_to_same_type_from_different_assembly_it_should_throw_with_assembly_qualified_name
+        public void When_type_is_equal_to_same_type_from_different_assembly_it_fails_with_assembly_qualified_name
             ()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -167,7 +167,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_equal_to_the_same_type_using_generics_it_should_succeed()
+        public void When_type_is_equal_to_the_same_type_using_generics_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -187,7 +187,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_equal_to_another_type_using_generics_it_should_throw()
+        public void When_type_is_equal_to_another_type_using_generics_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -207,7 +207,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_equal_to_another_type_using_generics_it_should_throw_with_descriptive_message()
+        public void When_type_is_equal_to_another_type_using_generics_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -234,7 +234,7 @@ namespace FluentAssertions.Specs
         #region NotBe
 
         [TestMethod]
-        public void When_type_is_not_equal_to_the_another_type_it_should_succeed()
+        public void When_type_is_not_equal_to_the_another_type_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -255,7 +255,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_not_equal_to_the_same_type_it_should_throw()
+        public void When_type_is_not_equal_to_the_same_type_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -276,7 +276,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_not_equal_to_the_same_type_it_should_throw_with_descriptive_message()
+        public void When_type_is_not_equal_to_the_same_type_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -295,11 +295,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*]" +
-                             " because we want to test the error message.");
+                             " because we want to test the error message, but it is.");
         }
 
         [TestMethod]
-        public void When_type_is_not_equal_to_another_type_using_generics_it_should_succeed()
+        public void When_type_is_not_equal_to_another_type_using_generics_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -319,7 +319,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_not_equal_to_the_same_type_using_generics_it_should_throw()
+        public void When_type_is_not_equal_to_the_same_type_using_generics_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -339,7 +339,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_not_equal_to_the_same_type_using_generics_it_should_throw_with_descriptive_message()
+        public void When_type_is_not_equal_to_the_same_type_using_generics_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -358,7 +358,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected type not to be [FluentAssertions.Specs.ClassWithAttribute*] because we want to test " +
-                    "the error message.");
+                    "the error message, but it is.");
         }
 
         #endregion
@@ -366,7 +366,7 @@ namespace FluentAssertions.Specs
         #region BeAssignableTo
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_its_own_type_it_should_succeed()
+        public void When_asserting_an_object_is_assignable_its_own_type_it_succeeds()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
@@ -375,7 +375,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_its_base_type_it_should_succeed()
+        public void When_asserting_an_object_is_assignable_to_its_base_type_it_succeeds()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
@@ -384,7 +384,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_an_implemented_interface_type_it_should_succeed()
+        public void When_asserting_an_object_is_assignable_to_an_implemented_interface_type_it_succeeds()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
@@ -393,7 +393,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_it_should_fail_with_a_descriptive_message()
+        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_it_fails_with_a_a_useful_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -416,7 +416,7 @@ namespace FluentAssertions.Specs
         #region BeDerivedFrom
 
         [TestMethod]
-        public void When_asserting_a_type_is_derived_from_its_base_class_it_should_succeed()
+        public void When_asserting_a_type_is_derived_from_its_base_class_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -436,7 +436,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_derived_from_an_unrelated_class_it_should_succeed()
+        public void When_asserting_a_type_is_derived_from_an_unrelated_class_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -447,18 +447,18 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().BeDerivedFrom(typeof(ClassWithMembers), "because we want to test the error message");
+                type.Should().BeDerivedFrom(typeof(ClassWithMembers), "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.DummyBaseClass to be derived from " +
-                             "FluentAssertions.Specs.ClassWithMembers because we want to test the error message.");
+                             "FluentAssertions.Specs.ClassWithMembers because we want to test the error message, but it is not.");
         }
 
         [TestMethod]
-        public void When_asserting_a_type_is_derived_from_an_interface_it_should_fail_with_a_useful_message()
+        public void When_asserting_a_type_is_derived_from_an_interface_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -469,7 +469,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().BeDerivedFrom(typeof(IDummyInterface), "because we want to test the error message");
+                type.Should().BeDerivedFrom(typeof(IDummyInterface), "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -483,7 +483,7 @@ namespace FluentAssertions.Specs
         #region BeDecoratedWith
 
         [TestMethod]
-        public void When_type_is_decorated_with_expected_attribute_it_should_succeed()
+        public void When_type_is_decorated_with_expected_attribute_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -503,7 +503,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_not_decorated_with_expected_attribute_it_should_throw()
+        public void When_type_is_not_decorated_with_expected_attribute_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -523,7 +523,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_not_decorated_with_expected_attribute_it_should_throw_with_descriptive_message()
+        public void When_type_is_not_decorated_with_expected_attribute_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -548,7 +548,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_decorated_with_expected_attribute_with_the_expected_properties_it_should_succeed()
+        public void When_type_is_decorated_with_expected_attribute_with_the_expected_properties_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -569,7 +569,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_type_is_decorated_with_expected_attribute_that_has_an_unexpected_property_it_should_throw()
+        public void When_type_is_decorated_with_expected_attribute_that_has_an_unexpected_property_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -593,7 +593,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_selection_of_decorated_types_is_decorated_with_an_attribute_it_should_succeed()
+        public void When_asserting_a_selection_of_decorated_types_is_decorated_with_an_attribute_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -616,7 +616,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_selection_of_non_decorated_types_is_decorated_with_an_attribute_it_should_throw()
+        public void When_asserting_a_selection_of_non_decorated_types_is_decorated_with_an_attribute_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -646,7 +646,7 @@ namespace FluentAssertions.Specs
 
 
         [TestMethod]
-        public void When_asserting_a_selection_of_types_with_unexpected_attribute_property_it_should_throw()
+        public void When_asserting_a_selection_of_types_with_unexpected_attribute_property_it_fails()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -681,7 +681,7 @@ namespace FluentAssertions.Specs
         #region Implement
 
         [TestMethod]
-        public void When_asserting_that_a_type_that_implements_an_interface_implements_that_interface_it_should_succeed()
+        public void When_asserting_a_type_implements_an_interface_which_it_does_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -701,7 +701,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_not_implement_an_interface_implements_that_interface_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_does_not_implement_an_interface_which_it_does_then_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -712,18 +712,19 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().Implement(typeof (IDummyInterface), "because we want to test the error message");
+                type.Should().Implement(typeof (IDummyInterface), "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassThatDoesNotImplementInterface to implement " +
-                             "interface FluentAssertions.Specs.IDummyInterface because we want to test the error message.");
+                             "interface FluentAssertions.Specs.IDummyInterface because we want to test the error message, " +
+                             "but it does not.");
         }
 
         [TestMethod]
-        public void When_asserting_a_type_implements_a_NonInterface_type_Then_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_type_implements_a_NonInterface_type_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -734,7 +735,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().Implement(typeof(DateTime), "because we want to test the error message");
+                type.Should().Implement(typeof(DateTime), "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -748,7 +749,7 @@ namespace FluentAssertions.Specs
         #region NotImplement
 
         [TestMethod]
-        public void When_asserting_that_a_type_that_does_not_implement_an_interface_does_not_implement_that_interface_it_should_succeed()
+        public void When_asserting_a_type_does_not_implement_an_interface_which_it_does_not_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -768,7 +769,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_implements_an_interface_does_not_implement_that_interface_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_implements_an_interface_which_it_does_not_then_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -779,18 +780,18 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotImplement(typeof(IDummyInterface), "because we want to test the error message");
+                type.Should().NotImplement(typeof(IDummyInterface), "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassThatImplementsInterface to not implement interface " +
-                             "FluentAssertions.Specs.IDummyInterface because we want to test the error message.");
+                             "FluentAssertions.Specs.IDummyInterface because we want to test the error message, but it does.");
         }
 
         [TestMethod]
-        public void When_asserting_a_type_does_not_implement_a_NonInterface_type_Then_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_type_does_not_implement_a_NonInterface_type_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -801,7 +802,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotImplement(typeof(DateTime), "because we want to test the error message");
+                type.Should().NotImplement(typeof(DateTime), "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -815,7 +816,7 @@ namespace FluentAssertions.Specs
         #region HaveProperty
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_a_property_does_have_a_named_property_it_should_succeed()
+        public void When_asserting_a_type_has_a_property_which_it_does_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -839,7 +840,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_not_have_a_property_does_have_a_property_with_that_name_and_type_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_has_a_property_which_it_does_not_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -862,7 +863,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_have_a_property_does_have_a_property_with_that_name_but_different_type_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_has_a_property_which_it_has_with_a_different_type_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -888,7 +889,7 @@ namespace FluentAssertions.Specs
         #region NotHaveProperty
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_no_properties_does_not_have_a_named_property_it_should_succeed()
+        public void When_asserting_a_type_does_not_have_a_property_which_it_does_not_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -908,9 +909,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_asserting_a_type_that_has_a_property_does_not_have_a_property_with_that_name_it_should_throw_with_descriptive_message
-            ()
+        public void When_asserting_a_type_does_not_have_a_property_which_it_does_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -937,7 +936,7 @@ namespace FluentAssertions.Specs
         #region HaveExplicitProperty
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_property_which_it_does_it_should_succeed()
+        public void When_asserting_a_type_explicitly_implements_a_property_which_it_does_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -960,7 +959,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_property_which_it_implements_implicitly_and_explicitly_it_should_succeed()
+        public void When_asserting_a_type_explicitly_implements_a_property_which_it_implements_implicitly_and_explicitly_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -983,7 +982,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_property_which_it_implements_implicitly_it_should_fail_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_property_which_it_implements_implicitly_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1009,7 +1008,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_property_which_it_does_not_implement_it_should_fail_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_property_which_it_does_not_implement_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1035,7 +1034,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_property_from_an_unimplemented_interface_it_should_fail_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_property_from_an_unimplemented_interface_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1057,7 +1056,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
-                    "FluentAssertions.Specs.IDummyInterface.");
+                    "FluentAssertions.Specs.IDummyInterface, but it does not.");
         }
 
         #endregion
@@ -1065,7 +1064,7 @@ namespace FluentAssertions.Specs
         #region NotHaveExplicitProperty
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_property_which_it_does_it_should_fail_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_property_which_it_does_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1091,7 +1090,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_property_which_it_implements_implicitly_and_explicitly_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_property_which_it_implements_implicitly_and_explicitly_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1117,7 +1116,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_property_which_it_implements_implicitly_it_should_succeed()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_property_which_it_implements_implicitly_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1140,7 +1139,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_property_which_it_does_not_implement_it_should_succeed()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_property_which_it_does_not_implement_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1163,7 +1162,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_property_from_an_unimplemented_interface_it_should_succeed()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_property_from_an_unimplemented_interface_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1184,7 +1183,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
-                             "FluentAssertions.Specs.IDummyInterface.");
+                             "FluentAssertions.Specs.IDummyInterface, but it does.");
         }
 
         #endregion
@@ -1192,7 +1191,7 @@ namespace FluentAssertions.Specs
         #region HaveExplicitMethod
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_method_which_it_does_it_should_succeed()
+        public void When_asserting_a_type_explicitly_implements_a_method_which_it_does_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1215,7 +1214,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_method_which_it_implements_implicitly_and_explicitly_it_should_succeed()
+        public void When_asserting_a_type_explicitly_implements_a_method_which_it_implements_implicitly_and_explicitly_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1238,7 +1237,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_method_which_it_implements_implicitly_it_should_fail_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_method_which_it_implements_implicitly_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1264,7 +1263,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_method_which_it_does_not_implement_it_should_fail_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_method_which_it_does_not_implement_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1290,7 +1289,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_explicitly_implements_a_method_from_an_unimplemented_interface_it_should_fail_with_a_useful_message()
+        public void When_asserting_a_type_explicitly_implements_a_method_from_an_unimplemented_interface_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1312,15 +1311,15 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
-                    "FluentAssertions.Specs.IDummyInterface.");
+                    "FluentAssertions.Specs.IDummyInterface, but it does not.");
         }
 
         #endregion
 
-        #region NotHaveExplicitProperty
+        #region NotHaveExplicitMethod
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_which_it_does_it_should_fail_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_does_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1346,7 +1345,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_and_explicitly_it_should_throw_with_a_useful_message()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_and_explicitly_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1372,7 +1371,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_it_should_succeed()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_implements_implicitly_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1395,7 +1394,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_which_it_does_not_implement_it_should_succeed()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_method_which_it_does_not_implement_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1418,7 +1417,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_that_a_type_does_not_explicitly_implement_a_method_from_an_unimplemented_interface_it_should_succeed()
+        public void When_asserting_a_type_does_not_explicitly_implement_a_method_from_an_unimplemented_interface_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1439,7 +1438,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
-                             "FluentAssertions.Specs.IDummyInterface.");
+                             "FluentAssertions.Specs.IDummyInterface, but it does not.");
         }
 
         #endregion
@@ -1447,7 +1446,7 @@ namespace FluentAssertions.Specs
         #region HaveIndexer
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_an_indexer_does_have_an_indexer_it_should_succeed()
+        public void When_asserting_a_type_has_an_indexer_which_it_does_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1471,7 +1470,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_not_have_an_indexer_does_have_an_indexer_with_that_type_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_has_an_indexer_which_it_does_not_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1494,7 +1493,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_have_an_indexer_with_different_parameters_does_have_an_indexer_with_that_type_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_has_an_indexer_with_different_parameters_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1521,7 +1520,7 @@ namespace FluentAssertions.Specs
         #region NotHaveIndexer
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_no_indexers_does_not_have_an_indexer_it_should_succeed()
+        public void When_asserting_a_type_does_not_have_an_indexer_which_it_does_not_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1541,7 +1540,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_an_indexer_does_not_have_an_indexer_with_those_parameters_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_does_not_have_an_indexer_which_it_does_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1568,7 +1567,7 @@ namespace FluentAssertions.Specs
         #region HaveConstructor
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_a_constructor_does_have_that_constructor_it_should_succeed()
+        public void When_asserting_a_type_has_a_constructor_which_it_does_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1591,7 +1590,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_not_have_a_constructor_does_have_that_constructor_with_the_specified_parameter_types_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_has_a_constructor_which_it_does_not_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1618,7 +1617,7 @@ namespace FluentAssertions.Specs
         #region HaveDefaultConstructor
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_a_default_constructor_does_have_that_default_constructor_it_should_succeed()
+        public void When_asserting_a_type_has_a_default_constructor_which_it_does_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1641,7 +1640,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_not_have_a_default_constructor_does_have_a_default_constructor_it_should_succeed()
+        public void When_asserting_a_type_has_a_default_constructor_which_it_does_not_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1669,7 +1668,7 @@ namespace FluentAssertions.Specs
         #region HaveMethod
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_an_method_does_have_that_method_it_should_succeed()
+        public void When_asserting_a_type_has_a_method_which_it_does_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1693,7 +1692,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_not_have_a_method_does_have_that_method_with_the_specified_parameter_types_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_has_a_method_which_it_does_not_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1716,7 +1715,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_does_have_a_method_with_different_parameters_does_have_a_method_with_that_type_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_has_a_method_with_different_parameter_types_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1743,7 +1742,7 @@ namespace FluentAssertions.Specs
         #region NotHaveMethod
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_no_methods_does_not_have_a_method_it_should_succeed()
+        public void When_asserting_a_type_does_not_have_a_method_which_it_does_not_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1763,7 +1762,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_a_methods_does_not_have_an_overload_of_that_method_it_should_succeed()
+        public void When_asserting_a_type_does_not_have_a_method_which_it_has_with_different_parameter_types_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1783,7 +1782,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_type_that_has_a_method_does_not_have_that_method_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_type_does_not_have_that_method_which_it_does_it_fails_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange

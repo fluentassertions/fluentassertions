@@ -55,7 +55,7 @@ namespace FluentAssertions.Types
         {
             string failureMessage = "Expected subject " +
                         SubjectDescription +
-                        " to be async{reason}, but it is not async.";
+                        " to be async{reason}, but it is not.";
 
             Execute.Assertion
                 .ForCondition(!IsNonAsync())
