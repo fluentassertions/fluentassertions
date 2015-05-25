@@ -21,7 +21,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("IntMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -41,7 +41,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("IntMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -63,7 +63,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("VoidMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("VoidMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -89,7 +89,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("VoidMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("VoidMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -109,7 +109,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("IntMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -135,7 +135,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("PrivateMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("PrivateMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -155,7 +155,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("PrivateMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("PrivateMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -177,7 +177,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyNamed("ProtectedSetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
 
             MethodInfo setMethod;
 
@@ -205,7 +205,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyNamed("ProtectedSetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
 
             MethodInfo setMethod;
 
@@ -236,7 +236,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyNamed("PublicGetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
 
             MethodInfo getMethod;
 
@@ -264,7 +264,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyNamed("PublicGetProperty");
+            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
 
             MethodInfo getMethod;
 
@@ -296,7 +296,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("InternalMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("InternalMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -316,7 +316,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("InternalMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("InternalMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -339,7 +339,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("ProtectedInternalMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("ProtectedInternalMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -359,7 +359,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetMethodNamed("InternalMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("InternalMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

@@ -1183,7 +1183,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
-                             "FluentAssertions.Specs.IDummyInterface, but it does.");
+                             "FluentAssertions.Specs.IDummyInterface, but it does not.");
         }
 
         #endregion
@@ -1773,7 +1773,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveMethod("VoidMethod", new [] { typeof(string) });
+                type.Should().NotHaveMethod("VoidMethod", new [] { typeof(int) });
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1850,11 +1850,12 @@ namespace FluentAssertions.Specs
     public class ClassWithMembers
     {
         protected internal ClassWithMembers() { }
-        private ClassWithMembers(String str) { }
+        private ClassWithMembers(String overload) { }
         protected string PrivateWriteProtectedReadProperty { get { return null; } private set { } }
         internal string this[string str] { private get { return str; } set { } }
         protected internal string this[int i] { get { return i.ToString(); } private set { } }
         private void VoidMethod() { }
+        private void VoidMethod(string overload) { }
     }
 
     public class ClassExplicitlyImplementingInterface : IExplicitInterface
@@ -1863,10 +1864,14 @@ namespace FluentAssertions.Specs
         string IExplicitInterface.ExplicitStringProperty { set { } }
         public string ExplicitImplicitStringProperty { get; set; }
         string IExplicitInterface.ExplicitImplicitStringProperty { get; set; }
-        public void ImplicitMethod() { } 
+        public void ImplicitMethod() { }
+        public void ImplicitMethod(string overload) { } 
         void IExplicitInterface.ExplicitMethod() { }
+        void IExplicitInterface.ExplicitMethod(string overload) { }
         public void ExplicitImplicitMethod() { }
+        public void ExplicitImplicitMethod(string overload) { }
         void IExplicitInterface.ExplicitImplicitMethod() { }
+        void IExplicitInterface.ExplicitImplicitMethod(string overload) { }
     }
 
     public interface IExplicitInterface
@@ -1875,8 +1880,11 @@ namespace FluentAssertions.Specs
         string ExplicitStringProperty { set; }
         string ExplicitImplicitStringProperty { get; set; }
         void ImplicitMethod();
+        void ImplicitMethod(string overload);
         void ExplicitMethod();
+        void ExplicitMethod(string overload);
         void ExplicitImplicitMethod();
+        void ExplicitImplicitMethod(string overload);
     }
 
     public class ClassWithoutMembers { }

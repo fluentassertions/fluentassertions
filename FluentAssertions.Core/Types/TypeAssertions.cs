@@ -271,9 +271,7 @@ namespace FluentAssertions.Types
         /// <param name="name">The name of the property.</param>
         public AndConstraint<TypeAssertions> NotHaveProperty(string name, string because = "", params object[] reasonArgs)
         {
-            PropertyInfo propertyInfo = Subject
-                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                    .SingleOrDefault(p => !p.IsIndexer() && p.Name == name);
+            PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
 
             string propertyInfoDescription = "";
 
@@ -299,9 +297,7 @@ namespace FluentAssertions.Types
         /// <param name="name">The name of the property.</param>
         public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveProperty(Type propertyType, string name, string because = "", params object[] reasonArgs)
         {
-            PropertyInfo propertyInfo = Subject
-                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                    .SingleOrDefault(p => !p.IsIndexer() && p.Name == name);
+            PropertyInfo propertyInfo = Subject.GetPropertyByName(name);
 
             string propertyInfoDescription = "";
 
@@ -336,13 +332,8 @@ namespace FluentAssertions.Types
         {
             Subject.Should().Implement(interfaceType, because, reasonArgs);
 
-            var explicitlyImplementsProperty =
-                Subject.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                    .Any(
-                        m =>
-                            (m.Name == string.Format("{0}.get_{1}", interfaceType.FullName, name) ||
-                             m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, name)) && m.IsSpecialName && m.IsFinal);
-
+            var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
+                
             Execute.Assertion.ForCondition(explicitlyImplementsProperty)
                 .BecauseOf(because, reasonArgs)
                 .FailWith(String.Format("Expected {0} to explicitly implement {1}.{2}{{reason}}, but it does not.",
@@ -364,12 +355,7 @@ namespace FluentAssertions.Types
         {
             Subject.Should().Implement(interfaceType, because, reasonArgs);
 
-            var explicitlyImplementsProperty =
-                Subject.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                    .Any(
-                        m =>
-                            (m.Name == string.Format("{0}.get_{1}", interfaceType.FullName, name) ||
-                             m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, name)) && m.IsSpecialName && m.IsFinal);
+            var explicitlyImplementsProperty = Subject.HasExplicitlyImplementedProperty(interfaceType, name);
 
             Execute.Assertion.ForCondition(!explicitlyImplementsProperty)
                 .BecauseOf(because, reasonArgs)
@@ -392,9 +378,7 @@ namespace FluentAssertions.Types
         {
             Subject.Should().Implement(interfaceType, because, reasonArgs);
 
-            var explicitlyImplementsProperty =
-                Subject.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                    .Any(m => m.Name == string.Format("{0}.{1}", interfaceType.FullName, name) && m.IsFinal);
+            var explicitlyImplementsProperty = Subject.HasParameterlessMethod(string.Format("{0}.{1}", interfaceType.FullName, name));
 
             Execute.Assertion.ForCondition(!explicitlyImplementsProperty)
                 .BecauseOf(because, reasonArgs)
@@ -417,9 +401,7 @@ namespace FluentAssertions.Types
         {
             Subject.Should().Implement(interfaceType, because, reasonArgs);
 
-            var explicitlyImplementsMethod =
-                Subject.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                    .Any(m => m.Name == string.Format("{0}.{1}", interfaceType.FullName, name) && m.IsFinal);
+            var explicitlyImplementsMethod = Subject.HasParameterlessMethod(string.Format("{0}.{1}", interfaceType.FullName, name));
 
             Execute.Assertion.ForCondition(explicitlyImplementsMethod)
                 .BecauseOf(because, reasonArgs)
@@ -438,16 +420,7 @@ namespace FluentAssertions.Types
         /// <param name="parameterTypes">The expected indexer's parameter types.</param>
         public AndConstraint<TypeAssertions> NotHaveIndexer(IEnumerable<Type> parameterTypes, string because = "", params object[] reasonArgs)
         {
-            PropertyInfo propertyInfo = Subject
-                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                    .SingleOrDefault(p => p.IsIndexer() && p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(parameterTypes));
-
-            string propertyInfoDescription = "";
-
-            if (propertyInfo != null)
-            {
-                propertyInfoDescription = PropertyInfoAssertions.GetDescriptionFor(propertyInfo);
-            }
+            PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
 
             Execute.Assertion.ForCondition(propertyInfo == null)
                 .BecauseOf(because, reasonArgs)
@@ -469,9 +442,7 @@ namespace FluentAssertions.Types
         /// <param name="parameterTypes">The parameter types for the indexer.</param>
         public AndWhichConstraint<TypeAssertions, PropertyInfo> HaveIndexer(Type indexerType, IEnumerable<Type> parameterTypes, string because = "", params object[] reasonArgs)
         {
-            PropertyInfo propertyInfo = Subject
-                    .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                    .SingleOrDefault(p => p.IsIndexer() && p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(parameterTypes));
+            PropertyInfo propertyInfo = Subject.GetIndexerByParameterTypes(parameterTypes);
 
             string propertyInfoDescription = "";
 
@@ -505,9 +476,7 @@ namespace FluentAssertions.Types
         /// <param name="parameterTypes">The parameter types for the indexer.</param>
         public AndWhichConstraint<TypeAssertions, MethodInfo> HaveMethod(String name, IEnumerable<Type> parameterTypes, string because = "", params object[] reasonArgs)
         {
-            MethodInfo methodInfo = Subject
-                    .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                    .SingleOrDefault(m => m.Name == name && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
+            MethodInfo methodInfo = Subject.GetMethod(name, parameterTypes);
 
             Execute.Assertion.ForCondition(methodInfo != null)
                 .BecauseOf(because, reasonArgs)
