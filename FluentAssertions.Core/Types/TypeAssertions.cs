@@ -11,7 +11,7 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Types
 {
     /// <summary>
-    /// Contains a number of methods to assert that a <see cref="Type"/> meets certain expectations.
+    /// Contains a number of methods to assert that a <see cref="System.Type"/> meets certain expectations.
     /// </summary>
     [DebuggerNonUserCode]
     public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
@@ -149,7 +149,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
+        /// Asserts that the current <see cref="System.Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -171,7 +171,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> is decorated with an attribute of type <typeparamref name="TAttribute"/>
+        /// Asserts that the current <see cref="System.Type"/> is decorated with an attribute of type <typeparamref name="TAttribute"/>
         /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
         /// </summary>
         /// <param name="isMatchingAttributePredicate">
@@ -200,7 +200,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> implements Interface <paramref name="interfaceType"/>.
+        /// Asserts that the current <see cref="System.Type"/> implements Interface <paramref name="interfaceType"/>.
         /// </summary>
         /// <param name="interfaceType">The interface that should be implemented.</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
@@ -233,7 +233,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> does not implement Interface <paramref name="interfaceType"/>.
+        /// Asserts that the current <see cref="System.Type"/> does not implement Interface <paramref name="interfaceType"/>.
         /// </summary>
         /// <param name="interfaceType">The interface that should be not implemented.</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
@@ -266,7 +266,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> is derived from <paramref name="baseType"/>.
+        /// Asserts that the current <see cref="Type"/> is derived from <see cref="Type"/> <paramref name="baseType"/>.
         /// </summary>
         /// <param name="baseType">The Type that should be derived from.</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
