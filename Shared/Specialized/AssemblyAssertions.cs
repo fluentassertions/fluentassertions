@@ -5,13 +5,22 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Reflection
 {
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="Assembly"/> is in the expected state.
+    /// </summary>
     public class AssemblyAssertions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssemblyAssertions" /> class.
+        /// </summary>
         public AssemblyAssertions(Assembly assembly)
         {
             Subject = assembly;
         }
 
+        /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
         public Assembly Subject { get; private set; }
 #if !PORTABLE && !SILVERLIGHT && !WINRT
 

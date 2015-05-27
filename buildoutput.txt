@@ -1,0 +1,239 @@
+psake version 4.3.2
+Copyright (c) 2010 James Kovacs
+
+Loading module: C:\github\fluentassertions\Build\modules\IO.psm1
+Loading module: C:\github\fluentassertions\Build\modules\MSTest.psm1
+Loading module: C:\github\fluentassertions\Build\modules\teamcity.psm1
+
+Executing Clean at 05/26/2015 16:40:51
+##teamcity[blockOpened name='Clean']
+##teamcity[blockClosed name='Clean']
+Executing ApplyAssemblyVersioning at 05/26/2015 16:40:51
+##teamcity[blockOpened name='Updating solution info versions with build number ']
+Updating  + C:\github\fluentassertions\SolutionInfo.cs
+Updating  + C:\github\fluentassertions\Shared\SolutionInfo.cs
+##teamcity[blockClosed name='Updating solution info versions with build number ']
+Executing ApplyPackageVersioning at 05/26/2015 16:40:51
+##teamcity[blockOpened name='Updating package version with build number ']
+##teamcity[blockClosed name='Updating package version with build number ']
+Executing RestoreNugetPackages at 05/26/2015 16:40:51
+##teamcity[blockOpened name='Restoring NuGet packages']
+All packages listed in packages.config are already installed.
+All packages listed in packages.config are already installed.
+##teamcity[blockClosed name='Restoring NuGet packages']
+Executing Compile at 05/26/2015 16:40:51
+##teamcity[blockOpened name='Compiling']
+Microsoft (R) Build Engine version 12.0.31101.0
+[Microsoft .NET Framework, version 4.0.30319.42000]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  Core -> C:\github\fluentassertions\Package\Lib\portable-monotouch+monoandroid+xamarin.ios\FluentAssertions.Core.dll
+  Silverlight -> C:\github\fluentassertions\Package\Lib\sl5\FluentAssertions.dll
+  Net40 -> C:\github\fluentassertions\Package\Lib\net40\FluentAssertions.dll
+  WinRT81 -> C:\github\fluentassertions\Package\Lib\portable-win81+wpa81\FluentAssertions.dll
+  Net45 -> C:\github\fluentassertions\Package\Lib\net45\FluentAssertions.dll
+  WP8 -> C:\github\fluentassertions\Package\Lib\wp8\FluentAssertions.dll
+  Portable -> C:\github\fluentassertions\Package\Lib\portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.dll
+Common\ProvidePlatformServices.cs(8,18): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Common.ProvidePlatformServices' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+Common\ProvidePlatformServices.cs(10,31): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Common.ProvidePlatformServices.Throw' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+Common\ProvidePlatformServices.cs(15,34): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Common.ProvidePlatformServices.Formatters' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+Common\ProvidePlatformServices.cs(30,36): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Common.ProvidePlatformServices.ConfigurationStore' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+Common\ProvidePlatformServices.cs(35,27): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Common.ProvidePlatformServices.Reflector' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Package\Lib\portable-monotouch+monoandroid+xamarin.ios\FluentAssertions.Core.dll : warning CS1684: Reference to type 'System.Reflection.BindingFlags' claims it is defined in 'c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\mscorlib.dll', but it could not be found [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Package\Lib\portable-monotouch+monoandroid+xamarin.ios\FluentAssertions.Core.dll : warning CS1684: Reference to type 'System.Reflection.BindingFlags' claims it is defined in 'c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\mscorlib.dll', but it could not be found [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(43,34): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.AssertionExtensions.Awaiting<T>(T, System.Func<T,System.Threading.Tasks.Task>)' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(439,34): warning CS1574: XML comment on 'FluentAssertions.AssertionExtensions.Should(System.Reflection.ConstructorInfo)' has cref attribute 'MethodBaseAssertions' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(504,75): warning CS1573: Parameter 'subject' has no matching param tag in the XML comment for 'FluentAssertions.AssertionExtensions.ShouldAllBeEquivalentTo<T>(System.Collections.Generic.IEnumerable<T>, System.Collections.IEnumerable, string, params object[])' (but other parameters do) [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(504,96): warning CS1573: Parameter 'expectation' has no matching param tag in the XML comment for 'FluentAssertions.AssertionExtensions.ShouldAllBeEquivalentTo<T>(System.Collections.Generic.IEnumerable<T>, System.Collections.IEnumerable, string, params object[])' (but other parameters do) [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(502,81): warning CS1574: XML comment on 'FluentAssertions.AssertionExtensions.ShouldAllBeEquivalentTo<T>(System.Collections.Generic.IEnumerable<T>, System.Collections.IEnumerable, string, params object[])' has cref attribute 'reason' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(533,75): warning CS1573: Parameter 'subject' has no matching param tag in the XML comment for 'FluentAssertions.AssertionExtensions.ShouldAllBeEquivalentTo<T>(System.Collections.Generic.IEnumerable<T>, System.Collections.IEnumerable, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>,FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>>, string, params object[])' (but other parameters do) [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(533,96): warning CS1573: Parameter 'expectation' has no matching param tag in the XML comment for 'FluentAssertions.AssertionExtensions.ShouldAllBeEquivalentTo<T>(System.Collections.Generic.IEnumerable<T>, System.Collections.IEnumerable, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>,FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>>, string, params object[])' (but other parameters do) [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(531,81): warning CS1574: XML comment on 'FluentAssertions.AssertionExtensions.ShouldAllBeEquivalentTo<T>(System.Collections.Generic.IEnumerable<T>, System.Collections.IEnumerable, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>,FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>>, string, params object[])' has cref attribute 'reason' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(571,59): warning CS1573: Parameter 'subject' has no matching param tag in the XML comment for 'FluentAssertions.AssertionExtensions.ShouldBeEquivalentTo<T>(T, object, string, params object[])' (but other parameters do) [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(571,75): warning CS1573: Parameter 'expectation' has no matching param tag in the XML comment for 'FluentAssertions.AssertionExtensions.ShouldBeEquivalentTo<T>(T, object, string, params object[])' (but other parameters do) [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(569,81): warning CS1574: XML comment on 'FluentAssertions.AssertionExtensions.ShouldBeEquivalentTo<T>(T, object, string, params object[])' has cref attribute 'reason' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(599,59): warning CS1573: Parameter 'subject' has no matching param tag in the XML comment for 'FluentAssertions.AssertionExtensions.ShouldBeEquivalentTo<T>(T, object, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>,FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>>, string, params object[])' (but other parameters do) [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(599,75): warning CS1573: Parameter 'expectation' has no matching param tag in the XML comment for 'FluentAssertions.AssertionExtensions.ShouldBeEquivalentTo<T>(T, object, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>,FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>>, string, params object[])' (but other parameters do) [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\AssertionExtensions.cs(597,81): warning CS1574: XML comment on 'FluentAssertions.AssertionExtensions.ShouldBeEquivalentTo<T>(T, object, System.Func<FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>,FluentAssertions.Equivalency.EquivalencyAssertionOptions<T>>, string, params object[])' has cref attribute 'reason' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Execution\AssertionFailedException.cs(17,16): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Execution.AssertionFailedException.AssertionFailedException(string)' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Formatting\XAttributeValueFormatter.cs(6,18): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Formatting.XAttributeValueFormatter' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Formatting\XDocumentValueFormatter.cs(6,18): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Formatting.XDocumentValueFormatter' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Formatting\XDocumentValueFormatter.cs(8,21): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Formatting.XDocumentValueFormatter.CanHandle(object)' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Formatting\XElementValueFormatter.cs(11,18): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Formatting.XElementValueFormatter' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Specialized\AssemblyAssertions.cs(8,18): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Reflection.AssemblyAssertions' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Specialized\AssemblyAssertions.cs(10,16): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Reflection.AssemblyAssertions.AssemblyAssertions(System.Reflection.Assembly)' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Specialized\AssemblyAssertions.cs(15,25): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Reflection.AssemblyAssertions.Subject' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Specialized\ExecutionTimeAssertions.cs(32,26): warning CS1591: Missing XML comment for publicly visible type or member 'FluentAssertions.Specialized.ExecutionTimeAssertions.ActionDescription' [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XAttributeAssertions.cs(40,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XAttributeAssertions.Be(System.Xml.Linq.XAttribute, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XAttributeAssertions.cs(72,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XAttributeAssertions.NotBe(System.Xml.Linq.XAttribute, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XAttributeAssertions.cs(103,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XAttributeAssertions.HaveValue(string, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(45,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.Be(System.Xml.Linq.XDocument, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(77,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.NotBe(System.Xml.Linq.XDocument, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(96,34): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.BeEquivalentTo(System.Xml.Linq.XDocument)' has cref attribute 'XNode.DeepEquals()' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(106,34): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.BeEquivalentTo(System.Xml.Linq.XDocument, string, params object[])' has cref attribute 'XNode.DeepEquals()' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(114,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.BeEquivalentTo(System.Xml.Linq.XDocument, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(129,34): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.NotBeEquivalentTo(System.Xml.Linq.XDocument)' has cref attribute 'XNode.DeepEquals()' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(139,34): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.NotBeEquivalentTo(System.Xml.Linq.XDocument, string, params object[])' has cref attribute 'XNode.DeepEquals()' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(147,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.NotBeEquivalentTo(System.Xml.Linq.XDocument, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(190,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.HaveRoot(string, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(214,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.HaveRoot(System.Xml.Linq.XName, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(277,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.HaveElement(string, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XDocumentAssertions.cs(303,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XDocumentAssertions.HaveElement(System.Xml.Linq.XName, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(41,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.Be(System.Xml.Linq.XElement, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(73,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.NotBe(System.Xml.Linq.XElement, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(87,34): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.BeEquivalentTo(System.Xml.Linq.XElement)' has cref attribute 'XNode.DeepEquals()' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(97,34): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.BeEquivalentTo(System.Xml.Linq.XElement, string, params object[])' has cref attribute 'XNode.DeepEquals()' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(105,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.BeEquivalentTo(System.Xml.Linq.XElement, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(120,34): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.NotBeEquivalentTo(System.Xml.Linq.XElement)' has cref attribute 'XNode.DeepEquals()' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(130,34): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.NotBeEquivalentTo(System.Xml.Linq.XElement, string, params object[])' has cref attribute 'XNode.DeepEquals()' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(138,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.NotBeEquivalentTo(System.Xml.Linq.XElement, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(169,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.HaveValue(string, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(215,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.HaveAttribute(string, string, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(234,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.HaveAttribute(System.Xml.Linq.XName, string, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(288,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.HaveElement(string, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+c:\github\fluentassertions\Shared\Xml\XElementAssertions.cs(305,81): warning CS1574: XML comment on 'FluentAssertions.Xml.XElementAssertions.HaveElement(System.Xml.Linq.XName, string, params object[])' has cref attribute 'because' that could not be resolved [C:\github\fluentassertions\FluentAssertions.WinRT80\WinRT80.csproj]
+  WinRT80 -> C:\github\fluentassertions\Package\Lib\win8\FluentAssertions.dll
+  Silverlight.Specs -> C:\github\fluentassertions\FluentAssertions.Silverlight.Specs\Bin\Release\FluentAssertions.Silverlight.Specs.dll
+  Begin application manifest generation
+  Application manifest generation completed successfully
+  Begin Xap packaging
+  Creating file FluentAssertions.Silverlight.Specs.xap
+  Adding FluentAssertions.Silverlight.Specs.dll
+  Adding Autofac.dll
+  Adding Chill.dll
+  Adding FakeItEasy.dll
+  Adding FluentAssertions.Core.dll
+  Adding FluentAssertions.dll
+  Adding Microsoft.Silverlight.Testing.dll
+  Adding Microsoft.Threading.Tasks.dll
+  Adding Microsoft.Threading.Tasks.Extensions.dll
+  Adding Microsoft.Threading.Tasks.Extensions.Silverlight.dll
+  Adding Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll
+  Adding System.IO.dll
+  Adding System.Runtime.dll
+  Adding System.Threading.Tasks.dll
+  Adding System.Xml.Linq.dll
+  Adding Microsoft.CSharp.dll
+  Adding AppManifest.xaml
+  Xap packaging completed successfully
+  Creating test page
+  Test page created successfully
+  AssemblyB -> C:\github\fluentassertions\AssemblyB\bin\Release\AssemblyB.dll
+  AssemblyA -> C:\github\fluentassertions\AssemblyA\bin\Release\AssemblyA.dll
+  Net45.Specs -> C:\github\fluentassertions\FluentAssertions.Net45.Specs\bin\Release\FluentAssertions.Net45.Specs.dll
+  Net40.Specs -> C:\github\fluentassertions\FluentAssertions.Net40.Specs\bin\Release\FluentAssertions.Net40.Specs.dll
+  Portable.Specs -> C:\github\fluentassertions\FluentAssertions.Portable.Specs\bin\Release\FluentAssertions.Portable.Specs.dll
+  WinRT81.Specs -> C:\github\fluentassertions\FluentAssertions.WinRT81.Specs\bin\Release\FluentAssertions.WinRT.Specs.dll
+  WinRT81.Specs -> C:\github\fluentassertions\FluentAssertions.WinRT81.Specs\AppPackages\WinRT81.Specs_1.1.0.0_AnyCPU_Test\WinRT81.Specs_1.1.0.0_AnyCPU.appx
+  WinRT81.Specs -> C:\github\fluentassertions\FluentAssertions.WinRT81.Specs\AppPackages\WinRT81.Specs_1.1.0.0_AnyCPU_Test\WinRT81.Specs_1.1.0.0_AnyCPU.appxsym
+  WinRT81.Specs -> C:\github\fluentassertions\FluentAssertions.WinRT81.Specs\AppPackages\WinRT81.Specs_1.1.0.0_AnyCPU.appxupload
+  Your package has been successfully created.
+  XUnit2.Specs -> C:\github\fluentassertions\TestFrameworks\XUnit2.Specs\bin\Release\XUnit2.Specs.dll
+##teamcity[blockClosed name='Compiling']
+Precondition was false, not executing task RunTests.
+Executing BuildZip at 05/26/2015 16:41:12
+##teamcity[blockOpened name='Zipping up the binaries']
+
+7-Zip 9.20  Copyright (c) 1999-2010 Igor Pavlov  2010-11-18
+Scanning
+
+Creating archive C:\github\fluentassertions\Package\Fluent.Assertions.1.2.3.4.zip
+
+Compressing  net40\FluentAssertions.Core.dll
+Compressing  net40\FluentAssertions.Core.pdb
+Compressing  net40\FluentAssertions.Core.xml
+Compressing  net40\FluentAssertions.dll
+Compressing  net40\FluentAssertions.pdb
+Compressing  net40\FluentAssertions.xml
+Compressing  net45\FluentAssertions.Core.dll
+Compressing  net45\FluentAssertions.Core.pdb
+Compressing  net45\FluentAssertions.Core.xml
+Compressing  net45\FluentAssertions.dll
+Compressing  net45\FluentAssertions.pdb
+Compressing  net45\FluentAssertions.xml
+Compressing  portable-monotouch+monoandroid+xamarin.ios\FluentAssertions.Core.dll
+Compressing  portable-monotouch+monoandroid+xamarin.ios\FluentAssertions.Core.pdb
+Compressing  portable-monotouch+monoandroid+xamarin.ios\FluentAssertions.Core.xml
+Compressing  portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.Core.dll
+Compressing  portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.Core.pdb
+Compressing  portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.Core.xml
+Compressing  portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.dll
+Compressing  portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.pdb
+Compressing  portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.XML
+Compressing  portable-win81+wpa81\FluentAssertions.Core.dll
+Compressing  portable-win81+wpa81\FluentAssertions.Core.pdb
+Compressing  portable-win81+wpa81\FluentAssertions.Core.xml
+Compressing  portable-win81+wpa81\FluentAssertions.dll
+Compressing  portable-win81+wpa81\FluentAssertions.pdb
+Compressing  portable-win81+wpa81\FluentAssertions.pri
+Compressing  portable-win81+wpa81\FluentAssertions.xml
+Compressing  sl5\de\Microsoft.CSharp.resources.dll
+Compressing  sl5\de\System.Xml.Linq.resources.dll
+Compressing  sl5\es\Microsoft.CSharp.resources.dll
+Compressing  sl5\es\System.Xml.Linq.resources.dll
+Compressing  sl5\FluentAssertions.Core.dll
+Compressing  sl5\FluentAssertions.Core.pdb
+Compressing  sl5\FluentAssertions.Core.xml
+Compressing  sl5\FluentAssertions.dll
+Compressing  sl5\FluentAssertions.pdb
+Compressing  sl5\FluentAssertions.xml
+Compressing  sl5\fr\Microsoft.CSharp.resources.dll
+Compressing  sl5\fr\System.Xml.Linq.resources.dll
+Compressing  sl5\it\Microsoft.CSharp.resources.dll
+Compressing  sl5\it\System.Xml.Linq.resources.dll
+Compressing  sl5\ja\Microsoft.CSharp.resources.dll
+Compressing  sl5\ja\System.Xml.Linq.resources.dll
+Compressing  sl5\ko\Microsoft.CSharp.resources.dll
+Compressing  sl5\ko\System.Xml.Linq.resources.dll
+Compressing  sl5\Microsoft.CSharp.dll
+Compressing  sl5\Microsoft.CSharp.xml
+Compressing  sl5\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll
+Compressing  sl5\Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.xml
+Compressing  sl5\ru\Microsoft.CSharp.resources.dll
+Compressing  sl5\ru\System.Xml.Linq.resources.dll
+Compressing  sl5\System.Xml.Linq.dll
+Compressing  sl5\System.Xml.Linq.xml
+Compressing  sl5\zh-Hans\Microsoft.CSharp.resources.dll
+Compressing  sl5\zh-Hans\System.Xml.Linq.resources.dll
+Compressing  sl5\zh-Hant\Microsoft.CSharp.resources.dll
+Compressing  sl5\zh-Hant\System.Xml.Linq.resources.dll
+Compressing  win8\FluentAssertions.Core.dll
+Compressing  win8\FluentAssertions.Core.pdb
+Compressing  win8\FluentAssertions.Core.xml
+Compressing  win8\FluentAssertions.dll
+Compressing  win8\FluentAssertions.pdb
+Compressing  win8\FluentAssertions.pri
+Compressing  win8\FluentAssertions.XML
+Compressing  wp8\FluentAssertions.Core.dll
+Compressing  wp8\FluentAssertions.Core.pdb
+Compressing  wp8\FluentAssertions.Core.xml
+Compressing  wp8\FluentAssertions.dll
+Compressing  wp8\FluentAssertions.pdb
+Compressing  wp8\FluentAssertions.xml
+
+Everything is Ok
+##teamcity[blockClosed name='Zipping up the binaries']
+Executing BuildPackage at 05/26/2015 16:41:13
+##teamcity[blockOpened name='Building NuGet Package']
+Attempting to build package from '.nuspec'.
+Successfully created package 'C:\github\fluentassertions\Package\FluentAssertions.1.2.3-unstable0012.nupkg'.
+##teamcity[blockClosed name='Building NuGet Package']
+Precondition was false, not executing task PublishToMyget.
+
+Build Succeeded!
+
+----------------------------------------------------------------------
+Build Time Report
+----------------------------------------------------------------------
+Name                    Duration        
+----                    --------        
+Clean                   00:00:00.0819539
+ApplyAssemblyVersioning 00:00:00.1734144
+ApplyPackageVersioning  00:00:00.0223806
+RestoreNugetPackages    00:00:00.2540841
+Compile                 00:00:20.8072780
+RunTests                00:00:00        
+BuildZip                00:00:00.6949877
+BuildPackage            00:00:02.0726624
+PublishToMyget          00:00:00        
+Total:                  00:00:24.4807105
