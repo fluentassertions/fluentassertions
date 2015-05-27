@@ -221,7 +221,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> implements Interface <typeparamref name="TInterface"/>.
+        /// Asserts that the current <see cref="System.Type"/> implements Interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface that should be implemented.</typeparam>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
@@ -254,7 +254,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> does not implement Interface <typeparamref name="TInterface"/>.
+        /// Asserts that the current <see cref="System.Type"/> does not implement Interface <typeparamref name="TInterface"/>.
         /// </summary>
         /// <typeparam name="TInterface">The interface that should not be implemented.</typeparam>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
@@ -266,7 +266,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> is derived from <see cref="Type"/> <paramref name="baseType"/>.
+        /// Asserts that the current <see cref="System.Type"/> is derived from <see cref="System.Type"/> <paramref name="baseType"/>.
         /// </summary>
         /// <param name="baseType">The Type that should be derived from.</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
@@ -285,8 +285,9 @@ namespace FluentAssertions.Types
 
             return new AndConstraint<TypeAssertions>(this);
         }
+
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> is derived from <typeparamref name="TBaseClass"/>.
+        /// Asserts that the current <see cref="System.Type"/> is derived from <typeparamref name="TBaseClass"/>.
         /// </summary>
         /// <typeparam name="TBaseClass">The Type that should be derived from.</typeparam>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
@@ -341,6 +342,7 @@ namespace FluentAssertions.Types
         {
             return HaveProperty(typeof(TProperty), name, because, reasonArgs);
         }
+
         /// <summary>
         /// Asserts that the current type does not have a property named <paramref name="name"/>.
         /// </summary>
