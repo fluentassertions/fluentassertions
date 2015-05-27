@@ -685,6 +685,33 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Return
+
+        [TestMethod]
+        public void When_asserting_a_String_property_returnsOfT_a_String_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if WINRT || WINDOWS_PHONE_APP
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+#else
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("StringProperty");
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().Return<string>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        #endregion
+
         #region Internal classes used in unit tests
 
         private class ClassWithProperties

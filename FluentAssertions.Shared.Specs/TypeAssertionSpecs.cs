@@ -481,6 +481,30 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region BeDerivedFromOfT
+
+        [TestMethod]
+        public void When_asserting_a_type_is_DerivedFromOfT_its_base_class_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(DummyImplementingClass);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().BeDerivedFrom<DummyBaseClass>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        #endregion
+
         #region BeDecoratedWith
 
         [TestMethod]
@@ -747,6 +771,30 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region ImplementOfT
+
+        [TestMethod]
+        public void When_asserting_a_type_implementsOfT_an_interface_which_it_does_then_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassThatImplementsInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().Implement<IDummyInterface>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        #endregion
+
         #region NotImplement
 
         [TestMethod]
@@ -810,6 +858,30 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentException>()
                 .WithMessage("Must be an interface Type.\r\nParameter name: interfaceType");
+        }
+
+        #endregion
+
+        #region NotImplementOfT
+
+        [TestMethod]
+        public void When_asserting_a_type_does_not_implementOfT_an_interface_which_it_does_not_then_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassThatDoesNotImplementInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotImplement<IDummyInterface>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         #endregion
@@ -883,6 +955,34 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected String FluentAssertions.Specs.ClassWithMembers.PrivateWriteProtectedReadProperty to be of type System.Int32 because we want to test the error message, but it is not.");
+        }
+
+        #endregion
+
+        #region HavePropertyOfT
+
+        [TestMethod]
+        public void When_asserting_a_type_has_a_propertyOfT_which_it_does_then_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithMembers);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveProperty<string>("PrivateWriteProtectedReadProperty")
+                    .Which.Should()
+                        .BeWritable(CSharpAccessModifier.Private)
+                        .And.BeReadable(CSharpAccessModifier.Protected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         #endregion
@@ -1062,6 +1162,31 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region HaveExplicitPropertyOfT
+
+        [TestMethod]
+        public void When_asserting_a_type_explicitlyOfT_implements_a_property_which_it_does_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveExplicitProperty<IExplicitInterface>("ExplicitStringProperty");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        
+        #endregion
+
         #region NotHaveExplicitProperty
 
         [TestMethod]
@@ -1189,6 +1314,34 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region NotHaveExplicitPropertyOfT
+
+        [TestMethod]
+        public void When_asserting_a_type_does_not_explicitlyOfT_implement_a_property_which_it_does_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveExplicitProperty<IExplicitInterface>("ExplicitStringProperty");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions.Specs.IExplicitInterface.ExplicitStringProperty, but it does.");
+        }
+
+        #endregion
+        
         #region HaveExplicitMethod
 
         [TestMethod]
@@ -1313,6 +1466,31 @@ namespace FluentAssertions.Specs
                 .WithMessage(
                     "Expected type FluentAssertions.Specs.ClassExplicitlyImplementingInterface to implement interface " +
                     "FluentAssertions.Specs.IDummyInterface, but it does not.");
+        }
+
+        #endregion
+
+        #region HaveExplicitMethodOfT
+
+        [TestMethod]
+        public void When_asserting_a_type_explicitly_implementsOfT_a_method_which_it_does_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveExplicitMethod<IExplicitInterface>("ExplicitMethod", Enumerable.Empty<Type>());
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         #endregion
@@ -1444,6 +1622,34 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region NotHaveExplicitMethodOfT
+
+        [TestMethod]
+        public void When_asserting_a_type_does_not_explicitly_implementOfT_a_method_which_it_does_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassExplicitlyImplementingInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveExplicitMethod< IExplicitInterface>("ExplicitMethod", Enumerable.Empty<Type>());
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
+                    "FluentAssertions.Specs.IExplicitInterface.ExplicitMethod, but it does.");
+        }
+
+        #endregion
+        
         #region HaveIndexer
 
         [TestMethod]

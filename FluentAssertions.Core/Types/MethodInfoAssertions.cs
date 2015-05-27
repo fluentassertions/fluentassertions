@@ -103,6 +103,23 @@ namespace FluentAssertions.Types
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
         }
+        
+        /// <summary>
+        /// Asserts that the selected MethodInfo returns <typeparamref name="TReturn"/>.
+        /// </summary>
+        /// <typeparam name="TReturn">The expected return type.</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return<TReturn>(string because = "", params object[] reasonArgs)
+        {
+            return Return(typeof (TReturn), because, reasonArgs);
+        }
+
 
         internal static string GetDescriptionFor(MethodInfo method)
         {
