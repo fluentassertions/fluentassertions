@@ -1,0 +1,97 @@
+﻿{
+	"version": "1.0.0-*",
+	"description": "",
+	"authors": [ "" ],
+	"tags": [ "" ],
+	"projectUrl": "",
+	"licenseUrl": "",
+
+	"compile": [
+		"../../FluentAssertions.Core/**/*.cs"
+	],
+	"exclude": [
+		"*.dll"
+	],
+	"configurations": {
+		"Debug": {
+			"compilationOptions": {
+				"define": [ "DEBUG", "TRACE" ]
+			}
+		},
+		"Release": {
+			"compilationOptions": {
+				"define": [ "TRACE" ],
+				"optimize": true
+				// currently not possible to define output path
+				// https://github.com/aspnet/Home/issues/565
+			}
+		}
+	},
+	"compilationOptions": {
+		"warningsAsErrors": true
+		// currently not possible to surpress compiler warnings
+		// https://github.com/aspnet/Home/issues/564
+	},
+
+	"frameworks": {
+		"net40": {
+			"compilationOptions": {
+				"define": [
+					"NO_TYPEINFO",
+					"CUSTOM_ATTRIBUTEDATA"
+				]
+			},
+			"frameworkAssemblies": {
+				"System.Xml": "4.0.0.0"
+			}
+		},
+		"net45": {
+			"frameworkAssemblies": {
+				"System.Xml": "4.0.0.0"
+			}
+		},
+		"dnx451": {
+			"frameworkAssemblies": {
+				"System.Xml": "4.0.0.0"
+			}
+		},
+		".NETPortable,Version=v4.0,Profile=Profile328": {
+			"compilationOptions": {
+				"define": [
+					"NO_TYPEINFO",
+					"CUSTOM_ATTRIBUTEDATA"
+				]
+			},
+			"frameworkAssemblies": {
+				"mscorlib": "",
+				"System": "",
+				"System.Core": "",
+				"System.Net": "",
+				"System.Xml": ""
+			}
+		},
+		"dnxcore50": {
+			"compilationOptions": {
+				"define": [
+					"NO_ASSEMBLY_LOAD_NAME",
+					"NO_SUBCLASSOF"
+				]
+			},
+			"dependencies": {
+				"Microsoft.CSharp": "4.0.0-beta-22904",
+				"System.Collections": "4.0.10-beta-22904",
+				"System.Diagnostics.Debug": "4.0.10-beta-22904",
+				"System.Diagnostics.Tools": "4.0.0-beta-22904",
+				"System.Globalization": "4.0.10-beta-22904",
+				"System.IO": "4.0.10-beta-22904",
+				"System.Linq": "4.0.0-beta-22904",
+				"System.Reflection.Extensions": "4.0.0-beta-22904",
+				"System.Reflection.TypeExtensions": "4.0.0-beta-22904",
+				"System.Runtime.Extensions": "4.0.10-beta-22904",
+				"System.Text.RegularExpressions": "4.0.10-beta-22904",
+				"System.Threading": "4.0.10-beta-22816",
+				"System.Xml.XmlSerializer": "4.0.10-beta-22904"
+			}
+		}
+	}
+}

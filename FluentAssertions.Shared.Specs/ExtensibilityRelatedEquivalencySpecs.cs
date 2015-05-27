@@ -347,13 +347,14 @@ namespace FluentAssertions.Specs
             }
         }
 
-        #endregion
+		#endregion
 
-        #endregion
+		#endregion
 
-        #region Assertion Rules
-        
-        [TestMethod]
+		#region Assertion Rules
+
+		[Obsolete]
+		[TestMethod]
         public void When_equally_named_properties_are_type_incompatible_and_assertion_rule_exists_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -383,7 +384,8 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Obsolete]
+		[TestMethod]
         public void When_an_assertion_is_overridden_for_a_predicate_it_should_use_the_provided_action()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -412,7 +414,8 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Obsolete]
+		[TestMethod]
         public void When_an_assertion_is_overridden_for_all_types_it_should_use_the_provided_action_for_all_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -450,7 +453,8 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Obsolete]
+		[TestMethod]
         public void When_a_nullable_property_is_overriden_with_a_custom_asserrtion_it_should_use_it()
         {
             var actual = new SimpleWithNullable
@@ -582,7 +586,8 @@ namespace FluentAssertions.Specs
                 "a different assertion rule should handle the comparision before the exception throwing assertion rule is hit");
         }
 
-        [TestMethod]
+        [Obsolete]
+		[TestMethod]
         public void When_an_assertion_rule_added_with_the_fluent_api_matches_the_root_object_the_assertion_rule_should_not_apply_to_the_root_object()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -631,7 +636,8 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestMethod]
+        [Obsolete]
+		[TestMethod]
         public void When_multiple_asertion_rules_are_added_with_the_fluent_api_they_should_be_executed_from_right_to_left()
         {
             //-----------------------------------------------------------------------------------------------------------

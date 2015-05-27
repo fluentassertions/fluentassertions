@@ -81,7 +81,7 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the 
-        /// same <see cref="Type"/> as the <see cref="ISubjectInfo.RuntimeType"/> property does.
+        /// same <see cref="System.Type"/> as the <see cref="ISubjectInfo.RuntimeType"/> property does.
         /// </summary>
         public Type CompileTimeType { get; set; }
 

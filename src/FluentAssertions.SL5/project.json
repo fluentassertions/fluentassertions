@@ -1,0 +1,37 @@
+﻿{
+	"version": "1.0.0-*",
+	"description": "",
+	"authors": [ "" ],
+	"tags": [ "" ],
+	"projectUrl": "",
+	"licenseUrl": "",
+
+	"dependencies": {
+		"FluentAssertions.Core": ""
+	},
+
+	"compilationOptions": {
+		"define": [
+			"SILVERLIGHT"
+		]
+	},
+
+	"exclude": [
+		"*.dll",
+		"../../FluentAssertions.SL5/Properties/AssemblyInfo.cs"
+	],
+	"compile": [
+		"../../FluentAssertions.SL5/**/*.cs",
+		"../../Shared/**/*.cs"
+	],
+
+	"frameworks": {
+		"sl5": {
+			"frameworkAssemblies": {
+				"mscorlib": "",
+				"System.Xml": "",
+				"System.Xml.Linq": ""
+			}
+		}
+	}
+}

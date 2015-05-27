@@ -769,6 +769,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+		[Obsolete]
         [TestMethod]
         public void When_ShouldAllBeEquivalentTo_utilizes_custom_assertion_rules_the_rules_should_be_respected()
         {

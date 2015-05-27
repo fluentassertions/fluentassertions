@@ -1,0 +1,47 @@
+﻿{
+	"version": "1.0.0-*",
+	"description": "",
+	"authors": [ "" ],
+	"tags": [ "" ],
+	"projectUrl": "",
+	"licenseUrl": "",
+
+	"dependencies": {
+	},
+
+	"frameworks": {
+		"net40": {
+			"dependencies": {
+				"FluentAssertions.Net40": ""
+			}
+		},
+		"net45": {
+			"dependencies": {
+				"FluentAssertions.Net45": ""
+			}
+		},
+		"sl5": {
+			"dependencies": {
+				"FluentAssertions.SL5": ""
+			}
+		},
+		"wp8": {
+			"dependencies": {
+				"FluentAssertions.WP8": ""
+			}
+		},
+		"dnx451": {
+			"dependencies": {
+				"FluentAssertions.Net45": ""
+			}
+		},
+		"dnxcore50": {
+			"dependencies": {
+				"System.Collections": "4.0.10-beta-22816",
+				"System.Linq": "4.0.0-beta-22816",
+				"System.Threading": "4.0.10-beta-22816",
+				"Microsoft.CSharp": "4.0.0-beta-22816"
+			}
+		}
+	}
+}

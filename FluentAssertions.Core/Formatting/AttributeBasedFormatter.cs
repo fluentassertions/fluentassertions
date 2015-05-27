@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -84,6 +83,8 @@ namespace FluentAssertions.Formatting
 
         private MethodInfo[] FindCustomFormatters()
         {
+            // http://tinyurl.com/kk5akjc
+            // http://replygif.net/i/648.gif
             var query =
                 from type in Services.Reflector.GetAllTypesFromAppDomain(Applicable)
                 where type != null

@@ -315,20 +315,20 @@ namespace FluentAssertions
             return new NullableSimpleTimeSpanAssertions(actualValue);
         }
 
-        /// <summary>
-        /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
-        /// </summary>
-        public static TypeAssertions Should(this Type subject)
+		/// <summary>
+		/// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
+		/// current <see cref="System.Type"/>.
+		/// </summary>
+		public static TypeAssertions Should(this Type subject)
         {
             return new TypeAssertions(subject);
         }
 
-        /// <summary>
-        /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
-        /// </summary>
-        public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
+		/// <summary>
+		/// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
+		/// current <see cref="System.Type"/>.
+		/// </summary>
+		public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
         {
             return new TypeSelectorAssertions(typeSelector.ToArray());
         }
@@ -390,6 +390,7 @@ namespace FluentAssertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
+		[Obsolete]
         public static void ShouldBeEquivalentTo<T>(this T subject, object expectation, string because = "",
             params object[] reasonArgs)
         {
@@ -417,6 +418,7 @@ namespace FluentAssertions
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
+		[Obsolete]
         public static void ShouldBeEquivalentTo<T>(this T subject, object expectation,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] reasonArgs)
@@ -433,12 +435,14 @@ namespace FluentAssertions
             new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
         }
 
+		[Obsolete]
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
             string because = "", params object[] reasonArgs)
         {
             ShouldAllBeEquivalentTo(subject, expectation, config => config, because, reasonArgs);
         }
 
+		[Obsolete]
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] reasonArgs)
