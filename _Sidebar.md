@@ -12,7 +12,7 @@
 * [Exceptions](#exceptions)
 * [Object graph comparison](#object-graph-comparison)
 * [Event Monitoring](#event-monitoring)
-* [Type, Method and property assertions](#type-assertions)
+* [Type, Method and property assertions](#type-method-and-property-assertions)
 * [Assembly references](#assembly-references)
 * [XML](#xml)
 * [Execution Time](#execution-time)
