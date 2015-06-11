@@ -1,5 +1,5 @@
 * [Supported Test Frameworks](#supported-test-frameworks)
-* [Reference Types](#reference-types)
+* [Basic assertions](#basic-assertions)
 * [Nullable Types](#nullable-types)
 * [Booleans](#booleans)
 * [Strings](#strings)
