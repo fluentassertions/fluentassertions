@@ -104,7 +104,7 @@ namespace FluentAssertions.Specs
         #region Non-Generic Collections
 
         [TestMethod]
-        public void When_asserting_equivalence_of_collections_it_should_respect_the_declared_type()
+        public void When_asserting_equivalence_of_non_generic_collections_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -120,7 +120,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow("the declared type is object");
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*Wheels*not have*VehicleId*not have*");
         }
 
         [TestMethod]
@@ -257,9 +258,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_is_should_respect_the_declared_type
-            ()
+        public void When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_is_should_respect_the_runtype_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -275,7 +274,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow("the declared type is object");
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*Wheels*not have*VehicleId*not have*");
         }
 
         [TestMethod]
@@ -589,12 +589,12 @@ namespace FluentAssertions.Specs
         private class MyChildObject
         {
             public int Id { get; set; }
-            
+
             public string MyChildString { get; set; }
 
             public override bool Equals(object obj)
             {
-                return (obj is MyChildObject) && (((MyChildObject)obj).Id == this.Id);
+                return (obj is MyChildObject) && (((MyChildObject) obj).Id == Id);
             }
 
             public override int GetHashCode()
@@ -614,7 +614,7 @@ namespace FluentAssertions.Specs
                 MyString = "identical string",
                 Child = new MyChildObject
                 {
-                    Id = 1, 
+                    Id = 1,
                     MyChildString = "identical string"
                 }
             };
@@ -629,8 +629,8 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            IList<MyObject> actualList = new List<MyObject> { actual };
-            IList<MyObject> expectationList = new List<MyObject> { expectation };
+            IList<MyObject> actualList = new List<MyObject> {actual};
+            IList<MyObject> expectationList = new List<MyObject> {expectation};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2023,6 +2023,205 @@ namespace FluentAssertions.Specs
             }
         }
 
+        #endregion
+
+        #region Multi-dimensional Arrays
+
+        [TestMethod]
+        public void When_two_multi_dimensional_arrays_are_equivalent_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[,]
+            {
+                {1, 2, 3},
+                {4, 5, 6}
+            };
+
+            var expectation = new[,]
+            {
+                {1, 2, 3},
+                {4, 5, 6}
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_two_multi_dimensional_arrays_are_not_equivalent_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new[,]
+            {
+                {1, 2, 3},
+                {4, 5, 6}
+            };
+
+            var expectation = new[,]
+            {
+                {1, 2, 4},
+                {4, -5, 6}
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*item[0,2]*4*3*item[1,1]*-5*5*");
+        }
+
+        [TestMethod]
+        public void When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new[,]
+            {
+                {1, 2, 3},
+                {4, 5, 6}
+            };
+
+            var expectation = new[]
+            {
+                1, 2
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*1 dimension(s), but*2*");
+        }
+        
+        [TestMethod]
+        public void When_the_expectation_is_not_a_multi_dimensional_array_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new[,]
+            {
+                {1, 2, 3},
+                {4, 5, 6}
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo("not-a-multi-dimensional-array");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Can't compare a multi-dimensional array to something else.*");
+        }
+
+        [TestMethod]
+        public void When_the_expectation_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new[,]
+            {
+                {1, 2, 3},
+                {4, 5, 6}
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Can't compare a multi-dimensional array to <null>*");
+        }
+
+        [TestMethod]
+        public void When_the_length_of_the_first_dimension_differs_between_the_arrays_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new[,]
+            {
+                {1, 2, 3},
+                {4, 5, 6}
+            };
+
+            var expectation = new[,]
+            {
+                {1, 2},
+                {4, 5}
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected dimension 1 to contain 2 item(s), but found 3*");
+        }
+        
+        [TestMethod]
+        public void When_the_length_of_the_2nd_dimension_differs_between_the_arrays_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new[,]
+            {
+                {1, 2, 3},
+                {4, 5, 6}
+            };
+
+            var expectation = new[,]
+            {
+                {1, 2, 3},
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected dimension 0 to contain 1 item(s), but found 2*");
+        }
+        
         #endregion
     }
 }

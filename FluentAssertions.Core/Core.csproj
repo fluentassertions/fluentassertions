@@ -65,6 +65,7 @@
     <Compile Include="Common\NullReflector.cs" />
     <Compile Include="Common\PlatformAdapter.cs" />
     <Compile Include="Common\ProbingAdapterResolver.cs" />
+    <Compile Include="Equivalency\MultiDimensionalArrayEquivalencyStep.cs" />
     <Compile Include="Equivalency\Selection\AllPublicFieldsSelectionRule.cs" />
     <Compile Include="EquivalencyStepCollection.cs" />
     <Compile Include="Equivalency\AssertionContext.cs" />

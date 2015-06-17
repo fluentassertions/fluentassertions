@@ -108,7 +108,7 @@ namespace FluentAssertions.Equivalency
         {
             using (var scope = new AssertionScope())
             {
-                parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex, subject, expectation));
+                parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subject, expectation));
 
                 return scope.Discard();
             }
@@ -116,7 +116,7 @@ namespace FluentAssertions.Equivalency
 
         private void StrictlyMatchAgainst<T>(T[] subjects, object expectation, int expectationIndex)
         {
-            parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex, subjects[expectationIndex], expectation));
+            parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subjects[expectationIndex], expectation));
         }
     }
 }
