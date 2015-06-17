@@ -26,7 +26,7 @@ namespace FluentAssertions.Equivalency
         }
 
         internal static IEquivalencyValidationContext CreateForCollectionItem<T>(this IEquivalencyValidationContext context,
-            int index, T subject, object expectation)
+            string index, T subject, object expectation)
         {
             string memberDescription = "[" + index + "]";
             string propertyPath = (context.SelectedMemberDescription.Length == 0) ? "item" : context.SelectedMemberDescription + String.Empty;
