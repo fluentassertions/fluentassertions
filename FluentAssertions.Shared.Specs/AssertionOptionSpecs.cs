@@ -13,6 +13,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
 {
+#if !SILVERLIGHT
+
     namespace AssertionOptionsSpecs
     {
         public class Given_temporary_global_assertion_options : GivenWhenThen
@@ -308,4 +310,5 @@ namespace FluentAssertions.Specs
             }
         }
     }
+#endif
 }

@@ -580,13 +580,13 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        private class MyObject
+        public class MyObject
         {
             public string MyString { get; set; }
             public MyChildObject Child { get; set; }
         }
 
-        private class MyChildObject
+        public class MyChildObject
         {
             public int Id { get; set; }
 
