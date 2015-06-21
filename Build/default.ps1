@@ -17,7 +17,7 @@ properties {
 	$RunTests = $false
 }
 
-task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, RestoreNugetPackages, Compile, RunTests, BuildZip, BuildPackage, PublishToMyget
+task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, RestoreNugetPackages, Compile, RunTests, RunSilverLightTests, BuildZip, BuildPackage, PublishToMyget
 
 task Clean {	
     TeamCity-Block "Clean" {
@@ -104,6 +104,13 @@ task RunTests -precondition { return $RunTests -eq $true } {
 			"$BaseDirectory\FluentAssertions.WinRT.Specs\bin\Release\FluentAssertions.WinRT.Specs.dll"`
 			"$BaseDirectory\Default.testsettings"
 	}
+}
+
+task RunSilverLightTests {
+
+	. "$BaseDirectory\Tools\Lighthouse\Lighthouse.exe" -m:xap `
+	"$BaseDirectory\FluentAssertions.Silverlight.Specs\Bin\Release\FluentAssertions.Silverlight.Specs.xap" `
+	"$BaseDirectory\TestResults\Lighthouse.xml"
 }
 
 task BuildZip {

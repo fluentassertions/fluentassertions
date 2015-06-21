@@ -822,7 +822,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage("Expected*4*3*.");
         }
 
-        private class MyClass
+        public class MyClass
         {
             public int SomeProperty { get; set; }
 

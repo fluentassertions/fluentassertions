@@ -70,7 +70,7 @@ namespace FluentAssertions.Specs
                 "Expected*item[0].Items*null*, but found*\"a\"*");
         }
 
-        private class MyClass
+        public class MyClass
         {
             public IEnumerable<string> Items
             {
