@@ -86,7 +86,7 @@ namespace FluentAssertions.Specs
             var assertions = 1.Should();
             assertions.Invoking(x => x.Be(2, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(@"Expected 2 because we want to test the failure message, but found 1.");
+                .WithMessage(@"Expected value to be 2 because we want to test the failure message, but found 1.");
         }
 
         [TestMethod]
@@ -454,7 +454,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected {0} because we want to test the error message, but found {1}.",
+                .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.",
                     3.4F, value));
         }
 
@@ -494,7 +494,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected {0}, but found <null>.", 3.5));
+                "Expected value to be {0}, but found <null>.", 3.5));
         }
 
         [TestMethod]
@@ -599,7 +599,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected {0} because we want to test the error message, but found {1}.",
+                .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.",
                     3.4, value));
         }
 
@@ -639,7 +639,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected {0}, but found <null>.", 3.5));
+                "Expected value to be {0}, but found <null>.", 3.5));
         }
 
         [TestMethod]
@@ -725,7 +725,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected {0} because we want to test the error message, but found {1}.",
+                .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.",
                     3.4m, value));
         }
 
@@ -765,7 +765,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected {0}, but found <null>.", 3.5));
+                .WithMessage(string.Format("Expected value to be {0}, but found <null>.", 3.5));
         }
 
         [TestMethod]

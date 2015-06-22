@@ -16,7 +16,8 @@ namespace FluentAssertions.Equivalency
         {
             Type subjectType = config.GetSubjectType(context);
 
-            return subjectType != null && subjectType.IsEnum;
+            return ((subjectType != null) && subjectType.IsEnum) ||
+                   ((context.Expectation != null) && context.Expectation.GetType().IsEnum);
         }
 
         /// <summary>
@@ -35,31 +36,22 @@ namespace FluentAssertions.Equivalency
             switch (config.EnumEquivalencyHandling)
             {
                 case EnumEquivalencyHandling.ByValue:
-                    CompareByValue(context);
+                    long subjectsUnderlyingValue = Convert.ToInt64(context.Subject);
+                    long expectationsUnderlyingValue = Convert.ToInt64(context.Expectation);
+
+                    subjectsUnderlyingValue.Should().Be(expectationsUnderlyingValue, context.Reason, context.ReasonArgs);
                     break;
+
                 case EnumEquivalencyHandling.ByName:
-                    context.Subject.ToString()
-                        .Should()
-                        .Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
+                    context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
                     break;
+
                 default:
                     throw new InvalidOperationException(string.Format("Don't know how to handle {0}",
                         config.EnumEquivalencyHandling));
             }
 
             return true;
-        }
-
-        private void CompareByValue(IEquivalencyValidationContext context)
-        {
-            var subjectType = Enum.GetUnderlyingType(context.Subject.GetType());
-            var subjectUnderlyingValue = Convert.ChangeType(context.Subject, subjectType, CultureInfo.InvariantCulture);
-
-            var expectationType = Enum.GetUnderlyingType(context.Expectation.GetType());
-            var expectationUnderlyingValue = Convert.ChangeType(context.Expectation, expectationType,
-                CultureInfo.InvariantCulture);
-
-            subjectUnderlyingValue.Should().Be(expectationUnderlyingValue, context.Reason, context.ReasonArgs);
         }
     }
 }

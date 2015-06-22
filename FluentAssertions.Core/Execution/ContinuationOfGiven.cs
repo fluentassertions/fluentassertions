@@ -8,14 +8,14 @@ namespace FluentAssertions.Execution
         #region Private Definitions
 
         private readonly GivenSelector<TSubject> parent;
-        private readonly AssertionScope scope;
+        private readonly bool succeeded;
 
         #endregion
 
-        public ContinuationOfGiven(GivenSelector<TSubject> parent, AssertionScope scope)
+        public ContinuationOfGiven(GivenSelector<TSubject> parent, bool succeeded)
         {
             this.parent = parent;
-            this.scope = scope;
+            this.succeeded = succeeded;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace FluentAssertions.Execution
         /// </summary>
         public static implicit operator bool(ContinuationOfGiven<TSubject> continuationOfGiven)
         {
-            return continuationOfGiven.scope.Succeeded;
+            return continuationOfGiven.succeeded;
         }
     }
 }

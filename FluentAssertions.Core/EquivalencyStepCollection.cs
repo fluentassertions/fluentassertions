@@ -110,11 +110,12 @@ namespace FluentAssertions
             yield return new RunAllUserStepsEquivalencyStep();
             yield return new GenericDictionaryEquivalencyStep();
             yield return new DictionaryEquivalencyStep();
+            yield return new MultiDimensionalArrayEquivalencyStep();
             yield return new GenericEnumerableEquivalencyStep();
             yield return new EnumerableEquivalencyStep();
             yield return new StringEqualityEquivalencyStep();
-            yield return new ValueTypeEquivalencyStep();
             yield return new EnumEqualityStep();
+            yield return new ValueTypeEquivalencyStep();
             yield return new StructuralEqualityEquivalencyStep();
             yield return new SimpleEqualityEquivalencyStep();
         }

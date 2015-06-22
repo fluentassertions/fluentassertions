@@ -37,8 +37,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () =>
-                nullableDateTime.Should().HaveValue();
+            Action action = () => nullableDateTime.Should().HaveValue();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -57,8 +56,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () =>
-                nullableDateTime.Should().HaveValue();
+            Action action = () => nullableDateTime.Should().HaveValue();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -361,61 +359,6 @@ namespace FluentAssertions.Specs
                     Today.ToString("yyyy-MM-dd")));
         }
 
-        [TestMethod]
-        public void
-            When_asserting_a_DateTime_against_a_DateTimeOffset_it_should_validate_against_world_time()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var todayDateTimeOffset = new DateTimeOffset(Today);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            todayDateTimeOffset.Should().Be(Today);
-        }
-
-        [TestMethod]
-        public void
-            When_asserting_different_DateTimeOffsets_representing_the_same_world_time_it_should_succeded()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var specificDate = new DateTime(2008, 5, 1, 06, 32, 00);
-
-            var dateWithFiveHourOffset =
-                new DateTimeOffset(specificDate.Add(-5.Hours()),
-                    -5.Hours());
-            var dateWithSixHourOffset =
-                new DateTimeOffset(specificDate.Add(-6.Hours()),
-                    -6.Hours());
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            dateWithFiveHourOffset.Should().Be(dateWithSixHourOffset);
-        }
-
-        [TestMethod]
-        public void
-            When_asserting_different_DateTimeOffsets_representing_different_world_times_it_should_not_succeded()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var specificDate = new DateTime(2008, 5, 1, 06, 32, 00);
-
-            var dateWithFiveHourOffset = new DateTimeOffset(specificDate);
-            var dateWithSixHourOffset = new DateTimeOffset(specificDate, 1.Hours());
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            dateWithFiveHourOffset.Should().NotBe(dateWithSixHourOffset);
-        }
-
         #endregion
 
         #region Be Close To
@@ -545,6 +488,46 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected*, but found <null>.");
         }
 
+        [TestMethod]
+        public void When_a_date_time_is_close_to_the_minimum_date_time_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = DateTime.MinValue.Add(50.Milliseconds());
+            DateTime nearbyTime = DateTime.MinValue;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 100);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_date_time_is_close_to_the_maximum_date_time_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = DateTime.MaxValue.Add(-50.Milliseconds());
+            DateTime nearbyTime = DateTime.MaxValue;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().BeCloseTo(nearbyTime, 100);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
         #endregion
 
         [TestMethod]
@@ -576,7 +559,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_is_before_earlier_datetime()
         {
-            DateTimeOffsetAssertions assertions = Today.Should();
+            DateTimeAssertions assertions = Today.Should();
             assertions.Invoking(x => x.BeBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
@@ -607,7 +590,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_is_on_or_before_earlier_datetime()
         {
-            DateTimeOffsetAssertions assertions = Today.Should();
+            DateTimeAssertions assertions = Today.Should();
             assertions.Invoking(x => x.BeOnOrBefore(Yesterday, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
@@ -632,7 +615,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_is_after_later_datetime()
         {
-            DateTimeOffsetAssertions assertions = Today.Should();
+            DateTimeAssertions assertions = Today.Should();
             assertions.Invoking(x => x.BeAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
@@ -663,7 +646,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_is_on_or_after_later_datetime()
         {
-            DateTimeOffsetAssertions assertions = Today.Should();
+            DateTimeAssertions assertions = Today.Should();
             assertions.Invoking(x => x.BeOnOrAfter(Tomorrow, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
@@ -688,7 +671,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_year_with_a_different_value()
         {
-            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31).Should();
+            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
             assertions.Invoking(x => x.HaveYear(2008, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected year 2008 because we want to test the failure message, but found 2009.");
@@ -711,7 +694,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_month_with_a_different_value()
         {
-            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31).Should();
+            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
             assertions.Invoking(x => x.HaveMonth(11, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected month 11 because we want to test the failure message, but found 12.");
@@ -734,7 +717,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_day_with_a_different_value()
         {
-            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31).Should();
+            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
             assertions.Invoking(x => x.HaveDay(30, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected day 30 because we want to test the failure message, but found 31.");
@@ -757,7 +740,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_an_hour_with_different_value()
         {
-            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
+            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.Invoking(x => x.HaveHour(22, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected hour 22 because we want to test the failure message, but found 23.");
@@ -780,7 +763,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_minutes_with_different_value()
         {
-            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
+            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.Invoking(x => x.HaveMinute(58, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected minute 58 because we want to test the failure message, but found 59.");
@@ -803,7 +786,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_with_descriptive_message_when_asserting_datetime_has_seconds_with_different_value()
         {
-            DateTimeOffsetAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
+            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
             assertions.Invoking(x => x.HaveSecond(1, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected second 1 because we want to test the failure message, but found 0.");

@@ -65,6 +65,20 @@ namespace FluentAssertions.Execution
         /// prior call to to <see cref="WithExpectation"/>.
         /// </summary>
         /// <remarks>
+        /// If an expectation was set through a prior call to <see cref="WithExpectation"/>, then the failure message is appended to that
+        /// expectation. 
+        /// </remarks>
+        /// <param name="message">The format string that represents the failure message.</param>
+        public ContinuationOfGiven<T> FailWith(string message)
+        {
+            return FailWith(message, new object[0]);
+        }
+
+        /// <summary>
+        /// Sets the failure message when the assertion is not met, or completes the failure message set to a 
+        /// prior call to to <see cref="WithExpectation"/>.
+        /// </summary>
+        /// <remarks>
         /// In addition to the numbered <see cref="string.Format(string,object[])"/>-style placeholders, messages may contain a few 
         /// specialized placeholders as well. For instance, {reason} will be replaced with the reason of the assertion as passed 
         /// to <see cref="BecauseOf"/>. Other named placeholders will be replaced with the <see cref="Current"/> scope data 
@@ -79,12 +93,7 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public ContinuationOfGiven<T> FailWith(string message, params Func<T, object>[] args)
         {
-            if (evaluateCondition)
-            {
-                parentScope.FailWith(message, args.Select(a => a(subject)).ToArray());
-            }
-            
-            return new ContinuationOfGiven<T>(this, parentScope);
+            return FailWith(message, args.Select(a => a(subject)).ToArray());
         }
 
         /// <summary>
@@ -106,12 +115,15 @@ namespace FluentAssertions.Execution
         /// <param name="args">Optional arguments to any numbered placeholders.</param>
         public ContinuationOfGiven<T> FailWith(string message, params object[] args)
         {
+            bool succeeded = parentScope.Succeeded;
+
             if (evaluateCondition)
             {
-                parentScope.FailWith(message, args);
+                Continuation continuation = parentScope.FailWith(message, args);
+                succeeded = continuation.SourceSucceeded;
             }
 
-            return new ContinuationOfGiven<T>(this, parentScope);
+            return new ContinuationOfGiven<T>(this, succeeded);
         }
     }
 }

@@ -56,6 +56,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyB", "AssemblyB\Asse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT81.Specs", "FluentAssertions.WinRT81.Specs\WinRT81.Specs.csproj", "{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFrameworks", "TestFrameworks", "{4D8FA213-8724-4C43-B68A-F018148D238C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnit2.Specs", "TestFrameworks\XUnit2.Specs\XUnit2.Specs.csproj", "{F50C8F77-3778-4432-84EC-B9B2B502E708}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Shared\Shared.projitems*{e6f895fa-ae44-4750-87f1-d18a7d974377}*SharedItemsImports = 4
@@ -356,6 +360,20 @@ Global
 		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
 		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Release|x64.ActiveCfg = Release|Any CPU
 		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92}.Release|x86.ActiveCfg = Release|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|x64.ActiveCfg = Release|Any CPU
+		{F50C8F77-3778-4432-84EC-B9B2B502E708}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -380,6 +398,7 @@ Global
 		{7144BD9D-2A5F-45B6-AC5B-E35578D03350} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{D9CCCAF6-FF9E-4688-9D96-645E27616AC4} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 		{F3E17430-FAD7-40AD-BF66-E6F23B70BD92} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
+		{F50C8F77-3778-4432-84EC-B9B2B502E708} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = FluentAssertions.Silverlight\Silverlight.csproj

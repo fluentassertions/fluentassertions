@@ -5,6 +5,8 @@ namespace FluentAssertions.Equivalency
 {
     public class EquivalencyValidationContext : IEquivalencyValidationContext
     {
+        private Type compileTimeType;
+
         public EquivalencyValidationContext()
         {
             SelectedMemberDescription = "";
@@ -71,14 +73,26 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool IsRoot
         {
-            get { return (SelectedMemberDescription.Length == 0); }
+            get
+            {
+                // SMELL: That prefix should be obtained from some kind of constant
+                return (SelectedMemberDescription.Length == 0) ||
+                       (RootIsCollection && SelectedMemberDescription.StartsWith("item[") && !SelectedMemberDescription.Contains("."));
+            }
         }
 
         /// <summary>
-        /// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the 
-        /// same <see cref="Type"/> as the <see cref="ISubjectInfo.RuntimeType"/> property does.
+        /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>, 
+        /// then it returns the same <see cref="Type"/> as the <see cref="ISubjectInfo.RuntimeType"/> property does.
         /// </summary>
-        public Type CompileTimeType { get; set; }
+        public Type CompileTimeType
+        {
+            get { return (compileTimeType != typeof (object)) ? compileTimeType : RuntimeType; }
+            set
+            {
+                compileTimeType = value;
+            }
+        }
 
         /// <summary>
         /// Gets the run-time type of the current object.
@@ -99,6 +113,17 @@ namespace FluentAssertions.Equivalency
 
                 return CompileTimeType;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating that the root of the graph is a collection so all type-specific options apply on 
+        /// the collection type and not on the root itself.
+        /// </summary>
+        public bool RootIsCollection { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{{Path=\"{0}\", Subject={1}, Expectation={2}}}", SelectedMemberDescription, Subject, Expectation);
         }
     }
 }

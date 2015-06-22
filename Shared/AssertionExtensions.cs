@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Xml.Linq;
 
 using FluentAssertions.Collections;
-using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Events;
 using FluentAssertions.Numeric;
@@ -223,12 +222,12 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="DateTimeOffsetAssertions"/> object that can be used to assert the
+        /// Returns an <see cref="DateTimeAssertions"/> object that can be used to assert the
         /// current <see cref="DateTime"/>.
         /// </summary>
-        public static DateTimeOffsetAssertions Should(this DateTime actualValue)
+        public static DateTimeAssertions Should(this DateTime actualValue)
         {
-            return new DateTimeOffsetAssertions(actualValue.ToDateTimeOffset());
+            return new DateTimeAssertions(actualValue);
         }
 
         /// <summary>
@@ -241,15 +240,13 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns an <see cref="NullableDateTimeOffsetAssertions"/> object that can be used to assert the
+        /// Returns an <see cref="NullableDateTimeAssertions"/> object that can be used to assert the
         /// current nullable <see cref="DateTime"/>.
         /// </summary>
-        public static NullableDateTimeOffsetAssertions Should(this DateTime? actualValue)
+        public static NullableDateTimeAssertions Should(this DateTime? actualValue)
         {
             return
-                new NullableDateTimeOffsetAssertions(actualValue.HasValue
-                    ? actualValue.Value.ToDateTimeOffset()
-                    : (DateTimeOffset?)null);
+                new NullableDateTimeAssertions(actualValue);
         }
 
         /// <summary>
@@ -481,6 +478,74 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
+        /// and the result is equal. 
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
+            string because = "", params object[] reasonArgs)
+        {
+            subject.ShouldAllBeEquivalentTo(expectation, options => options, because, reasonArgs);
+        }
+
+        /// <summary>
+        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
+        /// value,  irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
+        /// and the result is equal. 
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// </remarks>
+        /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// </param>
+        public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
+            params object[] reasonArgs)
+        {
+#pragma warning disable 618
+            EquivalencyAssertionOptions<IEnumerable<T>> source = config(EquivalencyAssertionOptions<T>.Default()).AsCollection();
+#pragma warning restore 618
+
+            var context = new EquivalencyValidationContext
+            {
+                Subject = subject,
+                Expectation = expectation,
+                RootIsCollection = true,
+                CompileTimeType = typeof(IEnumerable<T>),
+                Reason = because,
+                ReasonArgs = reasonArgs
+            };
+
+            new EquivalencyValidator(source).AssertEquality(context);
+        }
+
+        /// <summary>
         /// Asserts that an object is equivalent to another object. 
         /// </summary>
         /// <remarks>
@@ -541,64 +606,6 @@ namespace FluentAssertions
 #pragma warning disable 618
             new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
 #pragma warning restore 618
-        }
-
-        /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
-        /// </summary>
-        /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
-        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
-        /// </remarks>
-        /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
-            string because = "", params object[] reasonArgs)
-        {
-            subject.ShouldBeEquivalentTo(expectation, because, reasonArgs);
-        }
-
-        /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
-        /// </summary>
-        /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value,  irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
-        /// </remarks>
-        /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
-        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
-        /// <see cref="AssertionOptions"/> class.
-        /// </param>
-        /// <param name="because">
-        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
-        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
-        /// </param>
-        public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
-            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
-            params object[] reasonArgs)
-        {
-            subject.ShouldBeEquivalentTo<IEnumerable<T>>(
-                expectation,
-                c => ShouldAllBeEquivalentToHelper.ForCollectionMemberType(c, config),
-                because,
-                reasonArgs);
         }
 
 #if !SILVERLIGHT && !WINRT && !PORTABLE

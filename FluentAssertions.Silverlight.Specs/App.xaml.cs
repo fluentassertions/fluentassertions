@@ -19,7 +19,8 @@ namespace FluentAssertions.Silverlight.Specs
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             var settings = UnitTestSystem.CreateDefaultSettings();
-            settings.StartRunImmediately = true;
+            settings.StartRunImmediately = false;
+            settings.ShowTagExpressionEditor = true;
             
             RootVisual = UnitTestSystem.CreateTestPage(settings);
         }
