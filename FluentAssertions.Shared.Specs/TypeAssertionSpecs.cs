@@ -2022,7 +2022,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(PublicInterface);
+            Type type = typeof(IPublicInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2042,7 +2042,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(PublicInterface);
+            Type type = typeof(IPublicInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2056,7 +2056,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type PublicInterface to be Internal because we want to test the error message, but it " +
+                .WithMessage("Expected type IPublicInterface to be Internal because we want to test the error message, but it " +
                              "is Public.");
         }
 
@@ -2207,7 +2207,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(Nested.PublicInterface);
+            Type type = typeof(Nested.IPublicInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2227,7 +2227,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(Nested.PublicInterface);
+            Type type = typeof(Nested.IPublicInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2241,7 +2241,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type PublicInterface to be Internal because we want to test the error message, " +
+                .WithMessage("Expected type IPublicInterface to be Internal because we want to test the error message, " +
                              "but it is Public.");
         }
 
@@ -2294,7 +2294,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(Nested.ProtectedInternalInterface);
+            Type type = typeof(Nested.IProtectedInternalInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2314,7 +2314,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof(Nested.ProtectedInternalInterface);
+            Type type = typeof(Nested.IProtectedInternalInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2326,7 +2326,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type ProtectedInternalInterface to be Private because we want to test the error " +
+                .WithMessage("Expected type IProtectedInternalInterface to be Private because we want to test the error " +
                              "message, but it is ProtectedInternal.");
         }
 
@@ -2415,7 +2415,7 @@ namespace FluentAssertions.Specs
 
     public class ClassWithoutMembers { }
 
-    public interface PublicInterface { }
+    public interface IPublicInterface { }
 
     internal class InternalClass { }
 
@@ -2425,11 +2425,11 @@ namespace FluentAssertions.Specs
 
         protected enum ProtectedEnum { }
 
-        public interface PublicInterface { }
+        public interface IPublicInterface { }
 
         internal class InternalClass { }
 
-        protected internal interface ProtectedInternalInterface { }
+        protected internal interface IProtectedInternalInterface { }
     }
 
 #endregion
