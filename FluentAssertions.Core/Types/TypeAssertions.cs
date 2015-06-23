@@ -667,6 +667,28 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the selected type has the specified C# <paramref name="accessModifier"/>.
+        /// </summary>
+        /// <param name="accessModifier">The expected C# access modifier.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<Type> HaveAccessModifier(
+            CSharpAccessModifier accessModifier, string because = "", params object[] reasonArgs)
+        {
+            Execute.Assertion.ForCondition(accessModifier == Subject.GetCSharpAccessModifier())
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected type " + Subject.Name + " to be {0}{reason}, but it is {1}.",
+                    accessModifier, Subject.GetCSharpAccessModifier());
+
+            return new AndConstraint<Type>(Subject);
+        }
+
+        /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected override string Context

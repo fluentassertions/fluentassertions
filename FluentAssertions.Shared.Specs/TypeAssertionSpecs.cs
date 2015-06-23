@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Primitives;
 using FluentAssertions.Types;
@@ -2012,9 +2013,327 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
+
+        #region HaveAccessModifier
+        
+        [TestMethod]
+        public void When_asserting_a_public_type_is_public_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(PublicInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Public);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_public_member_is_not_public_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(PublicInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type
+                    .Should()
+                    .HaveAccessModifier(CSharpAccessModifier.Internal, "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type PublicInterface to be Internal because we want to test the error message, but it " +
+                             "is Public.");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_internal_type_is_internal_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(InternalClass);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Internal);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_internal_type_is_not_internal_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(InternalClass);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.ProtectedInternal, "because we want to test the" +
+                                                                                                " error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type InternalClass to be ProtectedInternal because we want to test the error message, " +
+                             "but it is Internal.");
+        }
+        
+        [TestMethod]
+        public void When_asserting_a_nested_private_type_is_private_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if !WINRT && !WINDOWS_PHONE_APP
+            Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
+#else
+            Type type = typeof(Nested).GetTypeInfo().DeclaredNestedTypes.First(t => t.Name == "PrivateClass").AsType();
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Private);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_nested_private_type_is_not_private_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if !WINRT && !WINDOWS_PHONE_APP
+            Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
+#else
+            Type type = typeof(Nested).GetTypeInfo().DeclaredNestedTypes.First(t => t.Name == "PrivateClass").AsType();
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Protected, "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type PrivateClass to be Protected because we want to test the error message, but it " +
+                             "is Private.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_nested_protected_type_is_protected_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if !WINRT && !WINDOWS_PHONE_APP
+            Type type = typeof(Nested).GetNestedType("ProtectedEnum", BindingFlags.NonPublic | BindingFlags.Instance);
+#else
+            Type type = typeof(Nested).GetTypeInfo().DeclaredNestedTypes.First(t => t.Name == "ProtectedEnum").AsType();
+#endif
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Protected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_nested_protected_type_is_not_protected_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+#if !WINRT && !WINDOWS_PHONE_APP
+            Type type = typeof(Nested).GetNestedType("ProtectedEnum", BindingFlags.NonPublic | BindingFlags.Instance);
+#else
+            Type type = typeof(Nested).GetTypeInfo().DeclaredNestedTypes.First(t => t.Name == "ProtectedEnum").AsType();
+#endif
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Public);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type ProtectedEnum to be Public, but it is Protected.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_nested_public_type_is_public_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(Nested.PublicInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Public);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_nested_public_member_is_not_public_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(Nested.PublicInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type
+                    .Should()
+                    .HaveAccessModifier(CSharpAccessModifier.Internal, "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type PublicInterface to be Internal because we want to test the error message, " +
+                             "but it is Public.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_nested_internal_type_is_internal_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(Nested.InternalClass);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Internal);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_nested_internal_type_is_not_internal_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(Nested.InternalClass);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.ProtectedInternal, "because we want to test the" +
+                                                                                                " error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type InternalClass to be ProtectedInternal because we want to test the error message, " +
+                             "but it is Internal.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_nested_protected_internal_member_is_protected_internal_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(Nested.ProtectedInternalInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.ProtectedInternal);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_nested_protected_internal_member_is_not_protected_internal_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(Nested.ProtectedInternalInterface);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveAccessModifier(CSharpAccessModifier.Private, "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type ProtectedInternalInterface to be Private because we want to test the error " +
+                             "message, but it is ProtectedInternal.");
+        }
+
+#endregion
     }
 
-    #region Internal classes used in unit tests
+#region Internal classes used in unit tests
 
     [DummyClass("Expected", true)]
     public class ClassWithAttribute
@@ -2096,7 +2415,24 @@ namespace FluentAssertions.Specs
 
     public class ClassWithoutMembers { }
 
-    #endregion
+    public interface PublicInterface { }
+
+    internal class InternalClass { }
+
+    class Nested
+    {
+        class PrivateClass { }
+
+        protected enum ProtectedEnum { }
+
+        public interface PublicInterface { }
+
+        internal class InternalClass { }
+
+        protected internal interface ProtectedInternalInterface { }
+    }
+
+#endregion
 }
 
 namespace FluentAssertions.Primitives

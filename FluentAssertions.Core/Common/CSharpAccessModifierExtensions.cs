@@ -32,7 +32,7 @@ namespace FluentAssertions.Common
                 return CSharpAccessModifier.ProtectedInternal;
             }
 
-            return CSharpAccessModifier.None;
+            return CSharpAccessModifier.InvalidForCSharp;
         }
 
         internal static CSharpAccessModifier GetCSharpAccessModifier(this Type type)
@@ -47,12 +47,12 @@ namespace FluentAssertions.Common
                 return CSharpAccessModifier.Protected;
             }
 
-            if (type.IsNestedAssembly)
+            if (type.IsNestedAssembly || (type.IsClass && type.IsNotPublic))
             {
                 return CSharpAccessModifier.Internal;
             }
             
-            if (type.IsPublic)
+            if (type.IsPublic || type.IsNestedPublic)
             {
                 return CSharpAccessModifier.Public;
             }
@@ -62,7 +62,7 @@ namespace FluentAssertions.Common
                 return CSharpAccessModifier.ProtectedInternal;
             }
 
-            return CSharpAccessModifier.None;
+            return CSharpAccessModifier.InvalidForCSharp;
         }
     }
 }
