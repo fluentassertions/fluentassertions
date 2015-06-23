@@ -317,7 +317,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
+        /// current <see cref="System.Type"/>.
         /// </summary>
         public static TypeAssertions Should(this Type subject)
         {
@@ -326,7 +326,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
+        /// current <see cref="System.Type"/>.
         /// </summary>
         public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
         {

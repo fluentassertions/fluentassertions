@@ -26,6 +26,11 @@ namespace FluentAssertions.Execution
             get { return new AssertionScope(sourceScope, sourceSucceeded); }
         }
 
+        public bool SourceSucceeded
+        {
+            get { return sourceSucceeded; }
+        }
+
         /// <summary>
         /// Provides back-wards compatibility for code that expects <see cref="AssertionScope.FailWith"/> to return a boolean.
         /// </summary>

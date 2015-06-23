@@ -70,7 +70,7 @@ namespace FluentAssertions.Specs
                 "Expected*item[0].Items*null*, but found*\"a\"*");
         }
 
-        private class MyClass
+        public class MyClass
         {
             public IEnumerable<string> Items
             {
@@ -195,7 +195,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_equivalence_of_strings_typed_as_objects_it_should_fail()
+        public void When_asserting_equivalence_of_strings_typed_as_objects_it_should_compare_them_as_strings()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -214,11 +214,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void When_asserting_equivalence_of_ints_typed_as_objects_it_should_fail()
+        public void When_asserting_equivalence_of_ints_typed_as_objects_it_should_use_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -235,7 +235,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>("because, typed as object, there were no members to compare");
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
@@ -2920,7 +2920,7 @@ With configuration:*");
         }
 
         [TestMethod]
-        public void When_asserting_instances_of_arrays_of_types_in_System_are_equivalent_it_should_respect_the_declared_type()
+        public void When_asserting_instances_of_arrays_of_types_in_System_are_equivalent_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2936,7 +2936,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<InvalidOperationException>();
+            act.ShouldNotThrow();
         }
 
         #endregion

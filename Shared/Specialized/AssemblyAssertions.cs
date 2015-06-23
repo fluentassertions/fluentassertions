@@ -5,15 +5,24 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Reflection
 {
-    #if !PORTABLE && !SILVERLIGHT && !WINRT
+    /// <summary>
+    /// Contains a number of methods to assert that an <see cref="Assembly"/> is in the expected state.
+    /// </summary>
     public class AssemblyAssertions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssemblyAssertions" /> class.
+        /// </summary>
         public AssemblyAssertions(Assembly assembly)
         {
             Subject = assembly;
         }
 
+        /// <summary>
+        /// Gets the object which value is being asserted.
+        /// </summary>
         public Assembly Subject { get; private set; }
+#if !PORTABLE && !SILVERLIGHT && !WINRT
 
         /// <summary>
         /// Asserts that an assembly does not reference the specified assembly.
@@ -80,6 +89,29 @@ namespace FluentAssertions.Reflection
                    .ForCondition(references.Any(x => x == assemblyName))
                    .FailWith("Assembly {0} should reference assembly {1}{reason}, but it does not", subjectName, assemblyName);
         }
-    }
 #endif
+        /// <summary>
+        /// Asserts that the Assembly defines a type called <paramref name="namespace"/> and <paramref name="name"/>.
+        /// </summary>
+        /// <param name="namespace">The namespace of the class.</param>
+        /// <param name="name">The name of the class.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndWhichConstraint<AssemblyAssertions, Type> DefineType(string @namespace, string name, string because = "", params object[] reasonArgs)
+        {
+#if !NETFX_CORE && !WINRT
+            var foundType = Subject.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
+#else
+            var typeInfo = Subject.DefinedTypes.SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
+            var foundType = typeInfo == null ? null : typeInfo.AsType();
+#endif
+            Execute.Assertion.ForCondition(foundType != null)
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected assembly {0} to define type {1}.{2}, but it does not.", Subject.FullName,
+                    @namespace, name);
+
+            return new AndWhichConstraint<AssemblyAssertions, Type>(this, foundType);
+        }
+    }
 }

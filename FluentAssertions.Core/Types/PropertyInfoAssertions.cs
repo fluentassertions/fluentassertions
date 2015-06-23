@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Types
 {
@@ -14,7 +11,7 @@ namespace FluentAssertions.Types
     /// </summary>
     [DebuggerNonUserCode]
     public class PropertyInfoAssertions :
-        ReferenceTypeAssertions<PropertyInfo, PropertyInfoAssertions>
+        MemberInfoAssertions<PropertyInfo, PropertyInfoAssertions>
     {
         public PropertyInfoAssertions(PropertyInfo propertyInfo)
         {
@@ -36,10 +33,10 @@ namespace FluentAssertions.Types
         {
             string failureMessage = "Expected property " +
                                     GetDescriptionFor(Subject) +
-                                    " to be virtual{reason}, but it is not virtual.";
+                                    " to be virtual{reason}, but it is not.";
 
             Execute.Assertion
-                .ForCondition(!IsGetterNonVirtual(Subject))
+                .ForCondition(Subject.IsVirtual())
                 .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage);
 
@@ -70,7 +67,27 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the selected property is decorated with the specified <typeparamref name="TAttribute"/>.
+        /// Asserts that the selected property has a setter with the specified C# access modifier.
+        /// </summary>
+        /// <param name="accessModifier">The expected C# access modifier.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "", params object[] reasonArgs)
+        {
+            Subject.Should().BeWritable(because, reasonArgs);
+
+            Subject.GetSetMethod(true).Should().HaveAccessModifier(accessModifier, because, reasonArgs);
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the selected property does not have a setter.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -79,27 +96,117 @@ namespace FluentAssertions.Types
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<PropertyInfoAssertions, TAttribute> BeDecoratedWith<TAttribute>(string because = "",
-            params object[] reasonArgs)
-            where TAttribute : Attribute
+        public AndConstraint<PropertyInfoAssertions> NotBeWritable(
+            string because = "", params object[] reasonArgs)
         {
-            IEnumerable<TAttribute> attributes =
-                Subject.GetCustomAttributes(false).OfType<TAttribute>();
-            TAttribute attribute = attributes.FirstOrDefault();
-
             Execute.Assertion
-                .ForCondition(attribute != null)
+                .ForCondition(!Subject.CanWrite)
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected property " + GetDescriptionFor(Subject) +
-                          " to be decorated with {0}{reason}, but that attribute was not found.", typeof(TAttribute));
+                .FailWith(
+                    "Expected {context:property} {0} not to have a setter{reason}.",
+                    Subject);
 
-            return new AndWhichConstraint<PropertyInfoAssertions, TAttribute>(this, attributes);
+            return new AndConstraint<PropertyInfoAssertions>(this);
         }
 
-        internal static bool IsGetterNonVirtual(PropertyInfo property)
+        /// <summary>
+        /// Asserts that the selected property has a getter.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> BeReadable(string because = "", params object[] reasonArgs)
         {
-            MethodInfo getter = property.GetGetMethod(true);
-            return MethodInfoAssertions.IsNonVirtual(getter);
+            Execute.Assertion.ForCondition(Subject.CanRead)
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the selected property has a getter with the specified C# access modifier.
+        /// </summary>
+        /// <param name="accessModifier">The expected C# access modifier.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "", params object[] reasonArgs)
+        {
+            Subject.Should().BeReadable(because, reasonArgs);
+
+            Subject.GetGetMethod(true).Should().HaveAccessModifier(accessModifier, because, reasonArgs);
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the selected property does not have a getter.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> NotBeReadable(
+            string because = "", params object[] reasonArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!Subject.CanRead)
+                .BecauseOf(because, reasonArgs)
+                .FailWith(
+                    "Expected {context:property} {0} not to have a getter{reason}.",
+                    Subject);
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the selected property returns a specified type.
+        /// </summary>
+        /// <param name="propertyType">The expected type of the property.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> Return(Type propertyType,
+            string because = "", params object[] reasonArgs)
+        {
+            Execute.Assertion.ForCondition(Subject.PropertyType == propertyType)
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.", propertyType, Subject.PropertyType);
+
+
+            return new AndConstraint<PropertyInfoAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the selected PropertyInfo returns <typeparamref name="TReturn"/>.
+        /// </summary>
+        /// <typeparam name="TReturn">The expected return type.</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoAssertions> Return<TReturn>(string because = "", params object[] reasonArgs)
+        {
+            return Return(typeof(TReturn), because, reasonArgs);
         }
 
         internal static string GetDescriptionFor(PropertyInfo property)
@@ -109,12 +216,17 @@ namespace FluentAssertions.Types
                 property.DeclaringType, property.Name);
         }
 
+        internal override string SubjectDescription
+        {
+            get { return GetDescriptionFor(Subject); }
+        }
+
         /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected override string Context
         {
-            get { return "property info"; }
+            get { return "property"; }
         }
     }
 }
