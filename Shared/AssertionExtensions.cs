@@ -73,7 +73,7 @@ namespace FluentAssertions
             return new ExecutionTimeAssertions(action);
         }
 
-#if !WINRT
+#endif
 
         /// <summary>
         /// Returns an <see cref="AssemblyAssertions"/> object that can be used to assert the
@@ -83,9 +83,6 @@ namespace FluentAssertions
         {
             return new AssemblyAssertions(assembly);
         }
-#endif
-
-#endif
 
         /// <summary>
         /// Returns an <see cref="XDocumentAssertions"/> object that can be used to assert the
@@ -422,7 +419,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
+        /// current <see cref="System.Type"/>.
         /// </summary>
         public static TypeAssertions Should(this Type subject)
         {
@@ -431,11 +428,20 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
+        /// current <see cref="System.Type"/>.
         /// </summary>
         public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
         {
             return new TypeSelectorAssertions(typeSelector.ToArray());
+        }
+
+        /// <summary>
+        /// Returns a <see cref="MethodBaseAssertions"/> object that can be used to assert the current <see cref="MethodInfo"/>.
+        /// </summary>
+        /// <seealso cref="TypeAssertions"/>
+        public static ConstructorInfoAssertions Should(this ConstructorInfo constructorInfo)
+        {
+            return new ConstructorInfoAssertions(constructorInfo);
         }
 
         /// <summary>

@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
-using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Types
 {
@@ -15,65 +11,11 @@ namespace FluentAssertions.Types
     /// </summary>
     [DebuggerNonUserCode]
     public class MethodInfoAssertions :
-        ReferenceTypeAssertions<MethodInfo, MethodInfoAssertions>
+        MethodBaseAssertions<MethodInfo, MethodInfoAssertions>
     {
         public MethodInfoAssertions(MethodInfo methodInfo)
         {
             Subject = methodInfo;
-        }
-
-        /// <summary>
-        /// Asserts that the selected method is decorated with the specified <typeparamref name="TAttribute"/>.
-        /// </summary>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndWhichConstraint<MethodInfoAssertions, TAttribute> BeDecoratedWith<TAttribute>(
-            string because = "", params object[] reasonArgs)
-            where TAttribute : Attribute
-        {
-            return BeDecoratedWith<TAttribute>(attr => true, because, reasonArgs);
-        }
-
-        /// <summary>
-        /// Asserts that the selected method is decorated with an attribute of type <typeparamref name="TAttribute"/>
-        /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
-        /// </summary>
-        /// <param name="isMatchingAttributePredicate">
-        /// The predicate that the attribute must match.
-        /// </param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndWhichConstraint<MethodInfoAssertions, TAttribute> BeDecoratedWith<TAttribute>(
-            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
-            string because = "", params object[] reasonArgs)
-            where TAttribute : Attribute
-        {
-            string failureMessage = "Expected method " + GetDescriptionFor(Subject) +
-                " to be decorated with {0}{reason}, but that attribute was not found.";
-
-            IEnumerable<TAttribute> attributes = Subject.GetCustomAttributes(
-                typeof (TAttribute), false)
-                .Cast<TAttribute>()
-                .Where(isMatchingAttributePredicate.Compile());
-
-            TAttribute attribute = attributes.FirstOrDefault();
-
-            Execute.Assertion
-                .ForCondition(attribute != null)
-                .BecauseOf(because, reasonArgs)
-                .FailWith(failureMessage, typeof(TAttribute));
-
-            return new AndWhichConstraint<MethodInfoAssertions, TAttribute>(this, attributes);
         }
 
         /// <summary>
@@ -90,16 +32,94 @@ namespace FluentAssertions.Types
             string because = "", params object[] reasonArgs)
         {
             string failureMessage = "Expected method " +
-                                    GetDescriptionFor(Subject) +
+                                    SubjectDescription +
                                     " to be virtual{reason}, but it is not virtual.";
 
             Execute.Assertion
-                .ForCondition(!IsNonVirtual(Subject))
+                .ForCondition(!Subject.IsNonVirtual())
                 .BecauseOf(because, reasonArgs)
                 .FailWith(failureMessage);
 
             return new AndConstraint<MethodInfoAssertions>(this);
         }
+
+        /// <summary>
+        /// Asserts that the selected method is async. 
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<MethodInfoAssertions> BeAsync(string because = "", params object[] reasonArgs)
+        {
+            string failureMessage = "Expected subject " +
+                        SubjectDescription +
+                        " to be async{reason}, but it is not.";
+
+            Execute.Assertion
+                .ForCondition(Subject.IsAsync())
+                .BecauseOf(because, reasonArgs)
+                .FailWith(failureMessage);
+
+            return new AndConstraint<MethodInfoAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the selected MethodInfo returns void.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> ReturnVoid(string because = "", params object[] reasonArgs)
+        {
+            Execute.Assertion.ForCondition(typeof(void) == Subject.ReturnType)
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected the return type of method " + Subject.Name + " to be void {reason}, but it is {0}.",
+                    Subject.ReturnType.FullName);
+
+            return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the selected MethodInfo returns <paramref name="returnType"/>.
+        /// </summary>
+        /// <param name="returnType">The expected return type.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return(Type returnType, string because = "", params object[] reasonArgs)
+        {
+            Execute.Assertion.ForCondition(returnType == Subject.ReturnType)
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected the return type of method " + Subject.Name + " to be {0} {reason}, but it is {1}.",
+                    returnType, Subject.ReturnType.FullName);
+
+            return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
+        }
+        
+        /// <summary>
+        /// Asserts that the selected MethodInfo returns <typeparamref name="TReturn"/>.
+        /// </summary>
+        /// <typeparam name="TReturn">The expected return type.</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> Return<TReturn>(string because = "", params object[] reasonArgs)
+        {
+            return Return(typeof (TReturn), because, reasonArgs);
+        }
+
 
         internal static string GetDescriptionFor(MethodInfo method)
         {
@@ -109,9 +129,9 @@ namespace FluentAssertions.Types
                 method.DeclaringType, method.Name);
         }
 
-        internal static bool IsNonVirtual(MethodInfo method)
+        internal override string SubjectDescription
         {
-            return !method.IsVirtual || method.IsFinal;
+            get { return GetDescriptionFor(Subject); }
         }
 
         protected override string Context
