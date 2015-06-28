@@ -85,6 +85,13 @@ theObject.Should().BeBinarySerializable<MyClass>(
 	options => options.Excluding(s => s.SomeNonSerializableProperty));
 ```
 
+Fluent Assertions has special support for `[Flags]` based enumerations, which allow you to do something like this:
+
+```csharp
+regexOptions.Should().HaveFlag(RegexOptions.Global);
+regexOptions.Should().NotHaveFlag(RegexOptions.CaseInsensitive);
+```
+
 ## Nullable types ##
 
 ```csharp
@@ -545,9 +552,9 @@ orderDto.ShouldBeEquivalentTo(order, options =>
     options.ExcludingNestedObjects());
 ```
 
-### Member type ###
+### Compile-time types vs. run-time types ###
 
-By default, Fluent Assertions uses an object's or member's declared (compile-time) type for its comparisons and when selecting members on the subject object.  That is to say if the subject is a `OrderDto` but the variable it is assigned to has type `object` no members would be found. This behavior can be configured and you can choose to use run-time types if you prefer:
+By default, Fluent Assertions respects an object's or member's declared (compile-time) type when selecting members to process during a recursive comparison. That is to say if the subject is a `OrderDto` but the variable it is assigned to has type `Dto` only the members defined by the latter class would be included. This behavior can be configured and you can choose to use run-time types if you prefer:
 
 ```csharp
 // Use runtime type information
@@ -558,6 +565,8 @@ orderDto.ShouldBeEquivalentTo(order, options =>
 orderDto.ShouldBeEquivalentTo(order, options => 
     options.RespectingDeclaredTypes());	
 ```
+
+One exception to this rule is when the declared type is `object`. Since `object` doesn't expose any properties, it makes no sense to respect the declared type. So if the subject or member's type is `object`, it will use the run-time type for that node in the graph. This will also work better with (multidimensional) arrays.
 
 ### Matching Members ###
 
