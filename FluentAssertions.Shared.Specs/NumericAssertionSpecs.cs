@@ -27,7 +27,13 @@ namespace FluentAssertions.Specs
         {
             Action act = () => (-1D).Should().BePositive();
             act.ShouldThrow<AssertFailedException>();
+        }
 
+        [TestMethod]
+        public void Should_fail_when_asserting_zero_value_to_be_positive()
+        {
+            Action act = () => (0).Should().BePositive();
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -48,9 +54,15 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_when_asserting_positive_value_to_be_negative()
         {
-            Action act = () => 1.Should().BeNegative();
+            Action act = () => (1).Should().BeNegative();
             act.ShouldThrow<AssertFailedException>();
+        }
 
+        [TestMethod]
+        public void Should_fail_when_asserting_zero_value_to_be_negative()
+        {
+            Action act = () => (0).Should().BeNegative();
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
