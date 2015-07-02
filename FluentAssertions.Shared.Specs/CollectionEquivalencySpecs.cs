@@ -80,7 +80,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var result = new[] {new {A = "aaa", B = "bbb"}};
+            var result = new[]
+            {
+                new
+                {
+                    A = "aaa", 
+                    B = "bbb"
+                }
+            };
 
             var expected = new
             {
@@ -98,6 +105,110 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+
+        [TestMethod]
+        public void When_only_a_deeply_nested_property_is_included_it_should_exclude_the_other_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actualObjects = new[]
+            {
+                new
+                {
+                    SubObject = new
+                    {
+                        Property1 = "John",
+                        Property2 = "John"
+                    }
+                },
+                new
+                {
+                    SubObject = new
+                    {
+                        Property1 = "John",
+                        Property2 = "John"
+                    }
+                }
+            };
+
+            var expectedObjects = new[]
+            {
+                new
+                {
+                    SubObject = new
+                    {
+                        Property1 = "John",
+                        Property2 = "John"
+                    }
+                },
+                new
+                {
+                    SubObject = new
+                    {
+                        Property1 = "John",
+                        Property2 = "Jane"
+                    }
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actualObjects.ShouldAllBeEquivalentTo(expectedObjects, options =>
+                options.Including(order => order.SubObject.Property1));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        public class SubDummy
+        {
+            private readonly int _id;
+
+            public SubDummy(int id)
+            {
+                this._id = id;
+            }
+
+            public int Id
+            {
+                get { return this._id; }
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (!(obj is SubDummy))
+                {
+                    return false;
+                }
+
+                return this._id == ((SubDummy)obj)._id;
+            }
+
+            public override int GetHashCode()
+            {
+                return _id.GetHashCode();
+            }
+        }
+
+        public class TestDummy
+        {
+            private readonly SubDummy _sd;
+
+            public TestDummy(SubDummy sd)
+            {
+                this._sd = sd;
+            }
+
+            public SubDummy Sd
+            {
+                get { return this._sd; }
+            }
+        }
+
 
         #endregion
 

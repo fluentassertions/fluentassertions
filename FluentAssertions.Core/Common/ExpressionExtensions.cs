@@ -91,6 +91,11 @@ namespace FluentAssertions.Common
             var segments = new List<string>();
             Expression node = expression;
 
+            if (node == null)
+            {
+                throw new NullReferenceException("Expected an expression, but found <null>.");
+            }
+
             while (node != null)
             {
                 switch (node.NodeType)

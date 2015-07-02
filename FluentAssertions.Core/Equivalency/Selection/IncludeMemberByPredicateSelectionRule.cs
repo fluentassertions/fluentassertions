@@ -46,7 +46,7 @@ namespace FluentAssertions.Equivalency.Selection
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return "Exclude member when " + description;
+            return "Include member when " + description;
         }
     }
 }
