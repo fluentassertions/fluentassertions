@@ -62,7 +62,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public EquivalencyAssertionOptions<TSubject> Including(Expression<Func<TSubject, object>> expression)
         {
-            AddSelectionRule(new IncludeMemberByPathSelectionRule(expression.GetSelectedMemberInfo()));
+            AddSelectionRule(new IncludeMemberByPathSelectionRule(expression.GetMemberPath()));
             return this;
         }
 

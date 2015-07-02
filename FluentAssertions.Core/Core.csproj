@@ -79,6 +79,7 @@
     <Compile Include="Equivalency\EnumEqualityStep.cs" />
     <Compile Include="Equivalency\EnumEquivalencyHandling.cs" />
     <Compile Include="Equivalency\EnumerableEquivalencyStep.cs" />
+    <Compile Include="Equivalency\Selection\SelectMemberByPathSelectionRule.cs" />
     <Compile Include="Equivalency\SelfReferenceEquivalencyAssertionOptions.cs" />
     <Compile Include="Equivalency\EquivalencyAssertionOptionsExtentions.cs" />
     <Compile Include="Equivalency\FieldSelectedMemberInfo.cs" />
