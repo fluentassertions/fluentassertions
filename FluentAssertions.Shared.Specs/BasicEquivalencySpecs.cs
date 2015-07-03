@@ -376,6 +376,20 @@ namespace FluentAssertions.Specs
 With configuration:*");
         }
 
+        [TestMethod]
+        public void When_asserting_object_equivalence_against_a_null_value_it_should_properly_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => ((object)null).ShouldBeEquivalentTo("foo");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("*foo*null*");
+        }
+
         #endregion
 
         #region Selection Rules
