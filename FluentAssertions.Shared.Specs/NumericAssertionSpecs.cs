@@ -17,7 +17,7 @@ namespace FluentAssertions.Specs
         #region Positive / Negative
 
         [TestMethod]
-        public void Should_succeed_when_asserting_positive_value_to_be_positive()
+        public void When_a_positive_value_is_positive_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -36,7 +36,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_negative_value_to_be_positive()
+        public void When_a_negative_value_is_positive_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -55,7 +55,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_zero_value_to_be_positive()
+        public void When_a_zero_value_is_positive_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -74,7 +74,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_negative_value_to_be_positive()
+        public void When_a_negative_value_is_positive_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -95,7 +95,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_negative_value_to_be_negative()
+        public void When_a_negative_value_is_negative_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -114,7 +114,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_positive_value_to_be_negative()
+        public void When_a_positive_value_is_negative_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -133,7 +133,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_zero_value_to_be_negative()
+        public void When_a_zero_value_is_negative_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -152,7 +152,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_positive_value_to_be_negative()
+        public void When_a_positive_value_is_negative_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -177,7 +177,7 @@ namespace FluentAssertions.Specs
         #region Be / NotBe
 
         [TestMethod]
-        public void Should_succeed_when_asserting_value_to_be_equal_to_same_value()
+        public void When_a_value_is_equal_to_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -197,7 +197,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_value_to_be_equal_to_different_value()
+        public void When_a_value_is_equal_to_different_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -217,7 +217,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_value_to_be_equal_to_different_value()
+        public void When_a_value_is_equal_to_different_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -282,7 +282,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_value_to_be_not_equal_to_different_value()
+        public void When_a_value_is_not_equal_to_a_different_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -302,7 +302,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_value_to_be_not_equal_to_the_same_value()
+        public void When_a_value_is_not_equal_to_the_same_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -322,7 +322,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_value_to_be_not_equal_to_the_same_value()
+        public void When_a_value_is_not_equal_to_the_same_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -348,7 +348,7 @@ namespace FluentAssertions.Specs
         #region Greater Than (Or Equal To)
 
         [TestMethod]
-        public void Should_succeed_when_asserting_value_to_be_greater_than_smaller_value()
+        public void When_a_value_is_greater_than_smaller_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -368,7 +368,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_value_to_be_greater_than_greater_value()
+        public void When_a_value_is_greater_than_greater_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -388,7 +388,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_value_to_be_greater_than_same_value()
+        public void When_a_value_is_greater_than_same_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -408,7 +408,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_value_to_be_greater_than_greater_value()
+        public void When_a_value_is_greater_than_greater_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -430,7 +430,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_value_to_be_greater_or_equal_to_smaller_value()
+        public void When_a_value_is_greater_or_equal_to_smaller_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -450,7 +450,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_value_to_be_greater_or_equal_to_same_value()
+        public void When_a_value_is_greater_or_equal_to_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -470,7 +470,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_value_to_be_greater_or_equal_to_greater_value()
+        public void When_a_value_is_greater_or_equal_to_greater_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -490,7 +490,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_value_to_be_greater_or_equal_to_greater_value()
+        public void When_a_value_is_greater_or_equal_to_greater_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -516,7 +516,7 @@ namespace FluentAssertions.Specs
         #region Less Than (Or Equal To)
 
         [TestMethod]
-        public void Should_succeed_when_asserting_value_to_be_less_than_greater_value()
+        public void When_a_value_is_less_than_greater_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -536,7 +536,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_value_to_be_less_than_smaller_value()
+        public void When_a_value_is_less_than_smaller_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -556,7 +556,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_value_to_be_less_than_same_value()
+        public void When_a_value_is_less_than_same_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -576,7 +576,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_value_to_be_less_than_smaller_value()
+        public void When_a_value_is_less_than_smaller_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -598,7 +598,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_value_to_be_less_or_equal_to_greater_value()
+        public void When_a_value_is_less_or_equal_to_greater_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -618,7 +618,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_value_to_be_less_or_equal_to_same_value()
+        public void When_a_value_is_less_or_equal_to_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -638,7 +638,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_value_to_be_less_or_equal_to_smaller_value()
+        public void When_a_value_is_less_or_equal_to_smaller_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -658,7 +658,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_value_to_be_less_or_equal_to_smaller_value()
+        public void When_a_value_is_less_or_equal_to_smaller_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1227,7 +1227,7 @@ namespace FluentAssertions.Specs
         #endregion
 
         [TestMethod]
-        public void Should_support_chaining_constraints_with_and()
+        public void When_chaining_constraints_with_and_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
