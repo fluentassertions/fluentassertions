@@ -113,7 +113,7 @@ namespace FluentAssertions.Numeric
         }
 
         /// <summary>
-        /// Asserts that the numeric value is greater than or equal to zero.
+        /// Asserts that the numeric value is greater than zero.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
