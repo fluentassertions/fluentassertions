@@ -333,7 +333,7 @@ collection.Should().HaveElementSucceeding(predecessor, element);
 
 collection.Should().BeEmpty();
 collection.Should().BeNullorEmpty();
-collection.Should().BeNotBeNullOrEmpty();
+collection.Should().NotBeNullOrEmpty();
 
 collection.Should().IntersectWith(otherCollection);
 collection.Should().NotIntersectWith(otherCollection);
