@@ -7,27 +7,31 @@ namespace FluentAssertions.Equivalency.Selection
     /// <summary>
     /// Selection rule that includes a particular property in the structural comparison.
     /// </summary>
-    internal class IncludeMemberByPathSelectionRule : IMemberSelectionRule
+    internal class IncludeMemberByPathSelectionRule : SelectMemberByPathSelectionRule
     {
-        private readonly SelectedMemberInfo selectedMemberInfo;
+        private readonly string pathToInclude;
 
-        public IncludeMemberByPathSelectionRule(SelectedMemberInfo selectedMemberInfo)
+        public IncludeMemberByPathSelectionRule(string pathToInclude) : base(pathToInclude)
         {
-            this.selectedMemberInfo = selectedMemberInfo;
+            this.pathToInclude = pathToInclude;
         }
 
-        public bool IncludesMembers
+        public override bool IncludesMembers
         {
             get { return true; }
         }
 
-        public IEnumerable<SelectedMemberInfo> SelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers, ISubjectInfo context, IEquivalencyAssertionOptions config)
+        protected override IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
+            string currentPath, ISubjectInfo context)
         {
             List<SelectedMemberInfo> members = selectedMembers.ToList();
 
-            if (!members.Any(member => member.IsEquivalentTo(selectedMemberInfo)))
+            foreach (SelectedMemberInfo member in context.RuntimeType.GetNonPrivateMembers())
             {
-                members.Add(selectedMemberInfo);
+                if (pathToInclude.Contains(currentPath.Combine(member.Name)))
+                {
+                    members.Add(member);
+                }
             }
 
             return members;
@@ -35,7 +39,7 @@ namespace FluentAssertions.Equivalency.Selection
 
         public override string ToString()
         {
-            return "Select member " + selectedMemberInfo.DeclaringType + "." + selectedMemberInfo.Name;
+            return "Include member root." + pathToInclude;
         }
     }
 }

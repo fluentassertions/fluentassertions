@@ -87,7 +87,10 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public Type CompileTimeType
         {
-            get { return (compileTimeType != typeof (object)) ? compileTimeType : RuntimeType; }
+            get
+            {
+                return ((compileTimeType != typeof (object)) || ReferenceEquals(Subject, null))  ? compileTimeType : RuntimeType;
+            }
             set
             {
                 compileTimeType = value;
