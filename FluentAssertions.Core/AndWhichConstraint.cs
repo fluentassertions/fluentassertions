@@ -55,11 +55,22 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Returns the instance which the original parent constraint matched, so that further matches can be performed
+        /// Returns the single result of a prior assertion that is used to select a nested or collection item.
         /// </summary>
         public TMatchedElement Which
         {
             get { return matchedConstraint.Value; }
+        }
+
+        /// <summary>
+        /// Returns the single result of a prior assertion that is used to select a nested or collection item.
+        /// </summary>
+        /// <remarks>
+        /// Just a convenience property that returns the same value as <see cref="Which"/>.
+        /// </remarks>
+        public TMatchedElement Subject
+        {
+            get { return Which; }
         }
     }
 }
