@@ -1,7 +1,7 @@
 using System;
-
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -257,7 +257,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_a_nullable_value_is_null_but_the_subject_isnt_it_should_throw()
         {
@@ -279,6 +279,27 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected <null>, but found 2.");
+        }
+
+        [TestMethod]
+        public void When_a_nullable_value_has_value_but_the_subject_is_null_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            int? value = 2;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => ((int?) null).Should().Be(value);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected 2, but found <null>.");
         }
 
         [TestMethod]
@@ -501,7 +522,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => value.Should().BeGreaterOrEqualTo(greaterValue, "because we want to test the failure {0}", "message");
+            Action act =
+                () => value.Should().BeGreaterOrEqualTo(greaterValue, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -701,7 +723,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value to be between {0} and {1} because that's the valid range, but found {2}.", 4, 5, value));
+                .WithMessage(
+                    string.Format("Expected value to be between {0} and {1} because that's the valid range, but found {2}.", 4, 5,
+                        value));
         }
 
         [TestMethod]
@@ -759,14 +783,15 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => value.Should().BeOneOf(new [] { 4, 5 }, "because those are the valid values");
+            Action act = () => value.Should().BeOneOf(new[] {4, 5}, "because those are the valid values");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value to be one of {{4, 5}} because those are the valid values, but found {0}.", value));
+                .WithMessage(
+                    string.Format("Expected value to be one of {{4, 5}} because those are the valid values, but found {0}.", value));
         }
 
         [TestMethod]
@@ -854,7 +879,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.", 3.4F, value));
+                .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.",
+                    3.4F, value));
         }
 
         [TestMethod]
@@ -1005,7 +1031,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.", 3.4, value));
+                .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.",
+                    3.4, value));
         }
 
         [TestMethod]
