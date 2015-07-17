@@ -40,6 +40,15 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net45\Execution\XUnit2TestFramework.cs">
+      <Link>Execution\XUnit2TestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\fluentassertions.winrt80\common\ProvidePlatformServices.cs">
+      <Link>Common\ProvidePlatformServices.cs</Link>
+    </Compile>
+    <Compile Include="Execution\MSTestFramework.cs" />
+    <Compile Include="Execution\NUnitPclTestFramework.cs" />
+    <Compile Include="Execution\TestFrameworkProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +57,7 @@
       <Name>Core.Dotnet</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
