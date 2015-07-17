@@ -5,13 +5,13 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E6F895FA-AE44-4750-87F1-D18A7D974377}</ProjectGuid>
+    <ProjectGuid>{8931C5EF-3BAC-473A-A343-57791D0917B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FluentAssertions</RootNamespace>
-    <AssemblyName>FluentAssertions</AssemblyName>
+    <AssemblyName>FluentAssertions.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile336</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
@@ -20,21 +20,21 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\FluentAssertions.XML</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
+    <DocumentationFile>bin\Debug\FluentAssertions.Core.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Package\Lib\portable-net40+sl5+win8+wp8+wpa81\</OutputPath>
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
+    <OutputPath>..\Package\Lib\portable-monotouch+monoandroid+xamarin.ios\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Package\Lib\portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.XML</DocumentationFile>
+    <DocumentationFile>..\Package\Lib\portable-monotouch+monoandroid+xamarin.ios\FluentAssertions.Core.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
@@ -46,25 +46,18 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\FluentAssertions.Core\Core.pcl.csproj">
-      <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
-      <Name>Core.pcl</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
-      <Link>EventSourceExtensions.cs</Link>
-    </Compile>
-    <Compile Include="Common\ProvidePlatformServices.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\FluentAssertions.snk">
       <Link>FluentAssertions.snk</Link>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
   <ItemGroup />
-  <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />
+  <Import Project="..\Core\Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

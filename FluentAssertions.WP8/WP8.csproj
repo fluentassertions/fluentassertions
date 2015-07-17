@@ -124,9 +124,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
+    <ProjectReference Include="..\FluentAssertions.Core\Core.pcl.csproj">
       <Project>{8931C5EF-3BAC-473A-A343-57791D0917B1}</Project>
-      <Name>Core</Name>
+      <Name>Core.pcl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />

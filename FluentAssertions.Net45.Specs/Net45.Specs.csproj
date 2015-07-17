@@ -105,9 +105,9 @@
       <Project>{d9cccaf6-ff9e-4688-9d96-645e27616ac4}</Project>
       <Name>AssemblyB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
+    <ProjectReference Include="..\FluentAssertions.Core\Core.pcl.csproj">
       <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
-      <Name>Core</Name>
+      <Name>Core.pcl</Name>
     </ProjectReference>
     <ProjectReference Include="..\FluentAssertions.Net45\Net45.csproj">
       <Project>{81d1792f-3c87-49cf-a502-9f232ff3719c}</Project>
