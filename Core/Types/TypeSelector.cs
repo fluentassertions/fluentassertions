@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace FluentAssertions.Types
 {
@@ -18,7 +19,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// The resulting <see cref="Type"/> objects.
+        /// The resulting <see cref="System.Type"/> objects.
         /// </summary>
         public Type[] ToArray()
         {
@@ -52,8 +53,13 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreDecoratedWith<TAttribute>()
         {
             types = types
+#if NEW_REFLECTION
+                .Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
+#else
                 .Where(t => t.GetCustomAttributes(typeof(TAttribute), true).Length > 0)
+#endif
                 .ToList();
+
             return this;
         }
 

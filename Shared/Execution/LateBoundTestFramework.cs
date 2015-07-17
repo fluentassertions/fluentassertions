@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 #endif
 
+
 namespace FluentAssertions.Execution
 {
     internal abstract class LateBoundTestFramework : ITestFramework
@@ -34,6 +35,18 @@ namespace FluentAssertions.Execution
         {
             get
             {
+#if CORE_CLR
+                // For CoreCLR, we need to attempt to load the assembly
+                try
+                {
+                    var assm = Assembly.Load(new AssemblyName(AssemblyName) { Version = new Version(0,0,0,0)});
+                    return assm != null;
+                }
+                catch
+                {
+                    return false;
+                }
+#else
                 string prefix = AssemblyName + ",";
 
 #if !PORTABLE
@@ -42,6 +55,7 @@ namespace FluentAssertions.Execution
                     .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase));
 #endif
                 return (assembly != null);
+#endif
             }
         }
 
@@ -133,4 +147,6 @@ namespace FluentAssertions.Execution
         }
     }
 #endif
+
+
 }

@@ -5,7 +5,7 @@ using FluentAssertions.Execution;
 
 namespace FluentAssertions.Reflection
 {
-    #if !PORTABLE && !SILVERLIGHT && !WINRT
+    #if !PORTABLE && !SILVERLIGHT && !WINRT && !CORE_CLR
     public class AssemblyAssertions
     {
         public AssemblyAssertions(Assembly assembly)

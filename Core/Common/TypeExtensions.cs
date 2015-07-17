@@ -24,7 +24,25 @@ namespace FluentAssertions.Common
             return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
         }
 
+        public static bool HasAttribute<TAttribute>(this Type method) where TAttribute : Attribute
+        {
+#if NEW_REFLECTION
+            return (method.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any());
+#else
+            return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
+#endif
+        }
+
+
         public static bool HasMatchingAttribute<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+
+            return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
+        }
+
+        public static bool HasMatchingAttribute<TAttribute>(this Type type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
         {
             Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
@@ -38,9 +56,25 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type).Any();
         }
 
+        public static bool IsDecoratedWith<TAttribute>(this Type type)
+            where TAttribute : Attribute
+        {
+            return GetCustomAttributes<TAttribute>(type).Any();
+        }
+
+
         private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type)
         {
             return type.GetCustomAttributes(false).OfType<TAttribute>();
+        }
+
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type)
+        {
+#if NEW_REFLECTION
+            return type.GetTypeInfo().GetCustomAttributes(false).OfType<TAttribute>();
+#else
+            return type.GetCustomAttributes(false).OfType<TAttribute>();
+#endif
         }
 
         /// <summary>
@@ -76,7 +110,7 @@ namespace FluentAssertions.Common
 
         internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
         {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
+            if (type.IsGenericType() && type.GetGenericTypeDefinition() == openGenericType)
             {
                 return new[] { type };
             }
@@ -84,7 +118,7 @@ namespace FluentAssertions.Common
             Type[] interfaces = type.GetInterfaces();
             return
                 interfaces
-                    .Where(t => (t.IsGenericType && (t.GetGenericTypeDefinition() == openGenericType)))
+                    .Where(t => (t.IsGenericType() && (t.GetGenericTypeDefinition() == openGenericType)))
                     .ToArray();
         }
 
@@ -232,7 +266,7 @@ namespace FluentAssertions.Common
 
         private static bool IsInterface(Type typeToReflect)
         {
-            return typeToReflect.IsInterface;
+            return typeToReflect.IsInterface();
         }
 
         private static IEnumerable<Type> GetInterfaces(Type type)

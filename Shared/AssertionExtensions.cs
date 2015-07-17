@@ -73,7 +73,7 @@ namespace FluentAssertions
             return new ExecutionTimeAssertions(action);
         }
 
-#if !WINRT
+#if !WINRT && !CORE_CLR
 
         /// <summary>
         /// Returns an <see cref="AssemblyAssertions"/> object that can be used to assert the
@@ -422,7 +422,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
+        /// current <see cref="System.Type"/>.
         /// </summary>
         public static TypeAssertions Should(this Type subject)
         {
@@ -431,7 +431,7 @@ namespace FluentAssertions
 
         /// <summary>
         /// Returns a <see cref="TypeAssertions"/> object that can be used to assert the
-        /// current <see cref="Type"/>.
+        /// current <see cref="System.Type"/>.
         /// </summary>
         public static TypeSelectorAssertions Should(this TypeSelector typeSelector)
         {
@@ -608,7 +608,7 @@ namespace FluentAssertions
 #pragma warning restore 618
         }
 
-#if !SILVERLIGHT && !WINRT && !PORTABLE
+#if !SILVERLIGHT && !WINRT && !PORTABLE && !CORE_CLR
         /// <summary>
         ///   Starts monitoring an object for its events.
         /// </summary>

@@ -18,21 +18,32 @@ namespace FluentAssertions.Common
     {
         #region Private Definitions
 
+#if NEW_REFLECTION
+        private readonly Func<AssemblyName, Assembly> assemblyLoader;
+#else
         private readonly Func<string, Assembly> assemblyLoader;
+#endif
         private readonly object lockable = new object();
         private readonly Dictionary<Type, object> adapters = new Dictionary<Type, object>();
         private Assembly assembly;
 
-        #endregion
+#endregion
 
         public ProbingAdapterResolver() : this(Assembly.Load)
-        {
+        {            
         }
 
+#if NEW_REFLECTION
+        public ProbingAdapterResolver(Func<AssemblyName, Assembly> assemblyLoader)
+        {
+            this.assemblyLoader = assemblyLoader;
+        }
+#else
         public ProbingAdapterResolver(Func<string, Assembly> assemblyLoader)
         {
             this.assemblyLoader = assemblyLoader;
         }
+#endif
 
         public object Resolve(Type type)
         {
@@ -54,7 +65,11 @@ namespace FluentAssertions.Common
         {
             string typeName = MakeAdapterTypeName(interfaceType);
 
+#if NEW_REFLECTION
+            Type type = assembly.GetType(typeName, throwOnError: false, ignoreCase: false);
+#else
             Type type = assembly.GetType(typeName, throwOnError: false);
+#endif
             if (type != null)
             {
                 return Activator.CreateInstance(type);
@@ -86,11 +101,19 @@ namespace FluentAssertions.Common
 
         private Assembly ProbeForPlatformSpecificAssembly()
         {
+#if NEW_REFLECTION
+            var assemblyName = new AssemblyName(GetType().GetTypeInfo().Assembly.FullName) { Name = "FluentAssertions" };
+#else
             var assemblyName = new AssemblyName(GetType().Assembly.FullName) { Name = "FluentAssertions" };
+#endif
 
             try
             {
+#if NEW_REFLECTION
+                return assemblyLoader(assemblyName);
+#else
                 return assemblyLoader(assemblyName.FullName);
+#endif
             }
             catch (FileNotFoundException)
             {

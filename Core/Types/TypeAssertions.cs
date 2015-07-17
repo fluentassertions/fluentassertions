@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-
+using System.Reflection;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
@@ -9,7 +9,7 @@ using FluentAssertions.Primitives;
 namespace FluentAssertions.Types
 {
     /// <summary>
-    /// Contains a number of methods to assert that a <see cref="Type"/> meets certain expectations.
+    /// Contains a number of methods to assert that a <see cref="System.Type"/> meets certain expectations.
     /// </summary>
     [DebuggerNonUserCode]
     public class TypeAssertions : ReferenceTypeAssertions<Type, TypeAssertions>
@@ -147,7 +147,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
+        /// Asserts that the current <see cref="System.Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
@@ -169,7 +169,7 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="Type"/> is decorated with an attribute of type <typeparamref name="TAttribute"/>
+        /// Asserts that the current <see cref="System.Type"/> is decorated with an attribute of type <typeparamref name="TAttribute"/>
         /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
         /// </summary>
         /// <param name="isMatchingAttributePredicate">

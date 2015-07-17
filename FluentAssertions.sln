@@ -85,6 +85,7 @@ Global
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{11e362b9-2a11-4452-ad28-1f8ac14ae87b}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{0c23c12c-899f-4ad1-b737-b967a9910c08}*SharedItemsImports = 13
 		Shared\Shared.projitems*{0ec1cb90-4d32-4020-bcdb-0ab290a355c2}*SharedItemsImports = 4
+		Shared\Shared.projitems*{a5aad876-e48d-4584-b88c-2bbc52e2d875}*SharedItemsImports = 4
 		Shared\Shared.projitems*{ce8a220a-faa6-469d-b9b8-5f1834685861}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
