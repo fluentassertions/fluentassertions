@@ -35,7 +35,16 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\Package\Lib\dotnet\FluentAssertions.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
+    <None Include="..\FluentAssertions.snk">
+      <Link>FluentAssertions.snk</Link>
+    </None>
     <None Include="project.json" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
