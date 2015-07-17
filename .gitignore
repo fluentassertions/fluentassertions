@@ -6,6 +6,10 @@
 *.user
 *.sln.docstates
 *.sln.ide
+.vs/
+
+
+project.lock.json
 
 # Build results
 
