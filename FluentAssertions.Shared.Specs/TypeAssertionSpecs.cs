@@ -138,7 +138,7 @@ namespace FluentAssertions.Specs
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
             Type typeFromThisAssembly = typeof(ObjectAssertions);
-#if !WINRT && !WINDOWS_PHONE_APP
+#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
             Type typeFromOtherAssembly =
                 typeof(TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 #else

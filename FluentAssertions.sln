@@ -66,6 +66,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Dotnet", "FluentAssert
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core", "Core\Core.shproj", "{F33AD06B-9CC4-4E7E-9FB2-EA37890658FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.specs", "FluentAssertions.Dotnet.specs\Dotnet.specs.csproj", "{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Core\Core.projitems*{f33ad06b-9cc4-4e7e-9fb2-ea37890658ff}*SharedItemsImports = 13
@@ -79,6 +81,7 @@ Global
 		Core\Core.projitems*{8931c5ef-3bac-473a-a343-57791d0917b1}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{f3e17430-fad7-40ad-bf66-e6f23b70bd92}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{00a8d405-6687-47b4-a81c-76b5331d094d}*SharedItemsImports = 4
+		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{bfa9c5e5-8838-4eb1-bfe6-2cfafbc95e5c}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{6d8311f2-7599-4bd0-b66c-05e8cf77aab0}*SharedItemsImports = 4
 		Shared\Shared.projitems*{81d1792f-3c87-49cf-a502-9f232ff3719c}*SharedItemsImports = 4
 		FluentAssertions.Shared.Specs\Shared.Specs.projitems*{0220d206-62e4-4352-89ec-424e0f04d2d3}*SharedItemsImports = 4
@@ -423,6 +426,32 @@ Global
 		{DB576B1B-F074-49D6-ACDD-B2140F8E140F}.Release|x64.Build.0 = Release|Any CPU
 		{DB576B1B-F074-49D6-ACDD-B2140F8E140F}.Release|x86.ActiveCfg = Release|Any CPU
 		{DB576B1B-F074-49D6-ACDD-B2140F8E140F}.Release|x86.Build.0 = Release|Any CPU
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|ARM.ActiveCfg = Debug|ARM
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|ARM.Build.0 = Debug|ARM
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|ARM.Deploy.0 = Debug|ARM
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|x64.ActiveCfg = Debug|x64
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|x64.Build.0 = Debug|x64
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|x64.Deploy.0 = Debug|x64
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|x86.ActiveCfg = Debug|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|x86.Build.0 = Debug|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Debug|x86.Deploy.0 = Debug|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|Any CPU.ActiveCfg = Release|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|ARM.ActiveCfg = Release|ARM
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|ARM.Build.0 = Release|ARM
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|ARM.Deploy.0 = Release|ARM
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|x64.ActiveCfg = Release|x64
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|x64.Build.0 = Release|x64
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|x64.Deploy.0 = Release|x64
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|x86.ActiveCfg = Release|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|x86.Build.0 = Release|x86
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -451,6 +480,7 @@ Global
 		{A5AAD876-E48D-4584-B88C-2BBC52E2D875} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{DB576B1B-F074-49D6-ACDD-B2140F8E140F} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{F33AD06B-9CC4-4E7E-9FB2-EA37890658FF} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
+		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = FluentAssertions.Silverlight\Silverlight.csproj

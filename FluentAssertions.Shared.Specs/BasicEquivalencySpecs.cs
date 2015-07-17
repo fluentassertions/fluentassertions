@@ -2593,7 +2593,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP
+#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
             act.ShouldNotThrow<StackOverflowException>();
 #endif
             act.ShouldThrow<AssertFailedException>();

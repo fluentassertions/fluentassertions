@@ -18,7 +18,7 @@ using FluentAssertions.Specialized;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 
-#if NET45 || WINRT
+#if NET45 || WINRT || CORE_CLR
 using System.Threading.Tasks;
 #endif
 
@@ -39,7 +39,7 @@ namespace FluentAssertions
             return () => action(subject);
         }
 
-#if NET45 || WINRT
+#if NET45 || WINRT || CORE_CLR
         public static Func<Task> Awaiting<T>(this T subject, Func<T, Task> action)
         {
             return () => action(subject);

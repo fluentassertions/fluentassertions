@@ -20,7 +20,7 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class EventAssertionSpecs
     {
-#if !WINRT && !SILVERLIGHT && !WINDOWS_PHONE_APP
+#if !WINRT && !SILVERLIGHT && !WINDOWS_PHONE_APP && !CORE_CLR
 
         #region Should(Not)Raise
 
