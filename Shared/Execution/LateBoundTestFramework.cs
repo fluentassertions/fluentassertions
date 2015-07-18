@@ -39,8 +39,8 @@ namespace FluentAssertions.Execution
                 // For CoreCLR, we need to attempt to load the assembly
                 try
                 {
-                    var assm = Assembly.Load(new AssemblyName(AssemblyName) { Version = new Version(0,0,0,0)});
-                    return assm != null;
+                    assembly = Assembly.Load(new AssemblyName(AssemblyName) { Version = new Version(0,0,0,0)});
+                    return assembly != null;
                 }
                 catch
                 {
