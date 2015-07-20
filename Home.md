@@ -154,12 +154,12 @@ theString.Should().NotContainEquivalentOf("HeRe ThE CaSiNg Is IgNoReD As WeLl");
 theString.Should().StartWith("This");
 theString.Should().NotStartWith("This");
 theString.Should().StartWithEquivalent("this");
-theString.Should().NotStartWithEquivalent("this");
+theString.Should().NotStartWithEquivalentOf("this");
 
 theString.Should().EndWith("a String");
 theString.Should().NotEndWith("a String");
 theString.Should().EndWithEquivalent("a string");
-theString.Should().NotEndWithEquivalent("a string");
+theString.Should().NotEndWithEquivalentOf("a string");
 ```
 
 We even support wildcards. For instance, if you would like to assert that some email address is correct, use this:
