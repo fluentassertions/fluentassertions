@@ -9,6 +9,8 @@
     "Microsoft.NETCore.Portable.Compatibility": "1.0.0"      
   },
   "frameworks": {
-    "dotnet": {}
+    "dotnet": {
+      "imports": "portable-net452+win81"
+    }
   }
 }

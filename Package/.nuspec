@@ -3,7 +3,7 @@
   <metadata> 
     <id>FluentAssertions</id>
     <title>Fluent Assertions</title>
-    <version>1.2.3-unstable0012</version>
+    <version>3.5.0-dev02</version>
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen, Oren Novotny, Adam Voss</authors>
     <summary>
@@ -22,9 +22,31 @@
       See https://github.com/dennisdoomen/fluentassertions/releases/
     </releaseNotes>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Xml"/>
+      <frameworkAssembly assemblyName="System.Xml" />
       <frameworkAssembly assemblyName="System.Xml.Linq"  />
     </frameworkAssemblies>
+    <dependencies>
+      <group targetFramework="dotnet">
+        <dependency id="System.Collections" version="4.0.10" />
+        <dependency id="System.Diagnostics.Debug" version="4.0.10" />
+        <dependency id="System.Globalization" version="4.0.10" />
+        <dependency id="System.Linq" version="4.0.0" />
+        <dependency id="System.Linq.Expressions" version="4.0.10" />
+        <dependency id="System.ObjectModel" version="4.0.10" />
+        <dependency id="System.Reflection" version="4.0.10" />
+        <dependency id="System.Reflection.Extensions" version="4.0.0" />
+        <dependency id="System.Reflection.Primitives" version="4.0.0" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.0.0" />
+        <dependency id="System.Runtime" version="4.0.20" />
+        <dependency id="System.Runtime.Extensions" version="4.0.10" />
+        <dependency id="System.Threading.Tasks" version="4.0.10" />
+        <dependency id="System.Text.RegularExpressions" version="4.0.10" />
+        <dependency id="System.Threading" version="4.0.10" />
+        <dependency id="System.Xml.XDocument" version="4.0.10" />
+      </group>
+
+
+    </dependencies>
   </metadata>
   <files>
     <file src="lib\**\*.*" target="lib" exclude="**\windows8\microsoft*.dll"/>
