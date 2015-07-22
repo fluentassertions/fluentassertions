@@ -214,7 +214,7 @@ Notice that `Should().Be()` and `Should().NotBe()` are not available for floats 
 
 ```csharp
 float value = 3.1415927F;
-value.Should().BeApproximately(3.14F, 0.001F);
+value.Should().BeApproximately(3.14F, 0.01F);
 ```
 
 This will verify that the value of the float is between 3.139 and 3.141.
