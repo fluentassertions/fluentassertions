@@ -49,14 +49,33 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40\Execution\GallioTestFramework.cs">
+      <Link>Execution\GallioTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\MbUnitTestFramework.cs">
+      <Link>Execution\MbUnitTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\MSpecFramework.cs">
+      <Link>Execution\MSpecFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFramework.cs">
+      <Link>Execution\MSTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\XUnitTestFramework.cs">
+      <Link>Execution\XUnitTestFramework.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net45\Execution\XUnit2TestFramework.cs">
       <Link>Execution\XUnit2TestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\fluentassertions.winrt80\common\ProvidePlatformServices.cs">
+    <Compile Include="..\FluentAssertions.WinRT\Common\ProvidePlatformServices.cs">
       <Link>Common\ProvidePlatformServices.cs</Link>
     </Compile>
-    <Compile Include="Execution\MSTestFramework.cs" />
-    <Compile Include="Execution\NUnitPclTestFramework.cs" />
+    <Compile Include="..\FluentAssertions.WinRT\Execution\MSTestFrameworkRT.cs">
+      <Link>Execution\MSTestFrameworkRT.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.WinRT\Execution\NUnitPclTestFramework.cs">
+      <Link>Execution\NUnitPclTestFramework.cs</Link>
+    </Compile>
     <Compile Include="Execution\TestFrameworkProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-#if WINRT
+#if WINRT 
 using System.Reflection.RuntimeExtensions;
 #endif
 
@@ -38,7 +38,7 @@ namespace FluentAssertions.Execution
 
             if (testContext != null)
             {
-#if !WINRT
+#if !WINRT && !CORE_CLR
                 testContextType.InvokeMember("IncrementAssertCount", BindingFlags.InvokeMethod, null, testContext, null);
 #else
                 var method = testContextType.GetRuntimeMethod("IncrementAssertCount", new Type[0]);
@@ -48,7 +48,7 @@ namespace FluentAssertions.Execution
 
             object assertionFailureBuilder = Activator.CreateInstance(assertionFailureBuilderType, message);
             object assertionFailure;
-#if !WINRT
+#if !WINRT && !CORE_CLR
             assertionFailureBuilderType.InvokeMember("SetMessage", BindingFlags.InvokeMethod, null,
                 assertionFailureBuilder, new object[] {message});
             assertionFailure = assertionFailureBuilderType.InvokeMember("ToAssertionFailure",
@@ -62,7 +62,7 @@ namespace FluentAssertions.Execution
 #endif
             try
             {
-#if !WINRT
+#if !WINRT && !CORE_CLR
                 assertionHelperType.InvokeMember("Fail", BindingFlags.InvokeMethod, null, null, new[] {assertionFailure});
 #else
                 var failMethod = assertionHelperType.GetRuntimeMethods().First(m => m.Name == "Fail");
@@ -82,10 +82,23 @@ namespace FluentAssertions.Execution
         {
             get
             {
+#if CORE_CLR
+                // For CoreCLR, we need to attempt to load the assembly
+                try
+                {
+                    assembly = Assembly.Load(new AssemblyName(AssemblyName) { Version = new Version(0, 0, 0, 0) });
+                    return assembly != null;
+                }
+                catch
+                {
+                    return false;
+                }
+#else
                 assembly = AppDomain.CurrentDomain.GetAssemblies()
                     .FirstOrDefault(a => a.GetName().Name.Equals(AssemblyName, StringComparison.InvariantCultureIgnoreCase));
 
                 return (assembly != null);
+#endif
             }
         }
 

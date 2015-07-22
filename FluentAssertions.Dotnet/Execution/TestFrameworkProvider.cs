@@ -12,7 +12,16 @@ namespace FluentAssertions.Execution
         {
             { "xunit2", new XUnit2TestFramework()},
             { "nunit-pcl", new NUnitPclTestFramework() },
-            { "mstest", new MSTestFramework() }
+            
+            
+            { "xunit", new XUnitTestFramework() },
+            { "mspec", new MSpecFramework() },
+            { "mbunit", new MbUnitTestFramework() },
+            { "gallio", new GallioTestFramework() },            
+            { "mstest", new MSTestFramework() },
+            { "mstest-rt", new MSTestFrameworkRT() },
+
+            { "fallback", new FallbackTestFramework() }
         };
 
         private static ITestFramework testFramework;
