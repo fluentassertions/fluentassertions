@@ -237,7 +237,7 @@ theDatetime.Should().BeBefore(2.March(2010));
 theDatetime.Should().BeOnOrAfter(1.March(2010));
 
 theDatetime.Should().Be(1.March(2010).At(22, 15));
-theDatetime.Should().NotBe(1.March(2010).At(22, 15)); 
+theDatetime.Should().NotBe(1.March(2010).At(22, 16)); 
 
 theDatetime.Should().HaveDay(1);
 theDatetime.Should().HaveMonth(3);
