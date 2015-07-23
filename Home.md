@@ -332,14 +332,14 @@ collection.Should().HaveElementPreceding(successor, element);
 collection.Should().HaveElementSucceeding(predecessor, element);
 
 collection.Should().BeEmpty();
-collection.Should().BeNullorEmpty();
+collection.Should().BeNullOrEmpty();
 collection.Should().NotBeNullOrEmpty();
 
 collection.Should().IntersectWith(otherCollection);
 collection.Should().NotIntersectWith(otherCollection);
 
 collection.Should().BeInAscendingOrder();
-collection.Should().NotBeInAscendingOrder();
+collection.Should().NotBeAscendingOrder();
 ```
 
 Those last two methods can be used to assert a collection contains items in ascending or descending order.  For simple types that might be fine, but for more complex types, it requires you to implement `IComparable`, something that doesn't make a whole lot of sense in all cases. That's why we offer overloads that take an expression.
