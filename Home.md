@@ -370,9 +370,12 @@ persistedCustomers.Should().Equal(customers, (c1, c2) => c1.Name == c2.Name);
 You can apply Fluent Assertions to your generic dictionaries as well. Of course you can assert any dictionary to be null or not null, and empty or not empty. Like this:
 
 ```csharp
+Dictionary<int, string> dictionary;
 dictionary.Should().BeNull();
+dictionary = new Dictionary<int, string>();
 dictionary.Should().NotBeNull();
 dictionary.Should().BeEmpty();
+dictionary.Add(1, "first element");
 dictionary.Should().NotBeEmpty();
 ```
 
