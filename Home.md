@@ -328,6 +328,8 @@ collection.Should().NotContain(82);
 collection.Should().NotContainNulls();
 collection.Should().NotContain(x => x > 10);
 
+const int successor = 5;
+const int predecessor = 5;
 collection.Should().HaveElementPreceding(successor, element);
 collection.Should().HaveElementSucceeding(predecessor, element);
 
@@ -335,8 +337,10 @@ collection.Should().BeEmpty();
 collection.Should().BeNullOrEmpty();
 collection.Should().NotBeNullOrEmpty();
 
+IEnumerable otherCollection = new[] { 1, 2, 5, 8, 1 };
+IEnumerable anotherCollection = new[] { 10, 20, 50, 80, 10 };
 collection.Should().IntersectWith(otherCollection);
-collection.Should().NotIntersectWith(otherCollection);
+collection.Should().NotIntersectWith(anotherCollection);
 
 collection.Should().BeInAscendingOrder();
 collection.Should().NotBeAscendingOrder();
