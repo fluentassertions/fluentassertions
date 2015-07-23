@@ -879,6 +879,20 @@ xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.
 New in version 1.4 is a method to assert that the execution time of particular method or action does not exceed a predefined value. To verify the execution time of a method, use the following syntax:
 
 ```csharp
+public class SomePotentiallyVerySlowClass
+    {
+      public void ExpensiveMethod()
+      {
+        for (short i = 0; i < short.MaxValue; i++)
+        {
+          string tmp = " ";
+          if (!string.IsNullOrEmpty(tmp))
+          {
+            tmp += " ";
+          }
+        }
+      }
+    }
 var subject = new SomePotentiallyVerySlowClass();
 subject.ExecutionTimeOf(s => s.ExpensiveMethod()).ShouldNotExceed(500.Milliseconds());
 ```
