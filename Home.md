@@ -320,7 +320,7 @@ collection.Should().Contain(x => x > 3);
 collection.Should().Contain(collection, "", 5, 6); // It should contain the original items, plus 5 and 6.
 
 collection.Should().OnlyContain(x => x < 10);
-collection.Should().OnlyContainItemsOfType<int>();
+collection.Should().ContainItemsAssignableTo<int>();
 
 collection.Should().ContainInOrder(new[] { 1, 5, 8 });
 
