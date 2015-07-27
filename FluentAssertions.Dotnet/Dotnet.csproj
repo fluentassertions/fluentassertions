@@ -42,6 +42,11 @@
     <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <NuSpecLibContent Include="$(TargetPath)" />
+    <NuSpecLibContent Include="$(TargetDir)FluentAssertions.Core.dll" />
+    <NuSpecFile Include="$(SolutionDir)Package\.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="..\FluentAssertions.snk">
       <Link>FluentAssertions.snk</Link>
     </None>
