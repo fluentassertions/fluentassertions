@@ -44,6 +44,8 @@
   <ItemGroup>
     <NuSpecLibContent Include="$(TargetPath)" />
     <NuSpecLibContent Include="$(TargetDir)FluentAssertions.Core.dll" />
+    <NuSpecProjectFile Include="$(MSBuildThisFileFullPath)" />
+    <NuSpecProjectFile Include="$(SolutionDir)FluentAssertions.Core.Dotnet\Core.Dotnet.csproj" />
     <NuSpecFile Include="$(SolutionDir)Package\.nuspec" />
   </ItemGroup>
   <ItemGroup>
