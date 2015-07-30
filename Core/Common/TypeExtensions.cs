@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,6 +13,9 @@ namespace FluentAssertions.Common
     {
         private const BindingFlags PublicMembersFlag =
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+        private const BindingFlags AllMembersFlag =
+            PublicMembersFlag | BindingFlags.NonPublic | BindingFlags.Static;
 
         /// <summary>
         /// Determines whether the specified method has been annotated with a specific attribute.
@@ -290,14 +294,57 @@ namespace FluentAssertions.Common
             return (getMethod != null) && !getMethod.IsPrivate && !getMethod.IsFamily;
         }
 
-        public static MethodInfo GetMethodNamed(this Type type, string methodName)
+        public static MethodInfo GetMethod(this Type type, string methodName, IEnumerable<Type> parameterTypes)
         {
-            return type.GetMethod(methodName);
+            return type.GetMethods(AllMembersFlag)
+                .SingleOrDefault(m => m.Name == methodName && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
 
-        internal static bool IsIndexer(this PropertyInfo member)
+        public static bool HasMethod(this Type type, string methodName, IEnumerable<Type> parameterTypes)
+        {
+            return type.GetMethod(methodName, parameterTypes) != null;
+        }
+
+        public static MethodInfo GetParameterlessMethod(this Type type, string methodName)
+        {
+            return type.GetMethod(methodName, Enumerable.Empty<Type>());
+        }
+
+        public static bool HasParameterlessMethod(this Type type, string methodName)
+        {
+            return type.GetParameterlessMethod(methodName) != null;
+        }
+
+        public static PropertyInfo GetPropertyByName(this Type type, string propertyName)
+        {
+            return type.GetProperty(propertyName, AllMembersFlag);
+        }
+
+        public static bool HasExplicitlyImplementedProperty(this Type type, Type interfaceType, string propertyName)
+        {
+            var hasGetter = type.HasParameterlessMethod(string.Format("{0}.get_{1}", interfaceType.FullName, propertyName));
+            var hasSetter = type.GetMethods(AllMembersFlag)
+                .SingleOrDefault(m => m.Name == string.Format("{0}.set_{1}", interfaceType.FullName, propertyName) && m.GetParameters().Count() == 1) != null;
+
+            return hasGetter || hasSetter;
+        }
+
+        public static PropertyInfo GetIndexerByParameterTypes(this Type type, IEnumerable<Type> parameterTypes)
+        {
+            return type.GetProperties(AllMembersFlag)
+                .SingleOrDefault(p => p.IsIndexer() && p.GetIndexParameters().Select(i => i.ParameterType).SequenceEqual(parameterTypes));
+        }
+
+        public static bool IsIndexer(this PropertyInfo member)
         {
             return (member.GetIndexParameters().Length != 0);
+        }
+
+        public static ConstructorInfo GetConstructor(this Type type, IEnumerable<Type> parameterTypes)
+        {
+            return type
+                .GetConstructors(AllMembersFlag)
+                .SingleOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
     }
 }

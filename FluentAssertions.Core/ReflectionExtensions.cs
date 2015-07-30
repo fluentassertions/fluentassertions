@@ -35,8 +35,11 @@ namespace FluentAssertions
             return type.IsInterface;
         }
 
-     
 
+        public static Type GetTypeInfo(this Type type)
+        {
+            return type;
+        }
       
     }
 

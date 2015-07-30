@@ -63,7 +63,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> Be(T? expected, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
-                .ForCondition(ReferenceEquals(Subject, expected) || (Subject.CompareTo(expected) == 0))
+                .ForCondition(ReferenceEquals(Subject, expected) || ((!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) == 0)))
                 .BecauseOf(because, reasonArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
 
@@ -113,7 +113,7 @@ namespace FluentAssertions.Numeric
         }
 
         /// <summary>
-        /// Asserts that the numeric value is greater than or equal to zero.
+        /// Asserts that the numeric value is greater than zero.
         /// </summary>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 

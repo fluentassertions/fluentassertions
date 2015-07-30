@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Reflection;
-
+using System.Threading.Tasks;
 using FluentAssertions.Common;
-using FluentAssertions.Types;
-
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -15,13 +13,15 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class MethodInfoAssertionSpecs
     {
+        #region BeVirtual
+
         [TestMethod]
-        public void When_asserting_a_method_is_virtual_and_it_is_it_should_succeed()
+        public void When_asserting_a_method_is_virtual_and_it_is_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsVirtual).GetMethodNamed("PublicVirtualDoNothing");
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsVirtual).GetParameterlessMethod("PublicVirtualDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -36,12 +36,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_method_is_virtual_but_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_method_is_virtual_but_it_is_not_then_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithNonVirtualPublicMethods).GetMethodNamed("PublicDoNothing");
+            MethodInfo methodInfo = typeof(ClassWithNonVirtualPublicMethods).GetParameterlessMethod("PublicDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -58,13 +58,17 @@ namespace FluentAssertions.Specs
                     " but it is not virtual.");
         }
 
+        #endregion
+
+        #region BeDecoratedWithOfT
+
         [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_attribute_and_it_is_it_should_succeed()
+        public void When_asserting_a_method_is_decorated_with_attribute_and_it_is_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothing");
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -84,7 +88,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothing");
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -98,12 +102,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_an_attribute_but_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_method_is_decorated_with_an_attribute_but_it_is_not_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothing");
+            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -122,12 +126,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_should_succeed()
+        public void When_asserting_a_method_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothing");
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -142,12 +146,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_a_method_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_should_throw_with_descriptive_message()
+        public void When_asserting_a_method_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothing");
+            MethodInfo methodInfo = typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothing");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -171,7 +175,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetMethodNamed("PublicDoNothingWithSameAttributeTwice");
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsDecoratedWithDummyAttribute).GetParameterlessMethod("PublicDoNothingWithSameAttributeTwice");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -188,6 +192,55 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>();
         }
+
+        #endregion
+
+        #region BeAsync
+
+        [TestMethod]
+        public void When_asserting_a_method_is_async_and_it_is_then_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithAllMethodsAsync).GetParameterlessMethod("PublicAsyncDoNothing");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().BeAsync();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_method_is_async_but_it_is_not_then_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(ClassWithNonAsyncMethods).GetParameterlessMethod("PublicDoNothing");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().BeAsync("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected subject Task FluentAssertions.Specs.ClassWithNonAsyncMethods.PublicDoNothing" +
+                    " to be async because we want to test the error message," +
+                    " but it is not.");
+        }
+
+        #endregion
     }
 
     #region Internal classes used in unit tests
@@ -263,6 +316,42 @@ namespace FluentAssertions.Specs
 
         private void PrivateDoNothing()
         {
+        }
+    }
+
+    internal class ClassWithAllMethodsAsync
+    {
+        public async Task PublicAsyncDoNothing()
+        {
+            await Task.Factory.StartNew(() => { });
+        }
+
+        internal async Task InternalAsyncDoNothing()
+        {
+            await Task.Factory.StartNew(() => { });
+        }
+
+        protected async Task ProtectedAsyncDoNothing()
+        {
+            await Task.Factory.StartNew(() => { });
+        }
+    }
+
+    internal class ClassWithNonAsyncMethods
+    {
+        public Task PublicDoNothing()
+        {
+            return null;
+        }
+
+        internal Task InternalDoNothing()
+        {
+            return null;
+        }
+
+        protected Task ProtectedDoNothing()
+        {
+            return null;
         }
     }
 

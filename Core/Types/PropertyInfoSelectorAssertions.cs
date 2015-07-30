@@ -89,7 +89,7 @@ namespace FluentAssertions.Types
         {
             var query =
                 from property in SubjectProperties
-                where PropertyInfoAssertions.IsGetterNonVirtual(property)
+                where !property.IsVirtual()
                 select property;
 
             return query.ToArray();
