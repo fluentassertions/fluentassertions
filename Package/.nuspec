@@ -34,6 +34,7 @@
       <group targetFramework="xamarin.ios" />
       <group targetFramework="monotouch" />
       <group targetFramework="monoandroid" />      
+      <group targetFramework="portable-net40+sl5+win8+wp8+wpa81" />      
       <group targetFramework="dotnet">
         <dependency id="System.Collections" version="4.0.10" />
         <dependency id="System.Diagnostics.Debug" version="4.0.10" />

@@ -44,6 +44,9 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <None Include="..\FluentAssertions.snk">
@@ -61,6 +64,11 @@
   <Import Project="..\Core\Core.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(SolutionDir)\Package\Lib\portable-monotouch+monoandroid+xamarin.ios\*.*" "$(SolutionDir)\Package\Lib\monotouch\" /y
+xcopy "$(SolutionDir)\Package\Lib\portable-monotouch+monoandroid+xamarin.ios\*.*" "$(SolutionDir)\Package\Lib\monoandroid\" /y  
+xcopy "$(SolutionDir)\Package\Lib\portable-monotouch+monoandroid+xamarin.ios\*.*" "$(SolutionDir)\Package\Lib\xamarin.ios\" /y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
