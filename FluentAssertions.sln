@@ -66,8 +66,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Core", "Core\Core.shproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet.specs", "FluentAssertions.Dotnet.specs\Dotnet.specs.csproj", "{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT80", "FluentAssertions.WinRT80\WinRT80.csproj", "{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Core\Core.projitems*{f33ad06b-9cc4-4e7e-9fb2-ea37890658ff}*SharedItemsImports = 13
@@ -432,26 +430,6 @@ Global
 		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|x86.ActiveCfg = Release|x86
 		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|x86.Build.0 = Release|x86
 		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C}.Release|x86.Deploy.0 = Release|x86
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|ARM.ActiveCfg = Debug|ARM
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|ARM.Build.0 = Debug|ARM
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|x64.ActiveCfg = Debug|x64
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|x64.Build.0 = Debug|x64
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|x86.ActiveCfg = Debug|x86
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Debug|x86.Build.0 = Debug|x86
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|ARM.ActiveCfg = Release|ARM
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|ARM.Build.0 = Release|ARM
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|Mixed Platforms.Build.0 = Release|x86
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|x64.ActiveCfg = Release|x64
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|x64.Build.0 = Release|x64
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|x86.ActiveCfg = Release|x86
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -480,7 +458,6 @@ Global
 		{DB576B1B-F074-49D6-ACDD-B2140F8E140F} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{F33AD06B-9CC4-4E7E-9FB2-EA37890658FF} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 		{BFA9C5E5-8838-4EB1-BFE6-2CFAFBC95E5C} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
-		{78E63B83-C692-44C5-8503-7E4FAF8C4DE8} = {2D1C52B7-E25D-4BD5-8688-A642A6842AA5}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = FluentAssertions.Silverlight\Silverlight.csproj
