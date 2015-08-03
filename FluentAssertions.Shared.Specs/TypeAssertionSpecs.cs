@@ -81,7 +81,7 @@ namespace FluentAssertions.Specs
 
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected type to be FluentAssertions.Specs.ClassWithoutAttribute" +
-                " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                    " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected type to be FluentAssertions.Specs.ClassWithAttribute" +
-                " because we want to test the error message, but found <null>.");
+                    " because we want to test the error message, but found <null>.");
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected type to be <null>" +
-                " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                    " because we want to test the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
         }
 
         [TestMethod]
@@ -140,7 +140,7 @@ namespace FluentAssertions.Specs
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
             Type typeFromThisAssembly = typeof (ObjectAssertions);
-#if !WINRT && !WINDOWS_PHONE_APP
+#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
             Type typeFromOtherAssembly =
                 typeof (TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 #else
@@ -162,8 +162,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             const string expectedMessage =
                 "Expected type to be [FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*]" +
-                " because we want to test the error message, but found " +
-                "[FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
+                    " because we want to test the error message, but found " +
+                        "[FluentAssertions.Primitives.ObjectAssertions, FluentAssertions*].";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
@@ -228,7 +228,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected type to be FluentAssertions.Specs.ClassWithoutAttribute because we want to test " +
-                    "the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
+                        "the error message, but found FluentAssertions.Specs.ClassWithAttribute.");
         }
 
         #endregion
@@ -569,8 +569,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithoutAttribute to be decorated with " +
-                             "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
-                             "was not found.");
+                    "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
+                        "was not found.");
         }
 
         [TestMethod]
@@ -614,8 +614,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to be decorated with " +
-                             "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
-                             "but no matching attribute was found.");
+                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Unexpected\")*a.IsEnabled), " +
+                        "but no matching attribute was found.");
         }
 
         [TestMethod]
@@ -665,9 +665,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected all types to be decorated with FluentAssertions.Specs.DummyClassAttribute" +
-                             " because we do, but the attribute was not found on the following types:\r\n" +
-                             "FluentAssertions.Specs.ClassWithoutAttribute\r\n" +
-                             "FluentAssertions.Specs.OtherClassWithoutAttribute");
+                    " because we do, but the attribute was not found on the following types:\r\n" +
+                    "FluentAssertions.Specs.ClassWithoutAttribute\r\n" +
+                    "FluentAssertions.Specs.OtherClassWithoutAttribute");
         }
 
 
@@ -696,10 +696,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected all types to be decorated with FluentAssertions.Specs.DummyClassAttribute" +
-                             " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
-                             " but no matching attribute was found on the following types:\r\n" +
-                             "FluentAssertions.Specs.ClassWithoutAttribute\r\n" +
-                             "FluentAssertions.Specs.OtherClassWithoutAttribute");
+                    " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
+                    " but no matching attribute was found on the following types:\r\n" +
+                    "FluentAssertions.Specs.ClassWithoutAttribute\r\n" +
+                    "FluentAssertions.Specs.OtherClassWithoutAttribute");
         }
 
         #endregion
@@ -838,7 +838,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassThatImplementsInterface to not implement interface " +
                              "FluentAssertions.Specs.IDummyInterface because we want to test the error message, but it does.");
-        }
+    }
 
         [TestMethod]
         public void When_asserting_a_type_does_not_implement_a_NonInterface_type_it_fails_with_a_useful_message()
@@ -2333,7 +2333,7 @@ namespace FluentAssertions.Specs
 #endregion
     }
 
-#region Internal classes used in unit tests
+    #region Internal classes used in unit tests
 
     [DummyClass("Expected", true)]
     public class ClassWithAttribute
@@ -2432,7 +2432,7 @@ namespace FluentAssertions.Specs
         protected internal interface IProtectedInternalInterface { }
     }
 
-#endregion
+    #endregion
 }
 
 namespace FluentAssertions.Primitives

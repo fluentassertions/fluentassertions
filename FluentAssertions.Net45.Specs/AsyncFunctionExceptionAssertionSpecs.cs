@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-#if WINRT
+#if WINRT || CORE_CLR
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;

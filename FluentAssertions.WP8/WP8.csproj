@@ -80,6 +80,7 @@
     <Optimize>false</Optimize>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
     <DocumentationFile>Bin\x86\Debug\FluentAssertions.xml</DocumentationFile>
+    <DefineConstants>SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget />
@@ -87,6 +88,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
+    <DefineConstants>SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <PlatformTarget />
@@ -94,12 +96,14 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
+    <DefineConstants>SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <PlatformTarget />
     <OutputPath>Bin\ARM\Release</OutputPath>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
+    <DefineConstants>SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
@@ -124,9 +128,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
+    <ProjectReference Include="..\FluentAssertions.Core\Core.pcl.csproj">
       <Project>{8931C5EF-3BAC-473A-A343-57791D0917B1}</Project>
-      <Name>Core</Name>
+      <Name>Core.pcl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Shared\Shared.projitems" Label="Shared" Condition="Exists('..\Shared\Shared.projitems')" />

@@ -57,10 +57,8 @@
     <Compile Include="..\FluentAssertions.Net45\Execution\XUnit2TestFramework.cs">
       <Link>Execution\XUnit2TestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.WinRT80\Common\ProvidePlatformServices.cs">
-      <Link>Common\ProvidePlatformServices.cs</Link>
-    </Compile>
-    <Compile Include="Execution\MSTestFramework.cs" />
+    <Compile Include="Common\ProvidePlatformServices.cs" />
+    <Compile Include="Execution\MSTestFrameworkRT.cs" />
     <Compile Include="Execution\NUnitPclTestFramework.cs" />
     <Compile Include="Execution\TestFrameworkProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,9 +67,9 @@
     <None Include="FluentAssertions.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
+    <ProjectReference Include="..\FluentAssertions.Core\Core.pcl.csproj">
       <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
-      <Name>Core</Name>
+      <Name>Core.pcl</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

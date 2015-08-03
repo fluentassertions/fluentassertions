@@ -59,14 +59,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\FluentAssertions.Core\Core.csproj">
+    <ProjectReference Include="..\..\FluentAssertions.Core\Core.pcl.csproj">
       <Project>{8931C5EF-3BAC-473A-A343-57791D0917B1}</Project>
-      <Name>Core</Name>
+      <Name>Core.pcl</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\FluentAssertions.Net45\Net45.csproj">
       <Project>{81d1792f-3c87-49cf-a502-9f232ff3719c}</Project>
       <Name>Net45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

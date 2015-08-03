@@ -595,7 +595,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-#if !SILVERLIGHT && !WINRT && !PORTABLE && !WINDOWS_PHONE_APP
+#if !SILVERLIGHT && !WINRT && !PORTABLE && !WINDOWS_PHONE_APP && !CORE_CLR
 
         #region BeBinarySerializable
 

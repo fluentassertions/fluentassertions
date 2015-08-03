@@ -22,7 +22,7 @@ namespace FluentAssertions.Reflection
         /// Gets the object which value is being asserted.
         /// </summary>
         public Assembly Subject { get; private set; }
-#if !PORTABLE && !SILVERLIGHT && !WINRT
+#if !PORTABLE && !SILVERLIGHT && !WINRT && !CORE_CLR
 
         /// <summary>
         /// Asserts that an assembly does not reference the specified assembly.

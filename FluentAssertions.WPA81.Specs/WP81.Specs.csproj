@@ -95,9 +95,9 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FluentAssertions.Core\Core.csproj">
+    <ProjectReference Include="..\FluentAssertions.Core\Core.pcl.csproj">
       <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
-      <Name>Core</Name>
+      <Name>Core.pcl</Name>
     </ProjectReference>
     <ProjectReference Include="..\FluentAssertions.WinRT\WinRT81.csproj">
       <Project>{ce8a220a-faa6-469d-b9b8-5f1834685861}</Project>
