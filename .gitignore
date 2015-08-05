@@ -14,7 +14,7 @@ project.lock.json
 *.nuget.targets
 
 # Build results
-
+Artifacts/
 [Dd]ebug/
 [Rr]elease/
 x64/
