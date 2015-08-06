@@ -28,32 +28,5 @@ namespace FluentAssertions.Equivalency
         public Type CompileTimeType { get; private set; }
 
         public Type RuntimeType { get; private set; }
-
-        [Obsolete]
-        public PropertyInfo PropertyInfo
-        {
-            get
-            {
-                var propertySelectedMemberInfo = SelectedMemberInfo as PropertySelectedMemberInfo;
-                if (propertySelectedMemberInfo != null)
-                {
-                    return propertySelectedMemberInfo.PropertyInfo;
-                }
-
-                return null;
-            }
-        }
-
-        [Obsolete]
-        public string PropertyPath
-        {
-            get { return SelectedMemberPath; }
-        }
-
-        [Obsolete]
-        public string PropertyDescription
-        {
-            get { return SelectedMemberDescription; }
-        }
     }
 }

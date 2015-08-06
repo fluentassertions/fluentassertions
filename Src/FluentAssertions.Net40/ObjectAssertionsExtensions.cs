@@ -47,7 +47,7 @@ namespace FluentAssertions
             {
                 object deserializedObject = CreateCloneUsingBinarySerializer(assertions.Subject);
 
-                EquivalencyAssertionOptions<T> defaultOptions = EquivalencyAssertionOptions<T>.Default()
+                EquivalencyAssertionOptions<T> defaultOptions = AssertionOptions.CloneDefaults<T>()
                     .RespectingRuntimeTypes().IncludingFields().IncludingProperties();
 
                 ((T)deserializedObject).ShouldBeEquivalentTo(assertions.Subject, _ => options(defaultOptions));

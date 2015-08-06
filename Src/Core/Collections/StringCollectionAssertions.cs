@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentAssertions.Collections
@@ -131,42 +130,13 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected, string because = null, object reasonArg = null,
+        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected, string because = null,
+            object reasonArg = null,
             params object[] reasonArgs)
         {
-            var args = new List<object> { reasonArg };
+            var args = new List<object> {reasonArg};
             args.AddRange(reasonArgs);
             return base.Contain(expected, because, args.ToArray());
-        }
-
-        /// <summary>
-        /// Asserts that the collection contains some extra items in addition to the original items.
-        /// </summary>
-        /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
-        /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
-        [Obsolete("Will be removed in v4.0.  Please use `And` to chain assertions or construct the enumerable yourself.  If you are wanting to specify the \"because\" reason, name the parameter with `because:`")]
-        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList,
-            string additionalExpectedItem)
-        {
-            var list = new List<string>(expectedItemsList);
-            list.Add(additionalExpectedItem);
-
-            return base.Contain(list);
-        }
-
-        /// <summary>
-        /// Asserts that the collection contains some extra items in addition to the original items.
-        /// </summary>
-        /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
-        /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
-        [Obsolete("Will be removed in v4.0.  Please use `And` to chain assertions or construct the enumerable yourself.  If you are wanting to specify the \"because\" reason, name the parameter with `because:`")]
-        public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expectedItemsList,
-            IEnumerable<string> additionalExpectedItems)
-        {
-            var list = new List<string>(expectedItemsList);
-            list.AddRange(additionalExpectedItems);
-
-            return base.Contain(list);
         }
     }
 }

@@ -25,25 +25,6 @@ namespace FluentAssertions.Equivalency
         string SelectedMemberDescription { get; }
 
         /// <summary>
-        /// Gets the <see cref="PropertyInfo"/> of the property that returned the current object, or <c>null</c> if the current
-        /// object represents the root object.
-        /// </summary>
-        [Obsolete("This property will be removed in a future version.  Use `SelectedMemberInfo` instead.")]
-        PropertyInfo PropertyInfo { get; }
-
-        /// <summary>
-        /// Gets the full path from the root object until the current object separated by dots.
-        /// </summary>
-        [Obsolete("This property will be removed in a future version.  Use `SelectedMemberPath` instead.")]
-        string PropertyPath { get; }
-
-        /// <summary>
-        /// Gets a display-friendly representation of the <see cref="PropertyPath"/>.
-        /// </summary>
-        [Obsolete("This property will be removed in a future version.  Use `SelectedMemberDescription` instead.")]
-        string PropertyDescription { get; }
-
-        /// <summary>
         /// Gets the compile-time type of the current object. If the current object is not the root object and the type is not <see cref="object"/>, 
         /// then it returns the same <see cref="System.Type"/> as the <see cref="ISubjectInfo.RuntimeType"/> property does.
         /// </summary>

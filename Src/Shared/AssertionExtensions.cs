@@ -534,10 +534,8 @@ namespace FluentAssertions
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] reasonArgs)
         {
-#pragma warning disable 618
-            EquivalencyAssertionOptions<IEnumerable<T>> source = config(EquivalencyAssertionOptions<T>.Default()).AsCollection();
-#pragma warning restore 618
-
+            EquivalencyAssertionOptions<IEnumerable<T>> source = config(AssertionOptions.CloneDefaults<T>()).AsCollection();
+                                                                                                       
             var context = new EquivalencyValidationContext
             {
                 Subject = subject,
@@ -609,9 +607,7 @@ namespace FluentAssertions
                 ReasonArgs = reasonArgs
             };
 
-#pragma warning disable 618
-            new EquivalencyValidator(config(EquivalencyAssertionOptions<T>.Default())).AssertEquality(context);
-#pragma warning restore 618
+            new EquivalencyValidator(config(AssertionOptions.CloneDefaults<T>())).AssertEquality(context);
         }
 
 #if !SILVERLIGHT && !WINRT && !PORTABLE && !CORE_CLR

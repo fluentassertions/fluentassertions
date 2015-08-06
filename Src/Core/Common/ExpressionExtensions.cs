@@ -138,13 +138,6 @@ namespace FluentAssertions.Common
             return string.Join(".", segments.AsEnumerable().Reverse().ToArray()).Replace(".[", "[");
         }
 
-        [Obsolete("This method will be removed in a future version.  Use `GetMemberPath(expression)` instead.")]
-        public static string GetPropertyPath<TDeclaringType, TPropertyType>(
-            this Expression<Func<TDeclaringType, TPropertyType>> propertyExpression)
-        {
-            return GetMemberPath(propertyExpression);
-        }
-
         internal static string GetMethodName(Expression<Action> action)
         {
             return ((MethodCallExpression)action.Body).Method.Name;

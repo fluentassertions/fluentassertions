@@ -19,34 +19,6 @@ namespace FluentAssertions.Equivalency
 
         public string SelectedMemberDescription { get; set; }
 
-        [Obsolete]
-        public PropertyInfo PropertyInfo
-        {
-            get
-            {
-                var propertySelectedMemberInfo = SelectedMemberInfo as PropertySelectedMemberInfo;
-
-                if (propertySelectedMemberInfo != null)
-                {
-                    return propertySelectedMemberInfo.PropertyInfo;
-                }
-
-                return null;
-            }
-        }
-
-        [Obsolete]
-        public string PropertyPath
-        {
-            get { return SelectedMemberPath; }
-        }
-
-        [Obsolete]
-        public string PropertyDescription
-        {
-            get { return SelectedMemberDescription; }
-        }
-
         /// <summary>
         /// Gets the value of the <see cref="ISubjectInfo.SelectedMemberInfo" />
         /// </summary>
