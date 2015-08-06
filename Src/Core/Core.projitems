@@ -69,15 +69,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\IEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\IEquivalencyValidationContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\IEquivalencyValidator.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Equivalency\IMatchingRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\IMemberMatchingRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\IMemberSelectionRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\IOrderingRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Equivalency\ISelectionRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\ISubjectInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Matching\CollectionMemberMatchingRuleDecorator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Matching\MustMatchByNameRule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Matching\ObsoleteMatchingRuleAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Matching\TryMatchByNameRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\MemberInfoSelectedMemberInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\MultiDimensionalArrayEquivalencyStep.cs" />
@@ -101,7 +98,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\IncludeMemberByPathSelectionRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\IncludeMemberByPredicateSelectionRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\NestedSelectionContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\ObsoleteSelectionRuleAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\SelectMemberByPathSelectionRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\SelfReferenceEquivalencyAssertionOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\SimpleEqualityEquivalencyStep.cs" />

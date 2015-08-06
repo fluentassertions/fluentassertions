@@ -1,9 +1,6 @@
 ﻿#region
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
 
 #endregion
@@ -22,7 +19,7 @@ namespace FluentAssertions
             EquivalencySteps = new EquivalencyStepCollection();
         }
 
-        internal static EquivalencyAssertionOptions<T> CloneDefaults<T>()
+        public static EquivalencyAssertionOptions<T> CloneDefaults<T>()
         {
             return new EquivalencyAssertionOptions<T>(defaults);
         }

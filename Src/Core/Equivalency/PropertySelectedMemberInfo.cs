@@ -20,12 +20,6 @@ namespace FluentAssertions.Equivalency
             get { return propertyInfo.PropertyType; }
         }
 
-        [Obsolete]
-        internal PropertyInfo PropertyInfo
-        {
-            get { return propertyInfo; }
-        }
-
         public override object GetValue(object obj, object[] index)
         {
             return propertyInfo.GetValue(obj, index);

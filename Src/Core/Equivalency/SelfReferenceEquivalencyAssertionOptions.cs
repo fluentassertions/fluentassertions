@@ -294,16 +294,6 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Tries to match the properties of the subject with equally named properties on the expectation. Ignores those 
-        /// properties that don't exist on the expectation and previously registered matching rules.
-        /// </summary>
-        [Obsolete("This method will be removed in a future version.  Use `ExcludingMissingMembers()` instead.")]
-        public TSelf ExcludingMissingProperties()
-        {
-            return ExcludingMissingMembers();
-        }
-
-        /// <summary>
         /// Tries to match the members of the subject with equally named members on the expectation. Ignores those 
         /// members that don't exist on the expectation and previously registered matching rules.
         /// </summary>
@@ -312,16 +302,6 @@ namespace FluentAssertions.Equivalency
             ClearMatchingRules();
             matchingRules.Add(new TryMatchByNameRule());
             return (TSelf)this;
-        }
-
-        /// <summary>
-        /// Requires the expectation to have properties which are equally named to properties on the subject.
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete("This method will be removed in a future version.  Use `ThrowOnMissingMembers()` instead.")]
-        public TSelf ThrowingOnMissingProperties()
-        {
-            return ThrowingOnMissingMembers();
         }
 
         /// <summary>
@@ -416,36 +396,6 @@ namespace FluentAssertions.Equivalency
         public TSelf Using(IMemberMatchingRule matchingRule)
         {
             return AddMatchingRule(matchingRule);
-        }
-
-        /// <summary>
-        /// Adds a selection rule to the ones already added by default, and which is evaluated after all existing rules.
-        /// </summary>
-        /// <remarks>
-        /// Using this method will cause all fields to be excluded. 
-        /// </remarks>
-        [Obsolete("This method will be removed in a future version.  Use `Using(IMemberSelectionRule)` instead.")]
-        public TSelf Using(ISelectionRule selectionRule)
-        {
-            // The adapter forces the exclusion, but explicitly stating it here for clarity
-            // and in case any thing external looks at the configuration setting
-            ExcludingFields();
-            return AddSelectionRule(new ObsoleteSelectionRuleAdapter(selectionRule));
-        }
-
-        /// <summary>
-        /// Adds a matching rule to the ones already added by default, and which is evaluated before all existing rules.
-        /// </summary>
-        /// <remarks>
-        /// Using this method will cause all fields to be excluded. 
-        /// </remarks>
-        [Obsolete("This method will be removed in a future version.  Use `Using(IMemberMatchingRule)` instead.")]
-        public TSelf Using(IMatchingRule matchingRule)
-        {
-            // The adapter forces the exclusion, but explicitly stating it here for clarity
-            // and in case any thing external looks at the configuration setting
-            ExcludingFields();
-            return AddMatchingRule(new ObsoleteMatchingRuleAdapter(matchingRule));
         }
 
         /// <summary>

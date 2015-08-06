@@ -24,34 +24,6 @@ namespace FluentAssertions.Equivalency.Selection
 
         public string SelectedMemberDescription { get; private set; }
 
-        [Obsolete]
-        public PropertyInfo PropertyInfo
-        {
-            get
-            {
-                var propertySelectedMemberInfo = SelectedMemberInfo as PropertySelectedMemberInfo;
-
-                if (propertySelectedMemberInfo != null)
-                {
-                    return propertySelectedMemberInfo.PropertyInfo;
-                }
-
-                return null;
-            }
-        }
-
-        [Obsolete]
-        public string PropertyPath
-        {
-            get { return SelectedMemberPath; }
-        }
-
-        [Obsolete]
-        public string PropertyDescription
-        {
-            get { return SelectedMemberDescription; }
-        }
-
         /// <summary>
         /// Gets the compile-time type of the current object. If the current object is not the root object, then it returns the 
         /// same <see cref="System.Type"/> as the <see cref="ISubjectInfo.RuntimeType"/> property does.
