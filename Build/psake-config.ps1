@@ -1,5 +1,5 @@
 ﻿$config.buildFileName="default.ps1"
-$config.framework = "4.5.1x86"
+$config.framework = "4.6x86"
 $config.taskNameFormat="Executing {0}"
 $config.verboseError= $false
 $config.coloredOutput = $true
