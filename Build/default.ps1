@@ -15,7 +15,7 @@ properties {
 	$NuGetVersion = "1.2.3-unstable0012"
     $MsBuildLoggerPath = ""
 	$Branch = ""
-	$MsTestPath = "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe"
+	$MsTestPath = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\MSTest.exe"
 	$RunTests = $false
 }
 
