@@ -1,9 +1,11 @@
 properties {
     $BaseDirectory = Resolve-Path ..     
+	$SrcDirectory ="$BaseDirectory\Src"
+	$TestsDirectory ="$BaseDirectory\Tests"
     $Nuget = "$BaseDirectory\.nuget\NuGet.exe"
 	$SlnFile = "$BaseDirectory\FluentAssertions.sln"
-	$7zip = "$BaseDirectory\Tools\7z.exe"
-	$PackageDirectory = "$BaseDirectory\Package"
+	$7zip = "$BaseDirectory\Lib\7z.exe"
+	$ArtifactsDirectory = "$BaseDirectory\Artifacts"
 
 	$NuGetPushSource = ""
 	$NuGetApiKey = ""
@@ -13,7 +15,7 @@ properties {
 	$NuGetVersion = "1.2.3-unstable0012"
     $MsBuildLoggerPath = ""
 	$Branch = ""
-	$MsTestPath = "C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\MSTest.exe"
+	$MsTestPath = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\MSTest.exe"
 	$RunTests = $false
 }
 
@@ -29,7 +31,7 @@ task Clean {
 task ApplyAssemblyVersioning {
     TeamCity-Block "Updating solution info versions with build number $BuildNumber" {   
 	
-		$infos = Get-ChildItem -Path $BaseDirectory -Filter SolutionInfo.cs -Recurse
+		$infos = Get-ChildItem -Path $SrcDirectory -Filter SolutionInfo.cs -Recurse
 		
 		foreach ($info in $infos) {
 		    Write-Host "Updating " + $info.FullName
@@ -47,7 +49,7 @@ task ApplyAssemblyVersioning {
 task ApplyPackageVersioning {
     TeamCity-Block "Updating package version with build number $BuildNumber" {   
 	
-		$fullName = "$BaseDirectory\Package\.nuspec"
+		$fullName = "$SrcDirectory\.nuspec"
 
 	    Set-ItemProperty -Path $fullName -Name IsReadOnly -Value $false
 		
@@ -60,7 +62,7 @@ task ApplyPackageVersioning {
 task RestoreNugetPackages {
 	TeamCity-Block "Restoring NuGet packages" {
 		
-		& $Nuget restore "$BaseDirectory\FluentAssertions.sln"
+		& $Nuget restore "$BaseDirectory\FluentAssertions.sln"	
 	}
 }
 
@@ -83,55 +85,55 @@ task RunTests -precondition { return $RunTests -eq $true } {
         Run-MsTestWithTeamCityOutput `
 			"$MsTestPath"`
 			".NET 4.0"`
-			"$BaseDirectory\FluentAssertions.Net40.Specs\bin\Release\FluentAssertions.Net40.Specs.dll"`
-			"$BaseDirectory\Default.testsettings"
+			"$TestsDirectory\FluentAssertions.Net40.Specs\bin\Release\FluentAssertions.Net40.Specs.dll"`
+			"$TestsDirectory\Default.testsettings"
 
 		Run-MsTestWithTeamCityOutput `
 			"$MsTestPath"`
 			".NET 4.5"`
-			"$BaseDirectory\FluentAssertions.Net45.Specs\bin\Release\FluentAssertions.Net45.Specs.dll"`
-			"$BaseDirectory\Default.testsettings"
+			"$TestsDirectory\FluentAssertions.Net45.Specs\bin\Release\FluentAssertions.Net45.Specs.dll"`
+			"$TestsDirectory\Default.testsettings"
 
 		Run-MsTestWithTeamCityOutput `
 			"$MsTestPath"`
 			"PCL"`
-			"$BaseDirectory\FluentAssertions.Portable.Specs\bin\Release\FluentAssertions.Portable.Specs.dll"`
-			"$BaseDirectory\Default.testsettings"
+			"$TestsDirectory\FluentAssertions.Portable.Specs\bin\Release\FluentAssertions.Portable.Specs.dll"`
+			"$TestsDirectory\Default.testsettings"
 
 		Run-MsTestWithTeamCityOutput `
 			"$MsTestPath"`
 			"WinRT"`
-			"$BaseDirectory\FluentAssertions.WinRT.Specs\bin\Release\FluentAssertions.WinRT.Specs.dll"`
-			"$BaseDirectory\Default.testsettings"
+			"$TestsDirectory\FluentAssertions.WinRT.Specs\bin\Release\FluentAssertions.WinRT.Specs.dll"`
+			"$TestsDirectory\Default.testsettings"
 	}
 }
 
 task RunSilverLightTests {
 
-	. "$BaseDirectory\Tools\Lighthouse\Lighthouse.exe" -m:xap `
-	"$BaseDirectory\FluentAssertions.Silverlight.Specs\Bin\Release\FluentAssertions.Silverlight.Specs.xap" `
-	"$BaseDirectory\TestResults\Lighthouse.xml"
+	. "$BaseDirectory\Lib\Lighthouse\Lighthouse.exe" -m:xap `
+	"$TestsDirectory\FluentAssertions.Silverlight.Specs\Bin\Release\FluentAssertions.Silverlight.Specs.xap" `
+	"$ArtifactsDirectory\TestResults\Lighthouse.xml"
 }
 
 task BuildZip {
 	TeamCity-Block "Zipping up the binaries" {
-		$assembly = Get-ChildItem -Path $BaseDirectory\Package\Lib -Filter FluentAssertions.dll -Recurse | Select-Object -first 1
+		$assembly = Get-ChildItem -Path "$ArtifactsDirectory\Lib" -Filter FluentAssertions.dll -Recurse | Select-Object -first 1
 				
 		$versionNumber = $assembly.VersionInfo.FileVersion
 
-		& $7zip a -r "$BaseDirectory\Package\Fluent.Assertions.$versionNumber.zip" "$BaseDirectory\Package\Lib\*" -y
+		& $7zip a -r "$ArtifactsDirectory\Fluent.Assertions.$versionNumber.zip" "$ArtifactsDirectory\Lib\*" -y
 	}
 }
 
 task BuildPackage {
     TeamCity-Block "Building NuGet Package" {  
-		& $Nuget pack "$PackageDirectory\.nuspec" -o "$PackageDirectory\" 
+		& $Nuget pack "$SrcDirectory\.nuspec" -o "$ArtifactsDirectory\" 
 	}
 }
 
 task PublishToMyget -precondition { return $NuGetPushSource -and $NuGetApiKey } {
     TeamCity-Block "Publishing NuGet Package to Myget" {  
-		$packages = Get-ChildItem $PackageDirectory *.nupkg
+		$packages = Get-ChildItem $ArtifactsDirectory *.nupkg
 		foreach ($package in $packages) {
 			& $Nuget push $package.FullName $NuGetApiKey -Source "$NuGetPushSource"
 		}
