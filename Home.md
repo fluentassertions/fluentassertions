@@ -350,7 +350,6 @@ Those last two methods can be used to assert a collection contains items in asce
 
 ```csharp
 collection.Should().BeInAscendingOrder(x => x.SomeProperty);
-collection.Should().NotBeInAscendingOrder(x => x.SomeProperty);
 ```
 
 A special overload of `Equal()` takes a lambda that is used for checking the equality of two collections without relying on the type’s Equals() method. Consider for instance two collections that contain some kind of domain entity persisted to a database and then reloaded. Since the actual object instance is different, if you want to make sure a particular property was properly persisted, you usually do something like this:
