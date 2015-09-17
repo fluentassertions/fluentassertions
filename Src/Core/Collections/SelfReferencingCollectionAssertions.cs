@@ -121,8 +121,8 @@ namespace FluentAssertions.Collections
         /// <param name="reasonArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
-        public AndConstraint<TAssertions> Equal(
-            IEnumerable<T> expectation, Func<T, T, bool> predicate, string because = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> Equal<TExpected>(
+            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> predicate, string because = "", params object[] reasonArgs)
         {
             AssertSubjectEquality(expectation, predicate, because, reasonArgs);
 

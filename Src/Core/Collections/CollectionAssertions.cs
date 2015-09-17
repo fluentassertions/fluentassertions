@@ -201,12 +201,12 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> Equal(IEnumerable expected, string because = "", params object[] reasonArgs)
         {
-            AssertSubjectEquality<object>(expected, (s, e) => s.IsSameOrEqualTo(e), because, reasonArgs);
+            AssertSubjectEquality<object, object>(expected, (s, e) => s.IsSameOrEqualTo(e), because, reasonArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected void AssertSubjectEquality<T>(IEnumerable expectation, Func<T, T, bool> predicate,
+        protected void AssertSubjectEquality<TActual, TExpected>(IEnumerable expectation, Func<TActual, TExpected, bool> predicate,
             string because = "", params object[] reasonArgs)
         {
             AssertionScope assertion = Execute.Assertion.BecauseOf(because, reasonArgs);
@@ -229,8 +229,8 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
             }
 
-            T[] expectedItems = expectation.Cast<T>().ToArray();
-            T[] actualItems = Subject.Cast<T>().ToArray();
+            TExpected[] expectedItems = expectation.Cast<TExpected>().ToArray();
+            TActual[] actualItems = Subject.Cast<TActual>().ToArray();
 
             AssertCollectionsHaveSameCount(expectedItems, actualItems, assertion);
 
@@ -243,7 +243,7 @@ namespace FluentAssertions.Collections
             }
         }
 
-        private void AssertCollectionsHaveSameCount<T>(T[] expectedItems, T[] actualItems, AssertionScope assertion)
+        private void AssertCollectionsHaveSameCount<TActual, TExpected>(TExpected[] expectedItems, TActual[] actualItems, AssertionScope assertion)
         {
             int delta = Math.Abs(expectedItems.Length - actualItems.Length);
             if (delta != 0)

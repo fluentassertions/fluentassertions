@@ -871,13 +871,19 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
            var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" }; 
-           var expected = new List<string> { "One", "Two", "Three", "Four" }; 
+           var expected = new []
+           {
+               new { Value = "One" },
+               new { Value = "Two" },
+               new { Value = "Three" },
+               new { Value = "Four" }
+           }; 
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => actual.Should().Equal(expected,
-                (a, e) => string.Equals(a, e, StringComparison.CurrentCultureIgnoreCase));
+                (a, e) => string.Equals(a, e.Value, StringComparison.CurrentCultureIgnoreCase));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -892,13 +898,19 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var actual = new List<string> { "ONE", "TWO", "THREE", "FOUR" };
-            var expected = new List<string> { "One", "Two", "Three", "Five" };
+            var expected = new[]
+            {
+               new { Value = "One" },
+               new { Value = "Two" },
+               new { Value = "Three" },
+               new { Value = "Five" }
+           };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => actual.Should().Equal(expected,
-                (a, e) => string.Equals(a, e, StringComparison.CurrentCultureIgnoreCase));
+                (a, e) => string.Equals(a, e.Value, StringComparison.CurrentCultureIgnoreCase));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
