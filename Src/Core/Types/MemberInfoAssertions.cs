@@ -36,6 +36,23 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the selected member is not decorated with the specified <typeparamref name="TAttribute"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
+            string because = "", params object[] reasonArgs)
+            where TAttribute : Attribute
+        {
+            return NotBeDecoratedWith<TAttribute>(attr => true, because, reasonArgs);
+        }
+
+        /// <summary>
         /// Asserts that the selected member is decorated with an attribute of type <typeparamref name="TAttribute"/>
         /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
         /// </summary>
@@ -66,6 +83,39 @@ namespace FluentAssertions.Types
                 .FailWith(failureMessage);
 
             return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes);
+        }
+
+        /// <summary>
+        /// Asserts that the selected member is not decorated with an attribute of type <typeparamref name="TAttribute"/>
+        /// that matches the specified <paramref name="isMatchingAttributePredicate"/>.
+        /// </summary>
+        /// <param name="isMatchingAttributePredicate">
+        /// The predicate that the attribute must match.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
+            string because = "", params object[] reasonArgs)
+            where TAttribute : Attribute
+        {
+            string failureMessage = String.Format("Expected {0} {1}" +
+                                                  " to not be decorated with {2}{{reason}}, but that attribute was found.",
+                                                  Context, SubjectDescription, typeof(TAttribute));
+
+            IEnumerable<TAttribute> attributes = Subject.GetMatchingAttributes(isMatchingAttributePredicate);
+
+            Execute.Assertion
+                .ForCondition(!attributes.Any())
+                .BecauseOf(because, reasonArgs)
+                .FailWith(failureMessage);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         protected override string Context
