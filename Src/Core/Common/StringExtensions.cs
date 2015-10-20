@@ -45,10 +45,15 @@ namespace FluentAssertions.Common
         /// <summary>
         /// Replaces all characters that might conflict with formatting placeholders and newlines with their escaped counterparts.
         /// </summary>
-        public static string Escape(this string value)
+        public static string Escape(this string value, bool escapePlaceholders = false)
         {
-            return value.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r").Replace("{", "{{").Replace(
-                "}", "}}");
+            value = value.Replace("\"", "\\\"").Replace("\n", @"\n").Replace("\r", @"\r");
+            if (escapePlaceholders)
+            {
+                value = value.Replace("{", "{{").Replace("}", "}}");
+            }
+
+            return value;
         }
 
         /// <summary>

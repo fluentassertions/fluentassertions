@@ -237,7 +237,7 @@ namespace FluentAssertions.Xml
             params object[] reasonArgs)
         {
             XAttribute attribute = Subject.Attribute(expectedName);
-            string expectedText = expectedName.ToString().Escape();
+            string expectedText = expectedName.ToString().Escape(escapePlaceholders: true);
 
             Execute.Assertion
                 .ForCondition(attribute != null)
@@ -310,7 +310,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(xElement != null)
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected XML element {0} to have child element \"" + expected.ToString().Escape() + "\"{reason}" +
+                .FailWith("Expected XML element {0} to have child element \"" + expected.ToString().Escape(escapePlaceholders: true) + "\"{reason}" +
                         ", but no such child element was found.", Subject);
 
             return new AndWhichConstraint<XElementAssertions, XElement>(this, xElement);

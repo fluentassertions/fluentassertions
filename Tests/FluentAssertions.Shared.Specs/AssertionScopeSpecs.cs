@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FluentAssertions.Specs
 {
     [TestClass]
-    public class AssertionScopeSpecs
+    public class  AssertionScopeSpecs
     {
         [TestMethod]
         public void When_disposed_it_should_throw_any_failures()
@@ -178,6 +178,36 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected foo to be equal to*");
+        }
+
+        [TestMethod]
+        public void When_parentheses_are_used_in_the_because_arguments_it_should_render_them_correctly()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => 1.Should().Be(2, "can't use these in reasonArgs: {0} {1}", "{", "}");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*because can't use these in reasonArgs: { }*");
+        }
+
+        [TestMethod]
+        public void When_parentheses_are_used_in_literal_values_it_should_render_them_correctly()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => "{foo}".Should().Be("{bar}");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected string to be \"{bar}\", but \"{foo}\" differs near*");
         }
     }
 }
