@@ -48,7 +48,7 @@ namespace FluentAssertions.Formatting
 
         private static string FormatElementWithoutChildren(XElement element)
         {
-            return element.ToString().Escape();
+            return element.ToString().Escape(escapePlaceholders: true);
         }
 
         private static string FormatElementWithChildren(XElement element)
@@ -61,7 +61,7 @@ namespace FluentAssertions.Formatting
             string lastLine = lines.Last().RemoveNewLines();
 
             string formattedElement = firstLine + "..." + lastLine;
-            return formattedElement.Escape();
+            return formattedElement.Escape(escapePlaceholders: true);
         }
 
         private static string [] SplitIntoSeparateLines(XElement element)

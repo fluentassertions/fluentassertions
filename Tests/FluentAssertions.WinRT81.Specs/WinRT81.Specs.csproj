@@ -107,14 +107,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="MSTestFramework, Version=11.0">
-      <Name>MSTest for Managed Projects</Name>
-    </SDKReference>
-    <SDKReference Include="TestPlatform, Version=11.0">
-      <Name>Microsoft Visual Studio Test Core</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <None Include="WinRT81.Specs_TemporaryKey.pfx" />
   </ItemGroup>
@@ -125,6 +117,14 @@
     <Reference Include="Chill">
       <HintPath>..\..\packages\Chill.2.1.0\Lib\portable-net45+windows8+windowsphone8+wpa+MonoAndroid1+MonoTouch1\Chill.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="MSTestFramework, Version=14.0">
+      <Name>MSTest for Managed Projects</Name>
+    </SDKReference>
+    <SDKReference Include="TestPlatform, Version=14.0">
+      <Name>Microsoft Visual Studio Test Core</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
