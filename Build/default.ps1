@@ -5,14 +5,12 @@ properties {
     $Nuget = "$BaseDirectory\.nuget\NuGet.exe"
 	$SlnFile = "$BaseDirectory\FluentAssertions.sln"
 	$7zip = "$BaseDirectory\Lib\7z.exe"
+	$GitVersionExe = "$BaseDirectory\Lib\GitVersion.exe"
 	$ArtifactsDirectory = "$BaseDirectory\Artifacts"
 
 	$NuGetPushSource = ""
 	$NuGetApiKey = ""
 	
-    $AssemblyVer = "1.2.3.4"
-	$InformationalVersion = "1.2.3-unstable.34+34.Branch.develop.Sha.19b2cd7f494c092f87a522944f3ad52310de79e0"
-	$NuGetVersion = "1.2.3-unstable0012"
     $MsBuildLoggerPath = ""
 	$Branch = ""
 	$MsTestPath = "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\MSTest.exe"
@@ -28,8 +26,26 @@ task Clean {
     }
 }
 
-task ApplyAssemblyVersioning {
-    TeamCity-Block "Updating solution info versions with build number $BuildNumber" {   
+task ExtractVersionsFromGit {
+
+        $json = . "$GitVersionExe" "$BaseDirectory" 
+
+        if ($LASTEXITCODE -eq 0) {
+            $version = (ConvertFrom-Json ($json -join "`n"));
+
+            TeamCity-SetBuildNumber $version.FullSemVer;
+
+            $script:AssemblyVersion = $version.ClassicVersion;
+            $script:InfoVersion = $version.InformationalVersion;
+            $script:FullSemVer = $version.FullSemVer;
+        }
+        else {
+            Write-Output $json -join "`n";
+        }
+}
+
+task ApplyAssemblyVersioning -depends ExtractVersionsFromGit {
+    TeamCity-Block "Updating solution info versions with build number $script:AssemblyVersion" {   
 	
 		$infos = Get-ChildItem -Path $SrcDirectory -Filter SolutionInfo.cs -Recurse
 		
@@ -38,15 +54,15 @@ task ApplyAssemblyVersioning {
 			Set-ItemProperty -Path $info.FullName -Name IsReadOnly -Value $false
 			
 		    $content = Get-Content $info.FullName
-		    $content = $content -replace 'AssemblyVersion\("(.+)"\)', ('AssemblyVersion("' + $AssemblyVer + '")')
-			$content = $content -replace 'AssemblyFileVersion\("(.+)"\)', ('AssemblyFileVersion("' + $AssemblyVer + '")')
-			$content = $content -replace 'AssemblyInformationalVersion\("(.+)"\)', ('AssemblyInformationalVersion("' + $InformationalVersion + '")')
+		    $content = $content -replace 'AssemblyVersion\("(.+)"\)', ('AssemblyVersion("' + $script:AssemblyVersion + '")')
+			$content = $content -replace 'AssemblyFileVersion\("(.+)"\)', ('AssemblyFileVersion("' + $script:AssemblyVersion + '")')
+			$content = $content -replace 'AssemblyInformationalVersion\("(.+)"\)', ('AssemblyInformationalVersion("' + $script:InfoVersion + '")')
 		    Set-Content -Path $info.FullName $content
 		}	
 	}
 }
 
-task ApplyPackageVersioning {
+task ApplyPackageVersioning -depends ExtractVersionsFromGit {
     TeamCity-Block "Updating package version with build number $BuildNumber" {   
 	
 		$fullName = "$SrcDirectory\.nuspec"
@@ -54,7 +70,7 @@ task ApplyPackageVersioning {
 	    Set-ItemProperty -Path $fullName -Name IsReadOnly -Value $false
 		
 	    $content = Get-Content $fullName
-	    $content = $content -replace '<version>.+</version>', ('<version>' + "$NuGetVersion" + '</version>')
+	    $content = $content -replace '<version>.+</version>', ('<version>' + "$script:FullSemVer" + '</version>')
 	    Set-Content -Path $fullName $content
 	}
 }
