@@ -71,6 +71,7 @@ namespace FluentAssertions.Execution
             if (!string.IsNullOrEmpty(reason))
             {
                 reason = EnsurePrefix("because", reason);
+                reason = reason.Replace("{", "{{").Replace("}", "}}");
 
                 return StartsWithBlank(reason) ? reason : " " + reason;
             }

@@ -232,7 +232,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition((root != null) && (root.Name == expected))
                 .BecauseOf(because, reasonArgs)
-                .FailWith("Expected XML document to have root element \"" + expected.ToString().Escape() + "\"{reason}" +
+                .FailWith("Expected XML document to have root element \"" + expected.ToString().Escape(escapePlaceholders: true) + "\"{reason}" +
                           ", but found {0}.", Subject);
 
             return new AndWhichConstraint<XDocumentAssertions, XElement>(this, root);
@@ -317,7 +317,7 @@ namespace FluentAssertions.Xml
                     "Cannot assert the document has an element if the element name is <null>*");
             }
 
-            string expectedText = expected.ToString().Escape();
+            string expectedText = expected.ToString().Escape(escapePlaceholders: true);
 
             Execute.Assertion
                 .ForCondition(Subject.Root != null)
