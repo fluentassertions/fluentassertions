@@ -14,17 +14,26 @@ namespace FluentAssertions.Equivalency.Ordering
             this.predicate = predicate.Compile();
         }
 
+        public bool Invert { get; set; }
+
         /// <summary>
         /// Determines if ordering of the member referred to by the current <paramref name="subjectInfo"/> is relevant.
         /// </summary>
-        public bool AppliesTo(ISubjectInfo subjectInfo)
+        public OrderStrictness Evaluate(ISubjectInfo subjectInfo)
         {
-            return predicate(subjectInfo);
+            if (predicate(subjectInfo))
+            {
+                return Invert ? OrderStrictness.NotStrict : OrderStrictness.Strict;
+            }
+            else
+            {
+                return OrderStrictness.Irrelevant;
+            }
         }
 
         public override string ToString()
         {
-            return "Be strict about the order of collections when " + description;
+            return $"Be {(Invert ? "not strict" : "strict")} about the order of collections when {description}";
         }
     }
 }

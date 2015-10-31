@@ -19,7 +19,7 @@ namespace FluentAssertions.Equivalency.Ordering
         /// <summary>
         /// Determines if ordering of the member referred to by the current <paramref name="subjectInfo"/> is relevant.
         /// </summary>
-        public bool AppliesTo(ISubjectInfo subjectInfo)
+        public OrderStrictness Evaluate(ISubjectInfo subjectInfo)
         {
             string currentPropertyPath = subjectInfo.SelectedMemberPath;
             if (!ContainsIndexingQualifiers(path))
@@ -27,7 +27,14 @@ namespace FluentAssertions.Equivalency.Ordering
                 currentPropertyPath = RemoveInitialIndexQualifier(currentPropertyPath);
             }
 
-            return currentPropertyPath.Equals(path, StringComparison.CurrentCultureIgnoreCase);
+            if (currentPropertyPath.Equals(path, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return OrderStrictness.Strict;
+            }
+            else
+            {
+                return OrderStrictness.Irrelevant;
+            }
         }
 
         private static bool ContainsIndexingQualifiers(string path)

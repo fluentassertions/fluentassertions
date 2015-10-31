@@ -436,6 +436,20 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
+        /// Causes the collection identified by the provided <paramref name="predicate"/> to be compared in the order 
+        /// in which the items appear in the expectation.
+        /// </summary>
+        public TSelf WithoutStrictOrderingFor(Expression<Func<ISubjectInfo, bool>> predicate)
+        {
+            orderingRules.Add(new PredicateBasedOrderingRule(predicate)
+            {
+                Invert = true
+            });
+
+            return (TSelf)this;
+        }
+
+        /// <summary>
         /// Causes to compare Enum properties using the result of their ToString method.
         /// </summary>
         /// <remarks>
