@@ -8,9 +8,9 @@ namespace FluentAssertions.Equivalency.Ordering
         /// <summary>
         /// Determines if ordering of the member referred to by the current <paramref name="subjectInfo"/> is relevant.
         /// </summary>
-        public bool AppliesTo(ISubjectInfo subjectInfo)
+        public OrderStrictness Evaluate(ISubjectInfo subjectInfo)
         {
-            return true;
+            return OrderStrictness.Strict;
         }
 
         public override string ToString()

@@ -86,6 +86,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Ordering\MatchAllOrderingRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Ordering\PathBasedOrderingRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Ordering\PredicateBasedOrderingRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Equivalency\OrderStrictness.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\PropertySelectedMemberInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\ReferenceEqualityEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\RunAllUserStepsEquivalencyStep.cs" />

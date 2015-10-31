@@ -584,9 +584,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_an_unordered_collection_must_be_strict_using_a_predicate_it_should_throw
-            ()
+        public void When_an_unordered_collection_must_be_strict_using_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -622,21 +620,61 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action =
-                () =>
-                    subject.ShouldAllBeEquivalentTo(expectation,
-                        options => options
-                            .WithStrictOrderingFor(
-                                s =>
-                                    s.SelectedMemberPath.Contains(
-                                        "UnorderedCollection")));
+            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => 
+                options.WithStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection")));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage(
-                    "*Expected item[0].UnorderedCollection*5 item(s)*0*");
+                .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*");
+        }
+
+        [TestMethod]
+        public void When_an_unordered_collection_must_not_be_strict_using_a_predicate_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] {1, 2, 3, 4, 5}
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            var expectation = new[]
+            {
+                new
+                {
+                    Name = "John",
+                    UnorderedCollection = new[] {5, 4, 3, 2, 1}
+                },
+                new
+                {
+                    Name = "Jane",
+                    UnorderedCollection = new int[0]
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options
+                .WithStrictOrdering()
+                .WithoutStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection")));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
         }
 
         [TestMethod]

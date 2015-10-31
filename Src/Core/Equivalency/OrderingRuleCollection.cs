@@ -62,7 +62,8 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool IsOrderingStrictFor(ISubjectInfo subjectInfo)
         {
-            return rules.Any(r => r.AppliesTo(subjectInfo));
+            List<OrderStrictness> results = rules.Select(r => r.Evaluate(subjectInfo)).ToList();
+            return results.Contains(OrderStrictness.Strict) && !results.Contains(OrderStrictness.NotStrict);
         }
     }
 }

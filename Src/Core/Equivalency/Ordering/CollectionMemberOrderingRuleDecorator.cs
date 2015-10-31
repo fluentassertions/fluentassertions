@@ -9,9 +9,14 @@ namespace FluentAssertions.Equivalency.Ordering
             this.orderingRule = orderingRule;
         }
 
-        public bool AppliesTo(ISubjectInfo subjectInfo)
+        public OrderStrictness Evaluate(ISubjectInfo subjectInfo)
         {
-            return orderingRule.AppliesTo(new CollectionMemberSubjectInfo(subjectInfo));
+            return orderingRule.Evaluate(new CollectionMemberSubjectInfo(subjectInfo));
+        }
+
+        public override string ToString()
+        {
+            return orderingRule.ToString();
         }
     }
 }
