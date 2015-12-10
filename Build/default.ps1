@@ -37,7 +37,7 @@ task ExtractVersionsFromGit {
 
             $script:AssemblyVersion = $version.ClassicVersion;
             $script:InfoVersion = $version.InformationalVersion;
-            $script:FullSemVer = $version.FullSemVer;
+            $script:NuGetVersion = $version.NuGetVersion;
         }
         else {
             Write-Output $json -join "`n";
@@ -63,14 +63,14 @@ task ApplyAssemblyVersioning -depends ExtractVersionsFromGit {
 }
 
 task ApplyPackageVersioning -depends ExtractVersionsFromGit {
-    TeamCity-Block "Updating package version with build number $BuildNumber" {   
+    TeamCity-Block "Updating package version to $script:NuGetVersion" {   
 	
 		$fullName = "$SrcDirectory\.nuspec"
 
 	    Set-ItemProperty -Path $fullName -Name IsReadOnly -Value $false
 		
 	    $content = Get-Content $fullName
-	    $content = $content -replace '<version>.+</version>', ('<version>' + "$script:FullSemVer" + '</version>')
+	    $content = $content -replace '<version>.+</version>', ('<version>' + "$script:NuGetVersion" + '</version>')
 	    Set-Content -Path $fullName $content
 	}
 }
