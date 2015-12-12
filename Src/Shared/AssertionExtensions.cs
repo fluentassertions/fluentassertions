@@ -7,7 +7,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
-
 using FluentAssertions.Collections;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Events;
@@ -17,9 +16,9 @@ using FluentAssertions.Reflection;
 using FluentAssertions.Specialized;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
-
 #if NET45 || WINRT || CORE_CLR
 using System.Threading.Tasks;
+
 #endif
 
 namespace FluentAssertions
@@ -126,7 +125,7 @@ namespace FluentAssertions
         /// </summary>
         public static Action Enumerating<T>(this Func<IEnumerable<T>> enumerable)
         {
-            return () => ForceEnumeration(() => (IEnumerable)enumerable());
+            return () => ForceEnumeration(() => (IEnumerable) enumerable());
         }
 
         private static void ForceEnumeration(Func<IEnumerable> enumerable)
@@ -535,13 +534,13 @@ namespace FluentAssertions
             params object[] reasonArgs)
         {
             EquivalencyAssertionOptions<IEnumerable<T>> source = config(AssertionOptions.CloneDefaults<T>()).AsCollection();
-                                                                                                       
+
             var context = new EquivalencyValidationContext
             {
                 Subject = subject,
                 Expectation = expectation,
                 RootIsCollection = true,
-                CompileTimeType = typeof(IEnumerable<T>),
+                CompileTimeType = typeof (IEnumerable<T>),
                 Reason = because,
                 ReasonArgs = reasonArgs
             };
@@ -602,7 +601,7 @@ namespace FluentAssertions
             {
                 Subject = subject,
                 Expectation = expectation,
-                CompileTimeType = typeof(T),
+                CompileTimeType = typeof (T),
                 Reason = because,
                 ReasonArgs = reasonArgs
             };
@@ -617,20 +616,21 @@ namespace FluentAssertions
         /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static void MonitorEvents(this object eventSource)
         {
+            // SMELL: This static stuff needs to go at the some point. 
             EventMonitor.AddRecordersFor(eventSource, BuildRecorders);
         }
 
         private static EventRecorder[] BuildRecorders(object eventSource)
         {
-            var recorders =
-                eventSource.GetType()
-                    .GetEvents()
-                    .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
+            EventRecorder[] recorders = eventSource
+                .GetType()
+                .GetEvents()
+                .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
 
             if (!recorders.Any())
             {
                 throw new InvalidOperationException(
-                    string.Format("Type {0} does not expose any events.", eventSource.GetType().Name));
+                    $"Type {eventSource.GetType().Name} does not expose any events.");
             }
 
             return recorders;
@@ -674,7 +674,7 @@ namespace FluentAssertions
         /// <typeparam name="TTo"></typeparam>
         public static TTo As<TTo>(this object subject)
         {
-            return subject is TTo ? (TTo)subject : default(TTo);
+            return subject is TTo ? (TTo) subject : default(TTo);
         }
     }
 }
