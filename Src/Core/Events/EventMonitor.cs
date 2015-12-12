@@ -10,7 +10,21 @@ namespace FluentAssertions.Events
     {
         #region Private Definitions
 
-        private static readonly EventRecordersMap eventRecordersMap = new EventRecordersMap();
+        [ThreadStatic]
+        private static EventRecordersMap eventRecordersMap;
+
+        public static EventRecordersMap Map
+        {
+            get
+            {
+                if (eventRecordersMap == null)
+                {
+                    eventRecordersMap = new EventRecordersMap();
+                }
+
+                return eventRecordersMap;
+            }
+        }
 
         #endregion
 
@@ -21,7 +35,7 @@ namespace FluentAssertions.Events
                 throw new NullReferenceException("Cannot monitor the events of a <null> object.");
             }
 
-            eventRecordersMap.Add(eventSource, recorderFactory(eventSource));
+            Map.Add(eventSource, recorderFactory(eventSource));
         }
 
         /// <summary>
@@ -32,7 +46,7 @@ namespace FluentAssertions.Events
         /// <returns></returns>
         public static EventRecorder GetRecorderForEvent<T>(this T eventSource, string eventName)
         {
-            EventRecorder eventRecorder = eventRecordersMap[eventSource].FirstOrDefault(r => r.EventName == eventName);
+            EventRecorder eventRecorder = Map[eventSource].FirstOrDefault(r => r.EventName == eventName);
             if (eventRecorder == null)
             {
                 string name = eventSource.GetType().Name;
