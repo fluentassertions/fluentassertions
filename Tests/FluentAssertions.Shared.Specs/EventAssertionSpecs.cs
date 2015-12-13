@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using FluentAssertions.Events;
 using FluentAssertions.Formatting;
 
@@ -304,6 +305,33 @@ namespace FluentAssertions.Specs
             Action act = () => subject
                 .ShouldRaise("PropertyChanged")
                 .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "SomeProperty");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_running_in_parallel_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            Action<int> action = _ =>
+            {
+                EventRaisingClass subject = new EventRaisingClass();
+                subject.MonitorEvents();
+                subject.RaiseEventWithSender();
+                subject.ShouldRaise("PropertyChanged");
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => Enumerable.Range(0, 1000)
+                .AsParallel()
+                .ForAll(action);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
