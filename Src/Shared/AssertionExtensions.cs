@@ -617,20 +617,25 @@ namespace FluentAssertions
         public static void MonitorEvents(this object eventSource)
         {
             // SMELL: This static stuff needs to go at the some point. 
-            EventMonitor.AddRecordersFor(eventSource, BuildRecorders);
+            EventMonitor.AddRecordersFor(eventSource, o => BuildRecorders(o, o.GetType()));
         }
 
-        private static EventRecorder[] BuildRecorders(object eventSource)
+        public static void MonitorEvents<T>(this object eventSource)
         {
-            EventRecorder[] recorders = eventSource
-                .GetType()
+            // SMELL: This static stuff needs to go at the some point. 
+            EventMonitor.AddRecordersFor(eventSource, o => BuildRecorders(o, typeof(T)));
+        }
+
+        private static EventRecorder[] BuildRecorders(object eventSource, Type eventSourceType)
+        {
+            EventRecorder[] recorders = eventSourceType
                 .GetEvents()
                 .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
 
             if (!recorders.Any())
             {
                 throw new InvalidOperationException(
-                    $"Type {eventSource.GetType().Name} does not expose any events.");
+                    $"Type {eventSourceType.Name} does not expose any events.");
             }
 
             return recorders;
@@ -646,10 +651,10 @@ namespace FluentAssertions
             return eventRecorder;
         }
 #else
-    /// <summary>
-    ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
-    /// </summary>
-    /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+        /// <summary>
+        ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
+        /// </summary>
+        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static void MonitorEvents(this INotifyPropertyChanged eventSource)
         {
             EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders((INotifyPropertyChanged)source));
