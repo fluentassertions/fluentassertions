@@ -106,6 +106,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\SimpleEqualityEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\StructuralEqualityEquivalencyStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Equivalency\SubjectInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\TryConversionEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\ValueTypeEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EventMonitor.cs" />

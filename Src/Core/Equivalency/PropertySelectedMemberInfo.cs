@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
@@ -18,6 +19,16 @@ namespace FluentAssertions.Equivalency
         public override Type MemberType
         {
             get { return propertyInfo.PropertyType; }
+        }
+
+        internal override CSharpAccessModifier GetAccessModifier
+        {
+            get { return propertyInfo.GetGetMethod(true).GetCSharpAccessModifier(); }
+        }
+
+        internal override CSharpAccessModifier SetAccessModifier
+        {
+            get { return propertyInfo.GetSetMethod(true).GetCSharpAccessModifier(); }
         }
 
         public override object GetValue(object obj, object[] index)
