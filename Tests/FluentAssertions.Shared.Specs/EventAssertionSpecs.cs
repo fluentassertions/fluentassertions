@@ -631,6 +631,26 @@ namespace FluentAssertions.Specs
                 .WithMessage("*not expose*PropertyChanged*");
         }
 
+        [TestMethod]
+        public void When_trying_to_monitor_events_of_unimplemented_interface_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = CreateProxyObject();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => eventSource.MonitorEvents<IEventRaisingInterface2>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<TargetException>()
+                .WithMessage("*not match target type*");
+        }
+
 
         [TestMethod]
         public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected()
@@ -754,6 +774,11 @@ namespace FluentAssertions.Specs
         public interface IEventRaisingInterface
         {
             event EventHandler InterfaceEvent;
+        }
+
+        public interface IEventRaisingInterface2
+        {
+            event EventHandler Interface2Event;
         }
 
         private object CreateProxyObject()
