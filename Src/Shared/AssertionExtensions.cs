@@ -617,13 +617,17 @@ namespace FluentAssertions
         public static void MonitorEvents(this object eventSource)
         {
             // SMELL: This static stuff needs to go at the some point. 
-            EventMonitor.AddRecordersFor(eventSource, o => BuildRecorders(o, o.GetType()));
+            EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders(source, source.GetType()));
         }
 
+        /// <summary>
+        ///   Starts monitoring an object for events defined in the type parameter T.
+        /// </summary>
+        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static void MonitorEvents<T>(this object eventSource)
         {
             // SMELL: This static stuff needs to go at the some point. 
-            EventMonitor.AddRecordersFor(eventSource, o => BuildRecorders(o, typeof(T)));
+            EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders(source, typeof(T)));
         }
 
         private static EventRecorder[] BuildRecorders(object eventSource, Type eventSourceType)

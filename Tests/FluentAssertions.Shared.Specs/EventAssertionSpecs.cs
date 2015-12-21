@@ -611,7 +611,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_monitoring_interface_of_a_class_and_no_recorder_exists_for_an_event_in_interface_it_should_throw()
+        public void When_no_recorder_exists_for_an_event_in_monitored_interface_of_a_class_but_exists_in_the_class_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -760,27 +760,25 @@ namespace FluentAssertions.Specs
         {
             Type baseType = typeof(EventRaisingClass);
             Type interfaceType = typeof(IEventRaisingInterface);
-            var assemblyName = new AssemblyName();
-            assemblyName.Name = baseType.Assembly.FullName + ".GeneratedForTest";
-            var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+            AssemblyName assemblyName = new AssemblyName() { Name = baseType.Assembly.FullName + ".GeneratedForTest" };
+            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
             string typeName = baseType.Name + "_GeneratedForTest";
             TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new Type[] { interfaceType });
 
             Func<string, MethodBuilder> emitAddRemoveEventHandler = (methodName) =>
             {
-                MethodBuilder method = typeBuilder.DefineMethod(interfaceType.FullName + "." + methodName + "_InterfaceEvent",
+                MethodBuilder method = typeBuilder.DefineMethod(string.Format("{0}.{1}_InterfaceEvent", interfaceType.FullName, methodName),
                     MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.NewSlot);
                 method.SetReturnType(typeof(void));
                 method.SetParameters(typeof(EventHandler));
-                ParameterBuilder value = method.DefineParameter(1, ParameterAttributes.None, "value");
                 ILGenerator gen = method.GetILGenerator();
                 gen.Emit(OpCodes.Ret);
                 return method;
             };
-            var addHandler = emitAddRemoveEventHandler("add");
+            MethodBuilder addHandler = emitAddRemoveEventHandler("add");
             typeBuilder.DefineMethodOverride(addHandler, interfaceType.GetMethod("add_InterfaceEvent"));
-            var removeHandler = emitAddRemoveEventHandler("remove");
+            MethodBuilder removeHandler = emitAddRemoveEventHandler("remove");
             typeBuilder.DefineMethodOverride(removeHandler, interfaceType.GetMethod("remove_InterfaceEvent"));
 
             Type generatedType = typeBuilder.CreateType();
