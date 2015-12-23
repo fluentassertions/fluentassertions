@@ -611,9 +611,10 @@ namespace FluentAssertions
 
 #if !SILVERLIGHT && !WINRT && !PORTABLE && !CORE_CLR
         /// <summary>
-        ///   Starts monitoring an object for its events.
+        ///   Starts monitoring <paramref name="eventSource"/> for its events.
         /// </summary>
-        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+        /// <param name="eventSource">The object for which to monitor the events.</param>
+        /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
         public static void MonitorEvents(this object eventSource)
         {
             // SMELL: This static stuff needs to go at the some point. 
@@ -621,9 +622,11 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        ///   Starts monitoring an object for events defined in the type parameter T.
+        ///   Starts monitoring <paramref name="eventSource"/> for events defined in the type parameter <typeparamref name="T"/>.
         /// </summary>
-        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+        /// <param name="eventSource">The object for which to monitor the events.</param>
+        /// <typeparam name="T">The type defining the events it should monitor.</typeparam>
+        /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
         public static void MonitorEvents<T>(this object eventSource)
         {
             // SMELL: This static stuff needs to go at the some point. 
