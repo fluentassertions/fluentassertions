@@ -312,7 +312,7 @@ namespace FluentAssertions.Collections
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeys(IEnumerable<TKey> expected,
-            string because, params object[] reasonArgs)
+            string because = "", params object[] reasonArgs)
         {
             if (expected == null)
             {
@@ -448,8 +448,8 @@ namespace FluentAssertions.Collections
             return ContainValuesAndWhich(expected, because, reasonArgs);
         }
 
-        private AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because,
-            object[] reasonArgs)
+        private AndWhichConstraint<GenericDictionaryAssertions<TKey, TValue>, IEnumerable<TValue>> ContainValuesAndWhich(IEnumerable<TValue> expected, string because = "",
+            params object[] reasonArgs)
         {
             if (expected == null)
             {
