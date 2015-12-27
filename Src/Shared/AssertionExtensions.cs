@@ -611,26 +611,38 @@ namespace FluentAssertions
 
 #if !SILVERLIGHT && !WINRT && !PORTABLE && !CORE_CLR
         /// <summary>
-        ///   Starts monitoring an object for its events.
+        ///   Starts monitoring <paramref name="eventSource"/> for its events.
         /// </summary>
-        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+        /// <param name="eventSource">The object for which to monitor the events.</param>
+        /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
         public static void MonitorEvents(this object eventSource)
         {
             // SMELL: This static stuff needs to go at the some point. 
-            EventMonitor.AddRecordersFor(eventSource, BuildRecorders);
+            EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders(source, source.GetType()));
         }
 
-        private static EventRecorder[] BuildRecorders(object eventSource)
+        /// <summary>
+        ///   Starts monitoring <paramref name="eventSource"/> for events defined in the type parameter <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="eventSource">The object for which to monitor the events.</param>
+        /// <typeparam name="T">The type defining the events it should monitor.</typeparam>
+        /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
+        public static void MonitorEvents<T>(this object eventSource)
         {
-            EventRecorder[] recorders = eventSource
-                .GetType()
+            // SMELL: This static stuff needs to go at the some point. 
+            EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders(source, typeof(T)));
+        }
+
+        private static EventRecorder[] BuildRecorders(object eventSource, Type eventSourceType)
+        {
+            EventRecorder[] recorders = eventSourceType
                 .GetEvents()
                 .Select(@event => CreateEventHandler(eventSource, @event)).ToArray();
 
             if (!recorders.Any())
             {
                 throw new InvalidOperationException(
-                    $"Type {eventSource.GetType().Name} does not expose any events.");
+                    $"Type {eventSourceType.Name} does not expose any events.");
             }
 
             return recorders;
@@ -646,10 +658,10 @@ namespace FluentAssertions
             return eventRecorder;
         }
 #else
-    /// <summary>
-    ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
-    /// </summary>
-    /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
+        /// <summary>
+        ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
+        /// </summary>
+        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static void MonitorEvents(this INotifyPropertyChanged eventSource)
         {
             EventMonitor.AddRecordersFor(eventSource, source => BuildRecorders((INotifyPropertyChanged)source));

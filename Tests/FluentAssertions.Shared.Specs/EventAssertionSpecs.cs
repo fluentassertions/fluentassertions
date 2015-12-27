@@ -8,10 +8,15 @@ using FluentAssertions.Formatting;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using FluentAssertions.Execution;
+using System.Reflection.Emit;
+using System.Linq.Expressions;
+using System.Reflection;
 #endif
 
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using System.Reflection.Emit;
+using System.Reflection;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
@@ -366,7 +371,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_an_expected_property_changed_event_was_raised_for_all_properties_it_should_not_throw()
         {
@@ -432,7 +437,7 @@ namespace FluentAssertions.Specs
                 "Expected object " + Formatter.ToString(subject) +
                     " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
         }
-        
+
         [TestMethod]
         public void When_a_property_agnostic_property_changed_event_for_was_not_raised_it_should_throw()
         {
@@ -520,7 +525,7 @@ namespace FluentAssertions.Specs
             recorder.EventObject.Should().BeSameAs(eventSource);
             recorder.EventName.Should().Be("PropertyChanged");
         }
-        
+
         [TestMethod]
         public void When_a_class_is_not_being_monitored_it_should_not_be_possible_to_get_a_recorder()
         {
@@ -540,7 +545,7 @@ namespace FluentAssertions.Specs
             action.ShouldThrow<InvalidOperationException>()
                 .WithMessage("*not being monitored*");
         }
-        
+
         [TestMethod]
         public void When_no_recorder_exists_for_an_event_it_should_throw()
         {
@@ -560,6 +565,90 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<InvalidOperationException>()
                 .WithMessage("*not expose*SomeEvent*");
+        }
+
+        [TestMethod]
+        public void When_monitoring_interface_of_a_class_it_should_be_possible_to_obtain_a_recorder()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = CreateProxyObject();
+            eventSource.MonitorEvents<IEventRaisingInterface>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var recorder = eventSource.GetRecorderForEvent("InterfaceEvent");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            recorder.Should().NotBeNull();
+            recorder.EventObject.Should().BeSameAs(eventSource);
+            recorder.EventName.Should().Be("InterfaceEvent");
+        }
+
+        [TestMethod]
+        public void When_monitoring_interface_of_a_class_and_no_recorder_exists_for_an_event_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = CreateProxyObject();
+            eventSource.MonitorEvents<IEventRaisingInterface>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => eventSource.GetRecorderForEvent("SomeEvent");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<InvalidOperationException>()
+                .WithMessage("*not expose*SomeEvent*");
+        }
+
+        [TestMethod]
+        public void When_no_recorder_exists_for_an_event_in_monitored_interface_of_a_class_but_exists_in_the_class_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = CreateProxyObject();
+            eventSource.MonitorEvents<IEventRaisingInterface>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => eventSource.GetRecorderForEvent("PropertyChanged");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<InvalidOperationException>()
+                .WithMessage("*not expose*PropertyChanged*");
+        }
+
+        [TestMethod]
+        public void When_trying_to_monitor_events_of_unimplemented_interface_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var eventSource = CreateProxyObject();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => eventSource.MonitorEvents<IEventRaisingInterface2>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<TargetException>()
+                .WithMessage("*not match target type*");
         }
 
 
@@ -661,7 +750,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        internal class EventRaisingClass : INotifyPropertyChanged
+        public class EventRaisingClass : INotifyPropertyChanged
         {
             public string SomeProperty { get; set; }
             public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -680,6 +769,45 @@ namespace FluentAssertions.Specs
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public interface IEventRaisingInterface
+        {
+            event EventHandler InterfaceEvent;
+        }
+
+        public interface IEventRaisingInterface2
+        {
+            event EventHandler Interface2Event;
+        }
+
+        private object CreateProxyObject()
+        {
+            Type baseType = typeof(EventRaisingClass);
+            Type interfaceType = typeof(IEventRaisingInterface);
+            AssemblyName assemblyName = new AssemblyName() { Name = baseType.Assembly.FullName + ".GeneratedForTest" };
+            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+            ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
+            string typeName = baseType.Name + "_GeneratedForTest";
+            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new Type[] { interfaceType });
+
+            Func<string, MethodBuilder> emitAddRemoveEventHandler = (methodName) =>
+            {
+                MethodBuilder method = typeBuilder.DefineMethod(string.Format("{0}.{1}_InterfaceEvent", interfaceType.FullName, methodName),
+                    MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.HideBySig | MethodAttributes.NewSlot);
+                method.SetReturnType(typeof(void));
+                method.SetParameters(typeof(EventHandler));
+                ILGenerator gen = method.GetILGenerator();
+                gen.Emit(OpCodes.Ret);
+                return method;
+            };
+            MethodBuilder addHandler = emitAddRemoveEventHandler("add");
+            typeBuilder.DefineMethodOverride(addHandler, interfaceType.GetMethod("add_InterfaceEvent"));
+            MethodBuilder removeHandler = emitAddRemoveEventHandler("remove");
+            typeBuilder.DefineMethodOverride(removeHandler, interfaceType.GetMethod("remove_InterfaceEvent"));
+
+            Type generatedType = typeBuilder.CreateType();
+            return Activator.CreateInstance(generatedType);
         }
     }
 }
