@@ -773,7 +773,7 @@ var subject = new ClassWithManyEvents();
 subject.MonitorEvents<IInterfaceWithFewEvents>();
 ```
 
-This generic version of `MonitorEvents()` is also very useful if you wish to monitor events of a dynamically generated class using `System.Reflection.Emit`. Since events are dynamically generated non-generic version of `MonitorEvents()` will not find the events so this way you can tell the event monitor which interface was used to generate the new class.
+This generic version of `MonitorEvents()` is also very useful if you wish to monitor events of a dynamically generated class using `System.Reflection.Emit`. Since events are dynamically generated and are not present in parent class non-generic version of `MonitorEvents()` will not find the events. This way you can tell the event monitor which interface was implemented in the generated class.
 
 ```csharp
 POCOClass subject = EmitViewModelFromPOCOClass();
