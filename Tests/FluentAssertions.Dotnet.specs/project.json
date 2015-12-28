@@ -1,9 +1,9 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "Autofac": "3.5.2",
-    "Chill": "2.1.0",
-    "Chill.Autofac": "2.0.0"
+    "Chill": "2.2.0",
+    "Chill.Autofac": "2.2.0-beta0001",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
   },
   "frameworks": {
     "uap10.0": {}
