@@ -31,10 +31,7 @@ namespace Chill.Autofac
             get
             {
                 if (_container == null)
-                {
                     _container = _containerBuilder.Build();
-                }
-
                 return _container;
             }
         }
@@ -45,7 +42,7 @@ namespace Chill.Autofac
         }
 
 
-        public void RegisterType<T>() where T : class 
+        public void RegisterType<T>() where T : class
         {
             Container.ComponentRegistry.Register(RegistrationBuilder.ForType<T>().InstancePerLifetimeScope().CreateRegistration());
         }
@@ -82,7 +79,7 @@ namespace Chill.Autofac
         }
 
 
-        public bool IsRegistered<T>() where T : class
+        public bool IsRegistered<T>()where T : class
         {
             return IsRegistered(typeof(T));
         }

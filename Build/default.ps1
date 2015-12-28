@@ -128,7 +128,7 @@ task RunSilverLightTests -precondition { return $RunTests -eq $true } {
 
 	. "$BaseDirectory\Lib\Lighthouse\Lighthouse.exe" -m:xap `
 	"$TestsDirectory\FluentAssertions.Silverlight.Specs\Bin\Release\FluentAssertions.Silverlight.Specs.xap" `
-	"$ArtifactsDirectory\TestResults\Lighthouse.xml"
+	"$ArtifactsDirectory\Lighthouse.xml"
 }
 
 task BuildZip {
