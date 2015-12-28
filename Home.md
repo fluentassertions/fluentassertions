@@ -769,15 +769,15 @@ subject.ShouldNotRaise("SomeOtherEvent");
 In version 4.1.2 we added a new generic version of `MonitorEvents()`. It is used to limit which events you want to listen to. You do that by providing a type which defines the events. 
 
 ```csharp
-var subject = new ClassWith1000Events();
-subject.MonitorEvents&lt;IInterfaceWithFewEvents&lt;();
+var subject = new ClassWithManyEvents();
+subject.MonitorEvents<IInterfaceWithFewEvents>();
 ```
 
 This generic version of `MonitorEvents()` is also very useful if you wish to monitor events of a dynamically generated class using `System.Reflection.Emit`. Since events are dynamically generated non-generic version of `MonitorEvents()` will not find the events so this way you can tell the event monitor which interface was used to generate the new class.
 
 ```csharp
 POCOClass subject = EmitViewModelFromPOCOClass();
-subject.MonitorEvents&lt;INotifyPropertyChanged&lt;();  // POCO class doesn't have INotifyPropertyChanged implemented
+subject.MonitorEvents<INotifyPropertyChanged>();  // POCO class doesn't have INotifyPropertyChanged implemented
 subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty);
 ```
 
