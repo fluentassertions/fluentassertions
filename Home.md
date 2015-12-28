@@ -737,7 +737,7 @@ var subject = new EditCustomerViewModel();
 subject.MonitorEvents();
 ```
 
-Assuming that we’re dealing with a MVVM implementation, you might want to verify that it raised its PropertyChanged event for a particular property:
+Assuming that we’re dealing with a MVVM implementation, you might want to verify that it raised its `PropertyChanged` event for a particular property:
 
 ```csharp
 subject
@@ -746,9 +746,9 @@ subject
   .WithArgs<PropertyChangedEventArgs>(args => args.PropertyName == "SomeProperty");
 ```
 
-Notice that WithSender() verifies that all occurrences had its sender argument set to the specified object. WithArgs() just verifies that at least one occurrence had a matching EventArgs object. In other words, event monitoring only works for events that comply with the standard two-argument sender/args .NET pattern.
+Notice that `WithSender()` verifies that all occurrences had its sender argument set to the specified object. `WithArgs()` just verifies that at least one occurrence had a matching `EventArgs` object. In other words, event monitoring only works for events that comply with the standard two-argument sender/args .NET pattern.
 
-Since verifying for PropertyChanged events is so common, I’ve included a specialized shortcut to the example above:
+Since verifying for `PropertyChanged` events is so common, I’ve included a specialized shortcut to the example above:
 
 ```csharp
 subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty);
@@ -764,6 +764,21 @@ Or, if your project is .NET 3.5 or 4.0 based:
 	
 ```csharp
 subject.ShouldNotRaise("SomeOtherEvent");
+```
+
+In version 4.1.2 we added a new generic version of `MonitorEvents()`. It is used to limit which events you want to listen to. You do that by providing a type which defines the events. 
+
+```csharp
+var subject = new ClassWith1000Events();
+subject.MonitorEvents&lt;IInterfaceWithFewEvents&lt;();
+```
+
+This generic version of `MonitorEvents()` is also very useful if you wish to monitor events of a dynamically generated class using `System.Reflection.Emit`. Since events are dynamically generated non-generic version of `MonitorEvents()` will not find the events so this way you can tell the event monitor which interface was used to generate the new class.
+
+```csharp
+POCOClass subject = EmitViewModelFromPOCOClass();
+subject.MonitorEvents&lt;INotifyPropertyChanged&lt;();  // POCO class doesn't have INotifyPropertyChanged implemented
+subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty);
 ```
 
 **Important Limitation:** Due to limitations in Silverlight, Windows Phone and .NET for Windows Store Apps, only the `ShouldRaisePropertyChangeFor` and `ShouldNotRaisePropertyChangeFor` methods are supported in those versions.
