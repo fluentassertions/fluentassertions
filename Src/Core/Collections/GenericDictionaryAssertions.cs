@@ -610,8 +610,8 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, reasonArgs)
-                        .FailWith("Expected {context:dictionary} to contain {0}{reason}, but {1} differs at key {2}.",
-                            expectedKeyValuePairs, Subject, keyValuePairsNotSameOrEqualInSubject.Select(keyValuePair => keyValuePair.Key));
+                        .FailWith("Expected {context:dictionary} to contain {0}{reason}, but {context:dictionary} differs at keys {1}.",
+                            expectedKeyValuePairs, keyValuePairsNotSameOrEqualInSubject.Select(keyValuePair => keyValuePair.Key));
                 }
                 else
                 {

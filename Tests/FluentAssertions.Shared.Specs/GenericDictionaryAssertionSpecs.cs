@@ -1245,6 +1245,29 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_dictionary_contains_expected_key_value_pairs_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            var items = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(2, "Two")
+            };
+            dictionary.Should().Contain(items);
+        }
+
+        [TestMethod]
         public void When_dictionary_contains_expected_key_value_pair_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1286,6 +1309,36 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
+        }
+
+        [TestMethod]
+        public void When_dictionary_does_not_contain_the_key_value_pairs_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var items = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "Two"),
+                new KeyValuePair<int, string>(2, "Three"),
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().Contain(items, "we put them {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to contain {[1, Two], [2, Three]} because we put them there, but dictionary differs at keys {1, 2}.");
         }
 
         [TestMethod]
@@ -1416,6 +1469,29 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_dictionary_does_not_contain_unexpected_key_value_pairs_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            var items = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(3, "Three"),
+                new KeyValuePair<int, string>(4, "Four")
+            };
+            dictionary.Should().NotContain(items);
+        }
+
+        [TestMethod]
         public void When_dictionary_does_not_contain_unexpected_key_value_pair_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1457,6 +1533,35 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we put it there, but found it anyhow.");
+        }
+
+        [TestMethod]
+        public void When_dictionary_contains_the_key_value_pairs_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            var items = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(2, "Two")
+            };
+            Action act = () => dictionary.Should().NotContain(items, "we did not put them {0}", "there");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we did not put them there, but found them anyhow.");
         }
 
         [TestMethod]
