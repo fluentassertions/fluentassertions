@@ -1210,6 +1210,442 @@ namespace FluentAssertions.Specs
         #region Contain
 
         [TestMethod]
+        public void Should_succeed_when_asserting_dictionary_contains_single_key_value_pair()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One")
+            };
+
+            dictionary.Should().Contain(keyValuePairs);
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(3, "Three")
+            };
+
+            dictionary.Should().NotContain(keyValuePairs);
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair_with_existing_key_but_different_value()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "Two")
+            };
+
+            dictionary.Should().NotContain(keyValuePairs);
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_dictionary_contains_multiple_key_value_pairs()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(2, "Two")
+            };
+
+            dictionary.Should().Contain(keyValuePairs);
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(3, "Three"),
+                new KeyValuePair<int, string>(4, "Four")
+            };
+
+            dictionary.Should().NotContain(keyValuePairs);
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs_with_existing_keys_but_different_values()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "Three"),
+                new KeyValuePair<int, string>(2, "Four")
+            };
+
+            dictionary.Should().NotContain(keyValuePairs);
+        }
+
+        [TestMethod]
+        public void When_a_dictionary_does_not_contain_single_value_for_key_value_pairs_it_should_throw_with_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(2, "Three")
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to contain value \"Three\" at key 2 because we do, but found \"Two\".");
+        }
+
+        [TestMethod]
+        public void When_a_dictionary_does_not_contain_multiple_values_for_key_value_pairs_it_should_throw_with_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "Two"),
+                new KeyValuePair<int, string>(2, "Three")
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to contain {[1, Two], [2, Three]} because we do, but dictionary differs at keys {1, 2}.");
+        }
+
+        [TestMethod]
+        public void When_a_dictionary_does_not_contain_single_key_for_key_value_pairs_it_should_throw_with_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(3, "Three")
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary {[1, One], [2, Two]} to contain key 3 because we do.");
+        }
+
+        [TestMethod]
+        public void When_a_dictionary_does_not_contain_multiple_keys_for_key_value_pairs_it_should_throw_with_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(3, "Three"),
+                new KeyValuePair<int, string>(4, "Four"),
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().Contain(keyValuePairs, "because {0}", "we do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary {[1, One], [2, Two]} to contain key(s) {1, 3, 4} because we do, but could not find keys {3, 4}.");
+        }
+
+        [TestMethod]
+        public void When_a_dictionary_does_contain_single_key_value_pair_it_should_throw_with_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One")
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to not contain value \"One\" at key 1 because we do, but found it anyhow.");
+        }
+
+        [TestMethod]
+        public void When_a_dictionary_does_contain_multiple_key_value_pairs_it_should_throw_with_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            var keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(2, "Two")
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContain(keyValuePairs, "because {0}", "we do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we do, but found them anyhow.");
+        }
+
+        [TestMethod]
+        public void When_asserting_dictionary_contains_key_value_pairs_against_null_dictionary_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Dictionary<int, string> dictionary = null;
+            List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(1, "Two"),
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().Contain(keyValuePairs,
+                "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_dictionary_contains_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+            List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with an empty set of key/value pairs");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>().WithMessage(
+                "Cannot verify key containment against an empty collection of key/value pairs");
+        }
+
+        [TestMethod]
+        public void When_asserting_dictionary_contains_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+            List<KeyValuePair<int, string>> keyValuePairs = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary1.Should().Contain(keyValuePairs, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentNullException>().WithMessage(
+                "Cannot compare dictionary with <null>.\r\nParameter name: expected");
+        }
+
+        [TestMethod]
+        public void When_asserting_dictionary_does_not_contain_key_value_pairs_against_null_dictionary_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Dictionary<int, string> dictionary = null;
+            List<KeyValuePair<int, string>> keyValuePairs = new List<KeyValuePair<int, string>>()
+            {
+                new KeyValuePair<int, string>(1, "One"),
+                new KeyValuePair<int, string>(1, "Two"),
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContain(keyValuePairs,
+                "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary to not contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+            List<KeyValuePair<int, string>> keyValuePair = new List<KeyValuePair<int, string>>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary1.Should().NotContain(keyValuePair, "because we want to test the behaviour with an empty set of key/value pairs");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>().WithMessage(
+                "Cannot verify key containment against an empty collection of key/value pairs");
+        }
+
+        [TestMethod]
+        public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+            List<KeyValuePair<int, string>> keyValuePairs = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary1.Should().NotContain(keyValuePairs, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentNullException>().WithMessage(
+                "Cannot compare dictionary with <null>.\r\nParameter name: items");
+        }
+
+        [TestMethod]
         public void When_dictionary_contains_expected_value_at_specific_key_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

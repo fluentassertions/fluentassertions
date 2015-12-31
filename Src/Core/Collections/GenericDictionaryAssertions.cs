@@ -571,14 +571,14 @@ namespace FluentAssertions.Collections
 
             if (!expectedKeyValuePairs.Any())
             {
-                throw new ArgumentException("Cannot verify key containment against an empty dictionary");
+                throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs");
             }
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, reasonArgs)
-                    .FailWith("Expected {context:dictionary} to contain key/value pairs {0}{reason}, but found {1}.", expected, Subject);
+                    .FailWith("Expected {context:dictionary} to contain key/value pairs {0}{reason}, but dictionary is {1}.", expected, Subject);
             }
 
             var expectedKeys = expectedKeyValuePairs.Select(keyValuePair => keyValuePair.Key).ToArray();
@@ -590,7 +590,7 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, reasonArgs)
-                        .FailWith("Expected {context:dictionary} {0} to contain key(s) {1}{reason}, but could not find {2}.", Subject,
+                        .FailWith("Expected {context:dictionary} {0} to contain key(s) {1}{reason}, but could not find keys {2}.", Subject,
                             expectedKeys, missingKeys);
                 }
                 else
@@ -606,7 +606,7 @@ namespace FluentAssertions.Collections
 
             if (keyValuePairsNotSameOrEqualInSubject.Any())
             {
-                if (expectedKeys.Count() > 1)
+                if (keyValuePairsNotSameOrEqualInSubject.Count() > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, reasonArgs)
@@ -615,7 +615,7 @@ namespace FluentAssertions.Collections
                 }
                 else
                 {
-                    var expectedKeyValuePair = expectedKeyValuePairs.First();
+                    var expectedKeyValuePair = keyValuePairsNotSameOrEqualInSubject.First();
                     TValue actual = Subject[expectedKeyValuePair.Key];
 
                     Execute.Assertion
@@ -717,14 +717,14 @@ namespace FluentAssertions.Collections
 
             if (!keyValuePairs.Any())
             {
-                throw new ArgumentException("Cannot verify key containment against an empty dictionary");
+                throw new ArgumentException("Cannot verify key containment against an empty collection of key/value pairs");
             }
 
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, reasonArgs)
-                    .FailWith("Expected {context:dictionary} not to contain key/value pairs {0}{reason}, but dictionary is {1}.", items, Subject);
+                    .FailWith("Expected {context:dictionary} to not contain key/value pairs {0}{reason}, but dictionary is {1}.", items, Subject);
             }
 
             var keyValuePairsFound = keyValuePairs.Where(keyValuePair => Subject.ContainsKey(keyValuePair.Key)).ToArray();
@@ -747,7 +747,7 @@ namespace FluentAssertions.Collections
                         
                         Execute.Assertion
                             .BecauseOf(because, reasonArgs)
-                            .FailWith("Expected {context:dictionary} not to contain value {0} at key {1}{reason}, but found it anyhow.", keyValuePair.Value, keyValuePair.Key);
+                            .FailWith("Expected {context:dictionary} to not contain value {0} at key {1}{reason}, but found it anyhow.", keyValuePair.Value, keyValuePair.Key);
                     }
                 }
             }
