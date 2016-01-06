@@ -1,16 +1,13 @@
-using System.Net;
 using System;
-using System.Globalization;
 using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Linq.Expressions;
-using System.Reflection;
-
-using FluentAssertions.Equivalency;
+using System.Net;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 #endif
 
 namespace FluentAssertions.Specs
@@ -18,6 +15,18 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class BasicEquivalencySpecs
     {
+        public enum LocalOtherType : byte
+        {
+            Default,
+            NonDefault
+        }
+
+        public enum LocalType : byte
+        {
+            Default,
+            NonDefault
+        }
+
         #region General
 
         [TestMethod]
@@ -72,11 +81,7 @@ namespace FluentAssertions.Specs
 
         public class MyClass
         {
-            public IEnumerable<string> Items
-            {
-                get;
-                set;
-            }
+            public IEnumerable<string> Items { get; set; }
         }
 
         [TestMethod]
@@ -142,7 +147,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
 #if !WINRT && !NETFX_CORE && !WINDOWS_PHONE_APP && !SILVERLIGHT
         [TestMethod]
         public void When_asserting_equivalence_on_a_reference_type_from_system_it_should_not_do_a_structural_comparision()
@@ -152,18 +157,20 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Address = IPAddress.Parse("1.2.3.4"), Word = "a"
+                Address = IPAddress.Parse("1.2.3.4"),
+                Word = "a"
             };
-            
+
             var expected = new
             {
-                Address = IPAddress.Parse("1.2.3.4"), Word = "a"
+                Address = IPAddress.Parse("1.2.3.4"),
+                Word = "a"
             };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected, 
+            Action act = () => subject.ShouldBeEquivalentTo(expected,
                 options => options.ComparingByValue<IPAddress>());
 
             //-----------------------------------------------------------------------------------------------------------
@@ -179,7 +186,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            string s1= "hello";
+            string s1 = "hello";
             string s2 = "good-bye";
 
             //-----------------------------------------------------------------------------------------------------------
@@ -200,7 +207,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            
+
             // The convoluted construction is so the compiler does not optimize the two objects to be the same.
             object s1 = new string('h', 2);
             object s2 = "hh";
@@ -209,7 +216,6 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => s1.ShouldBeEquivalentTo(s2);
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -231,7 +237,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => s1.ShouldBeEquivalentTo(s2);
 
-
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -244,8 +249,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAField { Value = 1 };
-            var object2 = new ClassWithOnlyAField { Value = 1 };
+            var object1 = new ClassWithOnlyAField {Value = 1};
+            var object2 = new ClassWithOnlyAField {Value = 1};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -264,8 +269,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAField { Value = 1 };
-            var object2 = new ClassWithOnlyAField { Value = 101 };
+            var object1 = new ClassWithOnlyAField {Value = 1};
+            var object2 = new ClassWithOnlyAField {Value = 101};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -284,8 +289,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var onlyAField = new ClassWithOnlyAField { Value = 1 };
-            var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
+            var onlyAField = new ClassWithOnlyAField {Value = 1};
+            var onlyAProperty = new ClassWithOnlyAProperty {Value = 101};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -304,8 +309,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var onlyAField = new ClassWithOnlyAField { Value = 1 };
-            object onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
+            var onlyAField = new ClassWithOnlyAField {Value = 1};
+            object onlyAProperty = new ClassWithOnlyAProperty {Value = 101};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -325,8 +330,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var onlyAField = new ClassWithOnlyAField { Value = 1 };
-            var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
+            var onlyAField = new ClassWithOnlyAField {Value = 1};
+            var onlyAProperty = new ClassWithOnlyAProperty {Value = 101};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -350,12 +355,12 @@ namespace FluentAssertions.Specs
             var record = new
             {
                 Member1 = "",
-                Member2 = new[] {"", ""},
+                Member2 = new[] {"", ""}
             };
             var record2 = new
             {
                 Member1 = "different",
-                Member2 = new[] {"", ""},
+                Member2 = new[] {"", ""}
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -481,6 +486,35 @@ With configuration:*");
         }
 
         [TestMethod]
+        public void When_including_a_property_it_should_exactly_match_the_property()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new
+            {
+                DeclaredType = LocalOtherType.NonDefault,
+                Type = LocalType.NonDefault
+            };
+
+            var expectation = new
+            {
+                DeclaredType = LocalOtherType.NonDefault
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expectation,
+                config => config.Including(o => o.DeclaredType));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_null_is_provided_as_property_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -491,7 +525,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dto.ShouldBeEquivalentTo(dto, options => options.Including((Expression<Func<CustomerDto, object>>)null));
+            Action act =
+                () => dto.ShouldBeEquivalentTo(dto, options => options.Including((Expression<Func<CustomerDto, object>>)null));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -516,7 +551,7 @@ With configuration:*");
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
+            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -547,7 +582,7 @@ With configuration:*");
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
+            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -600,10 +635,10 @@ With configuration:*");
                 Field1 = "Lorem",
                 Field2 = "ipsum",
                 Field3 = "dolor",
-                Property1 = "sit",
+                Property1 = "sit"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
+            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -630,10 +665,10 @@ With configuration:*");
                 Field1 = "Lorem",
                 Field2 = "ipsum",
                 Field3 = "dolor",
-                Property1 = "sit",
+                Property1 = "sit"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
+            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -719,7 +754,7 @@ With configuration:*");
             {
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20),
-                Name = "John",
+                Name = "John"
             };
 
             var other = new Customer("SomeOtherPassword")
@@ -771,7 +806,7 @@ With configuration:*");
             {
                 Age = 36,
                 Birthdate = new DateTime(1973, 9, 20),
-                Name = "John",
+                Name = "John"
             };
 
             subject.SetProtected("ActualValue");
@@ -802,8 +837,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new SubclassA<string> { Foo = "test" };
-            var expectation = new SubclassB<string> { Foo = "test" };
+            var subject = new SubclassA<string> {Foo = "test"};
+            var expectation = new SubclassB<string> {Foo = "test"};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -823,13 +858,12 @@ With configuration:*");
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var expected = new ClassWithIndexer {Foo = "test"};
-            var result = new ClassWithIndexer { Foo = "test" };
+            var result = new ClassWithIndexer {Foo = "test"};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => result.ShouldBeEquivalentTo(expected);
-
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -941,7 +975,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_a_reference_to_an_explicit_interface_impl_is_provided_it_should_only_include_those_properties()
         {
@@ -969,7 +1003,6 @@ With configuration:*");
             action.ShouldNotThrow();
         }
 
-
         [TestMethod]
         public void When_a_deeply_nested_property_with_a_value_mismatch_is_excluded_it_should_not_throw()
         {
@@ -984,7 +1017,7 @@ With configuration:*");
                     Text = "Level1",
                     Level = new Level2
                     {
-                        Text = "Mismatch",
+                        Text = "Mismatch"
                     }
                 }
             };
@@ -997,7 +1030,7 @@ With configuration:*");
                     Text = "Level1",
                     Level = new Level2Dto
                     {
-                        Text = "Level2",
+                        Text = "Level2"
                     }
                 }
             };
@@ -1028,7 +1061,7 @@ With configuration:*");
                     Text = "Level1",
                     Level = new Level2
                     {
-                        Text = "Mismatch",
+                        Text = "Mismatch"
                     }
                 }
             };
@@ -1041,7 +1074,7 @@ With configuration:*");
                     Text = "Level1",
                     Level = new Level2Dto
                     {
-                        Text = "Level2",
+                        Text = "Level2"
                     }
                 }
             };
@@ -1093,12 +1126,12 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Type = "A",
+                Type = "A"
             };
 
             var other = new
             {
-                Type = 36,
+                Type = 36
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1127,7 +1160,7 @@ With configuration:*");
                 SubType1 = new
                 {
                     SubProperty1 = "C",
-                    SubProperty2 = "D",
+                    SubProperty2 = "D"
                 }
             };
 
@@ -1138,7 +1171,7 @@ With configuration:*");
                 SubType1 = new
                 {
                     SubProperty1 = "3",
-                    SubProperty2 = "D",
+                    SubProperty2 = "D"
                 }
             };
 
@@ -1173,7 +1206,7 @@ With configuration:*");
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "color" };
+            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum", Field3 = "color"};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1188,7 +1221,9 @@ With configuration:*");
         }
 
         [TestMethod]
-        public void When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored()
+        public void
+            When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored
+            ()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1203,7 +1238,7 @@ With configuration:*");
                 Property3 = "consectetur"
             };
 
-            object class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor" };
+            object class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor"};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1296,7 +1331,7 @@ With configuration:*");
             var class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
-                Property1 = "sit",
+                Property1 = "sit"
             };
 
             var class2 = new ClassWithSomeFieldsAndProperties();
@@ -1314,7 +1349,9 @@ With configuration:*");
         }
 
         [TestMethod]
-        public void When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included()
+        public void
+            When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included
+            ()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1322,7 +1359,7 @@ With configuration:*");
             object class1 = new ClassWithSomeFieldsAndProperties
             {
                 Field1 = "Lorem",
-                Property1 = "sit",
+                Property1 = "sit"
             };
 
             object class2 = new ClassWithSomeFieldsAndProperties();
@@ -1361,7 +1398,7 @@ With configuration:*");
 
             var class2 = new
             {
-                Field1 = "Lorem",
+                Field1 = "Lorem"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1384,12 +1421,12 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Age = 36,
+                Age = 36
             };
 
             var other = new
             {
-                Age = 37,
+                Age = 37
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1439,13 +1476,13 @@ With configuration:*");
             var subject =
                 new
                 {
-                    Time = (DateTime?) null
+                    Time = (DateTime?)null
                 };
 
             var other =
                 new
                 {
-                    Time = (DateTime?) null
+                    Time = (DateTime?)null
                 };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1469,10 +1506,10 @@ With configuration:*");
             var subject =
                 new
                 {
-                    Time = (DateTime?) new DateTime(2013, 12, 9, 15, 58, 0)
+                    Time = (DateTime?)new DateTime(2013, 12, 9, 15, 58, 0)
                 };
-            
-            var other = 
+
+            var other =
                 new
                 {
                     Time = (DateTime?)new DateTime(2013, 12, 9, 15, 58, 0)
@@ -1500,13 +1537,13 @@ With configuration:*");
             var subject =
                 new
                 {
-                    Time = (DateTime?) new DateTime(2013, 12, 9, 15, 58, 0)
+                    Time = (DateTime?)new DateTime(2013, 12, 9, 15, 58, 0)
                 };
 
             var other =
                 new
                 {
-                    Time = (DateTime?) null
+                    Time = (DateTime?)null
                 };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1531,13 +1568,13 @@ With configuration:*");
             var subject =
                 new
                 {
-                    Time = (DateTime?) null
+                    Time = (DateTime?)null
                 };
 
             var other =
                 new
                 {
-                    Time = (DateTime?) new DateTime(2013, 12, 9, 15, 58, 0)
+                    Time = (DateTime?)new DateTime(2013, 12, 9, 15, 58, 0)
                 };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1567,7 +1604,7 @@ With configuration:*");
             var other =
                 new
                 {
-                    Time = (DateTime?) new DateTime(2013, 12, 9, 15, 58, 0)
+                    Time = (DateTime?)new DateTime(2013, 12, 9, 15, 58, 0)
                 };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1598,7 +1635,7 @@ With configuration:*");
             var other =
                 new
                 {
-                    Time = (DateTime?) null
+                    Time = (DateTime?)null
                 };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1622,7 +1659,7 @@ With configuration:*");
             var subject =
                 new
                 {
-                    Time = (DateTime?) new DateTime(2013, 12, 9, 15, 58, 0)
+                    Time = (DateTime?)new DateTime(2013, 12, 9, 15, 58, 0)
                 };
 
             var other =
@@ -1652,7 +1689,7 @@ With configuration:*");
             var subject =
                 new
                 {
-                    Time = (DateTime?) null
+                    Time = (DateTime?)null
                 };
 
             var other =
@@ -1737,12 +1774,12 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Age = 36,
+                Age = 36
             };
 
             var expectation = new
             {
-                Age = 37,
+                Age = 37
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1876,7 +1913,8 @@ With configuration:*");
 
         [TestMethod]
         public void
-            When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivilent_according_to_the_declared_type_it_should_succeed()
+            When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivilent_according_to_the_declared_type_it_should_succeed
+            ()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1915,7 +1953,7 @@ With configuration:*");
             var subject = new
             {
                 Age = "37",
-                Birthdate = "1973-09-20",
+                Birthdate = "1973-09-20"
             };
 
             var other = new
@@ -2017,7 +2055,7 @@ With configuration:*");
                     Text = "Level1",
                     Level = new Level2
                     {
-                        Text = "Level2",
+                        Text = "Level2"
                     }
                 }
             };
@@ -2030,7 +2068,7 @@ With configuration:*");
                     Text = "Level1",
                     Level = new Level2Dto
                     {
-                        Text = "Level2",
+                        Text = "Level2"
                     }
                 }
             };
@@ -2045,7 +2083,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_the_expectation_contains_a_nested_null_it_should_properly_report_the_difference()
         {
@@ -2090,7 +2128,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new 
+            var subject = new
             {
                 Property = new ClassWithValueSemanticsOnSingleProperty
                 {
@@ -2159,7 +2197,7 @@ With configuration:*");
                 Text = "Root",
                 Level = new Level1
                 {
-                    Text = "Level1",
+                    Text = "Level1"
                 }
             };
 
@@ -2168,7 +2206,7 @@ With configuration:*");
                 Text = "Root",
                 Level = new Level1Dto
                 {
-                    Text = "Level2",
+                    Text = "Level2"
                 }
             };
 
@@ -2198,7 +2236,7 @@ With configuration:*");
                 Text = "Root",
                 Level = new Level1
                 {
-                    Text = "Level2",
+                    Text = "Level2"
                 }
             };
 
@@ -2238,7 +2276,7 @@ With configuration:*");
                 Text = "Root",
                 Level = new Level1Dto
                 {
-                    Text = "Level2",
+                    Text = "Level2"
                 }
             };
 
@@ -2341,7 +2379,7 @@ With configuration:*");
                     Text = "Level1",
                     Level = new Level2
                     {
-                        Text = "Level2",
+                        Text = "Level2"
                     }
                 }
             };
@@ -2354,7 +2392,7 @@ With configuration:*");
                     Text = "Level1",
                     Level = new Level2Dto
                     {
-                        Text = "A wrong text value",
+                        Text = "A wrong text value"
                     }
                 }
             };
@@ -2427,7 +2465,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var cyclicRoot = new CyclicRoot
             {
-                Text = "Root",
+                Text = "Root"
             };
 
             cyclicRoot.Level = new CyclicLevel1
@@ -2438,7 +2476,7 @@ With configuration:*");
 
             var cyclicRootDto = new CyclicRootDto
             {
-                Text = "Root",
+                Text = "Root"
             };
 
             cyclicRootDto.Level = new CyclicLevel1Dto
@@ -2468,22 +2506,22 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var cyclicRoot = new CyclicRoot
             {
-                Text = "Root",
+                Text = "Root"
             };
             cyclicRoot.Level = new CyclicLevel1
             {
                 Text = "Level1",
-                Root = cyclicRoot,
+                Root = cyclicRoot
             };
 
             var cyclicRootDto = new CyclicRootDto
             {
-                Text = "Root",
+                Text = "Root"
             };
             cyclicRootDto.Level = new CyclicLevel1Dto
             {
                 Text = "Level1",
-                Root = cyclicRootDto,
+                Root = cyclicRootDto
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2505,24 +2543,24 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var actual = new CyclicRoot
             {
-                Text = null,
+                Text = null
             };
 
             actual.Level = new CyclicLevel1
             {
                 Text = null,
-                Root = null,
+                Root = null
             };
 
             var expectation = new CyclicRootDto
             {
-                Text = null,
+                Text = null
             };
 
             expectation.Level = new CyclicLevel1Dto
             {
                 Text = null,
-                Root = null,
+                Root = null
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2550,7 +2588,7 @@ With configuration:*");
             actual.Level = new CyclicLevelWithValueObject
             {
                 Object = new ValueObject("MyValue"),
-                Root = null,
+                Root = null
             };
 
             var expectation = new CyclicRootWithValueObject
@@ -2561,7 +2599,7 @@ With configuration:*");
             expectation.Level = new CyclicLevelWithValueObject
             {
                 Object = new ValueObject("MyValue"),
-                Root = null,
+                Root = null
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2600,7 +2638,9 @@ With configuration:*");
         }
 
         [TestMethod]
-        public void When_asserting_equivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion()
+        public void
+            When_asserting_equivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
+            ()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2648,14 +2688,14 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var company1 = new MyCompany { Name = "Company" };
-            var user1 = new MyUser { Name = "User", Company = company1 };
-            var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
+            var company1 = new MyCompany {Name = "Company"};
+            var user1 = new MyUser {Name = "User", Company = company1};
+            var logo1 = new MyCompanyLogo {Url = "blank", Company = company1, CreatedBy = user1};
             company1.Logo = logo1;
 
-            var company2 = new MyCompany { Name = "Company" };
-            var user2 = new MyUser { Name = "User", Company = company2 };
-            var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
+            var company2 = new MyCompany {Name = "Company"};
+            var user2 = new MyUser {Name = "User", Company = company2};
+            var logo2 = new MyCompanyLogo {Url = "blank", Company = company2, CreatedBy = user2};
             company2.Logo = logo2;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2701,7 +2741,7 @@ With configuration:*");
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected subject to be 3, but found 0*");
         }
-       
+
         [TestMethod]
         public void When_asserting_members_from_different_enum_types_are_equivalent_it_should_compare_by_value_by_default()
         {
@@ -2715,7 +2755,7 @@ With configuration:*");
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeEquivalentTo(expectation);
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -2728,13 +2768,13 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithEnumOne(){Enum = EnumOne.One};
-            var expectation = new ClassWithEnumThree(){Enum = EnumeThree.ValueZero};
+            var subject = new ClassWithEnumOne {Enum = EnumOne.One};
+            var expectation = new ClassWithEnumThree {Enum = EnumeThree.ValueZero};
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation,config => config.ComparingEnumsByValue());
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2748,8 +2788,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithEnumOne(){Enum = EnumOne.Two};
-            var expectation = new ClassWithEnumThree(){Enum = EnumeThree.Two};
+            var subject = new ClassWithEnumOne {Enum = EnumOne.Two};
+            var expectation = new ClassWithEnumThree {Enum = EnumeThree.Two};
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -2768,8 +2808,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithEnumCharOne() { Enum = EnumCharOne.B };
-            var expectation = new ClassWithEnumCharTwo() { Enum = EnumCharTwo.ValueB };
+            var subject = new ClassWithEnumCharOne {Enum = EnumCharOne.B};
+            var expectation = new ClassWithEnumCharTwo {Enum = EnumCharTwo.ValueB};
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -2790,7 +2830,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             object e1 = EnumOne.One;
             object e2 = EnumOne.One;
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -2833,6 +2873,7 @@ With configuration:*");
         {
             First = 1
         }
+
         #endregion
 
         #region Memberless Objects
@@ -2899,8 +2940,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAField { Value = 1 };
-            var object2 = new ClassWithOnlyAField { Value = 101 };
+            var object1 = new ClassWithOnlyAField {Value = 1};
+            var object2 = new ClassWithOnlyAField {Value = 101};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2919,8 +2960,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAProperty { Value = 1 };
-            var object2 = new ClassWithOnlyAProperty { Value = 101 };
+            var object1 = new ClassWithOnlyAProperty {Value = 1};
+            var object2 = new ClassWithOnlyAProperty {Value = 101};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2960,31 +3001,14 @@ With configuration:*");
 
     public class ClassOne
     {
-        private ClassTwo refOne = new ClassTwo();
-        private int valOne = 1;
+        public ClassTwo RefOne { get; set; } = new ClassTwo();
 
-        public ClassTwo RefOne
-        {
-            get { return refOne; }
-            set { refOne = value; }
-        }
-
-        public int ValOne
-        {
-            get { return valOne; }
-            set { valOne = value; }
-        }
+        public int ValOne { get; set; } = 1;
     }
 
     public class ClassTwo
     {
-        private int valTwo = 3;
-
-        public int ValTwo
-        {
-            get { return valTwo; }
-            set { valTwo = value; }
-        }
+        public int ValTwo { get; set; } = 3;
     }
 
     public class ClassWithWriteOnlyProperty
@@ -3034,7 +3058,6 @@ With configuration:*");
         public EnumCharOne Enum { get; set; }
     }
 
-
     internal class ClassWithEnumCharTwo
     {
         public EnumCharTwo Enum { get; set; }
@@ -3044,7 +3067,6 @@ With configuration:*");
     {
         public EnumOne Enum { get; set; }
     }
-
 
     internal class ClassWithEnumTwo
     {
@@ -3088,10 +3110,7 @@ With configuration:*");
     {
         public ClassWithInfinitelyRecursiveProperty Self
         {
-            get
-            {
-                return new ClassWithInfinitelyRecursiveProperty();
-            }
+            get { return new ClassWithInfinitelyRecursiveProperty(); }
         }
     }
 
@@ -3347,12 +3366,10 @@ With configuration:*");
         public string Key { get; set; }
         public string NestedProperty { get; set; }
 
-
         protected bool Equals(ClassWithValueSemanticsOnSingleProperty other)
         {
             return string.Equals(Key, other.Key);
         }
-
 
         public override bool Equals(object obj)
         {
@@ -3368,16 +3385,14 @@ With configuration:*");
             {
                 return false;
             }
-            return Equals((ClassWithValueSemanticsOnSingleProperty) obj);
+            return Equals((ClassWithValueSemanticsOnSingleProperty)obj);
         }
-
 
         public override int GetHashCode()
         {
             return Key.GetHashCode();
         }
     }
-
 
     public class Root
     {
@@ -3427,17 +3442,12 @@ With configuration:*");
 
     public class ValueObject
     {
-        private readonly string value;
-
         public ValueObject(string value)
         {
-            this.value = value;
+            Value = value;
         }
 
-        public string Value
-        {
-            get { return value; }
-        }
+        public string Value { get; }
 
         public override bool Equals(object obj)
         {
@@ -3495,10 +3505,7 @@ With configuration:*");
 
     public class ExplicitVehicle : IVehicle
     {
-        int IVehicle.VehicleId
-        {
-            get; set; 
-        }
+        int IVehicle.VehicleId { get; set; }
     }
 
     public interface ICar : IVehicle

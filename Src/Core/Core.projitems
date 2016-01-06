@@ -98,6 +98,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\ExcludeMemberByPredicateSelectionRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\IncludeMemberByPathSelectionRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\IncludeMemberByPredicateSelectionRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\MemberPath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\NestedSelectionContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\Selection\SelectMemberByPathSelectionRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\SelfReferenceEquivalencyAssertionOptions.cs" />

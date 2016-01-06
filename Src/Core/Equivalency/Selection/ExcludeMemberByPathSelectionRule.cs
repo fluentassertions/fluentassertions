@@ -19,7 +19,7 @@ namespace FluentAssertions.Equivalency.Selection
         protected override IEnumerable<SelectedMemberInfo> OnSelectMembers(IEnumerable<SelectedMemberInfo> selectedMembers,
             string currentPath, ISubjectInfo context)
         {
-            return selectedMembers.Where(memberInfo => (currentPath.Combine(memberInfo.Name) != pathToExclude)).ToArray();
+            return selectedMembers.Where(memberInfo => currentPath.Combine(memberInfo.Name) != pathToExclude).ToArray();
         }
 
         public override string ToString()
