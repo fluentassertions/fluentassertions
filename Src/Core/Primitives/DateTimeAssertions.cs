@@ -435,5 +435,33 @@ namespace FluentAssertions.Primitives
         {
             return new DateTimeRangeAssertions(this, Subject, TimeSpanCondition.LessThan, timeSpan);
         }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> date.
+        /// </summary>
+        /// <param name="expected">The expected date portion of the current value.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> BeSameDateAs(DateTime expected, string because = "",
+            params object[] reasonArgs)
+        {
+            var expectedDate = expected.Date;
+
+            Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected a {context:date and time} with date {0}{reason}, but found a <null> DateTime.", expectedDate)
+                .Then
+                .ForCondition(Subject.Value.Date == expectedDate)
+                .BecauseOf(because, reasonArgs)
+                .FailWith("Expected a {context:date and time} with date {0}{reason}, but found {1}.", expectedDate, Subject.Value);
+
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
     }
 }
