@@ -245,6 +245,8 @@ theDatetime.Should().HaveYear(2010);
 theDatetime.Should().HaveHour(22);
 theDatetime.Should().HaveMinute(15);
 theDatetime.Should().HaveSecond(0);
+
+theDatetime.Should().BeSameDateAs(1.March(2010));
 ```
 
 We've added a whole set of methods for asserting that the difference between two DateTime objects match a certain time frame. All five methods support a Before and  After extension method.
