@@ -150,7 +150,37 @@ namespace FluentAssertions.Specs
 
 #if !WINRT && !NETFX_CORE && !WINDOWS_PHONE_APP && !SILVERLIGHT
         [TestMethod]
-        public void When_asserting_equivalence_on_a_reference_type_from_system_it_should_not_do_a_structural_comparision()
+        public void When_treating_a_complex_type_in_a_collection_as_a_value_type_it_should_compare_them_by_value()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new[] { new
+            {
+                Address = IPAddress.Parse("1.2.3.4"),
+                Word = "a"
+            } };
+
+            var expected = new[] { new
+            {
+                Address = IPAddress.Parse("1.2.3.4"),
+                Word = "a"
+            } };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldAllBeEquivalentTo(expected,
+                options => options.ComparingByValue<IPAddress>());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_treating_a_complex_type_as_a_value_type_it_should_compare_them_by_value()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -177,6 +207,34 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_type_originates_from_the_System_namespace_it_should_be_treated_as_a_value_type()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                UriBuilder = new UriBuilder("http://localhost:9001/api"),
+            };
+
+            var expected = new
+            {
+                UriBuilder = new UriBuilder("https://localhost:9002/bapi"),
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*UriBuilder to be https://localhost:9002/bapi, but found http://localhost:9001/api*");
         }
 #endif
 
