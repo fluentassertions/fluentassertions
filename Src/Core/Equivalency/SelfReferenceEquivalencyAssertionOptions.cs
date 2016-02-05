@@ -47,7 +47,9 @@ namespace FluentAssertions.Equivalency
 
         private bool includeFields;
 
-        private readonly List<Type> valueTypes = new List<Type>(); 
+        private readonly List<Type> valueTypes = new List<Type>();
+
+        private readonly Func<Type, bool> isValueType = _ => false;
 
         #endregion
 
@@ -76,6 +78,8 @@ namespace FluentAssertions.Equivalency
             userEquivalencySteps.AddRange(defaults.UserEquivalencySteps);
             matchingRules.AddRange(defaults.MatchingRules);
             orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
+
+            isValueType = defaults.IsValueType;
 
             RemoveSelectionRule<AllPublicPropertiesSelectionRule>();
             RemoveSelectionRule<AllPublicFieldsSelectionRule>();
@@ -179,7 +183,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         bool IEquivalencyAssertionOptions.IsValueType(Type type)
         {
-            return valueTypes.Contains(type) || AssertionOptions.IsValueType(type);
+            return valueTypes.Contains(type) || isValueType(type) || AssertionOptions.IsValueType(type);
         }
 
         /// <summary>
