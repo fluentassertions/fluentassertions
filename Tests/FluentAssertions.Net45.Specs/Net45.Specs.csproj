@@ -84,6 +84,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40.Specs\XmlNodeAssertionSpecs.cs">
+      <Link>XmlNodeAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="AsyncFunctionExceptionAssertionSpecs.cs" />
     <Compile Include="Chill\AutofacChillContainer.cs" />
     <Compile Include="Chill\DefaultChillContainer.cs" />

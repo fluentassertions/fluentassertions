@@ -126,6 +126,7 @@
     <Compile Include="Chill\AutofacChillContainer.cs" />
     <Compile Include="Chill\DefaultChillContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlNodeAssertionSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

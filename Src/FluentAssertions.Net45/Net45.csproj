@@ -101,6 +101,18 @@
     <Compile Include="..\FluentAssertions.Net40\ObjectAssertionsExtensions.cs">
       <Link>ObjectAssertionsExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Xml\XmlAssertionExtensions.cs">
+      <Link>Xml\XmlAssertionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeAssertions.cs">
+      <Link>Xml\XmlNodeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeFormatter.cs">
+      <Link>Xml\XmlNodeFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Xml\XmlReaderValidator.cs">
+      <Link>Xml\XmlReaderValidator.cs</Link>
+    </Compile>
     <Compile Include="Execution\XUnit2TestFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
