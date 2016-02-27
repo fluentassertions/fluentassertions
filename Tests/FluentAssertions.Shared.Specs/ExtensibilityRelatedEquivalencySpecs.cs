@@ -525,6 +525,28 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_a_user_equivalency_step_is_registered_it_should_run_before_the_reference_equality_step()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithOnlyAProperty();
+            var expected = new ClassWithOnlyAProperty();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected, opts => opts
+                .Using(new AlwayHandleEquivalencyStep())
+                .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_stil_be_ran()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -550,7 +572,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_multiple_equivalency_steps_are_added_they_should_be_executed_from_right_to_left()
+        public void When_multiple_equivalency_steps_are_added_they_should_be_executed_in_registration_order()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -596,6 +618,22 @@ namespace FluentAssertions.Specs
             public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
             {
                 return false;
+            }
+        }
+
+        internal class DoEquivalencyStep : CanHandleAnythingEquivalencyStep
+        {
+            private readonly Action doAction;
+
+            public DoEquivalencyStep(Action doAction)
+            {
+                this.doAction = doAction;
+            }
+
+            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            {
+                doAction();
+                return true;
             }
         }
 
