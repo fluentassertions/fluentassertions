@@ -42,7 +42,7 @@ namespace FluentAssertions.Equivalency
                     }
                     else
                     {
-                        subject[key].Should().Be(expectation[key], context.Reason, context.ReasonArgs);
+                        subject[key].Should().Be(expectation[key], context.Because, context.BecauseArgs);
                     }
                 }
             }

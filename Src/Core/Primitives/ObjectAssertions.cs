@@ -27,13 +27,13 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<ObjectAssertions> Be(object expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<ObjectAssertions> Be(object expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .ForCondition(Subject.IsSameOrEqualTo(expected))
                 .FailWith("Expected {context:object} to be {0}{reason}, but found {1}.", expected,
                     Subject);
@@ -49,14 +49,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> NotBe(object unexpected, string because = "", params object[] reasonArgs)
+        public AndConstraint<ObjectAssertions> NotBe(object unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.IsSameOrEqualTo(unexpected))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:object} to be equal to {0}{reason}.", unexpected);
 
             return new AndConstraint<ObjectAssertions>(this);
@@ -70,14 +70,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public AndConstraint<ObjectAssertions> HaveFlag(Enum expectedFlag, string because = "", 
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .FailWith("Expected type to be {0}{reason}, but found <null>.", expectedFlag.GetType())
                 .Then
@@ -99,14 +99,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public AndConstraint<ObjectAssertions> NotHaveFlag(Enum unexpectedFlag, string because = "", 
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .FailWith("Expected type to be {0}{reason}, but found <null>.", unexpectedFlag.GetType())
                 .Then

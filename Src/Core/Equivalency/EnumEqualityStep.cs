@@ -39,11 +39,11 @@ namespace FluentAssertions.Equivalency
                     long subjectsUnderlyingValue = Convert.ToInt64(context.Subject);
                     long expectationsUnderlyingValue = Convert.ToInt64(context.Expectation);
 
-                    subjectsUnderlyingValue.Should().Be(expectationsUnderlyingValue, context.Reason, context.ReasonArgs);
+                    subjectsUnderlyingValue.Should().Be(expectationsUnderlyingValue, context.Because, context.BecauseArgs);
                     break;
 
                 case EnumEquivalencyHandling.ByName:
-                    context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Reason, context.ReasonArgs);
+                    context.Subject.ToString().Should().Be(context.Expectation.ToString(), context.Because, context.BecauseArgs);
                     break;
 
                 default:

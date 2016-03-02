@@ -23,14 +23,14 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TAssertions> HaveAccessModifier(
-            CSharpAccessModifier accessModifier, string because = "", params object[] reasonArgs)
+            CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion.ForCondition(accessModifier == Subject.GetCSharpAccessModifier())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected method " + Subject.Name + " to be {0}{reason}, but it is {1}.",
                     accessModifier, Subject.GetCSharpAccessModifier());
 

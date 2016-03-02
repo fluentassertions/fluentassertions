@@ -33,12 +33,12 @@ namespace FluentAssertions.Equivalency
         ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </summary>
-        public string Reason { get; set; }
+        public string Because { get; set; }
 
         /// <summary>
-        ///   Zero or more objects to format using the placeholders in <see cref="IEquivalencyValidationContext.Reason" />.
+        ///   Zero or more objects to format using the placeholders in <see cref="IEquivalencyValidationContext.Because" />.
         /// </summary>
-        public object[] ReasonArgs { get; set; }
+        public object[] BecauseArgs { get; set; }
 
         /// <summary>
         ///   Gets a value indicating whether the current context represents the root of the object graph.

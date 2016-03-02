@@ -29,10 +29,10 @@ namespace FluentAssertions.Specialized
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public ExceptionAssertions<TException> ShouldThrow<TException>(string because = "", params object[] reasonArgs)
+        public ExceptionAssertions<TException> ShouldThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Exception actualException = InvokeSubjectWithInterception();
@@ -40,12 +40,12 @@ namespace FluentAssertions.Specialized
 
             Execute.Assertion
                 .ForCondition(actualException != null)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a <{0}> to be thrown{reason}, but no exception was thrown.", typeof(TException));
 
             Execute.Assertion
                 .ForCondition(expectedExceptions.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected a <{0}> to be thrown{reason}, but found a <{1}>: {3}.",
                     typeof (TException), actualException.GetType(),
@@ -62,10 +62,10 @@ namespace FluentAssertions.Specialized
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void ShouldNotThrow<TException>(string because = "", params object[] reasonArgs) where TException : Exception
+        public void ShouldNotThrow<TException>(string because = "", params object[] becauseArgs) where TException : Exception
         {
             Exception actualException = InvokeSubjectWithInterception();
             IEnumerable<TException> expectedExceptions = extractor.OfType<TException>(actualException);
@@ -74,7 +74,7 @@ namespace FluentAssertions.Specialized
             {
                 Execute.Assertion
                     .ForCondition(!expectedExceptions.Any())
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect {0}{reason}, but found {1}.", typeof (TException), actualException);
             }
         }
@@ -86,10 +86,10 @@ namespace FluentAssertions.Specialized
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void ShouldNotThrow(string because = "", params object[] reasonArgs)
+        public void ShouldNotThrow(string because = "", params object[] becauseArgs)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace FluentAssertions.Specialized
             catch (Exception exception)
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exception{reason}, but found {0}", exception);
             }
         }

@@ -5,20 +5,20 @@ namespace FluentAssertions.Equivalency
     internal class AssertionContext<TSubject> : IAssertionContext<TSubject>
     {
         public AssertionContext(SelectedMemberInfo subjectProperty, TSubject subject, TSubject expectation, string because,
-                                object[] reasonArgs)
+                                object[] becauseArgs)
         {
             SubjectProperty = subjectProperty;
             Subject = subject;
             Expectation = expectation;
-            Reason = because;
-            ReasonArgs = reasonArgs;
+            Because = because;
+            BecauseArgs = becauseArgs;
         }
 
         public SelectedMemberInfo SubjectProperty { get; private set; }
         public TSubject Subject { get; private set; }
         public TSubject Expectation { get; private set; }
-        public string Reason { get; set; }
-        public object[] ReasonArgs { get; set; }
+        public string Because { get; set; }
+        public object[] BecauseArgs { get; set; }
 
         internal static AssertionContext<TSubject> CreateFromEquivalencyValidationContext(IEquivalencyValidationContext context)
         {
@@ -28,8 +28,8 @@ namespace FluentAssertions.Equivalency
                 context.SelectedMemberInfo,
                 (TSubject)context.Subject,
                 expectation,
-                context.Reason,
-                context.ReasonArgs);
+                context.Because,
+                context.BecauseArgs);
             return assertionContext;
         }
     }

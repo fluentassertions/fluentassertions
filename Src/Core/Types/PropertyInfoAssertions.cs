@@ -25,11 +25,11 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<PropertyInfoAssertions> BeVirtual(
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
         {
             string failureMessage = "Expected property " +
                                     GetDescriptionFor(Subject) +
@@ -37,7 +37,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(Subject.IsVirtual())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -50,15 +50,15 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<PropertyInfoAssertions> BeWritable(
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.CanWrite)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} to have a setter{reason}.",
                     Subject);
@@ -74,14 +74,14 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeWritable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            Subject.Should().BeWritable(because, reasonArgs);
+            Subject.Should().BeWritable(because, becauseArgs);
 
-            Subject.GetSetMethod(true).Should().HaveAccessModifier(accessModifier, because, reasonArgs);
+            Subject.GetSetMethod(true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -93,15 +93,15 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<PropertyInfoAssertions> NotBeWritable(
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.CanWrite)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} not to have a setter{reason}.",
                     Subject);
@@ -116,13 +116,13 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeReadable(string because = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeReadable(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion.ForCondition(Subject.CanRead)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected property " + Subject.Name + " to have a getter{reason}, but it does not.");
 
             return new AndConstraint<PropertyInfoAssertions>(this);
@@ -136,14 +136,14 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> BeReadable(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            Subject.Should().BeReadable(because, reasonArgs);
+            Subject.Should().BeReadable(because, becauseArgs);
 
-            Subject.GetGetMethod(true).Should().HaveAccessModifier(accessModifier, because, reasonArgs);
+            Subject.GetGetMethod(true).Should().HaveAccessModifier(accessModifier, because, becauseArgs);
 
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
@@ -155,15 +155,15 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<PropertyInfoAssertions> NotBeReadable(
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.CanRead)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:property} {0} not to have a getter{reason}.",
                     Subject);
@@ -179,14 +179,14 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<PropertyInfoAssertions> Return(Type propertyType,
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
         {
             Execute.Assertion.ForCondition(Subject.PropertyType == propertyType)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.", propertyType, Subject.PropertyType);
 
 
@@ -201,12 +201,12 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> Return<TReturn>(string because = "", params object[] reasonArgs)
+        public AndConstraint<PropertyInfoAssertions> Return<TReturn>(string because = "", params object[] becauseArgs)
         {
-            return Return(typeof(TReturn), because, reasonArgs);
+            return Return(typeof(TReturn), because, becauseArgs);
         }
 
         internal static string GetDescriptionFor(PropertyInfo property)

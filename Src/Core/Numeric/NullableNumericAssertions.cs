@@ -17,14 +17,14 @@ namespace FluentAssertions.Numeric
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>      
-        public AndConstraint<NullableNumericAssertions<T>> HaveValue(string because = "", params object[] reasonArgs)
+        public AndConstraint<NullableNumericAssertions<T>> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
             return new AndConstraint<NullableNumericAssertions<T>>(this);
@@ -37,14 +37,14 @@ namespace FluentAssertions.Numeric
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>  
-        public AndConstraint<NullableNumericAssertions<T>> NotHaveValue(string because = "", params object[] reasonArgs) 
+        public AndConstraint<NullableNumericAssertions<T>> NotHaveValue(string because = "", params object[] becauseArgs) 
         {
             Execute.Assertion
                 .ForCondition(ReferenceEquals(Subject, null))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 
             return new AndConstraint<NullableNumericAssertions<T>>(this);

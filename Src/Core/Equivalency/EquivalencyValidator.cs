@@ -31,7 +31,7 @@ namespace FluentAssertions.Equivalency
                 scope.AddReportable("configuration", config.ToString());
                 scope.AddNonReportable("objects", new ObjectTracker(config.CyclicReferenceHandling));
 
-                scope.BecauseOf(context.Reason, context.ReasonArgs);
+                scope.BecauseOf(context.Because, context.BecauseArgs);
 
                 AssertEqualityUsing(context);
             }

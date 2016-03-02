@@ -18,8 +18,8 @@ namespace FluentAssertions.Equivalency
                 Expectation = matchingProperty.GetValue(context.Expectation, null),
                 SelectedMemberPath = context.SelectedMemberPath.Combine(memberDescription, "."),
                 SelectedMemberDescription = propertyPath + memberDescription,
-                Reason = context.Reason,
-                ReasonArgs = context.ReasonArgs,
+                Because = context.Because,
+                BecauseArgs = context.BecauseArgs,
                 CompileTimeType = nestedMember.MemberType,
                 RootIsCollection = context.RootIsCollection
             };
@@ -38,8 +38,8 @@ namespace FluentAssertions.Equivalency
                 Expectation = expectation,
                 SelectedMemberPath = context.SelectedMemberPath.Combine(memberDescription, String.Empty),
                 SelectedMemberDescription = propertyPath + memberDescription,
-                Reason = context.Reason,
-                ReasonArgs = context.ReasonArgs,
+                Because = context.Because,
+                BecauseArgs = context.BecauseArgs,
                 CompileTimeType = typeof (T),
                 RootIsCollection = context.RootIsCollection
             };
@@ -61,8 +61,8 @@ namespace FluentAssertions.Equivalency
                 Expectation = expectation,
                 SelectedMemberPath = context.SelectedMemberPath.Combine(memberDescription, String.Empty),
                 SelectedMemberDescription = propertyPath + memberDescription,
-                Reason = context.Reason,
-                ReasonArgs = context.ReasonArgs,
+                Because = context.Because,
+                BecauseArgs = context.BecauseArgs,
                 CompileTimeType = typeof (TValue),
                 RootIsCollection = context.RootIsCollection
             };
@@ -78,8 +78,8 @@ namespace FluentAssertions.Equivalency
                 SelectedMemberDescription = context.SelectedMemberDescription,
                 SelectedMemberInfo = context.SelectedMemberInfo,
                 SelectedMemberPath = context.SelectedMemberPath,
-                Reason = context.Reason,
-                ReasonArgs = context.ReasonArgs,
+                Because = context.Because,
+                BecauseArgs = context.BecauseArgs,
                 Subject = subject
             };
         }

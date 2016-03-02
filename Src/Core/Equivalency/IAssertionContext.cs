@@ -26,11 +26,11 @@ namespace FluentAssertions.Equivalency
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </summary>
-        string Reason { get; set; }
+        string Because { get; set; }
 
         /// <summary>
-        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// Zero or more objects to format using the placeholders in <see cref="Because"/>.
         /// </summary>
-        object[] ReasonArgs { get; set; }
+        object[] BecauseArgs { get; set; }
     }
 }

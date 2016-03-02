@@ -41,7 +41,7 @@ namespace FluentAssertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
@@ -50,7 +50,7 @@ namespace FluentAssertions
         /// </remarks>
         public static IEventRecorder ShouldRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression,
-            string because, params object[] reasonArgs)
+            string because, params object[] becauseArgs)
         {
             EventRecorder eventRecorder = eventSource.GetRecorderForEvent(PropertyChangedEventName);
             string propertyName = (propertyExpression != null) ? propertyExpression.GetPropertyInfo().Name : null;
@@ -58,7 +58,7 @@ namespace FluentAssertions
             if (!eventRecorder.Any())
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected object {0} to raise event {1} for property {2}{reason}, but it did not.",
                         eventSource, PropertyChangedEventName, propertyName);
             }
@@ -90,7 +90,7 @@ namespace FluentAssertions
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
@@ -99,7 +99,7 @@ namespace FluentAssertions
         /// </remarks>
         public static void ShouldNotRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression,
-            string because, params object[] reasonArgs)
+            string because, params object[] becauseArgs)
         {
             EventRecorder eventRecorder = eventSource.GetRecorderForEvent(PropertyChangedEventName);
 
@@ -108,7 +108,7 @@ namespace FluentAssertions
             if (eventRecorder.Any(@event => GetAffectedPropertyName(@event) == propertyName))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect object {0} to raise the {1} event for property {2}{reason}, but it did.",
                         eventSource, PropertyChangedEventName, propertyName);
             }

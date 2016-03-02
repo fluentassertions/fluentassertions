@@ -36,10 +36,10 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<MethodInfoSelectorAssertions> BeVirtual(string because = "", params object[] reasonArgs)
+        public AndConstraint<MethodInfoSelectorAssertions> BeVirtual(string because = "", params object[] becauseArgs)
         {
             IEnumerable<MethodInfo> nonVirtualMethods = GetAllNonVirtualMethodsFromSelection();
 
@@ -49,7 +49,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!nonVirtualMethods.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage);
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
@@ -72,13 +72,13 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] reasonArgs)
+        public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            return BeDecoratedWith<TAttribute>(attr => true, because, reasonArgs);
+            return BeDecoratedWith<TAttribute>(attr => true, because, becauseArgs);
         }
 
         /// <summary>
@@ -92,11 +92,11 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<MethodInfoSelectorAssertions> BeDecoratedWith<TAttribute>(
-            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,  string because = "", params object[] reasonArgs)
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,  string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
             IEnumerable<MethodInfo> methodsWithoutAttribute = GetMethodsWithout<TAttribute>(isMatchingAttributePredicate);
@@ -107,7 +107,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!methodsWithoutAttribute.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage, typeof(TAttribute));
 
             return new AndConstraint<MethodInfoSelectorAssertions>(this);

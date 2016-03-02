@@ -25,14 +25,14 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            return BeDecoratedWith<TAttribute>(attr => true, because, reasonArgs);
+            return BeDecoratedWith<TAttribute>(attr => true, because, becauseArgs);
         }
 
         /// <summary>
@@ -42,14 +42,14 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
-            return NotBeDecoratedWith<TAttribute>(attr => true, because, reasonArgs);
+            return NotBeDecoratedWith<TAttribute>(attr => true, because, becauseArgs);
         }
 
         /// <summary>
@@ -63,12 +63,12 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute> BeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
             string failureMessage = String.Format("Expected {0} {1}" +
@@ -79,7 +79,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(attributes.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage);
 
             return new AndWhichConstraint<MemberInfoAssertions<TSubject, TAssertions>, TAttribute>(this, attributes);
@@ -96,12 +96,12 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TAssertions> NotBeDecoratedWith<TAttribute>(
             Expression<Func<TAttribute, bool>> isMatchingAttributePredicate,
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
             string failureMessage = String.Format("Expected {0} {1}" +
@@ -112,7 +112,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!attributes.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(failureMessage);
 
             return new AndConstraint<TAssertions>((TAssertions)this);

@@ -22,7 +22,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
         {
-            context.Subject.Should().Be(context.Expectation, context.Reason, context.ReasonArgs);
+            context.Subject.Should().Be(context.Expectation, context.Because, context.BecauseArgs);
 
             return true;
         }
