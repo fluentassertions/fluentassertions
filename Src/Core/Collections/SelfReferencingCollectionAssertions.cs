@@ -130,6 +130,64 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that the current collection starts with same elements in the same order as the collection identified by 
+        /// <paramref name="expectation" />. Elements are compared using their <paramref name="predicate"/> />.
+        /// </summary>
+        /// <param name="expectation">
+        /// A collection of expected elements.
+        /// </param>
+        /// <param name="predicate">
+        /// A predicate the is used to determine whether two objects should be treated as equal.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> StartWith<TExpected>(
+            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> predicate, string because = "", params object[] reasonArgs)
+        {
+            if (expectation == null)
+            {
+                throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
+            }
+
+            AssertCollectionStartsWith(Subject, expectation.ToArray(), predicate, because, reasonArgs);
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current collection ends with same elements in the same order as the collection identified by 
+        /// <paramref name="expectation" />. Elements are compared using their <paramref name="predicate"/> />.
+        /// </summary>
+        /// <param name="expectation">
+        /// A collection of expected elements.
+        /// </param>
+        /// <param name="predicate">
+        /// A predicate the is used to determine whether two objects should be treated as equal.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> EndWith<TExpected>(
+            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> predicate, string because = "", params object[] reasonArgs)
+        {
+            if (expectation == null)
+            {
+                throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
+            }
+
+            AssertCollectionEndsWith(Subject, expectation.ToArray(), predicate, because, reasonArgs);
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Asserts that the collection contains the specified item.
         /// </summary>
         /// <param name="expected">The expectation item.</param>

@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Collections\SortOrder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\StringCollectionAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\WhichValueConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Configuration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CSharpAccessModifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\CSharpAccessModifierExtensions.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\IEventRecorder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\RecordedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Execution\AssertionScope.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Execution\GivenSelectorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Execution\CollectingAssertionStrategy.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Execution\ContextDataItems.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Execution\Continuation.cs" />
