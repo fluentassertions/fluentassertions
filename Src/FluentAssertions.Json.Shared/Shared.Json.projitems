@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>f702fe37-ca91-4c85-a8a2-61647577ef2c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)JsonAssertionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JTokenAssertions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JTokenFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectDiffPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+</Project>
