@@ -5,7 +5,7 @@
     <title>Fluent Assertions</title>
     <version>4.3.3</version>
     <owners>Dennis Doomen</owners>
-    <authors>Dennis Doomen, Oren Novotny, Adam Voss</authors>
+    <authors>Dennis Doomen</authors>
     <summary>
       Fluent methods for asserting the result of TDD/BDD specs for .NET 4.0/4.5 (Desktop and Windows Store), CoreCLR, SL5, WP8, WP8.1 and WPA8.1. Supports the unit test frameworks NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.
     </summary>
@@ -17,7 +17,7 @@
     <licenseUrl>https://github.com/dennisdoomen/FluentAssertions/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://www.fluentassertions.com</projectUrl>
     <tags>MSTest xUnit xUnit2 NUnit MSpec NSpec Gallio MbUnit TDD BDD Fluent Silverlight WinRT WP8 WP8.1 WPA8.1 CoreCLR</tags>
-    <copyright>Copyright Dennis Doomen 2010-2014</copyright>
+    <copyright>Copyright Dennis Doomen 2010-2016</copyright>
     <releaseNotes>
       See https://github.com/dennisdoomen/fluentassertions/releases/
     </releaseNotes>
