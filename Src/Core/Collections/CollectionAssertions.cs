@@ -204,12 +204,12 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        protected void AssertSubjectEquality<TActual, TExpected>(IEnumerable expectation, Func<TActual, TExpected, bool> predicate,
+        protected void AssertSubjectEquality<TActual, TExpected>(IEnumerable expectation, Func<TActual, TExpected, bool> equalityComparison,
             string because = "", params object[] reasonArgs)
         {
 
-            var subjectIsNull = ReferenceEquals(Subject, null);
-            var expectationIsNull = ReferenceEquals(expectation, null);
+            bool subjectIsNull = ReferenceEquals(Subject, null);
+            bool expectationIsNull = ReferenceEquals(expectation, null);
             if (subjectIsNull && expectationIsNull)
             {
                 return;
@@ -226,14 +226,14 @@ namespace FluentAssertions.Collections
                 assertion.FailWith("Expected {context:collection} to be equal{reason}, but found <null>.");
             }
 
-            var expectedItems = expectation.Cast<TExpected>().ToArray();
+            TExpected[] expectedItems = expectation.Cast<TExpected>().ToArray();
 
             assertion
                 .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectedItems)
                 .Given(() => Subject.Cast<TActual>())
                 .AssertCollectionsHaveSameCount(expectedItems.Length)
                 .Then
-                .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, predicate));
+                .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison));
         }
 
         /// <summary>
@@ -1024,7 +1024,7 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TAssertions> StartWith(object element, string because = "", params object[] becauseArgs)
@@ -1033,18 +1033,17 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
-        protected void AssertCollectionStartsWith<TActual, TExpected>(IEnumerable<TActual> actualItems, TExpected[] expected, Func<TActual, TExpected, bool> predicate, string because = "", params object[] reasonArgs) 
+        protected void AssertCollectionStartsWith<TActual, TExpected>(IEnumerable<TActual> actualItems, TExpected[] expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] reasonArgs) 
         {
-            var expectedLenght = expected.Length;
             Execute.Assertion
                 .BecauseOf(because, reasonArgs)
                 .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
                 .Given(() => actualItems)
                 .AssertCollectionIsNotNullOrEmpty()
                 .Then
-                .AssertCollectionHasEnoughItems(expectedLenght)
+                .AssertCollectionHasEnoughItems(expected.Length)
                 .Then
-                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Length).IndexOfFirstDifferenceWith(e, predicate));
+                .AssertCollectionsHaveSameItems(expected, (a, e) => a.Take(e.Length).IndexOfFirstDifferenceWith(e, equalityComparison));
         }
 
         /// <summary>
@@ -1067,7 +1066,7 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions) this);
         }
 
-        protected void AssertCollectionEndsWith<TActual, TExpected>(IEnumerable<TActual> actual, TExpected[] expected, Func<TActual, TExpected, bool> predicate, string because = "", params object[] reasonArgs)
+        protected void AssertCollectionEndsWith<TActual, TExpected>(IEnumerable<TActual> actual, TExpected[] expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] reasonArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, reasonArgs)
@@ -1079,8 +1078,8 @@ namespace FluentAssertions.Collections
                 .Then
                 .AssertCollectionsHaveSameItems(expected, (a, e) =>
                 {
-                    var firstIndexToCompare = a.Length - e.Length;
-                    var index = a.Skip(firstIndexToCompare).IndexOfFirstDifferenceWith(e, predicate);
+                    int firstIndexToCompare = a.Length - e.Length;
+                    int index = a.Skip(firstIndexToCompare).IndexOfFirstDifferenceWith(e, equalityComparison);
                     return index >= 0 ? index + firstIndexToCompare : index;
                 });
         }
