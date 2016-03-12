@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-
+using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections
@@ -106,13 +106,13 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that two collections contain the same items in the same order, where equality is determined using a 
-        /// predicate.
+        /// <paramref name="equalityComparison"/>.
         /// </summary>
         /// <param name="expectation">
         /// The collection to compare the subject with.
         /// </param>
-        /// <param name="predicate">
-        /// A predicate the is used to determine whether two objects should be treated as equal.
+        /// <param name="equalityComparison">
+        /// A equality comparison the is used to determine whether two objects should be treated as equal.
         /// </param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
@@ -122,10 +122,118 @@ namespace FluentAssertions.Collections
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
         public AndConstraint<TAssertions> Equal<TExpected>(
-            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> predicate, string because = "", params object[] reasonArgs)
+            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] reasonArgs)
         {
-            AssertSubjectEquality(expectation, predicate, because, reasonArgs);
+            AssertSubjectEquality(expectation, equalityComparison, because, reasonArgs);
 
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current collection starts with same elements in the same order as the collection identified by 
+        /// <paramref name="expectation" />. Elements are compared using their <see cref="object.Equals(object)" />.
+        /// </summary>
+        /// <param name="expectation">
+        /// A collection of expected elements.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> StartWith(IEnumerable<T> expectation, string because = "", params object[] reasonArgs)
+        {
+            if (expectation == null)
+            {
+                return base.StartWith(null, because, reasonArgs);
+            }
+
+            AssertCollectionStartsWith(Subject, expectation.ToArray(), EqualityComparer<T>.Default.Equals, because, reasonArgs);
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current collection starts with same elements in the same order as the collection identified by 
+        /// <paramref name="expectation" />. Elements are compared using <paramref name="equalityComparison"/>.
+        /// </summary>
+        /// <param name="expectation">
+        /// A collection of expected elements.
+        /// </param>
+        /// <param name="equalityComparison">
+        /// A equality comparison the is used to determine whether two objects should be treated as equal.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> StartWith<TExpected>(
+            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] reasonArgs)
+        {
+            if (expectation == null)
+            {
+                throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
+            }
+
+            AssertCollectionStartsWith(Subject, expectation.ToArray(), equalityComparison, because, reasonArgs);
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current collection ends with same elements in the same order as the collection identified by 
+        /// <paramref name="expectation" />. Elements are compared using their <see cref="object.Equals(object)" />.
+        /// </summary>
+        /// <param name="expectation">
+        /// A collection of expected elements.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> EndWith(IEnumerable<T> expectation, string because = "", params object[] reasonArgs)
+        {
+            if (expectation == null)
+            {
+                return base.EndWith(null, because, reasonArgs);
+            }
+
+            AssertCollectionEndsWith(Subject, expectation.ToArray(), EqualityComparer<T>.Default.Equals, because, reasonArgs);
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current collection ends with same elements in the same order as the collection identified by 
+        /// <paramref name="expectation" />. Elements are compared using <paramref name="equalityComparison"/>.
+        /// </summary>
+        /// <param name="expectation">
+        /// A collection of expected elements.
+        /// </param>
+        /// <param name="equalityComparison">
+        /// A equality comparison the is used to determine whether two objects should be treated as equal.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="reasonArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> EndWith<TExpected>(
+            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] reasonArgs)
+        {
+            if (expectation == null)
+            {
+                throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
+            }
+
+            AssertCollectionEndsWith(Subject, expectation.ToArray(), equalityComparison, because, reasonArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
