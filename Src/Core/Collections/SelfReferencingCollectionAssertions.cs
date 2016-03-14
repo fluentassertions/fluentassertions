@@ -31,15 +31,15 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found <null>.", expected);
             }
 
@@ -47,7 +47,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .ForCondition(actualCount == expected)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found {1}.", expected, actualCount);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -61,11 +61,11 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             if (countPredicate == null)
             {
@@ -75,7 +75,7 @@ namespace FluentAssertions.Collections
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} to contain {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
             }
 
@@ -86,7 +86,7 @@ namespace FluentAssertions.Collections
             if (!compiledPredicate(actualCount))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
                         Subject, countPredicate.Body, actualCount);
             }
@@ -118,13 +118,13 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>
         public AndConstraint<TAssertions> Equal<TExpected>(
-            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] reasonArgs)
+            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
-            AssertSubjectEquality(expectation, equalityComparison, because, reasonArgs);
+            AssertSubjectEquality(expectation, equalityComparison, because, becauseArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
@@ -140,17 +140,17 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> StartWith(IEnumerable<T> expectation, string because = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> StartWith(IEnumerable<T> expectation, string because = "", params object[] becauseArgs)
         {
             if (expectation == null)
             {
-                return base.StartWith(null, because, reasonArgs);
+                return base.StartWith(null, because, becauseArgs);
             }
 
-            AssertCollectionStartsWith(Subject, expectation.ToArray(), EqualityComparer<T>.Default.Equals, because, reasonArgs);
+            AssertCollectionStartsWith(Subject, expectation.ToArray(), EqualityComparer<T>.Default.Equals, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -168,18 +168,18 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TAssertions> StartWith<TExpected>(
-            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] reasonArgs)
+            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
             if (expectation == null)
             {
                 throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
             }
 
-            AssertCollectionStartsWith(Subject, expectation.ToArray(), equalityComparison, because, reasonArgs);
+            AssertCollectionStartsWith(Subject, expectation.ToArray(), equalityComparison, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -194,17 +194,17 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> EndWith(IEnumerable<T> expectation, string because = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> EndWith(IEnumerable<T> expectation, string because = "", params object[] becauseArgs)
         {
             if (expectation == null)
             {
-                return base.EndWith(null, because, reasonArgs);
+                return base.EndWith(null, because, becauseArgs);
             }
 
-            AssertCollectionEndsWith(Subject, expectation.ToArray(), EqualityComparer<T>.Default.Equals, because, reasonArgs);
+            AssertCollectionEndsWith(Subject, expectation.ToArray(), EqualityComparer<T>.Default.Equals, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -222,18 +222,18 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TAssertions> EndWith<TExpected>(
-            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] reasonArgs)
+            IEnumerable<TExpected> expectation, Func<T, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
         {
             if (expectation == null)
             {
                 throw new ArgumentNullException("expectation", "Cannot compare collection with <null>.");
             }
 
-            AssertCollectionEndsWith(Subject, expectation.ToArray(), equalityComparison, because, reasonArgs);
+            AssertCollectionEndsWith(Subject, expectation.ToArray(), equalityComparison, because, becauseArgs);
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
@@ -245,22 +245,22 @@ namespace FluentAssertions.Collections
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, T> Contain(T expected, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", expected, Subject);
             }
 
             if (!Subject.Contains(expected))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
             }
 
@@ -291,15 +291,15 @@ namespace FluentAssertions.Collections
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndWhichConstraint<TAssertions, T> Contain(Expression<Func<T, bool>> predicate, string because = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, T> Contain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
             }
 
@@ -307,7 +307,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .ForCondition(Subject.Any(func))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("{context:Collection} {0} should have an item matching {1}{reason}.", Subject, predicate.Body);
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Where(func));
@@ -321,17 +321,17 @@ namespace FluentAssertions.Collections
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         public AndConstraint<TAssertions> OnlyContain(
-            Expression<Func<T, bool>> predicate, string because = "", params object[] reasonArgs)
+            Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
 
             Execute.Assertion
                 .ForCondition(Subject.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but the collection is empty.",
                     predicate.Body);
             
@@ -339,7 +339,7 @@ namespace FluentAssertions.Collections
             if (mismatchingItems.Any())
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but {1} do(es) not match.",
                         predicate.Body, mismatchingItems);
             }
@@ -355,22 +355,22 @@ namespace FluentAssertions.Collections
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public AndConstraint<TAssertions> NotContain(Expression<Func<T, bool>> predicate, string because = "", params object[] reasonArgs)
+        public AndConstraint<TAssertions> NotContain(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} not to contain {0}{reason}, but found {1}.", predicate.Body, Subject);
             }
 
             if (Subject.Any(item => predicate.Compile()(item)))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("{context:Collection} {0} should not have any items matching {1}{reason}.", Subject, predicate.Body);
             }
 
@@ -384,22 +384,22 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] reasonArgs)
+        public AndWhichConstraint<TAssertions, T> ContainSingle(string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} to contain a single item but found <null>.");
             }
 
             if (Subject.Count() != 1)
             {
                 Execute.Assertion
-                       .BecauseOf(because, reasonArgs)
+                       .BecauseOf(because, becauseArgs)
                        .FailWith("Expected {context:collection} to contain a single item.");
             }
 
@@ -414,11 +414,11 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndWhichConstraint<TAssertions, T> ContainSingle(Expression<Func<T, bool>> predicate,
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
         {
             string expectationPrefix =
                 string.Format("Expected {{context:collection}} to contain a single item matching {0}{{reason}}, ", predicate.Body);
@@ -426,14 +426,14 @@ namespace FluentAssertions.Collections
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith(expectationPrefix + "but found {0}.", Subject);
             }
 
             T[] actualItems = Subject.ToArray();
             Execute.Assertion
                 .ForCondition(actualItems.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith(expectationPrefix + "but the collection is empty.");
 
             T[] matchingElements = actualItems.Where(predicate.Compile()).ToArray();
@@ -441,13 +441,13 @@ namespace FluentAssertions.Collections
             if (count == 0)
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith(expectationPrefix + "but no such item was found.");
             }
             else if (count > 1)
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith(expectationPrefix + "but " + count + " such items were found.");
             }
             else

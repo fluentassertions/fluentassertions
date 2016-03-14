@@ -19,13 +19,13 @@ namespace FluentAssertions
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public static AndConstraint<ObjectAssertions> BeBinarySerializable(this ObjectAssertions assertions, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
-            return BeBinarySerializable<object>(assertions, options => options, because, reasonArgs);
+            return BeBinarySerializable<object>(assertions, options => options, because, becauseArgs);
         }
 
         /// <summary>
@@ -36,12 +36,12 @@ namespace FluentAssertions
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public static AndConstraint<ObjectAssertions> BeBinarySerializable<T>(this ObjectAssertions assertions,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> options, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace FluentAssertions
             catch (Exception exc)
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:\r\n\r\n{1}",
                         assertions.Subject,
                         exc.Message);
@@ -82,11 +82,11 @@ namespace FluentAssertions
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public static AndConstraint<ObjectAssertions> BeXmlSerializable(this ObjectAssertions assertions, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace FluentAssertions
             catch (Exception exc)
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {0} to be serializable{reason}, but serialization failed with:\r\n\r\n{1}",
                         assertions.Subject,
                         exc.Message);

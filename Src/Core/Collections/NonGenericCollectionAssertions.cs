@@ -29,15 +29,15 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<NonGenericCollectionAssertions> HaveCount(int expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<NonGenericCollectionAssertions> HaveCount(int expected, string because = "", params object[] becauseArgs)
         {
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found <null>.", expected);
             }
 
@@ -45,7 +45,7 @@ namespace FluentAssertions.Collections
 
             Execute.Assertion
                 .ForCondition(actualCount == expected)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to contain {0} item(s){reason}, but found {1}.", expected, actualCount);
 
             return new AndConstraint<NonGenericCollectionAssertions>(this);
@@ -59,11 +59,11 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> HaveCount(Expression<Func<int, bool>> countPredicate, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             if (countPredicate == null)
             {
@@ -73,7 +73,7 @@ namespace FluentAssertions.Collections
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} to contain {0} items{reason}, but found {1}.", countPredicate.Body, Subject);
             }
 
@@ -84,7 +84,7 @@ namespace FluentAssertions.Collections
             if (!compiledPredicate(actualCount))
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} to have a count {1}{reason}, but count is {2}.",
                         Subject, countPredicate.Body, actualCount);
             }
@@ -114,18 +114,18 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> Contain(object expected, string because = "",
-            params object [] reasonArgs)
+            params object [] becauseArgs)
         {
             if (expected is IEnumerable)
             {
-                return base.Contain((IEnumerable) expected, because, reasonArgs);
+                return base.Contain((IEnumerable) expected, because, becauseArgs);
             }
 
-            return base.Contain(new [] { expected }, because, reasonArgs);
+            return base.Contain(new [] { expected }, because, becauseArgs);
         }
     }
 }

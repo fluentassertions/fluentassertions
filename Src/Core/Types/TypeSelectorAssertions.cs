@@ -36,10 +36,10 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] reasonArgs)
+        public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
             IEnumerable<Type> typesWithoutAttribute = Subject
@@ -48,7 +48,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!typesWithoutAttribute.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected all types to be decorated with {0}{reason}," +
                     " but the attribute was not found on the following types:\r\n" + GetDescriptionsFor(typesWithoutAttribute),
                     typeof(TAttribute));
@@ -67,11 +67,11 @@ namespace FluentAssertions.Types
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<TypeSelectorAssertions> BeDecoratedWith<TAttribute>(
-            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] reasonArgs)
+            Expression<Func<TAttribute, bool>> isMatchingAttributePredicate, string because = "", params object[] becauseArgs)
             where TAttribute : Attribute
         {
             IEnumerable<Type> typesWithoutMatchingAttribute = Subject
@@ -80,7 +80,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion
                 .ForCondition(!typesWithoutMatchingAttribute.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected all types to be decorated with {0} that matches {1}{reason}," +
                     " but no matching attribute was found on the following types:\r\n" + GetDescriptionsFor(typesWithoutMatchingAttribute),
                     typeof(TAttribute), isMatchingAttributePredicate.Body);

@@ -67,23 +67,23 @@ namespace FluentAssertions.Specialized
         /// <param name = "expectedMessage">
         ///   The expected message of the exception.
         /// </param>
-        /// <param name = "reason">
+        /// <param name = "because">
         ///   A formatted phrase as is supported by <see cref = "string.Format(string,object[])" /> explaining why the assertion 
         ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name = "reasonArgs">
-        ///   Zero or more objects to format using the placeholders in <see cref = "reason" />.
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
         /// </param>
         public virtual ExceptionAssertions<TException> WithMessage(string expectedMessage, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
-            AssertionScope assertion = Execute.Assertion.BecauseOf(because, reasonArgs).UsingLineBreaks;
+            AssertionScope assertion = Execute.Assertion.BecauseOf(because, becauseArgs).UsingLineBreaks;
 
             assertion
                 .ForCondition(Subject.Any())
                 .FailWith("Expected exception with message {0}{reason}, but no exception was thrown.", expectedMessage);
 
-            outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedMessage, because, reasonArgs);
+            outerMessageAssertion.Execute(Subject.Select(exc => exc.Message).ToArray(), expectedMessage, because, becauseArgs);
 
             return this;
         }
@@ -110,25 +110,25 @@ namespace FluentAssertions.Specialized
         ///   Asserts that the thrown exception contains an inner exception of type <typeparamref name = "TInnerException" />.
         /// </summary>
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
-        /// <param name = "reason">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "because" />.</param>
+        /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
+        /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerException<TInnerException>(string because,
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject != null)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected inner {0}{reason}, but no exception was thrown.", typeof(TInnerException));
 
             Execute.Assertion
                 .ForCondition(Subject.Any(e => e.InnerException != null))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected inner {0}{reason}, but the thrown exception has no inner exception.",
                     typeof(TInnerException));
 
             Execute.Assertion
                 .ForCondition(Subject.Any(e => e.InnerException is TInnerException))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), SingleSubject.InnerException);
 
             return this;
@@ -138,16 +138,16 @@ namespace FluentAssertions.Specialized
         ///   Asserts that the thrown exception contains an inner exception of the exact type <typeparamref name = "TInnerException" /> (and not a derived exception type).
         /// </summary>
         /// <typeparam name = "TInnerException">The expected type of the inner exception.</typeparam>
-        /// <param name = "reason">The reason why the inner exception should be of the supplied type.</param>
-        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "because" />.</param>
+        /// <param name = "because">The reason why the inner exception should be of the supplied type.</param>
+        /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerExceptionExactly<TInnerException>(string because,
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
-            WithInnerException<TInnerException>(because, reasonArgs);
+            WithInnerException<TInnerException>(because, becauseArgs);
 
             Execute.Assertion
                 .ForCondition(Subject.Any(e => e.InnerException.GetType() == typeof(TInnerException)))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected inner {0}{reason}, but found {1}.", typeof(TInnerException), SingleSubject.InnerException);
 
             return this;
@@ -157,15 +157,15 @@ namespace FluentAssertions.Specialized
         ///   Asserts that the thrown exception contains an inner exception with the <paramref name = "expectedInnerMessage" />.
         /// </summary>
         /// <param name = "expectedInnerMessage">The expected message of the inner exception.</param>
-        /// <param name = "reason">
+        /// <param name = "because">
         ///   The reason why the message of the inner exception should match <paramref name = "expectedInnerMessage" />.
         /// </param>
-        /// <param name = "reasonArgs">The parameters used when formatting the <paramref name = "because" />.</param>
+        /// <param name = "becauseArgs">The parameters used when formatting the <paramref name = "because" />.</param>
         public virtual ExceptionAssertions<TException> WithInnerMessage(string expectedInnerMessage, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             AssertionScope assertion = Execute.Assertion
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .UsingLineBreaks;
 
             assertion
@@ -178,7 +178,7 @@ namespace FluentAssertions.Specialized
 
             string[] subjectInnerMessage = Subject.Select(e => e.InnerException.Message).ToArray();
 
-            innerMessageAssertion.Execute(subjectInnerMessage, expectedInnerMessage, because, reasonArgs);
+            innerMessageAssertion.Execute(subjectInnerMessage, expectedInnerMessage, because, becauseArgs);
 
             return this;
         }
@@ -189,20 +189,20 @@ namespace FluentAssertions.Specialized
         /// <param name = "exceptionExpression">
         ///   The condition that the exception must match.
         /// </param>
-        /// <param name = "reason">
+        /// <param name = "because">
         ///   A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         ///   start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name = "reasonArgs">
+        /// <param name = "becauseArgs">
         ///   Zero or more values to use for filling in any <see cref = "string.Format(string,object[])" /> compatible placeholders.
         /// </param>
         public ExceptionAssertions<TException> Where(Expression<Func<TException, bool>> exceptionExpression,
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
         {
             Func<TException, bool> condition = exceptionExpression.Compile();
             Execute.Assertion
                 .ForCondition(condition(SingleSubject))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected exception where {0}{reason}, but the condition was not met by:\r\n\r\n{1}",
                     exceptionExpression.Body, Subject);
 
@@ -243,7 +243,7 @@ namespace FluentAssertions.Specialized
 
             public string Context { get; set; }
 
-            public void Execute(IEnumerable<string> messages, string expectation, string because, params object[] reasonArgs)
+            public void Execute(IEnumerable<string> messages, string expectation, string because, params object[] becauseArgs)
             {
                 using (new AssertionScope())
                 {
@@ -255,7 +255,7 @@ namespace FluentAssertions.Specialized
                         {
                             scope.AddNonReportable("context", Context);
 
-                            message.Should().MatchEquivalentOf(expectation, because, reasonArgs);
+                            message.Should().MatchEquivalentOf(expectation, because, becauseArgs);
 
                             results.AddSet(message, scope.Discard());
                         }

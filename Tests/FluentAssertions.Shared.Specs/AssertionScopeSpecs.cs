@@ -186,13 +186,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => 1.Should().Be(2, "can't use these in reasonArgs: {0} {1}", "{", "}");
+            Action act = () => 1.Should().Be(2, "can't use these in becauseArgs: {0} {1}", "{", "}");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("*because can't use these in reasonArgs: { }*");
+                .WithMessage("*because can't use these in becauseArgs: { }*");
         }
 
         [TestMethod]

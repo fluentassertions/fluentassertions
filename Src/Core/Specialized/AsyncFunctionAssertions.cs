@@ -33,10 +33,10 @@ namespace FluentAssertions.Specialized
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public ExceptionAssertions<TException> ShouldThrow<TException>(string because = "", params object[] reasonArgs)
+        public ExceptionAssertions<TException> ShouldThrow<TException>(string because = "", params object[] becauseArgs)
             where TException : Exception
         {
             Exception exception = InvokeSubjectWithInterception();
@@ -44,12 +44,12 @@ namespace FluentAssertions.Specialized
 
             Execute.Assertion
                 .ForCondition(exception != null)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but no exception was thrown.", typeof(TException));
 
             Execute.Assertion
                 .ForCondition(exceptions.Any())
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", typeof(TException), exception);
 
             return new ExceptionAssertions<TException>(exceptions);
@@ -62,10 +62,10 @@ namespace FluentAssertions.Specialized
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void ShouldNotThrow(string because = "", params object[] reasonArgs)
+        public void ShouldNotThrow(string because = "", params object[] becauseArgs)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace FluentAssertions.Specialized
                 Exception exception = aggregateException.InnerException;
 
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
                         exception.GetType(), exception.Message);
             }
@@ -90,10 +90,10 @@ namespace FluentAssertions.Specialized
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void ShouldNotThrow<TException>(string because = "", params object[] reasonArgs)
+        public void ShouldNotThrow<TException>(string because = "", params object[] becauseArgs)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace FluentAssertions.Specialized
                 {
                     Execute.Assertion
                         .ForCondition(!(exception is TException))
-                        .BecauseOf(because, reasonArgs)
+                        .BecauseOf(because, becauseArgs)
                         .FailWith("Did not expect {0}{reason}, but found one with message {1}.",
                             typeof(TException), exception.Message);
                 }

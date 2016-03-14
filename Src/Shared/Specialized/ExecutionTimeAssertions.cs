@@ -41,15 +41,15 @@ namespace FluentAssertions.Specialized
         /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
         /// start with the word <i>because</i>, it is prepended to the message.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
-        public void ShouldNotExceed(TimeSpan maxDuration, string because = "", params object[] reasonArgs)
+        public void ShouldNotExceed(TimeSpan maxDuration, string because = "", params object[] becauseArgs)
         {
             if (executionTime > maxDuration)
             {
                 Execute.Assertion
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Execution of " + ActionDescription + " should not exceed {0}{reason}, but it required {1}",
                         maxDuration, executionTime);
             }

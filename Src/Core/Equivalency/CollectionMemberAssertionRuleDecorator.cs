@@ -33,8 +33,8 @@ namespace FluentAssertions.Equivalency
                 SelectedMemberDescription = context.SelectedMemberDescription,
                 SelectedMemberInfo = context.SelectedMemberInfo,
                 SelectedMemberPath = CollectionMemberSubjectInfo.GetAdjustedPropertyPath(context.SelectedMemberPath),
-                Reason = context.Reason,
-                ReasonArgs = context.ReasonArgs,
+                Because = context.Because,
+                BecauseArgs = context.BecauseArgs,
                 Subject = context.Subject
             };
         }

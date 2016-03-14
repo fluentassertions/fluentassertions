@@ -22,14 +22,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>      
-        public AndConstraint<NullableGuidAssertions> HaveValue(string because = "", params object[] reasonArgs)
+        public AndConstraint<NullableGuidAssertions> HaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value{reason}.");
 
             return new AndConstraint<NullableGuidAssertions>(this);
@@ -42,14 +42,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because"/>.
         /// </param>      
-        public AndConstraint<NullableGuidAssertions> NotHaveValue(string because = "", params object[] reasonArgs)
+        public AndConstraint<NullableGuidAssertions> NotHaveValue(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect a value{reason}, but found {0}.", Subject);
 
             return new AndConstraint<NullableGuidAssertions>(this);
@@ -63,14 +63,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<NullableGuidAssertions> Be(Guid? expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<NullableGuidAssertions> Be(Guid? expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject == expected)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:Guid} to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<NullableGuidAssertions>(this);

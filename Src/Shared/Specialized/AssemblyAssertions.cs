@@ -41,10 +41,10 @@ namespace FluentAssertions.Reflection
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void NotReference(Assembly assembly, string because, params string[] reasonArgs)
+        public void NotReference(Assembly assembly, string because, params string[] becauseArgs)
         {
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
@@ -52,7 +52,7 @@ namespace FluentAssertions.Reflection
             var references = Subject.GetReferencedAssemblies().Select(x => x.Name);
 
             Execute.Assertion
-                   .BecauseOf(because, reasonArgs)
+                   .BecauseOf(because, becauseArgs)
                    .ForCondition(references.All(x => x != assemblyName))
                    .FailWith("Assembly {0} should not reference assembly {1}{reason}", subjectName, assemblyName);
         }
@@ -74,10 +74,10 @@ namespace FluentAssertions.Reflection
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void Reference(Assembly assembly, string because, params string[] reasonArgs)
+        public void Reference(Assembly assembly, string because, params string[] becauseArgs)
         {
             var subjectName = Subject.GetName().Name;
             var assemblyName = assembly.GetName().Name;
@@ -85,7 +85,7 @@ namespace FluentAssertions.Reflection
             var references = Subject.GetReferencedAssemblies().Select(x => x.Name);
 
             Execute.Assertion
-                   .BecauseOf(because, reasonArgs)
+                   .BecauseOf(because, becauseArgs)
                    .ForCondition(references.Any(x => x == assemblyName))
                    .FailWith("Assembly {0} should reference assembly {1}{reason}, but it does not", subjectName, assemblyName);
         }
@@ -97,8 +97,8 @@ namespace FluentAssertions.Reflection
         /// <param name="name">The name of the class.</param>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
         ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="reasonArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
-        public AndWhichConstraint<AssemblyAssertions, Type> DefineType(string @namespace, string name, string because = "", params object[] reasonArgs)
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndWhichConstraint<AssemblyAssertions, Type> DefineType(string @namespace, string name, string because = "", params object[] becauseArgs)
         {
 #if !NETFX_CORE && !WINRT
             var foundType = Subject.GetTypes().SingleOrDefault(t => t.Namespace == @namespace && t.Name == name);
@@ -107,7 +107,7 @@ namespace FluentAssertions.Reflection
             var foundType = typeInfo == null ? null : typeInfo.AsType();
 #endif
             Execute.Assertion.ForCondition(foundType != null)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected assembly {0} to define type {1}.{2}, but it does not.", Subject.FullName,
                     @namespace, name);
 

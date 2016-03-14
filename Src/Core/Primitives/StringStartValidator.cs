@@ -8,8 +8,8 @@ namespace FluentAssertions.Primitives
         private readonly StringComparison stringComparison;
 
         public StringStartValidator(string subject, string expected, StringComparison stringComparison, string because,
-            object[] reasonArgs) :
-                base(subject, expected, because, reasonArgs)
+            object[] becauseArgs) :
+                base(subject, expected, because, becauseArgs)
         {
             this.stringComparison = stringComparison;
         }

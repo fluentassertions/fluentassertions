@@ -31,15 +31,15 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> Be(DateTimeOffset expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value == expected))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:date and time} to be {0}{reason}, but found {1}.",
                     expected, Subject.HasValue ? Subject.Value : default(DateTimeOffset?));
 
@@ -54,15 +54,15 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> NotBe(DateTimeOffset unexpected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {context:date and time} to be {0}{reason}.", unexpected);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
@@ -86,12 +86,12 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> BeCloseTo(DateTimeOffset nearbyTime, int precision = 20,
             string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             long distanceToMinInMs = (long)(nearbyTime - DateTimeOffset.MinValue).TotalMilliseconds;
             DateTimeOffset minimumValue = nearbyTime.AddMilliseconds(-Math.Min(precision, distanceToMinInMs));
@@ -101,7 +101,7 @@ namespace FluentAssertions.Primitives
 
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:date and time} to be within {0} ms from {1}{reason}, but found {2}.",
                     precision,
                     nearbyTime, Subject.HasValue ? Subject.Value : default(DateTimeOffset?));
@@ -117,15 +117,15 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> BeBefore(DateTimeOffset expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) < 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a {context:date and time} before {0}{reason}, but found {1}.", expected,
                     Subject.HasValue ? Subject.Value : default(DateTimeOffset?));
 
@@ -140,15 +140,15 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> BeOnOrBefore(DateTimeOffset expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) <= 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a {context:date and time} on or before {0}{reason}, but found {1}.", expected,
                     Subject.HasValue ? Subject.Value : default(DateTimeOffset?));
 
@@ -163,15 +163,15 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> BeAfter(DateTimeOffset expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) > 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a {context:date and time} after {0}{reason}, but found {1}.", expected,
                     Subject.HasValue ? Subject.Value : default(DateTimeOffset?));
 
@@ -186,15 +186,15 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> BeOnOrAfter(DateTimeOffset expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.HasValue && Subject.Value.CompareTo(expected) >= 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a {context:date and time} on or after {0}{reason}, but found {1}.", expected,
                     Subject.HasValue ? Subject.Value : default(DateTimeOffset?));
 
@@ -209,22 +209,22 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> HaveYear(int expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected year {0}{reason}, but found a <null> DateTimeOffset.", expected);
 
             if (success)
             {
                 Execute.Assertion
                     .ForCondition(Subject.Value.Year == expected)
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected year {0}{reason}, but found {1}.", expected,
                         Subject.Value.Year);
             }
@@ -240,22 +240,22 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> HaveMonth(int expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected month {0}{reason}, but found a <null> DateTimeOffset.", expected);
 
             if (success)
             {
                 Execute.Assertion
                     .ForCondition(Subject.Value.Month == expected)
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected month {0}{reason}, but found {1}.", expected, Subject.Value.Month);
             }
             return new AndConstraint<DateTimeOffsetAssertions>(this);
@@ -269,22 +269,22 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> HaveDay(int expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected day {0}{reason}, but found a <null> DateTimeOffset.", expected);
 
             if (success)
             {
                 Execute.Assertion
                     .ForCondition(Subject.Value.Day == expected)
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected day {0}{reason}, but found {1}.", expected, Subject.Value.Day);
             }
 
@@ -299,22 +299,22 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> HaveHour(int expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected hour {0}{reason}, but found a <null> DateTimeOffset.", expected);
 
             if (success)
             {
                 Execute.Assertion
                     .ForCondition(Subject.Value.Hour == expected)
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected hour {0}{reason}, but found {1}.", expected, Subject.Value.Hour);
             }
 
@@ -329,22 +329,22 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> HaveMinute(int expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected minute {0}{reason}, but found a <null> DateTimeOffset.", expected);
 
             if (success)
             {
                 Execute.Assertion
                     .ForCondition(Subject.Value.Minute == expected)
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected minute {0}{reason}, but found {1}.", expected, Subject.Value.Minute);
             }
 
@@ -359,22 +359,22 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<DateTimeOffsetAssertions> HaveSecond(int expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             bool success = Execute.Assertion
                 .ForCondition(Subject.HasValue)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected second {0}{reason}, but found a <null> DateTimeOffset.", expected);
 
             if (success)
             {
                 Execute.Assertion
                     .ForCondition(Subject.Value.Second == expected)
-                    .BecauseOf(because, reasonArgs)
+                    .BecauseOf(because, becauseArgs)
                     .FailWith("Expected second {0}{reason}, but found {1}.", expected, Subject.Value.Second);
             }
 

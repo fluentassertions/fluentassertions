@@ -31,14 +31,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BePositive(string because = "", params object[] reasonArgs)
+        public AndConstraint<SimpleTimeSpanAssertions> BePositive(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(new TimeSpan()) > 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected positive value{reason}, but found {0}", Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -51,14 +51,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeNegative(string because = "", params object[] reasonArgs)
+        public AndConstraint<SimpleTimeSpanAssertions> BeNegative(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(new TimeSpan()) < 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected negative value{reason}, but found {0}", Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -73,14 +73,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> Be(TimeSpan expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<SimpleTimeSpanAssertions> Be(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) == 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -95,14 +95,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] reasonArgs)
+        public AndConstraint<SimpleTimeSpanAssertions> NotBe(TimeSpan unexpected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(unexpected) != 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Did not expect {0}{reason}.", unexpected);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -117,14 +117,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeLessThan(TimeSpan expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<SimpleTimeSpanAssertions> BeLessThan(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) < 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value less than {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -139,14 +139,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<SimpleTimeSpanAssertions> BeLessOrEqualTo(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) <= 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value less or equal to {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -161,14 +161,14 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<SimpleTimeSpanAssertions> BeGreaterThan(TimeSpan expected, string because = "", params object[] reasonArgs)
+        public AndConstraint<SimpleTimeSpanAssertions> BeGreaterThan(TimeSpan expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) > 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value greater than {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -183,15 +183,15 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeGreaterOrEqualTo(TimeSpan expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Value.CompareTo(expected) >= 0)
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value greater or equal to {0}{reason}, but found {1}.", expected, Subject.Value);
 
             return new AndConstraint<SimpleTimeSpanAssertions>(this);
@@ -205,8 +205,6 @@ namespace FluentAssertions.Primitives
         /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
         /// use <see cref="Be"/>.
         /// </remarks>
-        /// <param name="expected"></param>
-        /// <param name="i"></param>
         /// <param name="nearbyTime">
         /// The expected time to compare the actual value with.
         /// </param>
@@ -217,18 +215,18 @@ namespace FluentAssertions.Primitives
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<SimpleTimeSpanAssertions> BeCloseTo(TimeSpan nearbyTime, int precision = 20, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             var minimumValue = new TimeSpan(nearbyTime.Days, nearbyTime.Hours, nearbyTime.Minutes, nearbyTime.Seconds, nearbyTime.Milliseconds - precision);
             var maximumValue = new TimeSpan(nearbyTime.Days, nearbyTime.Hours, nearbyTime.Minutes, nearbyTime.Seconds, nearbyTime.Milliseconds + precision);
 
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
-                .BecauseOf(because, reasonArgs)
+                .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:time} to be within {0} ms from {1}{reason}, but found {2}.", precision,
                     nearbyTime, Subject.HasValue ? Subject.Value : default(TimeSpan?));
 

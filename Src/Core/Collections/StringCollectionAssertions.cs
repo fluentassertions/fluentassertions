@@ -16,13 +16,6 @@ namespace FluentAssertions.Collections
         /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
         public new AndConstraint<StringCollectionAssertions> Equal(params string[] expected)
         {
             return base.Equal(expected.AsEnumerable());
@@ -33,13 +26,6 @@ namespace FluentAssertions.Collections
         /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
         public AndConstraint<StringCollectionAssertions> Equal(IEnumerable<string> expected)
         {
             return base.Equal(expected);
@@ -64,13 +50,13 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<StringCollectionAssertions> BeEquivalentTo(IEnumerable<string> expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
-            return base.BeEquivalentTo(expected, because, reasonArgs);
+            return base.BeEquivalentTo(expected, because, becauseArgs);
         }
 
         /// <summary>
@@ -92,13 +78,13 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<StringCollectionAssertions> ContainInOrder(IEnumerable<string> expected, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
-            return base.ContainInOrder(expected, because, reasonArgs);
+            return base.ContainInOrder(expected, because, becauseArgs);
         }
 
         /// <summary>
@@ -106,13 +92,6 @@ namespace FluentAssertions.Collections
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
         public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected)
         {
             return base.Contain(expected);
@@ -127,15 +106,15 @@ namespace FluentAssertions.Collections
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
+        /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<StringCollectionAssertions> Contain(IEnumerable<string> expected, string because = null,
-            object reasonArg = null,
-            params object[] reasonArgs)
+            object becauseArg = null,
+            params object[] becauseArgs)
         {
-            var args = new List<object> {reasonArg};
-            args.AddRange(reasonArgs);
+            var args = new List<object> {becauseArg};
+            args.AddRange(becauseArgs);
             return base.Contain(expected, because, args.ToArray());
         }
     }

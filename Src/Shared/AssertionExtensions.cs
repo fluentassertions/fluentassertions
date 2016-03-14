@@ -497,13 +497,13 @@ namespace FluentAssertions
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
-            string because = "", params object[] reasonArgs)
+            string because = "", params object[] becauseArgs)
         {
-            subject.ShouldAllBeEquivalentTo(expectation, options => options, because, reasonArgs);
+            subject.ShouldAllBeEquivalentTo(expectation, options => options, because, becauseArgs);
         }
 
         /// <summary>
@@ -526,12 +526,12 @@ namespace FluentAssertions
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             EquivalencyAssertionOptions<IEnumerable<T>> source = config(AssertionOptions.CloneDefaults<T>()).AsCollection();
 
@@ -541,8 +541,8 @@ namespace FluentAssertions
                 Expectation = expectation,
                 RootIsCollection = true,
                 CompileTimeType = typeof (IEnumerable<T>),
-                Reason = because,
-                ReasonArgs = reasonArgs
+                Because = because,
+                BecauseArgs = becauseArgs
             };
 
             new EquivalencyValidator(source).AssertEquality(context);
@@ -562,13 +562,13 @@ namespace FluentAssertions
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public static void ShouldBeEquivalentTo<T>(this T subject, object expectation, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
-            ShouldBeEquivalentTo(subject, expectation, config => config, because, reasonArgs);
+            ShouldBeEquivalentTo(subject, expectation, config => config, because, becauseArgs);
         }
 
         /// <summary>
@@ -590,20 +590,20 @@ namespace FluentAssertions
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
         /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
-        /// <param name="reasonArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="reason" />.
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public static void ShouldBeEquivalentTo<T>(this T subject, object expectation,
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
-            params object[] reasonArgs)
+            params object[] becauseArgs)
         {
             var context = new EquivalencyValidationContext
             {
                 Subject = subject,
                 Expectation = expectation,
                 CompileTimeType = typeof (T),
-                Reason = because,
-                ReasonArgs = reasonArgs
+                Because = because,
+                BecauseArgs = becauseArgs
             };
 
             new EquivalencyValidator(config(AssertionOptions.CloneDefaults<T>())).AssertEquality(context);

@@ -44,7 +44,7 @@ namespace FluentAssertions.Equivalency
                     : (string) context.Expectation;
 
                 subject.Should()
-                    .Be(expectation, context.Reason, context.ReasonArgs);
+                    .Be(expectation, context.Because, context.BecauseArgs);
             }
 
             return true;
