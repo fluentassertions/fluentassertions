@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
+using Chill;
 using FluentAssertions.Equivalency;
 
 #if !OLD_MSTEST
@@ -525,6 +525,36 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_a_user_equivalency_step_is_registered_it_should_run_before_the_built_in_steps()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var actual = new
+            {
+                Property = 123
+            };
+
+            var expected = new
+            {
+                Property = "123"
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldBeEquivalentTo(expected, options => options
+                .Using(new EqualityEquivalencyStep()));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*123*123*");
+        }
+
+
+        [TestMethod]
         public void When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_stil_be_ran()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -550,7 +580,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_multiple_equivalency_steps_are_added_they_should_be_executed_from_right_to_left()
+        public void When_multiple_equivalency_steps_are_added_they_should_be_executed_in_registration_order()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -596,6 +626,32 @@ namespace FluentAssertions.Specs
             public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
             {
                 return false;
+            }
+        }
+
+        private class EqualityEquivalencyStep : CanHandleAnythingEquivalencyStep
+        {
+            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            {
+                context.Subject.Should().Be(context.Expectation, context.Because, context.BecauseArgs);
+
+                return true;
+            }
+        }
+
+        internal class DoEquivalencyStep : CanHandleAnythingEquivalencyStep
+        {
+            private readonly Action doAction;
+
+            public DoEquivalencyStep(Action doAction)
+            {
+                this.doAction = doAction;
+            }
+
+            public override bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
+            {
+                doAction();
+                return true;
             }
         }
 
