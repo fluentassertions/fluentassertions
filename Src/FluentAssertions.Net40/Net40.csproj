@@ -80,6 +80,10 @@
     <Compile Include="Execution\XUnitTestFramework.cs" />
     <Compile Include="ObjectAssertionsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Xml\XmlAssertionExtensions.cs" />
+    <Compile Include="Xml\XmlNodeAssertions.cs" />
+    <Compile Include="Xml\XmlNodeFormatter.cs" />
+    <Compile Include="Xml\XmlReaderValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FluentAssertions.snk">

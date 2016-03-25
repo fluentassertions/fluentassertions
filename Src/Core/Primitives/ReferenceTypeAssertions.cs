@@ -75,7 +75,7 @@ namespace FluentAssertions.Primitives
                 .UsingLineBreaks
                 .ForCondition(ReferenceEquals(Subject, expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:object} to refer to {0}{reason}, but found object {1}.", expected, Subject);
+                .FailWith("Expected {context:" + Context + "} to refer to {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

@@ -2,6 +2,7 @@
 
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
+using FluentAssertions.Xml;
 
 namespace FluentAssertions.Common
 {
@@ -31,7 +32,8 @@ namespace FluentAssertions.Common
                     new AggregateExceptionValueFormatter(),
                     new XDocumentValueFormatter(),
                     new XElementValueFormatter(),
-                    new XAttributeValueFormatter()
+                    new XAttributeValueFormatter(),
+                    new XmlNodeFormatter()
                 };
             }
         }

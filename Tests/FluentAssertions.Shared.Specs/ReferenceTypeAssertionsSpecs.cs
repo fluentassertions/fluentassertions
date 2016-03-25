@@ -57,7 +57,7 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
                     "Expected object to refer to \r\n{ UserName = JohnDoe } because " +
-                    "they are the same, but found object \r\n{ Name = John Doe }.");
+                    "they are the same, but found \r\n{ Name = John Doe }.");
         }
 
         [TestMethod]
