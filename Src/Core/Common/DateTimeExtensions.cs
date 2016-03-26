@@ -10,14 +10,11 @@ namespace FluentAssertions.Common
         /// </summary>
         public static DateTimeOffset ToDateTimeOffset(this DateTime dateTime)
         {
-            try
-            {
-                return DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return new DateTimeOffset(DateTime.SpecifyKind(dateTime, DateTimeKind.Utc), TimeSpan.Zero);
-            }
+            return dateTime.ToDateTimeOffset(TimeSpan.Zero);
+        }
+        public static DateTimeOffset ToDateTimeOffset(this DateTime dateTime, TimeSpan offset)
+        {
+            return new DateTimeOffset(DateTime.SpecifyKind(dateTime, DateTimeKind.Unspecified) , offset);
         }
     }
 }

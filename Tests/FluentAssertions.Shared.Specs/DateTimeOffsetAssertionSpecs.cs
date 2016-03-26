@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentAssertions.Common;
 using FluentAssertions.Primitives;
 
 #if !OLD_MSTEST
@@ -187,7 +188,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected date and time to be <2012-03-11>*failure message, but found <2012-03-10>.");
+                    "Expected date and time to be <2012-03-11 +1h>*failure message, but found <2012-03-10 +1h>.");
         }
 
         [TestMethod]
@@ -280,19 +281,19 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTimeOffset? nullableDateTime = null;
+            DateTimeOffset expectation = 27.March(2016).ToDateTimeOffset(1.Hours());
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                nullableDateTime.Should().Be(Today, "because we want to test the failure {0}", "message");
+                nullableDateTime.Should().Be(expectation, "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected <{0}> because we want to test the failure message, but found <null>.",
-                    Today.ToString("yyyy-MM-dd")));
+                .WithMessage("Expected <2016-03-27 +1h> because we want to test the failure message, but found <null>.");
         }
 
 
@@ -376,7 +377,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:30.979>.");
+                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31 +1H>, but found <2012-03-13 12:15:30.979 +1H>.");
         }
 
         [TestMethod]
@@ -398,7 +399,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31>, but found <2012-03-13 12:15:31.021>.");
+                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31 +1H>, but found <2012-03-13 12:15:31.021 +1H>.");
         }
 
         [TestMethod]
@@ -492,14 +493,25 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_is_before_earlier_datetime()
+        public void When_a_point_in_time_is_not_before_another_it_should_throw()
         {
-            DateTimeOffsetAssertions assertions = Today.Should();
-            assertions.Invoking(x => x.BeBefore(Yesterday, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected a date and time before <{0}> because we want to test the failure message, but found <{1}>.",
-                    Yesterday.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var today = 23.March(2016).ToDateTimeOffset();
+            var yesterday = today.AddDays(-1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => today.Should().BeBefore(yesterday, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage(
+                    $"Expected*before <{yesterday.ToString("yyyy-MM-dd")}>*test the failure message*<{today.ToString("yyyy-MM-dd")}>*");
         }
 
         [TestMethod]
@@ -523,14 +535,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_is_on_or_before_earlier_datetime()
+        public void When_a_point_in_time_is_not_on_or_before_an_earlier_datetime_it_should_throw()
         {
-            DateTimeOffsetAssertions assertions = Today.Should();
-            assertions.Invoking(x => x.BeOnOrBefore(Yesterday, "because we want to test the failure {0}", "message"))
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime today = 23.March(2016);
+            DateTime yesterday = today.AddDays(-1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => today.Should().BeOnOrBefore(yesterday, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected a date and time on or before <{0}> because we want to test the failure message, but found <{1}>.",
-                    Yesterday.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
+                .WithMessage(
+                    $"Expected a date and time on or before <{yesterday.ToString("yyyy-MM-dd")}> because we want to test the failure message, but found <{today.ToString("yyyy-MM-dd")}>.");
         }
 
         [TestMethod]
@@ -548,14 +572,24 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_is_after_later_datetime()
+        public void When_a_point_in_time_is_not_after_another_point_in_time_it_should_throw()
         {
-            DateTimeOffsetAssertions assertions = Today.Should();
-            assertions.Invoking(x => x.BeAfter(Tomorrow, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected a date and time after <{0}> because we want to test the failure message, but found <{1}>.",
-                    Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime today = 23.March(2016);
+            DateTime tomorrow = today.AddDays(1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => today.Should().BeAfter(tomorrow, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*after <2016-03-24>*failure message*found <2016-03-23>.");
         }
 
         [TestMethod]
@@ -579,14 +613,24 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_is_on_or_after_later_datetime()
+        public void When_a_point_in_time_is_not_on_or_after_later_point_in_time_it_should_throw()
         {
-            DateTimeOffsetAssertions assertions = Today.Should();
-            assertions.Invoking(x => x.BeOnOrAfter(Tomorrow, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected a date and time on or after <{0}> because we want to test the failure message, but found <{1}>.",
-                    Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTimeOffset today = 29.March(2016).ToDateTimeOffset(0.Hours());
+            DateTimeOffset tomorrow = today.AddDays(1);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => today.Should().BeOnOrAfter(tomorrow, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected a date and time on or after <2016-03-30> because we want to test the failure message, but found <2016-03-29>.");
         }
 
         [TestMethod]
@@ -735,7 +779,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var target = new DateTimeOffset(2.October(2009));
+            var target = new DateTimeOffset(2.October(2009), 0.Hours());
             DateTimeOffset subject = target.AddDays(-1);
 
             //-----------------------------------------------------------------------------------------------------------
@@ -771,7 +815,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var target = new DateTimeOffset(2.October(2009));
+            var target = new DateTimeOffset(2.October(2009), 0.Hours());
             DateTimeOffset subject = target.AddHours(-23);
 
             //-----------------------------------------------------------------------------------------------------------
@@ -807,8 +851,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset target = DateTimeOffset.Parse("0001/1/1 12:55");
-            DateTimeOffset subject = DateTimeOffset.Parse("0001/1/1 12:36");
+            DateTimeOffset target = DateTimeOffset.Parse("0001/1/1 12:55 +0:00");
+            DateTimeOffset subject = DateTimeOffset.Parse("0001/1/1 12:36 +0:00");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -844,7 +888,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var target = new DateTimeOffset(10.April(2010).At(12, 0));
+            var target = new DateTimeOffset(10.April(2010).At(12, 0), 0.Hours());
             DateTimeOffset subject = target.AddHours(-50).AddSeconds(-1);
 
             //-----------------------------------------------------------------------------------------------------------
@@ -924,7 +968,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var target = new DateTimeOffset(1.January(1).At(12,0,30));
+            var target = new DateTimeOffset(1.January(1).At(12,0,30), 1.Hours());
             DateTimeOffset subject = target.AddSeconds(30);
 
             //-----------------------------------------------------------------------------------------------------------
@@ -937,7 +981,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected date and/or time <12:01:00> to be less than 30s after <12:00:30> because 30s is the max, but it differs 30s.");
+                "Expected date and/or time <12:01:00 +1h> to be less than 30s after <12:00:30 +1h> because 30s is the max, but it differs 30s.");
         }
 
         [TestMethod]
