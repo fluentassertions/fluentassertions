@@ -61,6 +61,16 @@ namespace FluentAssertions.Formatting
                 fragments.Add(dateTime.ToString(format));
             }
 
+            if (dateTime.Offset > TimeSpan.Zero)
+            {
+                fragments.Add("+" + Formatter.ToString(dateTime.Offset));
+            }
+
+            if (dateTime.Offset < TimeSpan.Zero)
+            {
+                fragments.Add(Formatter.ToString(dateTime.Offset));
+            }
+
             if (!fragments.Any())
             {
                 fragments.Add("0001-01-01 00:00:00.000");
