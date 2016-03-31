@@ -9,7 +9,6 @@ properties {
 	$ArtifactsDirectory = "$BaseDirectory\Artifacts"
 
 	$NuGetPushSource = ""
-	$NuGetApiKey = ""
 	
     $MsBuildLoggerPath = ""
 	$Branch = ""
@@ -147,11 +146,17 @@ task BuildPackage {
 	}
 }
 
-task PublishToMyget -precondition { return $NuGetPushSource -and $NuGetApiKey } {
+task PublishToMyget -precondition { return $env:NuGetApiKey } {
     TeamCity-Block "Publishing NuGet Package to Myget" {  
 		$packages = Get-ChildItem $ArtifactsDirectory *.nupkg
+		
 		foreach ($package in $packages) {
-			& $Nuget push $package.FullName $NuGetApiKey -Source "$NuGetPushSource"
+		
+			if ($NuGetPushSource) {
+				& $Nuget push $package.FullName $env:NuGetApiKey -Source "$NuGetPushSource"
+			} else {
+				& $Nuget push $package.FullName $env:NuGetApiKey 
+			}
 		}
 	}
 }
