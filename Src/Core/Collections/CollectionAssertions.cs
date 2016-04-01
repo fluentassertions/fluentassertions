@@ -1039,7 +1039,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to start with {0}{reason}, ", expected)
                 .Given(() => actualItems)
-                .AssertCollectionIsNotNullOrEmpty()
+                .AssertCollectionIsNotNullOrEmpty(expected.Length)
                 .Then
                 .AssertCollectionHasEnoughItems(expected.Length)
                 .Then
@@ -1072,7 +1072,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .WithExpectation("Expected {context:collection} to end with {0}{reason}, ", expected)
                 .Given(() => actual)
-                .AssertCollectionIsNotNullOrEmpty()
+                .AssertCollectionIsNotNullOrEmpty(expected.Length)
                 .Then
                 .AssertCollectionHasEnoughItems(expected.Length)
                 .Then
