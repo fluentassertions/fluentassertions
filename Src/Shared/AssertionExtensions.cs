@@ -483,6 +483,84 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Asserts that all elements in a collection of objects is equivalent to given object. 
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same 
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
+        /// and the result is equal. 
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, object expectation,
+            string because = "", params object[] becauseArgs)
+        {
+            subject.ShouldAllBeEquivalentTo(expectation, options => options, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that all elements in a collection of objects is equivalent to given object. 
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same 
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
+        /// and the result is equal. 
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
+        /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, object expectation,
+            Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
+            params object[] becauseArgs)
+        {
+            IEnumerable repeatedExpectation = RepeatAsManyAs(expectation, subject);
+
+            subject.ShouldAllBeEquivalentTo(repeatedExpectation, config, because, becauseArgs);
+        }
+
+        private static IEnumerable RepeatAsManyAs<T>(object value, IEnumerable<T> enumerable)
+        {
+            if (enumerable == null)
+            {
+                return Enumerable.Empty<object>();
+            }
+
+            return RepeatAsManyAsIterator(value, enumerable);
+        }
+
+        private static IEnumerable RepeatAsManyAsIterator<T>(object value, IEnumerable<T> enumerable)
+        {
+            using (IEnumerator<T> enumerator = enumerable.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    yield return value;
+                }
+            }
+        }
+
+        /// <summary>
         /// Asserts that a collection of objects is equivalent to another collection of objects. 
         /// </summary>
         /// <remarks>
