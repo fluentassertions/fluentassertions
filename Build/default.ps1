@@ -120,6 +120,13 @@ task RunTests -precondition { return $RunTests -eq $true } {
 			"WinRT"`
 			"$TestsDirectory\FluentAssertions.WinRT.Specs\bin\Release\FluentAssertions.WinRT.Specs.dll"`
 			"$TestsDirectory\Default.testsettings"
+
+		Run-MsTestWithTeamCityOutput `
+			"$MsTestPath"`
+			"TestFrameworks_XUnit2"`
+			"$TestsDirectory\TestFrameworks\XUnit2.Specs\bin\Release\XUnit2.Specs.dll"`
+			"$TestsDirectory\Default.testsettings"
+
 	}
 }
 
