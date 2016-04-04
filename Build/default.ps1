@@ -16,7 +16,7 @@ properties {
 	$RunTests = $false
 }
 
-task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, RestoreNugetPackages, Compile, RunTests, RunSilverLightTests, BuildZip, BuildPackage, PublishToMyget
+task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, RestoreNugetPackages, Compile, RunTests, RunSilverLightTests, BuildZip, BuildPackage, BuildJsonPackage, PublishToMyget
 
 task Clean {	
     TeamCity-Block "Clean" {
@@ -126,7 +126,12 @@ task RunTests -precondition { return $RunTests -eq $true } {
 			"TestFrameworks_XUnit2"`
 			"$TestsDirectory\TestFrameworks\XUnit2.Specs\bin\Release\XUnit2.Specs.dll"`
 			"$TestsDirectory\Default.testsettings"
-
+            
+		Run-MsTestWithTeamCityOutput `
+			"$MsTestPath"`
+			"Json .NET 4.5"`
+			"$TestsDirectory\Json\Json.Net45.Specs\bin\Release\FluentAssertions.Json.Net45.Specs.dll"`
+			"$TestsDirectory\Default.testsettings"
 	}
 }
 
@@ -150,6 +155,12 @@ task BuildZip {
 task BuildPackage {
     TeamCity-Block "Building NuGet Package" {  
 		& $Nuget pack "$SrcDirectory\.nuspec" -o "$ArtifactsDirectory\" 
+	}
+}
+
+task BuildJsonPackage -depends ExtractVersionsFromGit {
+    TeamCity-Block "Building NuGet Package (Json)" {  
+		& $Nuget pack "$SrcDirectory\Json\.nuspec" -o "$ArtifactsDirectory\" -Properties Version=$script:NuGetVersion 
 	}
 }
 
