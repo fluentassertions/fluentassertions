@@ -84,6 +84,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40.Specs\XmlElementAssertionSpecs.cs">
+      <Link>XmlElementAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\XmlNodeAssertionSpecs.cs">
       <Link>XmlNodeAssertionSpecs.cs</Link>
     </Compile>
