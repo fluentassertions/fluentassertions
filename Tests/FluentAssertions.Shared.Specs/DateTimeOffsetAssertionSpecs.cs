@@ -175,8 +175,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var dateTime = new DateTimeOffset(10.March(2012));
-            var otherDateTime = new DateTimeOffset(11.March(2012));
+            var dateTime = new DateTimeOffset(10.March(2012), 1.Hours());
+            var otherDateTime = new DateTimeOffset(11.March(2012), 1.Hours());
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -364,8 +364,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset time = 13.March(2012).At(12, 15, 30, 979);
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31);
+            DateTimeOffset time = 13.March(2012).At(12, 15, 30, 979).ToDateTimeOffset(1.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(1.Hours());
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -386,8 +386,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 021);
-            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31);
+            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 021).ToDateTimeOffset(2.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(2.Hours());
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -399,7 +399,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31 +1H>, but found <2012-03-13 12:15:31.021 +1H>.");
+                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31 +2H>, but found <2012-03-13 12:15:31.021 +2H>.");
         }
 
         [TestMethod]
