@@ -26,5 +26,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Xml\XAttributeAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xml\XDocumentAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xml\XElementAssertions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xml\XmlReaderValidator.cs" />
   </ItemGroup>
 </Project>

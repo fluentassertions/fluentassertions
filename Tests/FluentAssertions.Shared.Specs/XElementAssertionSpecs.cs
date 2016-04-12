@@ -451,8 +451,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected XML element <parent>...</parent> to be equivalent to <parent>...</parent>" +
-                    " because we want to test the failure message.");
+                .WithMessage("Expected node of type EndElement at \"/parent\" because we want to test the failure message, but found Element.");
         }
 
         [TestMethod]
@@ -474,8 +473,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected XML element <parent>...</parent> to be equivalent to <parent>...</parent>" +
-                    " because we want to test the failure message.");
+                .WithMessage("Expected node of type Element at \"/parent\" because we want to test the failure message, but found EndElement.");
         }
 
         [TestMethod]
@@ -542,6 +540,48 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_contents_but_different_ns_prefixes_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(@"<parent xmlns:ns1=""a""><ns1:child /></parent>");
+            var otherXElement = XElement.Parse(@"<parent xmlns:ns2=""a""><ns2:child /></parent>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().NotBeEquivalentTo(otherXElement);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_xml_element_is_not_equivalent_to_a_different_xml_element_with_same_contents_but_extra_unused_xmlns_declaration_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var element = XElement.Parse(@"<xml xmlns:ns1=""a"" />");
+            var otherXElement = XElement.Parse(@"<xml />");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                element.Should().NotBeEquivalentTo(otherXElement);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
         public void When_asserting_a_xml_element_is_not_equivalent_to_the_same_xml_element_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -581,8 +621,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect XML element <parent>...</parent> to be equivalent to <parent>...</parent>" +
-                    " because we want to test the failure message.");
+                .WithMessage("Did not expect Xml to be equivalent because we want to test the failure message, but it is.");
         }
 
         [TestMethod]
@@ -604,8 +643,179 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect XML element <parent>...</parent> to be equivalent to <parent>...</parent>" +
-                    " because we want to test the failure message.");
+                .WithMessage("Did not expect Xml to be equivalent because we want to test the failure message, but it is.");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_element_is_equivalent_to_a_different_xml_element_with_different_namespace_prefix_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = XElement.Parse("<xml xmlns=\"urn:a\"/>");
+            var expected = XElement.Parse("<a:xml xmlns:a=\"urn:a\"/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_element_is_equivalent_to_a_different_xml_element_which_differs_only_on_unused_namespace_declaration_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = XElement.Parse("<xml xmlns:a=\"urn:a\"/>");
+            var expected = XElement.Parse("<xml/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_lacks_attributes_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = XElement.Parse("<xml><element b=\"1\"/></xml>");
+            var expected = XElement.Parse("<xml><element a=\"b\" b=\"1\"/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().
+                WithMessage("Expected attribute \"a\" at \"/xml/element\" because we want to test the failure message, but found none.");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_extra_attributes_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = XElement.Parse("<xml><element a=\"b\"/></xml>");
+            var expected = XElement.Parse("<xml><element/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().
+                WithMessage("Didn't expect to find attribute \"a\" at \"/xml/element\" because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_different_attribute_values_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = XElement.Parse("<xml><element a=\"b\"/></xml>");
+            var expected = XElement.Parse("<xml><element a=\"c\"/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().
+                WithMessage("Expected attribute \"a\" at \"/xml/element\" to have value \"c\" because we want to test the failure message, but found \"b\".");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_attribute_with_different_namespace_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = XElement.Parse("<xml><element xmlns:ns=\"urn:a\" ns:a=\"b\"/></xml>");
+            var expected = XElement.Parse("<xml><element a=\"b\"/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().
+                WithMessage("Didn't expect to find attribute \"ns:a\" at \"/xml/element\" because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_which_has_different_text_contents_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = XElement.Parse("<xml>a</xml>");
+            var expected = XElement.Parse("<xml>b</xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().
+                WithMessage("Expected content to be \"b\" at \"/xml\" because we want to test the failure message, but found \"a\".");
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_element_is_equivalent_to_different_xml_element_with_different_comments_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = XElement.Parse("<xml><!--Comment--><a/></xml>");
+            var expected = XElement.Parse("<xml><a/><!--Comment--></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         #endregion

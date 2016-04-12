@@ -110,9 +110,6 @@
     <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeFormatter.cs">
       <Link>Xml\XmlNodeFormatter.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Xml\XmlReaderValidator.cs">
-      <Link>Xml\XmlReaderValidator.cs</Link>
-    </Compile>
     <Compile Include="Execution\XUnit2TestFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
