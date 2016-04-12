@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
+using System.Xml;
 
 namespace FluentAssertions.Xml
 {
@@ -21,7 +22,9 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> equals the <paramref name="expected"/> element.
+        /// Asserts that the current <see cref="XElement"/> equals the 
+        /// <paramref name="expected"/> element, by using 
+        /// <see cref="XElement.DeepEquals(XNode)"/>
         /// </summary>
         /// <param name="expected">The expected element</param>
         public AndConstraint<XElementAssertions> Be(XElement expected)
@@ -30,7 +33,9 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> equals the <paramref name="expected"/> element.
+        /// Asserts that the current <see cref="XElement"/> equals the 
+        /// <paramref name="expected"/> element, by using 
+        /// <see cref="XElement.DeepEquals(XNode)"/>
         /// </summary>
         /// <param name="expected">The expected element</param>
         /// <param name="because">
@@ -51,8 +56,9 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> does not equal the <paramref name="unexpected"/> element,
-        /// using its <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the current <see cref="XElement"/> does not equal the 
+        /// <paramref name="unexpected"/> element, using 
+        /// <see cref="XElement.DeepEquals(XNode)" />.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
         public AndConstraint<XElementAssertions> NotBe(XElement unexpected)
@@ -61,8 +67,9 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> does not equal the <paramref name="unexpected"/> element,
-        /// using its <see cref="object.Equals(object)" /> implementation.
+        /// Asserts that the current <see cref="XElement"/> does not equal the 
+        /// <paramref name="unexpected"/> element, using 
+        /// <see cref="XElement.DeepEquals(XNode)" />.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
         /// <param name="because">
@@ -83,18 +90,20 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> is equivalent to the <paramref name="expected"/> element,
-        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// Asserts that the current <see cref="XElement"/> is equivalent to the 
+        /// <paramref name="expected"/> element, using a semantic equivalency
+        /// comparison.
         /// </summary>
         /// <param name="expected">The expected element</param>
         public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected)
         {
-            return BeEquivalentTo(expected, string.Empty);
+            return  BeEquivalentTo(expected, string.Empty);
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> is equivalent to the <paramref name="expected"/> element,
-        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// Asserts that the current <see cref="XElement"/> is equivalent to the 
+        /// <paramref name="expected"/> element, using a semantic equivalency
+        /// comparison.
         /// </summary>
         /// <param name="expected">The expected element</param>
         /// <param name="because">
@@ -106,18 +115,19 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> BeEquivalentTo(XElement expected, string because, params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(XNode.DeepEquals(Subject, expected))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element {0} to be equivalent to {1}{reason}.",
-                    Subject, expected);
+            using (XmlReader subjectReader = Subject.CreateReader())
+            using (XmlReader expectedReader = expected.CreateReader())
+            {
+                new XmlReaderValidator(subjectReader, expectedReader, because, becauseArgs).Validate(true);
+            }
 
             return new AndConstraint<XElementAssertions>(this);
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> is not equivalent to the <paramref name="unexpected"/> element,
-        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// Asserts that the current <see cref="XElement"/> is not equivalent to 
+        /// the <paramref name="unexpected"/> element, using a semantic
+        /// equivalency comparison.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
         public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected)
@@ -126,8 +136,9 @@ namespace FluentAssertions.Xml
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="XElement"/> is not equivalent to the <paramref name="unexpected"/> element,
-        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// Asserts that the current <see cref="XElement"/> is not equivalent to 
+        /// the <paramref name="unexpected"/> element, using a semantic
+        /// equivalency comparison.
         /// </summary>
         /// <param name="unexpected">The unexpected element</param>
         /// <param name="because">
@@ -139,11 +150,7 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XElementAssertions> NotBeEquivalentTo(XElement unexpected, string because, params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(!XNode.DeepEquals(Subject, unexpected))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect XML element {0} to be equivalent to {1}{reason}.",
-                    Subject, unexpected);
+            new XmlReaderValidator(Subject.CreateReader(), unexpected.CreateReader(), because, becauseArgs).Validate(false);
 
             return new AndConstraint<XElementAssertions>(this);
         }

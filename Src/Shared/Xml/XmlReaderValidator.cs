@@ -51,7 +51,7 @@ namespace FluentAssertions.Xml
             }
             if(!expectedEquivalence && validationResult == null)
             {
-                assertion.FailWith("Expected Xml to not be equivalent{reason}, but it is.");
+                assertion.FailWith("Did not expect Xml to be equivalent{reason}, but it is.");
             }
         }
 
@@ -79,6 +79,10 @@ namespace FluentAssertions.Xml
                         }
                         locationStack.Push(subjectReader.LocalName);
                         validationResult = ValidateAttributes();
+                        if(subjectReader.IsEmptyElement)
+                        {
+                            locationStack.Pop();
+                        }
                         break;
                     case XmlNodeType.EndElement:
                         // No need to verify end element, if it doesn't match

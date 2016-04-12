@@ -115,11 +115,7 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> BeEquivalentTo(XDocument expected, string because, params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(XNode.DeepEquals(Subject, expected))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML document {0} to be equivalent to {1}{reason}.",
-                    Subject, expected);
+            new XmlReaderValidator(Subject.CreateReader(), expected.CreateReader(), because, becauseArgs).Validate(true);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
@@ -148,11 +144,7 @@ namespace FluentAssertions.Xml
         /// </param>
         public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected, string because, params object[] becauseArgs)
         {
-            Execute.Assertion
-                .ForCondition(!XNode.DeepEquals(Subject, unexpected))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect XML document {0} to be equivalent to {1}{reason}.",
-                    Subject, unexpected);
+            new XmlReaderValidator(Subject.CreateReader(), unexpected.CreateReader(), because, becauseArgs).Validate(false);
 
             return new AndConstraint<XDocumentAssertions>(this);
         }
