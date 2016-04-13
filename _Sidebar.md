@@ -14,6 +14,6 @@
 * [Event Monitoring](#event-monitoring)
 * [Type, Method and property assertions](#type-method-and-property-assertions)
 * [Assembly references](#assembly-references)
-* [XML](#xml)
+* [XML classes](#xml-classes)
 * [Execution Time](#execution-time)
 * [Extensibility](#extensibility)
