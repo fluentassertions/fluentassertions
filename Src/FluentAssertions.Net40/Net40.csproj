@@ -81,7 +81,9 @@
     <Compile Include="ObjectAssertionsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Xml\XmlAssertionExtensions.cs" />
+    <Compile Include="Xml\XmlElementAssertions.cs" />
     <Compile Include="Xml\XmlNodeAssertions.cs" />
+    <Compile Include="Xml\XmlNodeAssertionsofTSubjectTAssertions.cs" />
     <Compile Include="Xml\XmlNodeFormatter.cs" />
   </ItemGroup>
   <ItemGroup>

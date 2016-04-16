@@ -104,8 +104,14 @@
     <Compile Include="..\FluentAssertions.Net40\Xml\XmlAssertionExtensions.cs">
       <Link>Xml\XmlAssertionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Xml\XmlElementAssertions.cs">
+      <Link>Xml\XmlElementAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeAssertions.cs">
       <Link>Xml\XmlNodeAssertions.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeAssertionsofTSubjectTAssertions.cs">
+      <Link>Xml\XmlNodeAssertionsofTSubjectTAssertions.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeFormatter.cs">
       <Link>Xml\XmlNodeFormatter.cs</Link>
