@@ -17,10 +17,10 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class CollectionEquivalencySpecs
     {
-        #region General
+        #region Null (Collection)
 
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_subject_is_null_it_should_throw()
+        public void When_subject_is_null_and_expectation_is_enumerable_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -40,7 +40,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_expectation_is_null_it_should_throw()
+        public void When_expectation_is_null_enumerable_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -60,7 +60,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_subject_and_expectation_are_null_it_should_succeed()
+        public void When_subject_and_expectation_are_null_enumerable_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -78,8 +78,12 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+        #endregion
+
+        #region Null (Single Object)
+
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_subject_is_null_and_expectation_is_nonenumerable_it_should_throw()
+        public void When_subject_is_null_and_expectation_is_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -99,7 +103,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_subject_is_nulls_and_expectation_is_nonenumerable_null_it_should_succeed()
+        public void When_subject_elements_are_null_and_expectation_is_null_object_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -118,7 +122,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_subject_and_nonenumerable_expectation_are_null_it_should_throw()
+        public void When_subject_is_null_and_expectation_is_null_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -936,8 +940,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void
-            When_ShouldAllBeEquivalentTo_has_selection_rules_configured_they_should_be_evaluated_from_right_to_left()
+        public void When_selection_rules_are_configured_they_should_be_evaluated_from_right_to_left()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1040,8 +1043,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_utilizes_custom_assertion_rules_the_rules_should_be_respected()
+        [TestMethod] public void When_custom_assertion_rules_are_utilized_the_rules_should_be_respected()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1638,7 +1640,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_all_items_in_subject_is_equivalent_to_expectation_it_should_succeed()
+        public void When_all_subject_items_are_equivalent_to_expectation_object_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1662,7 +1664,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_all_items_in_subject_is_not_equivalent_to_expectation_it_should_throw()
+        public void When_all_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1682,7 +1684,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_ShouldAllBeEquivalentTo_empty_subject_always_succeed()
+        public void When_subject_is_empty_and_expectation_is_object_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
