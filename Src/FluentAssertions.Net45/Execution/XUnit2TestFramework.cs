@@ -1,15 +1,38 @@
-﻿namespace FluentAssertions.Execution
+﻿using System;
+using System.Reflection;
+
+namespace FluentAssertions.Execution
 {
-    internal class XUnit2TestFramework : LateBoundTestFramework
+    internal class XUnit2TestFramework : ITestFramework
     {
-        protected override string AssemblyName
+        private Assembly assembly = null;
+
+        public bool IsAvailable
         {
-            get { return "xunit.assert"; }
+            get
+            {
+                try
+                {
+                    assembly = Assembly.Load(new AssemblyName("xunit.assert"));
+
+                    return (assembly != null);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
         }
 
-        protected override string ExceptionFullName
+        public void Throw(string message)
         {
-            get { return "Xunit.Sdk.XunitException"; }
+            Type exceptionType = assembly.GetType("Xunit.Sdk.XunitException");
+            if (exceptionType == null)
+            {
+                throw new Exception("Failed to create the XUnit assertion type");
+            }
+
+            throw (Exception)Activator.CreateInstance(exceptionType, message);
         }
     }
 }
