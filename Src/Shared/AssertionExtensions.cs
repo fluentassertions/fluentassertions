@@ -483,7 +483,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that all elements in a collection of objects is equivalent to given object. 
+        /// Asserts that all elements in a collection of objects are equivalent to a given object. 
         /// </summary>
         /// <remarks>
         /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same 
@@ -507,7 +507,7 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that all elements in a collection of objects is equivalent to given object. 
+        /// Asserts that all elements in a collection of objects are equivalent to a given object. 
         /// </summary>
         /// <remarks>
         /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same 
