@@ -60,7 +60,7 @@ namespace FluentAssertions.Equivalency
 
         private void AssertElementGraphEquivalency<T>(T[] subjects, object[] expectations)
         {
-            matchedSubjectIndexes = new List<int>();
+            matchedSubjectIndexes = new HashSet<int>();
 
             foreach (int index in Enumerable.Range(0, expectations.Length))
             {
@@ -77,7 +77,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private List<int> matchedSubjectIndexes;
+        private HashSet<int> matchedSubjectIndexes;
 
         private void LooselyMatchAgainst<T>(IList<T> subjects, object expectation, int expectationIndex)
         {
