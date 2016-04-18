@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 using FluentAssertions.Execution;
 
@@ -14,7 +13,7 @@ namespace FluentAssertions.Equivalency
         #region Private Definitions
 
         private readonly CyclicReferenceHandling handling;
-        private List<ObjectReference> references = new List<ObjectReference>();
+        private HashSet<ObjectReference> references = new HashSet<ObjectReference>();
 
         #endregion
 
@@ -66,7 +65,7 @@ namespace FluentAssertions.Equivalency
         {
             return new ObjectTracker(handling)
             {
-                references = references.ToList()
+                references = new HashSet<ObjectReference>(references)
             };
         }
     }
