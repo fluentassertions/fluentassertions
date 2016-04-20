@@ -901,6 +901,109 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region BeDataContractSerializable
+
+        [TestMethod]
+        public void When_an_object_is_data_contract_serializable_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new DataContractSerializableClass
+            {
+                Name = "John",
+                Id = 1
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeDataContractSerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_object_is_not_data_contract_serializable_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new NonDataContractSerializableClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeDataContractSerializable("we need to store it on {0}", "disk");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .Where(ex =>
+                    ex.Message.Contains("Ensure that the necessary enum values are present and are marked with EnumMemberAttribute attribute if the type has DataContractAttribute attribute"));
+        }
+
+        [TestMethod]
+        public void When_an_object_is_data_contract_serializable_but_doesnt_restore_all_properties_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new DataContractSerializableClassNotRestoringAllProperties
+            {
+                Name = "John",
+                BirthDay = 20.September(1973)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeDataContractSerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .Where(ex =>
+                    ex.Message.Contains("to be serializable, but serialization failed with:") &&
+                    ex.Message.Contains("member Name to be"));
+        }
+
+        public enum Color
+        {
+            Red = 1,
+            Yellow = 2
+        }
+
+        public class NonDataContractSerializableClass
+        {
+            public Color Color { get; set; }    
+        }
+
+        public class DataContractSerializableClass
+        {
+            public string Name { get; set; }
+
+            public int Id;
+        }
+
+        [DataContract]
+        public class DataContractSerializableClassNotRestoringAllProperties
+        {
+            public string Name { get; set; }
+
+            [DataMember]
+            public DateTime BirthDay { get; set; }
+        }
+
+        #endregion
+
 #endif
     }
 
