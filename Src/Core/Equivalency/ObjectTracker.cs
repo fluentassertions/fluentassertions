@@ -13,7 +13,7 @@ namespace FluentAssertions.Equivalency
         #region Private Definitions
 
         private readonly CyclicReferenceHandling handling;
-        private HashSet<ObjectReference> references = new HashSet<ObjectReference>();
+        private List<ObjectReference> orderedReferences = new List<ObjectReference>();
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace FluentAssertions.Equivalency
 
             if (reference.IsComplexType)
             {
-                if (references.Contains(reference))
+                if (orderedReferences.Contains(reference))
                 {
                     isCyclic = true;
                     if (handling == CyclicReferenceHandling.ThrowException)
@@ -47,7 +47,7 @@ namespace FluentAssertions.Equivalency
                 }
                 else
                 {
-                    references.Add(reference);
+                    orderedReferences.Add(reference);
                 }
             }
 
@@ -65,7 +65,7 @@ namespace FluentAssertions.Equivalency
         {
             return new ObjectTracker(handling)
             {
-                references = new HashSet<ObjectReference>(references)
+                orderedReferences = new List<ObjectReference>(orderedReferences)
             };
         }
     }
