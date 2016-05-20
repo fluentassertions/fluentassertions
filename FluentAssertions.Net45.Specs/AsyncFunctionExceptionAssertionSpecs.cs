@@ -183,6 +183,29 @@ namespace FluentAssertions.Net45.Specs
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage("Did not expect System.ArgumentException, but found one*");
         }
+
+        [TestMethod]
+        public void When_async_method_throws_exception_without_inner_exception_it_should_throw_AssertFailedException()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> asyncAction = () =>
+            {
+                throw new InvalidOperationException();
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => asyncAction.ShouldNotThrow();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect any exception, but found*");
+        }
     }
 
     internal class AsyncClass
