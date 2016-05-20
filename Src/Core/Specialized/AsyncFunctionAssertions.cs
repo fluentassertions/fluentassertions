@@ -72,14 +72,14 @@ namespace FluentAssertions.Specialized
                 Task task = Subject();
                 task.Wait();
             }
-            catch (Exception aggregateException)
+            catch (Exception exception)
             {
-                Exception exception = aggregateException.InnerException;
+                Exception cause = exception.InnerException ?? exception;
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
-                        exception.GetType(), exception.Message);
+                        cause.GetType(), cause.Message);
             }
         }
 
