@@ -36,8 +36,8 @@ namespace FluentAssertions.Equivalency
             switch (config.EnumEquivalencyHandling)
             {
                 case EnumEquivalencyHandling.ByValue:
-                    long subjectsUnderlyingValue = Convert.ToInt64(context.Subject);
-                    long expectationsUnderlyingValue = Convert.ToInt64(context.Expectation);
+                    long? subjectsUnderlyingValue = (context.Subject != null) ? Convert.ToInt64(context.Subject) : (long?)null;
+                    long? expectationsUnderlyingValue = (context.Expectation != null) ? Convert.ToInt64(context.Expectation) : (long?)null;
 
                     subjectsUnderlyingValue.Should().Be(expectationsUnderlyingValue, context.Because, context.BecauseArgs);
                     break;
