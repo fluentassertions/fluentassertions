@@ -2786,6 +2786,62 @@ With configuration:*");
         }
 
         [TestMethod]
+        public void When_the_actual_enum_value_is_null_it_should_report_that_properly()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NullableEnum = (DayOfWeek?)null
+            };
+
+            var expectation = new
+            {
+                NullableEnum = DayOfWeek.Friday
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*5*null*");
+        }
+
+        [TestMethod]
+        public void When_the_actual_enum_name_is_null_it_should_report_that_properly()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NullableEnum = (DayOfWeek?)null
+            };
+
+            var expectation = new
+            {
+                NullableEnum = DayOfWeek.Friday
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, o => o.ComparingEnumsByValue());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*5*null*");
+        }
+
+        [TestMethod]
         public void When_asserting_different_enum_members_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2797,7 +2853,7 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected subject to be 3, but found 0*");
+                .WithMessage("Expected*3*found 0*");
         }
 
         [TestMethod]
