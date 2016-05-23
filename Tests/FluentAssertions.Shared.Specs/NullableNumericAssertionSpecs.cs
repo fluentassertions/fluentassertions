@@ -111,7 +111,7 @@ namespace FluentAssertions.Specs
             var assertions = nullableIntegerA.Should();
             assertions.Invoking(x => x.Be(nullableIntegerB, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected 2 because we want to test the failure message, but found 1.");
+                .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
         }
 
         #region Be Approximately

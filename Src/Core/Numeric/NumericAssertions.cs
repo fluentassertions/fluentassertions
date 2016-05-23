@@ -65,7 +65,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(ReferenceEquals(Subject, expected) || ((!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) == 0)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
