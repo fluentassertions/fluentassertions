@@ -278,7 +278,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected <null>, but found 2.");
+                .WithMessage("Expected*<null>, but found 2.");
         }
 
         [TestMethod]
@@ -299,7 +299,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected 2, but found <null>.");
+                .WithMessage("Expected*2, but found <null>.");
         }
 
         [TestMethod]
