@@ -225,7 +225,7 @@ namespace FluentAssertions.Primitives
 		public AndConstraint<DateTimeAssertions> NotBeOnOrBefore(DateTime unexpected, string because = "",
 			params object[] becauseArgs)
 		{
-			return BeOnOrAfter(unexpected, because, becauseArgs);
+			return BeAfter(unexpected, because, becauseArgs);
 		}
 
 		/// <summary>
