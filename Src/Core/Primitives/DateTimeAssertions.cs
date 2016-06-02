@@ -172,6 +172,23 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="DateTime"/>  is not before the specified value.
+        /// </summary>
+        /// <param name="unexpected">The <see cref="DateTime"/>  that the current value is not expected to be before.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotBeBefore( DateTime unexpected, string because = "",
+            params object[] becauseArgs )
+        {
+            return BeOnOrAfter( unexpected, because, becauseArgs );
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="DateTime"/>  is either on, or before the specified value.
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be on or before.</param>
