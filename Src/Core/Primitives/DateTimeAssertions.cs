@@ -108,6 +108,47 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="DateTime"/>  is not within the specified number of milliseconds (default = 20 ms)
+        /// from the specified <paramref name="distantTime"/> value.
+        /// </summary>
+        /// <remarks>
+        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
+        /// use <see cref="NotBe(DateTime, string, object[])"/>.
+        /// </remarks>
+        /// <param name="distantTime">
+        /// The time to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The maximum amount of milliseconds which the two values must differ.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotBeCloseTo(DateTime distantTime, int precision = 20, string because = "",
+            params object[] becauseArgs)
+        {
+            long distanceToMinInMs = (long)(distantTime - DateTime.MinValue).TotalMilliseconds;
+            DateTime minimumValue = distantTime.AddMilliseconds(-Math.Min( precision, distanceToMinInMs));
+
+            long distanceToMaxInMs = (long)(DateTime.MaxValue - distantTime).TotalMilliseconds;
+            DateTime maximumValue = distantTime.AddMilliseconds(Math.Min( precision, distanceToMaxInMs));
+
+            Execute.Assertion
+                .ForCondition(Subject.HasValue && (Subject.Value < minimumValue) && (Subject.Value > maximumValue))
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:date and time} to not be within {0} ms from {1}{reason}, but found {2}.",
+                    precision,
+                    distantTime, Subject.HasValue ? Subject.Value : default(DateTime?));
+
+            return new AndConstraint<DateTimeAssertions>( this );
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="DateTime"/>  is before the specified value.
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be before.</param>
