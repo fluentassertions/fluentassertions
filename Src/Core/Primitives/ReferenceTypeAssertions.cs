@@ -156,7 +156,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected type to be {0}{reason}, but found <null>.", expectedType);
+                .FailWith("Expected {context:type} to be {0}{reason}, but found <null>.", expectedType);
 
             Subject.GetType().Should().Be(expectedType, because, becauseArgs);
 
@@ -181,7 +181,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition( !ReferenceEquals( Subject, null ) )
                 .BecauseOf( because, becauseArgs )
-                .FailWith( "Expected type not to be {0}{reason}, but it is.", expectedType );
+                .FailWith( "Expected {context:type} not to be {0}{reason}, but it is.", expectedType );
 
             Subject.GetType().Should().NotBe( expectedType, because, becauseArgs );
 
