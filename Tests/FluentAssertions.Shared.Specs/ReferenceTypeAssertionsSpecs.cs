@@ -113,8 +113,28 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
-        }        
-        
+        }
+
+        [TestMethod]
+        public void When_object_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string aString = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => aString.Should().BeOfType(typeof(string));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type to be System.String, but found <null>.");
+        }
+
         [TestMethod]
         public void When_object_is_not_of_the_expected_type_it_should_throw()
         {
@@ -152,9 +172,9 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type to not be System.String, but it is.");
-        }        
-        
+                .WithMessage( "Expected type not to be [" + typeof( string ).AssemblyQualifiedName + "], but it is." );
+        }
+
         [TestMethod]
         public void When_object_is_not_of_the_expected_type_it_should_not_throw()
         {
