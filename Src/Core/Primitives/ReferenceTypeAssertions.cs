@@ -178,12 +178,7 @@ namespace FluentAssertions.Primitives
         /// </param>
         public AndConstraint<TAssertions> NotBeOfType( Type expectedType, string because = "", params object[] becauseArgs )
         {
-            Execute.Assertion
-                .ForCondition( !ReferenceEquals( Subject, null ) )
-                .BecauseOf( because, becauseArgs )
-                .FailWith( "Expected {context:type} not to be {0}{reason}, but it is.", expectedType );
-
-            Subject.GetType().Should().NotBe( expectedType, because, becauseArgs );
+            Subject.GetType().Should().NotBe(expectedType, because, becauseArgs);
 
             return new AndConstraint<TAssertions>( (TAssertions)this );
         }
