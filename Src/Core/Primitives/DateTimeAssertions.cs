@@ -182,10 +182,10 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<DateTimeAssertions> NotBeBefore( DateTime unexpected, string because = "",
-            params object[] becauseArgs )
+        public AndConstraint<DateTimeAssertions> NotBeBefore(DateTime unexpected, string because = "",
+            params object[] becauseArgs)
         {
-            return BeOnOrAfter( unexpected, because, becauseArgs );
+            return BeOnOrAfter(unexpected, because, becauseArgs);
         }
 
         /// <summary>
@@ -209,20 +209,37 @@ namespace FluentAssertions.Primitives
                     Subject.HasValue ? Subject.Value : default(DateTime?));
 
             return new AndConstraint<DateTimeAssertions>(this);
-        }
+		}
 
-        /// <summary>
-        /// Asserts that the current <see cref="DateTime"/>  is after the specified value.
-        /// </summary>
-        /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be after.</param>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndConstraint<DateTimeAssertions> BeAfter(DateTime expected, string because = "",
+		/// <summary>
+		/// Asserts that the current <see cref="DateTime"/>  is neither on, nor before the specified value.
+		/// </summary>
+		/// <param name="unexpected">The <see cref="DateTime"/>  that the current value is not expected to be on nor before.</param>
+		/// <param name="because">
+		/// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+		/// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+		/// </param>
+		/// <param name="becauseArgs">
+		/// Zero or more objects to format using the placeholders in <see cref="because" />.
+		/// </param>
+		public AndConstraint<DateTimeAssertions> NotBeOnOrBefore(DateTime unexpected, string because = "",
+			params object[] becauseArgs)
+		{
+			return BeOnOrAfter(unexpected, because, becauseArgs);
+		}
+
+		/// <summary>
+		/// Asserts that the current <see cref="DateTime"/>  is after the specified value.
+		/// </summary>
+		/// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be after.</param>
+		/// <param name="because">
+		/// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+		/// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+		/// </param>
+		/// <param name="becauseArgs">
+		/// Zero or more objects to format using the placeholders in <see cref="because" />.
+		/// </param>
+		public AndConstraint<DateTimeAssertions> BeAfter(DateTime expected, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
