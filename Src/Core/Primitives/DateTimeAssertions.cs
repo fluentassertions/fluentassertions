@@ -138,7 +138,7 @@ namespace FluentAssertions.Primitives
             DateTime maximumValue = distantTime.AddMilliseconds(Math.Min(precision, distanceToMaxInMs));
 
             Execute.Assertion
-                .ForCondition(Subject.HasValue && (Subject.Value < minimumValue) && (Subject.Value > maximumValue))
+                .ForCondition(Subject.HasValue && ((Subject.Value < minimumValue) || (Subject.Value > maximumValue)))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:date and time} to not be within {0} ms from {1}{reason}, but found {2}.",

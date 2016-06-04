@@ -106,7 +106,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Be / NotBe
+        #region (Not) Be
 
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_value_is_equal_to_the_same_value()
@@ -361,10 +361,10 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Be Close To
+        #region (Not) Be Close To
 
         [TestMethod]
-        public void When_datetime_is_less_then_but_close_to_another_value_it_should_succeed()
+        public void When_datetime_is_less_than_but_close_to_another_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -381,6 +381,26 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_datetime_is_less_than_but_close_to_another_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = DateTime.SpecifyKind(Today.At(12, 15, 30, 980), DateTimeKind.Unspecified);
+            DateTime nearbyTime = DateTime.SpecifyKind(Today.At(12, 15, 31), DateTimeKind.Utc);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected date and time to not be within 20 ms from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
         }
 
         [TestMethod]
@@ -401,6 +421,26 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_datetime_is_greater_then_but_close_to_another_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = Today.At(12, 15, 31, 020);
+            DateTime nearbyTime = Today.At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected date and time to not be within 20 ms from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.020>.");
         }
 
         [TestMethod]
@@ -426,6 +466,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_datetime_is_less_then_and_not_close_to_another_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = 13.March(2012).At(12, 15, 30, 979);
+            DateTime nearbyTime = 13.March(2012).At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_datetime_is_greater_then_and_not_close_to_another_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -448,6 +508,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_datetime_is_greater_then_and_not_close_to_another_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = 13.March(2012).At(12, 15, 31, 021);
+            DateTime nearbyTime = 13.March(2012).At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_datetime_is_within_specified_number_of_milliseconds_from_another_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -466,7 +546,27 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
+        [TestMethod]
+        public void When_datetime_is_within_specified_number_of_milliseconds_from_another_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = Today.At(12, 15, 31, 035);
+            DateTime nearbyTime = Today.At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected date and time to not be within 35 ms from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.035>.");
+        }
+
         [TestMethod]
         public void When_a_null_date_time_is_asserted_to_be_close_to_another_it_should_throw()
         {
@@ -480,6 +580,27 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => time.Should().BeCloseTo(nearbyTime, 35);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_a_null_date_time_is_asserted_not_to_be_close_to_another_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? time = null;
+            DateTime nearbyTime = Today.At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -509,6 +630,27 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_a_date_time_is_close_to_the_minimum_date_time_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = DateTime.MinValue.Add(50.Milliseconds());
+            DateTime nearbyTime = DateTime.MinValue;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected date and time to not be within 100 ms from <0001-01-01 00:00:00.000>, but found <0001-01-01 00:00:00.050>.");
+        }
+
+        [TestMethod]
         public void When_a_date_time_is_close_to_the_maximum_date_time_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -528,8 +670,30 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+        [TestMethod]
+        public void When_a_date_time_is_close_to_the_maximum_date_time_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = DateTime.MaxValue.Add(-50.Milliseconds());
+            DateTime nearbyTime = DateTime.MaxValue;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected date and time to not be within 100 ms from <9999-12-31 23:59:59.999>, but found <9999-12-31 23:59:59.949>.");
+        }
+
         #endregion
 
+        #region The rest
         [TestMethod]
         public void When_a_point_of_time_occurs_before_another_it_should_succeed()
         {
@@ -909,6 +1073,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage(
                     "Expected a date and time with date <2015-02-07> because we want to test the failure message, but found <2015-01-07 12:22:13>.");
         }
+        #endregion
 
         #region Timespan Comparison
 
