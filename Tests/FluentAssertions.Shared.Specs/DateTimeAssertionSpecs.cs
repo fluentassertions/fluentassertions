@@ -693,7 +693,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region The rest
+        #region (Not) Be Before
         [TestMethod]
         public void When_a_point_of_time_occurs_before_another_it_should_succeed()
         {
@@ -701,36 +701,83 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTime earlierDate = DateTime.SpecifyKind(Today, DateTimeKind.Unspecified);
+            DateTime laterDate = DateTime.SpecifyKind( Today.AddMinutes( 5 ), DateTimeKind.Utc );
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            DateTime laterDate = DateTime.SpecifyKind(Today.AddMinutes(5), DateTimeKind.Utc);
+            Action act = () => earlierDate.Should().BeBefore( laterDate );
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            earlierDate.Should().BeBefore(laterDate);
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_point_of_time_occurs_before_another_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime earlierDate = DateTime.SpecifyKind( Today, DateTimeKind.Unspecified );
+            DateTime laterDate = DateTime.SpecifyKind( Today.AddMinutes( 5 ), DateTimeKind.Utc );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => earlierDate.Should().NotBeBefore( laterDate );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected a date and time on or after <2016-06-04 00:05:00>, but found <2016-06-04>." );
         }
 
         [TestMethod]
         public void Should_fail_when_asserting_datetime_is_before_earlier_datetime()
         {
-            Action act = () => Today.Should().BeBefore(Yesterday);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime earlierDate = Yesterday;
+            DateTime laterDate = Today;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action act = () => laterDate.Should().BeBefore( earlierDate );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected a date and time before <2016-06-03>, but found <2016-06-04>." );
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_is_before_earlier_datetime()
+        public void Should_succeed_when_asserting_datetime_is_before_earlier_datetime()
         {
-            DateTimeAssertions assertions = Today.Should();
-            assertions.Invoking(x => x.BeBefore(Yesterday, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected a date and time before <{0}> because we want to test the failure message, but found <{1}>.",
-                    Yesterday.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
-        }
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime earlierDate = Yesterday;
+            DateTime laterDate = Today;
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action act = () => laterDate.Should().NotBeBefore( earlierDate );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        #endregion
+
+        #region The rest
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_is_on_or_before_later_datetime()
         {
