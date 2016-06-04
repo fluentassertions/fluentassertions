@@ -57,7 +57,7 @@ namespace FluentAssertions.Formatting
 
             if (HasTime(dateTime))
             {
-                string format = (HasMilliSeconds(dateTime)) ? "HH:mm:ss.fff" : "HH:mm:ss";
+                string format = HasMilliSeconds(dateTime) ? "HH:mm:ss.fff" : "HH:mm:ss";
                 fragments.Add(dateTime.ToString(format));
             }
 
@@ -73,7 +73,14 @@ namespace FluentAssertions.Formatting
 
             if (!fragments.Any())
             {
-                fragments.Add("0001-01-01 00:00:00.000");
+				if (HasMilliSeconds(dateTime))
+				{
+					fragments.Add("0001-01-01 00:00:00." + dateTime.ToString("fff"));
+				}
+				else
+				{
+					fragments.Add("0001-01-01 00:00:00.000");
+				}
             }
 
             return "<" + string.Join(" ", fragments.ToArray()) + ">";
