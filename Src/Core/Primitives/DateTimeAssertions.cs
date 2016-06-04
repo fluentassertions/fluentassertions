@@ -132,10 +132,10 @@ namespace FluentAssertions.Primitives
             params object[] becauseArgs)
         {
             long distanceToMinInMs = (long)(distantTime - DateTime.MinValue).TotalMilliseconds;
-            DateTime minimumValue = distantTime.AddMilliseconds(-Math.Min( precision, distanceToMinInMs));
+            DateTime minimumValue = distantTime.AddMilliseconds(-Math.Min(precision, distanceToMinInMs));
 
             long distanceToMaxInMs = (long)(DateTime.MaxValue - distantTime).TotalMilliseconds;
-            DateTime maximumValue = distantTime.AddMilliseconds(Math.Min( precision, distanceToMaxInMs));
+            DateTime maximumValue = distantTime.AddMilliseconds(Math.Min(precision, distanceToMaxInMs));
 
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value < minimumValue) && (Subject.Value > maximumValue))
@@ -145,7 +145,7 @@ namespace FluentAssertions.Primitives
                     precision,
                     distantTime, Subject.HasValue ? Subject.Value : default(DateTime?));
 
-            return new AndConstraint<DateTimeAssertions>( this );
+            return new AndConstraint<DateTimeAssertions>(this);
         }
 
         /// <summary>
@@ -305,11 +305,11 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> NotBeOnOrAfter(DateTime unexpected, string because = "",
             params object[] becauseArgs)
         {
-            return BeBefore( unexpected, because, becauseArgs );
+            return BeBefore(unexpected, because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="DateTime"/>  has the <paramref name="expected"/> year.
+        /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> year.
         /// </summary>
         /// <param name="expected">The expected year of the current value.</param>
         /// <param name="because">
@@ -339,7 +339,37 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the current <see cref="DateTime"/>  has the <paramref name="expected"/> month.
+        /// Asserts that the current <see cref="DateTime"/> does not have the <paramref name="unexpected"/> year.
+        /// </summary>
+        /// <param name="unexpected">The year that should not be in the current value.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotHaveYear(int unexpected, string because = "", params object[] becauseArgs)
+        {
+            bool success = Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected DateTime not to have year {0}{reason}, but DateTime was <null>.", unexpected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Value.Year != unexpected)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected DateTime not to have year {0}{reason}, but found it does.", unexpected,
+                        Subject.Value.Year);
+            }
+
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> has the <paramref name="expected"/> month.
         /// </summary>
         /// <param name="expected">The expected month of the current value.</param>
         /// <param name="because">
@@ -362,6 +392,35 @@ namespace FluentAssertions.Primitives
                     .ForCondition(Subject.Value.Month == expected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected month {0}{reason}, but found {1}.", expected, Subject.Value.Month);
+            }
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> does not have the <paramref name="unexpected"/> month.
+        /// </summary>
+        /// <param name="unexpected">The month that should not be in the current value.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotHaveMonth(int unexpected, string because = "", params object[] becauseArgs)
+        {
+            bool success = Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected DateTime not to have month {0}{reason}, but DateTime was <null>.", unexpected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Value.Month == unexpected)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected DateTime not to have month {0}{reason}, but found it does.", unexpected,
+                        Subject.Value.Month);
             }
             return new AndConstraint<DateTimeAssertions>(this);
         }
@@ -390,6 +449,36 @@ namespace FluentAssertions.Primitives
                     .ForCondition(Subject.Value.Day == expected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected day {0}{reason}, but found {1}.", expected, Subject.Value.Day);
+            }
+
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> does not have the <paramref name="unexpected"/> day.
+        /// </summary>
+        /// <param name="unexpected">The day that should not be in the current value.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotHaveDay(int unexpected, string because = "", params object[] becauseArgs)
+        {
+            bool success = Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected DateTime not to have day {0}{reason}, but DateTime was <null>.", unexpected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Value.Day == unexpected)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected DateTime not to have day {0}{reason}, but found it does.", unexpected,
+                        Subject.Value.Day);
             }
 
             return new AndConstraint<DateTimeAssertions>(this);
