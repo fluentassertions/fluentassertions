@@ -514,6 +514,36 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> does not have the <paramref name="unexpected"/> hour.
+        /// </summary>
+        /// <param name="unexpected">The hour that should not be in the current value.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotHaveHour(int unexpected, string because = "", params object[] becauseArgs)
+        {
+            bool success = Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected DateTime not to have hour {0}{reason}, but DateTime was <null>.", unexpected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Value.Hour == unexpected)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected DateTime not to have hour {0}{reason}, but found it does.", unexpected,
+                        Subject.Value.Hour);
+            }
+
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="DateTime"/>  has the <paramref name="expected"/> minute.
         /// </summary>
         /// <param name="expected">The expected minutes of the current value.</param>
@@ -544,6 +574,37 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> does not have the <paramref name="unexpected"/> minute.
+        /// </summary>
+        /// <param name="unexpected">The minute that should not be in the current value.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotHaveMinute(int unexpected, string because = "",
+            params object[] becauseArgs)
+        {
+            bool success = Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected DateTime not to have minute {0}{reason}, but DateTime was <null>.", unexpected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Value.Minute == unexpected)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected DateTime not to have minute {0}{reason}, but found it does.", unexpected,
+                        Subject.Value.Minute);
+            }
+
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the current <see cref="DateTime"/>  has the <paramref name="expected"/> second.
         /// </summary>
         /// <param name="expected">The expected seconds of the current value.</param>
@@ -568,6 +629,37 @@ namespace FluentAssertions.Primitives
                     .ForCondition(Subject.Value.Second == expected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected second {0}{reason}, but found {1}.", expected, Subject.Value.Second);
+            }
+
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/> does not have the <paramref name="unexpected"/> second.
+        /// </summary>
+        /// <param name="unexpected">The second that should not be in the current value.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotHaveSecond(int unexpected, string because = "",
+            params object[] becauseArgs)
+        {
+            bool success = Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected DateTime not to have second {0}{reason}, but DateTime was <null>.", unexpected);
+
+            if (success)
+            {
+                Execute.Assertion
+                    .ForCondition(Subject.Value.Second == unexpected)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected DateTime not to have second {0}{reason}, but found it does.", unexpected,
+                        Subject.Value.Second);
             }
 
             return new AndConstraint<DateTimeAssertions>(this);
