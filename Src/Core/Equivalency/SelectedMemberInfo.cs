@@ -45,6 +45,16 @@ namespace FluentAssertions.Equivalency
         public abstract Type DeclaringType { get; }
 
         /// <summary>
+        /// Gets the access modifier for the getter of this member.
+        /// </summary>
+        internal abstract CSharpAccessModifier GetAccessModifier { get; }
+
+        /// <summary>
+        /// Gets the access modifier for the setter of this member.
+        /// </summary>
+        internal abstract CSharpAccessModifier SetAccessModifier { get; }
+
+        /// <summary>
         /// Returns the member value of a specified object with optional index values for indexed properties or methods.
         /// </summary>
         public abstract object GetValue(object obj, object[] index);

@@ -35,6 +35,36 @@ namespace FluentAssertions.Common
             return CSharpAccessModifier.InvalidForCSharp;
         }
 
+        internal static CSharpAccessModifier GetCSharpAccessModifier(this FieldInfo fieldInfo)
+        {
+            if (fieldInfo.IsPrivate)
+            {
+                return CSharpAccessModifier.Private;
+            }
+
+            if (fieldInfo.IsFamily)
+            {
+                return CSharpAccessModifier.Protected;
+            }
+
+            if (fieldInfo.IsAssembly)
+            {
+                return CSharpAccessModifier.Internal;
+            }
+
+            if (fieldInfo.IsPublic)
+            {
+                return CSharpAccessModifier.Public;
+            }
+
+            if (fieldInfo.IsFamilyOrAssembly)
+            {
+                return CSharpAccessModifier.ProtectedInternal;
+            }
+
+            return CSharpAccessModifier.InvalidForCSharp;
+        }
+
         internal static CSharpAccessModifier GetCSharpAccessModifier(this Type type)
         {
             if (type.GetTypeInfo().IsNestedPrivate)

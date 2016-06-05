@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Net;
+using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -1142,6 +1144,73 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => subject.ShouldBeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text"));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_members_are_excluded_by_the_access_modifier_of_the_getter_using_a_predicate_they_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithAllAccessModifiersForMembers(
+                "public",
+                "protected",
+                "internal",
+                "protected-internal",
+                "private");
+
+            var expected = new ClassWithAllAccessModifiersForMembers(
+                "public",
+                "protected",
+                "ignored-internal",
+                "ignored-protected-internal",
+                "private");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected, config =>
+                config.Excluding(ctx => ctx.WhichGetterHas(CSharpAccessModifier.Internal) ||
+                                        ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal)));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_members_are_excluded_by_the_access_modifier_of_the_setter_using_a_predicate_they_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithAllAccessModifiersForMembers(
+                "public",
+                "protected",
+                "internal",
+                "protected-internal",
+                "private");
+
+            var expected = new ClassWithAllAccessModifiersForMembers(
+                "public",
+                "protected",
+                "ignored-internal",
+                "ignored-protected-internal",
+                "ignored-private");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected, config =>
+                config.Excluding(ctx => ctx.WhichSetterHas(CSharpAccessModifier.Internal) ||
+                                        ctx.WhichSetterHas(CSharpAccessModifier.ProtectedInternal) ||
+                                        ctx.WhichSetterHas(CSharpAccessModifier.Private)));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3474,6 +3543,41 @@ With configuration:*");
     #endregion
 
     #region Nested classes for comparison
+
+    public class ClassWithAllAccessModifiersForMembers
+    {
+        public string PublicField;
+        protected string ProtectedField;
+        internal string InternalField;
+        protected internal string ProtectedInternalField;
+        private string PrivateField;
+
+        public string PublicProperty { get; set; }
+        public string ReadOnlyProperty { get; private set; }
+        public string WriteOnlyProperty { private get; set; }
+        protected string ProtectedProperty { get; set; }
+        internal string InternalProperty { get; set; }
+        protected internal string ProtectedInternalProperty { get; set; }
+        private string PrivateProperty { get; set; }
+
+        public ClassWithAllAccessModifiersForMembers(string publicValue, string protectedValue, string internalValue,
+            string protectedInternalValue, string privateValue)
+        {
+            PublicField = publicValue;
+            ProtectedField = protectedValue;
+            InternalField = internalValue;
+            ProtectedInternalField = protectedInternalValue;
+            PrivateField = privateValue;
+
+            PublicProperty = publicValue;
+            ReadOnlyProperty = privateValue;
+            WriteOnlyProperty = privateValue;
+            ProtectedProperty = protectedValue;
+            InternalProperty = internalValue;
+            ProtectedInternalProperty = protectedInternalValue;
+            PrivateProperty = privateValue;
+        }
+    }
 
     public class ClassWithValueSemanticsOnSingleProperty
     {
