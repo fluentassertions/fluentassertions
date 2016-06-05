@@ -172,7 +172,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage( "Expected type not to be [" + typeof( string ).AssemblyQualifiedName + "], but it is." );
+                .WithMessage("Expected type not to be [" + typeof(string).AssemblyQualifiedName + "], but it is.");
         }
 
         [TestMethod]
@@ -192,6 +192,26 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_object_is_not_of_type_and_it_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string aString = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => aString.Should().NotBeOfType(typeof(string));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type not to be System.String, but found <null>.");
         }
 
         [TestMethod]

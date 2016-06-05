@@ -131,11 +131,11 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndWhichConstraint<TAssertions, T> NotBeOfType<T>( string because = "", params object[] becauseArgs )
+        public AndWhichConstraint<TAssertions, T> NotBeOfType<T>(string because = "", params object[] becauseArgs)
         {
-            NotBeOfType( typeof( T ), because, becauseArgs );
+            NotBeOfType(typeof(T), because, becauseArgs);
 
-            return new AndWhichConstraint<TAssertions, T>( (TAssertions)this, (T)(object)Subject );
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, (T)(object)Subject);
         }
 
         /// <summary>
@@ -176,11 +176,16 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotBeOfType( Type expectedType, string because = "", params object[] becauseArgs )
+        public AndConstraint<TAssertions> NotBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:type} not to be {0}{reason}, but found <null>.", expectedType);
+
             Subject.GetType().Should().NotBe(expectedType, because, becauseArgs);
 
-            return new AndConstraint<TAssertions>( (TAssertions)this );
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
