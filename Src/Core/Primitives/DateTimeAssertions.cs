@@ -417,7 +417,7 @@ namespace FluentAssertions.Primitives
             if (success)
             {
                 Execute.Assertion
-                    .ForCondition(Subject.Value.Month == unexpected)
+                    .ForCondition(Subject.Value.Month != unexpected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected DateTime not to have month {0}{reason}, but found it does.", unexpected,
                         Subject.Value.Month);
@@ -475,7 +475,7 @@ namespace FluentAssertions.Primitives
             if (success)
             {
                 Execute.Assertion
-                    .ForCondition(Subject.Value.Day == unexpected)
+                    .ForCondition(Subject.Value.Day != unexpected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected DateTime not to have day {0}{reason}, but found it does.", unexpected,
                         Subject.Value.Day);
@@ -534,7 +534,7 @@ namespace FluentAssertions.Primitives
             if (success)
             {
                 Execute.Assertion
-                    .ForCondition(Subject.Value.Hour == unexpected)
+                    .ForCondition(Subject.Value.Hour != unexpected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected DateTime not to have hour {0}{reason}, but found it does.", unexpected,
                         Subject.Value.Hour);
@@ -595,7 +595,7 @@ namespace FluentAssertions.Primitives
             if (success)
             {
                 Execute.Assertion
-                    .ForCondition(Subject.Value.Minute == unexpected)
+                    .ForCondition(Subject.Value.Minute != unexpected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected DateTime not to have minute {0}{reason}, but found it does.", unexpected,
                         Subject.Value.Minute);
@@ -656,7 +656,7 @@ namespace FluentAssertions.Primitives
             if (success)
             {
                 Execute.Assertion
-                    .ForCondition(Subject.Value.Second == unexpected)
+                    .ForCondition(Subject.Value.Second != unexpected)
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected DateTime not to have second {0}{reason}, but found it does.", unexpected,
                         Subject.Value.Second);
