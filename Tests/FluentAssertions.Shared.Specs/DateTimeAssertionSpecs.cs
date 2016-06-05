@@ -1204,7 +1204,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected year not to be 2009, but found it is." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected year not to be 2009, but found it is.");
         }
 
         [TestMethod]
@@ -1259,12 +1259,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveYear( expectation );
+            Action act = () => subject.Should().HaveYear(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected year to be 2008, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected year to be 2008, but found a <null> DateTime.");
         }
 
         [TestMethod]
@@ -1279,12 +1279,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveYear( expectation );
+            Action act = () => subject.Should().NotHaveYear(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected year not to be 2008, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected year not to be 2008, but found a <null> DateTime.");
         }
         #endregion
 
@@ -1295,13 +1295,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31 );
+            DateTime subject = new DateTime(2009, 12, 31);
             int expectation = 12;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveMonth( expectation );
+            Action act = () => subject.Should().HaveMonth(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1315,18 +1315,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31 );
+            DateTime subject = new DateTime(2009, 12, 31);
             int expectation = 12;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveMonth( expectation );
+            Action act = () => subject.Should().NotHaveMonth(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected month not to be 12, but found it is." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected month not to be 12, but found it is.");
         }
 
         [TestMethod]
@@ -1335,18 +1335,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31 );
+            DateTime subject = new DateTime(2009, 12, 31);
             int expectation = 11;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveMonth( expectation );
+            Action act = () => subject.Should().HaveMonth(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected month to be 11, but found 12." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected month to be 11, but found 12.");
         }
 
         [TestMethod]
@@ -1355,13 +1355,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31 );
+            DateTime subject = new DateTime(2009, 12, 31);
             int expectation = 11;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveMonth( expectation );
+            Action act = () => subject.Should().NotHaveMonth(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1381,12 +1381,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveMonth( expectation );
+            Action act = () => subject.Should().HaveMonth(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected month to be 12, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected month to be 12, but found a <null> DateTime.");
         }
 
         [TestMethod]
@@ -1401,12 +1401,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveMonth( expectation );
+            Action act = () => subject.Should().NotHaveMonth(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected month not to be 12, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected month not to be 12, but found a <null> DateTime.");
         }
         #endregion
 
@@ -1417,13 +1417,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31 );
+            DateTime subject = new DateTime(2009, 12, 31);
             int expectation = 31;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveDay( expectation );
+            Action act = () => subject.Should().HaveDay(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1437,18 +1437,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31 );
+            DateTime subject = new DateTime(2009, 12, 31);
             int expectation = 31;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveDay( expectation );
+            Action act = () => subject.Should().NotHaveDay(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected day not to be 31, but found it is." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected day not to be 31, but found it is.");
         }
 
         [TestMethod]
@@ -1457,18 +1457,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31 );
+            DateTime subject = new DateTime(2009, 12, 31);
             int expectation = 30;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveDay( expectation );
+            Action act = () => subject.Should().HaveDay(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected day to be 30, but found 31." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected day to be 30, but found 31.");
         }
 
         [TestMethod]
@@ -1477,13 +1477,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31 );
+            DateTime subject = new DateTime(2009, 12, 31);
             int expectation = 30;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveDay( expectation );
+            Action act = () => subject.Should().NotHaveDay(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1503,12 +1503,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveDay( expectation );
+            Action act = () => subject.Should().HaveDay(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected day to be 22, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected day to be 22, but found a <null> DateTime.");
         }
 
         [TestMethod]
@@ -1523,12 +1523,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveDay( expectation );
+            Action act = () => subject.Should().NotHaveDay(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected day not to be 22, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected day not to be 22, but found a <null> DateTime.");
         }
         #endregion
 
@@ -1539,13 +1539,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 23;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveHour( expectation );
+            Action act = () => subject.Should().HaveHour(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1559,18 +1559,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 23;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveHour( expectation );
+            Action act = () => subject.Should().NotHaveHour(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected hour not to be 23, but found it is." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected hour not to be 23, but found it is.");
         }
 
         [TestMethod]
@@ -1579,18 +1579,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 22;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveHour( expectation );
+            Action act = () => subject.Should().HaveHour(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected hour to be 22, but found 23." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected hour to be 22, but found 23.");
         }
 
         [TestMethod]
@@ -1599,13 +1599,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 22;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveHour( expectation );
+            Action act = () => subject.Should().NotHaveHour(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1625,12 +1625,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveHour( expectation );
+            Action act = () => subject.Should().HaveHour(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected hour to be 22, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected hour to be 22, but found a <null> DateTime.");
         }
 
         [TestMethod]
@@ -1645,12 +1645,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveHour( expectation );
+            Action act = () => subject.Should().NotHaveHour(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected hour not to be 22, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected hour not to be 22, but found a <null> DateTime.");
         }
         #endregion
 
@@ -1661,13 +1661,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 59;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveMinute( expectation );
+            Action act = () => subject.Should().HaveMinute(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1681,18 +1681,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 59;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveMinute( expectation );
+            Action act = () => subject.Should().NotHaveMinute(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected minute not to be 59, but found it is." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected minute not to be 59, but found it is.");
         }
 
         [TestMethod]
@@ -1701,18 +1701,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 58;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveMinute( expectation );
+            Action act = () => subject.Should().HaveMinute(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected minute to be 58, but found 59." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected minute to be 58, but found 59.");
         }
 
         [TestMethod]
@@ -1721,13 +1721,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 58;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveMinute( expectation );
+            Action act = () => subject.Should().NotHaveMinute(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1747,12 +1747,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveMinute( expectation );
+            Action act = () => subject.Should().HaveMinute(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected minute to be 22, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected minute to be 22, but found a <null> DateTime.");
         }
 
         [TestMethod]
@@ -1767,12 +1767,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveMinute( expectation );
+            Action act = () => subject.Should().NotHaveMinute(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected minute not to be 22, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected minute not to be 22, but found a <null> DateTime.");
         }
         #endregion
 
@@ -1783,13 +1783,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 0;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveSecond( expectation );
+            Action act = () => subject.Should().HaveSecond(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1803,18 +1803,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 0;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveSecond( expectation );
+            Action act = () => subject.Should().NotHaveSecond(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected second not to be 0, but found it is." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected second not to be 0, but found it is.");
         }
 
         [TestMethod]
@@ -1823,18 +1823,18 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 1;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveSecond( expectation );
+            Action act = () => subject.Should().HaveSecond(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected second to be 1, but found 0." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected second to be 1, but found 0.");
         }
 
         [TestMethod]
@@ -1843,13 +1843,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
             int expectation = 1;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveSecond( expectation );
+            Action act = () => subject.Should().NotHaveSecond(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1869,12 +1869,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().HaveSecond( expectation );
+            Action act = () => subject.Should().HaveSecond(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected second to be 22, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected second to be 22, but found a <null> DateTime.");
         }
 
         [TestMethod]
@@ -1889,12 +1889,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotHaveSecond( expectation );
+            Action act = () => subject.Should().NotHaveSecond(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected second not to be 22, but found a <null> DateTime." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected second not to be 22, but found a <null> DateTime.");
         }
         #endregion
 
@@ -1924,17 +1924,17 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new DateTime( 2009, 12, 31, 4, 5, 6 );
+            var subject = new DateTime(2009, 12, 31, 4, 5, 6);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotBeSameDateAs( new DateTime( 2009, 12, 31 ) );
+            Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 31));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected a date and time that does not have date <2009-12-31>, but found it does." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
         }
 
         [TestMethod]
@@ -1962,17 +1962,17 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new DateTime( 2009, 12, 31, 4, 5, 6 );
+            var subject = new DateTime(2009, 12, 31, 4, 5, 6);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotBeSameDateAs( new DateTime( 2009, 12, 31, 11, 15, 11 ) );
+            Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 31, 11, 15, 11));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected a date and time that does not have date <2009-12-31>, but found it does." );
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
         }
 
         [TestMethod]
@@ -2006,13 +2006,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotBeSameDateAs( new DateTime( 2009, 12, 31 ) );
+            Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 31));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected a date and time that does not have date <2009-12-31>, but found a <null> DateTime." );
+                "Expected a date and time that does not have date <2009-12-31>, but found a <null> DateTime.");
         }
 
         [TestMethod]
@@ -2041,12 +2041,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new DateTime( 2009, 12, 31 );
+            var subject = new DateTime(2009, 12, 31);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().NotBeSameDateAs( new DateTime( 2009, 12, 30 ) );
+            Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 30));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
