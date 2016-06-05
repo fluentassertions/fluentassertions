@@ -1249,122 +1249,417 @@ namespace FluentAssertions.Specs
         }
         #endregion
 
-        #region The rest
+        #region (Not) Have Month
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_a_month_with_the_same_value()
+        public void When_asserting_subject_datetime_should_have_month_with_the_same_value_it_should_succeed()
         {
-            new DateTime(2009, 12, 31).Should().HaveMonth(12);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31 );
+            int expectation = 12;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMonth( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_a_month_with_a_different_value()
+        public void When_asserting_subject_datetime_should_not_have_month_with_the_same_value_it_should_throw()
         {
-            Action act = () => new DateTime(2009, 12, 31).Should().HaveMonth(11);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31 );
+            int expectation = 12;
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMonth( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected DateTime not to have month 12, but found it does." );
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_month_with_a_different_value()
+        public void When_asserting_subject_datetime_should_have_a_month_with_a_different_value_it_should_throw()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
-            assertions.Invoking(x => x.HaveMonth(11, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected month 11 because we want to test the failure message, but found 12.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31 );
+            int expectation = 11;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMonth( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected month 11, but found 12." );
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_a_day_with_the_same_value()
+        public void When_asserting_subject_datetime_should_not_have_a_month_with_a_different_value_it_should_succeed()
         {
-            new DateTime(2009, 12, 31).Should().HaveDay(31);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31 );
+            int expectation = 11;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMonth( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        #endregion
+
+        #region (Not) Have Day
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_day_with_the_same_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31 );
+            int expectation = 31;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveDay( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_a_day_with_a_different_value()
+        public void When_asserting_subject_datetime_should_not_have_day_with_the_same_value_it_should_throw()
         {
-            Action act = () => new DateTime(2009, 12, 31).Should().HaveDay(30);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31 );
+            int expectation = 31;
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveDay( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected DateTime not to have day 31, but found it does." );
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_day_with_a_different_value()
+        public void When_asserting_subject_datetime_should_have_day_with_a_different_value_it_should_throw()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
-            assertions.Invoking(x => x.HaveDay(30, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected day 30 because we want to test the failure message, but found 31.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31 );
+            int expectation = 30;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveDay( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected day 30, but found 31." );
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_an_hour_with_the_same_value()
+        public void When_asserting_subject_datetime_should_not_have_day_with_a_different_value_it_should_succeed()
         {
-            new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveHour(23);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31 );
+            int expectation = 30;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveDay( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        #endregion
+
+        #region (Not) Have Hour
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_hour_with_the_same_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 23;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveHour( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_an_hour_with_different_value()
+        public void When_asserting_subject_datetime_should_not_have_hour_with_the_same_value_it_should_throw()
         {
-            Action act = () => new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveHour(22);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 23;
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveHour( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected DateTime not to have hour 23, but found it does." );
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_an_hour_with_different_value()
+        public void When_asserting_subject_datetime_should_have_hour_with_different_value_it_should_throw()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
-            assertions.Invoking(x => x.HaveHour(22, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected hour 22 because we want to test the failure message, but found 23.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveHour( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected hour 22, but found 23." );
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_minutes_with_the_same_value()
+        public void When_asserting_subject_datetime_should_not_have_hour_with_different_value_it_should_succeed()
         {
-            new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveMinute(59);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveHour( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        #endregion
+
+        #region (Not) Have Minute
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_minutes_with_the_same_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 59;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMinute( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_minutes_with_different_value()
+        public void When_asserting_subject_datetime_should_not_have_minutes_with_the_same_value_it_should_throw()
         {
-            Action act = () => new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveMinute(58);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 59;
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMinute( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected DateTime not to have minute 59, but found it does." );
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_minutes_with_different_value()
+        public void When_asserting_subject_datetime_should_have_minutes_with_different_value_it_should_throw()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
-            assertions.Invoking(x => x.HaveMinute(58, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected minute 58 because we want to test the failure message, but found 59.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 58;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMinute( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected minute 58, but found 59." );
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_seconds_with_the_same_value()
+        public void When_asserting_subject_datetime_should_not_have_minutes_with_different_value_it_should_succeed()
         {
-            new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveSecond(0);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 58;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMinute( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        #endregion
+
+        #region (Not) Have Second
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_seconds_with_the_same_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 0;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveSecond( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_seconds_with_different_value()
+        public void When_asserting_subject_datetime_should_not_have_seconds_with_the_same_value_it_should_throw()
         {
-            Action act = () => new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveSecond(1);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 0;
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveSecond( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected DateTime not to have second 0, but found it does." );
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_seconds_with_different_value()
+        public void When_asserting_subject_datetime_should_have_seconds_with_different_value_it_should_throw()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
-            assertions.Invoking(x => x.HaveSecond(1, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected second 1 because we want to test the failure message, but found 0.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveSecond( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected second 1, but found 0." );
         }
 
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_seconds_with_different_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2009, 12, 31, 23, 59, 00 );
+            int expectation = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveSecond( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        #endregion
+
+        #region (Not) Be Same Date As
         [TestMethod]
         public void When_a_date_time_is_expected_to_have_a_specified_date_part_and_it_does_it_should_not_throw()
         {
