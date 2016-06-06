@@ -12,6 +12,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssertionExtensions.Actions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AssertionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventSourceExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EventHandlerFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EventMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Execution\AssertionFailedException.cs" />
@@ -21,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\XAttributeValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\XDocumentValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\XElementValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PropertyChangedSourceExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SolutionInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\AssemblyAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\ExecutionTimeAssertions.cs" />

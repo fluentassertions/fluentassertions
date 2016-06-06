@@ -5,61 +5,114 @@ using System.Reflection;
 
 namespace FluentAssertions.Events
 {
+    internal partial class EventMonitor : IEventMonitor
+    {
+        [ThreadStatic]
+        private static EventRecordersMap eventRecordersMap;
+
+        private static EventRecordersMap Map
+        {
+            get
+            {
+                eventRecordersMap = eventRecordersMap ?? new EventRecordersMap();
+                return eventRecordersMap;
+            }
+        }
 
 #if !SILVERLIGHT && !WINRT && !PORTABLE && !CORE_CLR
-    internal class EventMonitor : IEventMonitor
-    {
-        private readonly IReadOnlyCollection<EventRecorder> eventRecorders;
+        public static IEventMonitor Attach(object eventSource, Type type)
+#else
+        public static IEventMonitor Attach(System.ComponentModel.INotifyPropertyChanged eventSource, Type type)
+#endif
+        {
+            IEventMonitor eventMonitor;
+            if (!Map.TryGetMonitor(eventSource, out eventMonitor))
+            {
+                eventMonitor = new EventMonitor(eventSource);
+                Map.Add(eventSource, eventMonitor);
+            }
 
-        public EventMonitor(object eventSource, Type typeDefiningEventsToMonitor)
+            eventMonitor.Attach(type);
+            return eventMonitor;
+        }
+
+        public static IEventMonitor Get(object eventSource)
+        {
+            IEventMonitor eventMonitor;
+            Map.TryGetMonitor(eventSource, out eventMonitor);
+            return eventMonitor;
+        }
+    }
+
+#if !SILVERLIGHT && !WINRT && !PORTABLE && !CORE_CLR
+    internal partial class EventMonitor
+    {
+        private readonly WeakReference eventSource;
+        private readonly IDictionary<string, IEventRecorder> registeredRecorders = new Dictionary<string, IEventRecorder>();
+
+
+        private EventMonitor(object eventSource)
         {
             if (eventSource == null)
             {
-                throw new ArgumentNullException( nameof(eventSource), "Cannot monitor the events of a <null> object." );
+                throw new ArgumentNullException(nameof(eventSource), "Cannot monitor the events of a <null> object.");
             }
-            
-            this.eventRecorders = BuildRecorders( eventSource, typeDefiningEventsToMonitor );
+
+            this.eventSource = new WeakReference(eventSource);
         }
 
         public void Reset()
         {
-            foreach (var recorder in eventRecorders)
+            foreach (var recorder in registeredRecorders.Values)
             {
                 recorder.Reset();
             }
         }
 
-        private static EventRecorder[] BuildRecorders( object eventSource, Type eventSourceType )
+        public void Attach(Type typeDefiningEventsToMonitor)
         {
-            EventRecorder[] recorders = eventSourceType
-                .GetEvents()
-                .Select( @event => CreateEventHandler( eventSource, @event ) )
-                .ToArray();
+            if (eventSource.Target == null) throw new InvalidOperationException("Cannot monitor events on garbage-collected object");
 
-            if ( !recorders.Any() )
+            var events = typeDefiningEventsToMonitor.GetEvents();
+            if (!events.Any())
             {
-                throw new InvalidOperationException($"Type {eventSourceType.Name} does not expose any events." );
+                throw new InvalidOperationException($"Type {typeDefiningEventsToMonitor.Name} does not expose any events.");
             }
 
-            return recorders;
+            foreach (var eventInfo in events)
+            {
+                EnsureEventHandlerAttached(eventInfo);
+            }
         }
 
-        private static EventRecorder CreateEventHandler( object eventSource, EventInfo eventInfo )
+        public IEventRecorder GetEventRecorder(string eventName)
         {
-            var eventRecorder = new EventRecorder( eventSource, eventInfo.Name );
+            IEventRecorder recorder;
+            if (!registeredRecorders.TryGetValue(eventName, out recorder))
+            {
+				throw new InvalidOperationException($"Not monitoring any events named {eventName}." );
+            }
+            return recorder;
+        }
 
-            Delegate handler = EventHandlerFactory.GenerateHandler( eventInfo.EventHandlerType, eventRecorder );
-            eventInfo.AddEventHandler( eventSource, handler );
-
-            return eventRecorder;
+        private void EnsureEventHandlerAttached(EventInfo eventInfo)
+        {
+            IEventRecorder recorder;
+            if (!registeredRecorders.TryGetValue(eventInfo.Name, out recorder))
+            {
+                recorder = new EventRecorder(eventSource.Target, eventInfo.Name);
+                registeredRecorders.Add(eventInfo.Name, recorder);
+                var handler = EventHandlerFactory.GenerateHandler(eventInfo.EventHandlerType, recorder);
+                eventInfo.AddEventHandler( eventSource.Target, handler);
+            }
         }
     }
 #else
-    internal class EventMonitor : IEventMonitor
+    internal partial class EventMonitor
     {
         private readonly EventRecorder eventRecorder;
 
-        public EventMonitor(INotifyPropertyChanged eventSource)
+        public EventMonitor(System.ComponentModel.INotifyPropertyChanged eventSource)
         {
             eventRecorder = new EventRecorder(eventSource, "PropertyChanged");
             eventSource.PropertyChanged += (sender, args) => eventRecorder.RecordEvent(sender, args);
@@ -68,6 +121,26 @@ namespace FluentAssertions.Events
         public void Reset()
         {
             eventRecorder.Reset();
+        }
+
+        public void Attach(Type typeDefiningEventsToMonitor)
+        {
+            if (typeDefiningEventsToMonitor != typeof(System.ComponentModel.INotifyPropertyChanged))
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        public IEventRecorder GetEventRecorder(string eventName)
+        {
+            switch (eventName)
+            {
+            case "PropertyChanged":
+                return eventRecorder;
+            
+            default:
+                throw new NotSupportedException();
+            }
         }
     }
 #endif

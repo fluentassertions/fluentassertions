@@ -71,7 +71,6 @@
     <Compile Include="Common\AppSettingsConfigurationStore.cs" />
     <Compile Include="Common\DefaultReflectionProvider.cs" />
     <Compile Include="Common\ProvidePlatformServices.cs" />
-    <Compile Include="EventSourceExtensions.cs" />
     <Compile Include="Execution\GallioTestFramework.cs" />
     <Compile Include="Execution\MbUnitTestFramework.cs" />
     <Compile Include="Execution\MSpecFramework.cs" />

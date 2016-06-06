@@ -552,13 +552,13 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var eventSource = new EventRaisingClass();
-            eventSource.MonitorEvents();
+            var eventMonitor = eventSource.MonitorEvents();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            var recorder = eventSource.GetRecorderForEvent("PropertyChanged");
-
+            var recorder = eventMonitor.GetEventRecorder("PropertyChanged");
+            
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -568,44 +568,24 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_class_is_not_being_monitored_it_should_not_be_possible_to_get_a_recorder()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var eventSource = new EventRaisingClass();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => eventSource.GetRecorderForEvent("PropertyChanged");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("*not being monitored*");
-        }
-
-        [TestMethod]
         public void When_no_recorder_exists_for_an_event_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var eventSource = new EventRaisingClass();
-            eventSource.MonitorEvents();
+            var eventMonitor = eventSource.MonitorEvents();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => eventSource.GetRecorderForEvent("SomeEvent");
+            Action action = () => eventMonitor.GetEventRecorder("SomeEvent");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("*not expose*SomeEvent*");
+                .WithMessage( "Not monitoring any events named SomeEvent." );
         }
 
         [TestMethod]
@@ -711,12 +691,12 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var eventSource = CreateProxyObject();
-            eventSource.MonitorEvents<IEventRaisingInterface>();
+            var eventMonitor = eventSource.MonitorEvents<IEventRaisingInterface>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            var recorder = eventSource.GetRecorderForEvent("InterfaceEvent");
+            var recorder = eventMonitor.GetEventRecorder("InterfaceEvent");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -733,19 +713,19 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var eventSource = CreateProxyObject();
-            eventSource.MonitorEvents<IEventRaisingInterface>();
+            var eventMonitor = eventSource.MonitorEvents<IEventRaisingInterface>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => eventSource.GetRecorderForEvent("SomeEvent");
+            Action action = () => eventMonitor.GetEventRecorder("SomeEvent");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("*not expose*SomeEvent*");
-        }
+				.WithMessage( "Not monitoring any events named SomeEvent." );
+		}
 
         [TestMethod]
         public void When_no_recorder_exists_for_an_event_in_monitored_interface_of_a_class_but_exists_in_the_class_it_should_throw
@@ -755,19 +735,19 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var eventSource = CreateProxyObject();
-            eventSource.MonitorEvents<IEventRaisingInterface>();
+            var eventMonitor = eventSource.MonitorEvents<IEventRaisingInterface>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => eventSource.GetRecorderForEvent("PropertyChanged");
+            Action action = () => eventMonitor.GetEventRecorder("PropertyChanged");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<InvalidOperationException>()
-                .WithMessage("*not expose*PropertyChanged*");
-        }
+				.WithMessage( "Not monitoring any events named PropertyChanged." );
+		}
 
         [TestMethod]
         public void When_trying_to_monitor_events_of_unimplemented_interface_it_should_throw()
