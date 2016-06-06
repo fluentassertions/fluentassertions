@@ -73,14 +73,14 @@ namespace FluentAssertions.Formatting
 
             if (!fragments.Any())
             {
-				if (HasMilliSeconds(dateTime))
-				{
-					fragments.Add("0001-01-01 00:00:00." + dateTime.ToString("fff"));
-				}
-				else
-				{
-					fragments.Add("0001-01-01 00:00:00.000");
-				}
+                if (HasMilliSeconds(dateTime))
+                {
+                    fragments.Add("0001-01-01 00:00:00." + dateTime.ToString("fff"));
+                }
+                else
+                {
+                    fragments.Add("0001-01-01 00:00:00.000");
+                }
             }
 
             return "<" + string.Join(" ", fragments.ToArray()) + ">";
