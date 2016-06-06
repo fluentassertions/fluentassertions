@@ -5,7 +5,7 @@ namespace FluentAssertions.Events
     /// <summary>
     ///   Records raised events for one event on one object
     /// </summary>
-    public interface IEventRecorder : IEnumerable<RecordedEvent>
+    public interface IEventRecorder : IEnumerable<RecordedEvent>, IEventMonitor
     {
         /// <summary>
         ///   Store information about a raised event

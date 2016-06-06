@@ -609,7 +609,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected()
+        public void When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -633,7 +633,7 @@ namespace FluentAssertions.Specs
 
         [TestMethod]
         public void
-            When_a_monitored_class_in_not_referenced_anymore_it_should_be_garbage_collected_also_if_an_Event_passing_Sender_was_raised
+            When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected_also_if_an_Event_passing_Sender_was_raised
             ()
         {
             //-----------------------------------------------------------------------------------------------------------
