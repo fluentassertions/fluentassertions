@@ -130,7 +130,7 @@ namespace FluentAssertions.Events
         {
             if (typeDefiningEventsToMonitor != typeof(System.ComponentModel.INotifyPropertyChanged))
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException($"Cannot monitor events of type \"{typeDefiningEventsToMonitor.Name}\".");
             }
         }
 
