@@ -695,7 +695,12 @@ namespace FluentAssertions
         /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
         public static IEventMonitor MonitorEvents(this object eventSource)
         {
-			return EventMonitor.Attach(eventSource, eventSource.GetType());
+            if (eventSource == null)
+            {
+                throw new NullReferenceException("Cannot monitor the events of a <null> object.");
+            }
+
+            return EventMonitor.Attach(eventSource, eventSource?.GetType());
         }
 
         /// <summary>
@@ -705,8 +710,13 @@ namespace FluentAssertions
         /// <typeparam name="T">The type defining the events it should monitor.</typeparam>
         /// <exception cref = "ArgumentNullException">Thrown if <paramref name="eventSource"/> is Null.</exception>
         public static IEventMonitor MonitorEvents<T>(this object eventSource)
-		{
-			return EventMonitor.Attach( eventSource, typeof(T));
+        {
+            if (eventSource == null)
+            {
+                throw new NullReferenceException("Cannot monitor the events of a <null> object.");
+            }
+
+            return EventMonitor.Attach( eventSource, typeof(T));
         }
 #else
         /// <summary>
@@ -715,7 +725,7 @@ namespace FluentAssertions
         /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static IEventMonitor MonitorEvents(this INotifyPropertyChanged eventSource)
         {
-			return EventMonitor.Attach( eventSource, typeof(INotifyPropertyChanged) );
+            return EventMonitor.Attach( eventSource, typeof(INotifyPropertyChanged) );
         }
 #endif
 

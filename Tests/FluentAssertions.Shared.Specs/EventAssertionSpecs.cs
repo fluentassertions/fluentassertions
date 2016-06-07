@@ -89,7 +89,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Type <" + subject.GetType().Name + "> does not expose an event named \"NonExistingEvent\".");
+                "Not monitoring any events named \"NonExistingEvent\".");
         }
 
         [TestMethod]
@@ -110,7 +110,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<InvalidOperationException>().WithMessage(
-                "Type <" + subject.GetType().Name + "> does not expose an event named \"NonExistingEvent\".");
+                "Not monitoring any events named \"NonExistingEvent\".");
         }
 
         [TestMethod]
@@ -585,7 +585,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<InvalidOperationException>()
-                .WithMessage( "Not monitoring any events named SomeEvent." );
+                .WithMessage( "Not monitoring any events named \"SomeEvent\"." );
         }
 
         [TestMethod]
@@ -724,8 +724,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<InvalidOperationException>()
-				.WithMessage( "Not monitoring any events named SomeEvent." );
-		}
+                .WithMessage( "Not monitoring any events named \"SomeEvent\"." );
+        }
 
         [TestMethod]
         public void When_no_recorder_exists_for_an_event_in_monitored_interface_of_a_class_but_exists_in_the_class_it_should_throw
@@ -746,8 +746,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<InvalidOperationException>()
-				.WithMessage( "Not monitoring any events named PropertyChanged." );
-		}
+                .WithMessage( "Not monitoring any events named \"PropertyChanged\"." );
+        }
 
         [TestMethod]
         public void When_trying_to_monitor_events_of_unimplemented_interface_it_should_throw()

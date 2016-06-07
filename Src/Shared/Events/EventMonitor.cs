@@ -25,6 +25,11 @@ namespace FluentAssertions.Events
         public static IEventMonitor Attach(System.ComponentModel.INotifyPropertyChanged eventSource, Type type)
 #endif
         {
+            if (eventSource == null)
+            {
+                throw new ArgumentNullException(nameof(eventSource), "Cannot monitor the events of a <null> object.");
+            }
+
             IEventMonitor eventMonitor;
             if (!Map.TryGetMonitor(eventSource, out eventMonitor))
             {
@@ -38,9 +43,7 @@ namespace FluentAssertions.Events
 
         public static IEventMonitor Get(object eventSource)
         {
-            IEventMonitor eventMonitor;
-            Map.TryGetMonitor(eventSource, out eventMonitor);
-            return eventMonitor;
+            return Map[eventSource];
         }
     }
 
@@ -90,7 +93,7 @@ namespace FluentAssertions.Events
             IEventRecorder recorder;
             if (!registeredRecorders.TryGetValue(eventName, out recorder))
             {
-				throw new InvalidOperationException($"Not monitoring any events named {eventName}." );
+                throw new InvalidOperationException($"Not monitoring any events named \"{eventName}\".");
             }
             return recorder;
         }
@@ -103,7 +106,7 @@ namespace FluentAssertions.Events
                 recorder = new EventRecorder(eventSource.Target, eventInfo.Name);
                 registeredRecorders.Add(eventInfo.Name, recorder);
                 var handler = EventHandlerFactory.GenerateHandler(eventInfo.EventHandlerType, recorder);
-                eventInfo.AddEventHandler( eventSource.Target, handler);
+                eventInfo.AddEventHandler(eventSource.Target, handler);
             }
         }
     }
@@ -139,7 +142,7 @@ namespace FluentAssertions.Events
                 return eventRecorder;
             
             default:
-                throw new NotSupportedException();
+                throw new InvalidOperationException($"Not monitoring any events named \"{eventName}\".");
             }
         }
     }
