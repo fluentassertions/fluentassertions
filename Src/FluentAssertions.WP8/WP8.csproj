@@ -106,9 +106,6 @@
     <DefineConstants>SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
-      <Link>EventSourceExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net45\Execution\XUnit2TestFramework.cs">
       <Link>Execution\XUnit2TestFramework.cs</Link>
     </Compile>

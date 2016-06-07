@@ -12,23 +12,21 @@ namespace FluentAssertions.Events
     [DebuggerNonUserCode]
     public sealed class EventRecordersMap
     {
-        private readonly Dictionary<WeakReference, IEnumerable<EventRecorder>> map =
-            new Dictionary<WeakReference, IEnumerable<EventRecorder>>();
+        private readonly Dictionary<WeakReference, IEventMonitor> map = new Dictionary<WeakReference, IEventMonitor>();
 
-        public void Add(object eventSource, IEnumerable<EventRecorder> recorders)
+        public void Add(object eventSource, IEventMonitor recorder )
         {
             ForEach(eventSource, keyValuePair => map.Remove(keyValuePair.Key));
 
-            map.Add(new WeakReference(eventSource), recorders);
+            map.Add(new WeakReference(eventSource), recorder );
         }
 
-        public IEnumerable<EventRecorder> this[object eventSource]
+        public IEventMonitor this[object eventSource]
         {
             get
             {
-                IEnumerable<EventRecorder> result = null;
-
-                ForEach(eventSource, pair => result = pair.Value);
+                IEventMonitor result = null;
+                TryGetMonitor( eventSource, out result );
 
                 if (result == null)
                 {
@@ -41,7 +39,15 @@ namespace FluentAssertions.Events
             }
         }
 
-        private void ForEach(object eventSource, Action<KeyValuePair<WeakReference, IEnumerable<EventRecorder>>> action)
+        public bool TryGetMonitor(object eventSource, out IEventMonitor eventMonitor)
+        {
+            IEventMonitor result = null;
+            ForEach( eventSource, pair => result = pair.Value );
+            eventMonitor = result;
+            return eventMonitor != null;
+        }
+
+        private void ForEach(object eventSource, Action<KeyValuePair<WeakReference, IEventMonitor>> action)
         {
             foreach (var keyValuePair in map.ToArray())
             {

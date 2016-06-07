@@ -73,5 +73,16 @@ namespace FluentAssertions.Events
                 raisedEvents.Add(new RecordedEvent(EventObject, parameters));
             }
         }
+
+        /// <summary>
+        ///   Resets recorder to clear records of events raised so far.
+        /// </summary>
+        public void Reset()
+        {
+            lock ( lockable )
+            {
+                raisedEvents.Clear();
+            }
+        }
     }
 }

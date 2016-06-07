@@ -171,7 +171,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\StringWildcardMatchingValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\TimeSpanCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\TimeSpanPredicate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PropertyChangedSourceExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\ActionAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\AsyncFunctionAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\ExceptionAssertions.cs" />
