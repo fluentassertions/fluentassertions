@@ -725,6 +725,11 @@ namespace FluentAssertions
         /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
         public static IEventMonitor MonitorEvents(this INotifyPropertyChanged eventSource)
         {
+            if (eventSource == null)
+            {
+                throw new NullReferenceException("Cannot monitor the events of a <null> object.");
+            }
+
             return EventMonitor.Attach( eventSource, typeof(INotifyPropertyChanged) );
         }
 #endif
