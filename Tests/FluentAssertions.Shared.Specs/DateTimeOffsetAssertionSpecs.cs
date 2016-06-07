@@ -13,18 +13,6 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class DateTimeOffsetAssertionSpecs
     {
-        private DateTimeOffset Today { get; set; }
-        private DateTimeOffset Yesterday { get; set; }
-        private DateTimeOffset Tomorrow { get; set; }
-
-        [TestInitialize]
-        public void InitializeTest()
-        {
-            Today = DateTime.Today;
-            Yesterday = Today.AddDays(-1);
-            Tomorrow = Today.AddDays(1);
-        }
-
         #region (Not) Have Value
 
         [TestMethod]
@@ -33,7 +21,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset? nullableDateTime = Today;
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -91,7 +79,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset? nullableDateTime = Today;
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -115,8 +103,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset dateTime = Today;
-            DateTimeOffset sameDateTime = Today;
+            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset sameDateTime = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -197,8 +185,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset dateTime = Today;
-            DateTimeOffset otherDateTime = Tomorrow;
+            DateTimeOffset dateTime = new DateTime(2016, 06, 04);
+            DateTimeOffset otherDateTime = new DateTime(2016, 06, 05);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -217,8 +205,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset? nullableDateTimeA = Today;
-            DateTimeOffset? nullableDateTimeB = Today;
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -259,8 +247,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset? nullableDateTimeA = Today;
-            DateTimeOffset? nullableDateTimeB = Today.AddDays(2);
+            DateTimeOffset? nullableDateTimeA = new DateTime(2016, 06, 04);
+            DateTimeOffset? nullableDateTimeB = new DateTime(2016, 06, 04).AddDays(2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -344,8 +332,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset time = Today.At(12, 15, 31, 020);
-            DateTimeOffset nearbyTime = Today.At(12, 15, 31);
+            DateTimeOffset time = new DateTime(2016, 06, 04).At(12, 15, 31, 020);
+            DateTimeOffset nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -408,8 +396,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset time = Today.At(12, 15, 31, 035);
-            DateTimeOffset nearbyTime = Today.At(12, 15, 31);
+            DateTimeOffset time = new DateTime(2016, 06, 04).At(12, 15, 31, 035);
+            DateTimeOffset nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -429,7 +417,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTimeOffset? time = null;
-            DateTimeOffset nearbyTime = Today.At(12, 15, 31);
+            DateTimeOffset nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -488,7 +476,7 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_fail_when_asserting_datetime_is_before_earlier_datetime()
         {
-            Action act = () => Today.Should().BeBefore(Yesterday);
+            Action act = () => new DateTime(2016, 06, 04).Should().BeBefore(new DateTime(2016, 06, 03));
             act.ShouldThrow<AssertFailedException>();
         }
 
@@ -517,19 +505,19 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_is_on_or_before_later_datetime()
         {
-            Today.Should().BeOnOrBefore(Tomorrow);
+            new DateTime(2016, 06, 04).Should().BeOnOrBefore(new DateTime(2016, 06, 05));
         }
 
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_is_on_or_before_the_same_datetime()
         {
-            Today.Should().BeOnOrBefore(Today);
+            new DateTime(2016, 06, 04).Should().BeOnOrBefore(new DateTime(2016, 06, 04));
         }
 
         [TestMethod]
         public void Should_fail_when_asserting_datetime_is_on_or_before_earlier_datetime()
         {
-            Action act = () => Today.Should().BeOnOrBefore(Yesterday);
+            Action act = () => new DateTime(2016, 06, 04).Should().BeOnOrBefore(new DateTime(2016, 06, 03));
             act.ShouldThrow<AssertFailedException>();
 
         }
@@ -560,13 +548,13 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_is_after_earlier_datetime()
         {
-            Today.Should().BeAfter(Yesterday);
+            new DateTime(2016, 06, 04).Should().BeAfter(new DateTime(2016, 06, 03));
         }
 
         [TestMethod]
         public void Should_fail_when_asserting_datetime_is_after_later_datetime()
         {
-            Action act = () => Today.Should().BeAfter(Tomorrow);
+            Action act = () => new DateTime(2016, 06, 04).Should().BeAfter(new DateTime(2016, 06, 05));
             act.ShouldThrow<AssertFailedException>();
 
         }
@@ -595,19 +583,19 @@ namespace FluentAssertions.Specs
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_is_on_or_after_earlier_datetime()
         {
-            Today.Should().BeOnOrAfter(Yesterday);
+            new DateTime(2016, 06, 04).Should().BeOnOrAfter(new DateTime(2016, 06, 03));
         }
 
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_is_on_or_after_the_same_datetime()
         {
-            Today.Should().BeOnOrAfter(Today);
+            new DateTime(2016, 06, 04).Should().BeOnOrAfter(new DateTime(2016, 06, 04));
         }
 
         [TestMethod]
         public void Should_fail_when_asserting_datetime_is_on_or_after_later_datetime()
         {
-            Action act = () => Today.Should().BeOnOrAfter(Tomorrow);
+            Action act = () => new DateTime(2016, 06, 04).Should().BeOnOrAfter(new DateTime(2016, 06, 05));
             act.ShouldThrow<AssertFailedException>();
 
         }
@@ -1007,8 +995,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset yesterday = Today.AddDays(-1);
-            DateTimeOffset? nullableDateTime = Today;
+            DateTimeOffset yesterday = new DateTime(2016, 06, 04).AddDays(-1);
+            DateTimeOffset? nullableDateTime = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
