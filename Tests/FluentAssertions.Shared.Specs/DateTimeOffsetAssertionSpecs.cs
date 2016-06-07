@@ -95,7 +95,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Be / NotBe
+        #region (Not) Be
 
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_value_is_equal_to_the_same_value()
@@ -200,6 +200,28 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void Should_fail_when_asserting_datetime_value_is_not_equal_to_the_same_value()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dateTime = new DateTimeOffset( 10.March( 2012 ), 1.Hours() );
+            var sameDateTime = new DateTimeOffset( 10.March( 2012 ), 1.Hours() );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => dateTime.Should().NotBe( sameDateTime, "because we want to test the failure {0}", "message" );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage( "Expected date and time not to be <2012-03-10 10:00:00> because we want to test the failure message, but it is." );
+        }
+
+        [TestMethod]
         public void Should_succeed_when_asserting_nullable_numeric_value_equals_the_same_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -287,7 +309,7 @@ namespace FluentAssertions.Specs
 
         [TestMethod]
         public void
-            When_asserting_different_date_time_offsets_representing_the_same_world_time_it_should_succeded()
+            When_asserting_different_date_time_offsets_representing_the_same_world_time_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -306,7 +328,7 @@ namespace FluentAssertions.Specs
 
         [TestMethod]
         public void
-            When_asserting_different_date_time_offsets_representing_different_world_times_it_should_not_succeded()
+            When_asserting_different_date_time_offsets_representing_different_world_times_it_should_not_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -324,7 +346,8 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Be Close To
+        //TODO: Continue copying over from DateTimeOffsetAssertionSpecs from here
+        #region (Not) Be Close To
 
         [TestMethod]
         public void When_datetime_is_greater_then_but_close_to_another_value_it_should_succeed()
