@@ -20,7 +20,7 @@ namespace FluentAssertions
         /// Asserts that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
         /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// You must call <see cref="AssertionExtensions.MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
         public static IEventRecorder ShouldRaisePropertyChangeFor<T>(
@@ -45,14 +45,14 @@ namespace FluentAssertions
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// You must call <see cref="AssertionExtensions.MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
         public static IEventRecorder ShouldRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression,
             string because, params object[] becauseArgs)
         {
-            EventRecorder eventRecorder = eventSource.GetRecorderForEvent(PropertyChangedEventName);
+            IEventRecorder eventRecorder = EventMonitor.Get(eventSource).GetEventRecorder(PropertyChangedEventName);
             string propertyName = (propertyExpression != null) ? propertyExpression.GetPropertyInfo().Name : null;
 
             if (!eventRecorder.Any())
@@ -70,7 +70,7 @@ namespace FluentAssertions
         /// Asserts that an object has not raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
         /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// You must call <see cref="AssertionExtensions.MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
         public static void ShouldNotRaisePropertyChangeFor<T>(
@@ -94,14 +94,14 @@ namespace FluentAssertions
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// You must call <see cref="AssertionExtensions.MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
         public static void ShouldNotRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression,
             string because, params object[] becauseArgs)
         {
-            EventRecorder eventRecorder = eventSource.GetRecorderForEvent(PropertyChangedEventName);
+            IEventRecorder eventRecorder = EventMonitor.Get(eventSource).GetEventRecorder(PropertyChangedEventName);
 
             string propertyName = propertyExpression.GetPropertyInfo().Name;
 

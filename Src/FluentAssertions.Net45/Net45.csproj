@@ -75,9 +75,6 @@
     <Compile Include="..\FluentAssertions.Net40\Common\ProvidePlatformServices.cs">
       <Link>Common\ProvidePlatformServices.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
-      <Link>EventSourceExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\GallioTestFramework.cs">
       <Link>Execution\GallioTestFramework.cs</Link>
     </Compile>
