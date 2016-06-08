@@ -626,6 +626,59 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="DateTimeOffset"/> has the <paramref name="expected"/> offset.
+        /// </summary>
+        /// <param name="expected">The expected offset of the current value.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> HaveOffset( TimeSpan expected, string because = "",
+            params object[] becauseArgs )
+        {
+            Execute.Assertion
+                .ForCondition( Subject.HasValue )
+                .BecauseOf( because, becauseArgs )
+                .FailWith( "Expected {context:offset} to be {0}{reason}, but found a <null> DateTimeOffset.", expected )
+                .Then
+                .ForCondition( Subject.Value.Offset == expected )
+                .BecauseOf( because, becauseArgs )
+                .FailWith( "Expected {context:offset} to be {0}{reason}, but found {1}.", expected, Subject.Value.Second );
+
+            return new AndConstraint<DateTimeOffsetAssertions>( this );
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTimeOffset"/> does not have the <paramref name="unexpected"/> offset.
+        /// </summary>
+        /// <param name="unexpected">The offset that should not be in the current value.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeOffsetAssertions> NotHaveOffset( TimeSpan unexpected, string because = "",
+            params object[] becauseArgs )
+        {
+            Execute.Assertion
+                .ForCondition( Subject.HasValue )
+                .BecauseOf( because, becauseArgs )
+                .FailWith( "Expected {context:offset} not to be {0}{reason}, but found a <null> DateTimeOffset.", unexpected )
+                .Then
+                .ForCondition( Subject.Value.Offset != unexpected )
+                .BecauseOf( because, becauseArgs )
+                .FailWith( "Expected {context:offset} not to be {0}{reason}, but found it is.", unexpected,
+                    Subject.Value.Second );
+
+            return new AndConstraint<DateTimeOffsetAssertions>( this );
+        }
+
+        /// <summary>
         /// Returns a <see cref="DateTimeOffsetRangeAssertions"/> object that can be used to assert that the current <see cref="DateTimeOffset"/>
         /// exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTimeOffset"/>.
         /// </summary>

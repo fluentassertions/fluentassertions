@@ -684,7 +684,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTimeOffset earlierDate =  new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
+            DateTimeOffset earlierDate = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero);
             DateTimeOffset laterDate = new DateTimeOffset(new DateTime(2016, 06, 04), TimeSpan.Zero).AddMinutes(5);
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1900,6 +1900,128 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage("Expected second not to be 22, but found a <null> DateTimeOffset.");
+        }
+        #endregion
+
+        #region (Not) Have Offset
+        [TestMethod]
+        public void When_asserting_subject_datetimeoffset_should_have_offset_with_the_same_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.FromHours(7));
+            TimeSpan expectation = TimeSpan.FromHours(7);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveOffset(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetimeoffset_should_not_have_offset_with_the_same_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.FromHours(7));
+            TimeSpan expectation = TimeSpan.FromHours(7);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveOffset(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected offset not to be 7h, but found it is.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetimeoffset_should_have_offset_with_different_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            TimeSpan expectation = TimeSpan.FromHours(3);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveOffset(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected offset to be 3h, but found 0.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetimeoffset_should_not_have_offset_with_different_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTimeOffset subject = new DateTimeOffset(new DateTime(2009, 12, 31, 23, 59, 00), TimeSpan.Zero);
+            TimeSpan expectation = TimeSpan.FromHours(3);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveOffset(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetimeoffset_should_have_offset_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTimeOffset? subject = null;
+            TimeSpan expectation = TimeSpan.FromHours(3);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveOffset(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected offset to be 3h, but found a <null> DateTimeOffset.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetimeoffset_should_not_have_offset_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTimeOffset? subject = null;
+            TimeSpan expectation = TimeSpan.FromHours(3);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveOffset(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected offset not to be 3h, but found a <null> DateTimeOffset.");
         }
         #endregion
 
