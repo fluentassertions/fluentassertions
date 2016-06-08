@@ -63,7 +63,7 @@ namespace FluentAssertions.Primitives
             Execute.Assertion
                 .ForCondition(!Subject.HasValue || (Subject.Value != unexpected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Did not expect {context:date and time} to be {0}{reason}.", unexpected);
+                .FailWith("Expected {context:date and time} not to be {0}{reason}, but it is.", unexpected);
 
             return new AndConstraint<DateTimeOffsetAssertions>(this);
         }
