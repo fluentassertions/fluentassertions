@@ -462,14 +462,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().ContainSingle();
+            Action act = () => collection.Should().ContainSingle("more is not allowed");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            const string expectedMessage = "Expected collection to contain a single item.";
-
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected collection to contain a single item because more is not allowed.");
         }
 
         [TestMethod]
@@ -483,14 +482,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().ContainSingle();
+            Action act = () => collection.Should().ContainSingle("more is not allowed");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            const string expectedMessage = "Expected collection to contain a single item but found <null>.";
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected collection to contain a single item because more is not allowed, but found <null>.");
         }
 
         [TestMethod]

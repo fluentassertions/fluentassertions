@@ -393,14 +393,14 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to contain a single item but found <null>.");
+                    .FailWith("Expected {context:collection} to contain a single item{reason}, but found <null>.");
             }
 
             if (Subject.Count() != 1)
             {
                 Execute.Assertion
                        .BecauseOf(because, becauseArgs)
-                       .FailWith("Expected {context:collection} to contain a single item.");
+                       .FailWith("Expected {context:collection} to contain a single item{reason}.");
             }
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Single());
