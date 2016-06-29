@@ -900,6 +900,7 @@ namespace FluentAssertions.Collections
 
         /// <summary>
         /// Asserts that the current collection does not contain the supplied <paramref name="unexpected" /> item.
+        /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The element that is not expected to be in the collection</param>
         /// <param name="because">
@@ -927,6 +928,23 @@ namespace FluentAssertions.Collections
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the current collection does not contain the supplied items. Elements are compared
+        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">An <see cref="IEnumerable"/> with the unexpected elements.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotContain(IEnumerable expected, string because = "", params object[] becauseArgs)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

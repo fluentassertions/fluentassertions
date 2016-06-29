@@ -117,5 +117,26 @@ namespace FluentAssertions.Collections
             args.AddRange(becauseArgs);
             return base.Contain(expected, because, args.ToArray());
         }
+
+        /// <summary>
+        /// Asserts that the current collection does not contain the supplied items. Elements are compared
+        /// using their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">An <see cref="IEnumerable"/> with the unexpected elements.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<StringCollectionAssertions> NotContain(IEnumerable<string> unexpected, string because = null,
+            object becauseArg = null,
+            params object[] becauseArgs)
+        {
+            var args = new List<object> { becauseArg };
+            args.AddRange(becauseArgs);
+            return base.NotContain(unexpected, because, args.ToArray());
+        }
     }
 }
