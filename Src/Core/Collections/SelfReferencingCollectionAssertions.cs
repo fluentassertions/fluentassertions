@@ -347,6 +347,35 @@ namespace FluentAssertions.Collections
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        public AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
+            }
+
+            if (Subject.Contains(unexpected))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", Subject, unexpected);
+            }
+
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this,
+                Subject.Where(
+                    item => !EqualityComparer<T>.Default.Equals(item, unexpected)));
+        }
+
+        public AndConstraint<TAssertions> NotContain(IEnumerable<T> unexpectedItemsList, params T[] additionalUnexpectedItems)
+        {
+            var list = new List<T>(unexpectedItemsList);
+            list.AddRange(additionalUnexpectedItems);
+            return NotContain((IEnumerable)list);
+        }
+
+
         /// <summary>
         /// Asserts that the collection does not contain any items that match the predicate.
         /// </summary>
