@@ -1529,6 +1529,27 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_asserting_collection_does_contain_item_against_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should()
+                .Contain(1, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected collection to contain {1} because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [TestMethod]
         public void When_a_collection_does_not_contain_another_collection_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1597,13 +1618,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().NotContain(1, "because we {0} like it", "don't");
+            Action act = () => collection.Should().NotContain(1, "because we {0} like it, but found it anyhow", "don't");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection {1, 2, 3} should not contain 1 because we don't like it, but found it anyhow.");
+                "Expected collection {1, 2, 3} to not contain element 1 because we don't like it, but found it anyhow.");
         }
 
         [TestMethod]
@@ -1623,7 +1644,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection {1, 2, 3} should not have any items matching (item == 2) because 2s are evil.");
+                "Expected collection {1, 2, 3} to not have any items matching (item == 2) because 2s are evil.");
         }
 
         [TestMethod]
@@ -1658,7 +1679,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection not to contain element 1 because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to not contain {1} because we want to test the behaviour with a null subject, but found <null>.");
         }
         
         [TestMethod]
@@ -1679,7 +1700,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {1, 2, 3} should not contain {1, 2, 4} because we don't like them, but found {1, 2}.");
+                "Expected collection {1, 2, 3} to not contain {1, 2, 4} because we don't like them, but found {1, 2}.");
         }
 
         #endregion

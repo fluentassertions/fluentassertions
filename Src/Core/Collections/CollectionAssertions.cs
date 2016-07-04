@@ -917,8 +917,8 @@ namespace FluentAssertions.Collections
                 throw new NullReferenceException("Cannot verify non-containment against a <null> collection");
             }
 
-            IEnumerable<object> expectedObjects = unexpected.Cast<object>().ToArray();
-            if (!expectedObjects.Any())
+            IEnumerable<object> unexpectedObjects = unexpected.Cast<object>().ToArray();
+            if (!unexpectedObjects.Any())
             {
                 throw new ArgumentException("Cannot verify non-containment against an empty collection");
             }
@@ -941,22 +941,22 @@ namespace FluentAssertions.Collections
             }
             else
             {
-                IEnumerable<object> foundItems = expectedObjects.Intersect(Subject.Cast<object>());
+                IEnumerable<object> foundItems = unexpectedObjects.Intersect(Subject.Cast<object>());
                 if (foundItems.Any())
                 {
-                    if (expectedObjects.Count() > 1)
+                    if (unexpectedObjects.Count() > 1)
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but could not find {2}.", Subject,
+                            .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but found {2}.", Subject,
                                 unexpected, foundItems);
                     }
                     else
                     {
                         Execute.Assertion
                             .BecauseOf(because, becauseArgs)
-                            .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", Subject,
-                                unexpected.Cast<object>().First());
+                            .FailWith("Expected {context:collection} {0} to not contain element {1}{reason}.", Subject,
+                                unexpectedObjects.First());
                     }
                 }
             }

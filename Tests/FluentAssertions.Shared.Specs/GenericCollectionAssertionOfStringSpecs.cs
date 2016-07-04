@@ -1212,13 +1212,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().NotContain("one", "because we {0} like it, but found it anyhow.", "don't");
+            Action act = () => collection.Should().NotContain("one", "because we {0} like it, but found it anyhow", "don't");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection {\"one\", \"two\", \"three\"} should not contain \"one\" because we don't like it, but found it anyhow.");
+                "Expected collection {\"one\", \"two\", \"three\"} to not contain \"one\" because we don't like it, but found it anyhow.");
         }
 
         [TestMethod]
@@ -1238,7 +1238,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection {\"one\", \"two\", \"three\"} should not have any items matching (item == \"two\") because twos are evil.");
+                "Expected collection {\"one\", \"two\", \"three\"} to not have any items matching (item == \"two\") because twos are evil.");
         }
 
         [TestMethod]
@@ -1273,7 +1273,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection to not contain element \"one\" because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to not contain \"one\" because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion

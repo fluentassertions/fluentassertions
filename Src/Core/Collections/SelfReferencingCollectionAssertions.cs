@@ -400,7 +400,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("{context:Collection} {0} should not have any items matching {1}{reason}.", Subject, predicate.Body);
+                    .FailWith("Expected {context:Collection} {0} to not have any items matching {1}{reason}.", Subject, predicate.Body);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
