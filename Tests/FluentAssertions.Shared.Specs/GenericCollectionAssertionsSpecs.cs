@@ -226,6 +226,26 @@ namespace FluentAssertions.Specs
                 "Expected collection not to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
         }
 
+        [TestMethod]
+        public void When_a_collection_does_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<object> strings = new[] { "string1", "string2" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => strings.Should().NotContain(new[] { "string3", "string4" }, new object[] { "string2" });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected collection {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}, but found {\"string2\"}.");
+        }
+
         #endregion
 
         #region Only Contain (Predicate)
