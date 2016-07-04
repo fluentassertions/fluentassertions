@@ -1102,7 +1102,8 @@ namespace FluentAssertions.Specs
                 "Expected dictionary {[1, One], [2, Two]} to contain value \"Three\" because we do.");
         }
 
-        [TestMethod] public void When_a_dictionary_does_not_contain_a_number_of_values_it_should_throw_with_clear_explanation()
+        [TestMethod]
+        public void When_a_dictionary_does_not_contain_a_number_of_values_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1146,7 +1147,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<ArgumentException>().WithMessage(
-                "Cannot verify value containment against an empty dictionary");
+                "Cannot verify value containment with an empty sequence");
         }
 
         [TestMethod]
@@ -1203,6 +1204,65 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" because we want to test the behaviour with a null subject, but found <null>.");
+        }
+        
+        [TestMethod]
+        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_values_from_the_dictionary()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+            dictionary.Should().NotContainValues("Three", "Four");
+        }
+        
+        [TestMethod]
+        public void When_a_dictionary_contains_a_number_of_values_it_should_throw_with_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContainValues(new[] { "Two", "Three" }, "because {0}", "we do");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected dictionary {[1, One], [2, Two]} to not contain value {\"Two\", \"Three\"} because we do, but found {\"Two\"}.");
+        }
+
+        [TestMethod]
+        public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContainValues(new string[0]);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<ArgumentException>().WithMessage(
+                "Cannot verify value containment with an empty sequence");
         }
 
         #endregion
