@@ -1314,7 +1314,7 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        public void When_dictionary_does_not_contain_multiple_values_from_the_dictionary_should_not_throw()
+        public void When_dictionary_does_not_contain_multiple_values_that_is_not_in_the_dictionary_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange

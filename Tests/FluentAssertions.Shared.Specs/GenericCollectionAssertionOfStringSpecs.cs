@@ -1124,10 +1124,22 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_contains_multiple_items_from_the_collection_in_any_order()
+        public void When_asserting_collection_contains_multiple_items_from_the_collection_in_any_order_it_should_succeed()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = new [] { "one", "two", "three" };
-            collection.Should().Contain(new [] { "two", "one" });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(new [] { "two", "one" });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -1195,10 +1207,22 @@ namespace FluentAssertions.Specs
         #region Not Contain
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_does_not_contain_an_item_that_is_not_in_the_collection()
+        public void When_collection_does_not_contain_an_item_that_is_not_in_the_collection_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = new [] { "one", "two", "three" };
-            collection.Should().NotContain("four");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContain("four");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
         }
 
         [TestMethod]
