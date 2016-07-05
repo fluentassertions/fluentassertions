@@ -906,25 +906,49 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_a_key_that_is_not_in_the_dictionary()
+        public void When_dictionary_does_not_contain_a_key_that_is_not_in_the_dictionary_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
                 { 1, "One" },
                 { 2, "Two" }
             };
-            dictionary.Should().NotContainKey(4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContainKey(4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_keys_from_the_dictionary()
+        public void When_dictionary_does_not_contain_multiple_keys_from_the_dictionary_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
                 { 1, "One" },
                 { 2, "Two" }
             };
-            dictionary.Should().NotContainKeys(3, 4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContainKeys(3, 4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -1127,14 +1151,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_dictionary_contains_multiple_values_from_the_dictionary()
+        public void When_dictionary_contains_multiple_values_from_the_dictionary_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
                 { 1, "One" },
                 { 2, "Two" }
             };
-            dictionary.Should().ContainValues("Two", "One");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().ContainValues("Two", "One");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -1210,14 +1246,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_a_value_that_is_not_in_the_dictionary()
+        public void When_dictionary_does_not_contain_a_value_that_is_not_in_the_dictionary_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
                 { 1, "One" },
                 { 2, "Two" }
             };
-            dictionary.Should().NotContainValue("Three");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContainValue("Three");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -1266,16 +1314,28 @@ namespace FluentAssertions.Specs
         }
         
         [TestMethod]
-        public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_values_from_the_dictionary()
+        public void When_dictionary_does_not_contain_multiple_values_from_the_dictionary_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             var dictionary = new Dictionary<int, string>
             {
                 { 1, "One" },
                 { 2, "Two" }
             };
-            dictionary.Should().NotContainValues("Three", "Four");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotContainValues("Three", "Four");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
         }
-        
+
         [TestMethod]
         public void When_a_dictionary_contains_a_number_of_values_it_should_throw_with_clear_explanation()
         {
