@@ -323,7 +323,7 @@ namespace FluentAssertions.Collections
 
             if (!expectedKeys.Any())
             {
-                throw new ArgumentException("Cannot verify key containment against an empty dictionary");
+                throw new ArgumentException("Cannot verify key containment against an empty sequence");
             }
 
             if (ReferenceEquals(Subject, null))
@@ -387,6 +387,73 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("{context:Dictionary} {0} should not contain key {1}{reason}, but found it anyhow.", Subject, unexpected);
+            }
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the dictionary does not contain any of the specified keys. Keys are compared using
+        /// their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">The unexpected keys</param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(params TKey[] unexpected)
+        {
+            return NotContainKeys(unexpected, String.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the dictionary does not contain any of the specified keys. Keys are compared using
+        /// their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">The unexpected keys</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainKeys(IEnumerable<TKey> unexpected,
+            string because = "", params object[] becauseArgs)
+        {
+            if (unexpected == null)
+            {
+                throw new NullReferenceException("Cannot verify key containment against a <null> collection of keys");
+            }
+
+            TKey[] unexpectedKeys = unexpected.ToArray();
+
+            if (!unexpectedKeys.Any())
+            {
+                throw new ArgumentException("Cannot verify key containment against an empty sequence");
+            }
+
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to contain keys {0}{reason}, but found {1}.", unexpected, Subject);
+            }
+
+            var foundKeys = unexpectedKeys.Intersect(Subject.Keys);
+
+            if (foundKeys.Any())
+            {
+                if (unexpectedKeys.Count() > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to not contain key {1}{reason}, but found {2}.", Subject,
+                            unexpected, foundKeys);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to not contain key {1}{reason}.", Subject,
+                            unexpected.Cast<object>().First());
+                }
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
@@ -460,7 +527,7 @@ namespace FluentAssertions.Collections
 
             if (!expectedValues.Any())
             {
-                throw new ArgumentException("Cannot verify value containment against an empty dictionary");
+                throw new ArgumentException("Cannot verify value containment with an empty sequence");
             }
 
             if (ReferenceEquals(Subject, null))
@@ -473,7 +540,7 @@ namespace FluentAssertions.Collections
             var missingValues = expectedValues.Except(Subject.Values);
             if (missingValues.Any())
             {
-                if (expectedValues.Count() > 1)
+                if (expectedValues.Length > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
@@ -538,6 +605,72 @@ namespace FluentAssertions.Collections
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("{context:Dictionary} {0} should not contain value {1}{reason}, but found it anyhow.", Subject, unexpected);
+            }
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the dictionary does not contain any of the specified values. Values are compared using
+        /// their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">The unexpected values</param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValues(params TValue[] unexpected)
+        {
+            return NotContainValues(unexpected, String.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the dictionary does not contain any of the specified values. Values are compared using
+        /// their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="unexpected">The unexpected values</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotContainValues(IEnumerable<TValue> unexpected,
+            string because = "", params object[] becauseArgs)
+        {
+            if (unexpected == null)
+            {
+                throw new NullReferenceException("Cannot verify value containment against a <null> collection of values");
+            }
+
+            var unexpectedValues = unexpected.ToArray();
+
+            if (!unexpectedValues.Any())
+            {
+                throw new ArgumentException("Cannot verify value containment with an empty sequence");
+            }
+
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to not contain value {0}{reason}, but found {1}.", unexpected, Subject);
+            }
+
+            var foundValues = unexpectedValues.Intersect(Subject.Values);
+            if (foundValues.Any())
+            {
+                if (unexpectedValues.Length > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to not contain value {1}{reason}, but found {2}.", Subject,
+                            unexpected, foundValues);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:dictionary} {0} to not contain value {1}{reason}.", Subject,
+                            unexpected.Cast<object>().First());
+                }
             }
 
             return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);

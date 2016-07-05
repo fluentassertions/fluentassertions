@@ -899,9 +899,10 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection does not contain the supplied <paramref name="unexpected" /> item.
+        /// Asserts that the current collection does not contain the supplied items. Elements are compared
+        /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name="unexpected">The element that is not expected to be in the collection</param>
+        /// <param name="unexpected">An <see cref="IEnumerable"/> with the unexpected elements.</param>
         /// <param name="because">
         /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
@@ -909,21 +910,55 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotContain(object unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotContain(IEnumerable unexpected, string because = "", params object[] becauseArgs)
         {
+            if (unexpected == null)
+            {
+                throw new NullReferenceException("Cannot verify non-containment against a <null> collection");
+            }
+
+            IEnumerable<object> unexpectedObjects = unexpected.Cast<object>().ToArray();
+            if (!unexpectedObjects.Any())
+            {
+                throw new ArgumentException("Cannot verify non-containment against an empty collection");
+            }
+
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to contain element {0}{reason}, but found {1}.", unexpected,
-                        Subject);
+                    .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
             }
 
-            if (Subject.Cast<object>().Contains(unexpected))
+            if (unexpected is string)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("{context:Collection} {0} should not contain {1}{reason}, but found it anyhow.", Subject, unexpected);
+                if (Subject.Cast<object>().Contains(unexpected))
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", Subject, unexpected);
+                }
+            }
+            else
+            {
+                IEnumerable<object> foundItems = unexpectedObjects.Intersect(Subject.Cast<object>());
+                if (foundItems.Any())
+                {
+                    if (unexpectedObjects.Count() > 1)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but found {2}.", Subject,
+                                unexpected, foundItems);
+                    }
+                    else
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} {0} to not contain element {1}{reason}.", Subject,
+                                unexpectedObjects.First());
+                    }
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);

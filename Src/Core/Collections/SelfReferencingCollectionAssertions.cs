@@ -242,8 +242,8 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">The expectation item.</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
@@ -288,8 +288,8 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
@@ -318,8 +318,8 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
         /// <param name="because">
-        /// A formatted phrase explaining why the assertion should be satisfied. If the phrase does not 
-        /// start with the word <i>because</i>, it is prepended to the message.
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
@@ -348,6 +348,50 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that the current collection does not contain the supplied <paramref name="unexpected" /> item.
+        /// </summary>
+        /// <param name="unexpected">The element that is not expected to be in the collection</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
+        /// </param>
+        public AndWhichConstraint<TAssertions, T> NotContain(T unexpected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
+            }
+
+            if (Subject.Contains(unexpected))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", Subject, unexpected);
+            }
+
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this,
+                Subject.Where(
+                    item => !EqualityComparer<T>.Default.Equals(item, unexpected)));
+        }
+
+        /// <summary>
+        /// Asserts that the collection does not contain some extra items in addition to the original items.
+        /// </summary>
+        /// <param name="unexpectedItemsList">An <see cref="IEnumerable{T}"/> of unexpected items.</param>
+        /// <param name="additionalUnexpectedItems">Additional items that are not expected to be contained by the collection.</param>
+        public AndConstraint<TAssertions> NotContain(IEnumerable<T> unexpectedItemsList, params T[] additionalUnexpectedItems)
+        {
+            var list = new List<T>(unexpectedItemsList);
+            list.AddRange(additionalUnexpectedItems);
+            return NotContain((IEnumerable)list);
+        }
+        
+        /// <summary>
         /// Asserts that the collection does not contain any items that match the predicate.
         /// </summary>
         /// <param name="predicate">A predicate to match the items in the collection against.</param>
@@ -371,7 +415,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("{context:Collection} {0} should not have any items matching {1}{reason}.", Subject, predicate.Body);
+                    .FailWith("Expected {context:Collection} {0} to not have any items matching {1}{reason}.", Subject, predicate.Body);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
