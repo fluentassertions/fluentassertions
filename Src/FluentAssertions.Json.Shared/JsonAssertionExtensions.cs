@@ -16,5 +16,22 @@ namespace FluentAssertions.Json
         {
             return new JTokenAssertions(jToken);
         }
+
+        /// <summary>
+        ///     Returns an <see cref="JTokenAssertions"/> object that can be used to assert the current <see cref="JObject"/>.
+        /// </summary>
+        public static JTokenAssertions Should(this JObject jObject)
+        {
+            return new JTokenAssertions(jObject);
+        }
+
+        /// <summary>
+        ///     Returns an <see cref="JTokenAssertions"/> object that can be used to assert the current <see cref="JValue"/>.
+        /// </summary>
+        public static JTokenAssertions Should(this JValue jValue)
+        {
+            return new JTokenAssertions(jValue);
+        }
+
     }
 }
