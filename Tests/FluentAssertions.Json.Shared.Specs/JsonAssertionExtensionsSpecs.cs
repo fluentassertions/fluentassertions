@@ -1,24 +1,30 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using FluentAssertions;
+using FluentAssertions.Json;
 
-namespace FluentAssertions.Json
+// NOTE that we are using both namespaces 'FluentAssertions' & 'FluentAssertions.Json' from an external namespace to force compiler disambiguation warnings
+namespace SomeOtherNamespace
 {
     [TestClass]
     // ReSharper disable InconsistentNaming
     public class JsonAssertionExtensionsSpecs
     {
         [TestMethod]
-        public void Should_Provide_JTokenAssertions()
+        public void Should_Provide_Unambiguos_JTokenAssertions()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var assertions = new[]
+            var assertions = new []
             {
                 JToken.Parse("{\"token\":\"value\"}").Should()
-                , JObject.Parse("{\"object\":\"value\"}").Should()
-                // ReSharper disable once AccessToStaticMemberViaDerivedType
-                , JProperty.Parse("{\"property\":\"value\"}").Should()
+                , new JProperty("property","value").Should()
+                , new JObject(new JProperty("object", "value")).Should()
+                , new JArray(new JProperty("property","value")).Should()
+                , new JConstructor("property","value").Should()
+                , new JValue("value").Should()
+                , new JRaw("value").Should()
             };
 
             //-----------------------------------------------------------------------------------------------------------
