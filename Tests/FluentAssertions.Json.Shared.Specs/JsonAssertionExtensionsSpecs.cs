@@ -21,7 +21,7 @@ namespace SomeOtherNamespace
                 JToken.Parse("{\"token\":\"value\"}").Should()
                 , new JProperty("property","value").Should()
                 , new JObject(new JProperty("object", "value")).Should()
-                , new JArray(new JProperty("property","value")).Should()
+                , new JArray(new [] { 42, 43}).Should()
                 , new JConstructor("property","value").Should()
                 , new JValue("value").Should()
                 , new JRaw("value").Should()
