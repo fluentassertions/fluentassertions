@@ -230,7 +230,7 @@ namespace FluentAssertions.Collections
 
             assertion
                 .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectedItems)
-                .Given(() => Subject.Cast<TActual>())
+                .Given(() => Subject.Cast<TActual>().ToList().AsEnumerable())
                 .AssertCollectionsHaveSameCount(expectedItems.Length)
                 .Then
                 .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison));
@@ -268,7 +268,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", unexpected, Subject);
+                    .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", unexpected, actualitems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
