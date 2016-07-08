@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using FluentAssertions.Execution;
+using System.Linq;
 
 namespace FluentAssertions.Primitives
 {
@@ -732,6 +734,68 @@ namespace FluentAssertions.Primitives
                 .ForCondition(Subject.Value.Date != unexpectedDate)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a {context:date and time} that does not have date {0}{reason}, but found it does.", unexpectedDate);
+
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="DateTime"/> is one of the specified <paramref name="validValues"/>.
+        /// </summary>
+        /// <param name="validValues">
+        /// The values that are valid.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> BeOneOf(params DateTime?[] validValues)
+        {
+            return BeOneOf(validValues, String.Empty);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="DateTime"/> is one of the specified <paramref name="validValues"/>.
+        /// </summary>
+        /// <param name="validValues">
+        /// The values that are valid.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> BeOneOf(params DateTime[] validValues)
+        {
+            return BeOneOf(validValues.Cast<DateTime?>());
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="DateTime"/> is one of the specified <paramref name="validValues"/>.
+        /// </summary>
+        /// <param name="validValues">
+        /// The values that are valid.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> BeOneOf(IEnumerable<DateTime> validValues, string because = "", params object[] becauseArgs)
+        {
+            return BeOneOf(validValues.Cast<DateTime?>(), because, becauseArgs);
+        }
+        /// <summary>
+        /// Asserts that the <see cref="DateTime"/> is one of the specified <paramref name="validValues"/>.
+        /// </summary>
+        /// <param name="validValues">
+        /// The values that are valid.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> BeOneOf(IEnumerable<DateTime?> validValues, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(validValues.Contains(Subject))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected value to be one of {0}{reason}, but found {1}.", validValues, Subject);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
