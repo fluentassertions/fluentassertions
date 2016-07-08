@@ -2399,7 +2399,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected value to be one of {<2216-01-30 00:05:07>, <1116-04-10 02:45:07>}, but found <null>.");
         }
 
         [TestMethod]
