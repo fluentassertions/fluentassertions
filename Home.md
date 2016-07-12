@@ -1,7 +1,7 @@
 *This is the documentation for v3.0 and higher. You can find the v2.2 documentation [[here|Documentation-(Release-2.2)]].*  
 
 ## Coding by Example ##
-As you may have read in the repository's [readme](https://github.com/dennisdoomen/fluentassertions/blob/master/README.md), the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code. We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation. So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/dennisdoomen/fluentassertions/tree/master/FluentAssertions.Shared.Specs).
+As you may have read in the repository's [readme](https://github.com/dennisdoomen/fluentassertions/blob/master/README.md), the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code. We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation. So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/dennisdoomen/FluentAssertions/tree/master/Tests/FluentAssertions.Shared.Specs).
 
 ## Supported Test Frameworks ##
 
