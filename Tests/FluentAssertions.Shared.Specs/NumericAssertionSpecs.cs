@@ -724,8 +724,8 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(
-                    string.Format("Expected value to be between {0} and {1} because that's the valid range, but found {2}.", 4, 5,
-                        value));
+                    string.Format("Expected value to be between*{0}* and*{1}* because that's the valid range, but found*{2}*",
+                        4, 5, value));
         }
 
         [TestMethod]
@@ -879,7 +879,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.",
+                .WithMessage(string.Format("Expected value to be *{0}* because we want to test the error message, but found *{1}*",
                     3.4F, value));
         }
 
@@ -921,7 +921,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value to be {0}, but found <null>.", 3.5));
+                .WithMessage(string.Format("Expected value to be *{0}* but found <null>.", 3.5));
         }
 
         [TestMethod]
@@ -945,7 +945,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}.",
+                    "Expected value *{0:R}* to approximate *{1}* +/- *{2}* because rockets will crash otherwise, but it differed by *{3}*",
                     value, 3.14F, 0.001F, difference));
         }
 
@@ -1006,7 +1006,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value to approximate {0} +/- {1}, but it was <null>.", 3.14, 0.001));
+                .WithMessage(string.Format("Expected value to approximate*{0}* +/-*{1}*, but it was <null>.",
+                    3.14, 0.001));
         }
 
         #endregion
@@ -1097,7 +1098,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}.",
+                    "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}*",
                     value, 3.14, 0.001, difference));
         }
 
@@ -1161,7 +1162,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected value to be {0} because we want to test the error message, but found {1}.",
+                    "Expected value to be*{0}* because we want to test the error message, but found*{1}*",
                     3.4m, value));
         }
 
@@ -1204,7 +1205,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format("Expected value to be {0}, but found <null>.", 3.5));
+                .WithMessage(string.Format("Expected value to be*{0}*, but found <null>.", 3.5));
         }
 
         [TestMethod]
@@ -1226,7 +1227,7 @@ namespace FluentAssertions.Specs
             decimal difference = Math.Abs(value - 3.5m);
 
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}.",
+                "Expected value*{0}* to approximate*{1}* +/-*{2}* because rockets will crash otherwise, but it differed by*{3}*",
                 value, 3.5m, 0.001, difference));
         }
 
