@@ -3,7 +3,7 @@
     "Autofac": "3.5.2",
     "Chill": "2.2.0",
     "Chill.Autofac": "2.2.0-beta0001",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.1"
   },
   "frameworks": {
     "uap10.0": {}
