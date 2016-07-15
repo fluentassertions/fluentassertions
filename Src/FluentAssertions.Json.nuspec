@@ -16,8 +16,14 @@
     </releaseNotes>
     <projectUrl>http://www.fluentassertions.com</projectUrl>
     <dependencies>
-      <dependency id="FluentAssertions" version="$Version$" />
-      <dependency id="Newtonsoft.Json" version="[6.0.7,)" />
+      <group>
+        <dependency id="FluentAssertions" version="$Version$" />
+        <dependency id="Newtonsoft.Json" version="[6.0.7,)" />
+      </group>
+      <group targetFramework="netstandard1.3">
+        <dependency id="FluentAssertions" version="$Version$" />
+        <dependency id="Newtonsoft.Json" version="[9.0.1,)" />
+      </group>
     </dependencies>
   </metadata>
   <files>

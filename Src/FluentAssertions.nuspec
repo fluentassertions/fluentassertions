@@ -22,41 +22,20 @@
       See https://github.com/dennisdoomen/fluentassertions/releases/
     </releaseNotes>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Xml" targetFramework="portable-net45+monoandroid+xamarin.ios10+monotouch" />
-      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="portable-net45+monoandroid+xamarin.ios10+monotouch" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
     </frameworkAssemblies>
     <dependencies>
       <group targetFramework="net4" />
-      <group targetFramework="sl5" />
-      <group targetFramework="win8" />
-      <group targetFramework="wp8" />
-      <group targetFramework="wpa81" />
-      <group targetFramework="xamarin.ios" />
-      <group targetFramework="monotouch" />
-      <group targetFramework="monoandroid" />
       <group targetFramework="portable-net40+sl5+win8+wp8+wpa81" />
-      <group targetFramework="dotnet">
-        <dependency id="System.Collections" version="4.0.10" />
-        <dependency id="System.Diagnostics.Debug" version="4.0.10" />
-        <dependency id="System.Globalization" version="4.0.10" />
-        <dependency id="System.Linq" version="4.0.0" />
-        <dependency id="System.Linq.Expressions" version="4.0.10" />
-        <dependency id="System.ObjectModel" version="4.0.10" />
-        <dependency id="System.Reflection" version="4.0.10" />
-        <dependency id="System.Reflection.Extensions" version="4.0.0" />
-        <dependency id="System.Reflection.Primitives" version="4.0.0" />
-        <dependency id="System.Reflection.TypeExtensions" version="4.0.0" />
-        <dependency id="System.Runtime" version="4.0.20" />
-        <dependency id="System.Runtime.Extensions" version="4.0.10" />
-        <dependency id="System.Text.RegularExpressions" version="4.0.10" />
-        <dependency id="System.Threading" version="4.0.10" />
-        <dependency id="System.Threading.Tasks" version="4.0.10" />
-        <dependency id="System.Xml.ReaderWriter" version="4.0.10" />
-        <dependency id="System.Xml.XDocument" version="4.0.10" />
+      <group targetFramework="netstandard1.3">
+        <dependency id="NETStandard.Library" version="1.6.0" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.1.0" />
       </group>
     </dependencies>
   </metadata>
   <files>
     <file src="..\Artifacts\lib\**\*.*" target="lib" exclude="**\windows8\microsoft*.dll" />
+    <file src="..\Artifacts\lib\netstandard1.3\*.*" target="lib\uap10.0" exclude="**\windows8\microsoft*.dll" />
   </files>
 </package>

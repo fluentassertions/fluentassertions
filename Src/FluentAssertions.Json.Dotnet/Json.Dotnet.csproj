@@ -29,11 +29,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Artifacts\Json\Lib\dotnet\</OutputPath>
+    <OutputPath>..\..\Artifacts\Json\Lib\netstandard1.3\</OutputPath>
     <DefineConstants>TRACE;CORE_CLR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Artifacts\Json\Lib\dotnet\FluentAssertions.Json.XML</DocumentationFile>
+    <DocumentationFile>..\..\Artifacts\Json\Lib\netstandard1.3\FluentAssertions.Json.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
