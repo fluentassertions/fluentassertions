@@ -2922,7 +2922,7 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected subject to be 3, but found 0*");
+                .WithMessage("Expected subject to be*3*, but found*0*");
         }
 
         [TestMethod]
