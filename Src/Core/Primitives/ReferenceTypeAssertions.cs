@@ -121,24 +121,6 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Asserts that the object is not of the specified type <typeparamref name="T"/>.
-        /// </summary>
-        /// <typeparam name="T">The type that the subject is not supposed to be of.</typeparam>
-        /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
-        /// </param>
-        /// <param name="becauseArgs">
-        /// Zero or more objects to format using the placeholders in <see cref="because" />.
-        /// </param>
-        public AndWhichConstraint<TAssertions, T> NotBeOfType<T>(string because = "", params object[] becauseArgs)
-        {
-            NotBeOfType(typeof(T), because, becauseArgs);
-
-            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, (T)(object)Subject);
-        }
-
-        /// <summary>
         /// Asserts that the object is of the specified type <paramref name="expectedType"/>.
         /// </summary>
         /// <param name="expectedType">
@@ -159,6 +141,24 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context:type} to be {0}{reason}, but found <null>.", expectedType);
 
             Subject.GetType().Should().Be(expectedType, because, becauseArgs);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that the object is not of the specified type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type that the subject is not supposed to be of.</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeOfType<T>(string because = "", params object[] becauseArgs)
+        {
+            NotBeOfType(typeof(T), because, becauseArgs);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

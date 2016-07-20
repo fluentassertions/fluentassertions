@@ -156,7 +156,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_object_is_of_the_expected_type_it_should_throw()
+        public void When_object_is_of_the_unexpected_type_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -167,6 +167,26 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => aString.Should().NotBeOfType(typeof(string));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected type not to be [" + typeof(string).AssemblyQualifiedName + "], but it is.");
+        }
+
+        [TestMethod]
+        public void When_object_is_of_the_unexpected_generic_type_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            string aString = "blah";
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => aString.Should().NotBeOfType<string>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
