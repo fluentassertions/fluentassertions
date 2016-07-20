@@ -77,7 +77,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericCollectionAssertions<T>> BeInAscendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
         {
-            return BeOrderedBy(propertyExpression, comparer, SortDirection.Ascending, because, args);
+            return BeOrderedBy(propertyExpression, comparer, SortOrder.Ascending, because, args);
         }
 
         /// <summary>
@@ -140,11 +140,11 @@ namespace FluentAssertions.Collections
         public AndConstraint<GenericCollectionAssertions<T>> BeInDescendingOrder<TSelector>(
             Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, string because = "", params object[] args)
         {
-            return BeOrderedBy(propertyExpression, comparer, SortDirection.Descending, because, args);
+            return BeOrderedBy(propertyExpression, comparer, SortOrder.Descending, because, args);
         }
 
         private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy<TSelector>(
-            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, SortDirection direction, string because, object[] args)
+            Expression<Func<T, TSelector>> propertyExpression, IComparer<TSelector> comparer, SortOrder direction, string because, object[] args)
         {
             if (comparer == null)
             {
@@ -158,7 +158,7 @@ namespace FluentAssertions.Collections
 
                 Func<T, TSelector> keySelector = propertyExpression.Compile();
 
-                IOrderedEnumerable<T> expectation = (direction == SortDirection.Ascending)
+                IOrderedEnumerable<T> expectation = (direction == SortOrder.Ascending)
                     ? unordered.OrderBy(keySelector, comparer)
                     : unordered.OrderByDescending(keySelector, comparer);
 
@@ -188,12 +188,6 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, args)
                 .FailWith("Expected collection to be ordered by {0}{reason} but found <null>.",
                     propertyExpression.GetMemberPath());
-        }
-
-        private enum SortDirection
-        {
-            Ascending,
-            Descending
         }
     }
 }
