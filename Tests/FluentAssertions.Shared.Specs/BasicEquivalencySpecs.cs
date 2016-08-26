@@ -574,6 +574,49 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
+        public class CustomType
+        {
+            public string Name { get; set; }
+        }
+
+        public class ClassA
+        {
+            public List<CustomType> ListOfCustomTypes { get; set; }
+        }
+
+        [TestMethod]
+        public void When_including_a_property_using_an_expression_it_should_evaluate_it_from_the_root()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var list1 = new List<CustomType>
+            {
+                new CustomType {Name = "A"},
+                new CustomType {Name = "B"}
+            };
+
+            var list2 = new List<CustomType>
+            {
+                new CustomType {Name = "C"},
+                new CustomType {Name = "D"}
+            };
+
+            var objectA = new ClassA { ListOfCustomTypes = list1 };
+            var objectB = new ClassA { ListOfCustomTypes = list2 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => objectA.ShouldBeEquivalentTo(objectB, options => options.Including(x => x.ListOfCustomTypes));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().
+                WithMessage("*C*but*A*D*but*B*");
+        }
+
         [TestMethod]
         public void When_null_is_provided_as_property_expression_it_should_throw()
         {
