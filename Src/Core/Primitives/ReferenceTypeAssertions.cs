@@ -140,7 +140,15 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:type} to be {0}{reason}, but found <null>.", expectedType);
 
-            Subject.GetType().Should().Be(expectedType, because, becauseArgs);
+            Type subjectType = Subject.GetType(); 
+            if (expectedType.IsGenericTypeDefinition() && subjectType.IsGenericType())
+            {
+                subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
+            } 
+            else
+            {
+                subjectType.Should().Be(expectedType, because, becauseArgs);
+            }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
