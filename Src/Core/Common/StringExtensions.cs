@@ -39,7 +39,7 @@ namespace FluentAssertions.Common
         {
             int length = Math.Min(value.Length - index, 3);
 
-            return String.Format("{0} (index {1})", Formatter.ToString(value.Substring(index, length)), index);
+            return $"{Formatter.ToString(value.Substring(index, length))} (index {index})".Replace("{", "{{").Replace("}", "}}");
         }
 
         /// <summary>
