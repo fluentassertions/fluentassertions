@@ -25,13 +25,13 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentNullException>())
-                .ShouldThrowExactly<ArgumentException>();
+                .ShouldThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected type to be System.ArgumentException, but found System.ArgumentNullException.");
+                .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
         }
 
         [TestMethod]
@@ -84,13 +84,13 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.SucceedAsync())
-                .ShouldThrow<InvalidOperationException>();
+                .ShouldThrow<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected System.InvalidOperationException, but no exception was thrown*");
+                .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but no exception was thrown*");
         }
 
         [TestMethod]
@@ -106,13 +106,13 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action = () => asyncObject
                 .Awaiting(async x => await x.ThrowAsync<ArgumentException>())
-                .ShouldThrow<InvalidOperationException>();
+                .ShouldThrow<InvalidOperationException>("because {0} should do that", "IFoo.Do");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected System.InvalidOperationException, but found*System.ArgumentException*");
+                .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but found*System.ArgumentException*");
         }
 
         [TestMethod]
