@@ -44,6 +44,11 @@ namespace FluentAssertions
             return type.GetTypeInfo().GenericTypeArguments;
         }  
   
+        public static bool IsGenericTypeDefinition(this Type type)
+        {
+            return type.GetTypeInfo().IsGenericTypeDefinition;
+        }
+
     }
 
 }
