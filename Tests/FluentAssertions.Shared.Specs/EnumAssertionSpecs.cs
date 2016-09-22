@@ -30,23 +30,44 @@ namespace FluentAssertions.Specs
     public class EnumAssertionSpecs
     {
         [TestMethod]
-        public void ShouldBeEquivalentTo_should_succeed_when_asserting_large_enum_equals_large_enum()
+        public void Should_succeed_when_asserting_large_enum_equals_large_enum()
         {
-            Action act = () => EnumULong.UInt64Max.ShouldBeEquivalentTo(EnumULong.UInt64Max);
+            // Arrange
+            var enumOne = EnumULong.UInt64Max;
+            var enumTwo = EnumULong.UInt64Max;
+
+            // Act
+            Action act = () => enumOne.ShouldBeEquivalentTo(enumTwo);
+
+            // Assert
             act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void ShouldBeEquivalentTo_should_succeed_when_asserting_large_enum_equals_large_enum_of_different_underlying_types()
-        {
-            Action act = () => EnumLong.Int64Max.ShouldBeEquivalentTo(EnumULong.Int64Max);
+        public void Should_succeed_when_asserting_large_enum_equals_large_enum_of_different_underlying_types()
+        {     
+            // Arrange
+            var enumOne = EnumLong.Int64Max;
+            var enumTwo = EnumULong.Int64Max;
+
+            // Act
+            Action act = () => enumOne.ShouldBeEquivalentTo(enumTwo);
+
+            // Assert
             act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void ShouldBeEquivalentTo_should_fail_when_asserting_large_enum_equals_different_large_enum_of_different_underlying_types()
-        {
-            Action act = () => EnumLong.Int64LessOne.ShouldBeEquivalentTo(EnumULong.UInt64Max);
+        public void Sshould_fail_when_asserting_large_enum_equals_different_large_enum_of_different_underlying_types()
+        {   
+            // Arrange
+            var enumOne = EnumLong.Int64LessOne;
+            var enumTwo = EnumULong.UInt64Max;
+
+            // Act
+            Action act = () => enumOne.ShouldBeEquivalentTo(enumTwo);
+
+            // Assert
             act.ShouldThrow<AssertFailedException>();
         }
 
