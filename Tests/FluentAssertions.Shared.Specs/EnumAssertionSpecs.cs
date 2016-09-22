@@ -30,7 +30,7 @@ namespace FluentAssertions.Specs
     public class EnumAssertionSpecs
     {
         [TestMethod]
-        public void Should_succeed_when_asserting_large_enum_equals_large_enum()
+        public void When_both_enums_are_equal_and_greater_than_max_long_it_should_not_throw()
         {
             // Arrange
             var enumOne = EnumULong.UInt64Max;
@@ -44,7 +44,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_large_enum_equals_large_enum_of_different_underlying_types()
+        public void When_both_enums_are_equal_and_of_different_underlying_types_it_should_not_throw()
         {     
             // Arrange
             var enumOne = EnumLong.Int64Max;
@@ -58,7 +58,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Sshould_fail_when_asserting_large_enum_equals_different_large_enum_of_different_underlying_types()
+        public void When_both_enums_are_large_and_not_equal_it_should_throw()
         {   
             // Arrange
             var enumOne = EnumLong.Int64LessOne;
