@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeOffsetValueFormatterSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BasicEquivalencySpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DictionaryEquivalencySpecs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EnumAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExceptionAssertionSpecs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExecutionTimeAssertionsSpecs.cs" />
