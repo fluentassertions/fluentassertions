@@ -454,6 +454,68 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>().WithMessage("*Expected*Other*Actual*");
         }
 
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_its_own_type_using_type_instance_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new DummyImplementingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Should().BeAssignableTo(typeof(DummyImplementingClass));
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_to_its_base_type_using_type_instance_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new DummyImplementingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Should().BeAssignableTo(typeof(DummyBaseClass));
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_to_an_implemented_interface_type_using_type_instance_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new DummyImplementingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Should().BeAssignableTo(typeof(IDisposable));
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_using_type_instance_it_should_fail_with_a_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new DummyImplementingClass();
+            Type assignableCheckType = typeof(DateTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Invoking(
+                x => x.Should().BeAssignableTo(assignableCheckType, "because we want to test the failure {0}", "message"))
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format(
+                    "Expected object to be assignable to {1} because we want to test the failure message, but {0} is not",
+                    typeof(DummyImplementingClass), assignableCheckType));
+        }
+
         #endregion
 
         #region HaveFlag / NotHaveFlag

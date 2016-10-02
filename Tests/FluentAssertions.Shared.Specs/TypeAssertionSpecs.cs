@@ -395,7 +395,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_it_fails_with_a_a_useful_message()
+        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_it_fails_with_a_useful_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -411,6 +411,53 @@ namespace FluentAssertions.Specs
                 .WithMessage(string.Format(
                     "Expected type {0} to be assignable to {1} because we want to test the failure message, but it is not",
                     typeof (DummyImplementingClass), typeof (DateTime)));
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_its_own_type_using_type_instance_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().BeAssignableTo(typeof(DummyImplementingClass));
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_to_its_base_type_using_type_instance_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().BeAssignableTo(typeof(DummyBaseClass));
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_to_an_implemented_interface_type_using_type_instance_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().BeAssignableTo(typeof(IDisposable));
+        }
+
+        [TestMethod]
+        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_using_type_instance_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Type someType = typeof(DummyImplementingClass);
+            Type assignableCheckType = typeof(DateTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someType.Invoking(
+                x => x.Should().BeAssignableTo(assignableCheckType, "because we want to test the failure {0}", "message"))
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage(string.Format(
+                    "Expected type {0} to be assignable to {1} because we want to test the failure message, but it is not",
+                    someType, assignableCheckType));
         }
 
         #endregion

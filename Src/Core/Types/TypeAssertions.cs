@@ -74,13 +74,25 @@ namespace FluentAssertions.Types
         /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
         public new AndConstraint<TypeAssertions> BeAssignableTo<T>(string because = "", params object[] becauseArgs)
         {
+            return BeAssignableTo(typeof(T), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts than an instance of the subject type is assignable variable of given <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The type to which instances of the type should be assignable.</param>
+        /// <param name="because">The reason why instances of the type should be assignable to the type.</param>
+        /// <param name="becauseArgs"></param>
+        /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
+        public new AndConstraint<TypeAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
+        {
             Execute.Assertion
-                .ForCondition(typeof(T).IsAssignableFrom(Subject))
+                .ForCondition(type.IsAssignableFrom(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected {context:" + Context + "} {0} to be assignable to {1}{reason}, but it is not",
                     Subject,
-                    typeof(T));
+                    type);
 
             return new AndConstraint<TypeAssertions>(this);
         }
