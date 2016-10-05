@@ -69,17 +69,23 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task task = Subject();
-                task.Wait();
+#if NETSTANDARD1_3
+                Task.Run(Subject).Wait();
+#else
+                Task.Factory.StartNew(() => Subject().Wait()).Wait();
+#endif
             }
             catch (Exception exception)
             {
-                Exception cause = exception.InnerException ?? exception;
+                while (exception is AggregateException)
+                {
+                    exception = exception.InnerException;
+                }
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect any exception{reason}, but found a {0} with message {1}.",
-                        cause.GetType(), cause.Message);
+                        exception.GetType(), exception.Message);
             }
         }
 
@@ -97,12 +103,18 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task task = Subject();
-                task.Wait();
+#if NETSTANDARD1_3
+                Task.Run(Subject).Wait();
+#else
+                Task.Factory.StartNew(() => Subject().Wait()).Wait();
+#endif
             }
-            catch (Exception aggregateException)
+            catch (Exception exception)
             {
-                Exception exception = aggregateException.InnerException;
+                while (exception is AggregateException)
+                {
+                    exception = exception.InnerException;
+                }
 
                 if (exception != null)
                 {
@@ -121,8 +133,11 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                Task task = Subject();
-                task.Wait();
+#if NETSTANDARD1_3
+                Task.Run(Subject).Wait();
+#else
+                Task.Factory.StartNew(() => Subject().Wait()).Wait();
+#endif
             }
             catch (Exception exception)
             {

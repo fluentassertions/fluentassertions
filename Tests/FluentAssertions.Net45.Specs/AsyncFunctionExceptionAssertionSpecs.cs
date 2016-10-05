@@ -13,7 +13,7 @@ namespace FluentAssertions.Net45.Specs
     public class AsyncFunctionExceptionAssertionSpecs
     {
         [TestMethod]
-        public void ShouldThrowExactly_when_subject_throws_subclass_of_expected_exception_it_should_fail()
+        public void When_subject_throws_subclass_of_expected_exact_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -35,7 +35,7 @@ namespace FluentAssertions.Net45.Specs
         }
 
         [TestMethod]
-        public void ShouldThrowExactly_when_subject_throws_expected_exception_it_should_succeed()
+        public void When_subject_throws_the_expected_exact_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -116,7 +116,7 @@ namespace FluentAssertions.Net45.Specs
         }
 
         [TestMethod]
-        public void When_async_method_does_not_throw_exception_and_expecting_not_to_throw_anything_it_should_succeed()
+        public void When_async_method_does_not_throw_exception_and_that_was_expected_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -137,7 +137,7 @@ namespace FluentAssertions.Net45.Specs
         }
 
         [TestMethod]
-        public void When_async_method_throws_exception_and_expecting_not_to_throw_anything_it_should_fail()
+        public void When_async_method_throws_exception_and_no_exception_was_expected_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
