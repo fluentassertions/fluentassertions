@@ -368,7 +368,7 @@ namespace FluentAssertions.Specs
         #region BeAssignableTo
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_its_own_type_it_succeeds()
+        public void When_its_own_type_it_succeeds()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
@@ -377,7 +377,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_its_base_type_it_succeeds()
+        public void When_its_base_type_it_succeeds()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
@@ -386,7 +386,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_an_implemented_interface_type_it_succeeds()
+        public void When_implemented_interface_type_it_succeeds()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
@@ -395,22 +395,62 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_it_fails_with_a_a_useful_message()
+        public void When_an_unrelated_type_it_fails_with_a_useful_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             Type someType = typeof (DummyImplementingClass);
+            Action act = () => someType.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message");
+            
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage($"*{typeof (DummyImplementingClass)} to be assignable to {typeof (DateTime)}*failure message*");
+        }
+
+        [TestMethod]
+        public void When_its_own_type_instance_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().BeAssignableTo(typeof(DummyImplementingClass));
+        }
+
+        [TestMethod]
+        public void When_its_base_type_instance_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().BeAssignableTo(typeof(DummyBaseClass));
+        }
+
+        [TestMethod]
+        public void When_an_implemented_interface_type_instance_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().BeAssignableTo(typeof(IDisposable));
+        }
+
+        [TestMethod]
+        public void When_an_unrelated_type_instance_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Type someType = typeof(DummyImplementingClass);
+            Action act = () => someType.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            someType.Invoking(
-                x => x.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected type {0} to be assignable to {1} because we want to test the failure message, but it is not",
-                    typeof (DummyImplementingClass), typeof (DateTime)));
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage($"*{typeof(DummyImplementingClass)} to be assignable to {typeof(DateTime)}*failure message*");
         }
 
         #endregion
