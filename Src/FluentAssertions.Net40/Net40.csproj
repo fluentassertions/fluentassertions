@@ -74,6 +74,7 @@
     <Compile Include="Execution\GallioTestFramework.cs" />
     <Compile Include="Execution\MbUnitTestFramework.cs" />
     <Compile Include="Execution\MSpecFramework.cs" />
+    <Compile Include="Execution\MSTestFrameworkV2.cs" />
     <Compile Include="Execution\MSTestFramework.cs" />
     <Compile Include="Execution\NUnitTestFramework.cs" />
     <Compile Include="Execution\TestFrameworkProvider.cs" />
