@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NEW_REFLECTION</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NEW_REFLECTION;NETSTANDARD1_3</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -30,7 +30,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Artifacts\Lib\netstandard1.3\</OutputPath>
-    <DefineConstants>TRACE;NEW_REFLECTION</DefineConstants>
+    <DefineConstants>TRACE;NEW_REFLECTION;NETSTANDARD1_3</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\Artifacts\Lib\netstandard1.3\FluentAssertions.Core.XML</DocumentationFile>
