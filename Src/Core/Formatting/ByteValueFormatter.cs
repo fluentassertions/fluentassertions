@@ -34,7 +34,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            return ((byte)value).ToString(CultureInfo.InvariantCulture) + "uy";
+            return "0x" + ((byte)value).ToString("X2");
         }
     }
 }

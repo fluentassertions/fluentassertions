@@ -38,7 +38,16 @@ namespace FluentAssertions.Formatting
             var enumerable = ((IEnumerable)value).Cast<object>().ToArray();
             if (enumerable.Any())
             {
-                return "{" + string.Join(", ", enumerable.Select(o => Formatter.ToString(o, useLineBreaks, processedObjects, nestedPropertyLevel)).ToArray()) + "}";
+                string postfix = "";
+
+                int maxItems = 32;
+                if (enumerable.Length > maxItems)
+                {
+                    postfix = $", ...{enumerable.Length - maxItems} more...";
+                    enumerable = enumerable.Take(maxItems).ToArray();
+                }
+
+                return "{" + string.Join(", ", enumerable.Select(obj => Formatter.ToString(obj, useLineBreaks, processedObjects, nestedPropertyLevel)).ToArray()) + postfix + "}";
             }
             else
             {
