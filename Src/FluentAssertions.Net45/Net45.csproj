@@ -87,6 +87,9 @@
     <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFramework.cs">
       <Link>Execution\MSTestFramework.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFrameworkV2.cs">
+      <Link>Execution\MSTestFrameworkV2.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\NUnitTestFramework.cs">
       <Link>Execution\NUnitTestFramework.cs</Link>
     </Compile>
