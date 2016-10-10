@@ -304,8 +304,8 @@ collection.Should().NotBeEmpty()
 
 collection.Should().Equal(new List<int> { 1, 2, 5, 8 });
 collection.Should().Equal(1, 2, 5, 8);
-collection.Should().BeEquivalentTO(8, 2, 1, 5);
-collection.Should().NotBeEquivalentTO(8, 2, 3, 5);
+collection.Should().BeEquivalentTo(8, 2, 1, 5);
+collection.Should().NotBeEquivalentTo(8, 2, 3, 5);
 
 collection.Should().HaveCount(c => c > 3).And.OnlyHaveUniqueItems();
 collection.Should().HaveSameCount(new[] {6, 2, 0, 5});
