@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using FluentAssertions.Common;
 
@@ -14,7 +15,7 @@ namespace FluentAssertions.Equivalency
         public ObjectReference(object @object, string path)
         {
             this.@object = @object;
-            this.path = path.ToLower().Split('.');
+            this.path = path.ToLower().Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>
