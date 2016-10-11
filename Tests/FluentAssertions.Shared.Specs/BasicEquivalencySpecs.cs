@@ -2665,7 +2665,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected member Level.Root.Level to be*but it contains a cyclic reference*");
+                .WithMessage("Expected member Level.Root to be*but it contains a cyclic reference*");
         }
 
         [TestMethod]
@@ -2704,6 +2704,55 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+
+
+        [TestMethod]
+        public void When_two_cyclic_graphs_are_equivalent_when_ignoring_cycle_references_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var a = new Parent();
+            a.Child1 = new Child(a, 1);
+            a.Child2 = new Child(a);
+
+            var b = new Parent();
+            b.Child1 = new Child(b);
+            b.Child2 = new Child(b);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => a.ShouldBeEquivalentTo(b, x => x
+                .Excluding(y => y.Child1)
+                .IgnoringCyclicReferences());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        public class Parent
+        {
+            public Child Child1 { get; set; }
+            public Child Child2 { get; set; }
+        }
+
+        public class Child
+        {
+            public Child(Parent parent, int stuff = 0)
+            {
+                Parent = parent;
+                Stuff = stuff;
+            }
+
+            public Parent Parent { get; set; }
+            public int Stuff { get; set; }
+
+        }
+
+
 
         [TestMethod]
         public void When_validating_nested_properties_that_are_null_it_should_not_throw_on_cyclic_references()
