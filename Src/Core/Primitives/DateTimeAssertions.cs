@@ -30,7 +30,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -52,7 +52,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The unexpected value</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -84,7 +84,7 @@ namespace FluentAssertions.Primitives
         /// The maximum amount of milliseconds which the two values may differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -124,7 +124,7 @@ namespace FluentAssertions.Primitives
         /// The maximum amount of milliseconds which the two values must differ.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -155,7 +155,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be before.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -178,7 +178,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The <see cref="DateTime"/>  that the current value is not expected to be before.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -195,7 +195,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be on or before.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -218,7 +218,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The <see cref="DateTime"/>  that the current value is not expected to be on nor before.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -235,7 +235,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be after.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -258,7 +258,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The <see cref="DateTime"/>  that the current value is not expected to be after.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -275,7 +275,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The <see cref="DateTime"/>  that the current value is expected to be on or after.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -298,7 +298,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The <see cref="DateTime"/>  that the current value is expected not to be on nor after.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -315,7 +315,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected year of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -341,7 +341,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The year that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -367,7 +367,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected month of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -392,7 +392,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The month that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -418,7 +418,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected day of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -443,7 +443,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The day that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -469,7 +469,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected hour of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -494,7 +494,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The hour that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -520,7 +520,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected minutes of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -546,7 +546,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The minute that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -573,7 +573,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="expected">The expected seconds of the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -599,7 +599,7 @@ namespace FluentAssertions.Primitives
         /// </summary>
         /// <param name="unexpected">The second that should not be in the current value.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -622,7 +622,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/> 
+        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
         /// </summary>
         /// <param name="timeSpan">
@@ -634,7 +634,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/> 
+        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// is equal to or exceeds the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
         /// </summary>
         /// <param name="timeSpan">
@@ -647,7 +647,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/> 
+        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// differs exactly the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
         /// </summary>
         /// <param name="timeSpan">
@@ -659,7 +659,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/> 
+        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// is within the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
         /// </summary>
         /// <param name="timeSpan">
@@ -671,7 +671,7 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
-        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>   
+        /// Returns a <see cref="DateTimeRangeAssertions"/> object that can be used to assert that the current <see cref="DateTime"/>
         /// differs at maximum the specified <paramref name="timeSpan"/> compared to another <see cref="DateTime"/> .
         /// </summary>
         /// <param name="timeSpan">
@@ -767,7 +767,7 @@ namespace FluentAssertions.Primitives
         /// The values that are valid.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -777,6 +777,7 @@ namespace FluentAssertions.Primitives
         {
             return BeOneOf(validValues.Cast<DateTime?>(), because, becauseArgs);
         }
+
         /// <summary>
         /// Asserts that the <see cref="DateTime"/> is one of the specified <paramref name="validValues"/>.
         /// </summary>
@@ -784,7 +785,7 @@ namespace FluentAssertions.Primitives
         /// The values that are valid.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -796,6 +797,33 @@ namespace FluentAssertions.Primitives
                 .ForCondition(validValues.Contains(Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected value to be one of {0}{reason}, but found {1}.", validValues, Subject);
+
+            return new AndConstraint<DateTimeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the <see cref="DateTime"/> represents a value in the <paramref name="expectedKind"/>.
+        /// </summary>
+        /// <param name="expectedKind">
+        /// The expected <see cref="DateTimeKind"/> that the current value must represent.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> BeIn(DateTimeKind expectedKind, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(Subject.HasValue)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:kind} to be {0}{reason}, but found a <null> DateTime.", expectedKind)
+                .Then
+                .ForCondition(Subject.Value.Kind == expectedKind)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:kind} to be {0}{reason}, but found {1}.", expectedKind, Subject.Value.Kind);
 
             return new AndConstraint<DateTimeAssertions>(this);
         }
