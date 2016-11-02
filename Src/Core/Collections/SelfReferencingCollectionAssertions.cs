@@ -440,11 +440,16 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to contain a single item{reason}, but found <null>.");
             }
 
-            if (Subject.Count() != 1)
+            switch (Subject.Count())
             {
-                Execute.Assertion
-                       .BecauseOf(because, becauseArgs)
-                       .FailWith("Expected {context:collection} to contain a single item{reason}.");
+                case 0: //Fail, Collection is empty
+                  Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
+                  break;
+                case 1: //Success Condition
+                  break;
+                default: // Fail, Collection contains more than a single item
+                  Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", Subject);
+                  break;
             }
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Single());
