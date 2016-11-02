@@ -488,7 +488,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected collection to contain a single item because more is not allowed.");
+                .WithMessage("Expected collection to contain a single item because more is not allowed, but the collection is empty.");
         }
 
         [TestMethod]
@@ -528,7 +528,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            const string expectedMessage = "Expected collection to contain a single item.";
+            const string expectedMessage = "Expected collection to contain a single item, but found {1, 3}.";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
@@ -549,7 +549,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            const string expectedMessage = "Expected collection to contain a single item.";
+            const string expectedMessage = "Expected collection to contain a single item, but found {1, 2}.";
 
             act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
         }
