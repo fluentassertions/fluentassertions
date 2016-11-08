@@ -93,7 +93,7 @@ namespace FluentAssertions.Xml
 
         /// <summary>
         /// Asserts that the current <see cref="XDocument"/> is equivalent to the <paramref name="expected"/> document,
-        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// using its <see cref="XNode.DeepEquals(XNode, XNode)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected document</param>
         public AndConstraint<XDocumentAssertions> BeEquivalentTo(XDocument expected)
@@ -103,7 +103,7 @@ namespace FluentAssertions.Xml
 
         /// <summary>
         /// Asserts that the current <see cref="XDocument"/> is equivalent to the <paramref name="expected"/> document,
-        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// using its <see cref="XNode.DeepEquals(XNode, XNode)" /> implementation.
         /// </summary>
         /// <param name="expected">The expected document</param>
         /// <param name="because">
@@ -122,7 +122,7 @@ namespace FluentAssertions.Xml
 
         /// <summary>
         /// Asserts that the current <see cref="XDocument"/> is not equivalent to the <paramref name="unexpected"/> document,
-        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// using its <see cref="XNode.DeepEquals(XNode, XNode)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected document</param>
         public AndConstraint<XDocumentAssertions> NotBeEquivalentTo(XDocument unexpected)
@@ -132,7 +132,7 @@ namespace FluentAssertions.Xml
 
         /// <summary>
         /// Asserts that the current <see cref="XDocument"/> is not equivalent to the <paramref name="unexpected"/> document,
-        /// using its <see cref="XNode.DeepEquals()" /> implementation.
+        /// using its <see cref="XNode.DeepEquals(XNode, XNode)" /> implementation.
         /// </summary>
         /// <param name="unexpected">The unexpected document</param>
         /// <param name="because">
