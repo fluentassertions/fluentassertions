@@ -749,7 +749,7 @@ namespace FluentAssertions
                 throw new NullReferenceException("Cannot monitor the events of a <null> object.");
             }
 
-            return EventMonitor.Attach(eventSource, eventSource?.GetType());
+            return EventMonitor.Attach(eventSource, eventSource.GetType());
         }
 
         /// <summary>
