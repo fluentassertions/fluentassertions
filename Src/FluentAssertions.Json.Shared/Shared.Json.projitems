@@ -16,5 +16,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)..\SolutionInfo.cs">
       <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)..\JetBrainsAnnotations.cs">
+      <Link>JetBrainsAnnotations.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
