@@ -137,7 +137,7 @@ namespace FluentAssertions
         [Pure]
         public static Action Enumerating<T>(this Func<IEnumerable<T>> enumerable)
         {
-            return () => ForceEnumeration(() => (IEnumerable) enumerable());
+            return () => ForceEnumeration(enumerable);
         }
 
         private static void ForceEnumeration(Func<IEnumerable> enumerable)
