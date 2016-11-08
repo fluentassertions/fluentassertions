@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Xml.Linq;
 using FluentAssertions.Collections;
@@ -13,11 +11,17 @@ using FluentAssertions.Events;
 using FluentAssertions.Numeric;
 using FluentAssertions.Primitives;
 using FluentAssertions.Reflection;
-using FluentAssertions.Specialized;
 using FluentAssertions.Types;
 using FluentAssertions.Xml;
 using JetBrains.Annotations;
 
+#if !SILVERLIGHT && !PORTABLE
+using System.Linq.Expressions;
+using FluentAssertions.Specialized;
+#endif
+#if SILVERLIGHT || WINRT || PORTABLE || CORE_CLR
+using System.ComponentModel;
+#endif
 #if NET45 || WINRT || CORE_CLR
 using System.Threading.Tasks;
 
