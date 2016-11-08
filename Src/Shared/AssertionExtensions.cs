@@ -142,7 +142,7 @@ namespace FluentAssertions
 
         private static void ForceEnumeration(Func<IEnumerable> enumerable)
         {
-            foreach (object item in enumerable())
+            foreach (object _ in enumerable())
             {
                 // Do nothing
             }
