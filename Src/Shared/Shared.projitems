@@ -30,5 +30,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Xml\XDocumentAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xml\XElementAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xml\XmlReaderValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\JetBrainsAnnotations.cs">
+      <Link>JetBrainsAnnotations.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
