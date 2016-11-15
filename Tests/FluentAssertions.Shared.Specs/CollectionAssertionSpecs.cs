@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Collections.ObjectModel;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
-using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -3482,6 +3481,136 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot verify count against a <null> collection.");
+        }
+
+        #endregion
+
+        #region ShouldAllBeOfType
+
+        [TestMethod]
+        public void When_all_of_the_types_in_a_collection_match_expected_type_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new int[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().AllBeOfType<int>();
+        }
+
+        [TestMethod]
+        public void When_all_of_the_types_in_a_collection_match_the_type_or_subtype_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { new Exception(), new ArgumentException()  };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().AllBeOfType<Exception>();
+        }
+
+        [TestMethod]
+        public void When_one_of_the_types_does_not_match_it_should_throw_with_a_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { 1, "2", 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().AllBeOfType<int>("because they are of different type");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected type to be \"System.Int32\" because they are of different type, but found \"[System.Int32, System.String, System.Int32]\".");
+        }
+
+        [TestMethod]
+        public void When_one_of_the_elements_is_null_it_should_throw_with_a_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { 1, null, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().AllBeOfType<int>("because they are of different type");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected type to be \"System.Int32\" because they are of different type, but found a null element.");
+        }
+
+        #endregion
+
+        #region ShouldAllBeOfExactType
+
+        [TestMethod]
+        public void When_all_of_the_types_in_a_collection_match_expected_type_exactly_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new int[] { 1, 2, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().AllBeOfExactType<int>();
+        }
+
+        [TestMethod]
+        public void When_one_of_the_types_does_not_match_exactly_it_should_throw_with_a_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { new Exception(), new ArgumentException(),  };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().AllBeOfExactType<Exception>("because they are of different type");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected type to be \"System.Exception\" because they are of different type, but found \"[System.Exception, System.ArgumentException]\".");
+        }
+
+        [TestMethod]
+        public void When_one_of_the_elements_is_null_for_an_exact_match_it_should_throw_with_a_clear_explanation()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new object[] { 1, null, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().AllBeOfExactType<int>("because they are of different type");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected type to be \"System.Int32\" because they are of different type, but found a null element.");
         }
 
         #endregion

@@ -1279,6 +1279,90 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that all items in the collection are of the specified type <typeparamref name="T" />
+        /// </summary>
+        /// <typeparam name="T">The expected type of the objects</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBeOfType<T>(string because = "", params object[] becauseArgs)
+        {
+            return AllBeOfType(typeof(T), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that all items in the collection are of the specified type <paramref name="expectedType"/>
+        /// </summary>
+        /// <param name="expectedType">The expected type of the objects</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.All(x => x != null))
+                .FailWith("but found a null element.")
+                .Then
+                .ForCondition(subject => subject.All(x => expectedType.IsAssignableFrom(x.GetType())))
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => x.GetType().FullName))}]");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that all items in the collection are of the exact specified type <typeparamref name="T" />
+        /// </summary>
+        /// <typeparam name="T">The expected type of the objects</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBeOfExactType<T>(string because = "", params object[] becauseArgs)
+        {
+            return AllBeOfExactType(typeof(T), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that all items in the collection are of the exact specified type <paramref name="expectedType"/>
+        /// </summary>
+        /// <param name="expectedType">The expected type of the objects</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBeOfExactType(Type expectedType, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.All(x => x != null))
+                .FailWith("but found a null element.")
+                .Then
+                .ForCondition(subject => subject.All(x => expectedType == x.GetType()))
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => x.GetType().FullName))}]");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected override string Context
