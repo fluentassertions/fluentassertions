@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Execution;
+using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Reflection
 {
     /// <summary>
     /// Contains a number of methods to assert that an <see cref="Assembly"/> is in the expected state.
     /// </summary>
-    public class AssemblyAssertions
+    public class AssemblyAssertions : ReferenceTypeAssertions<Assembly, AssemblyAssertions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyAssertions" /> class.
@@ -18,10 +19,6 @@ namespace FluentAssertions.Reflection
             Subject = assembly;
         }
 
-        /// <summary>
-        /// Gets the object which value is being asserted.
-        /// </summary>
-        public Assembly Subject { get; private set; }
 #if !PORTABLE && !SILVERLIGHT && !WINRT && !CORE_CLR
 
         /// <summary>
@@ -112,6 +109,14 @@ namespace FluentAssertions.Reflection
                     @namespace, name);
 
             return new AndWhichConstraint<AssemblyAssertions, Type>(this, foundType);
+        }
+
+        /// <summary>
+        /// Returns the type of the subject the assertion applies on.
+        /// </summary>
+        protected override string Context
+        {
+            get { return "assembly"; }
         }
     }
 }
