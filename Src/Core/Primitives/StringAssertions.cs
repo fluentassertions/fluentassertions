@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using FluentAssertions.Execution;
 
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace FluentAssertions.Primitives
 {
@@ -232,7 +233,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> MatchRegex(string regularExpression, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringAssertions> MatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
           if (regularExpression == null)
           {
@@ -280,7 +281,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<StringAssertions> NotMatchRegex(string regularExpression, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringAssertions> NotMatchRegex([RegexPattern] string regularExpression, string because = "", params object[] becauseArgs)
         {
           if (regularExpression == null)
           {
