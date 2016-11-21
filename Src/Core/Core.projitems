@@ -201,5 +201,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Types\TypeAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\TypeSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\TypeSelectorAssertions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\JetBrainsAnnotations.cs">
+      <Link>JetBrainsAnnotations.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
