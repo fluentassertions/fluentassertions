@@ -3485,7 +3485,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region ShouldAllBeOfType
+        #region ShouldAllBeAssignableTo
 
         [TestMethod]
         public void When_all_of_the_types_in_a_collection_match_expected_type_it_should_succeed()
@@ -3498,7 +3498,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().AllBeOfType<int>();
+            collection.Should().AllBeAssignableTo<int>();
         }
 
         [TestMethod]
@@ -3512,7 +3512,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().AllBeOfType<Exception>();
+            collection.Should().AllBeAssignableTo<Exception>();
         }
 
         [TestMethod]
@@ -3526,7 +3526,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().AllBeOfType<int>("because they are of different type");
+            Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3546,7 +3546,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().AllBeOfType<int>("because they are of different type");
+            Action act = () => collection.Should().AllBeAssignableTo<int>("because they are of different type");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3557,7 +3557,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region ShouldAllBeOfExactType
+        #region ShouldAllBeOfType
 
         [TestMethod]
         public void When_all_of_the_types_in_a_collection_match_expected_type_exactly_it_should_succeed()
@@ -3570,7 +3570,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            collection.Should().AllBeOfExactType<int>();
+            collection.Should().AllBeOfType<int>();
         }
 
         [TestMethod]
@@ -3584,7 +3584,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().AllBeOfExactType<Exception>("because they are of different type");
+            Action act = () => collection.Should().AllBeOfType<Exception>("because they are of different type");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3604,7 +3604,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().AllBeOfExactType<int>("because they are of different type");
+            Action act = () => collection.Should().AllBeOfType<int>("because they are of different type");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

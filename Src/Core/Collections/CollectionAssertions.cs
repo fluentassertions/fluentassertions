@@ -1289,9 +1289,9 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> AllBeOfType<T>(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> AllBeAssignableTo<T>(string because = "", params object[] becauseArgs)
         {
-            return AllBeOfType(typeof(T), because, becauseArgs);
+            return AllBeAssignableTo(typeof(T), because, becauseArgs);
         }
 
         /// <summary>
@@ -1305,7 +1305,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> AllBeAssignableTo(Type expectedType, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
@@ -1331,9 +1331,9 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> AllBeOfExactType<T>(string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> AllBeOfType<T>(string because = "", params object[] becauseArgs)
         {
-            return AllBeOfExactType(typeof(T), because, becauseArgs);
+            return AllBeOfType(typeof(T), because, becauseArgs);
         }
 
         /// <summary>
@@ -1347,7 +1347,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> AllBeOfExactType(Type expectedType, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
                 .BecauseOf(because, becauseArgs)
