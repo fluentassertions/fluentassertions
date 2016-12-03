@@ -141,7 +141,15 @@ namespace FluentAssertions.Specialized
             }
             catch (Exception exception)
             {
-                actualException = exception;
+                var ar = exception as AggregateException;
+                if (ar?.InnerException is AggregateException)
+                {
+                    actualException = ar.InnerException;
+                }
+                else
+                {
+                    actualException = exception;
+                }
             }
 
             return actualException;

@@ -223,26 +223,97 @@ namespace FluentAssertions.Net45.Specs
         }
 
         [TestMethod]
-        public void When_async_method_throws_exception_without_inner_exception_it_should_throw_AssertFailedException()
+        public void When_async_method_throws_the_expected_inner_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> asyncAction = () =>
-            {
+            Func<Task> task = async () => {
+                await Task.Delay(100);
                 throw new InvalidOperationException();
             };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => asyncAction.ShouldNotThrow();
+            Action action = () => task
+                .ShouldThrow<AggregateException>()
+                .WithInnerException<InvalidOperationException>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect any exception, but found*");
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_async_method_throws_the_expected_exception_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> task = async () => {
+                await Task.Delay(100);
+                throw new InvalidOperationException();
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => task
+                .ShouldThrow<InvalidOperationException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_async_method_does_not_throw_the_expected_inner_exception_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> task = async () => {
+                await Task.Delay(100);
+                throw new ArgumentException();
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => task
+                .ShouldThrow<AggregateException>()
+                .WithInnerException<InvalidOperationException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>().WithMessage("*InvalidOperation*Argument*");
+        }
+
+        [TestMethod]
+        public void When_async_method_does_not_throw_the_expected_exception_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Func<Task> task = async () => {
+                await Task.Delay(100);
+                throw new ArgumentException();
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => task
+                .ShouldThrow<InvalidOperationException>();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>().WithMessage("*InvalidOperation*Argument*");
         }
     }
 
