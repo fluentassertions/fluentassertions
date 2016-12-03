@@ -39,6 +39,21 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that a nullable <see cref="DateTimeOffset"/> value is not <c>null</c>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// </param>      
+        public AndConstraint<NullableDateTimeOffsetAssertions> NotBeNull(string because = "", params object[] becauseArgs)
+        {
+            return HaveValue(because, becauseArgs);
+        }
+
+        /// <summary>
         /// Asserts that a nullable <see cref="DateTimeOffset"/> value is <c>null</c>.
         /// </summary>
         /// <param name="because">
@@ -57,6 +72,22 @@ namespace FluentAssertions.Primitives
                 .FailWith("Did not expect variable to have a value{reason}, but found {0}", Subject);
 
             return new AndConstraint<NullableDateTimeOffsetAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that a nullable <see cref="DateTimeOffset"/> value is <c>null</c>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// </param>      
+        public AndConstraint<NullableDateTimeOffsetAssertions> BeNull(string because = "",
+            params object[] becauseArgs)
+        {
+            return NotHaveValue(because, becauseArgs);
         }
 
         /// <summary>
