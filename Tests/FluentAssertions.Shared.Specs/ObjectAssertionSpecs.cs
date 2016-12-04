@@ -781,6 +781,25 @@ namespace FluentAssertions.Specs
                     ex.Message.Contains("member Name to be"));
         }
 
+        [TestMethod]
+        public void When_a_system_exception_is_asserted_to_be_serializable_it_should_compare_its_fields_and_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new Exception("some error");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeBinarySerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
         internal class UnserializableClass
         {
             public string Name { get; set; }
