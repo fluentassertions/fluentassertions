@@ -364,6 +364,102 @@ namespace FluentAssertions.Specs
             subject.ShouldNotRaise("PropertyChanged");
         }
 
+        [TestMethod]
+        public void When_a_non_conventional_event_with_a_specific_argument_was_raised_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject
+                .ShouldRaise("NonConventionalEvent")
+                .WithArgs<string>(args => args == "third argument");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_non_conventional_event_with_many_specific_arguments_was_raised_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject
+                .ShouldRaise("NonConventionalEvent")
+                .WithArgs<string>(null, args => args == "third argument");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_non_conventional_event_with_a_specific_argument_was_not_raised_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            const int wrongArgument = 3;
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject
+                .ShouldRaise("NonConventionalEvent")
+                .WithArgs<int>(args => args == wrongArgument);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected at least one event with arguments matching (args == " + wrongArgument + "), but found none.");
+        }
+
+        [TestMethod]
+        public void When_a_non_conventional_event_with_many_specific_arguments_was_not_raised_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //----------------------------------------------------------------------------------------------------------
+            const string wrongArgument = "not a third argument";
+            var subject = new EventRaisingClass();
+            subject.MonitorEvents();
+            subject.RaiseNonConventionalEvent("first argument", 2, "third argument");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject
+                .ShouldRaise("NonConventionalEvent")
+                .WithArgs<string>(null, args => args == wrongArgument);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected at least one event with arguments matching \"(args == \\\"" + wrongArgument + "\\\")\", but found none.");
+        }
+
         public interface IEventRaisingInterface
         {
             event EventHandler InterfaceEvent;
@@ -934,7 +1030,15 @@ namespace FluentAssertions.Specs
         public class EventRaisingClass : INotifyPropertyChanged
         {
             public string SomeProperty { get; set; }
+
             public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+            public event Action<string, int, string> NonConventionalEvent = delegate { };
+
+            public void RaiseNonConventionalEvent(string first, int second, string third)
+            {
+                NonConventionalEvent.Invoke(first, second, third);
+            }
 
             public void RaiseEventWithoutSender()
             {
