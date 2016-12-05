@@ -97,14 +97,16 @@ regexOptions.Should().NotHaveFlag(RegexOptions.CaseInsensitive);
 ```csharp
 short? theShort = null;
 theShort.Should().NotHaveValue();
+theShort.Should().BeNull();
 
 int? theInt = 3;
 theInt.Should().HaveValue();
+theInt.Should().NotBeNull();
 
 DateTime? theDate = null;
 theDate.Should().NotHaveValue();
+theDate.Should().BeNull();
 ```
-
 ## Booleans ##
 
 ```csharp
