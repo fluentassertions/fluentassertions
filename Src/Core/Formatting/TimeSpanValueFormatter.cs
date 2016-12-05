@@ -76,8 +76,18 @@ namespace FluentAssertions.Formatting
             AddHoursIfNotZero(absoluteTimespan, fragments);
             AddMinutesIfNotZero(absoluteTimespan, fragments);
             AddSecondsIfNotZero(absoluteTimespan, fragments);
+            AddMicrosecondsIfNotZero(absoluteTimespan, fragments);
 
             return fragments;
+        }
+
+        private static void AddMicrosecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
+        {
+            if (timeSpan.Ticks > 0 && timeSpan.Ticks < TimeSpan.TicksPerMillisecond)
+            {
+                var microSeconds = timeSpan.Ticks / (double)TimeSpan.TicksPerMillisecond * 1000;
+                fragments.Add(microSeconds.ToString("0.0") + "us");
+            }
         }
 
         private static void AddSecondsIfNotZero(TimeSpan timeSpan, List<string> fragments)
