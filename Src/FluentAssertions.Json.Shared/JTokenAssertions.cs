@@ -130,12 +130,14 @@ namespace FluentAssertions.Json
         {
             ObjectDiffPatchResult diff = ObjectDiffPatch.GenerateDiff(Subject, expected);
             JToken firstDifferingToken = diff.NewValues?.First ?? diff.OldValues?.First;
+            JTokenFormatter formatter = new JTokenFormatter();
 
             Execute.Assertion
                 .ForCondition(diff.AreEqual)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected JSON document {0} to be equivalent to {1}{reason}, but differs at {2}.",
-                    Subject, expected, firstDifferingToken);
+                .FailWith($"Expected JSON document {formatter.ToString(Subject, true)}" +
+                    $" to be equivalent to {formatter.ToString(expected, true)}" +
+                    $"{{reason}}, but differs at {firstDifferingToken}.");
 
             return new AndConstraint<JTokenAssertions>(this);
         }
