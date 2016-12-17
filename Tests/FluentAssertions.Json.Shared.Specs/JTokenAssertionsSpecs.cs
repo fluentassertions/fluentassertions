@@ -269,9 +269,9 @@ namespace FluentAssertions.Json
             if (!string.IsNullOrWhiteSpace(reason))
                 because = " because " + string.Format(reason, reasonArgs);
 
-            var expectedMessage = $"Expected JSON document {_formatter.ToString(actual)}" +
-                                  $" to be equivalent to {_formatter.ToString(expected)}" +
-                                  $"{because}, but differs at {_formatter.ToString(key)}.";
+            var expectedMessage = $"Expected JSON document {_formatter.ToString(actual, true)}" +
+                                  $" to be equivalent to {_formatter.ToString(expected, true)}" +
+                                  $"{because}, but differs at {key}.";
             return expectedMessage;
         }
     }
