@@ -129,7 +129,7 @@ If you have any comments or suggestions, please let us know via [twitter](https:
 
 ## Community Extensions
 
-There are a number of community maintained extension projects. The ones we are aware of a listed below. To add yours please fork the [reprository](https://github.com/dennisdoomen/fluentassertions/tree/gh-pages) and send a pull request.
+There are a number of community maintained extension projects. The ones we are aware of a listed below. To add yours please fork the [repository](https://github.com/dennisdoomen/fluentassertions/tree/gh-pages) and send a pull request.
 
 *   [FluentAssertions.Ioc.Ninject](https://github.com/kevinkuszyk/FluentAssertions.Ioc.Ninject) for testing Ninject bindings.
 *   [FluentAssertions.Mvc](https://github.com/CaseyBurns/FluentAssertions.MVC) for testing MVC applications.
