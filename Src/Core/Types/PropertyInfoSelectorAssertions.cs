@@ -163,7 +163,7 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)
         {
-            return string.Join(Environment.NewLine, properties.Select(PropertyInfoAssertions.GetDescriptionFor).ToArray());
+            return string.Join(Environment.NewLine, properties.Select(PropertyInfoAssertions.GetDescriptionFor).OrderBy(d => d).ToArray());
         }
 
         /// <summary>

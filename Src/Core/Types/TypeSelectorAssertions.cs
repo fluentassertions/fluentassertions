@@ -149,7 +149,7 @@ namespace FluentAssertions.Types
 
         private static string GetDescriptionsFor(IEnumerable<Type> types)
         {
-            return string.Join(Environment.NewLine, types.Select(GetDescriptionFor).ToArray());
+            return string.Join(Environment.NewLine, types.Select(GetDescriptionFor).OrderBy(d => d).ToArray());
         }
 
         private static string GetDescriptionFor(Type type)

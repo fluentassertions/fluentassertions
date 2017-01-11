@@ -188,7 +188,7 @@ namespace FluentAssertions.Types
         private static string GetDescriptionsFor(IEnumerable<MethodInfo> methods)
         {
             return string.Join(Environment.NewLine,
-                methods.Select(MethodInfoAssertions.GetDescriptionFor).ToArray());
+                methods.Select(MethodInfoAssertions.GetDescriptionFor).OrderBy(d => d).ToArray());
         }
 
         /// <summary>

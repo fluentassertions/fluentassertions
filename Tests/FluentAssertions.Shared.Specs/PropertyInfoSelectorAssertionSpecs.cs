@@ -76,9 +76,9 @@ namespace FluentAssertions.Specs
                .WithMessage("Expected all selected properties" +
                    " to be virtual because we want to test the error message," +
                    " but the following properties are not virtual:\r\n" +
-                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty\r\n" +
                    "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.InternalNonVirtualProperty\r\n" +
-                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
+                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty");
         }
 
         [TestMethod]
@@ -145,9 +145,9 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected all selected properties to be decorated with" +
                    " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
                    " but the following properties are not:\r\n" +
-                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty\r\n" +
                    "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.InternalProperty\r\n" +
-                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
+                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty");
         }
 
         [TestMethod]
@@ -213,10 +213,10 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected no selected properties to be decorated with" +
                    " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
                    " but the following properties are:\r\n" +
-                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicProperty\r\n" +
-                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicPropertyWithSameAttributeTwice\r\n" +
                    "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.InternalProperty\r\n" +
-                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.ProtectedProperty");
+                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.ProtectedProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicPropertyWithSameAttributeTwice");
         }
 
         [TestMethod]

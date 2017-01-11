@@ -73,9 +73,9 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected all selected methods" +
                              " to be virtual because we want to test the error message," +
                              " but the following methods are not virtual:\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing\r\n" +
                              "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.InternalDoNothing\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
+                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing");
         }
 
         [TestMethod]
@@ -141,9 +141,9 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected all selected methods to be decorated with" +
                              " FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
                              " but the following methods are not:\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing\r\n" +
                              "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
+                             "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing");
         }
 
         [TestMethod]
@@ -209,10 +209,10 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected no selected methods to be decorated with" +
                              " FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
                              " but the following methods are:\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing\r\n" +
+                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" + 
                              "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothingWithSameAttributeTwice\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing");
+                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothingWithSameAttributeTwice");
         }
 
         [TestMethod]
