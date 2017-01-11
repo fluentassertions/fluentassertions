@@ -326,16 +326,17 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             int valueTypeObject = 42;
+            var doubleType = typeof(double);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () => valueTypeObject.Should().BeOfType(typeof(double));
+            Action act = () => valueTypeObject.Should().BeOfType(doubleType);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<AssertFailedException>().WithMessage($"Expected type to be {doubleType}, but found {valueTypeObject.GetType()}.");
         }
 
         [TestMethod]
