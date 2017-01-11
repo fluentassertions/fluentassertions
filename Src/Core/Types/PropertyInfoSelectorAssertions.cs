@@ -122,10 +122,43 @@ namespace FluentAssertions.Types
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the selected properties are not decorated with the specified <typeparamref name="TAttribute"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : Attribute
+        {
+            IEnumerable<PropertyInfo> propertiesWithAttribute = GetPropertiesWith<TAttribute>();
+
+            string failureMessage =
+                "Expected no selected properties to be decorated with {0}{reason}, but the following properties are:\r\n" +
+                GetDescriptionsFor(propertiesWithAttribute);
+
+            Execute.Assertion
+                .ForCondition(!propertiesWithAttribute.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(failureMessage, typeof(TAttribute));
+
+            return new AndConstraint<PropertyInfoSelectorAssertions>(this);
+        }
+
         private PropertyInfo[] GetPropertiesWithout<TAttribute>()
             where TAttribute : Attribute
         {
             return SubjectProperties.Where(property => !property.IsDecoratedWith<TAttribute>()).ToArray();
+        }
+
+        private PropertyInfo[] GetPropertiesWith<TAttribute>()
+            where TAttribute : Attribute
+        {
+            return SubjectProperties.Where(property => property.IsDecoratedWith<TAttribute>()).ToArray();
         }
 
         private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)

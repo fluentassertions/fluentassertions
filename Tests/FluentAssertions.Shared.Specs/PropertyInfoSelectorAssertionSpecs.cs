@@ -151,6 +151,75 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_not_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfoSelector.Should().NotBeDecoratedWith<DummyPropertyAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute))
+                .ThatArePublicOrInternal;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfoSelector.Should().NotBeDecoratedWith<DummyPropertyAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_properties_are_not_decorated_with_attribute_and_they_are_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var propertyInfoSelector = new PropertyInfoSelector(typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfoSelector.Should()
+                                    .NotBeDecoratedWith<DummyPropertyAttribute>("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected no selected properties to be decorated with" +
+                   " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
+                   " but the following properties are:\r\n" +
+                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.PublicPropertyWithSameAttributeTwice\r\n" +
+                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.InternalProperty\r\n" +
+                   "String FluentAssertions.Specs.ClassWithAllPropertiesDecoratedWithDummyAttribute.ProtectedProperty");
+        }
+
+        [TestMethod]
         public void When_a_read_only_property_is_expected_to_be_writable_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
