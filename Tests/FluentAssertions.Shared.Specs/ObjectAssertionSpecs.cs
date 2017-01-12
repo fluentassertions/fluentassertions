@@ -307,16 +307,17 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             int valueTypeObject = 42;
+            var expectedType = typeof(int);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () => valueTypeObject.Should().NotBeOfType(typeof(int));
+            Action act = () => valueTypeObject.Should().NotBeOfType(expectedType);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<AssertFailedException>().WithMessage($"Expected type not to be [{expectedType.AssemblyQualifiedName}], but it is."); 
         }
 
         [TestMethod]
