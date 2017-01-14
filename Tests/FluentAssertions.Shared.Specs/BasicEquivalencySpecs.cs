@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using FluentAssertions.Common;
@@ -1388,6 +1389,88 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage("*color*dolor*");
+        }
+
+        [TestMethod]
+        public void When_excluding_properties_via_non_array_indexers_it_should_exclude_the_specified_paths()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                List = new[] { new { Foo = 1, Bar = 2 }, new { Foo = 3, Bar = 4 } }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new ClassWithOnlyAProperty { Value = 1 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 2 },
+                }
+            };
+
+            var expected = new
+            {
+                List = new[] { new { Foo = 1, Bar = 2 }, new { Foo = 2, Bar = 4 } }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new ClassWithOnlyAProperty { Value = 1 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 3 },
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.ShouldBeEquivalentTo(expected,
+                    options => options
+                        .Excluding(x => x.List[1].Foo)
+                        .Excluding(x => x.Dictionary["Bar"].Value));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_excluding_properties_via_non_array_indexers_it_should_not_exclude_paths_with_different_indexes()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                List = new[] { new { Foo = 1, Bar = 2 }, new { Foo = 3, Bar = 4 } }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new ClassWithOnlyAProperty { Value = 1 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 2 },
+                }
+            };
+
+            var expected = new
+            {
+                List = new[] { new { Foo = 5, Bar = 2 }, new { Foo = 2, Bar = 4 } }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new ClassWithOnlyAProperty { Value = 6 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 3 },
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.ShouldBeEquivalentTo(expected,
+                    options => options
+                        .Excluding(x => x.List[1].Foo)
+                        .Excluding(x => x.Dictionary["Bar"].Value));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
