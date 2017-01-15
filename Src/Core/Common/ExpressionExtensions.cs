@@ -96,6 +96,8 @@ namespace FluentAssertions.Common
                 throw new NullReferenceException("Expected an expression, but found <null>.");
             }
 
+            var unsupportedExpressionMessage = $"Expression <{expression.Body}> cannot be used to select a member.";
+
             while (node != null)
             {
                 switch (node.NodeType)
@@ -129,9 +131,19 @@ namespace FluentAssertions.Common
                         node = null;
                         break;
 
+                    case ExpressionType.Call:
+                        var methodCallExpression = (MethodCallExpression)node;
+                        if (methodCallExpression.Method.Name != "get_Item" || methodCallExpression.Arguments.Count != 1 || !(methodCallExpression.Arguments[0] is ConstantExpression))
+                        {
+                            throw new ArgumentException(unsupportedExpressionMessage);
+                        }
+                        constantExpression = (ConstantExpression)methodCallExpression.Arguments[0];
+                        node = methodCallExpression.Object;
+                        segments.Add("[" + constantExpression.Value + "]");
+                        break;
+
                     default:
-                        throw new ArgumentException(
-                            string.Format("Expression <{0}> cannot be used to select a member.", expression.Body));
+                        throw new ArgumentException(unsupportedExpressionMessage);
                 }
             }
 
