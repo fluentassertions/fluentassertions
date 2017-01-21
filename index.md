@@ -92,6 +92,7 @@ It supports the following .NET versions.
 It supports the following unit test frameworks:
 
 *   MSTest (Visual Studio 2010, 2012 Update 2, 2013 and 2015)
+*   MSTest2 (Visual Studio 2017)
 *   [NUnit](http://www.nunit.org/)
 *   [XUnit](http://xunit.codeplex.com/)
 *   [XUnit2](https://github.com/xunit/xunit/releases)
