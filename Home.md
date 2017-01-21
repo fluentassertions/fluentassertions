@@ -5,7 +5,7 @@ As you may have read in the repository's [readme](https://github.com/dennisdoome
 
 ## Supported Test Frameworks ##
 
-Fluent Assertions supports MSTest, NUnit, xUnit, xUnit2, MSpec, NSpec, MBUnit and the Gallio Framework as well as the Windows Store and Windows Phone unit testing frameworks. You can simply add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions. 
+Fluent Assertions supports MSTest, MSTest2, NUnit, xUnit, xUnit2, MSpec, NSpec, MBUnit and the Gallio Framework as well as the Windows Store and Windows Phone unit testing frameworks. You can simply add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions. 
 
 If, for some unknown reason, Fluent Assertions fails to find the assembly, try specifying the framework explicitly using a configuration setting in the project’s app.config. If it cannot find any of the supported frameworks, it will fall back to using a custom `AssertFailedException` exception class.
 
