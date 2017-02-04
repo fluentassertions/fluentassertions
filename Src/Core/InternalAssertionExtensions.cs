@@ -421,16 +421,19 @@ namespace FluentAssertions
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] becauseArgs)
         {
+            IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<T>());
+
             var context = new EquivalencyValidationContext
             {
                 Subject = subject,
                 Expectation = expectation,
                 CompileTimeType = typeof(T),
                 Because = because,
-                BecauseArgs = becauseArgs
+                BecauseArgs = becauseArgs,
+                Tracer = options.TraceWriter
             };
 
-            new EquivalencyValidator(config(AssertionOptions.CloneDefaults<T>())).AssertEquality(context);
+            new EquivalencyValidator(options).AssertEquality(context);
         }
 
         public static void ShouldAllBeEquivalentTo<T>(this IEnumerable<T> subject, IEnumerable expectation,
@@ -443,16 +446,19 @@ namespace FluentAssertions
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] becauseArgs)
         {
-            var context = new EquivalencyValidationContext()
+            IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<T>());
+
+            var context = new EquivalencyValidationContext
             {
                 Subject = subject,
                 Expectation = expectation,
                 CompileTimeType = typeof(T),
                 Because = because,
-                BecauseArgs = becauseArgs
+                BecauseArgs = becauseArgs,
+                Tracer = options.TraceWriter
             };
 
-            new EquivalencyValidator(config(AssertionOptions.CloneDefaults<T>())).AssertEquality(context);
+            new EquivalencyValidator(options).AssertEquality(context);
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -34,6 +33,11 @@ namespace FluentAssertions.Equivalency
                 scope.BecauseOf(context.Because, context.BecauseArgs);
 
                 AssertEqualityUsing(context);
+
+                if (context.Tracer != null)
+                {
+                    scope.AddReportable("trace", context.Tracer.ToString());
+                }
             }
         }
 
