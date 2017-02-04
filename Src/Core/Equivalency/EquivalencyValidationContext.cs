@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 
 namespace FluentAssertions.Equivalency
 {
@@ -49,7 +48,8 @@ namespace FluentAssertions.Equivalency
             {
                 // SMELL: That prefix should be obtained from some kind of constant
                 return (SelectedMemberDescription.Length == 0) ||
-                       (RootIsCollection && SelectedMemberDescription.StartsWith("item[") && !SelectedMemberDescription.Contains("."));
+                       (RootIsCollection && SelectedMemberDescription.StartsWith("item[") &&
+                        !SelectedMemberDescription.Contains("."));
             }
         }
 
@@ -61,12 +61,9 @@ namespace FluentAssertions.Equivalency
         {
             get
             {
-                return ((compileTimeType != typeof (object)) || ReferenceEquals(Subject, null))  ? compileTimeType : RuntimeType;
+                return ((compileTimeType != typeof(object)) || ReferenceEquals(Subject, null)) ? compileTimeType : RuntimeType;
             }
-            set
-            {
-                compileTimeType = value;
-            }
+            set { compileTimeType = value; }
         }
 
         /// <summary>
@@ -96,9 +93,33 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool RootIsCollection { get; set; }
 
+        public ITraceWriter Tracer { get; set; }
+
+        public void TraceSingle(GetTraceMessage getTraceMessage)
+        {
+            if (Tracer != null)
+            {
+                string path = SelectedMemberDescription.Length > 0 ? SelectedMemberDescription : "root";
+                Tracer.AddSingle($"{getTraceMessage(path)}");
+            }
+        }
+
+        public IDisposable TraceBlock(GetTraceMessage getTraceMessage)
+        {
+            if (Tracer != null)
+            {
+                string path = SelectedMemberDescription.Length > 0 ? SelectedMemberDescription : "root";
+                return Tracer.AddBlock(getTraceMessage(path));
+            }
+            else
+            {
+                return new Disposable(() => {});
+            }
+        }
+
         public override string ToString()
         {
-            return string.Format("{{Path=\"{0}\", Subject={1}, Expectation={2}}}", SelectedMemberDescription, Subject, Expectation);
+            return $"{{Path=\"{SelectedMemberDescription}\", Subject={Subject}, Expectation={Expectation}}}";
         }
     }
 }

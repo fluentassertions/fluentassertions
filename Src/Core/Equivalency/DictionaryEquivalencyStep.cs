@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentAssertions.Execution;
 
@@ -27,6 +28,7 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public virtual bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
             var subject = (IDictionary)context.Subject;
@@ -38,10 +40,12 @@ namespace FluentAssertions.Equivalency
                 {
                     if (config.IsRecursive)
                     {
+                        context.TraceSingle(path => $"Recursing into dictionary item {key} at {path}");
                         parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
                     }
                     else
                     {
+                        context.TraceSingle(path => $"Comparing dictionary item {key} at {path} between subject and expectation");
                         subject[key].Should().Be(expectation[key], context.Because, context.BecauseArgs);
                     }
                 }

@@ -41,6 +41,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ValueFormatterDetectionMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Disposable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EquivalencyStepCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\AssertionContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\AssertionResultSet.cs" />
@@ -186,6 +187,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\ExceptionAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\IExtractExceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanConversionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\ITraceWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\StringBuilderTraceWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeEnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\AllTypes.cs" />

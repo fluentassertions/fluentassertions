@@ -664,7 +664,7 @@ namespace FluentAssertions
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] becauseArgs)
         {
-            EquivalencyAssertionOptions<IEnumerable<T>> source = config(AssertionOptions.CloneDefaults<T>()).AsCollection();
+            EquivalencyAssertionOptions<IEnumerable<T>> options = config(AssertionOptions.CloneDefaults<T>()).AsCollection();
 
             var context = new EquivalencyValidationContext
             {
@@ -673,10 +673,11 @@ namespace FluentAssertions
                 RootIsCollection = true,
                 CompileTimeType = typeof (IEnumerable<T>),
                 Because = because,
-                BecauseArgs = becauseArgs
+                BecauseArgs = becauseArgs,
+                Tracer = options.TraceWriter
             };
 
-            new EquivalencyValidator(source).AssertEquality(context);
+            new EquivalencyValidator(options).AssertEquality(context);
         }
 
         /// <summary>
@@ -728,16 +729,19 @@ namespace FluentAssertions
             Func<EquivalencyAssertionOptions<T>, EquivalencyAssertionOptions<T>> config, string because = "",
             params object[] becauseArgs)
         {
+            IEquivalencyAssertionOptions options = config(AssertionOptions.CloneDefaults<T>());
+
             var context = new EquivalencyValidationContext
             {
                 Subject = subject,
                 Expectation = expectation,
                 CompileTimeType = typeof (T),
                 Because = because,
-                BecauseArgs = becauseArgs
+                BecauseArgs = becauseArgs,
+                Tracer = options.TraceWriter
             };
 
-            new EquivalencyValidator(config(AssertionOptions.CloneDefaults<T>())).AssertEquality(context);
+            new EquivalencyValidator(options).AssertEquality(context);
         }
 
 #if !SILVERLIGHT && !WINRT && !PORTABLE && !CORE_CLR

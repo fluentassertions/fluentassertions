@@ -31,15 +31,18 @@ namespace FluentAssertions.Primitives
             {
                 if (ValidateAgainstNulls())
                 {
-
                     if (IsLongOrMultiline(expected) || IsLongOrMultiline(subject))
                     {
                         assertion = assertion.UsingLineBreaks;
                     }
 
-                    ValidateAgainstSuperfluousWhitespace();
-                    ValidateAgainstLengthDifferences();
-                    ValidateAgainstMismatch();
+                    if (ValidateAgainstSuperfluousWhitespace())
+                    {
+                        if (ValidateAgainstLengthDifferences())
+                        {
+                            ValidateAgainstMismatch();
+                        }
+                    }
                 }
             }
         }
@@ -60,12 +63,14 @@ namespace FluentAssertions.Primitives
             return (value.Length > HumanReadableLength) || value.Contains(Environment.NewLine);
         }
 
-        protected virtual void ValidateAgainstSuperfluousWhitespace()
+        protected virtual bool ValidateAgainstSuperfluousWhitespace()
         {
+            return true;
         }
 
-        protected virtual void ValidateAgainstLengthDifferences()
+        protected virtual bool ValidateAgainstLengthDifferences()
         {
+            return true;
         }
 
         protected abstract void ValidateAgainstMismatch();
