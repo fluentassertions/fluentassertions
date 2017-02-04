@@ -32,12 +32,12 @@ namespace FluentAssertions.Primitives
             }
         }
 
-        protected override void ValidateAgainstLengthDifferences()
+        protected override bool ValidateAgainstLengthDifferences()
         {
-            if (subject.Length < expected.Length)
-            {
-                assertion.FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject);
-            }
+            return assertion
+                .ForCondition(subject.Length >= expected.Length)
+                .FailWith(ExpectationDescription + "{0}{reason}, but {1} is too short.", expected, subject)
+                .SourceSucceeded;
         }
 
         protected override void ValidateAgainstMismatch()

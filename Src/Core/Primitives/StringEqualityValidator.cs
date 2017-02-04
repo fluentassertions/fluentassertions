@@ -14,29 +14,26 @@ namespace FluentAssertions.Primitives
             this.comparisonMode = comparisonMode;
         }
 
-        protected override void ValidateAgainstSuperfluousWhitespace()
+        protected override bool ValidateAgainstSuperfluousWhitespace()
         {
-            if ((expected.Length > subject.Length) && expected.TrimEnd().Equals(subject, comparisonMode))
-            {
-                assertion.FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.",
-                    expected, subject);
-            }
-
-            if ((subject.Length > expected.Length) && subject.TrimEnd().Equals(expected, comparisonMode))
-            {
-                assertion.FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected,
-                    subject);
-            }
+            return assertion
+                .ForCondition(!((expected.Length > subject.Length) && expected.TrimEnd().Equals(subject, comparisonMode)))
+                .FailWith(ExpectationDescription + "{0}{reason}, but it misses some extra whitespace at the end.", expected)
+                .Then
+                .ForCondition(!((subject.Length > expected.Length) && subject.TrimEnd().Equals(expected, comparisonMode)))
+                .FailWith(ExpectationDescription + "{0}{reason}, but it has unexpected whitespace at the end.", expected)
+                .SourceSucceeded;
         }
 
-        protected override void ValidateAgainstLengthDifferences()
+        protected override bool ValidateAgainstLengthDifferences()
         {
-            if (subject.Length != expected.Length)
-            {
-                assertion.FailWith(
-                    ExpectationDescription + "{0} with a length of {1}{reason}, but {2} has a length of {3}.", 
-                    expected, expected.Length, subject, subject.Length);
-            }
+            return assertion
+                .ForCondition(subject.Length == expected.Length)
+                .FailWith(
+                    ExpectationDescription + "{0} with a length of {1}{reason}, but {2} has a length of {3}.",
+                    expected, expected.Length, subject, subject.Length)
+                .SourceSucceeded;
+            
         }
 
         protected override void ValidateAgainstMismatch()

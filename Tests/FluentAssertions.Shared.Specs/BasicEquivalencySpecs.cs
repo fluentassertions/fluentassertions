@@ -2512,6 +2512,73 @@ With configuration:*");
                 .WithMessage("Expected member Level to be <null>*, but found*Level1*Level2*");
         }
 
+        public class StringSubContainer
+        {
+            public string SubValue { get; set; }
+        }
+
+        public class StringContainer
+        {
+            public StringContainer(string mainValue, string subValue = null)
+            {
+                MainValue = mainValue;
+                SubValues = new[]
+                {
+                    new StringSubContainer
+                    {   
+                        SubValue = subValue
+                    }
+                };
+            }
+
+            public string MainValue { get; set; }
+            public IList<StringSubContainer> SubValues { get; set; }
+        }
+
+        public class MyClass2
+        {
+            public StringContainer One { get; set; }
+            public StringContainer Two { get; set; }
+        }
+
+        [TestMethod]
+        public void When_deeply_nested_strings_dont_match_it_should_properly_report_the_mismatches()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new[]
+            {
+                new MyClass2
+                {
+                    One = new StringContainer("EXPECTED", "EXPECTED"),
+                    Two = new StringContainer("CORRECT")
+                },
+                new MyClass2()
+            };
+
+            var actual = new[]
+            {
+                new MyClass2
+                {
+                    One = new StringContainer("INCORRECT", "INCORRECT"),
+                    Two = new StringContainer("CORRECT")
+                },
+                new MyClass2()
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldAllBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*EXPECTED*INCORRECT*EXPECTED*INCORRECT*");
+        }
+
         [TestMethod]
         public void When_the_nested_object_property_is_null_it_should_throw()
         {
