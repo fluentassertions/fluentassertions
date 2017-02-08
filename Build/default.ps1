@@ -16,7 +16,7 @@ properties {
     $RunTests = $false
 }
 
-task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, RestoreNugetPackages, Compile, RunTests, RunFrameworkTests, RunSilverLightTests, BuildZip, BuildPackage, BuildJsonPackage, PublishToMyget
+task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, RestoreNugetPackages, Compile, RunTests, RunFrameworkTests, RunSilverLightTests, BuildZip, BuildPackage, PublishToMyget
 
 task Clean {    
     TeamCity-Block "Clean" {
@@ -132,13 +132,6 @@ task RunTests -precondition { return $RunTests -eq $true } {
                 /resultsfile:"$ArtifactsDirectory\FluentAssertions.WinRT81.Specs.trx"
         }
 
-		exec {
-            . $MsTestPath /nologo /noprompt `
-                /testSettings:"$TestsDirectory\Default.testsettings" `
-                /detail:duration /detail:errormessage /detail:errorstacktrace /detail:stdout `
-                /testcontainer:"$TestsDirectory\FluentAssertions.Json.Net45.Specs\bin\Release\FluentAssertions.Json.Net45.Specs.dll" `
-                /resultsfile:"$ArtifactsDirectory\FluentAssertions.Json.Net45.Specs.trx"
-        }
     }
 }
 
@@ -171,12 +164,6 @@ task BuildZip {
 task BuildPackage {
     TeamCity-Block "Building NuGet Package" {  
         & $Nuget pack "$SrcDirectory\FluentAssertions.nuspec" -o "$ArtifactsDirectory\" 
-    }
-}
-
-task BuildJsonPackage -depends ExtractVersionsFromGit {
-    TeamCity-Block "Building NuGet Package (Json)" {  
-        & $Nuget pack "$SrcDirectory\FluentAssertions.Json.nuspec" -o "$ArtifactsDirectory\" -Properties Version=$script:NuGetVersion 
     }
 }
 
