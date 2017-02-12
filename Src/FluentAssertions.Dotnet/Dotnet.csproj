@@ -49,22 +49,22 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40\Execution\GallioTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net45\Execution\GallioTestFramework.cs">
       <Link>Execution\GallioTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\MbUnitTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net45\Execution\MbUnitTestFramework.cs">
       <Link>Execution\MbUnitTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\MSpecFramework.cs">
+    <Compile Include="..\FluentAssertions.Net45\Execution\MSpecFramework.cs">
       <Link>Execution\MSpecFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net45\Execution\MSTestFramework.cs">
       <Link>Execution\MSTestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFrameworkV2.cs">
+    <Compile Include="..\FluentAssertions.Net45\Execution\MSTestFrameworkV2.cs">
       <Link>Execution\MSTestFrameworkV2.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\XUnitTestFramework.cs">
+    <Compile Include="..\FluentAssertions.Net45\Execution\XUnitTestFramework.cs">
       <Link>Execution\XUnitTestFramework.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net45\Execution\XUnit2TestFramework.cs">

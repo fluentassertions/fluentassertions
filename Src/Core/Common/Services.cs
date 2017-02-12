@@ -32,7 +32,7 @@ namespace FluentAssertions.Common
 
                         ConfigurationStore = platform.ConfigurationStore ?? new NullConfigurationStore();
                         Reflector = platform.Reflector ?? new NullReflector();
-                        ThrowException = platform.Throw;
+                        ThrowException = throwException ?? platform.Throw;
                         
                         Formatter.AddPlatformFormatters(platform.Formatters);
 
@@ -75,7 +75,13 @@ namespace FluentAssertions.Common
                 Initialize();
                 return throwException;
             }
-            set { throwException = value; }
+            set
+            {
+                if (throwException == null)
+                {
+                    throwException = value;
+                }
+            }
         }
 
         public static IReflector Reflector

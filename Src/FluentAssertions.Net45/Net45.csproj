@@ -66,59 +66,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40\Common\AppSettingsConfigurationStore.cs">
-      <Link>Common\AppSettingsConfigurationStore.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Common\DefaultReflectionProvider.cs">
-      <Link>Common\DefaultReflectionProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Common\ProvidePlatformServices.cs">
-      <Link>Common\ProvidePlatformServices.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\GallioTestFramework.cs">
-      <Link>Execution\GallioTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\MbUnitTestFramework.cs">
-      <Link>Execution\MbUnitTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\MSpecFramework.cs">
-      <Link>Execution\MSpecFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFramework.cs">
-      <Link>Execution\MSTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFrameworkV2.cs">
-      <Link>Execution\MSTestFrameworkV2.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\NUnitTestFramework.cs">
-      <Link>Execution\NUnitTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\TestFrameworkProvider.cs">
-      <Link>Execution\TestFrameworkProvider.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Execution\XUnitTestFramework.cs">
-      <Link>Execution\XUnitTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\ObjectAssertionsExtensions.cs">
-      <Link>ObjectAssertionsExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Xml\XmlAssertionExtensions.cs">
-      <Link>Xml\XmlAssertionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Xml\XmlElementAssertions.cs">
-      <Link>Xml\XmlElementAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeAssertions.cs">
-      <Link>Xml\XmlNodeAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeAssertionsofTSubjectTAssertions.cs">
-      <Link>Xml\XmlNodeAssertionsofTSubjectTAssertions.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeFormatter.cs">
-      <Link>Xml\XmlNodeFormatter.cs</Link>
-    </Compile>
+    <Compile Include="Common\AppSettingsConfigurationStore.cs" />
+    <Compile Include="Common\DefaultReflectionProvider.cs" />
+    <Compile Include="Common\ProvidePlatformServices.cs" />
+    <Compile Include="Execution\GallioTestFramework.cs" />
+    <Compile Include="Execution\MbUnitTestFramework.cs" />
+    <Compile Include="Execution\MSpecFramework.cs" />
+    <Compile Include="Execution\MSTestFramework.cs" />
+    <Compile Include="Execution\MSTestFrameworkV2.cs" />
+    <Compile Include="Execution\NUnitTestFramework.cs" />
+    <Compile Include="Execution\TestFrameworkProvider.cs" />
     <Compile Include="Execution\XUnit2TestFramework.cs" />
+    <Compile Include="Execution\XUnitTestFramework.cs" />
+    <Compile Include="ObjectAssertionsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Xml\XmlAssertionExtensions.cs" />
+    <Compile Include="Xml\XmlElementAssertions.cs" />
+    <Compile Include="Xml\XmlNodeAssertions.cs" />
+    <Compile Include="Xml\XmlNodeAssertionsofTSubjectTAssertions.cs" />
+    <Compile Include="Xml\XmlNodeFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\FluentAssertions.snk">

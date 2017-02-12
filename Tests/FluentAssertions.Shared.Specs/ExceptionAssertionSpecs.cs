@@ -8,10 +8,6 @@ using FakeItEasy;
 using FluentAssertions.Primitives;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-#if PORTABLE
-    using AssertFailedException = FluentAssertions.Execution.AssertionFailedException;
-#endif
-
 namespace FluentAssertions.Specs
 {
     [TestClass]
@@ -901,6 +897,12 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");
+            }
+            catch (Exception exc)
+            {
+                exc.Message.Should().StartWith(
+                    "Expected exception where (e.Message == \"Error\"), but the condition was not met");
+
             }
         }
 

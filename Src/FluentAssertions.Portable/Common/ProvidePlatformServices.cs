@@ -1,5 +1,4 @@
 ﻿using System;
-
 using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 
@@ -12,19 +11,16 @@ namespace FluentAssertions.Common
             get { return message => { throw new AssertionFailedException(message); }; }
         }
 
-        public IValueFormatter[] Formatters
+        public IValueFormatter[] Formatters => new IValueFormatter[]
         {
-            get { return new IValueFormatter[] { new AggregateExceptionValueFormatter() }; }
-        }
+            new AggregateExceptionValueFormatter(),
+            new XDocumentValueFormatter(),
+            new XElementValueFormatter(),
+            new XAttributeValueFormatter(),
+        };
 
-        public IConfigurationStore ConfigurationStore
-        {
-            get { return null; }
-        }
+        public IConfigurationStore ConfigurationStore => null;
 
-        public IReflector Reflector
-        {
-            get { return null; }
-        }
+        public IReflector Reflector => null;
     }
 }
