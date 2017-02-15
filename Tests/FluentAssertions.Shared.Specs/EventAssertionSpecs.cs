@@ -20,12 +20,14 @@ using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 
+using FluentAssertions;
+
 namespace FluentAssertions.Specs
 {
     [TestClass]
     public class EventAssertionSpecs
     {
-#if !WINRT && !SILVERLIGHT && !WINDOWS_PHONE_APP && !CORE_CLR
+#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
 
         #region Should(Not)Raise
 
@@ -363,7 +365,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             subject.ShouldNotRaise("PropertyChanged");
         }
+        #endregion
+#else
 
+#if !WINRT
         [TestMethod]
         public void When_a_non_conventional_event_with_a_specific_argument_was_raised_it_should_not_throw()
         {
@@ -460,51 +465,8 @@ namespace FluentAssertions.Specs
                 "Expected at least one event with arguments matching \"(args == \\\"" + wrongArgument + "\\\")\", but found none.");
         }
 
-        public interface IEventRaisingInterface
-        {
-            event EventHandler InterfaceEvent;
-        }
+#endif
 
-        public interface IEventRaisingInterface2
-        {
-            event EventHandler Interface2Event;
-        }
-
-        private object CreateProxyObject()
-        {
-            Type baseType = typeof (EventRaisingClass);
-            Type interfaceType = typeof (IEventRaisingInterface);
-            AssemblyName assemblyName = new AssemblyName {Name = baseType.Assembly.FullName + ".GeneratedForTest"};
-            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
-                AssemblyBuilderAccess.Run);
-            ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
-            string typeName = baseType.Name + "_GeneratedForTest";
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] {interfaceType});
-
-            Func<string, MethodBuilder> emitAddRemoveEventHandler = methodName =>
-            {
-                MethodBuilder method =
-                    typeBuilder.DefineMethod(string.Format("{0}.{1}_InterfaceEvent", interfaceType.FullName, methodName),
-                        MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.HideBySig |
-                        MethodAttributes.NewSlot);
-                method.SetReturnType(typeof (void));
-                method.SetParameters(typeof (EventHandler));
-                ILGenerator gen = method.GetILGenerator();
-                gen.Emit(OpCodes.Ret);
-                return method;
-            };
-            MethodBuilder addHandler = emitAddRemoveEventHandler("add");
-            typeBuilder.DefineMethodOverride(addHandler, interfaceType.GetMethod("add_InterfaceEvent"));
-            MethodBuilder removeHandler = emitAddRemoveEventHandler("remove");
-            typeBuilder.DefineMethodOverride(removeHandler, interfaceType.GetMethod("remove_InterfaceEvent"));
-
-            Type generatedType = typeBuilder.CreateType();
-            return Activator.CreateInstance(generatedType);
-        }
-
-        #endregion
-
-#else
         [TestMethod]
         public void When_trying_to_attach_to_notify_property_changed_should_not_throw()
         {
@@ -836,6 +798,39 @@ namespace FluentAssertions.Specs
         }
 
 #if NET40 || NET45
+                private object CreateProxyObject()
+        {
+            Type baseType = typeof (EventRaisingClass);
+            Type interfaceType = typeof (IEventRaisingInterface);
+            AssemblyName assemblyName = new AssemblyName {Name = baseType.Assembly.FullName + ".GeneratedForTest"};
+            AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
+                AssemblyBuilderAccess.Run);
+            ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
+            string typeName = baseType.Name + "_GeneratedForTest";
+            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] {interfaceType});
+
+            Func<string, MethodBuilder> emitAddRemoveEventHandler = methodName =>
+            {
+                MethodBuilder method =
+                    typeBuilder.DefineMethod(string.Format("{0}.{1}_InterfaceEvent", interfaceType.FullName, methodName),
+                        MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.HideBySig |
+                        MethodAttributes.NewSlot);
+                method.SetReturnType(typeof (void));
+                method.SetParameters(typeof (EventHandler));
+                ILGenerator gen = method.GetILGenerator();
+                gen.Emit(OpCodes.Ret);
+                return method;
+            };
+            MethodBuilder addHandler = emitAddRemoveEventHandler("add");
+            typeBuilder.DefineMethodOverride(addHandler, interfaceType.GetMethod("add_InterfaceEvent"));
+            MethodBuilder removeHandler = emitAddRemoveEventHandler("remove");
+            typeBuilder.DefineMethodOverride(removeHandler, interfaceType.GetMethod("remove_InterfaceEvent"));
+
+            Type generatedType = typeBuilder.CreateType();
+            return Activator.CreateInstance(generatedType);
+        }
+
+
         [TestMethod]
         public void When_the_fallback_assertion_exception_crosses_appdomain_boundaries_it_should_be_serializable()
         {
@@ -1026,6 +1021,16 @@ namespace FluentAssertions.Specs
 #endif
 
         #endregion
+
+        public interface IEventRaisingInterface
+        {
+            event EventHandler InterfaceEvent;
+        }
+
+        public interface IEventRaisingInterface2
+        {
+            event EventHandler Interface2Event;
+        }
 
         public class EventRaisingClass : INotifyPropertyChanged
         {

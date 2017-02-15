@@ -16,7 +16,7 @@ properties {
     $RunTests = $false
 }
 
-task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, RestoreNugetPackages, Compile, RunTests, RunFrameworkTests, RunSilverLightTests, BuildZip, BuildPackage, PublishToMyget
+task default -depends Clean, ApplyAssemblyVersioning, ApplyPackageVersioning, RestoreNugetPackages, Compile, RunTests, RunFrameworkTests, BuildZip, BuildPackage, PublishToMyget
 
 task Clean {    
     TeamCity-Block "Clean" {
@@ -104,14 +104,6 @@ task RunTests -precondition { return $RunTests -eq $true } {
             . $MsTestPath /nologo /noprompt `
                 /testSettings:"$TestsDirectory\Default.testsettings" `
                 /detail:duration /detail:errormessage /detail:errorstacktrace /detail:stdout `
-                /testcontainer:"$TestsDirectory\FluentAssertions.Net40.Specs\bin\Release\FluentAssertions.Net40.Specs.dll" `
-                /resultsfile:"$ArtifactsDirectory\FluentAssertions.Net40.Specs.trx"
-        }
-
-        exec {
-            . $MsTestPath /nologo /noprompt `
-                /testSettings:"$TestsDirectory\Default.testsettings" `
-                /detail:duration /detail:errormessage /detail:errorstacktrace /detail:stdout `
                 /testcontainer:"$TestsDirectory\FluentAssertions.Net45.Specs\bin\Release\FluentAssertions.Net45.Specs.dll" `
                 /resultsfile:"$ArtifactsDirectory\FluentAssertions.Net45.Specs.trx"
         }
@@ -140,15 +132,6 @@ task RunFrameworkTests -precondition { return $RunTests } {
     $xunitRunner = "$BaseDirectory\Packages\xunit.runner.console.2.0.0\tools\xunit.console.exe"
 
     exec { . $xunitRunner "$TestsDirectory\TestFrameworks\XUnit2.Specs\bin\Release\XUnit2.Specs.dll" -html "$ArtifactsDirectory\XUnit2.Specs.dll.html"  }
-}
-
-task RunSilverLightTests -precondition { return $RunTests -eq $true } {
-
-    exec { 
-    . "$BaseDirectory\Lib\Lighthouse\Lighthouse.exe" -m:xap -lf:"$ArtifactsDirectory\Lighthouse.log" `
-    "$TestsDirectory\FluentAssertions.Silverlight.Specs\Bin\Release\FluentAssertions.Silverlight.Specs.xap" `
-    "$ArtifactsDirectory\Lighthouse.xml" 
-}
 }
 
 task BuildZip {
