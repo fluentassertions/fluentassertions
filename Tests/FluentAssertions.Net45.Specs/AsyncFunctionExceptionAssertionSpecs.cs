@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
-
-#if WINRT || CORE_CLR
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Net45.Specs
 {
-    [TestClass]
+    
     public class AsyncFunctionExceptionAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_subject_throws_subclass_of_expected_exact_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -30,11 +26,11 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_throws_the_expected_exact_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -50,7 +46,7 @@ namespace FluentAssertions.Net45.Specs
                 .ShouldThrowExactly<ArgumentNullException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_throws_expected_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -71,7 +67,7 @@ namespace FluentAssertions.Net45.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_does_not_throw_expected_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -89,11 +85,11 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but no exception was thrown*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_throws_unexpected_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -111,11 +107,11 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected System.InvalidOperationException because IFoo.Do should do that, but found*System.ArgumentException*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_does_not_throw_exception_and_that_was_expected_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -136,7 +132,7 @@ namespace FluentAssertions.Net45.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_throws_exception_and_no_exception_was_expected_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -154,11 +150,11 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect any exception, but found a System.ArgumentException*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_throws_exception_and_expected_not_to_throw_another_one_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -179,7 +175,7 @@ namespace FluentAssertions.Net45.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_succeeds_and_expected_not_to_throw_particular_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -200,7 +196,7 @@ namespace FluentAssertions.Net45.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_throws_exception_expected_not_to_be_thrown_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -218,11 +214,11 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect System.ArgumentException, but found one*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_throws_the_expected_inner_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -246,7 +242,7 @@ namespace FluentAssertions.Net45.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_throws_the_expected_exception_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -269,7 +265,7 @@ namespace FluentAssertions.Net45.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_does_not_throw_the_expected_inner_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -290,10 +286,10 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>().WithMessage("*InvalidOperation*Argument*");
+            action.ShouldThrow<XunitException>().WithMessage("*InvalidOperation*Argument*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_async_method_does_not_throw_the_expected_exception_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -313,7 +309,7 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>().WithMessage("*InvalidOperation*Argument*");
+            action.ShouldThrow<XunitException>().WithMessage("*InvalidOperation*Argument*");
         }
     }
 

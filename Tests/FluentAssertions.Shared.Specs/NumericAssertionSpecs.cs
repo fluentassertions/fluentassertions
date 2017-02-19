@@ -1,22 +1,18 @@
 using System;
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
     /// <summary>
     /// Summary description for CustomAssertionSpecs
     /// </summary>
-    [TestClass]
+    
     public class NumericAssertionSpecs
     {
         #region Positive / Negative
 
-        [TestMethod]
+        [Fact]
         public void When_a_positive_value_is_positive_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -35,7 +31,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_negative_value_is_positive_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -51,10 +47,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_zero_value_is_positive_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -70,10 +66,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_negative_value_is_positive_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -90,11 +86,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected positive value because we want to test the failure message, but found -1");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_negative_value_is_negative_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -113,7 +109,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_positive_value_is_negative_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -129,10 +125,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_zero_value_is_negative_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -148,10 +144,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_positive_value_is_negative_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -168,7 +164,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected negative value because we want to test the failure message, but found 1");
         }
 
@@ -176,7 +172,7 @@ namespace FluentAssertions.Specs
 
         #region Be / NotBe
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_equal_to_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -196,7 +192,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_equal_to_different_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -213,10 +209,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_equal_to_different_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -234,11 +230,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected value to be 2 because we want to test the failure message, but found 1.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_nullable_value_is_equal_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -258,7 +254,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_nullable_value_is_null_but_the_subject_isnt_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -277,11 +273,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected*<null>, but found 2.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_nullable_value_has_value_but_the_subject_is_null_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -298,11 +294,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected*2, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_not_equal_to_a_different_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -322,7 +318,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_not_equal_to_the_same_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -339,10 +335,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_not_equal_to_the_same_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -360,7 +356,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect 1 because we want to test the failure message.");
         }
 
@@ -368,7 +364,7 @@ namespace FluentAssertions.Specs
 
         #region Greater Than (Or Equal To)
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_greater_than_smaller_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -388,7 +384,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_greater_than_greater_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -405,10 +401,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_greater_than_same_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -425,10 +421,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_greater_than_greater_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -446,11 +442,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value greater than 3 because we want to test the failure message, but found 2.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_greater_or_equal_to_smaller_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -470,7 +466,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_greater_or_equal_to_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -490,7 +486,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_greater_or_equal_to_greater_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -507,10 +503,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_greater_or_equal_to_greater_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -529,7 +525,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value greater or equal to 3 because we want to test the failure message, but found 2.");
         }
 
@@ -537,7 +533,7 @@ namespace FluentAssertions.Specs
 
         #region Less Than (Or Equal To)
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_less_than_greater_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -557,7 +553,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_less_than_smaller_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -574,10 +570,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_less_than_same_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -594,10 +590,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_less_than_smaller_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -615,11 +611,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value less than 1 because we want to test the failure message, but found 2.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_less_or_equal_to_greater_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -639,7 +635,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_less_or_equal_to_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -659,7 +655,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_less_or_equal_to_smaller_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -676,10 +672,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_less_or_equal_to_smaller_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -697,7 +693,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value less or equal to 1 because we want to test the failure message, but found 2.");
         }
 
@@ -705,7 +701,7 @@ namespace FluentAssertions.Specs
 
         #region In Range
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_outside_a_range_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -722,13 +718,13 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                     string.Format("Expected value to be between*{0}* and*{1}* because that's the valid range, but found*{2}*",
                         4, 5, value));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_inside_a_range_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -751,7 +747,7 @@ namespace FluentAssertions.Specs
 
         #region Be One Of
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_not_one_of_the_specified_values_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -768,11 +764,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format("Expected value to be one of {{4, 5}}, but found {0}.", value));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_not_one_of_the_specified_values_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -789,12 +785,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                     string.Format("Expected value to be one of {{4, 5}} because those are the valid values, but found {0}.", value));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_one_of_the_specified_values_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -817,7 +813,7 @@ namespace FluentAssertions.Specs
 
         #region Bytes
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_byte_value_it_should_treat_is_any_numeric_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -836,7 +832,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_short_value_it_should_treat_is_any_numeric_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -861,7 +857,7 @@ namespace FluentAssertions.Specs
 
         #region float
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_a_float_value_is_equal_to_a_different_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -878,12 +874,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format("Expected value to be *{0}* because we want to test the error message, but found *{1}*",
                     3.4F, value));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_a_float_value_is_equal_to_the_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -902,7 +898,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_a_null_float_value_is_equal_to_some_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -920,11 +916,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format("Expected value to be *{0}* but found <null>.", 3.5));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_float_is_not_approximating_a_range_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -943,13 +939,13 @@ namespace FluentAssertions.Specs
             float difference = Math.Abs(value - 3.14F);
 
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format(
                     "Expected value *{0:R}* to approximate *{1}* +/- *{2}* because rockets will crash otherwise, but it differed by *{3}*",
                     value, 3.14F, 0.001F, difference));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_float_is_indeed_approximating_a_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -968,7 +964,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_approximating_a_float_towards_nan_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -984,10 +980,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_nullable_float_has_no_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1005,7 +1001,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format("Expected value to approximate*{0}* +/-*{1}*, but it was <null>.",
                     3.14, 0.001));
         }
@@ -1014,7 +1010,7 @@ namespace FluentAssertions.Specs
 
         #region double
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_a_double_value_is_equal_to_a_different_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1031,12 +1027,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format("Expected value to be {0} because we want to test the error message, but found {1}.",
                     3.4, value));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_a_double_value_is_equal_to_the_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1055,7 +1051,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_a_null_double_value_is_equal_to_some_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1073,11 +1069,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format("Expected value to be {0}, but found <null>.", 3.5));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_double_is_not_approximating_a_range_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1096,13 +1092,13 @@ namespace FluentAssertions.Specs
             double difference = Math.Abs(value - 3.14);
 
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format(
                     "Expected value {0} to approximate {1} +/- {2} because rockets will crash otherwise, but it differed by {3}*",
                     value, 3.14, 0.001, difference));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_double_is_indeed_approximating_a_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1121,7 +1117,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_approximating_a_double_towards_nan_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1137,14 +1133,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
         #endregion
 
         #region decimal
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_a_decimal_value_is_equal_to_a_different_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1160,13 +1156,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(string.Format(
                     "Expected value to be*{0}* because we want to test the error message, but found*{1}*",
                     3.4m, value));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_a_decimal_value_is_equal_to_the_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1185,7 +1181,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_a_null_decimal_value_is_equal_to_some_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1204,11 +1200,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format("Expected value to be*{0}*, but found <null>.", 3.5));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_decimal_is_not_approximating_a_range_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1226,12 +1222,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             decimal difference = Math.Abs(value - 3.5m);
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
+            act.ShouldThrow<XunitException>().WithMessage(string.Format(
                 "Expected value*{0}* to approximate*{1}* +/-*{2}* because rockets will crash otherwise, but it differed by*{3}*",
                 value, 3.5m, 0.001, difference));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_decimal_is_indeed_approximating_a_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1254,7 +1250,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        [TestMethod]
+        [Fact]
         public void When_chaining_constraints_with_and_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

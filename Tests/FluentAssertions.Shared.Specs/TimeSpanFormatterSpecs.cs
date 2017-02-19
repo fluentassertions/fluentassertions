@@ -4,25 +4,20 @@ using System.Linq;
 using System.Text;
 
 using FluentAssertions.Formatting;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class TimeSpanFormatterSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_rendering_empty_time_span_to_string_it_should_return_a_literal()
         {
             When_rendering_a_time_span_it_should_include_the_non_zero_parts_of(new TimeSpan(), "default");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_rendering_time_spans_to_string_it_should_only_include_the_nonzero_parts()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -50,7 +45,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_rendering_negative_time_spans_to_string_it_should_only_include_the_nonzero_parts()
         {
             //-----------------------------------------------------------------------------------------------------------

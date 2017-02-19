@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Xml.Linq;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class XAttributeAssertionSpecs
     {
         #region Be / NotBe
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_attribute_is_equal_to_the_same_xml_attribute_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -35,7 +31,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_attribute_is_equal_to_a_different_xml_attribute_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -57,10 +53,10 @@ namespace FluentAssertions.Specs
                 " because we want to test the failure message," +
                     " but found {1}", otherXAttribute, attribute);
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_attribute_is_not_equal_to_a_different_xml_attribute_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -81,7 +77,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -99,10 +95,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_attribute_is_not_equal_to_the_same_xml_attribute_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -123,14 +119,14 @@ namespace FluentAssertions.Specs
             string expectedMessage = string.Format(@"Did not expect XML attribute to be {0}" +
                 " because we want to test the failure message.", sameXAttribute);
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
         #endregion
 
         #region BeNull / NotBeNull
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_xml_attribute_is_null_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -150,7 +146,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_non_null_xml_attribute_is_null_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -167,10 +163,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_non_null_xml_attribute_is_null_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -191,10 +187,10 @@ namespace FluentAssertions.Specs
                 " because we want to test the failure message," +
                     " but found {0}.", attribute);
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_non_null_xml_attribute_is_not_null_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -214,7 +210,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_xml_attribute_is_not_null_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -231,10 +227,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_xml_attribute_is_not_null_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -251,7 +247,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected XML attribute not to be <null>" +
                     " because we want to test the failure message.");
         }
@@ -260,7 +256,7 @@ namespace FluentAssertions.Specs
 
         #region HaveValue
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_attribute_has_a_specific_value_and_it_does_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -280,7 +276,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_attribute_has_a_specific_value_but_it_has_a_different_value_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -297,10 +293,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_attribute_has_a_specific_value_but_it_has_a_different_value_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -317,7 +313,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected XML attribute 'age' to have value \"16\"" +
                     " because we want to test the failure message" +
                         ", but found \"36\".");

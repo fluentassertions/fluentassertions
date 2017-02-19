@@ -1,19 +1,14 @@
 using System.Xml.Linq;
 
 using FluentAssertions.Formatting;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class XAttributeFormatterSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_formatting_an_attribute_it_should_return_the_name_and_value()
         {
             //-----------------------------------------------------------------------------------------------------------

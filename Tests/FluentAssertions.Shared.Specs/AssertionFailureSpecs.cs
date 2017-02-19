@@ -4,16 +4,12 @@ using System.Reflection;
 
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class AssertionFailureSpecs
     {
 #if !WINRT
@@ -22,7 +18,7 @@ namespace FluentAssertions.Specs
         private static readonly string AssertionsTestSubClassName = typeof(AssertionsTestSubClass).GetTypeInfo().Name;
 #endif
 
-        [TestMethod]
+        [Fact]
         public void When_reason_starts_with_because_it_should_not_do_anything()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -39,11 +35,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_reason_does_not_start_with_because_it_should_be_added()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -60,11 +56,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected it to fail because AssertionsTestSubClass should always fail.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_reason_starts_with_because_but_is_prefixed_with_blanks_it_should_not_do_anything()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -81,11 +77,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected it to fail\r\nbecause AssertionsTestSubClass should always fail.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_reason_does_not_start_with_because_but_is_prefixed_with_blanks_it_should_add_because_after_the_blanks()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -102,7 +98,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected it to fail\r\nbecause AssertionsTestSubClass should always fail.");
         }
 

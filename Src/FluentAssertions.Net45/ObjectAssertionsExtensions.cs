@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml.Serialization;
@@ -120,10 +122,33 @@ namespace FluentAssertions
         {
             var stream = new MemoryStream();
             var binaryFormatter = new BinaryFormatter();
-            binaryFormatter.Serialize(stream, subject);
+            binaryFormatter.Binder = new SimpleBinder(subject.GetType());
 
+            binaryFormatter.Serialize(stream, subject);
             stream.Position = 0;
             return binaryFormatter.Deserialize(stream);
+        }
+
+        private class SimpleBinder : SerializationBinder
+        {
+            private Type type;
+
+            public SimpleBinder(Type type)
+            {
+                this.type = type;
+            }
+
+            public override Type BindToType(string assemblyName, string typeName)
+            {
+                if ((type.FullName == typeName) && (type.Assembly.FullName == assemblyName))
+                {
+                    return type;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         private static object CreateCloneUsingDataContractSerializer(object subject)

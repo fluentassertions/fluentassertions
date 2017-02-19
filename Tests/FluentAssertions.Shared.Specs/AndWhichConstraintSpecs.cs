@@ -1,19 +1,15 @@
 ﻿using System;
 
 using FluentAssertions.Collections;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class AndWhichConstraintSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_many_objects_are_provided_accesing_which_should_throw_a_descriptive_exception()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -32,7 +28,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "More than one object found.  FluentAssertions cannot determine which object is meant.*")
                 .WithMessage("*Found objects:\r\n\t\"hello\"\r\n\t\"world\"");

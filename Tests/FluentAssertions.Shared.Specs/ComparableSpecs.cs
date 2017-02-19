@@ -1,21 +1,17 @@
 ﻿using System;
 
 using FluentAssertions.Primitives;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class ComparableSpecs
     {
         #region Be / Not Be
 
-        [TestMethod]
+        [Fact]
         public void When_two_instances_are_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -30,7 +26,7 @@ namespace FluentAssertions.Specs
             subject.Should().Be(other);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_instances_are_not_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -48,12 +44,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected*Hi*because they have the same property values, but found*Hello*.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_equal_objects_should_not_be_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -71,12 +67,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                     "*Did not expect object to be equal to*Hello*because they represent different things.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_unequal_objects_should_not_be_equal_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -100,7 +96,7 @@ namespace FluentAssertions.Specs
 
         #region BeNull / NotBeNull
 
-        [TestMethod]
+        [Fact]
         public void When_assertion_an_instance_to_be_null_and_it_is_null_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -120,7 +116,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_assertion_an_instance_to_be_null_and_it_is_not_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -137,12 +133,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected object to be <null>, but found*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_assertion_an_instance_not_to_be_null_and_it_is_not_null_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -162,7 +158,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_assertion_an_instance_not_to_be_null_and_it_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -179,7 +175,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected object not to be <null>.");
         }
@@ -188,7 +184,7 @@ namespace FluentAssertions.Specs
 
         #region BeInRange
 
-        [TestMethod]
+        [Fact]
         public void When_assertion_an_instance_to_be_in_a_certain_range_and_it_is_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -208,7 +204,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_assertion_an_instance_to_be_in_a_certain_range_but_it_is_not_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -225,7 +221,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected object to be between*and*, but found *.");
         }
@@ -234,7 +230,7 @@ namespace FluentAssertions.Specs
 
         #region Be Less Than
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_less_than_another_subject_and_that_is_expected_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -254,7 +250,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_not_less_than_another_subject_but_that_is_expected_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -272,7 +268,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected object*World*to be less than*City*because a city is smaller than the world.");
         }
 
@@ -280,7 +276,7 @@ namespace FluentAssertions.Specs
 
         #region Be Less Or Equal To
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_greater_than_another_subject_and_that_is_not_expected_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -298,11 +294,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected object*World*to be less or equal to*City*because we want to order them.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_equal_to_another_subject_and_that_is_expected_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -322,7 +318,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_less_than_another_subject_and_less_or_equal_is_expected_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -346,7 +342,7 @@ namespace FluentAssertions.Specs
 
         #region Be Greater Than
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_greater_than_another_subject_and_that_is_expected_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -366,7 +362,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_not_greater_than_another_subject_but_that_is_expected_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -384,7 +380,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected object*abc*to be greater than*def*because 'a' is smaller then 'e'.");
         }
 
@@ -392,7 +388,7 @@ namespace FluentAssertions.Specs
 
         #region Be Greater Or Equal To
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_less_than_another_subject_and_that_is_not_expected_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -410,11 +406,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected object*abc*to be greater or equal to*def*because 'd' is bigger then 'a'.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_equal_to_another_subject_and_that_is_equal_or_greater_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -434,7 +430,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_greater_than_another_subject_and_greater_or_equal_is_expected_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

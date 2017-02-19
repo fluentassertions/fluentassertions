@@ -6,16 +6,12 @@ using System.Linq.Expressions;
 using System.Net;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class BasicEquivalencySpecs
     {
         public enum LocalOtherType : byte
@@ -32,7 +28,7 @@ namespace FluentAssertions.Specs
 
         #region General
 
-        [TestMethod]
+        [Fact]
         public void When_expectation_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -50,11 +46,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected subject to be <null>, but found { }*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_comparing_nested_collection_with_a_null_value_it_should_fail_with_the_correct_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -78,7 +74,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected*item[0].Items*null*, but found*\"a\"*");
         }
 
@@ -87,7 +83,7 @@ namespace FluentAssertions.Specs
             public IEnumerable<string> Items { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -105,11 +101,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected subject to be*, but found <null>*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_and_expectation_are_null_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -128,7 +124,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_on_a_value_type_from_system_it_should_not_do_a_structural_comparision()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -152,7 +148,7 @@ namespace FluentAssertions.Specs
         }
 
 #if !WINRT && !NETFX_CORE && !WINDOWS_PHONE_APP && !SILVERLIGHT
-        [TestMethod]
+        [Fact]
         public void When_treating_a_complex_type_in_a_collection_as_a_value_type_it_should_compare_them_by_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -182,7 +178,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_treating_a_complex_type_as_a_value_type_it_should_compare_them_by_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -212,7 +208,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_type_originates_from_the_System_namespace_it_should_be_treated_as_a_value_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -236,12 +232,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*UriBuilder to be https://localhost:9002/bapi, but found http://localhost:9001/api*");
         }
 #endif
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivilence_on_a_string_it_should_use_string_specific_failure_messages()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -258,11 +254,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*to be \"good-bye\" with a length of 8, but \"hello\" has a length of 5*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_strings_typed_as_objects_it_should_compare_them_as_strings()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -284,7 +280,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_ints_typed_as_objects_it_should_use_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -304,7 +300,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_all_field_of_the_object_are_equal_equivalency_should_pass()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -324,7 +320,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_all_field_of_the_object_are_not_equal_equivalency_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -341,10 +337,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_field_on_the_subject_matches_a_property_the_members_should_match_for_equivalence()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -361,10 +357,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected member Value to be 101, but found 1.*");
+            act.ShouldThrow<XunitException>().WithMessage("Expected member Value to be 101, but found 1.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_including_only_fields_it_should_not_match_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -381,11 +377,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Subject has member Value that the other object does not have.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_including_only_properties_it_should_not_match_fields()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -402,11 +398,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Subject has member Value that the other object does not have.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_asserting_equivalence_of_objects_including_enumerables_it_should_print_the_failure_message_only_once()
         {
@@ -432,7 +428,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(@"Expected member Member1 to be 
+            act.ShouldThrow<XunitException>().WithMessage(@"Expected member Member1 to be 
 
 ""different"" with a length of 9, but 
 
@@ -442,7 +438,7 @@ namespace FluentAssertions.Specs
 With configuration:*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_object_equivalence_against_a_null_value_it_should_properly_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -453,14 +449,14 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("*foo*null*");
+            act.ShouldThrow<XunitException>().WithMessage("*foo*null*");
         }
 
         #endregion
 
         #region Selection Rules
 
-        [TestMethod]
+        [Fact]
         public void When_specific_properties_have_been_specified_it_should_ignore_the_other_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -493,7 +489,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_predicate_for_properties_to_include_has_been_specified_it_should_ignore_the_other_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -526,7 +522,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_non_property_expression_is_provided_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -546,7 +542,7 @@ With configuration:*");
                 "Expression <d.GetType()> cannot be used to select a member.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_including_a_property_it_should_exactly_match_the_property()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -585,7 +581,7 @@ With configuration:*");
             public List<CustomType> ListOfCustomTypes { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_including_a_property_using_an_expression_it_should_evaluate_it_from_the_root()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -614,11 +610,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().
+            act.ShouldThrow<XunitException>().
                 WithMessage("*C*but*A*D*but*B*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_null_is_provided_as_property_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -639,7 +635,7 @@ With configuration:*");
                 "Expected an expression, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_including_fields_it_should_succeed_if_just_the_included_field_match()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -670,7 +666,7 @@ With configuration:*");
             act.ShouldNotThrow("the only selected fields have the same value");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_including_fields_it_should_fail_if_any_included_field_do_not_match()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -699,10 +695,10 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected member Field3*");
+            act.ShouldThrow<XunitException>().WithMessage("Expected member Field3*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_only_the_excluded_property_doesnt_match_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -728,7 +724,7 @@ With configuration:*");
             dto.ShouldBeEquivalentTo(customer, options => options.Excluding(d => d.Name));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_excluding_members_it_should_pass_if_only_the_excluded_members_are_different()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -758,7 +754,7 @@ With configuration:*");
             act.ShouldNotThrow("the non-excluded fields have the same value");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_excluding_members_it_should_fail_if_any_non_excluded_members_are_different()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -783,10 +779,10 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected member Field3*");
+            act.ShouldThrow<XunitException>().WithMessage("Expected member Field3*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_all_shared_properties_match_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -820,7 +816,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_is_write_only_it_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -848,7 +844,7 @@ With configuration:*");
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_is_private_it_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -879,7 +875,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_field_is_private_it_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -900,7 +896,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_is_protected_it_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -935,7 +931,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_is_hidden_in_a_derived_class_it_should_ignore_it()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -955,7 +951,7 @@ With configuration:*");
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_is_an_indexer_it_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1020,7 +1016,7 @@ With configuration:*");
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_interface_hierarchy_is_used_it_should_include_all_inherited_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1047,11 +1043,11 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected member VehicleId*99999*but*1*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_reference_to_an_interface_is_provided_it_should_only_include_those_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1080,7 +1076,7 @@ With configuration:*");
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_reference_to_an_explicit_interface_impl_is_provided_it_should_only_include_those_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1107,7 +1103,7 @@ With configuration:*");
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_deeply_nested_property_with_a_value_mismatch_is_excluded_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1151,7 +1147,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_with_a_value_mismatch_is_excluded_using_a_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1195,7 +1191,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_members_are_excluded_by_the_access_modifier_of_the_getter_using_a_predicate_they_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1228,7 +1224,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_members_are_excluded_by_the_access_modifier_of_the_setter_using_a_predicate_they_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1262,7 +1258,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_has_a_property_not_available_on_expected_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1285,11 +1281,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Subject has member City that the other object does not have*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_equally_named_properties_are_type_incompatible_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1314,11 +1310,11 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected member Type to be*Int32*, but found*String*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_multiple_properties_mismatch_it_should_report_all_of_them()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1355,13 +1351,13 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("*member Property1 to be \"1\", but \"A\" differs near \"A\"*")
                 .WithMessage("*member Property2 to be \"2\", but \"B\" differs near \"B\"*")
                 .WithMessage("*member SubType1.SubProperty1 to be \"3\", but \"C\" differs near \"C\"*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_excluding_properties_it_should_still_compare_fields()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1388,10 +1384,10 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("*color*dolor*");
+            act.ShouldThrow<XunitException>().WithMessage("*color*dolor*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_excluding_properties_via_non_array_indexers_it_should_exclude_the_specified_paths()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1432,7 +1428,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_excluding_properties_via_non_array_indexers_it_should_not_exclude_paths_with_different_indexes()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1470,10 +1466,10 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored
             ()
@@ -1505,7 +1501,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_using_IncludingAllDeclaredProperties_fields_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1540,7 +1536,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_using_IncludingAllRuntimeProperties_the_runtime_type_should_be_used_and_fields_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1575,7 +1571,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_both_field_and_properties_are_configured_for_inclusion_both_should_be_included()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1598,10 +1594,10 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
+            act.ShouldThrow<XunitException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included
             ()
@@ -1626,14 +1622,14 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
+            act.ShouldThrow<XunitException>().Which.Message.Should().Contain("Field1").And.Contain("Property1");
         }
 
         #endregion
 
         #region Matching Rules
 
-        [TestMethod]
+        [Fact]
         public void When_using_ExcludingMissingMembers_both_fields_and_properties_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1666,7 +1662,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_shared_by_anonymous_types_doesnt_match_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1690,14 +1686,14 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
         #endregion
 
         #region Collection Equivalence
 
-        [TestMethod]
+        [Fact]
         public void When_a_non_collection_is_compared_to_a_collection_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1713,14 +1709,14 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>();
+            action.ShouldThrow<XunitException>();
         }
 
         #endregion
 
         #region DateTime Properties
 
-        [TestMethod]
+        [Fact]
         public void When_two_properties_are_datetime_and_both_are_nullable_and_both_are_null_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1750,7 +1746,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_properties_are_datetime_and_both_are_nullable_and_are_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1779,7 +1775,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_properties_are_datetime_and_both_are_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference
             ()
@@ -1807,11 +1803,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected member Time to be <null>, but found <2013-12-09 15:58:00>.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_properties_are_datetime_and_both_are_nullable_and_subject_is_null_it_should_throw_and_state_the_difference()
         {
@@ -1838,11 +1834,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected member Time to be <2013-12-09 15:58:00>, but found <null>.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_properties_are_datetime_and_expectation_is_nullable_and_are_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1871,7 +1867,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_properties_are_datetime_and_expectation_is_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference
             ()
@@ -1899,11 +1895,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected member Time to be <null>, but found <2013-12-09 15:58:00>.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_properties_are_datetime_and_subject_is_nullable_and_are_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1932,7 +1928,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_properties_are_datetime_and_subject_is_nullable_and_subject_is_null_it_should_throw_and_state_the_difference()
         {
@@ -1959,7 +1955,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected member Time to be <2013-12-09 15:58:00>, but found <null>.*");
         }
 
@@ -1967,7 +1963,7 @@ With configuration:*");
 
         #region Assertion Rules
 
-        [TestMethod]
+        [Fact]
         public void When_two_objects_have_the_same_property_values_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1993,7 +1989,7 @@ With configuration:*");
             subject.ShouldBeEquivalentTo(other);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_objects_have_the_same_nullable_property_values_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2019,7 +2015,7 @@ With configuration:*");
             subject.ShouldBeEquivalentTo(other);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_objects_have_the_same_properties_but_a_different_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2043,11 +2039,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected member Age to be 37 because they are the same, but found 36*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_has_a_valid_property_that_is_compared_with_a_null_property_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2071,11 +2067,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected member Name to be <null>, but found \"Dennis\"*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_collection_properties_dont_match_it_should_throw_and_specify_the_difference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2105,11 +2101,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected member Values[1] to be 4, but found 2*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_string_properties_do_not_match_it_should_throw_and_state_the_difference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2133,11 +2129,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected member Name to be \"Dennis\", but \"Dennes\" differs near \"es\" (index 4)*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_properties_are_of_derived_types_but_are_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2164,7 +2160,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivilent_according_to_the_declared_type_it_should_succeed
             ()
@@ -2197,7 +2193,7 @@ With configuration:*");
 
         #region Member Conversion
 
-        [TestMethod]
+        [Fact]
         public void When_two_objects_have_the_same_properties_with_convertable_values_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2226,7 +2222,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_is_declared_equivalent_to_an_int_representing_the_numerals_it_should_pass()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2246,7 +2242,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_int_is_compared_equivalent_to_a_string_representing_the_number_it_should_pass()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2268,7 +2264,7 @@ With configuration:*");
 
 #if !NETFX_CORE && !WINRT
 
-        [TestMethod]
+        [Fact]
         public void When_declaring_equivalent_a_convertable_object_that_is_equivalent_once_conveterted_it_should_pass()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2294,7 +2290,7 @@ With configuration:*");
 
         #region Nested Properties
 
-        [TestMethod]
+        [Fact]
         public void When_all_the_properties_of_the_nested_objects_are_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2337,7 +2333,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_expectation_contains_a_nested_null_it_should_properly_report_the_difference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2371,11 +2367,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*Expected*Level.Level to be <null>, but found*Level2*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_not_all_the_properties_of_the_nested_objects_are_equal_but_nested_objects_are_excluded_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2411,7 +2407,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nested_objects_should_be_excluded_it_should_do_a_simple_equality_check_instead()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2430,7 +2426,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*Item*null*");
         }
 
@@ -2439,7 +2435,7 @@ With configuration:*");
             public Item Child { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_not_all_the_properties_of_the_nested_objects_are_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2473,12 +2469,12 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected member Level.Text to be \"Level2\", but \"Level1\" differs near \"1\" (index 5)*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_actual_nested_object_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2508,7 +2504,7 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected member Level to be <null>*, but found*Level1*Level2*");
         }
 
@@ -2541,7 +2537,7 @@ With configuration:*");
             public StringContainer Two { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_deeply_nested_strings_dont_match_it_should_properly_report_the_mismatches()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2575,11 +2571,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*EXPECTED*INCORRECT*EXPECTED*INCORRECT*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_nested_object_property_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2610,11 +2606,11 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected member Level to be*Level1Dto*Level2*, but found <null>*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_not_all_the_properties_of_the_nested_object_exist_on_the_expected_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2646,11 +2642,11 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Subject has member Level.OtherProperty that the other object does not have*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_all_the_shared_properties_of_the_nested_objects_are_equal_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2685,7 +2681,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_deeply_nested_properties_do_not_have_all_equal_values_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2726,12 +2722,12 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected member Level.Level.Text to be *A wrong text value*but \r\n\"Level2\"*length*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_objects_have_the_same_nested_objects_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2751,7 +2747,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_of_a_nested_object_doesnt_match_it_should_clearly_indicate_the_path()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2769,7 +2765,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected member RefOne.ValTwo to be 2, but found 3*");
         }
 
@@ -2777,7 +2773,7 @@ With configuration:*");
 
         #region Cyclic References
 
-        [TestMethod]
+        [Fact]
         public void When_validating_nested_properties_that_have_cyclic_references_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2814,11 +2810,11 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected member Level.Root to be*but it contains a cyclic reference*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_validating_nested_properties_and_ignoring_cyclic_references_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2856,7 +2852,7 @@ With configuration:*");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void When_two_cyclic_graphs_are_equivalent_when_ignoring_cycle_references_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2904,7 +2900,7 @@ With configuration:*");
 
 
 
-        [TestMethod]
+        [Fact]
         public void When_validating_nested_properties_that_are_null_it_should_not_throw_on_cyclic_references()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2943,7 +2939,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_graph_contains_the_same_value_object_it_should_not_be_treated_as_a_cyclic_reference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2982,7 +2978,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_types_with_infinite_oject_graphs_are_equivilent_it_should_not_overflow_the_stack()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3003,10 +2999,10 @@ With configuration:*");
 #if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
             act.ShouldNotThrow<StackOverflowException>();
 #endif
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_asserting_equivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
             ()
@@ -3051,7 +3047,7 @@ With configuration:*");
             public string Key { get; protected set; }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_root_object_is_referenced_from_a_nested_object_it_should_treat_it_as_a_cyclic_reference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3082,7 +3078,7 @@ With configuration:*");
 
         #region Enums
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_same_enum_member_is_equivalent_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3096,7 +3092,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_actual_enum_value_is_null_it_should_report_that_properly()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3120,11 +3116,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*5*null*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_actual_enum_name_is_null_it_should_report_that_properly()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3148,11 +3144,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*5*null*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_different_enum_members_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3163,11 +3159,11 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected subject to be*3*, but found*0*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_members_from_different_enum_types_are_equivalent_it_should_compare_by_value_by_default()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3187,7 +3183,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_members_from_different_enum_types_are_equivalent_by_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3207,7 +3203,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_members_from_different_enum_types_are_equivalent_by_stringvalue_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3227,7 +3223,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_members_from_different_char_enum_types_are_equivalent_by_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3247,7 +3243,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_enums_typed_as_object_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3267,7 +3263,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_numeric_member_is_compared_with_an_enum_it_should_respect_the_enum_options()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3303,7 +3299,7 @@ With configuration:*");
 
         #region Memberless Objects
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_instances_of_an_anonymous_type_having_no_members_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3317,7 +3313,7 @@ With configuration:*");
             act.ShouldThrow<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_instances_of_a_class_having_no_members_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3331,7 +3327,7 @@ With configuration:*");
             act.ShouldThrow<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_instances_of_a_struct_having_no_memebers_are_equivilent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3345,7 +3341,7 @@ With configuration:*");
             act.ShouldThrow<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_instances_of_Object_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3359,7 +3355,7 @@ With configuration:*");
             act.ShouldThrow<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_type_only_exposes_fields_but_fields_are_ignored_in_the_equivalence_comparision_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3379,7 +3375,7 @@ With configuration:*");
             act.ShouldThrow<InvalidOperationException>("the objects have no members to compare.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_type_only_exposes_properties_but_properties_are_ignored_in_the_equivalence_comparision_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -3399,7 +3395,7 @@ With configuration:*");
             act.ShouldThrow<InvalidOperationException>("the objects have no members to compare.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_instances_of_arrays_of_types_in_System_are_equivalent_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------

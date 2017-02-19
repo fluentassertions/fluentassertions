@@ -31,10 +31,7 @@ namespace Chill.Autofac
             get
             {
                 if (_container == null)
-                {
                     _container = _containerBuilder.Build();
-                }
-
                 return _container;
             }
         }
@@ -78,7 +75,7 @@ namespace Chill.Autofac
                         .As(new KeyedService(key, typeof(T)))
                         .InstancePerLifetimeScope().CreateRegistration());
             }
-            return Get<T>();
+            return Get<T>(key);
         }
 
 

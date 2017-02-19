@@ -2,19 +2,15 @@
 
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class ReferenceTypeAssertionsSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_the_same_objects_are_expected_to_be_the_same_it_should_not_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -29,7 +25,7 @@ namespace FluentAssertions.Specs
             subject.Should().BeSameAs(referenceToSubject);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_different_objects_are_expected_to_be_the_same_it_should_fail_with_a_clear_explanation()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -54,13 +50,13 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected object to refer to \r\n{ UserName = JohnDoe } because " +
                     "they are the same, but found \r\n{ Name = John Doe }.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_different_objects_are_expected_not_to_be_the_same_it_should_not_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -75,7 +71,7 @@ namespace FluentAssertions.Specs
             someObject.Should().NotBeSameAs(notSameObject);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_equal_object_are_expected_not_to_be_the_same_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -92,11 +88,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect reference to object \r\nClassWithCustomEqualMethod(1) because they are the same.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_is_of_the_expected_type_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -115,7 +111,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_is_an_open_generic_of_the_expected_type_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -134,7 +130,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -150,11 +146,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected type to be System.String, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_is_not_of_the_expected_type_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -170,11 +166,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected type to be System.Int32, but found System.String.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_is_of_the_unexpected_type_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -190,11 +186,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected type not to be [" + typeof(string).AssemblyQualifiedName + "], but it is.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_is_of_the_unexpected_generic_type_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -210,11 +206,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected type not to be [" + typeof(string).AssemblyQualifiedName + "], but it is.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_is_not_of_the_expected_type_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -233,7 +229,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_object_is_not_of_type_and_it_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -249,11 +245,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected type not to be System.String, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_satisfies_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -267,7 +263,7 @@ namespace FluentAssertions.Specs
             someObject.Should().Match(o => (o != null));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_typed_object_satisfies_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -286,7 +282,7 @@ namespace FluentAssertions.Specs
             someObject.Should().Match<SomeDto>(o => o.Age > 0);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_does_not_match_the_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -302,11 +298,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().Where(e => e.Message.EndsWith(
+            act.ShouldThrow<XunitException>().Where(e => e.Message.EndsWith(
                 "to match (o == null) because it is not initialized yet."));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_typed_object_does_not_match_the_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -327,11 +323,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected " + Formatter.ToString(someObject) + " to match (d.Name.Length == 0) because it is not initialized yet.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_object_is_matched_against_a_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -353,7 +349,7 @@ namespace FluentAssertions.Specs
 
         #region Structure Reporting
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_on_two_objects_fails_it_should_show_the_properties_of_the_class()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -381,13 +377,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected object to be \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 2\r\n   Birthdate = <2009-02-22>\r\n" +
                     "   Name = \"Teddie\"\r\n}, but found \r\n\r\nFluentAssertions.Specs.SomeDto\r\n{\r\n   Age = 37\r\n" +
                         "   Birthdate = <1973-09-20>\r\n   Name = \"Dennis\"\r\n}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_on_two_objects_fails_and_they_implement_tostring_it_should_show_their_string_representation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -404,11 +400,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected object to be 4, but found 3.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_on_two_unknown_objects_fails_it_should_report_the_type_name()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -425,7 +421,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assertt
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
+            act.ShouldThrow<XunitException>().WithMessage(string.Format(
                 "Expected object to be System.Object (HashCode={0}), but found System.Object (HashCode={1}).",
                 other.GetHashCode(), subject.GetHashCode()));
         }

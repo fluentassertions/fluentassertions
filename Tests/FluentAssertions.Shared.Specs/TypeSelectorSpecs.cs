@@ -7,19 +7,14 @@ using FluentAssertions.Types;
 using Internal.Main.Test;
 using Internal.Other.Test;
 using Internal.Other.Test.Common;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class TypeSelectorSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_selecting_types_that_derive_from_a_specific_class_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -44,7 +39,7 @@ namespace FluentAssertions.Specs
                 .And.Contain(typeof(ClassDerivedFromSomeBaseClass));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_selecting_types_that_derive_from_a_specific_generic_class_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -69,7 +64,7 @@ namespace FluentAssertions.Specs
                 .And.Contain(typeof(ClassDerivedFromSomeGenericBaseClass));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_selecting_types_that_implement_a_specific_interface_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -95,7 +90,7 @@ namespace FluentAssertions.Specs
                 .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_selecting_types_that_are_decorated_with_a_specific_attribute_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -121,7 +116,7 @@ namespace FluentAssertions.Specs
                 .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_selecting_types_from_specific_namespace_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -146,7 +141,7 @@ namespace FluentAssertions.Specs
                 .And.Contain(typeof(SomeOtherClass));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_selecting_types_from_specific_namespace_or_sub_namespaces_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -172,7 +167,7 @@ namespace FluentAssertions.Specs
                 .And.Contain(typeof(SomeCommonClass));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_combining_type_selection_filters_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------

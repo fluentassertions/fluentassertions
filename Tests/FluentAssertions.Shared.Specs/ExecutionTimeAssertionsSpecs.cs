@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Threading;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 #if !PORTABLE && !SILVERLIGHT
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class ExecutionTimeAssertionsSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_the_execution_time_of_a_member_exceeds_the_maximum_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -31,12 +27,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .And.Message.Should().StartWith(
                     "Execution of (s.Sleep(610)) should not exceed 0.500s because we like speed, but it required 0.6");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_execution_time_of_a_meber_stays_within_the_maximum_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -55,7 +51,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_execution_time_of_an_action_exceeds_the_maximum_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -75,12 +71,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .And.Message.Should().StartWith(
                     "Execution of the action should not exceed 0.100s, but it required 0.5");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_execution_time_of_an_action_stays_within_the_limits_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

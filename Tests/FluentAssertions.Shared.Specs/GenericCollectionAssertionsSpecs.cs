@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class GenericCollectionAssertionsSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_asserting_equality_with_a_collection_built_from_params_arguments_that_are_assignable_to_the_subjects_type_parameter_it_should_succeed_by_treating_the_arguments_as_of_that_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -36,7 +31,7 @@ namespace FluentAssertions.Specs
 
         #region (Not) Contain
 
-        [TestMethod]
+        [Fact]
         public void When_collection_does_not_contain_an_expected_item_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -52,11 +47,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Collection {1, 2, 3} should have an item matching (item > 3) because at least 1 item should be larger than 3.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_collection_does_contain_an_expected_item_matching_a_predicate_it_should_allow_chaining_it()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -72,11 +67,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected*greater*4*2*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_collection_does_contain_an_expected_item_matching_a_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -90,7 +85,7 @@ namespace FluentAssertions.Specs
             collection.Should().Contain(item => item == 2);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_of_strings_contains_the_expected_string_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -104,7 +99,7 @@ namespace FluentAssertions.Specs
             strings.Should().Contain("string2");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_of_strings_does_not_contain_the_expected_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -120,11 +115,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected collection {\"string1\", \"string2\", \"string3\"} to contain \"string4\" because 4 is required.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_does_not_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -140,11 +135,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected collection {\"string1\", \"string2\"} to contain {\"string1\", \"string2\", \"string3\"}, but could not find {\"string3\"}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_collection_contains_some_values_but_collection_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -160,11 +155,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected collection to contain \"string4\" because we're checking how it reacts to a null subject, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_multiple_matching_objects_exists_it_continuation_using_the_matched_value_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -182,10 +177,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_collection_contains_values_according_to_predicate_but_collection_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -201,11 +196,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected collection to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_collection_doesnt_contain_values_according_to_predicate_but_collection_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -222,11 +217,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected collection not to contain (x == \"xxx\") because we're checking how it reacts to a null subject, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_does_contain_the_combination_of_a_collection_and_a_single_item_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -242,7 +237,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected collection {\"string1\", \"string2\"} to not contain {\"string3\", \"string4\", \"string2\"}, but found {\"string2\"}.");
         }
 
@@ -250,7 +245,7 @@ namespace FluentAssertions.Specs
 
         #region Only Contain (Predicate)
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_contains_items_not_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -266,11 +261,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected collection to contain only items matching (i <= 10) because 10 is the maximum, but {12, 11} do(es) not match.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_is_empty_and_should_contain_only_items_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -286,11 +281,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected collection to contain only items matching (e.Length > 0), but the collection is empty.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_contains_only_items_matching_a_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -313,7 +308,7 @@ namespace FluentAssertions.Specs
 
         #region Contain Single
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_contains_a_single_item_matching_a_predicate_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -333,7 +328,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_empty_collection_contains_a_single_item_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -354,10 +349,10 @@ namespace FluentAssertions.Specs
                 string.Format("Expected collection to contain a single item matching {0}, " +
                               "but the collection is empty.", expression.Body);
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_collection_contains_a_single_item_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -378,10 +373,10 @@ namespace FluentAssertions.Specs
                 string.Format("Expected collection to contain a single item matching {0}, " +
                               "but found <null>.", expression.Body);
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_non_empty_collection_does_not_contain_a_single_item_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -402,10 +397,10 @@ namespace FluentAssertions.Specs
                 string.Format("Expected collection to contain a single item matching {0}, " +
                               "but no such item was found.", expression.Body);
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_non_empty_collection_contains_more_than_a_single_item_matching_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -426,10 +421,10 @@ namespace FluentAssertions.Specs
                 string.Format("Expected collection to contain a single item matching {0}, " +
                               "but 3 such items were found.", expression.Body);
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_single_item_matching_a_predicate_is_found_it_should_allow_continuation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -445,14 +440,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*greater*4*2*");
+            act.ShouldThrow<XunitException>().WithMessage("Expected*greater*4*2*");
         }
 
         #endregion
 
         #region Contain Single
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_contains_a_single_item_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -471,7 +466,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_empty_collection_contains_a_single_item_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -487,11 +482,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected collection to contain a single item because more is not allowed, but the collection is empty.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_collection_contains_a_single_item_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -508,11 +503,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
 
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected collection to contain a single item because more is not allowed, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_non_empty_collection_does_not_contain_a_single_item_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -530,10 +525,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             const string expectedMessage = "Expected collection to contain a single item, but found {1, 3}.";
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_non_empty_collection_contains_more_than_a_single_item_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -551,10 +546,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             const string expectedMessage = "Expected collection to contain a single item, but found {1, 2}.";
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_single_item_is_found_it_should_allow_continuation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -572,14 +567,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             const string expectedMessage = "Expected a value greater than 4, but found 3.";
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
         #endregion
 
         #region Be In Ascending/Descending Order
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_ascending_using_the_specified_property_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -600,11 +595,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*a*b*c*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_ascending_using_the_given_comparer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -620,11 +615,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected collection*2*3*1*ordered*should be sorted*1*2*3*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_ascending_using_the_specified_property_and_the_given_comparer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -645,11 +640,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*a*b*c*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_ordered_ascending_using_the_specified_property_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -673,7 +668,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_ordered_ascending_using_the_given_comparer_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -692,7 +687,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_ascendingly_ordered_collection_are_ordered_ascending_using_the_specified_property_and_the_given_comparer_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -716,7 +711,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_specified_property_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -737,11 +732,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*c*b*a*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_given_comparer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -757,11 +752,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected collection*1*2*3*ordered*should be sorted*3*2*1*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_unordered_collection_are_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -782,11 +777,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected collection*b*c*a*ordered*Text*should be sorted*c*b*a*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_specified_property_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -810,7 +805,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_given_comparer_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -829,7 +824,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_descendingly_ordered_collection_are_ordered_descending_using_the_specified_property_and_the_given_comparer_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -853,7 +848,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_empty_collection_are_ordered_ascending_using_the_specified_property_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -872,7 +867,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_empty_collection_are_ordered_ascending_using_the_given_comparer_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -891,7 +886,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_an_empty_collection_are_ordered_ascending_using_the_specified_property_and_the_given_comparer_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -910,7 +905,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_a_collection_are_ordered_and_the_specified_property_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -930,7 +925,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Cannot assert collection ordering without specifying a property*propertyExpression*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_a_collection_are_ordered_and_the_given_comparer_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -950,7 +945,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Cannot assert collection ordering without specifying a comparer*comparer*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_a_null_collection_are_ordered_using_the_specified_property_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -966,11 +961,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*Text*found*null*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_a_null_collection_are_ordered_using_the_given_comparer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -986,11 +981,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*found*null*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_a_null_collection_are_ordered_using_the_specified_property_and_the_given_comparer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1006,11 +1001,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*Text*found*null*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_items_in_ay_collection_are_ordered_using_an_invalid_property_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------

@@ -1,119 +1,115 @@
 using System;
 
 using FluentAssertions.Execution;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class NullableBooleanAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_with_a_value_to_have_a_value_it_should_succeed()
         {
             bool? nullableBoolean = true;
             nullableBoolean.Should().HaveValue();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_with_a_value_to_not_be_null_it_should_succeed()
         {
             bool? nullableBoolean = true;
             nullableBoolean.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_without_a_value_to_have_a_value_it_should_fail()
         {
             bool? nullableBoolean = null;
             Action act = () => nullableBoolean.Should().HaveValue();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_without_a_value_to_not_be_null_it_should_fail()
         {
             bool? nullableBoolean = null;
             Action act = () => nullableBoolean.Should().NotBeNull();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_without_a_value_to_have_a_value_it_should_fail_with_descriptive_message()
         {
             bool? nullableBoolean = null;
             var assertions = nullableBoolean.Should();
             assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_without_a_value_to_not_be_null_it_should_fail_with_descriptive_message()
         {
             bool? nullableBoolean = null;
             var assertions = nullableBoolean.Should();
             assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_without_a_value_to_not_have_a_value_it_should_succeed()
         {
             bool? nullableBoolean = null;
             nullableBoolean.Should().NotHaveValue();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_without_a_value_to_be_null_it_should_succeed()
         {
             bool? nullableBoolean = null;
             nullableBoolean.Should().BeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_with_a_value_to_not_have_a_value_it_should_fail()
         {
             bool? nullableBoolean = true;
             Action act = () => nullableBoolean.Should().NotHaveValue();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail()
         {
             bool? nullableBoolean = true;
             Action act = () => nullableBoolean.Should().BeNull();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_with_a_value_to_be_not_have_a_value_it_should_fail_with_descriptive_message()
         {
             bool? nullableBoolean = true;
             var assertions = nullableBoolean.Should();
             assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
         }
         
-        [TestMethod]
+        [Fact]
         public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail_with_descriptive_message()
         {
             bool? nullableBoolean = true;
             var assertions = nullableBoolean.Should();
             assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_boolean_null_value_is_false_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -130,11 +126,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected False because we want to test the failure message, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_boolean_null_value_is_true_it_sShould_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -151,11 +147,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected True because we want to test the failure message, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_boolean_null_value_to_be_equal_to_different_nullable_boolean_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -173,11 +169,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected False because we want to test the failure message, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_boolean_null_value_to_be_equal_to_null_it_sShould_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -198,7 +194,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_true_is_not_false_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -218,7 +214,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_null_is_not_false_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -238,7 +234,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_false_is_not_false_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -255,11 +251,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected*nullable*boolean*not*False*because we want to test the failure message, but found False.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_false_is_not_true_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -279,7 +275,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_null_is_not_true_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -299,7 +295,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_true_is_not_true_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -316,11 +312,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected*nullable*boolean*not*True*because we want to test the failure message, but found True.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_support_chaining_constraints_with_and()
         {
             bool? nullableBoolean = true;

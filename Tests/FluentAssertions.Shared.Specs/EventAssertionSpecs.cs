@@ -1,37 +1,27 @@
 ﻿#if NET40 || NET45
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using FluentAssertions.Execution;
 using System.Reflection.Emit;
-using System.Linq.Expressions;
 using System.Reflection;
 #endif
 using System;
 using System.ComponentModel;
 using System.Linq;
-using FluentAssertions.Events;
-using FluentAssertions.Formatting;
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using System.Reflection.Emit;
-using System.Reflection;
-
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
-
-using FluentAssertions;
+using System.Runtime.Serialization;
+using FluentAssertions.Execution;
+using Xunit;
+using Xunit.Sdk;
+using Formatter = FluentAssertions.Formatting.Formatter;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
     public class EventAssertionSpecs
     {
 #if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
 
         #region Should(Not)Raise
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_event_raise_and_the_object_is_not_monitored_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -52,7 +42,7 @@ namespace FluentAssertions.Specs
                 "Use the MonitorEvents() extension method to start monitoring events.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_an_event_was_not_raised_and_the_object_is_not_monitored_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -73,7 +63,7 @@ namespace FluentAssertions.Specs
                 "Use the MonitorEvents() extension method to start monitoring events.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_event_that_doesnt_exist_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -94,7 +84,7 @@ namespace FluentAssertions.Specs
                 "Not monitoring any events named \"NonExistingEvent\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_that_an_event_was_not_raised_and_it_doesnt_exist_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -115,7 +105,7 @@ namespace FluentAssertions.Specs
                 "Not monitoring any events named \"NonExistingEvent\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_event_was_not_raised_it_should_throw_and_use_the_reason()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -132,12 +122,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected object " + Formatter.ToString(subject) +
                 " to raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did not.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_expected_event_was_raised_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -158,7 +148,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_unexpected_event_was_raised_it_should_throw_and_use_the_reason()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -176,12 +166,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected object " + Formatter.ToString(subject) +
                              " to not raise event \"PropertyChanged\" because Foo() should cause the event to get raised, but it did.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_unexpected_event_was_not_raised_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -201,7 +191,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_event_sender_is_not_the_expected_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -219,11 +209,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected sender " + Formatter.ToString(subject) +
-                                                                 ", but found <null>.");
+            act.ShouldThrow<XunitException>().WithMessage("Expected sender " + Formatter.ToString(subject) +
+                                                          ", but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_event_sender_is_the_expected_object_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -244,7 +234,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_event_parameters_dont_match_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -265,12 +255,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected at least one event with arguments matching (args.PropertyName == \"SomeProperty\"), but found none.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_event_parameter_is_of_a_different_type_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -295,7 +285,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("No argument of event PropertyChanged is of type <System.UnhandledExceptionEventArgs>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_event_parameters_do_match_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -318,7 +308,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_running_in_parallel_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -345,7 +335,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_monitored_class_event_has_fired_it_should_be_possible_to_reset_the_event_monitor()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -365,11 +355,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             subject.ShouldNotRaise("PropertyChanged");
         }
+
         #endregion
+
 #else
 
-#if !WINRT
-        [TestMethod]
+#if !WINRT && !CORE_CLR
+        [Fact]
         public void When_a_non_conventional_event_with_a_specific_argument_was_raised_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -392,7 +384,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_non_conventional_event_with_many_specific_arguments_was_raised_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -415,7 +407,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_non_conventional_event_with_a_specific_argument_was_not_raised_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -436,11 +428,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected at least one event with arguments matching (args == " + wrongArgument + "), but found none.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_non_conventional_event_with_many_specific_arguments_was_not_raised_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -461,13 +453,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected at least one event with arguments matching \"(args == \\\"" + wrongArgument + "\\\")\", but found none.");
         }
 
 #endif
 
-        [TestMethod]
+        [Fact]
         public void When_trying_to_attach_to_notify_property_changed_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -487,7 +479,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_trying_to_attach_to_something_other_than_notify_property_changed_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -511,7 +503,7 @@ namespace FluentAssertions.Specs
 
         #region Should(Not)RaisePropertyChanged events
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_changed_event_was_raised_for_the_expected_property_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -533,7 +525,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_expected_property_changed_event_was_raised_for_all_properties_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -554,7 +546,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_changed_event_was_raised_by_monitored_class_it_should_be_possible_to_reset_the_event_monitor()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -575,7 +567,7 @@ namespace FluentAssertions.Specs
             subject.ShouldNotRaisePropertyChangeFor(e => e.SomeProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_changed_event_for_an_unexpected_property_was_raised_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -593,12 +585,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Did not expect object " + Formatter.ToString(subject) +
                 " to raise the \"PropertyChanged\" event for property \"SomeProperty\" because nothing happened, but it did.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_changed_event_for_a_specific_property_was_not_raised_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -615,12 +607,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected object " + Formatter.ToString(subject) +
                 " to raise event \"PropertyChanged\" for property \"SomeProperty\" because the property was changed, but it did not.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_agnostic_property_changed_event_for_was_not_raised_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -637,12 +629,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected object " + Formatter.ToString(subject) +
                 " to raise event \"PropertyChanged\" for property <null>, but it did not.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_changed_event_for_another_than_the_unexpected_property_was_raised_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -662,11 +654,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+
         #endregion
 
         #region General Checks
 
-        [TestMethod]
+        [Fact]
         public void When_monitoring_a_null_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -685,7 +678,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<NullReferenceException>().WithMessage("Cannot monitor the events of a <null> object.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_monitoring_class_it_should_be_possible_to_obtain_a_recorder()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -698,7 +691,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             var recorder = eventMonitor.GetEventRecorder("PropertyChanged");
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
@@ -707,7 +700,7 @@ namespace FluentAssertions.Specs
             recorder.EventName.Should().Be("PropertyChanged");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_monitoring_class_requesting_to_monitor_again_should_return_same_monitor()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -727,7 +720,7 @@ namespace FluentAssertions.Specs
             newMonitor.Should().BeSameAs(eventMonitor);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_no_recorder_exists_for_an_event_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -748,7 +741,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Not monitoring any events named \"SomeEvent\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -771,7 +764,7 @@ namespace FluentAssertions.Specs
             referenceToSubject.IsAlive.Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_monitored_class_is_not_referenced_anymore_it_should_be_garbage_collected_also_if_an_Event_passing_Sender_was_raised
             ()
@@ -798,10 +791,10 @@ namespace FluentAssertions.Specs
         }
 
 #if NET40 || NET45
-                private object CreateProxyObject()
+        private object CreateProxyObject()
         {
-            Type baseType = typeof (EventRaisingClass);
-            Type interfaceType = typeof (IEventRaisingInterface);
+            Type baseType = typeof(EventRaisingClass);
+            Type interfaceType = typeof(IEventRaisingInterface);
             AssemblyName assemblyName = new AssemblyName {Name = baseType.Assembly.FullName + ".GeneratedForTest"};
             AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
                 AssemblyBuilderAccess.Run);
@@ -815,8 +808,8 @@ namespace FluentAssertions.Specs
                     typeBuilder.DefineMethod(string.Format("{0}.{1}_InterfaceEvent", interfaceType.FullName, methodName),
                         MethodAttributes.Private | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.HideBySig |
                         MethodAttributes.NewSlot);
-                method.SetReturnType(typeof (void));
-                method.SetParameters(typeof (EventHandler));
+                method.SetReturnType(typeof(void));
+                method.SetParameters(typeof(EventHandler));
                 ILGenerator gen = method.GetILGenerator();
                 gen.Emit(OpCodes.Ret);
                 return method;
@@ -830,17 +823,16 @@ namespace FluentAssertions.Specs
             return Activator.CreateInstance(generatedType);
         }
 
-
-        [TestMethod]
+        [Fact]
         public void When_the_fallback_assertion_exception_crosses_appdomain_boundaries_it_should_be_serializable()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            new AssertFailedException("").Should().BeBinarySerializable();
+            new AssertionFailedException("").Should().BeBinarySerializable();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_fallback_assertion_exception_crosses_appdomain_boundaries_it_should_be_deserializable()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -857,6 +849,7 @@ namespace FluentAssertions.Specs
 
             // Round-trip the exception: Serialize and de-serialize with a BinaryFormatter
             BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Binder = new SimpleBinder(exception.GetType());
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 // "Save" object state
@@ -874,10 +867,33 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
 
             // Double-check that the exception message and stack trace (owned by the base Exception) are preserved
-            Assert.AreEqual(exceptionToString, exception.ToString(), "exception.ToString()");
+            exceptionToString.Should().Be(exception.ToString(), "exception.ToString()");
         }
 
-        [TestMethod]
+        private class SimpleBinder : SerializationBinder
+        {
+            private Type type;
+
+            public SimpleBinder(Type type)
+            {
+                this.type = type;
+            }
+
+            public override Type BindToType(string assemblyName, string typeName)
+            {
+                if ((type.FullName == typeName) && (type.Assembly.FullName == assemblyName))
+                {
+                    return type;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+
+        [Fact]
         public void When_monitoring_interface_of_a_class_it_should_be_possible_to_obtain_a_recorder()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -899,7 +915,7 @@ namespace FluentAssertions.Specs
             recorder.EventName.Should().Be("InterfaceEvent");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_monitoring_interface_of_a_class_and_no_recorder_exists_for_an_event_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -920,7 +936,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Not monitoring any events named \"SomeEvent\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_no_recorder_exists_for_an_event_in_monitored_interface_of_a_class_but_exists_in_the_class_it_should_throw
             ()
         {
@@ -942,7 +958,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Not monitoring any events named \"PropertyChanged\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_trying_to_monitor_events_of_unimplemented_interface_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -962,7 +978,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("*not match target type*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_monitoring_more_than_one_event_on_a_class_it_should_be_possible_to_reset_just_one()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -985,7 +1001,7 @@ namespace FluentAssertions.Specs
             subject.ShouldRaise("Interface2Event");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_monitoring_a_class_it_should_be_possible_to_attach_to_additional_interfaces_on_the_same_object()
         {
             //-----------------------------------------------------------------------------------------------------------

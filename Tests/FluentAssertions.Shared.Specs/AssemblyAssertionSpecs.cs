@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Reflection;
-
+using Xunit;
+using Xunit.Sdk;
 #if !PORTABLE && !SILVERLIGHT && !NETFX_CORE && !WINRT
 using AssemblyA;
 using AssemblyB;
 #endif
 
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
-
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class AssemblyAssertionSpecs
     {
 #if !PORTABLE && !SILVERLIGHT && !NETFX_CORE && !WINRT
-        [TestMethod]
+        [Fact]
         public void When_an_assembly_is_not_referenced_and_should_not_reference_is_asserted_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -38,7 +33,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assembly_is_referenced_and_should_not_reference_is_asserted_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -55,10 +50,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assembly_is_referenced_and_should_reference_is_asserted_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -78,7 +73,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assembly_is_not_referenced_and_should_reference_is_asserted_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -95,11 +90,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 #endif
 
-        [TestMethod]
+        [Fact]
         public void When_an_assembly_defines_a_type_and_Should_DefineType_is_asserted_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -115,8 +110,8 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => thisAssembly
-                .Should().DefineType(GetType().Namespace, GetType().Name)
-                .Which.Should().BeDecoratedWith<TestClassAttribute>();
+                .Should().DefineType(GetType().Namespace, typeof(WellKnownClassWithAttribute).Name)
+                .Which.Should().BeDecoratedWith<SerializableAttribute>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -124,7 +119,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assembly_does_not_define_a_type_and_Should_DefineType_is_asserted_it_should_fail_with_a_useful_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -144,12 +139,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(String.Format("Expected assembly \"{0}\" " +
                              "to define type \"FakeNamespace\".\"FakeName\", but it does not.", thisAssembly.FullName));
         }
         
-        [TestMethod]
+        [Fact]
         public void When_an_assembly_is_null_and_Should_BeNull_is_asserted_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -170,4 +165,9 @@ namespace FluentAssertions.Specs
         }
     }
 
+    [Serializable]
+    public class WellKnownClassWithAttribute
+    {
+        
+    }
 }

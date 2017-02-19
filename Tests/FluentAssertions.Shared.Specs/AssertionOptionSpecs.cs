@@ -4,12 +4,8 @@ using System.Net;
 using Chill;
 using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
@@ -35,7 +31,8 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestClass]
+        
+        [Collection("AssertionOptions")]
         public class When_assertion_doubles_should_always_allow_small_deviations :
             Given_temporary_global_assertion_options
         {
@@ -49,7 +46,7 @@ namespace FluentAssertions.Specs
                 });
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_it_should_ignore_small_differences_without_the_need_of_local_options()
             {
                 var actual = new
@@ -68,7 +65,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestClass]
+        [Collection("AssertionOptions")]
         public class When_local_similar_options_are_used : Given_temporary_global_assertion_options
         {
             public When_local_similar_options_are_used()
@@ -81,7 +78,7 @@ namespace FluentAssertions.Specs
                 });
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_they_should_override_the_global_options()
             {
                 var actual = new
@@ -98,10 +95,10 @@ namespace FluentAssertions.Specs
                     .Using<double>(ctx => ctx.Subject.Should().Be(ctx.Expectation))
                     .WhenTypeIs<double>());
 
-                act.ShouldThrow<AssertFailedException>().WithMessage("Expected*");
+                act.ShouldThrow<XunitException>().WithMessage("Expected*");
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_they_should_not_affect_any_other_assertions()
             {
                 var actual = new
@@ -121,7 +118,8 @@ namespace FluentAssertions.Specs
         }
 
 #if !WINRT && !NETFX_CORE && !WINDOWS_PHONE_APP && !SILVERLIGHT
-        [TestClass]
+
+        [Collection("AssertionOptions")]
         public class When_marking_a_specific_type_as_a_value_type_globally : Given_temporary_global_assertion_options
         {
             public When_marking_a_specific_type_as_a_value_type_globally()
@@ -135,7 +133,7 @@ namespace FluentAssertions.Specs
                 });
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_this_should_not_throw()
             {
                 var subject = new
@@ -158,6 +156,7 @@ namespace FluentAssertions.Specs
         }
 #endif
 
+        [Collection("AssertionOptions")]
         public class Given_temporary_equivalency_steps : GivenWhenThen
         {
             protected override void Dispose(bool disposing)
@@ -172,7 +171,8 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestClass]
+
+        [Collection("AssertionOptions")]
         public class When_inserting_a_step : Given_temporary_equivalency_steps
         {
             public When_inserting_a_step()
@@ -180,7 +180,7 @@ namespace FluentAssertions.Specs
                 When(() => { Steps.Insert<MyEquivalencyStep>(); });
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_it_should_precede_all_other_steps()
             {
                 var addedStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
@@ -189,7 +189,8 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestClass]
+
+        [Collection("AssertionOptions")]
         public class When_inserting_a_step_before_another : Given_temporary_equivalency_steps
         {
             public When_inserting_a_step_before_another()
@@ -197,7 +198,7 @@ namespace FluentAssertions.Specs
                 When(() => { Steps.InsertBefore<DictionaryEquivalencyStep, MyEquivalencyStep>(); });
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_it_should_precede_that_particular_step()
             {
                 var addedStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
@@ -207,7 +208,8 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestClass]
+
+        [Collection("AssertionOptions")]
         public class When_appending_a_step : Given_temporary_equivalency_steps
         {
             public When_appending_a_step()
@@ -215,7 +217,7 @@ namespace FluentAssertions.Specs
                 When(() => { Steps.Add<MyEquivalencyStep>(); });
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_it_should_precede_the_final_builtin_step()
             {
                 var equivalencyStep = Steps.LastOrDefault(s => s is SimpleEqualityEquivalencyStep);
@@ -225,7 +227,8 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestClass]
+
+        [Collection("AssertionOptions")]
         public class When_appending_a_step_after_another : Given_temporary_equivalency_steps
         {
             public When_appending_a_step_after_another()
@@ -233,7 +236,7 @@ namespace FluentAssertions.Specs
                 When(() => { Steps.AddAfter<DictionaryEquivalencyStep, MyEquivalencyStep>(); });
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_it_should_precede_the_final_builtin_step()
             {
                 var addedStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
@@ -243,7 +246,8 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestClass]
+
+        [Collection("AssertionOptions")]
         public class When_appending_a_step_and_no_builtin_steps_are_there : Given_temporary_equivalency_steps
         {
             public When_appending_a_step_and_no_builtin_steps_are_there()
@@ -255,7 +259,7 @@ namespace FluentAssertions.Specs
                 });
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_it_should_precede_the_simple_equality_step()
             {
                 var subjectStep = Steps.LastOrDefault(s => s is MyEquivalencyStep);
@@ -264,7 +268,8 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestClass]
+
+        [Collection("AssertionOptions")]
         public class When_removing_a_specific_step : Given_temporary_equivalency_steps
         {
             public When_removing_a_specific_step()
@@ -272,14 +277,15 @@ namespace FluentAssertions.Specs
                 When(() => { Steps.Remove<SimpleEqualityEquivalencyStep>(); });
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_it_should_precede_the_simple_equality_step()
             {
                 Steps.Should().NotContain(s => s is SimpleEqualityEquivalencyStep);
             }
         }
 
-        [TestClass]
+
+        [Collection("AssertionOptions")]
         public class When_removing_a_specific_step_that_doesnt_exist : Given_temporary_equivalency_steps
         {
             public When_removing_a_specific_step_that_doesnt_exist()
@@ -287,7 +293,7 @@ namespace FluentAssertions.Specs
                 WhenAction = () => Steps.Remove<MyEquivalencyStep>();
             }
 
-            [TestMethod]
+            [Fact]
             public void Then_it_should_precede_the_simple_equality_step()
             {
                 WhenAction.ShouldNotThrow();

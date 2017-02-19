@@ -1,23 +1,19 @@
 ﻿using System;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class BooleanAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_boolean_value_true_is_true()
         {
             true.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_boolean_value_false_is_true()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -29,10 +25,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>();
+            action.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_boolean_value_false_is_true()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -45,11 +41,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected True because we want to test the failure message, but found False.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_boolean_value_false_is_false()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -64,7 +60,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_boolean_value_true_is_false()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -76,10 +72,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>();
+            action.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_boolean_value_true_is_false()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -91,11 +87,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected False because we want to test the failure message, but found True.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_boolean_value_to_be_equal_to_the_same_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -110,7 +106,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_boolean_value_to_be_equal_to_a_different_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -122,10 +118,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>();
+            action.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_boolean_value_to_be_equal_to_a_different_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -137,7 +133,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("*Expected*boolean*True*because we want to test the failure message, but found False.*");
         }
     }

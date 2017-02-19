@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.Reflection;
 
 using Internal.Main.Test;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class PropertyInfoSelectorSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_selecting_properties_from_types_in_an_assembly_it_should_return_the_applicable_properties()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -43,7 +38,7 @@ namespace FluentAssertions.Specs
                 .And.Contain(m => m.Name == "Property2");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_selecting_properties_that_are_public_or_internal_it_should_return_only_the_applicable_properties()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -64,7 +59,7 @@ namespace FluentAssertions.Specs
             properties.Should().HaveCount(PublicPropertyCount + InternalcPropertyCount);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_selecting_properties_decorated_with_specific_attribute_it_should_return_only_the_applicable_properties()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -83,7 +78,7 @@ namespace FluentAssertions.Specs
             properties.Should().HaveCount(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_selecting_methods_that_return_a_specific_type_it_should_return_only_the_applicable_methods()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -102,7 +97,7 @@ namespace FluentAssertions.Specs
             properties.Should().HaveCount(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_combining_filters_to_filter_methods_it_should_return_only_the_applicable_methods()
         {
             //-------------------------------------------------------------------------------------------------------------------

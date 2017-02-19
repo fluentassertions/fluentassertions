@@ -2,21 +2,18 @@
 using System.Xml.Linq;
 
 using FluentAssertions.Formatting;
+using Xunit;
+using Xunit.Sdk;
 
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class XDocumentAssertionSpecs
     {
         #region Be / NotBe
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_equal_to_the_same_xml_document_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -37,7 +34,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_equal_to_a_different_xml_document_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -55,10 +52,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_xml_document_is_equal_to_another_xml_document_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -76,10 +73,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_equal_to_a_different_xml_document_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -97,13 +94,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected XML document to be <data></data>" +
                     " because we want to test the failure message," +
                         " but found <configuration></configuration>");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equal_to_a_different_xml_document_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -124,7 +121,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equal_to_the_same_xml_document_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -142,10 +139,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_xml_document_is_not_equal_to_some_xml_document_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -163,11 +160,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*not expect XML document to be*, but found <null>*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equal_to_the_same_xml_document_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -185,7 +182,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect XML document to be <configuration></configuration>" +
                     " because we want to test the failure message.");
         }
@@ -194,7 +191,7 @@ namespace FluentAssertions.Specs
 
         #region BeEquivalentTo / NotBeEquivalentTo
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_equivalent_to_the_same_xml_document_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -215,7 +212,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_with_same_structure_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -236,7 +233,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_equivalent_to_a_xml_document_with_elements_missing_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -254,10 +251,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_with_extra_elements_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -275,10 +272,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_elements_missing_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -296,11 +293,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected node of type EndElement at \"/parent\" because we want to test the failure message, but found Element.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_equivalent_to_a_different_xml_document_with_extra_elements_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -318,11 +315,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected node of type Element at \"/parent\" because we want to test the failure message, but found EndElement.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_elements_missing_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -343,7 +340,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_extra_elements_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -364,7 +361,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_same_structure_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -382,10 +379,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equivalent_to_the_same_xml_document_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -403,10 +400,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_same_structure_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -424,11 +421,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect Xml to be equivalent because we want to test the failure message, but it is.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_same_contents_but_different_ns_prefixes_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -446,10 +443,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equivalent_to_a_different_xml_document_with_same_contents_but_extra_unused_xmlns_declaration_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -467,10 +464,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_xml_document_is_not_equivalent_to_the_same_xml_document_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -488,11 +485,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect Xml to be equivalent because we want to test the failure message, but it is.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_assertion_an_xml_document_is_equivalent_to_a_different_xml_document_with_different_namespace_prefix_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -513,7 +510,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_document_is_equivalent_to_a_different_xml_document_which_differs_only_on_unused_namespace_declaration_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -534,7 +531,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_document_is_equivalent_to_different_xml_document_which_lacks_attributes_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -552,11 +549,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().
+            act.ShouldThrow<XunitException>().
                 WithMessage("Expected attribute \"a\" at \"/xml/element\" because we want to test the failure message, but found none.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_document_is_equivalent_to_different_xml_document_which_has_extra_attributes_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -574,11 +571,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().
+            act.ShouldThrow<XunitException>().
                 WithMessage("Didn't expect to find attribute \"a\" at \"/xml/element\" because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_document_is_equivalent_to_different_xml_document_which_has_different_attribute_values_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -596,11 +593,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().
+            act.ShouldThrow<XunitException>().
                 WithMessage("Expected attribute \"a\" at \"/xml/element\" to have value \"c\" because we want to test the failure message, but found \"b\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_document_is_equivalent_to_different_xml_document_which_has_attribute_with_different_namespace_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -618,11 +615,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().
+            act.ShouldThrow<XunitException>().
                 WithMessage("Didn't expect to find attribute \"ns:a\" at \"/xml/element\" because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_document_is_equivalent_to_different_xml_document_which_has_different_text_contents_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -640,11 +637,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().
+            act.ShouldThrow<XunitException>().
                 WithMessage("Expected content to be \"b\" at \"/xml\" because we want to test the failure message, but found \"a\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_an_xml_document_is_equivalent_to_different_xml_document_with_different_comments_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -668,7 +665,7 @@ namespace FluentAssertions.Specs
 
         #region BeNull / NotBeNull
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_xml_document_is_null_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -688,7 +685,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_non_null_xml_document_is_null_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -705,10 +702,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_non_null_xml_document_is_null_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -725,13 +722,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected XML document to be <null>" +
                     " because we want to test the failure message," +
                         " but found <configuration></configuration>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_non_null_xml_document_is_not_null_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -751,7 +748,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_xml_document_is_not_null_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -768,10 +765,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_xml_document_is_not_null_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -788,7 +785,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected XML document not to be <null>" +
                     " because we want to test the failure message.");
         }
@@ -797,7 +794,7 @@ namespace FluentAssertions.Specs
 
         #region HaveRoot
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_element_and_it_does_it_should_succeed_and_return_it_for_chaining()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -819,7 +816,7 @@ namespace FluentAssertions.Specs
             root.Should().BeSameAs(document.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_element_but_it_does_not_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -838,10 +835,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_element_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -865,10 +862,10 @@ namespace FluentAssertions.Specs
                 " because we want to test the failure message" +
                     ", but found {0}.", Formatter.ToString(document));
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_document_has_root_element_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -888,7 +885,7 @@ namespace FluentAssertions.Specs
                 "Cannot assert the document has a root element if the document itself is <null>*");
         }
         
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_document_has_a_null_root_element_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -911,7 +908,7 @@ namespace FluentAssertions.Specs
                 "Cannot assert the document has a root element if the element name is <null>*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_element_with_ns_and_it_does_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -934,7 +931,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_element_with_ns_but_it_does_not_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -954,10 +951,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_element_with_ns_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -981,13 +978,13 @@ namespace FluentAssertions.Specs
                 " because we want to test the failure message" +
                     ", but found {0}.", Formatter.ToString(document));
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
         #endregion
 
         #region HaveElement
 
-        [TestMethod]
+        [Fact]
         public void When_document_has_the_expected_child_element_it_should_not_throw_and_return_the_element_for_chaining()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1009,7 +1006,7 @@ namespace FluentAssertions.Specs
             element.Should().BeSameAs(document.Element("parent").Element("child"));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_with_child_element_but_it_does_not_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1029,10 +1026,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_with_child_element_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1056,10 +1053,10 @@ namespace FluentAssertions.Specs
                 " because we want to test the failure message" +
                     ", but no such child element was found.", Formatter.ToString(document));
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_with_child_element_with_ns_and_it_does_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1082,7 +1079,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_with_child_element_with_ns_but_it_does_not_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1102,10 +1099,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_with_child_element_with_ns_but_it_does_not_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1130,10 +1127,10 @@ namespace FluentAssertions.Specs
                 " because we want to test the failure message" +
                     ", but no such child element was found.", Formatter.ToString(document));
 
-            act.ShouldThrow<AssertFailedException>().WithMessage(expectedMessage);
+            act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_document_has_root_with_child_element_with_attributes_it_should_be_possible_to_use_which_to_assert_on_the_element()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1156,7 +1153,7 @@ namespace FluentAssertions.Specs
             matchedElement.Name.Should().Be(XName.Get("child"));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_null_document_has_an_element_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -1176,7 +1173,7 @@ namespace FluentAssertions.Specs
                 "Cannot assert the document has an element if the document itself is <null>*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_document_has_a_null_element_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------

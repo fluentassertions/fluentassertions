@@ -1,19 +1,14 @@
 ﻿using System;
 
 using FluentAssertions.Common;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class TimeSpanConversionExtensionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_getting_the_number_of_days_it_should_return_the_correct_time_span_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -24,10 +19,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Assert.AreEqual(new TimeSpan(4, 0, 0, 0), time);
+            time.Should().Be(new TimeSpan(4, 0, 0, 0));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_getting_the_number_of_hours_it_should_return_the_correct_time_span_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -38,10 +33,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Assert.AreEqual(new TimeSpan(4, 0, 0), time);
+            time.Should().Be(new TimeSpan(4, 0, 0));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_getting_the_number_of_minutes_it_should_return_the_correct_time_span_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -52,10 +47,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Assert.AreEqual(new TimeSpan(0, 4, 0), time);
+            time.Should().Be(new TimeSpan(0, 4, 0));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_getting_the_number_of_seconds_it_should_return_the_correct_time_span_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -66,10 +61,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Assert.AreEqual(new TimeSpan(0, 0, 4), time);
+            time.Should().Be(new TimeSpan(0, 0, 4));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_getting_the_number_of_milliseconds_it_should_return_the_correct_time_span_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -80,10 +75,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Assert.AreEqual(new TimeSpan(0, 0, 0, 0, 4), time);
+            time.Should().Be(new TimeSpan(0, 0, 0, 0, 4));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_getting_the_number_of_ticks_it_should_return_the_correct_time_span_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -94,10 +89,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Assert.AreEqual(TimeSpan.FromTicks(4), time);
+            time.Should().Be(TimeSpan.FromTicks(4));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_combining_fluent_time_methods_it_should_return_the_correct_time_span_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -110,12 +105,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Assert.AreEqual(new TimeSpan(23, 59, 0), time1);
-            Assert.AreEqual(new TimeSpan(23, 59, 20), time2);
-            Assert.AreEqual(new TimeSpan(1, 2, 33, 44, 99), time3);
+            time1.Should().Be(new TimeSpan(23, 59, 0));
+            time2.Should().Be(new TimeSpan(23, 59, 20));
+            time3.Should().Be(new TimeSpan(1, 2, 33, 44, 99));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_specifying_a_time_before_another_time_it_should_return_the_correct_time()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -128,10 +123,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Assert.AreEqual(new DateTime(2011, 9, 21, 05, 35, 00), twoHoursAgo);
+            twoHoursAgo.Should().Be(new DateTime(2011, 9, 21, 05, 35, 00));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_specifying_a_time_after_another_time_it_should_return_the_correct_time()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -144,7 +139,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            Assert.AreEqual(new DateTime(2011, 9, 21, 09, 35, 00), twoHoursLater);
+            twoHoursLater.Should().Be(new DateTime(2011, 9, 21, 09, 35, 00));
         }
     }
 }

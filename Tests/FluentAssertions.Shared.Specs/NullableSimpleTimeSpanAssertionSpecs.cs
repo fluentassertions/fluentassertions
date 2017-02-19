@@ -4,19 +4,15 @@ using System.Linq;
 using System.Text;
 
 using FluentAssertions.Common;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class NullableSimpleTimeSpanAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_TimeSpan_value_with_a_value_to_have_a_value()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -30,7 +26,7 @@ namespace FluentAssertions.Specs
             nullableTimeSpan.Should().HaveValue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_TimeSpan_value_with_a_value_to_not_be_null()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -44,7 +40,7 @@ namespace FluentAssertions.Specs
             nullableTimeSpan.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_TimeSpan_value_without_a_value_to_not_be_null()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -60,11 +56,11 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_TimeSpan_value_without_a_value_to_have_a_value()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -77,11 +73,11 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
             assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_TimeSpan_value_without_a_value_to_not_be_null()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -94,11 +90,11 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
             assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_TimeSpan_value_without_a_value_to_not_have_a_value()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -112,7 +108,7 @@ namespace FluentAssertions.Specs
             nullableTimeSpan.Should().NotHaveValue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_TimeSpan_value_without_a_value_to_be_null()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -126,7 +122,7 @@ namespace FluentAssertions.Specs
             nullableTimeSpan.Should().BeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_TimeSpan_value_with_a_value_to_not_have_a_value()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -142,10 +138,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_TimeSpan_value_with_a_value_to_be_null()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -161,10 +157,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_TimeSpan_value_with_a_value_to_not_have_a_value()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -177,11 +173,11 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
             assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_TimeSpan_value_with_a_value_to_be_null()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -194,11 +190,11 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
             assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_nullable_TimeSpan_is_equal_to_a_different_nullable_TimeSpan_it_should_should_throw_appropriately()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -215,10 +211,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>();
+            action.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_nullable_TimeSpan_is_equal_to_another_a_nullable_TimeSpan_but_it_is_null_it_should_fail_with_a_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -238,12 +234,12 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected 1s because we want to test the failure message, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_nullable_TimeSpan_is_equal_to_another_a_nullable_TimeSpan_and_both_are_null_it_should_succed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -263,7 +259,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_nullable_TimeSpan_is_equal_to_the_same_nullable_TimeSpan_it_should_succed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -283,7 +279,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_support_chaining_constraints_with_and()
         {
             //-------------------------------------------------------------------------------------------------------------------

@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class ObjectCastingSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_casting_an_object_using_the_as_operator_it_should_return_the_expected_type()
         {
             //-----------------------------------------------------------------------------------------------------------

@@ -4,24 +4,20 @@ using System.Linq;
 using System.Reflection;
 using Chill;
 using FluentAssertions.Equivalency;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
     /// <summary>
     /// Test Class containing specs over the extensibility points of ShouldBeEquivalentTo
     /// </summary>
-    [TestClass]
+    
     public class ExtensibilityRelatedEquivalencySpecs
     {
         #region Selection Rules
 
-        [TestMethod]
+        [Fact]
         public void When_a_selection_rule_is_added_it_should_be_evaluated_after_all_existing_rules()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -51,7 +47,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_selection_rule_is_added_it_should_appear_in_the_exception_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -77,7 +73,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(string.Format("*{0}*", typeof(ExcludeForeignKeysSelectionRule).Name));
         }
 
@@ -103,7 +99,7 @@ namespace FluentAssertions.Specs
 
         #region Matching Rules
 
-        [TestMethod]
+        [Fact]
         public void When_a_matching_rule_is_added_it_should_preceed_all_existing_rules()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -134,7 +130,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_matching_rule_is_added_it_should_appear_in_the_exception_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -162,7 +158,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(string.Format("*{0}*", typeof(ForeignKeyMatchingRule).Name));
         }
 
@@ -189,7 +185,7 @@ namespace FluentAssertions.Specs
 
         #region Assertion Rules
         
-        [TestMethod]
+        [Fact]
         public void When_equally_named_properties_are_type_incompatible_and_assertion_rule_exists_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -219,7 +215,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_is_overridden_for_a_predicate_it_should_use_the_provided_action()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -248,7 +244,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_is_overridden_for_all_types_it_should_use_the_provided_action_for_all_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -286,7 +282,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_nullable_property_is_overriden_with_a_custom_asserrtion_it_should_use_it()
         {
             var actual = new SimpleWithNullable
@@ -311,7 +307,7 @@ namespace FluentAssertions.Specs
             public string strProperty { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_rule_is_added_it_should_preceed_all_existing_rules()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -340,7 +336,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_rule_is_added_it_appear_in_the_exception_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -360,11 +356,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(string.Format("*{0}*", typeof(RelaxingDateTimeAssertionRule).Name));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_rule_matches_the_root_object_the_assertion_rule_should_not_apply_to_the_root_object()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -384,10 +380,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_multiple_asertion_rules_are_added__they_should_be_executed_from_right_to_left()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -418,7 +414,7 @@ namespace FluentAssertions.Specs
                 "a different assertion rule should handle the comparision before the exception throwing assertion rule is hit");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_rule_added_with_the_fluent_api_matches_the_root_object_the_assertion_rule_should_not_apply_to_the_root_object()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -443,7 +439,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
         internal class AlwaysFailAssertionRule : IAssertionRule
@@ -467,7 +463,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_multiple_asertion_rules_are_added_with_the_fluent_api_they_should_be_executed_from_right_to_left()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -499,7 +495,7 @@ namespace FluentAssertions.Specs
 
         #region Equivalency Steps
 
-        [TestMethod]
+        [Fact]
         public void When_an_equivalency_step_handles_the_comparison_later_equivalency_steps_should_not_be_ran()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -524,7 +520,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_user_equivalency_step_is_registered_it_should_run_before_the_built_in_steps()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -549,12 +545,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*123*123*");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_stil_be_ran()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -579,7 +575,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<InvalidOperationException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_multiple_equivalency_steps_are_added_they_should_be_executed_in_registration_order()
         {
             //-----------------------------------------------------------------------------------------------------------
