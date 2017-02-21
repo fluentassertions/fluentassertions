@@ -17,6 +17,7 @@ If, for some unknown reason, Fluent Assertions fails to find the assembly, try s
   </appSettings>
 </configuration>
 ```
+Just add nuget package "fluentassertions" to your test project.
 
 ## Basic assertions ##
 The following assertions are available to all types of objects. 
