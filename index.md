@@ -19,12 +19,12 @@ To verify that a collection contains a specified number of elements and that all
 
 ```c#
 IEnumerable collection = new[] { 1, 2, 3 };
-collection.Should().HaveCount(4, "because we thought we put three items in the collection"))
+collection.Should().HaveCount(4, "because we thought we put four items in the collection"))
 ```
 
 The nice thing about the second failing example is that it will throw an exception with the message
 
-> "Expected <4> items because we thought we put three items in the collection, but found <3>." 
+> "Expected <4> items because we thought we put four items in the collection, but found <3>." 
 
 To verify that a particular business rule is enforced using exceptions.
 
