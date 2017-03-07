@@ -343,7 +343,7 @@ namespace FluentAssertions.Common
         public static ConstructorInfo GetConstructor(this Type type, IEnumerable<Type> parameterTypes)
         {
             return type
-                .GetConstructors(AllMembersFlag)
+                .GetConstructors(PublicMembersFlag)
                 .SingleOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
     }
