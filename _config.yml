@@ -1,3 +1,5 @@
 theme: jekyll-theme-slate
 title: Fluent Assertions
+repository: FluentAssertions/FluentAssertions.github.io
 description: "\"With Fluent Assertions, the assertions look beautiful, natural and most importantly, extremely readable.\""
+fa_repo_location: http://github.com/FluentAssertions/FluentAssertions

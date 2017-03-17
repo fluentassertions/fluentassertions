@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
+    <meta name="description" content="{{ site.title | default: site.fa_repo_location }} : {{ site.description | default: site.github.project_tagline }}">
 
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
 
@@ -16,8 +16,8 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-            <a id="forkme_banner" href="{{ site.github.repository_url }}">View on GitHub</a>
-            <a id="docs_banner" href="{{ site.github.repository_url }}/wiki">Documentation</a>
+            <a id="forkme_banner" href="{{ site.fa_repo_location }}">View on GitHub</a>
+            <a id="docs_banner" href="{{ site.fa_repo_location }}/wiki">Documentation</a>
 
             <h1 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
             <h2 id="project_tagline">{{ site.description | default: site.github.project_tagline }}<a href="https://www.nuget.org/packages/FluentAssertions/"><img src="https://img.shields.io/nuget/v/FluentAssertions.svg?style=flat-square" style="width:18%;float:right"/></a></h2>
