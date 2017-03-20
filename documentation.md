@@ -1,5 +1,5 @@
 ---
-title: Docs
+title: Documentation
 ---
 
 **This is the documentation for v3.0 and higher. You can find the v2.2 documentation [here](v2/documentation).**
