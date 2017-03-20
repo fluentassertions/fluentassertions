@@ -73,3 +73,5 @@ There are a number of community maintained extension projects. The ones we are a
 
 This project would not have been possible without the support of [JetBrains](http://www.jetbrains.com/). We thank them generously for providing us with the [ReSharper](http://www.jetbrains.com/resharper/) licenses necessary to make us productive developers.  
 ![Resharper](./images/logo_resharper.png)
+
+{% include twitter.html %}
