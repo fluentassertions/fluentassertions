@@ -7,49 +7,6 @@ layout: default
 
 Fluent Assertions is a set of .NET extension methods that allow you to more naturally specify the expected outcome of a TDD or BDD-style test.
 
-## Examples
-
-To verify that a string begins, ends and contains a particular phrase.
-
-```c#
-string actual = "ABCDEFGHI";
-actual.Should().StartWith("AB").And.EndWith("HI").And.Contain("EF").And.HaveLength(9);
-```
-
-To verify that a collection contains a specified number of elements and that all elements match a predicate.
-
-```c#
-IEnumerable collection = new[] { 1, 2, 3 };
-collection.Should().HaveCount(4, "because we thought we put four items in the collection"))
-```
-
-The nice thing about the second failing example is that it will throw an exception with the message
-
-> "Expected <4> items because we thought we put four items in the collection, but found <3>." 
-
-To verify that a particular business rule is enforced using exceptions.
-
-```c#
-var recipe = new RecipeBuilder()
-                    .With(new IngredientBuilder().For("Milk").WithQuantity(200, Unit.Milliliters))
-                    .Build();
-Action action = () => recipe.AddIngredient("Milk", 100, Unit.Spoon);
-action
-                    .ShouldThrow<RuleViolationException>()
-                    .WithMessage("change the unit of an existing ingredient", ComparisonMode.Substring)
-                    .And.Violations.Should().Contain(BusinessRule.CannotChangeIngredientQuanity);
-```
-
-One neat feature is the ability to chain a specific assertion on top of an assertion that acts on a collection or graph of objects.
-
-```c#
-dictionary.Should().ContainValue(myClass).Which.SomeProperty.Should().BeGreaterThan(0);
-someObject.Should().BeOfType<Exception>().Which.Message.Should().Be("Other Message");
-xDocument.Should().HaveElement("child").Which.Should().BeOfType<XElement>().And.HaveAttribute("attr", "1");
-```
-
-I've run into quite a few of these scenarios in which this chaining would make the unit test a lot easier to read.
-
 ## Why?
 
 Nothing is more annoying than a unit test that fails without clearly explaining why. More than often, you need to set a breakpoint and start up the debugger to be able to figure out what went wrong. Jeremy D. Miller once gave the advice to "keep out of the debugger hell" and I can only agree with that.
@@ -83,6 +40,7 @@ will fail with:
 It supports the following .NET versions.
 
 *   .NET 4.0, 4.5 and 4.6
+    * [FluentAssertions 2.2](https://www.nuget.org/packages/FluentAssertions/2.2.0) supports .NET 3.5
 *   CoreClr, .NET Native and Universal Windows Platform
 *   Windows Store Apps for Windows 8.1
 *   Silverlight 5
@@ -101,33 +59,6 @@ It supports the following unit test frameworks:
 *   [Gallio](http://code.google.com/p/mb-unit/)
 *   [NSpec](http://nspec.org/)
 *   [MSpec](https://github.com/machine/machine.specifications)
-
-## About versioning
-
-The version numbers of Fluent Assertions releases comply to the [Semantic Versioning](http://semver.org/) scheme. In other words, release 1.4.0 only adds backwards-compatible functionality and bug fixes compared to 1.3.0. Release 1.4.1 should only include bug fixes. And if we ever introduce breaking changes, the number increased to 2.0.0.
-
-## What do you need to compile the solution?
-
-* Visual Studio 2013 Update 2 or later
-* Windows 8.1
-* The Windows Phone 8 SDK
-
-## Who are we?
-
-We are a bunch of developers working for Aviva Solutions who highly value software quality, in particular
-
-* [Dennis Doomen](https://twitter.com/ddoomen)  
-
-Notable contributors from the last couple of months include
-
-* [Adam Voss](https://github.com/vossad01)
-
-The [Xamarin](https://github.com/onovotny/fluentassertions) version has been built by
-
-* [Oren Novotny](https://twitter.com/onovotny)
-
-If you have any comments or suggestions, please let us know via [twitter](https://twitter.com/search?q=fluentassertions&src=typd), through the [issues](https://github.com/dennisdoomen/FluentAssertions/issues) page, or through [StackOverflow](http://stackoverflow.com/questions/tagged/fluent-assertions).
-
 
 ## Community Extensions
 

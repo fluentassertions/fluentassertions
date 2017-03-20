@@ -5,7 +5,7 @@ title: Docs
 **This is the documentation for v3.0 and higher. You can find the v2.2 documentation [here](v2/documentation).**
 
 ## Coding by Example ##
-As you may have read in the repository's [readme](https://github.com/dennisdoomen/fluentassertions/blob/master/README.md), the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code. We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation. So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/dennisdoomen/FluentAssertions/tree/master/Tests/FluentAssertions.Shared.Specs).
+As you may have noticed the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code. We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation. So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/FluentAssertions.Shared.Specs).
 
 ## Table of Contents ##
 * [Supported Test Frameworks](#supported-test-frameworks)
@@ -27,6 +27,7 @@ As you may have read in the repository's [readme](https://github.com/dennisdoome
 * [XML classes](#xml-classes)
 * [Execution Time](#execution-time)
 * [Extensibility](#extensibility)
+* [Assertion Scope](#assertion-scope)
 
 ## Supported Test Frameworks ##
 
@@ -998,3 +999,6 @@ public static class CustomFormatter
 ```
 
 Since scanning for value formatters incurs a significant performance hit, you need to explicitly enable that using the `<appSetting>`  with key `valueFormatters`. Valid values include `Disabled` (the default), `Scan` and `Specific`, where `Scan` will scan all assemblies in the `AppDomain`. Option `Specific` also requires you to set the `valueFormattersAssembly` setting key with the (partial) name of an assembly FA should scan. Since Silverlight and Windows Phone apps do not support an `app.config` file, you'll need to set those settings through the `ValueFormatterDetectionMode` and `ValueFormatterAssembly` properties of the static `Configuration.Current` object.
+
+## Assertion Scope
+See [Assertion Scope](/AssertionScope.html)
