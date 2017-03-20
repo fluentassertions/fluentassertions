@@ -1,4 +1,7 @@
-## AssertionScope
+---
+title: Assertion Scope
+layout: page
+---
 
 Take the following example:
 ```csharp
