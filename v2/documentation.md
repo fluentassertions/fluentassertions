@@ -3,28 +3,10 @@
 
 **This is the documentation for v2.2. You can find the documentation for the current version [here](/documentation).**
 
-## Table of Contents ##
-* [Supported Test Frameworks](#supported-test-frameworks)
-* [Reference Types](#reference-types)
-* [Nullable Types](#nullable-types)
-* [Booleans](#booleans)
-* [Strings](#strings)
-* [Numeric Types and IComparable](#numeric-types)
-* [Dates and times](#dates-and-times)
-* [TimeSpans](#timespans)
-* [Collections](#collections)
-* [Dictionaries](#dictionaries)
-* [Guids](#guids)
-* [Exceptions](#exceptions)
-* [Object graph comparison](#object-graph-comparison)
-* [Property Comparison (*obsolete*)](#property-comparison)
-* [Event Monitoring](#event-monitoring)
-* [Type, Method and property assertions](#type-assertions)
-* [XML](#xml)
-* [Execution Time](#execution-time)
-* [Extensibility](#extensibility)
+**Contents**
+* TOC
+{:toc}
 
-<a name="supported-test-frameworks"/>
 ## Supported Test Frameworks ##
 
 Fluent Assertions supports MSTest, NUnit, XUnit, MSpec, NSpec, MBUnit and the Gallio Framework. You can simply add a reference to the corresponding test framework assembly to the unit test project. Fluent Assertions will automatically find the corresponding assembly and use it for throwing the framework-specific exceptions. 
@@ -40,8 +22,9 @@ If, for some unknown reason, Fluent Assertions for .NET 3.5, 4.0 or 4.5 fails to
 </configuration>
 ```
 
-<a name="reference-types"/>    
-## Basic assertions available to all types ##
+## Reference Types
+
+Basic assertions available to all types
 
 ```csharp
 object theObject = null;
@@ -88,7 +71,6 @@ theObject.Should().BeBinarySerializable<MyClass>(
 	options => options.Excluding(s => s.SomeNonSerializableProperty));
 ```
 
-<a name="nullable-types"/>
 ## Nullable types ##
 
 ```csharp
@@ -102,7 +84,7 @@ DateTime? theDate = null;
 theDate.Should().NotHaveValue();
 ```
 
-<a name="booleans"/>
+
 ## Booleans ##
 
 ```csharp
@@ -121,7 +103,6 @@ theBoolean.Should().NotBeFalse();
 theBoolean.Should().NotBeTrue();
 ```
 
-<a name="strings"/>
 ## Strings ##
 
 For asserting whether a string is null, empty or contains whitespace only, you have a wide range of methods to your disposal.
@@ -180,8 +161,7 @@ someString.Should().MatchRegex("h.*\\sworld.$");
 subject.Should().NotMatchRegex(".*earth.*");
 ```
 
-<a name="numeric-types"/>
-## Numeric types and everything else that implements IComparable<T\> ##
+## Numeric types (and IComparable\<T\> implementations)##
 
 ```csharp
 int theInt = 5;
@@ -221,7 +201,6 @@ To assert that a value matches one of the provided values, you can do this.
 value.Should().BeOneOf(new[] { 3, 6});
 ```
 
-<a name="dates-and-times"/>
 ## Dates and times ##
 
 For asserting a date and time against various constraints, FA offers a bunch of methods that, provided that you use the extension methods for representinging dates and times, really help to keep your assertions readable.
@@ -263,7 +242,7 @@ theDatetime.Should().BeCloseTo(March(2010).At(22,15));       // default is 20 mi
 
 This can be particularly useful if your database truncates date/time values. 
 
-<a name="timespans"/>
+
 ## TimeSpans ##
 
 FA also support a few dedicated methods that apply to (nullable) TimeSpans directly:
@@ -286,7 +265,7 @@ Similarly to the [date and time assertions](#dates-and-times), `BeCloseTo` is al
 timeSpan.Should().BeCloseTo(new TimeSpan(13, 0, 0), 5.Milliseconds());
 ```
 
-<a name="collections"/>
+
 ## Collections ##
 
 ```csharp
@@ -336,7 +315,7 @@ With this new overload, you can rewrite it into:
 persistedCustomers.Should().Equal(customers, c => c.Name);
 ```
 
-<a name="dictionaries"/>
+
 ## Dictionaries ##
 
 You can apply Fluent Assertions to your generic dictionaries as well. Of course you can assert any dictionary to be null or not null, and empty or not empty. Like this:
@@ -397,7 +376,7 @@ dictionary.Should().Contain(2, "Two");
 dictionary.Should().NotContain(9, "Nine");
 ```
 
-<a name="guids"/>
+
 ## Guids ##
 
 The assertions you can do on Guids are simple. You can assert their equality to another Guid, or you can assert that a Guid is empty.
@@ -414,7 +393,7 @@ theGuid.Should().NotBeEmpty();
 Guid.Empty.Should().BeEmpty();
 ```
 
-<a name="exceptions"/>
+
 ## Exceptions ##
 
 The following example verifies that the `Foo()` method throws an `InvalidOperationException` which `Message` property has a specific value.
@@ -515,7 +494,7 @@ Func<Task> act = async () => { await asyncObject.SucceedAsync(); };
 act.ShouldNotThrow();
 ```
 
-<a name="object-graph-comparison"/>
+
 ## Object graph comparison ##
 
 Consider the class `Order` and its wire-transfer equivalent `OrderDto` (a so-called DTO). Suppose also that an order has one or more `Product`s and an associated `Customer`. Coincidentally, the `OrderDto` will have one or more `ProductDto`s and a corresponding `CustomerDto`. Now if you want to make sure that all the properties of all the objects in the `OrderDto` object graph match the equally named properties of the `Order` object graph, you can do this. 
@@ -568,7 +547,7 @@ orderDto.ShouldBeEquivalentTo(order, options => options
 ```
 
 
-**Collections and dictionaries**  
+### Collections and dictionaries
 The original `ShouldHave()` extension method does support collections, but it doesn’t allow you to influence the comparison based on the actual collection type, neither does it support (nested) dictionaries. The new extension method `ShouldAllBeEquivalentTo()` does support that so you can now take the 2nd example from the post and apply it on a collection of `OrderDtos`. 
 
 ```csharp
@@ -589,7 +568,7 @@ orderDto.ShouldBeEquivalentTo(expectation, options => options.WithStrictOrdering
 
 Notice that for performance reasons, collections of bytes are still compared in exact order.
 
-**Overriding**  
+### Overriding
 In addition to influencing the properties that are including in the comparison, you can also override the actual assertion operation that is executed on a particular property. 
 
 ```csharp
@@ -606,7 +585,7 @@ orderDto.ShouldBeEquivalentTo(order, options => options
     .WhenTypeIs<DateTime>(); 
 ```
 
-**Extensibility**  
+### Extensibility
 Internally the comparison process consists of three phases. 
 
 1. Select the properties of the subject object to include in the comparison.  
@@ -627,7 +606,8 @@ subject.ShouldBeEquivalentTo(expected, options => options.Using(new ExcludeForei
 ```
 
 You can go even further because the entire execution plan is dictated by the collection of `IEquivalencyStep` objects exposed by the `Steps` property of the `EquivalencyValidator` class. You can reorder, remove or even add your own step. Check out the [code on GitHub](https://github.com/dennisdoomen/fluentassertions/blob/master/FluentAssertions.Net35/Equivalency/EquivalencyValidator.cs) for some ideas.
-<a name="property-comparison"/>
+
+
 ## Property Comparison ##
 
 **Important Note**: *The new extension methods discussed in the previous section are going to supersede the old* `ShouldHave()` *method somewhere in a next major version. Internally the old methods are already using the new comparison engine, but new functionality will only be available through the new methods.*
@@ -713,7 +693,8 @@ subject.ShouldNotRaise("SomeOtherEvent");
 **Important Limitation:** Due to limitations in Silverlight, Windows Phone and .NET for Windows Store Apps, only the ShouldRaisePropertyChangeFor() and  ShouldNotRaisePropertyChangeFor() methods are supported in those versions.
 
 <a name="type-assertions"/>
-## Type, Method and property assertions ##
+
+## Type, Method, and Property assertions ##
 
 Recently, we have added a number of assertions on types and on methods and properties of types. These are rather technical assertions and, although we like our unit tests to read as functional specifications for the application, we still see a use for assertions on the members of a class. For example when you use policy injection on your classes and require its methods to be virtual. Forgetting to make a method virtual will avoid the policy injection mechanism from creating a proxy for it, but you will only notice the consequences at runtime. Therefore it can be useful to create a unit test that asserts such requirements on your classes. Some examples.
 
@@ -773,7 +754,7 @@ AllTypes.From(assembly)
   .ThatAreInNamespace("Internal.Main.Test");
 ```
 
-<a name="xml"/>
+
 ## XML classes ##
 
 Fluent Assertions has support for assertions on several of the LINQ-to-XML classes:
@@ -805,7 +786,7 @@ xElement.Should().BeEquivalentTo(XElement.Parse("<item>value</item>"));
 
 Note that these assertions require you to reference the `System.Xml` and `System.Xml.Linq` assemblies.
 
-<a name="execution-time"/>
+
 ## Execution Time ##
 
 New in version 1.4 is a method to assert that the execution time of particular method or action does not exceed a predefined value. To verify the execution time of a method, use the following syntax:
@@ -824,7 +805,7 @@ someAction.ExecutionTime().ShouldNotExceed(100.Milliseconds());
 
 Since it doesn’t make sense to do something like that in Silverlight, it is only available in the .NET 3.5 and .NET 4.0 versions of Fluent Assertions.
 
-<a name="extensibility"/>
+
 ## Extensibility ##
 
 **Custom assertions**  
@@ -854,7 +835,7 @@ Execute.Assertion
 ```
 
 
-**Formatters**  
+### Formatters
 In addition to writing your own extensions, you can influence the way data is formatted with these two techniques.
 
 * You can alter the list of `IValueFormatter` objects on the Formatter class with your own implementation of that interface. Just make sure your own formatter precedes any of the built-in ones.

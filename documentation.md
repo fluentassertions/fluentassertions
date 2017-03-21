@@ -8,26 +8,9 @@ title: Documentation
 As you may have noticed the purpose of this open-source project is to not only be the best assertion framework in the .NET realm, but to also demonstrate high-quality code. We heavily practice Test Driven Development and one of the promises TDD makes is that unit tests can be treated as your API's documentation. So although you are free to go through the many examples here, please consider to analyze the many [unit tests](https://github.com/fluentassertions/fluentassertions/tree/master/Tests/FluentAssertions.Shared.Specs).
 
 ## Table of Contents ##
-* [Supported Test Frameworks](#supported-test-frameworks)
-* [Basic assertions](#basic-assertions)
-* [Nullable Types](#nullable-types)
-* [Booleans](#booleans)
-* [Strings](#strings)
-* [Numeric Types and IComparable](#numeric-types-and-everything-else-that-implements-icomparable)
-* [Dates and times](#dates-and-times)
-* [TimeSpans](#timespans)
-* [Collections](#collections)
-* [Dictionaries](#dictionaries)
-* [Guids](#guids)
-* [Exceptions](#exceptions)
-* [Object graph comparison](#object-graph-comparison)
-* [Event Monitoring](#event-monitoring)
-* [Type, Method and property assertions](#type-method-and-property-assertions)
-* [Assembly references](#assembly-references)
-* [XML classes](#xml-classes)
-* [Execution Time](#execution-time)
-* [Extensibility](#extensibility)
-* [Assertion Scope](#assertion-scope)
+* TOC
+{:toc}
+
 
 ## Supported Test Frameworks ##
 
@@ -814,7 +797,7 @@ subject.ShouldRaisePropertyChangeFor(x => x.SomeProperty);
 
 **Important Limitation:** Due to limitations in Silverlight, Windows Phone and .NET for Windows Store Apps, only the `ShouldRaisePropertyChangeFor` and `ShouldNotRaisePropertyChangeFor` methods are supported in those versions.
 
-## Type, Method and property assertions ##
+## Type, Method, and Property assertions ##
 
 Recently, we have added a number of assertions on types and on methods and properties of types. These are rather technical assertions and, although we like our unit tests to read as functional specifications for the application, we still see a use for assertions on the members of a class. For example when you use policy injection on your classes and require its methods to be virtual. Forgetting to make a method virtual will avoid the policy injection mechanism from creating a proxy for it, but you will only notice the consequences at runtime. Therefore it can be useful to create a unit test that asserts such requirements on your classes. Some examples.
 
