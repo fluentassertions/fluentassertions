@@ -1,7 +1,7 @@
 ---
 ---
 
-**This is the documentation for v2.2. You can find the documentation for the current version [here](/documentation).**
+**This is the documentation for v2.2. You can find the documentation for the current version [here](../documentation.md).**
 
 **Contents**
 * TOC
