@@ -57,48 +57,124 @@ namespace FluentAssertions.Collections
             return BeOrderedBy(propertyExpression, SortDirection.Descending, because, args);
         }
 
-        private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy(
-            Expression<Func<T, object>> propertyExpression, SortDirection direction, string because, object[] args)
+        public AndConstraint<GenericCollectionAssertions<TFirst>> BeEquivalentTo<TFirst, TSecond>(IEnumerable<TSecond> expected, Action<TFirst, TSecond> byAssertion, string because = "", params object[] becauseArgs)
         {
-            if (IsValidProperty(propertyExpression, because, args))
+            if (expected == null)
             {
-                IList<T> unordered = (Subject as IList<T>) ?? Subject.ToList();
-
-                Func<T, object> keySelector = propertyExpression.Compile();
-
-                IOrderedEnumerable<T> expectation = (direction == SortDirection.Ascending)
-                    ? unordered.OrderBy(keySelector)
-                    : unordered.OrderByDescending(keySelector);
-
-                Execute.Assertion
-                    .ForCondition(unordered.SequenceEqual(expectation))
-                    .BecauseOf(because, args)
-                    .FailWith("Expected collection {0} to be ordered by {1}{reason} and result in {2}.",
-                        Subject, propertyExpression.GetMemberPath(), expectation);
-            }
-            
-            return new AndConstraint<GenericCollectionAssertions<T>>(this);
-        }
-
-        private bool IsValidProperty(Expression<Func<T, object>> propertyExpression, string because, object[] args)
-        {
-            if (propertyExpression == null)
-            {
-                throw new ArgumentNullException("propertyExpression",
-                    "Cannot assert collection ordering without specifying a property.");
+                throw new NullReferenceException("Cannot verify equivalence against a <null> collection.");
             }
 
-            return Execute.Assertion
+            Execute.Assertion
                 .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(because, args)
-                .FailWith("Expected collection to be ordered by {0}{reason} but found <null>.",
-                    propertyExpression.GetMemberPath());
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to be equivalent to {0}{reason}, but found <null>.", expected);
+
+            List<TSecond> expectedItems = expected.ToList();
+            List<TFirst> actualItems = Subject.ToList();
+
+            bool subjectDoesntHaveMoreItems = Execute.Assertion
+                .ForCondition(actualItems.Count <= expectedItems.Count)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but subject contains too many items.",
+                    actualItems, expectedItems);
+            if (subjectDoesntHaveMoreItems)
+            {
+                bool expectedDoesntHaveMoreItems = Execute.Assertion
+                    .ForCondition(expectedItems.Count <= actualItems.Count)
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith(
+                        "Expected {context:collection} {0} to be equivalent to {1}{reason}, but expected collection contains too many items.",
+                        actualItems, expectedItems);
+
+                if (expectedDoesntHaveMoreItems)
+                    AssertSubjectEquality(actualItems, expectedItems, byAssertion, because, becauseArgs);
+            }
+            return new AndConstraint<GenericCollectionAssertions<TFirst>>(assertions);
         }
 
-        private enum SortDirection
+        private void AssertSubjectEquality<TFirst, TSecond>(List<TFirst> first, List<TSecond> second, Action<TFirst, TSecond> assertEqualityComparison, string because = "", params object[] becauseArgs)
         {
-            Ascending,
-            Descending
+            using (var outerScope = new AssertionScope())
+            {
+
+
+                List<TFirst> missingItems = new List<TFirst>();
+                foreach (TFirst itemFirst in first)
+                {
+                    using (var innerScope = new AssertionScope())
+                    {
+                        bool found = false;
+                        int index = 0;
+                        foreach (TSecond itemSecond in second)
+                        {
+                            assertEqualityComparison(itemFirst, itemSecond);
+
+                            if (innerScope.Discard().Length == 0) //succeeded
+                            {
+                                found = true;
+                                break;
+                            }
+                            index++;
+                        }
+                        if (found)
+                        {
+                            second.RemoveAt(index);
+                        }
+                        else
+                        {
+                            missingItems.Add(itemFirst);
+                        }
+                    }
+                }
+                outerScope
+                    .BecauseOf(because, becauseArgs)
+                    .ForCondition(missingItems.Count == 0)
+                    .FailWith("expected items {0} to have equivalent items in expected collection, but found none,{reason}", missingItems);
+            }
         }
+
+        private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy(
+        Expression<Func<T, object>> propertyExpression, SortDirection direction, string because, object[] args)
+    {
+        if (IsValidProperty(propertyExpression, because, args))
+        {
+            IList<T> unordered = (Subject as IList<T>) ?? Subject.ToList();
+
+            Func<T, object> keySelector = propertyExpression.Compile();
+
+            IOrderedEnumerable<T> expectation = (direction == SortDirection.Ascending)
+                ? unordered.OrderBy(keySelector)
+                : unordered.OrderByDescending(keySelector);
+
+            Execute.Assertion
+                .ForCondition(unordered.SequenceEqual(expectation))
+                .BecauseOf(because, args)
+                .FailWith("Expected collection {0} to be ordered by {1}{reason} and result in {2}.",
+                    Subject, propertyExpression.GetMemberPath(), expectation);
+        }
+
+        return new AndConstraint<GenericCollectionAssertions<T>>(this);
     }
+
+    private bool IsValidProperty(Expression<Func<T, object>> propertyExpression, string because, object[] args)
+    {
+        if (propertyExpression == null)
+        {
+            throw new ArgumentNullException("propertyExpression",
+                "Cannot assert collection ordering without specifying a property.");
+        }
+
+        return Execute.Assertion
+            .ForCondition(!ReferenceEquals(Subject, null))
+            .BecauseOf(because, args)
+            .FailWith("Expected collection to be ordered by {0}{reason} but found <null>.",
+                propertyExpression.GetMemberPath());
+    }
+
+    private enum SortDirection
+    {
+        Ascending,
+        Descending
+    }
+}
 }

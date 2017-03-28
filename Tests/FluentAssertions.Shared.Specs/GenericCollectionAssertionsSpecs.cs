@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-
+using FluentAssertions.Primitives;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -12,7 +13,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
     public class GenericCollectionAssertionsSpecs
     {
         [TestMethod]
@@ -33,6 +33,444 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+
+        #region BeEquivalentTo
+
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_check_it_regardless_of_the_order()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(2),
+                DateTime.Today.AddDays(-1)
+            };
+
+            List<DateTime> expectedDates = new List<DateTime>
+            {
+                DateTime.Now,
+                DateTime.Now.AddDays(-1),
+                DateTime.Now.AddDays(2)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () => actualDates.Should().BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().BeSameDateAs(expected));
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_check_it_when_objects_not_equal()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(2),
+                DateTime.Today.AddDays(-1)
+            };
+
+            List<DateTime> expectedDates = new List<DateTime>
+            {
+                DateTime.Now,
+                DateTime.Now.AddDays(5),
+                DateTime.Now.AddDays(2)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().BeSameDateAs(expected));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_throw_exception_when_context_collection_is_bigger()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(2),
+                DateTime.Today.AddDays(2)
+            };
+
+            List<DateTime> expectedDates = new List<DateTime>
+            {
+                DateTime.Now,
+                DateTime.Now.AddDays(2)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().BeSameDateAs(expected));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldThrow<AssertFailedException>();
+        }
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_throw_exception_when_context_have_all_of_context_but_are_not_equal_same_size()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(2),
+                DateTime.Today.AddDays(2)
+            };
+
+            List<DateTime> expectedDates = new List<DateTime>
+            {
+                DateTime.Now,
+                DateTime.Now.AddDays(2),
+                DateTime.Now.AddDays(3)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().BeSameDateAs(expected));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_throw_exception_when_expecting_collection_is_bigger()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(2)
+            };
+
+            List<DateTime> expectedDates = new List<DateTime>
+            {
+                DateTime.Now,
+                DateTime.Now.AddDays(2),
+                DateTime.Today.AddDays(2)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().BeSameDateAs(expected));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Check_asserting_equivallency_should_throw_indicative_missing_items_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            const string BECAUSE = "there are some missing members";
+            List<DateTime> missingItems = new List<DateTime>
+            {
+                DateTime.Today.AddDays(2),
+                DateTime.Today.AddDays(7)
+            };
+            String missingItemsMessage = String.Join(", ", missingItems.Select(it => "<" + it.ToString("yyyy-MM-dd") + ">"));
+
+            IEnumerable<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(2),
+                DateTime.Today.AddDays(2),
+                DateTime.Today.AddDays(7)
+            };
+
+            IEnumerable<DateTime> expectedDates = new List<DateTime>
+            {
+                DateTime.Now,
+                DateTime.Now.AddDays(2),
+                DateTime.Now.AddDays(5),
+                DateTime.Today.AddDays(9)
+
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().BeSameDateAs(expected), BECAUSE);
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldThrow<AssertFailedException>()
+                .WithMessage(String.Format("Expected items {{{0}}} to have equivalent items in expected collection, but found none,{1}" + Environment.NewLine, missingItemsMessage, " because " + BECAUSE));
+        }
+
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_throw_exception_when_size_is_bigger_and_context_collection_is_in_expected()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(1),
+                DateTime.Today.AddDays(2)
+            };
+
+            List<DateTime> expectedDates = new List<DateTime>
+            {
+                DateTime.Now,
+                DateTime.Now.AddDays(1),
+                DateTime.Now.AddDays(2),
+                DateTime.Now.AddDays(3)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().BeSameDateAs(expected));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_throw_exception_when_size_is_bigger_and_expected_collection_is_in_context_collection()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(1),
+                DateTime.Today.AddDays(2),
+                DateTime.Now.AddDays(3)
+            };
+
+            List<DateTime> expectedDates = new List<DateTime>
+            {
+                DateTime.Now,
+                DateTime.Now.AddDays(1),
+                DateTime.Now.AddDays(2)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().BeSameDateAs(expected));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_be_equal_with_multiple_doubles()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today,
+                DateTime.Today.AddDays(2),
+                DateTime.Now.AddDays(2)
+            };
+
+            List<DateTime> expectedDates = new List<DateTime>
+            {
+                DateTime.Now,
+                DateTime.Now,
+                DateTime.Now.AddDays(2),
+                DateTime.Now.AddDays(2)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().BeSameDateAs(expected));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldNotThrow<AssertFailedException>();
+        }
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_be_equal_different_collection_types()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(1),
+                DateTime.Today.AddDays(2),
+                DateTime.Now.AddDays(5)
+            };
+
+            List<TimeSpan> expectedDates = new List<TimeSpan>
+            {
+                TimeSpan.FromDays(DateTime.Today.Day),
+                TimeSpan.FromDays(DateTime.Today.AddDays(5).Day),
+                TimeSpan.FromDays(DateTime.Today.AddDays(1).Day),
+                TimeSpan.FromDays(DateTime.Today.AddDays(2).Day),
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().HaveDay(expected.Days));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldNotThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_throw_execption_differet_collection_types()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(1),
+                DateTime.Today.AddDays(2),
+                DateTime.Now.AddDays(5)
+            };
+
+            List<TimeSpan> expectedDates = new List<TimeSpan>
+            {
+                TimeSpan.FromDays(DateTime.Today.Day),
+                TimeSpan.FromDays(DateTime.Today.AddDays(5).Day),
+                TimeSpan.FromDays(DateTime.Today.AddDays(1).Day),
+                TimeSpan.FromDays(DateTime.Today.AddDays(3).Day),
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().HaveDay(expected.Days));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Check_asserting_equivallency_by_assert_method_should_throw_exception_different_collection_types_and_double_value_only_in_context_collection()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            List<DateTime> actualDates = new List<DateTime>
+            {
+                DateTime.Today,
+                DateTime.Today.AddDays(2),
+                DateTime.Today.AddDays(2),
+            };
+
+            List<TimeSpan> expectedDates = new List<TimeSpan>
+            {
+                TimeSpan.FromDays(DateTime.Today.Day),
+                TimeSpan.FromDays(DateTime.Today.AddDays(2).Day),
+                TimeSpan.FromDays(DateTime.Today.AddDays(3).Day),
+
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action assert = () =>
+            {
+                actualDates.Should()
+                    .BeEquivalentTo(expectedDates, (actual, expected) => actual.Should().HaveDay(expected.Days));
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            //Assert
+            //-----------------------------------------------------------------------------------------------------------
+            assert.ShouldThrow<AssertFailedException>();
+        }
+
+        #endregion
+
 
         #region (Not) Contain
 
@@ -135,7 +573,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => strings.Should().Contain(strings, new object[] {"string3"});
+            Action act = () => strings.Should().Contain(strings, new object[] { "string3" });
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
