@@ -34,8 +34,8 @@ namespace FluentAssertions
             params object[] becauseArgs)
             where TException : Exception
         {
-            var exceptionAssertions = action.ShouldThrow<TException>();
-            exceptionAssertions.Which.GetType().Should().Be<TException>();
+            var exceptionAssertions = action.ShouldThrow<TException>(because, becauseArgs);
+            exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
             return exceptionAssertions;
         }
 
@@ -60,8 +60,8 @@ namespace FluentAssertions
             params object[] becauseArgs)
             where TException : Exception
         {
-            var exceptionAssertions = asyncAction.ShouldThrow<TException>();
-            exceptionAssertions.Which.GetType().Should().Be<TException>();
+            var exceptionAssertions = asyncAction.ShouldThrow<TException>(because, becauseArgs);
+            exceptionAssertions.Which.GetType().Should().Be<TException>(because, becauseArgs);
             return exceptionAssertions;
         }
 

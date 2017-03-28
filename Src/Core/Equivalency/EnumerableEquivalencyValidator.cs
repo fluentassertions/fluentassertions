@@ -34,11 +34,17 @@ namespace FluentAssertions.Equivalency
             {
                 if (Recursive)
                 {
-                    AssertElementGraphEquivalency(subject, expectation);
+                    using (context.TraceBlock(path => $"Structurally comparing {subject} and expectation {expectation} at {path}"))
+                    {
+                        AssertElementGraphEquivalency(subject, expectation);
+                    }
                 }
                 else
                 {
-                    subject.Should().BeEquivalentTo(expectation);
+                    using (context.TraceBlock(path => $"Comparing subject {subject} and expectation {expectation} at {path} using simple value equality"))
+                    {
+                        subject.Should().BeEquivalentTo(expectation);
+                    }
                 }
             }
         }
@@ -60,7 +66,7 @@ namespace FluentAssertions.Equivalency
 
         private void AssertElementGraphEquivalency<T>(T[] subjects, object[] expectations)
         {
-            matchedSubjectIndexes = new List<int>();
+            matchedSubjectIndexes = new HashSet<int>();
 
             foreach (int index in Enumerable.Range(0, expectations.Length))
             {
@@ -68,16 +74,22 @@ namespace FluentAssertions.Equivalency
 
                 if (!OrderingRules.IsOrderingStrictFor(context))
                 {
-                    LooselyMatchAgainst(subjects, expectation, index);
+                    using (context.TraceBlock(path => $"Finding the best match of {expectation} within all items in {subjects} at {path}[{index}]"))
+                    {
+                        LooselyMatchAgainst(subjects, expectation, index);
+                    }
                 }
                 else
                 {
-                    StrictlyMatchAgainst(subjects, expectation, index);
+                    using (context.TraceBlock(path => $"Strictly comparing expectation {expectation} at {path} to item with index {index} in {subjects}"))
+                    {
+                        StrictlyMatchAgainst(subjects, expectation, index);
+                    }
                 }
             }
         }
 
-        private List<int> matchedSubjectIndexes;
+        private HashSet<int> matchedSubjectIndexes;
 
         private void LooselyMatchAgainst<T>(IList<T> subjects, object expectation, int expectationIndex)
         {
@@ -89,11 +101,21 @@ namespace FluentAssertions.Equivalency
                 {
                     T subject = subjects[index];
 
-                    results.AddSet(index, TryToMatch(subject, expectation, expectationIndex));
-                    if (results.ContainsSuccessfulSet)
+                    using (context.TraceBlock(path => $"Comparing subject at {path}[{index}] with the expectation at {path}[{expectationIndex}]"))
                     {
-                        matchedSubjectIndexes.Add(index);
-                        break;
+                        string[] failures = TryToMatch(subject, expectation, expectationIndex);
+
+                        results.AddSet(index, failures);
+                        if (results.ContainsSuccessfulSet)
+                        {
+                            context.TraceSingle(_ => $"It's a match");
+                            matchedSubjectIndexes.Add(index);
+                            break;
+                        }
+                        else
+                        {
+                            context.TraceSingle(_ => $"Contained {failures.Length} failures");
+                        }
                     }
                 }
             }

@@ -30,11 +30,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Artifacts\Lib\portable-monotouch+monoandroid+xamarin.ios\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Artifacts\Lib\portable-monotouch+monoandroid+xamarin.ios\FluentAssertions.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\FluentAssertions.Core.xml</DocumentationFile>
     <NoWarn>1591; 1572; 1573; 1574; 618</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
@@ -65,9 +65,8 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)\Artifacts\Lib\portable-monotouch+monoandroid+xamarin.ios\*.*" "$(SolutionDir)\Artifacts\Lib\monotouch\" /y
-xcopy "$(SolutionDir)\Artifacts\Lib\portable-monotouch+monoandroid+xamarin.ios\*.*" "$(SolutionDir)\Artifacts\Lib\monoandroid\" /y  
-xcopy "$(SolutionDir)\Artifacts\Lib\portable-monotouch+monoandroid+xamarin.ios\*.*" "$(SolutionDir)\Artifacts\Lib\xamarin.ios\" /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

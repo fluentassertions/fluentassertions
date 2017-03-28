@@ -52,9 +52,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
-      <Link>EventSourceExtensions.cs</Link>
-    </Compile>
     <Compile Include="Common\ProvidePlatformServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -43,8 +43,16 @@ namespace FluentAssertions.Equivalency
             Type subjectType = config.GetSubjectType(context);
 
             return (AssertImplementsOnlyOneDictionaryInterface(context.Subject)
+                    && AssertExpectationIsNotNull(context.Subject, context.Expectation)
                     && AssertIsCompatiblyTypedDictionary(subjectType, context.Expectation)
                     && AssertSameLength(context.Subject, subjectType, context.Expectation));
+        }
+
+        private static bool AssertExpectationIsNotNull(object subject, object expectation)
+        {
+            return AssertionScope.Current
+                .ForCondition(!ReferenceEquals(expectation, null))
+                .FailWith("Expected {context:Subject} to be {0}, but found {1}.", null, subject);
         }
 
         private static bool AssertImplementsOnlyOneDictionaryInterface(object subject)

@@ -1,3 +1,5 @@
+using System;
+
 namespace FluentAssertions.Equivalency
 {
     /// <summary>
@@ -36,5 +38,32 @@ namespace FluentAssertions.Equivalency
         /// the collection type and not on the root itself.
         /// </summary>
         bool RootIsCollection { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current trace writer or <c>null</c> if no tracing has been enabled.
+        /// </summary>
+        ITraceWriter Tracer { get; set; }
+
+        /// <summary>
+        /// Starts a block that scopes an operation that will be writted to the currently configured <see cref="Tracer"/>
+        /// after the returned disposable is dispoed..
+        /// </summary>
+        /// <remarks>
+        /// If no tracer has been configured, the call will be ignored.
+        /// </remarks>
+        IDisposable TraceBlock(GetTraceMessage getMessage);
+
+        /// <summary>
+        /// Writes a single line to the currently configured <see cref="Tracer"/>.
+        /// </summary>
+        /// <remarks>
+        /// If no tracer has been configured, the call will be ignored.
+        /// </remarks>
+        void TraceSingle(GetTraceMessage getMessage);
     }
+
+    /// <summary>
+    /// Defines a function that takes the current path and returns the trace message to log.
+    /// </summary>
+    public delegate string GetTraceMessage(string path); 
 }

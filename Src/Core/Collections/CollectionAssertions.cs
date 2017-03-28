@@ -19,7 +19,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection does not contain any items.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -44,7 +44,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection contains at least 1 item.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -73,7 +73,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection is null or does not contain any items.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -96,7 +96,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection is not null and contains at least 1 item.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -112,7 +112,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection does not contain any duplicate items.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -146,7 +146,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection does not contain any <c>null</c> items.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -176,7 +176,7 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain all the same elements in the same order as the collection identified by 
+        /// Expects the current collection to contain all the same elements in the same order as the collection identified by
         /// <paramref name="elements" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="elements">A params array with the expected elements.</param>
@@ -186,12 +186,12 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain all the same elements in the same order as the collection identified by 
+        /// Expects the current collection to contain all the same elements in the same order as the collection identified by
         /// <paramref name="expected" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -230,19 +230,19 @@ namespace FluentAssertions.Collections
 
             assertion
                 .WithExpectation("Expected {context:collection} to be equal to {0}{reason}, ", expectedItems)
-                .Given(() => Subject.Cast<TActual>())
+                .Given(() => Subject.Cast<TActual>().ToList().AsEnumerable())
                 .AssertCollectionsHaveSameCount(expectedItems.Length)
                 .Then
                 .AssertCollectionsHaveSameItems(expectedItems, (a, e) => a.IndexOfFirstDifferenceWith(e, equalityComparison));
         }
 
         /// <summary>
-        /// Expects the current collection not to contain all the same elements in the same order as the collection identified by 
+        /// Expects the current collection not to contain all the same elements in the same order as the collection identified by
         /// <paramref name="unexpected" />. Elements are compared using their <see cref="object.Equals(object)" />.
         /// </summary>
         /// <param name="unexpected">An <see cref="IEnumerable"/> with the elements that are not expected.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -268,7 +268,7 @@ namespace FluentAssertions.Collections
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", unexpected, Subject);
+                    .FailWith("Did not expect collections {0} and {1} to be equal{reason}.", unexpected, actualitems);
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -290,7 +290,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -370,7 +370,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpected">An <see cref="IEnumerable"/> with the unexpected elements.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -412,7 +412,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the current collection only contains items that are assignable to the type <typeparamref name="T" />.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -475,7 +475,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -549,11 +549,11 @@ namespace FluentAssertions.Collections
         /// Expects the current collection to contain the specified elements in the exact same order, not necessarily consecutive.
         /// </summary>
         /// <remarks>
-        /// Elements are compared using their <see cref="object.Equals(object)" /> implementation. 
+        /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </remarks>
         /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -603,7 +603,7 @@ namespace FluentAssertions.Collections
         /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -611,7 +611,26 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> BeInAscendingOrder(string because = "", params object[] becauseArgs)
         {
-            return BeInOrder(SortOrder.Ascending, because, becauseArgs);
+            return BeInAscendingOrder(Comparer<object>.Default, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Expects the current collection to have all elements in ascending order. Elements are compared
+        /// using the given <see cref="IComparer{T}" /> implementation.
+        /// </summary>
+        /// <param name="comparer">
+        /// The object that should be used to determine the expected ordering.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeInAscendingOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
+        {
+            return BeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
         }
 
         /// <summary>
@@ -619,7 +638,7 @@ namespace FluentAssertions.Collections
         /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -627,14 +646,34 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> BeInDescendingOrder(string because = "", params object[] becauseArgs)
         {
-            return BeInOrder(SortOrder.Descending, because, becauseArgs);
+            return BeInDescendingOrder(Comparer<object>.Default, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Expects the current collection to have all elements in descending order. Elements are compared
+        /// using the given <see cref="IComparer{T}" /> implementation.
+        /// </summary>
+        /// <param name="comparer">
+        /// The object that should be used to determine the expected ordering.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeInDescendingOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
+        {
+            return BeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
         }
 
         /// <summary>
         /// Expects the current collection to have all elements in the specified <paramref name="expectedOrder"/>.
         /// Elements are compared using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        private AndConstraint<TAssertions> BeInOrder(SortOrder expectedOrder, string because = "", params object[] becauseArgs)
+        private AndConstraint<TAssertions> BeInOrder(
+            IComparer<object> comparer, SortOrder expectedOrder, string because = "", params object[] becauseArgs)
         {
             string sortOrder = (expectedOrder == SortOrder.Ascending) ? "ascending" : "descending";
 
@@ -649,8 +688,8 @@ namespace FluentAssertions.Collections
             object[] actualItems = Subject.Cast<object>().ToArray();
 
             object[] orderedItems = (expectedOrder == SortOrder.Ascending)
-                ? actualItems.OrderBy(item => item).ToArray()
-                : actualItems.OrderByDescending(item => item).ToArray();
+                ? actualItems.OrderBy(item => item, comparer).ToArray()
+                : actualItems.OrderByDescending(item => item, comparer).ToArray();
 
             for (int index = 0; index < orderedItems.Length; index++)
             {
@@ -670,7 +709,7 @@ namespace FluentAssertions.Collections
         /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -678,7 +717,26 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotBeAscendingInOrder(string because = "", params object[] becauseArgs)
         {
-            return NotBeInOrder(SortOrder.Ascending, because, becauseArgs);
+            return NotBeAscendingInOrder(Comparer<object>.Default, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts the current collection does not have all elements in ascending order. Elements are compared
+        /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
+        /// </summary>
+        /// <param name="comparer">
+        /// The object that should be used to determine the expected ordering.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeAscendingInOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
+        {
+            return NotBeInOrder(comparer, SortOrder.Ascending, because, becauseArgs);
         }
 
         /// <summary>
@@ -686,7 +744,7 @@ namespace FluentAssertions.Collections
         /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -694,14 +752,33 @@ namespace FluentAssertions.Collections
         /// </param>
         public AndConstraint<TAssertions> NotBeDescendingInOrder(string because = "", params object[] becauseArgs)
         {
-            return NotBeInOrder(SortOrder.Descending, because, becauseArgs);
+            return NotBeDescendingInOrder(Comparer<object>.Default, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts the current collection does not have all elements in descending order. Elements are compared
+        /// using their <see cref="IComparable.CompareTo(object)" /> implementation.
+        /// </summary>
+        /// <param name="comparer">
+        /// The object that should be used to determine the expected ordering.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotBeDescendingInOrder(IComparer<object> comparer, string because = "", params object[] becauseArgs)
+        {
+            return NotBeInOrder(comparer, SortOrder.Descending, because, becauseArgs);
         }
 
         /// <summary>
         /// Asserts the current collection does not have all elements in ascending order. Elements are compared
         /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        private AndConstraint<TAssertions> NotBeInOrder(SortOrder order, string because = "", params object[] becauseArgs)
+        private AndConstraint<TAssertions> NotBeInOrder(IComparer<object> comparer, SortOrder order, string because = "", params object[] becauseArgs)
         {
             string sortOrder = (order == SortOrder.Ascending) ? "ascending" : "descending";
 
@@ -715,8 +792,8 @@ namespace FluentAssertions.Collections
             }
 
             object[] orderedItems = (order == SortOrder.Ascending)
-                ? Subject.Cast<object>().OrderBy(item => item).ToArray()
-                : Subject.Cast<object>().OrderByDescending(item => item).ToArray();
+                ? Subject.Cast<object>().OrderBy(item => item, comparer).ToArray()
+                : Subject.Cast<object>().OrderByDescending(item => item, comparer).ToArray();
 
             object[] actualItems = Subject.Cast<object>().ToArray();
 
@@ -740,8 +817,8 @@ namespace FluentAssertions.Collections
         /// Asserts that the collection is a subset of the <paramref name="expectedSuperset" />.
         /// </summary>
         /// <param name="expectedSuperset">An <see cref="IEnumerable"/> with the expected superset.</param>
-        /// <param name="because">        
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -785,7 +862,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="unexpectedSuperset">An <see cref="IEnumerable"/> with the unexpected superset.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -817,7 +894,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="otherCollection">The other collection with the same expected number of elements</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -854,13 +931,13 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection has the supplied <paramref name="element" /> at the 
+        /// Asserts that the current collection has the supplied <paramref name="element" /> at the
         /// supplied <paramref name="index" />.
         /// </summary>
         /// <param name="index">The index where the element is expected</param>
         /// <param name="element">The expected element</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -899,31 +976,66 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Asserts that the current collection does not contain the supplied <paramref name="unexpected" /> item.
+        /// Asserts that the current collection does not contain the supplied items. Elements are compared
+        /// using their <see cref="object.Equals(object)" /> implementation.
         /// </summary>
-        /// <param name="unexpected">The element that is not expected to be in the collection</param>
+        /// <param name="unexpected">An <see cref="IEnumerable"/> with the unexpected elements.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotContain(object unexpected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotContain(IEnumerable unexpected, string because = "", params object[] becauseArgs)
         {
+            if (unexpected == null)
+            {
+                throw new NullReferenceException("Cannot verify non-containment against a <null> collection");
+            }
+
+            IEnumerable<object> unexpectedObjects = unexpected.Cast<object>().ToArray();
+            if (!unexpectedObjects.Any())
+            {
+                throw new ArgumentException("Cannot verify non-containment against an empty collection");
+            }
+
             if (ReferenceEquals(Subject, null))
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} not to contain element {0}{reason}, but found {1}.", unexpected,
-                        Subject);
+                    .FailWith("Expected {context:collection} to not contain {0}{reason}, but found <null>.", unexpected);
             }
 
-            if (Subject.Cast<object>().Contains(unexpected))
+            if (unexpected is string)
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("{context:Collection} {0} should not contain {1}{reason}, but found it anyhow.", Subject, unexpected);
+                if (Subject.Cast<object>().Contains(unexpected))
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} {0} to not contain {1}{reason}.", Subject, unexpected);
+                }
+            }
+            else
+            {
+                IEnumerable<object> foundItems = unexpectedObjects.Intersect(Subject.Cast<object>());
+                if (foundItems.Any())
+                {
+                    if (unexpectedObjects.Count() > 1)
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} {0} to not contain {1}{reason}, but found {2}.", Subject,
+                                unexpected, foundItems);
+                    }
+                    else
+                    {
+                        Execute.Assertion
+                            .BecauseOf(because, becauseArgs)
+                            .FailWith("Expected {context:collection} {0} to not contain element {1}{reason}.", Subject,
+                                unexpectedObjects.First());
+                    }
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
@@ -934,7 +1046,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="otherCollection">The <see cref="IEnumerable"/> with the expected shared items.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -976,7 +1088,7 @@ namespace FluentAssertions.Collections
         /// </summary>
         /// <param name="otherCollection">The <see cref="IEnumerable"/> to compare to.</param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1021,7 +1133,7 @@ namespace FluentAssertions.Collections
         /// is used to compare the element.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1054,7 +1166,7 @@ namespace FluentAssertions.Collections
         /// is used to compare the element.
         /// </param>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1088,7 +1200,7 @@ namespace FluentAssertions.Collections
         /// Asserts that the <paramref name="expectation"/> element directly precedes the <paramref name="successor"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1112,7 +1224,7 @@ namespace FluentAssertions.Collections
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
-        
+
         private bool HasPredecessor(object successor, IEnumerable<object> subject)
         {
             return !ReferenceEquals(subject.First(), successor);
@@ -1124,12 +1236,12 @@ namespace FluentAssertions.Collections
             int index = Array.IndexOf(collection, succesor);
             return (index > 0) ? collection[index - 1] : null;
         }
-        
+
         /// <summary>
         /// Asserts that the <paramref name="expectation"/> element directly succeeds the <paramref name="predecessor"/>.
         /// </summary>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
         /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
@@ -1164,6 +1276,90 @@ namespace FluentAssertions.Collections
             object[] collection = subject.ToArray();
             int index = Array.IndexOf(collection, predecessor);
             return (index < (collection.Length - 1)) ? collection[index + 1] : null;
+        }
+
+        /// <summary>
+        /// Asserts that all items in the collection are of the specified type <typeparamref name="T" />
+        /// </summary>
+        /// <typeparam name="T">The expected type of the objects</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBeAssignableTo<T>(string because = "", params object[] becauseArgs)
+        {
+            return AllBeAssignableTo(typeof(T), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that all items in the collection are of the specified type <paramref name="expectedType"/>
+        /// </summary>
+        /// <param name="expectedType">The expected type of the objects</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBeAssignableTo(Type expectedType, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.All(x => x != null))
+                .FailWith("but found a null element.")
+                .Then
+                .ForCondition(subject => subject.All(x => expectedType.IsAssignableFrom(x.GetType())))
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => x.GetType().FullName))}]");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
+        /// Asserts that all items in the collection are of the exact specified type <typeparamref name="T" />
+        /// </summary>
+        /// <typeparam name="T">The expected type of the objects</typeparam>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBeOfType<T>(string because = "", params object[] becauseArgs)
+        {
+            return AllBeOfType(typeof(T), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that all items in the collection are of the exact specified type <paramref name="expectedType"/>
+        /// </summary>
+        /// <param name="expectedType">The expected type of the objects</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> AllBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .WithExpectation("Expected type to be {0}{reason}, ", expectedType.FullName)
+                .Given(() => Subject.Cast<object>())
+                .ForCondition(subject => subject.All(x => x != null))
+                .FailWith("but found a null element.")
+                .Then
+                .ForCondition(subject => subject.All(x => expectedType == x.GetType()))
+                .FailWith("but found {0}.", subject => $"[{string.Join(", ", subject.Select(x => x.GetType().FullName))}]");
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>

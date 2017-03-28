@@ -1,3 +1,4 @@
+#if !WINRT && !SILVERLIGHT && !WINDOWS_PHONE_APP && !CORE_CLR
 using System.Linq;
 
 using FluentAssertions.Events;
@@ -20,7 +21,7 @@ namespace FluentAssertions
         /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
-        public static EventRecorder ShouldRaise(this object eventSource, string eventName)
+        public static IEventRecorder ShouldRaise(this object eventSource, string eventName)
         {
             return ShouldRaise(eventSource, eventName, string.Empty);
         }
@@ -43,10 +44,10 @@ namespace FluentAssertions
         /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
-        public static EventRecorder ShouldRaise(
+        public static IEventRecorder ShouldRaise(
             this object eventSource, string eventName, string because, params object[] becauseArgs)
         {
-            EventRecorder eventRecorder = eventSource.GetRecorderForEvent(eventName);
+            IEventRecorder eventRecorder = EventMonitor.Get(eventSource).GetEventRecorder(eventName);
 
             if (!eventRecorder.Any())
             {
@@ -95,7 +96,7 @@ namespace FluentAssertions
         public static void ShouldNotRaise(
             this object eventSource, string eventName, string because, params object[] becauseArgs)
         {
-            EventRecorder eventRecorder = eventSource.GetRecorderForEvent(eventName);
+            IEventRecorder eventRecorder = EventMonitor.Get(eventSource).GetEventRecorder(eventName);
             if (eventRecorder.Any())
             {
                 Execute.Assertion
@@ -105,3 +106,4 @@ namespace FluentAssertions
         }
     }
 }
+#endif

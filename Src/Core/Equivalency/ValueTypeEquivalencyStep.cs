@@ -14,11 +14,18 @@ namespace FluentAssertions.Equivalency
         {
             Type type = config.GetSubjectType(context);
 
-            return 
+            bool canHandle =
                 (type != null) && 
                 (type != typeof (object)) && 
                 config.IsValueType(type) && 
                 !type.IsArray;
+
+            if (canHandle)
+            {
+                context.TraceSingle(path => $"Treating {path} as a value type");
+            }
+
+            return canHandle;
         }
 
         /// <summary>

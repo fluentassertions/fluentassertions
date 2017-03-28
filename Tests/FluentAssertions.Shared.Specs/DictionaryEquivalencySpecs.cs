@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FluentAssertions.Specs
 {
+   
     [TestClass]
     public class DictionaryEquivalencySpecs
     {
@@ -751,6 +752,65 @@ namespace FluentAssertions.Specs
                 .WithMessage("Member*Customers*dictionary*non-dictionary*");
         }
 
+        [TestMethod]
+        public void When_the_other_property_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new ClassWithMemberDictionary
+            {
+                Dictionary = null
+            };
+
+            var subject = new ClassWithMemberDictionary
+            {
+                Dictionary = new Dictionary<string, string>
+                    {
+                        {"Key2", "Value2"},
+                        {"Key1", "Value1"}
+                    }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*member*Dictionary to be <null>, but found *{*}*");
+        }
+
+        [TestMethod]
+        public void When_the_both_properties_are_null_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new ClassWithMemberDictionary
+            {
+                Dictionary = null
+            };
+
+            var subject = new ClassWithMemberDictionary
+            {
+                Dictionary = null
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
+        }
+
         [TestMethodAttribute]
         public void
             When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
@@ -952,6 +1012,11 @@ namespace FluentAssertions.Specs
             {
                 innerRoles[userId] = roles.ToList();
             }
+        }
+
+        public class ClassWithMemberDictionary
+        {
+            public Dictionary<string, string> Dictionary { get; set; }
         }
 
         #endregion

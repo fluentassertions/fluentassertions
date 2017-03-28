@@ -41,6 +41,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ValueFormatterDetectionMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Disposable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EquivalencyStepCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\AssertionContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\AssertionResultSet.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\SimpleEqualityEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\StringEqualityEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\StructuralEqualityEquivalencyStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Equivalency\SubjectInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\TryConversionEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Equivalency\ValueTypeEquivalencyStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\EventMonitor.cs" />
@@ -129,16 +131,26 @@
     <Compile Include="$(MSBuildThisFileDirectory)FluentDateTimeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\AggregateExceptionValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\AttributeBasedFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\UInt16ValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\Int16ValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\SByteValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\DateTimeOffsetValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\DefaultValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\ByteValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\UInt64ValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\Int64ValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\UInt32ValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\SingleValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\EnumerableValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\ExceptionValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\ExpressionValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\Formatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\GuidValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\DoubleValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\IValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\NullValueFormatter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Formatting\NumericValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\Int32ValueFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Formatting\DecimalValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\PropertyInfoFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\StringValueFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Formatting\TimeSpanValueFormatter.cs" />
@@ -170,12 +182,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\StringWildcardMatchingValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\TimeSpanCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Primitives\TimeSpanPredicate.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PropertyChangedSourceExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\ActionAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\AsyncFunctionAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\ExceptionAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Specialized\IExtractExceptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeSpanConversionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\ITraceWriter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tracing\StringBuilderTraceWriter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeEnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\AllTypes.cs" />
@@ -191,5 +204,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Types\TypeAssertions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\TypeSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\TypeSelectorAssertions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\JetBrainsAnnotations.cs">
+      <Link>JetBrainsAnnotations.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions.Primitives;
 
 #if !OLD_MSTEST
@@ -12,18 +13,6 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class DateTimeAssertionSpecs
     {
-        private DateTime Today { get; set; }
-        private DateTime Yesterday { get; set; }
-        private DateTime Tomorrow { get; set; }
-
-        [TestInitialize]
-        public void InitializeTest()
-        {
-            Today = DateTime.Today;
-            Yesterday = Today.AddDays(-1);
-            Tomorrow = Today.AddDays(1);
-        }
-
         #region (Not) Have Value
 
         [TestMethod]
@@ -32,7 +21,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime? nullableDateTime = Today;
+            DateTime? nullableDateTime = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -65,7 +54,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_nullable_datetime_value_without_a_value_to_be_null()
+        public void Should_succeed_when_asserting_nullable_datetime_value_without_a_value_to_not_have_a_value()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -85,12 +74,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_nullable_datetime_value_with_a_value_to_be_null()
+        public void Should_fail_when_asserting_nullable_datetime_value_with_a_value_to_not_have_a_value()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime? nullableDateTime = Today;
+            DateTime? nullableDateTime = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -106,7 +95,89 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Be / NotBe
+        #region (Not) Be Null
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_nullable_datetime_value_with_a_value_to_not_be_null()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTime = new DateTime(2016, 06, 04);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => nullableDateTime.Should().NotBeNull();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_nullable_datetime_value_without_a_value_to_not_be_null()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTime = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => nullableDateTime.Should().NotBeNull();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_nullable_datetime_value_without_a_value_to_be_null()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTime = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTime.Should().BeNull();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_nullable_datetime_value_with_a_value_to_be_null()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? nullableDateTime = new DateTime(2016, 06, 04);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () =>
+                nullableDateTime.Should().BeNull();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>();
+        }
+
+        #endregion
+
+        #region (Not) Be
 
         [TestMethod]
         public void Should_succeed_when_asserting_datetime_value_is_equal_to_the_same_value()
@@ -114,8 +185,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime dateTime = Today;
-            DateTime sameDateTime = Today;
+            DateTime dateTime = new DateTime(2016, 06, 04);
+            DateTime sameDateTime = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -127,7 +198,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_both_values_are_at_their_minimum_then_it_should_succeed()
         {
@@ -147,7 +218,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_both_values_are_at_their_maximum_then_it_should_succeed()
         {
@@ -196,8 +267,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime dateTime = Today;
-            DateTime otherDateTime = Tomorrow;
+            DateTime dateTime = new DateTime(2016, 06, 04);
+            DateTime otherDateTime = new DateTime(2016, 06, 05);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -229,7 +300,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Did not expect date and time to be <2012-03-10 10:00:00> because we want to test the failure message.");
+                .WithMessage("Expected date and time not to be <2012-03-10 10:00:00> because we want to test the failure message, but it is.");
         }
 
         [TestMethod]
@@ -238,8 +309,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime? nullableDateTimeA = Today;
-            DateTime? nullableDateTimeB = Today;
+            DateTime? nullableDateTimeA = new DateTime(2016, 06, 04);
+            DateTime? nullableDateTimeB = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -252,7 +323,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_a_nullable_date_time_is_equal_to_a_normal_date_time_but_the_kinds_differ_it_should_still_succeed()
         {
@@ -273,7 +344,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
         }
-        
+
         [TestMethod]
         public void When_two_date_times_are_equal_but_the_kinds_differ_it_should_still_succeed()
         {
@@ -322,8 +393,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime? nullableDateTimeA = Today;
-            DateTime? nullableDateTimeB = Today.AddDays(2);
+            DateTime? nullableDateTimeA = new DateTime(2016, 06, 04);
+            DateTime? nullableDateTimeB = new DateTime(2016, 06, 04).AddDays(2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -349,28 +420,28 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action = () =>
-                nullableDateTime.Should().Be(Today, "because we want to test the failure {0}", "message");
+                nullableDateTime.Should().Be(new DateTime(2016, 06, 04), "because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format("Expected <{0}> because we want to test the failure message, but found <null>.",
-                    Today.ToString("yyyy-MM-dd")));
+                    new DateTime(2016, 06, 04).ToString("yyyy-MM-dd")));
         }
 
         #endregion
 
-        #region Be Close To
+        #region (Not) Be Close To
 
         [TestMethod]
-        public void When_datetime_is_less_then_but_close_to_another_value_it_should_succeed()
+        public void When_asserting_subject_datetime_is_close_to_a_later_datetime_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime time = DateTime.SpecifyKind(Today.At(12, 15, 30, 980), DateTimeKind.Unspecified);
-            DateTime nearbyTime = DateTime.SpecifyKind(Today.At(12, 15, 31), DateTimeKind.Utc);
+            DateTime time = DateTime.SpecifyKind(new DateTime(2016, 06, 04).At(12, 15, 30, 980), DateTimeKind.Unspecified);
+            DateTime nearbyTime = DateTime.SpecifyKind(new DateTime(2016, 06, 04).At(12, 15, 31), DateTimeKind.Utc);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -384,13 +455,33 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_datetime_is_greater_then_but_close_to_another_value_it_should_succeed()
+        public void When_asserting_subject_datetime_is_not_close_to_a_later_datetime_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime time = Today.At(12, 15, 31, 020);
-            DateTime nearbyTime = Today.At(12, 15, 31);
+            DateTime time = DateTime.SpecifyKind(new DateTime(2016, 06, 04).At(12, 15, 30, 980), DateTimeKind.Unspecified);
+            DateTime nearbyTime = DateTime.SpecifyKind(new DateTime(2016, 06, 04).At(12, 15, 31), DateTimeKind.Utc);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected date and time to not be within 20 ms from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_is_close_to_an_earlier_datetime_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = new DateTime(2016, 06, 04).At(12, 15, 31, 020);
+            DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -404,7 +495,27 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_datetime_is_less_then_and_not_close_to_another_value_it_should_throw()
+        public void When_asserting_subject_datetime_is_not_close_to_an_earlier_datetime_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = new DateTime(2016, 06, 04).At(12, 15, 31, 020);
+            DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected date and time to not be within 20 ms from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.020>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_is_close_to_another_value_that_is_later_by_more_than_20ms_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -426,7 +537,27 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_datetime_is_greater_then_and_not_close_to_another_value_it_should_throw()
+        public void When_asserting_subject_datetime_is_not_close_to_another_value_that_is_later_by_more_than_20ms_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = 13.March(2012).At(12, 15, 30, 979);
+            DateTime nearbyTime = 13.March(2012).At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_is_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -448,13 +579,33 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_datetime_is_within_specified_number_of_milliseconds_from_another_value_it_should_succeed()
+        public void When_asserting_subject_datetime_is_not_close_to_another_value_that_is_earlier_by_more_than_20ms_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime time = Today.At(12, 15, 31, 035);
-            DateTime nearbyTime = Today.At(12, 15, 31);
+            DateTime time = 13.March(2012).At(12, 15, 31, 021);
+            DateTime nearbyTime = 13.March(2012).At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_is_close_to_an_ealier_datetime_by_35ms_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = new DateTime(2016, 06, 04).At(12, 15, 31, 035);
+            DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -466,15 +617,35 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         [TestMethod]
-        public void When_a_null_date_time_is_asserted_to_be_close_to_another_it_should_throw()
+        public void When_asserting_subject_datetime_is_not_close_to_an_ealier_datetime_by_35ms_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = new DateTime(2016, 06, 04).At(12, 15, 31, 035);
+            DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected date and time to not be within 35 ms from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.035>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_is_close_to_another_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTime? time = null;
-            DateTime nearbyTime = Today.At(12, 15, 31);
+            DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -489,7 +660,28 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_date_time_is_close_to_the_minimum_date_time_it_should_succeed()
+        public void When_asserting_subject_null_datetime_is_not_close_to_another_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? time = null;
+            DateTime nearbyTime = new DateTime(2016, 06, 04).At(12, 15, 31);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 35);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_is_close_to_the_minimum_datetime_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -509,7 +701,28 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_date_time_is_close_to_the_maximum_date_time_it_should_succeed()
+        public void When_asserting_subject_datetime_is_not_close_to_the_minimum_datetime_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime time = DateTime.MinValue.Add(50.Milliseconds());
+            DateTime nearbyTime = DateTime.MinValue;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected date and time to not be within 100 ms from <0001-01-01 00:00:00.000>, but found <0001-01-01 00:00:00.050>.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_is_close_to_the_maximum_datetime_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -528,272 +741,1317 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        #endregion
-
         [TestMethod]
-        public void When_a_point_of_time_occurs_before_another_it_should_succeed()
+        public void When_asserting_subject_datetime_is_not_close_to_the_maximum_datetime_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime earlierDate = DateTime.SpecifyKind(Today, DateTimeKind.Unspecified);
+            DateTime time = DateTime.MaxValue.Add(-50.Milliseconds());
+            DateTime nearbyTime = DateTime.MaxValue;
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            DateTime laterDate = DateTime.SpecifyKind(Today.AddMinutes(5), DateTimeKind.Utc);
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, 100);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            earlierDate.Should().BeBefore(laterDate);
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected date and time to not be within 100 ms from <9999-12-31 23:59:59.999>, but found <9999-12-31 23:59:59.949>.");
         }
 
+        #endregion
+
+        #region (Not) Be Before
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_is_before_earlier_datetime()
+        public void When_asserting_a_point_of_time_is_before_a_later_point_it_should_succeed()
         {
-            Action act = () => Today.Should().BeBefore(Yesterday);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime earlierDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04), DateTimeKind.Unspecified);
+            DateTime laterDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04).AddMinutes(5), DateTimeKind.Utc);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => earlierDate.Should().BeBefore(laterDate);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_is_before_earlier_datetime()
+        public void When_asserting_a_point_of_time_is_not_before_another_it_should_throw()
         {
-            DateTimeAssertions assertions = Today.Should();
-            assertions.Invoking(x => x.BeBefore(Yesterday, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected a date and time before <{0}> because we want to test the failure message, but found <{1}>.",
-                    Yesterday.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime earlierDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04), DateTimeKind.Unspecified);
+            DateTime laterDate = DateTime.SpecifyKind(new DateTime(2016, 06, 04).AddMinutes(5), DateTimeKind.Utc);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => earlierDate.Should().NotBeBefore(laterDate);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time on or after <2016-06-04 00:05:00>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_is_on_or_before_later_datetime()
+        public void When_asserting_subject_is_before_earlier_expected_datetime_it_should_throw()
         {
-            Today.Should().BeOnOrBefore(Tomorrow);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime expected = new DateTime(2016, 06, 03);
+            DateTime subject = new DateTime(2016, 06, 04);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action act = () => subject.Should().BeBefore(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time before <2016-06-03>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_is_on_or_before_the_same_datetime()
+        public void When_asserting_subject_is_not_before_earlier_expected_datetime_it_should_succeed()
         {
-            Today.Should().BeOnOrBefore(Today);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime expected = new DateTime(2016, 06, 03);
+            DateTime subject = new DateTime(2016, 06, 04);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action act = () => subject.Should().NotBeBefore(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_is_on_or_before_earlier_datetime()
+        public void When_asserting_subject_datetime_is_before_the_same_datetime_it_should_throw()
         {
-            Action act = () => Today.Should().BeOnOrBefore(Yesterday);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime expected = new DateTime(2016, 06, 04);
+            DateTime subject = new DateTime(2016, 06, 04);
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action act = () => subject.Should().BeBefore(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time before <2016-06-04>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_is_on_or_before_earlier_datetime()
+        public void When_asserting_subject_datetime_is_not_before_the_same_datetime_it_should_succeed()
         {
-            DateTimeAssertions assertions = Today.Should();
-            assertions.Invoking(x => x.BeOnOrBefore(Yesterday, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected a date and time on or before <{0}> because we want to test the failure message, but found <{1}>.",
-                    Yesterday.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
-        }
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime expected = new DateTime(2016, 06, 04);
+            DateTime subject = new DateTime(2016, 06, 04);
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+
+            Action act = () => subject.Should().NotBeBefore(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+        #endregion
+
+        #region (Not) Be On Or Before
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_is_after_earlier_datetime()
+        public void When_asserting_subject_datetime_is_on_or_before_expected_datetime_should_succeed()
         {
-            Today.Should().BeAfter(Yesterday);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 05);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeOnOrBefore(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_is_after_later_datetime()
+        public void When_asserting_subject_datetime_is_on_or_before_expected_datetime_should_throw()
         {
-            Action act = () => Today.Should().BeAfter(Tomorrow);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 05);
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeOnOrBefore(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time after <2016-06-05>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_is_after_later_datetime()
+        public void When_asserting_subject_datetime_is_on_or_before_the_same_date_as_the_expected_datetime_should_succeed()
         {
-            DateTimeAssertions assertions = Today.Should();
-            assertions.Invoking(x => x.BeAfter(Tomorrow, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected a date and time after <{0}> because we want to test the failure message, but found <{1}>.",
-                    Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 04);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeOnOrBefore(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_is_on_or_after_earlier_datetime()
+        public void When_asserting_subject_datetime_is_on_or_before_the_same_date_as_the_expected_datetime_should_throw()
         {
-            Today.Should().BeOnOrAfter(Yesterday);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 04);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeOnOrBefore(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time after <2016-06-04>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_is_on_or_after_the_same_datetime()
+        public void When_asserting_subject_datetime_is_not_on_or_before_earlier_expected_datetime_should_throw()
         {
-            Today.Should().BeOnOrAfter(Today);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 03);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeOnOrBefore(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time on or before <2016-06-03>, but found <2016-06-04>.");
+
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_is_on_or_after_later_datetime()
+        public void When_asserting_subject_datetime_is_not_on_or_before_earlier_expected_datetime_should_succeed()
         {
-            Action act = () => Today.Should().BeOnOrAfter(Tomorrow);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 03);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeOnOrBefore(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
 
         }
+        #endregion
 
+        #region (Not) Be After
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_is_on_or_after_later_datetime()
+        public void When_asserting_subject_datetime_is_after_earlier_expected_datetime_should_succeed()
         {
-            DateTimeAssertions assertions = Today.Should();
-            assertions.Invoking(x => x.BeOnOrAfter(Tomorrow, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected a date and time on or after <{0}> because we want to test the failure message, but found <{1}>.",
-                    Tomorrow.ToString("yyyy-MM-dd"), Today.ToString("yyyy-MM-dd")));
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 03);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_a_year_with_the_same_value()
+        public void When_asserting_subject_datetime_is_not_after_earlier_expected_datetime_should_throw()
         {
-            new DateTime(2009, 12, 31).Should().HaveYear(2009);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 03);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time on or before <2016-06-03>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_a_year_with_a_different_value()
+        public void When_asserting_subject_datetime_is_after_later_expected_datetime_should_throw()
         {
-            Action act = () => new DateTime(2009, 12, 31).Should().HaveYear(2008);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 05);
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time after <2016-06-05>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_year_with_a_different_value()
+        public void When_asserting_subject_datetime_is_not_after_later_expected_datetime_should_succeed()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
-            assertions.Invoking(x => x.HaveYear(2008, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected year 2008 because we want to test the failure message, but found 2009.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 05);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_a_month_with_the_same_value()
+        public void When_asserting_subject_datetime_is_after_the_same_expected_datetime_should_throw()
         {
-            new DateTime(2009, 12, 31).Should().HaveMonth(12);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 04);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time after <2016-06-04>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_a_month_with_a_different_value()
+        public void When_asserting_subject_datetime_is_not_after_the_same_expected_datetime_should_succeed()
         {
-            Action act = () => new DateTime(2009, 12, 31).Should().HaveMonth(11);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 04);
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
+        #endregion
 
+        #region (Not) Be On Or After
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_month_with_a_different_value()
+        public void When_asserting_subject_datetime_is_on_or_after_earlier_expected_datetime_should_succeed()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
-            assertions.Invoking(x => x.HaveMonth(11, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected month 11 because we want to test the failure message, but found 12.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 03);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeOnOrAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_a_day_with_the_same_value()
+        public void When_asserting_subject_datetime_is_not_on_or_after_earlier_expected_datetime_should_throw()
         {
-            new DateTime(2009, 12, 31).Should().HaveDay(31);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 03);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeOnOrAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time before <2016-06-03>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_a_day_with_a_different_value()
+        public void When_asserting_subject_datetime_is_on_or_after_the_same_expected_datetime_should_succeed()
         {
-            Action act = () => new DateTime(2009, 12, 31).Should().HaveDay(30);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 04);
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeOnOrAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_a_day_with_a_different_value()
+        public void When_asserting_subject_datetime_is_not_on_or_after_the_same_expected_datetime_should_throw()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31).Should();
-            assertions.Invoking(x => x.HaveDay(30, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected day 30 because we want to test the failure message, but found 31.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2016, 06, 04);
+            DateTime expectation = new DateTime(2016, 06, 04);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeOnOrAfter(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time before <2016-06-04>, but found <2016-06-04>.");
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_an_hour_with_the_same_value()
+        public void When_asserting_subject_datetime_is_on_or_after_later_expected_datetime_should_throw()
         {
-            new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveHour(23);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2016, 06, 04 );
+            DateTime expectation = new DateTime( 2016, 06, 05 );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeOnOrAfter( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage( "Expected a date and time on or after <2016-06-05>, but found <2016-06-04>." );
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_an_hour_with_different_value()
+        public void When_asserting_subject_datetime_is_not_on_or_after_later_expected_datetime_should_succeed()
         {
-            Action act = () => new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveHour(22);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime( 2016, 06, 04 );
+            DateTime expectation = new DateTime( 2016, 06, 05 );
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeOnOrAfter( expectation );
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
+        #endregion
 
+        #region (Not) Have Year
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_an_hour_with_different_value()
+        public void When_asserting_subject_datetime_should_have_year_with_the_same_value_should_succeed()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
-            assertions.Invoking(x => x.HaveHour(22, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected hour 22 because we want to test the failure message, but found 23.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 2009;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveYear(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_minutes_with_the_same_value()
+        public void When_asserting_subject_datetime_should_not_have_year_with_the_same_value_should_throw()
         {
-            new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveMinute(59);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 2009;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveYear(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected year not to be 2009, but found it is.");
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_minutes_with_different_value()
+        public void When_asserting_subject_datetime_should_have_year_with_a_different_value_should_throw()
         {
-            Action act = () => new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveMinute(58);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 2008;
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveYear(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected year to be 2008, but found 2009.");
         }
 
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_minutes_with_different_value()
+        public void When_asserting_subject_datetime_should_not_have_year_with_a_different_value_should_succeed()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
-            assertions.Invoking(x => x.HaveMinute(58, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected minute 58 because we want to test the failure message, but found 59.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 2008;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveYear(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_datetime_has_seconds_with_the_same_value()
+        public void When_asserting_subject_null_datetime_should_have_year_should_throw()
         {
-            new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveSecond(0);
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 2008;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveYear(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected year to be 2008, but found a <null> DateTime.");
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_datetime_has_seconds_with_different_value()
+        public void When_asserting_subject_null_datetime_should_not_have_year_should_throw()
         {
-            Action act = () => new DateTime(2009, 12, 31, 23, 59, 00).Should().HaveSecond(1);
-            act.ShouldThrow<AssertFailedException>();
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 2008;
 
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveYear(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected year not to be 2008, but found a <null> DateTime.");
         }
+        #endregion
 
+        #region (Not) Have Month
         [TestMethod]
-        public void Should_fail_with_descriptive_message_when_asserting_datetime_has_seconds_with_different_value()
+        public void When_asserting_subject_datetime_should_have_month_with_the_same_value_it_should_succeed()
         {
-            DateTimeAssertions assertions = new DateTime(2009, 12, 31, 23, 59, 00).Should();
-            assertions.Invoking(x => x.HaveSecond(1, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected second 1 because we want to test the failure message, but found 0.");
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 12;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMonth(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
         }
 
         [TestMethod]
-        public void When_a_date_time_is_expected_to_have_a_specified_date_part_and_it_does_it_should_not_throw()
+        public void When_asserting_subject_datetime_should_not_have_month_with_the_same_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 12;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMonth(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected month not to be 12, but found it is.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_a_month_with_a_different_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 11;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMonth(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected month to be 11, but found 12.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_a_month_with_a_different_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 11;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMonth(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_have_month_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 12;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMonth(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected month to be 12, but found a <null> DateTime.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_not_have_month_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 12;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMonth(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected month not to be 12, but found a <null> DateTime.");
+        }
+        #endregion
+
+        #region (Not) Have Day
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_day_with_the_same_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 31;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveDay(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_day_with_the_same_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 31;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveDay(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected day not to be 31, but found it is.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_day_with_a_different_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 30;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveDay(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected day to be 30, but found 31.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_day_with_a_different_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31);
+            int expectation = 30;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveDay(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_have_day_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveDay(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected day to be 22, but found a <null> DateTime.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_not_have_day_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveDay(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected day not to be 22, but found a <null> DateTime.");
+        }
+        #endregion
+
+        #region (Not) Have Hour
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_hour_with_the_same_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 23;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveHour(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_hour_with_the_same_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 23;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveHour(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected hour not to be 23, but found it is.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_hour_with_different_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveHour(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected hour to be 22, but found 23.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_hour_with_different_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveHour(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_have_hour_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveHour(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected hour to be 22, but found a <null> DateTime.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_not_have_hour_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveHour(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected hour not to be 22, but found a <null> DateTime.");
+        }
+        #endregion
+
+        #region (Not) Have Minute
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_minutes_with_the_same_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 59;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMinute(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_minutes_with_the_same_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 59;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMinute(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected minute not to be 59, but found it is.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_minutes_with_different_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 58;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMinute(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected minute to be 58, but found 59.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_minutes_with_different_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 58;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMinute(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_have_minute_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveMinute(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected minute to be 22, but found a <null> DateTime.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_not_have_minute_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveMinute(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected minute not to be 22, but found a <null> DateTime.");
+        }
+        #endregion
+
+        #region (Not) Have Second
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_seconds_with_the_same_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 0;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveSecond(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_seconds_with_the_same_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 0;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveSecond(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected second not to be 0, but found it is.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_seconds_with_different_value_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveSecond(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected second to be 1, but found 0.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_not_have_seconds_with_different_value_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00);
+            int expectation = 1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveSecond(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_have_second_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().HaveSecond(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected second to be 22, but found a <null> DateTime.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_should_not_have_second_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+            int expectation = 22;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotHaveSecond(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected second not to be 22, but found a <null> DateTime.");
+        }
+        #endregion
+
+        #region BeIn Utc/Local
+        [TestMethod]
+        public void When_asserting_subject_datetime_represents_its_own_kind_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00, DateTimeKind.Local);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeIn(DateTimeKind.Local);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_represents_a_different_kind_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime subject = new DateTime(2009, 12, 31, 23, 59, 00, DateTimeKind.Local);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeIn(DateTimeKind.Utc);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected kind to be Utc, but found Local.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_represents_a_specific_kind_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeIn(DateTimeKind.Utc);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected kind to be Utc, but found a <null> DateTime.");
+        }
+        #endregion
+
+        #region (Not) Be Same Date As
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_be_same_date_as_another_with_the_same_date_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -812,7 +2070,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_date_time_is_expected_to_have_a_date_part_that_is_the_same_as_a_specified_datetime_and_it_does_it_should_not_throw()
+        public void When_asserting_subject_datetime_should_not_be_same_date_as_another_with_the_same_date_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new DateTime(2009, 12, 31, 4, 5, 6);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 31));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_be_same_as_another_with_same_date_but_different_time_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -831,7 +2108,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_nullable_date_time_is_expected_to_have_a_specified_date_part_but_it_is_null_it_should_throw()
+        public void When_asserting_subject_datetime_should_not_be_same_as_another_with_same_date_but_different_time_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new DateTime(2009, 12, 31, 4, 5, 6);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 31, 11, 15, 11));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage("Expected a date and time that does not have date <2009-12-31>, but found it does.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_null_datetime_to_be_same_date_as_another_datetime_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -851,7 +2147,27 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_date_time_is_expected_to_have_a_specified_date_part_but_it_doesnt_it_should_throw()
+        public void When_asserting_subject_null_datetime_to_not_be_same_date_as_another_datetime_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? subject = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 31));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage(
+                "Expected a date and time that does not have date <2009-12-31>, but found a <null> DateTime.");
+        }
+
+        [TestMethod]
+        public void When_asserting_subject_datetime_should_have_same_date_as_another_but_it_doesnt_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -871,44 +2187,24 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_a_date_time_is_expected_to_have_a_specified_date_part_but_it_doesnt_it_should_fail_with_the_correct_message()
+        public void When_asserting_subject_datetime_should_not_have_same_date_as_another_but_it_doesnt_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new DateTime(2015, 1, 7, 12, 22, 13);
+            var subject = new DateTime(2009, 12, 31);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().BeSameDateAs(new DateTime(2015, 1, 8), "because we want to test the failure {0}", "message");
+            Action act = () => subject.Should().NotBeSameDateAs(new DateTime(2009, 12, 30));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected a date and time with date <2015-01-08> because we want to test the failure message, but found <2015-01-07 12:22:13>.");
+            act.ShouldNotThrow();
         }
-
-        [TestMethod]
-        public void When_a_date_time_is_expected_to_have_a_date_part_that_is_the_same_as_a_fully_specified_date_time_but_it_doesnt_it_should_fail_with_the_correct_message()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new DateTime(2015, 1, 7, 12, 22, 13);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().BeSameDateAs(new DateTime(2015, 2, 7, 12, 22, 13), "because we want to test the failure {0}", "message");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
-                    "Expected a date and time with date <2015-02-07> because we want to test the failure message, but found <2015-01-07 12:22:13>.");
-        }
+        #endregion
 
         #region Timespan Comparison
 
@@ -1085,8 +2381,8 @@ namespace FluentAssertions.Specs
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             date.Should().BeWithin(TimeSpan.Zero).Before(date);
-        }        
-        
+        }
+
         [TestMethod]
         public void When_a_utc_date_is_within_0s_after_itself_it_should_not_throw()
         {
@@ -1146,8 +2442,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            DateTime yesterday = Today.AddDays(-1);
-            DateTime? nullableDateTime = Today;
+            DateTime earlierDateTime = new DateTime(2016, 06, 03);
+            DateTime? nullableDateTime = new DateTime(2016, 06, 04);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1156,12 +2452,118 @@ namespace FluentAssertions.Specs
                 nullableDateTime.Should()
                     .HaveValue()
                     .And
-                    .BeAfter(yesterday);
+                    .BeAfter(earlierDateTime);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
         }
+
+
+        #region Be One Of
+
+        [TestMethod]
+        public void When_a_value_is_not_one_of_the_specified_values_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime value = new DateTime(2016, 12, 30, 23, 58, 57);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => value.Should().BeOneOf(value.AddDays(1), value.AddMilliseconds(1));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected value to be one of {<2016-12-31 23:58:57>, <2016-12-30 23:58:57.001>}, but found <2016-12-30 23:58:57>.");
+        }
+
+        [TestMethod]
+        public void When_a_value_is_not_one_of_the_specified_values_it_should_throw_with_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime value = new DateTime(2016, 12, 30, 23, 58, 57);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => value.Should().BeOneOf(new [] { value.AddDays(1), value.AddMilliseconds(1)}, "because it's true");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected value to be one of {<2016-12-31 23:58:57>, <2016-12-30 23:58:57.001>} because it's true, but found <2016-12-30 23:58:57>.");
+        }
+
+        [TestMethod]
+        public void When_a_value_is_one_of_the_specified_values_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime value = new DateTime(2016, 12, 30, 23, 58, 57);
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => value.Should().BeOneOf(new DateTime(2216, 1, 30, 0, 5, 7), new DateTime(2016, 12, 30, 23, 58, 57), new DateTime(2012, 3, 3));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_a_null_value_is_not_one_of_the_specified_values_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? value = null;
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => value.Should().BeOneOf(new DateTime(2216, 1, 30, 0, 5, 7), new DateTime(1116, 4, 10, 2, 45, 7));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected value to be one of {<2216-01-30 00:05:07>, <1116-04-10 02:45:07>}, but found <null>.");
+        }
+
+        [TestMethod]
+        public void When_a_value_is_one_of_the_specified_values_it_should_succeed_when_datetime_is_null()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTime? value = null;
+
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => value.Should().BeOneOf(new DateTime(2216, 1, 30, 0, 5, 7), null);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        #endregion
     }
 }

@@ -1,61 +1,28 @@
 ﻿using System;
-using System.Linq;
 
 namespace FluentAssertions.Events
 {
     /// <summary>
-    /// 
+    /// Monitors events on a given source
     /// </summary>
-    public static class EventMonitor
+    public interface IEventMonitor
     {
-        #region Private Definitions
-
-        [ThreadStatic]
-        private static EventRecordersMap eventRecordersMap;
-
-        public static EventRecordersMap Map
-        {
-            get
-            {
-                if (eventRecordersMap == null)
-                {
-                    eventRecordersMap = new EventRecordersMap();
-                }
-
-                return eventRecordersMap;
-            }
-        }
-
-        #endregion
-
-        public static void AddRecordersFor(object eventSource, Func<object, EventRecorder[]> recorderFactory)
-        {
-            if (eventSource == null)
-            {
-                throw new NullReferenceException("Cannot monitor the events of a <null> object.");
-            }
-
-            Map.Add(eventSource, recorderFactory(eventSource));
-        }
+        /// <summary>
+        /// Attaches event monitoring for the events defined by <paramref name="typeDefiningEventsToMonitor"/>.
+        /// </summary>
+        /// <param name="typeDefiningEventsToMonitor">A type implemented by the monitored object</param>
+        void Attach(Type typeDefiningEventsToMonitor);
 
         /// <summary>
-        /// Obtains the <see cref="EventRecorder"/> for a particular event of the <paramref name="eventSource"/>.
+        /// Gets the <see cref="IEventRecorder"/> for the event with the given name.
         /// </summary>
-        /// <param name="eventSource">The object for which to get an event recorder.</param>
-        /// <param name="eventName">The name of the event.</param>
-        /// <returns></returns>
-        public static EventRecorder GetRecorderForEvent<T>(this T eventSource, string eventName)
-        {
-            EventRecorder eventRecorder = Map[eventSource].FirstOrDefault(r => r.EventName == eventName);
-            if (eventRecorder == null)
-            {
-                string name = eventSource.GetType().Name;
+        /// <param name="eventName">The name of the event for which the <see cref="IEventRecorder"/> is required.</param>
+        /// <returns>The <see cref="IEventRecorder"/> for the event with the given name, if it exists; otherwise, null.</returns>
+        IEventRecorder GetEventRecorder(string eventName);
 
-                throw new InvalidOperationException(String.Format(
-                    "Type <{0}> does not expose an event named \"{1}\".", name, eventName));
-            }
-
-            return eventRecorder;
-        }
+        /// <summary>
+        /// Resets monitor to clear records of events raised so far.
+        /// </summary>
+        void Reset();
     }
 }

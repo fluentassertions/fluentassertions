@@ -14,6 +14,11 @@ namespace FluentAssertions.Events
         void RecordEvent(params object[] parameters);
 
         /// <summary>
+        /// Resets the event recorder, removing any revents recorded thus far.
+        /// </summary>
+        void Reset();
+
+        /// <summary>
         ///   The object events are recorded from
         /// </summary>
         object EventObject { get; }

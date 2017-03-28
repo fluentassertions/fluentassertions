@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
+using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 #if !OLD_MSTEST
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -570,6 +573,49 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        public class CustomType
+        {
+            public string Name { get; set; }
+        }
+
+        public class ClassA
+        {
+            public List<CustomType> ListOfCustomTypes { get; set; }
+        }
+
+        [TestMethod]
+        public void When_including_a_property_using_an_expression_it_should_evaluate_it_from_the_root()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var list1 = new List<CustomType>
+            {
+                new CustomType {Name = "A"},
+                new CustomType {Name = "B"}
+            };
+
+            var list2 = new List<CustomType>
+            {
+                new CustomType {Name = "C"},
+                new CustomType {Name = "D"}
+            };
+
+            var objectA = new ClassA { ListOfCustomTypes = list1 };
+            var objectB = new ClassA { ListOfCustomTypes = list2 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => objectA.ShouldBeEquivalentTo(objectB, options => options.Including(x => x.ListOfCustomTypes));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().
+                WithMessage("*C*but*A*D*but*B*");
         }
 
         [TestMethod]
@@ -1150,6 +1196,73 @@ With configuration:*");
         }
 
         [TestMethod]
+        public void When_members_are_excluded_by_the_access_modifier_of_the_getter_using_a_predicate_they_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithAllAccessModifiersForMembers(
+                "public",
+                "protected",
+                "internal",
+                "protected-internal",
+                "private");
+
+            var expected = new ClassWithAllAccessModifiersForMembers(
+                "public",
+                "protected",
+                "ignored-internal",
+                "ignored-protected-internal",
+                "private");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected, config =>
+                config.Excluding(ctx => ctx.WhichGetterHas(CSharpAccessModifier.Internal) ||
+                                        ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal)));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_members_are_excluded_by_the_access_modifier_of_the_setter_using_a_predicate_they_should_be_ignored()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new ClassWithAllAccessModifiersForMembers(
+                "public",
+                "protected",
+                "internal",
+                "protected-internal",
+                "private");
+
+            var expected = new ClassWithAllAccessModifiersForMembers(
+                "public",
+                "protected",
+                "ignored-internal",
+                "ignored-protected-internal",
+                "ignored-private");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expected, config =>
+                config.Excluding(ctx => ctx.WhichSetterHas(CSharpAccessModifier.Internal) ||
+                                        ctx.WhichSetterHas(CSharpAccessModifier.ProtectedInternal) ||
+                                        ctx.WhichSetterHas(CSharpAccessModifier.Private)));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
         public void When_subject_has_a_property_not_available_on_expected_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1276,6 +1389,88 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage("*color*dolor*");
+        }
+
+        [TestMethod]
+        public void When_excluding_properties_via_non_array_indexers_it_should_exclude_the_specified_paths()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                List = new[] { new { Foo = 1, Bar = 2 }, new { Foo = 3, Bar = 4 } }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new ClassWithOnlyAProperty { Value = 1 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 2 },
+                }
+            };
+
+            var expected = new
+            {
+                List = new[] { new { Foo = 1, Bar = 2 }, new { Foo = 2, Bar = 4 } }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new ClassWithOnlyAProperty { Value = 1 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 3 },
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.ShouldBeEquivalentTo(expected,
+                    options => options
+                        .Excluding(x => x.List[1].Foo)
+                        .Excluding(x => x.Dictionary["Bar"].Value));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_excluding_properties_via_non_array_indexers_it_should_not_exclude_paths_with_different_indexes()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                List = new[] { new { Foo = 1, Bar = 2 }, new { Foo = 3, Bar = 4 } }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new ClassWithOnlyAProperty { Value = 1 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 2 },
+                }
+            };
+
+            var expected = new
+            {
+                List = new[] { new { Foo = 5, Bar = 2 }, new { Foo = 2, Bar = 4 } }.ToList(),
+                Dictionary = new Dictionary<string, ClassWithOnlyAProperty>
+                {
+                    ["Foo"] = new ClassWithOnlyAProperty { Value = 6 },
+                    ["Bar"] = new ClassWithOnlyAProperty { Value = 3 },
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.ShouldBeEquivalentTo(expected,
+                    options => options
+                        .Excluding(x => x.List[1].Foo)
+                        .Excluding(x => x.Dictionary["Bar"].Value));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -2317,6 +2512,73 @@ With configuration:*");
                 .WithMessage("Expected member Level to be <null>*, but found*Level1*Level2*");
         }
 
+        public class StringSubContainer
+        {
+            public string SubValue { get; set; }
+        }
+
+        public class StringContainer
+        {
+            public StringContainer(string mainValue, string subValue = null)
+            {
+                MainValue = mainValue;
+                SubValues = new[]
+                {
+                    new StringSubContainer
+                    {   
+                        SubValue = subValue
+                    }
+                };
+            }
+
+            public string MainValue { get; set; }
+            public IList<StringSubContainer> SubValues { get; set; }
+        }
+
+        public class MyClass2
+        {
+            public StringContainer One { get; set; }
+            public StringContainer Two { get; set; }
+        }
+
+        [TestMethod]
+        public void When_deeply_nested_strings_dont_match_it_should_properly_report_the_mismatches()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var expected = new[]
+            {
+                new MyClass2
+                {
+                    One = new StringContainer("EXPECTED", "EXPECTED"),
+                    Two = new StringContainer("CORRECT")
+                },
+                new MyClass2()
+            };
+
+            var actual = new[]
+            {
+                new MyClass2
+                {
+                    One = new StringContainer("INCORRECT", "INCORRECT"),
+                    Two = new StringContainer("CORRECT")
+                },
+                new MyClass2()
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => actual.ShouldAllBeEquivalentTo(expected);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("*EXPECTED*INCORRECT*EXPECTED*INCORRECT*");
+        }
+
         [TestMethod]
         public void When_the_nested_object_property_is_null_it_should_throw()
         {
@@ -2553,7 +2815,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected member Level.Root.Level to be*but it contains a cyclic reference*");
+                .WithMessage("Expected member Level.Root to be*but it contains a cyclic reference*");
         }
 
         [TestMethod]
@@ -2592,6 +2854,55 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
+
+
+        [TestMethod]
+        public void When_two_cyclic_graphs_are_equivalent_when_ignoring_cycle_references_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var a = new Parent();
+            a.Child1 = new Child(a, 1);
+            a.Child2 = new Child(a);
+
+            var b = new Parent();
+            b.Child1 = new Child(b);
+            b.Child2 = new Child(b);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => a.ShouldBeEquivalentTo(b, x => x
+                .Excluding(y => y.Child1)
+                .IgnoringCyclicReferences());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        public class Parent
+        {
+            public Child Child1 { get; set; }
+            public Child Child2 { get; set; }
+        }
+
+        public class Child
+        {
+            public Child(Parent parent, int stuff = 0)
+            {
+                Parent = parent;
+                Stuff = stuff;
+            }
+
+            public Parent Parent { get; set; }
+            public int Stuff { get; set; }
+
+        }
+
+
 
         [TestMethod]
         public void When_validating_nested_properties_that_are_null_it_should_not_throw_on_cyclic_references()
@@ -2786,6 +3097,62 @@ With configuration:*");
         }
 
         [TestMethod]
+        public void When_the_actual_enum_value_is_null_it_should_report_that_properly()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NullableEnum = (DayOfWeek?)null
+            };
+
+            var expectation = new
+            {
+                NullableEnum = DayOfWeek.Friday
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*5*null*");
+        }
+
+        [TestMethod]
+        public void When_the_actual_enum_name_is_null_it_should_report_that_properly()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new
+            {
+                NullableEnum = (DayOfWeek?)null
+            };
+
+            var expectation = new
+            {
+                NullableEnum = DayOfWeek.Friday
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.ShouldBeEquivalentTo(expectation, o => o.ComparingEnumsByValue());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected*5*null*");
+        }
+
+        [TestMethod]
         public void When_asserting_different_enum_members_are_equivalent_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2797,7 +3164,7 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected subject to be 3, but found 0*");
+                .WithMessage("Expected subject to be*3*, but found*0*");
         }
 
         [TestMethod]
@@ -3207,6 +3574,17 @@ With configuration:*");
         public string Property3 { get; set; }
     }
 
+    internal class ClassWithCctor
+    {
+        static ClassWithCctor() { }
+    }
+
+    internal class ClassWithCctorAndNonDefaultConstructor
+    {
+        static ClassWithCctorAndNonDefaultConstructor() { }
+        public ClassWithCctorAndNonDefaultConstructor(int i) { }
+    }
+
     internal class MyCompanyLogo
     {
         public string Url { get; set; }
@@ -3418,6 +3796,41 @@ With configuration:*");
     #endregion
 
     #region Nested classes for comparison
+
+    public class ClassWithAllAccessModifiersForMembers
+    {
+        public string PublicField;
+        protected string ProtectedField;
+        internal string InternalField;
+        protected internal string ProtectedInternalField;
+        private string PrivateField;
+
+        public string PublicProperty { get; set; }
+        public string ReadOnlyProperty { get; private set; }
+        public string WriteOnlyProperty { private get; set; }
+        protected string ProtectedProperty { get; set; }
+        internal string InternalProperty { get; set; }
+        protected internal string ProtectedInternalProperty { get; set; }
+        private string PrivateProperty { get; set; }
+
+        public ClassWithAllAccessModifiersForMembers(string publicValue, string protectedValue, string internalValue,
+            string protectedInternalValue, string privateValue)
+        {
+            PublicField = publicValue;
+            ProtectedField = protectedValue;
+            InternalField = internalValue;
+            ProtectedInternalField = protectedInternalValue;
+            PrivateField = privateValue;
+
+            PublicProperty = publicValue;
+            ReadOnlyProperty = privateValue;
+            WriteOnlyProperty = privateValue;
+            ProtectedProperty = protectedValue;
+            InternalProperty = internalValue;
+            ProtectedInternalProperty = protectedInternalValue;
+            PrivateProperty = privateValue;
+        }
+    }
 
     public class ClassWithValueSemanticsOnSingleProperty
     {

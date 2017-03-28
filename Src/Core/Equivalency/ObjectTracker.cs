@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 using FluentAssertions.Execution;
 
@@ -14,7 +13,7 @@ namespace FluentAssertions.Equivalency
         #region Private Definitions
 
         private readonly CyclicReferenceHandling handling;
-        private List<ObjectReference> references = new List<ObjectReference>();
+        private List<ObjectReference> orderedReferences = new List<ObjectReference>();
 
         #endregion
 
@@ -37,7 +36,7 @@ namespace FluentAssertions.Equivalency
 
             if (reference.IsComplexType)
             {
-                if (references.Contains(reference))
+                if (orderedReferences.Contains(reference))
                 {
                     isCyclic = true;
                     if (handling == CyclicReferenceHandling.ThrowException)
@@ -48,7 +47,7 @@ namespace FluentAssertions.Equivalency
                 }
                 else
                 {
-                    references.Add(reference);
+                    orderedReferences.Add(reference);
                 }
             }
 
@@ -66,7 +65,7 @@ namespace FluentAssertions.Equivalency
         {
             return new ObjectTracker(handling)
             {
-                references = references.ToList()
+                orderedReferences = new List<ObjectReference>(orderedReferences)
             };
         }
     }

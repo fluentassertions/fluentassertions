@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FluentAssertions.Equivalency.Selection
 {
     /// <summary>
-    /// Encapsulates a dotted path to a (nested) member of a type. 
+    /// Encapsulates a dotted candidate to a (nested) member of a type. 
     /// </summary>
     internal class MemberPath
     {
@@ -12,13 +13,29 @@ namespace FluentAssertions.Equivalency.Selection
 
         public MemberPath(string dottedPath)
         {
-            segments.AddRange(dottedPath.Split('.'));
+            segments.AddRange(Segmentize(dottedPath));
         }
 
-        public bool StartsWith(string subPath)
+        public bool IsParentOrChildOf(string candidate)
         {
-            string[] subPathSegments = subPath.Split('.');
-            return segments.Take(subPathSegments.Length).SequenceEqual(subPathSegments);
+            return IsParent(candidate) || IsChild(candidate);
+        }
+
+        private bool IsChild(string candidate)
+        {
+            return Segmentize(candidate).Take(segments.Count).SequenceEqual(segments);
+        }
+
+        private bool IsParent(string candidate)
+        {
+            string[] candidateSegments = Segmentize(candidate);
+
+            return candidateSegments.SequenceEqual(segments.Take(candidateSegments.Length));
+        }
+
+        private static string[] Segmentize(string dottedPath)
+        {
+            return dottedPath.Split(new[] { '.', '[', ']' }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

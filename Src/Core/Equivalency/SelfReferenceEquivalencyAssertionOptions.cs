@@ -50,6 +50,7 @@ namespace FluentAssertions.Equivalency
         private readonly List<Type> valueTypes = new List<Type>();
 
         private readonly Func<Type, bool> isValueType = _ => false;
+        private ITraceWriter traceWriter;
 
         #endregion
 
@@ -80,6 +81,7 @@ namespace FluentAssertions.Equivalency
             orderingRules = new OrderingRuleCollection(defaults.OrderingRules);
 
             isValueType = defaults.IsValueType;
+            traceWriter = defaults.TraceWriter;
 
             RemoveSelectionRule<AllPublicPropertiesSelectionRule>();
             RemoveSelectionRule<AllPublicFieldsSelectionRule>();
@@ -487,6 +489,15 @@ namespace FluentAssertions.Equivalency
             return (TSelf) this;
         }
 
+        /// <summary>
+        /// Enables tracing the steps the equivalency validation followed to compare two graphs.
+        /// </summary>
+        public TSelf WithTracing(ITraceWriter writer = null)
+        {
+            traceWriter = writer ?? new StringBuilderTraceWriter();
+            return (TSelf)this;
+        }
+
         #region Non-fluent API
 
         protected void RemoveSelectionRule<T>() where T : IMemberSelectionRule
@@ -533,7 +544,7 @@ namespace FluentAssertions.Equivalency
         {
             var builder = new StringBuilder();
 
-            builder.AppendLine(string.Format("- Use {0} types and members", useRuntimeTyping ? "runtime" : "declared"));
+            builder.AppendLine($"- Use {(useRuntimeTyping ? "runtime" : "declared")} types and members");
             if (isRecursive)
             {
                 if (allowInfiniteRecursion)
@@ -572,6 +583,8 @@ namespace FluentAssertions.Equivalency
 
             return builder.ToString();
         }
+
+        public ITraceWriter TraceWriter => traceWriter;
 
         /// <summary>
         /// Defines additional overrides when used with <see cref="EquivalencyAssertionOptions.When"/>

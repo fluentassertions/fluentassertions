@@ -115,6 +115,7 @@
       <HintPath>..\..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
       <Private>True</Private>
@@ -126,6 +127,7 @@
     <Compile Include="Chill\AutofacChillContainer.cs" />
     <Compile Include="Chill\DefaultChillContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlElementAssertionSpecs.cs" />
     <Compile Include="XmlNodeAssertionSpecs.cs" />
   </ItemGroup>
   <ItemGroup>

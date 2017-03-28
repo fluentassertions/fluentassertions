@@ -36,7 +36,9 @@ namespace FluentAssertions.Specs
                new { Input = TimeSpan.FromSeconds(90), Output = "1m and 30s" },
                new { Input = TimeSpan.FromMilliseconds(10), Output = "0.010s" },
                new { Input = TimeSpan.MinValue, Output = "min time span" },
-               new { Input = TimeSpan.MaxValue, Output = "max time span" }
+               new { Input = TimeSpan.MaxValue, Output = "max time span" },
+               new { Input = TimeSpan.FromTicks(1), Output = "0.1us" },
+               new { Input = TimeSpan.FromTicks(TimeSpan.TicksPerMillisecond - 1), Output = "999.9us" }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -60,7 +62,9 @@ namespace FluentAssertions.Specs
                new { Input = new TimeSpan(0, 3, 20, 10, 58).Negate(), Output = "-3h, 20m and 10.058s" },
                new { Input = new TimeSpan(2, 0, 0, 12, 0).Negate(), Output = "-2d and 12s" },
                new { Input = TimeSpan.FromSeconds(90).Negate(), Output = "-1m and 30s" },
-               new { Input = TimeSpan.FromMilliseconds(10).Negate(), Output = "-0.010s" }
+               new { Input = TimeSpan.FromMilliseconds(10).Negate(), Output = "-0.010s" },
+               new { Input = TimeSpan.FromTicks(1).Negate(), Output = "-0.1us" },
+               new { Input = TimeSpan.FromTicks(TimeSpan.TicksPerMillisecond - 1).Negate(), Output = "-999.9us" }
             };
 
             //-----------------------------------------------------------------------------------------------------------

@@ -20,7 +20,7 @@ namespace FluentAssertions
         /// Asserts that an object has raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
         /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// You must call <see cref="AssertionExtensions.MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
         public static IEventRecorder ShouldRaisePropertyChangeFor<T>(
@@ -45,14 +45,14 @@ namespace FluentAssertions
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// You must call <see cref="AssertionExtensions.MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
         public static IEventRecorder ShouldRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression,
             string because, params object[] becauseArgs)
         {
-            EventRecorder eventRecorder = eventSource.GetRecorderForEvent(PropertyChangedEventName);
+            IEventRecorder eventRecorder = EventMonitor.Get(eventSource).GetEventRecorder(PropertyChangedEventName);
             string propertyName = (propertyExpression != null) ? propertyExpression.GetPropertyInfo().Name : null;
 
             if (!eventRecorder.Any())
@@ -70,7 +70,7 @@ namespace FluentAssertions
         /// Asserts that an object has not raised the <see cref="INotifyPropertyChanged.PropertyChanged"/> event for a particular property.
         /// </summary>
         /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// You must call <see cref="AssertionExtensions.MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
         public static void ShouldNotRaisePropertyChangeFor<T>(
@@ -94,14 +94,14 @@ namespace FluentAssertions
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])"/> compatible placeholders.
         /// </param>
         /// <remarks>
-        /// You must call <see cref="MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
+        /// You must call <see cref="AssertionExtensions.MonitorEvents"/> on the same object prior to this call so that Fluent Assertions can
         /// subscribe for the events of the object.
         /// </remarks>
         public static void ShouldNotRaisePropertyChangeFor<T>(
             this T eventSource, Expression<Func<T, object>> propertyExpression,
             string because, params object[] becauseArgs)
         {
-            EventRecorder eventRecorder = eventSource.GetRecorderForEvent(PropertyChangedEventName);
+            IEventRecorder eventRecorder = EventMonitor.Get(eventSource).GetEventRecorder(PropertyChangedEventName);
 
             string propertyName = propertyExpression.GetPropertyInfo().Name;
 
@@ -143,10 +143,9 @@ namespace FluentAssertions
         }
 
         /// <summary>
-        /// Asserts that at least one occurrence of the event had an <see cref="EventArgs"/> object matching a predicate.
+        /// Asserts that at least one occurrence of the event had at least one of the arguments matching a predicate.
         /// </summary>
         public static IEventRecorder WithArgs<T>(this IEventRecorder eventRecorder, Expression<Func<T, bool>> predicate)
-            where T : EventArgs
         {
             Func<T, bool> compiledPredicate = predicate.Compile();
 
@@ -155,10 +154,45 @@ namespace FluentAssertions
                 throw new ArgumentException("No argument of event " + eventRecorder.EventName + " is of type <" + typeof(T) + ">.");
             }
 
-            if (!eventRecorder.Any(@event => compiledPredicate(@event.Parameters.OfType<T>().Single())))
+            if (eventRecorder.All(recordedEvent => !recordedEvent.Parameters.OfType<T>().Any(parameter => compiledPredicate(parameter))))
             {
                 Execute.Assertion
                     .FailWith("Expected at least one event with arguments matching {0}, but found none.", predicate.Body);
+            }
+
+            return eventRecorder;
+        }
+
+        /// <summary>
+        /// Asserts that at least one occurrence of the event had arguments matching all predicates.
+        /// </summary>
+        public static IEventRecorder WithArgs<T>(this IEventRecorder eventRecorder, params Expression<Func<T, bool>>[] predicates)
+        {
+            Func<T, bool>[] compiledPredicates = predicates.Select(p => p?.Compile()).ToArray();
+
+            if (!eventRecorder.First().Parameters.OfType<T>().Any())
+            {
+                throw new ArgumentException("No argument of event " + eventRecorder.EventName + " is of type <" + typeof(T) + ">.");
+            }
+
+            bool expected = eventRecorder.Any(recordedEvent =>
+            {
+                T[] parameters = recordedEvent.Parameters.OfType<T>().ToArray();
+                int parametersToCheck = Math.Min(parameters.Length, predicates.Length);
+
+                bool isMatch = true;
+                for (int i = 0; i < parametersToCheck && isMatch; i++)
+                {
+                    isMatch = compiledPredicates[i]?.Invoke(parameters[i]) ?? true;
+                }
+
+                return isMatch;
+            });
+
+            if (!expected)
+            {
+                Execute.Assertion
+                    .FailWith("Expected at least one event with arguments matching {0}, but found none.", string.Join(" | ", predicates.Where(p => p != null).Select(p => p.Body.ToString())));
             }
 
             return eventRecorder;

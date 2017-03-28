@@ -1124,10 +1124,22 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_contains_multiple_items_from_the_collection_in_any_order()
+        public void When_asserting_collection_contains_multiple_items_from_the_collection_in_any_order_it_should_succeed()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = new [] { "one", "two", "three" };
-            collection.Should().Contain(new [] { "two", "one" });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().Contain(new [] { "two", "one" });
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -1195,10 +1207,22 @@ namespace FluentAssertions.Specs
         #region Not Contain
 
         [TestMethod]
-        public void Should_succeed_when_asserting_collection_does_not_contain_an_item_that_is_not_in_the_collection()
+        public void When_collection_does_not_contain_an_item_that_is_not_in_the_collection_it_should_not_throw()
         {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
             IEnumerable<string> collection = new [] { "one", "two", "three" };
-            collection.Should().NotContain(4);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContain("four");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -1212,13 +1236,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection.Should().NotContain("one", "because we {0} like it", "don't");
+            Action act = () => collection.Should().NotContain("one", "because we {0} like it, but found it anyhow", "don't");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection {\"one\", \"two\", \"three\"} should not contain \"one\" because we don't like it, but found it anyhow.");
+                "Expected collection {\"one\", \"two\", \"three\"} to not contain \"one\" because we don't like it, but found it anyhow.");
         }
 
         [TestMethod]
@@ -1238,7 +1262,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Collection {\"one\", \"two\", \"three\"} should not have any items matching (item == \"two\") because twos are evil.");
+                "Expected collection {\"one\", \"two\", \"three\"} to not have any items matching (item == \"two\") because twos are evil.");
         }
 
         [TestMethod]
@@ -1267,13 +1291,13 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => collection.Should()
-                .NotContain(1, "because we want to test the behaviour with a null subject");
+                .NotContain("one", "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(
-                "Expected collection not to contain element 1 because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected collection to not contain \"one\" because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion

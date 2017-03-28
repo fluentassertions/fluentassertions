@@ -21,12 +21,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_not_be_null_it_should_succeed()
+        {
+            bool? nullableBoolean = true;
+            nullableBoolean.Should().NotBeNull();
+        }
+
+        [TestMethod]
         public void When_asserting_nullable_boolean_value_without_a_value_to_have_a_value_it_should_fail()
         {
             bool? nullableBoolean = null;
             Action act = () => nullableBoolean.Should().HaveValue();
             act.ShouldThrow<AssertFailedException>();
+        }
 
+        [TestMethod]
+        public void When_asserting_nullable_boolean_value_without_a_value_to_not_be_null_it_should_fail()
+        {
+            bool? nullableBoolean = null;
+            Action act = () => nullableBoolean.Should().NotBeNull();
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -40,27 +54,61 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_nullable_boolean_value_without_a_value_to_be_null_it_should_succeed()
+        public void When_asserting_nullable_boolean_value_without_a_value_to_not_be_null_it_should_fail_with_descriptive_message()
+        {
+            bool? nullableBoolean = null;
+            var assertions = nullableBoolean.Should();
+            assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected a value because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void When_asserting_nullable_boolean_value_without_a_value_to_not_have_a_value_it_should_succeed()
         {
             bool? nullableBoolean = null;
             nullableBoolean.Should().NotHaveValue();
         }
 
         [TestMethod]
-        public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail()
+        public void When_asserting_nullable_boolean_value_without_a_value_to_be_null_it_should_succeed()
+        {
+            bool? nullableBoolean = null;
+            nullableBoolean.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_not_have_a_value_it_should_fail()
         {
             bool? nullableBoolean = true;
             Action act = () => nullableBoolean.Should().NotHaveValue();
             act.ShouldThrow<AssertFailedException>();
-
         }
 
+        [TestMethod]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail()
+        {
+            bool? nullableBoolean = true;
+            Action act = () => nullableBoolean.Should().BeNull();
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_nullable_boolean_value_with_a_value_to_be_not_have_a_value_it_should_fail_with_descriptive_message()
+        {
+            bool? nullableBoolean = true;
+            var assertions = nullableBoolean.Should();
+            assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
+        }
+        
         [TestMethod]
         public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail_with_descriptive_message()
         {
             bool? nullableBoolean = true;
             var assertions = nullableBoolean.Should();
-            assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
+            assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
         }

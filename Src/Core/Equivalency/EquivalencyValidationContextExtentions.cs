@@ -21,7 +21,8 @@ namespace FluentAssertions.Equivalency
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
                 CompileTimeType = nestedMember.MemberType,
-                RootIsCollection = context.RootIsCollection
+                RootIsCollection = context.RootIsCollection,
+                Tracer = context.Tracer
             };
         }
 
@@ -41,7 +42,8 @@ namespace FluentAssertions.Equivalency
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
                 CompileTimeType = typeof (T),
-                RootIsCollection = context.RootIsCollection
+                RootIsCollection = context.RootIsCollection,
+                Tracer = context.Tracer
             };
         }
 
@@ -64,7 +66,8 @@ namespace FluentAssertions.Equivalency
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
                 CompileTimeType = typeof (TValue),
-                RootIsCollection = context.RootIsCollection
+                RootIsCollection = context.RootIsCollection,
+                Tracer = context.Tracer
             };
         }
 
@@ -80,7 +83,8 @@ namespace FluentAssertions.Equivalency
                 SelectedMemberPath = context.SelectedMemberPath,
                 Because = context.Because,
                 BecauseArgs = context.BecauseArgs,
-                Subject = subject
+                Subject = subject,
+                Tracer = context.Tracer
             };
         }
     }

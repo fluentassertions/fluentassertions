@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -96,8 +96,6 @@ namespace FluentAssertions.Collections
         {
             using (var outerScope = new AssertionScope())
             {
-
-
                 List<TFirst> missingItems = new List<TFirst>();
                 foreach (TFirst itemFirst in first)
                 {
@@ -135,46 +133,46 @@ namespace FluentAssertions.Collections
 
         private AndConstraint<GenericCollectionAssertions<T>> BeOrderedBy(
         Expression<Func<T, object>> propertyExpression, SortDirection direction, string because, object[] args)
-    {
-        if (IsValidProperty(propertyExpression, because, args))
         {
-            IList<T> unordered = (Subject as IList<T>) ?? Subject.ToList();
+            if (IsValidProperty(propertyExpression, because, args))
+            {
+                IList<T> unordered = (Subject as IList<T>) ?? Subject.ToList();
 
-            Func<T, object> keySelector = propertyExpression.Compile();
+                Func<T, object> keySelector = propertyExpression.Compile();
 
-            IOrderedEnumerable<T> expectation = (direction == SortDirection.Ascending)
-                ? unordered.OrderBy(keySelector)
-                : unordered.OrderByDescending(keySelector);
+                IOrderedEnumerable<T> expectation = (direction == SortDirection.Ascending)
+                    ? unordered.OrderBy(keySelector)
+                    : unordered.OrderByDescending(keySelector);
 
-            Execute.Assertion
-                .ForCondition(unordered.SequenceEqual(expectation))
+                Execute.Assertion
+                    .ForCondition(unordered.SequenceEqual(expectation))
+                    .BecauseOf(because, args)
+                    .FailWith("Expected collection {0} to be ordered by {1}{reason} and result in {2}.",
+                        Subject, propertyExpression.GetMemberPath(), expectation);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+        }
+
+        private bool IsValidProperty(Expression<Func<T, object>> propertyExpression, string because, object[] args)
+        {
+            if (propertyExpression == null)
+            {
+                throw new ArgumentNullException("propertyExpression",
+                    "Cannot assert collection ordering without specifying a property.");
+            }
+
+            return Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
                 .BecauseOf(because, args)
-                .FailWith("Expected collection {0} to be ordered by {1}{reason} and result in {2}.",
-                    Subject, propertyExpression.GetMemberPath(), expectation);
+                .FailWith("Expected collection to be ordered by {0}{reason} but found <null>.",
+                    propertyExpression.GetMemberPath());
         }
 
-        return new AndConstraint<GenericCollectionAssertions<T>>(this);
-    }
-
-    private bool IsValidProperty(Expression<Func<T, object>> propertyExpression, string because, object[] args)
-    {
-        if (propertyExpression == null)
+        private enum SortDirection
         {
-            throw new ArgumentNullException("propertyExpression",
-                "Cannot assert collection ordering without specifying a property.");
+            Ascending,
+            Descending
         }
-
-        return Execute.Assertion
-            .ForCondition(!ReferenceEquals(Subject, null))
-            .BecauseOf(because, args)
-            .FailWith("Expected collection to be ordered by {0}{reason} but found <null>.",
-                propertyExpression.GetMemberPath());
     }
-
-    private enum SortDirection
-    {
-        Ascending,
-        Descending
-    }
-}
 }

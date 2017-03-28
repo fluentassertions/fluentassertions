@@ -59,6 +59,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -74,9 +75,6 @@
     <Compile Include="..\FluentAssertions.Net40\Common\ProvidePlatformServices.cs">
       <Link>Common\ProvidePlatformServices.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.Net40\EventSourceExtensions.cs">
-      <Link>EventSourceExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\GallioTestFramework.cs">
       <Link>Execution\GallioTestFramework.cs</Link>
     </Compile>
@@ -88,6 +86,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFramework.cs">
       <Link>Execution\MSTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFrameworkV2.cs">
+      <Link>Execution\MSTestFrameworkV2.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\NUnitTestFramework.cs">
       <Link>Execution\NUnitTestFramework.cs</Link>
@@ -104,14 +105,17 @@
     <Compile Include="..\FluentAssertions.Net40\Xml\XmlAssertionExtensions.cs">
       <Link>Xml\XmlAssertionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Xml\XmlElementAssertions.cs">
+      <Link>Xml\XmlElementAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeAssertions.cs">
       <Link>Xml\XmlNodeAssertions.cs</Link>
     </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeAssertionsofTSubjectTAssertions.cs">
+      <Link>Xml\XmlNodeAssertionsofTSubjectTAssertions.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40\Xml\XmlNodeFormatter.cs">
       <Link>Xml\XmlNodeFormatter.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.Net40\Xml\XmlReaderValidator.cs">
-      <Link>Xml\XmlReaderValidator.cs</Link>
     </Compile>
     <Compile Include="Execution\XUnit2TestFramework.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

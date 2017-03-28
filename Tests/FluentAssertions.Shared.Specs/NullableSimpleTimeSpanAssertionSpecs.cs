@@ -31,7 +31,21 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_nullable_TimeSpan_value_without_a_value_to_have_a_value()
+        public void Should_succeed_when_asserting_nullable_TimeSpan_value_with_a_value_to_not_be_null()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            TimeSpan? nullableTimeSpan = new TimeSpan();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            nullableTimeSpan.Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_nullable_TimeSpan_value_without_a_value_to_not_be_null()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -41,7 +55,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action act = () => nullableTimeSpan.Should().HaveValue();
+            Action act = () => nullableTimeSpan.Should().NotBeNull();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -68,7 +82,24 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_nullable_TimeSpan_value_without_a_value_to_be_null()
+        public void Should_fail_with_descriptive_message_when_asserting_nullable_TimeSpan_value_without_a_value_to_not_be_null()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            TimeSpan? nullableTimeSpan = null;
+            var assertions = nullableTimeSpan.Should();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected a value because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_nullable_TimeSpan_value_without_a_value_to_not_have_a_value()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -82,7 +113,21 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_nullable_TimeSpan_value_with_a_value_to_be_null()
+        public void Should_succeed_when_asserting_nullable_TimeSpan_value_without_a_value_to_be_null()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            TimeSpan? nullableTimeSpan = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            nullableTimeSpan.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_nullable_TimeSpan_value_with_a_value_to_not_have_a_value()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -98,7 +143,42 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>();
+        }
 
+        [TestMethod]
+        public void Should_fail_when_asserting_nullable_TimeSpan_value_with_a_value_to_be_null()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            TimeSpan? nullableTimeSpan = new TimeSpan();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => nullableTimeSpan.Should().BeNull();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void Should_fail_with_descriptive_message_when_asserting_nullable_TimeSpan_value_with_a_value_to_not_have_a_value()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            TimeSpan? nullableTimeSpan = 1.Seconds();
+            var assertions = nullableTimeSpan.Should();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
         }
 
         [TestMethod]
@@ -113,7 +193,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-------------------------------------------------------------------------------------------------------------------
-            assertions.Invoking(x => x.NotHaveValue("because we want to test the failure {0}", "message"))
+            assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1s.");
         }

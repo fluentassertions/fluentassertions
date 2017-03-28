@@ -16,5 +16,10 @@ namespace FluentAssertions
         {
             return new XmlNodeAssertions(actualValue);
         }
+
+        public static XmlElementAssertions Should(this XmlElement actualValue)
+        {
+            return new XmlElementAssertions(actualValue);
+        }
     }
 }

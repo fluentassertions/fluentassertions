@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace FluentAssertions.Formatting
 {
-    public class NumericValueFormatter : IValueFormatter
+    public class Int16ValueFormatter : IValueFormatter
     {
         /// <summary>
         /// Indicates whether the current <see cref="IValueFormatter"/> can handle the specified <paramref name="value"/>.
@@ -13,8 +14,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public bool CanHandle(object value)
         {
-            decimal result;
-            return !(value is string) && decimal.TryParse(value.ToString(), out result);
+            return value is short;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            return value.ToString();
+            return ((short)value).ToString(CultureInfo.InvariantCulture) + "s";
         }
     }
 }

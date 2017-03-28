@@ -11,10 +11,10 @@ namespace FluentAssertions.Specs
     [TestClass]
     public class XmlNodeAssertionSpecs
     {
-        #region Be / NotBe
+        #region BeSameAs / NotBeSameAs
 
         [TestMethod]
-        public void When_asserting_an_XmlNode_is_the_same_as_the_same_XmlNode_it_should_succeed()
+        public void When_asserting_an_xml_node_is_the_same_as_the_same_xml_node_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -34,7 +34,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_same_as_a_different_XmlDocument_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_same_as_a_different_xml_node_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -58,7 +58,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_same_as_a_different_XmlDocument_it_should_fail_with_descriptive_message_and_truncate_xml()
+        public void When_asserting_an_xml_node_is_same_as_a_different_xml_node_it_should_fail_with_descriptive_message_and_truncate_xml()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -80,12 +80,164 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<AssertFailedException>()
                 .WithMessage("Expected Xml Node to refer to <otherDoc /> because we want to test the failure message, but found <doc>Some very long....");
         }
+
+        [TestMethod]
+        public void When_asserting_the_equality_of_an_xml_node_but_is_null_it_should_throw_appropriately()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            XmlDocument actual = null;
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeSameAs(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected XML Node to refer to *xml*, but found <null>.");
+        }
+        #endregion
+
+        #region BeNull / NotBeNull
+
+        [TestMethod]
+        public void When_asserting_an_xml_node_is_null_and_it_is_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            XmlNode node = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                node.Should().BeNull();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_node_is_null_but_it_is_not_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<xml/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                xmlDoc.Should().BeNull();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_an_xml_node_is_null_but_it_is_not_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<xml/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                xmlDoc.Should().BeNull("because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected XML Node to be <null> because we want to test the failure message," +
+                    " but found <xml />.");
+        }
+
+        [TestMethod]
+        public void When_asserting_a_non_null_xml_node_is_not_null_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<xml/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                xmlDoc.Should().NotBeNull();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_null_xml_node_is_not_null_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            XmlDocument xmlDoc = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                xmlDoc.Should().NotBeNull();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>();
+        }
+
+        [TestMethod]
+        public void When_asserting_a_null_xml_node_is_not_null_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            XmlDocument xmlDoc = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                xmlDoc.Should().NotBeNull("because we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected XML Node not to be <null> because we want to test the failure message.");
+        }
+
         #endregion
 
         #region BeEquivalentTo / NotBeEquivalentTo
 
         [TestMethod]
-        public void When_asserting_an_XmlNode_is_equivalent_as_the_same_XmlNode_it_should_succeed()
+        public void When_asserting_an_xml_node_is_equivalent_to_the_same_xml_node_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -105,7 +257,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlNode_is_not_equivalent_to_som_other_XmlNode_it_should_succeed()
+        public void When_asserting_an_xml_node_is_not_equivalent_to_som_other_xml_node_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -128,7 +280,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlNode_is_not_equivalent_to_same_XmlNode_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_not_equivalent_to_same_xml_node_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -146,11 +298,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().
-                WithMessage("Expected Xml to not be equivalent because we want to test the failure message, but it is.");
+                WithMessage("Did not expect Xml to be equivalent because we want to test the failure message, but it is.");
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_a_different_XmlDocument_with_other_contents_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_with_other_contents_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -174,7 +326,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_a_different_XmlDocument_with_same_contents_it_should_succeed()
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_with_same_contents_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -199,7 +351,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_assertion_an_XmlDocument_is_equivalent_to_a_different_XmlDocument_with_different_namespace_prefix_it_should_succeed()
+        public void When_assertion_an_xml_node_is_equivalent_to_a_different_xml_node_with_different_namespace_prefix_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -220,10 +372,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        #endregion
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_a_different_XmlDocument_which_differs_only_on_unused_namespace_declaration_it_should_succeed()
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_which_differs_only_on_unused_namespace_declaration_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -246,7 +397,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_a_different_XmlDcoument_which_differs_on_a_child_element_name_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_XmlDcoument_which_differs_on_a_child_element_name_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -270,7 +421,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_a_different_XmlDocument_which_differs_on_a_child_element_namespace_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_which_differs_on_a_child_element_namespace_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -294,7 +445,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_which_contains_an_unexpected_node_type_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_contains_an_unexpected_node_type_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -318,7 +469,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_which_contains_extra_elements_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_contains_extra_elements_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -342,7 +493,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_which_lacks_elements_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_lacks_elements_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -366,7 +517,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_which_lacks_attributes_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_lacks_attributes_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -389,9 +540,8 @@ namespace FluentAssertions.Specs
                 WithMessage("Expected attribute \"a\" at \"/xml/element\" because we want to test the failure message, but found none.");
         }
 
-
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_which_has_extra_attributes_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_extra_attributes_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -415,7 +565,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_which_has_different_attribute_values_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_different_attribute_values_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -439,7 +589,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_which_has_attribute_with_different_namespace_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_attribute_with_different_namespace_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -463,7 +613,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_which_has_different_text_contents_it_should_fail_with_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_different_text_contents_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -487,7 +637,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_with_different_comments_it_should_succeed()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_with_different_comments_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -509,7 +659,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_to_different_XmlDocument_with_different_insignificant_whitespace_it_should_succeed()
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_with_different_insignificant_whitespace_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -531,12 +681,12 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_XmlDocument_is_equivalent_that_contains_an_unsupported_node_it_should_throw_a_descriptive_message()
+        public void When_asserting_an_xml_node_is_equivalent_that_contains_an_unsupported_node_it_should_throw_a_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var subject = new XmlDocument() { PreserveWhitespace = true };
+            var subject = new XmlDocument();
             subject.LoadXml("<xml><![CDATA[Text]]></xml>");
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -550,5 +700,31 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<NotSupportedException>()
                 .WithMessage("CDATA found at /xml is not supported for equivalency comparison.");
         }
+
+        [TestMethod]
+        public void When_asserting_an_xml_node_is_equivalent_that_isnt_it_should_include_the_right_location_in_the_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><a/><b c=\"d\"/></xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><a/><b c=\"e\"/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected attribute \"c\" at \"/xml/b\" to have value \"e\", but found \"d\".");
+        }
+
+        #endregion
+
     }
 }
