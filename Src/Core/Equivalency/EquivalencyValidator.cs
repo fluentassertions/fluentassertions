@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Equivalency
@@ -34,6 +33,11 @@ namespace FluentAssertions.Equivalency
                 scope.BecauseOf(context.Because, context.BecauseArgs);
 
                 AssertEqualityUsing(context);
+
+                if (context.Tracer != null)
+                {
+                    scope.AddReportable("trace", context.Tracer.ToString());
+                }
             }
         }
 
@@ -50,9 +54,19 @@ namespace FluentAssertions.Equivalency
 
                 if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.SelectedMemberPath)))
                 {
-                    bool wasHandled = AssertionOptions.EquivalencySteps
-                        .Where(s => s.CanHandle(context, config))
-                        .Any(step => step.Handle(context, this, config));
+                    bool wasHandled = false;
+
+                    foreach (var step in AssertionOptions.EquivalencySteps)
+                    {
+                        if (step.CanHandle(context, config))
+                        {
+                            if (step.Handle(context, this, config))
+                            {
+                                wasHandled = true;
+                                break;
+                            }
+                        }
+                    }
 
                     if (!wasHandled)
                     {

@@ -81,5 +81,7 @@ namespace FluentAssertions.Equivalency
         {
             return inner.IsValueType(type);
         }
+
+        public ITraceWriter TraceWriter => inner.TraceWriter;
     }
 }

@@ -653,11 +653,12 @@ namespace FluentAssertions.Specs
           // Arrange
           //-----------------------------------------------------------------------------------------------------------
           string subject = "hello world!";
+          string invalidRegex = ".**"; // Use local variable for this invalid regex to avoid static R# analysis errors
 
           //-----------------------------------------------------------------------------------------------------------
           // Act
           //-----------------------------------------------------------------------------------------------------------
-          Action act = () => subject.Should().MatchRegex(".**");
+          Action act = () => subject.Should().MatchRegex(invalidRegex);
 
           //-----------------------------------------------------------------------------------------------------------
           // Assert
@@ -756,11 +757,12 @@ namespace FluentAssertions.Specs
           // Arrange
           //-----------------------------------------------------------------------------------------------------------
           string subject = "hello world!";
+          string invalidRegex = ".**"; // Use local variable for this invalid regex to avoid static R# analysis errors
 
           //-----------------------------------------------------------------------------------------------------------
           // Act
           //-----------------------------------------------------------------------------------------------------------
-          Action act = () => subject.Should().NotMatchRegex(".**");
+          Action act = () => subject.Should().NotMatchRegex(invalidRegex);
 
           //-----------------------------------------------------------------------------------------------------------
           // Assert

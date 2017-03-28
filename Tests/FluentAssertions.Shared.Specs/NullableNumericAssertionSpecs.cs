@@ -20,10 +20,26 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void Should_succeed_when_asserting_nullable_numeric_value_with_value_to_not_be_null()
+        {
+            int? nullableInteger = 1;
+            nullableInteger.Should().NotBeNull();
+        }
+
+        [TestMethod]
         public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_have_a_value()
         {
             int? nullableInteger = null;
             Action act = () => nullableInteger.Should().HaveValue();
+            act.ShouldThrow<AssertFailedException>();
+
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_not_be_null()
+        {
+            int? nullableInteger = null;
+            Action act = () => nullableInteger.Should().NotBeNull();
             act.ShouldThrow<AssertFailedException>();
 
         }
@@ -39,20 +55,45 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void Should_succeed_when_asserting_nullable_numeric_value_without_a_value_to_be_null()
+        public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_without_a_value_to_not_be_null()
+        {
+            int? nullableInteger = null;
+            var assertions = nullableInteger.Should();
+            assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected a value because we want to test the failure message.");
+        }
+
+        [TestMethod]
+        public void Should_succeed_when_asserting_nullable_numeric_value_without_a_value_to_not_have_a_value()
         {
             int? nullableInteger = null;
             nullableInteger.Should().NotHaveValue();
         }
 
         [TestMethod]
-        public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
+        public void Should_succeed_when_asserting_nullable_numeric_value_without_a_value_to_be_null()
+        {
+            int? nullableInteger = null;
+            nullableInteger.Should().BeNull();
+        }
+
+        [TestMethod]
+        public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_not_have_a_value()
         {
             int? nullableInteger = 1;
             
             Action act = () => nullableInteger.Should().NotHaveValue();
             act.ShouldThrow<AssertFailedException>();
+        }
 
+        [TestMethod]
+        public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
+        {
+            int? nullableInteger = 1;
+
+            Action act = () => nullableInteger.Should().BeNull();
+            act.ShouldThrow<AssertFailedException>();
         }
 
         [TestMethod]
@@ -74,6 +115,16 @@ namespace FluentAssertions.Specs
             action
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage("Did not expect a value because it was not expected, but found 1.");
+        }
+
+        [TestMethod]
+        public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
+        {
+            int? nullableInteger = 1;
+            var assertions = nullableInteger.Should();
+            assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
+                .ShouldThrow<AssertFailedException>()
+                .WithMessage("Did not expect a value because we want to test the failure message, but found 1.");
         }
 
         [TestMethod]
@@ -111,7 +162,7 @@ namespace FluentAssertions.Specs
             var assertions = nullableIntegerA.Should();
             assertions.Invoking(x => x.Be(nullableIntegerB, "because we want to test the failure {0}", "message"))
                 .ShouldThrow<AssertFailedException>()
-                .WithMessage("Expected 2 because we want to test the failure message, but found 1.");
+                .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
         }
 
         #region Be Approximately
@@ -174,7 +225,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected value*to approximate {0} +/- {1}, but it differed by*", 1, 0.1));
+                    "Expected value*to approximate 1.0 +/- {0}, but it differed by*", 0.1));
         }
 
         [TestMethod]
@@ -215,7 +266,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                "Expected value*to approximate {0} +/- {1}, but it differed by*", 1, 0.1));
+                "Expected value*to approximate *{0}* +/- *{1}* but it differed by*", 1, 0.1));
         }
 
         [TestMethod]
@@ -254,7 +305,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
-                "Expected value to approximate {0} +/- {1}, but it was <null>.", 3.14m, 0.001m));
+                "Expected value to approximate*{0}* +/-*{1}*, but it was <null>.", 3.14m, 0.001m));
         }
 
         [TestMethod]
@@ -276,7 +327,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<AssertFailedException>()
                 .WithMessage(string.Format(
-                    "Expected value*to approximate {0} +/- {1}, but it differed by*", 1.0m, 0.1m));
+                    "Expected value*to approximate*{0}* +/-*{1}*, but it differed by*", 1.0m, 0.1m));
         }
 
         #endregion

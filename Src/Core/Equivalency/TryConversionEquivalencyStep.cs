@@ -35,11 +35,15 @@ namespace FluentAssertions.Equivalency
                 object convertedSubject;
                 if (TryChangeType(context.Subject, expectationType, out convertedSubject))
                 {
+                    context.TraceSingle(path => $"Converted subject {context.Subject} at {path} to {expectationType}");
+
                     var newContext = context.CreateWithDifferentSubject(convertedSubject, expectationType);
 
                     structuralEqualityValidator.AssertEqualityUsing(newContext);
                     return true;
                 }
+
+                context.TraceSingle(path => $"Subject {context.Subject} at {path} could not be converted to {expectationType}");
             }
 
             return false;

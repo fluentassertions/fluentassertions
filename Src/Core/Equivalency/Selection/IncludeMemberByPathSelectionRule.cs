@@ -23,7 +23,7 @@ namespace FluentAssertions.Equivalency.Selection
         {
             var matchingMembers =
                 from member in context.RuntimeType.GetNonPrivateMembers()
-                where pathToInclude.StartsWith(currentPath.Combine(member.Name))
+                where pathToInclude.IsParentOrChildOf(currentPath.Combine(member.Name))
                 select member;
 
             return selectedMembers.Concat(matchingMembers).ToArray();

@@ -29,11 +29,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Artifacts\Lib\dotnet\</OutputPath>
+    <OutputPath>..\..\Artifacts\Lib\netstandard1.3\</OutputPath>
     <DefineConstants>TRACE;CORE_CLR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Artifacts\Lib\dotnet\FluentAssertions.xml</DocumentationFile>
+    <DocumentationFile>..\..\Artifacts\Lib\netstandard1.3\FluentAssertions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -41,12 +41,6 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\FluentAssertions.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <ItemGroup>
-    <NuSpecLibContent Include="$(TargetPath)" />
-    <NuSpecLibContent Include="$(TargetDir)FluentAssertions.Core.dll" />
-    <NuSpecProjectFile Include="$(MSBuildThisFileFullPath)" />
-    <NuSpecProjectFile Include="$(SolutionDir)\Src\FluentAssertions.Core.Dotnet\Core.Dotnet.csproj" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="..\FluentAssertions.snk">
       <Link>FluentAssertions.snk</Link>
@@ -66,6 +60,9 @@
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFramework.cs">
       <Link>Execution\MSTestFramework.cs</Link>
+    </Compile>
+    <Compile Include="..\FluentAssertions.Net40\Execution\MSTestFrameworkV2.cs">
+      <Link>Execution\MSTestFrameworkV2.cs</Link>
     </Compile>
     <Compile Include="..\FluentAssertions.Net40\Execution\XUnitTestFramework.cs">
       <Link>Execution\XUnitTestFramework.cs</Link>

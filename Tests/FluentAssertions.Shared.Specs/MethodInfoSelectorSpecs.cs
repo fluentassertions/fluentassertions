@@ -148,7 +148,9 @@ namespace FluentAssertions.Specs
 
     internal class TestClassForMethodSelector
     {
+#pragma warning disable 67 // "event is never used"
         public event EventHandler SomethingChanged = delegate { };
+#pragma warning restore 67
 
         public virtual void PublicVirtualVoidMethod()
         {

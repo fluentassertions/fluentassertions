@@ -66,6 +66,11 @@ namespace FluentAssertions.Equivalency
         bool IncludeFields { get; }
 
         /// <summary>
+        /// Gets the currently configured tracer, or <c>null</c> if no tracing was configured.
+        /// </summary>
+        ITraceWriter TraceWriter { get; }
+
+        /// <summary>
         /// Gets a value indicating whether the <paramref name="type"/> should be treated as having value semantics.
         /// </summary>
         bool IsValueType(Type type);

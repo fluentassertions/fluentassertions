@@ -1,9 +1,9 @@
 using System.Reflection;
 
 [assembly: AssemblyCompany("www.continuousimprover.com")]
-[assembly: AssemblyCopyright("Copyright Dennis Doomen 2010-2015")]
+[assembly: AssemblyCopyright("Copyright Dennis Doomen 2010-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("4.3.3.1")]
-[assembly: AssemblyFileVersion("4.3.3.1")]
-[assembly: AssemblyInformationalVersion("4.3.3+1.Branch.CleanupUnitTestRunning.Sha.66042a9b3938cb5286d5d14387b3a93854da0977")]
+[assembly: AssemblyVersion("4.13.1.0")]
+[assembly: AssemblyFileVersion("4.13.1.0")]
+[assembly: AssemblyInformationalVersion("4.13.1+Branch.master.Sha.d57a300ce206c5d1443070ec62a027e35a53b271")]

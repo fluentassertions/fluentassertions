@@ -69,12 +69,18 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task task = Subject();
-                task.Wait();
+#if NETSTANDARD1_3
+                Task.Run(Subject).Wait();
+#else
+                Task.Factory.StartNew(() => Subject().Wait()).Wait();
+#endif
             }
-            catch (Exception aggregateException)
+            catch (Exception exception)
             {
-                Exception exception = aggregateException.InnerException;
+                while (exception is AggregateException)
+                {
+                    exception = exception.InnerException;
+                }
 
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
@@ -97,12 +103,18 @@ namespace FluentAssertions.Specialized
         {
             try
             {
-                Task task = Subject();
-                task.Wait();
+#if NETSTANDARD1_3
+                Task.Run(Subject).Wait();
+#else
+                Task.Factory.StartNew(() => Subject().Wait()).Wait();
+#endif
             }
-            catch (Exception aggregateException)
+            catch (Exception exception)
             {
-                Exception exception = aggregateException.InnerException;
+                while (exception is AggregateException)
+                {
+                    exception = exception.InnerException;
+                }
 
                 if (exception != null)
                 {
@@ -121,12 +133,23 @@ namespace FluentAssertions.Specialized
 
             try
             {
-                Task task = Subject();
-                task.Wait();
+#if NETSTANDARD1_3
+                Task.Run(Subject).Wait();
+#else
+                Task.Factory.StartNew(() => Subject().Wait()).Wait();
+#endif
             }
             catch (Exception exception)
             {
-                actualException = exception;
+                var ar = exception as AggregateException;
+                if (ar?.InnerException is AggregateException)
+                {
+                    actualException = ar.InnerException;
+                }
+                else
+                {
+                    actualException = exception;
+                }
             }
 
             return actualException;

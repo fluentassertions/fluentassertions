@@ -35,6 +35,10 @@ namespace FluentAssertions
             return type.IsInterface;
         }
 
+        public static bool IsGenericTypeDefinition(this Type type)
+        {
+            return type.IsGenericTypeDefinition;
+        }
 
         public static Type GetTypeInfo(this Type type)
         {

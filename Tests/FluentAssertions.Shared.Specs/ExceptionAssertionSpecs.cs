@@ -30,7 +30,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Act
                 //-----------------------------------------------------------------------------------------------------------
-                a.ShouldThrowExactly<ArgumentException>();
+                a.ShouldThrowExactly<ArgumentException>("because {0} should do that", "IFoo.Do");
 
                 Assert.Fail("This point should not be reached.");
             }
@@ -39,7 +39,7 @@ namespace FluentAssertions.Specs
                 //-----------------------------------------------------------------------------------------------------------
                 // Assert
                 //-----------------------------------------------------------------------------------------------------------
-                ex.Message.Should().Match("Expected type to be System.ArgumentException, but found System.ArgumentNullException.");
+                ex.Message.Should().Match("Expected type to be System.ArgumentException because IFoo.Do should do that, but found System.ArgumentNullException.");
             }
         }
 

@@ -70,6 +70,7 @@
       <RequiredTargetFramework>4.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
@@ -84,6 +85,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="..\FluentAssertions.Net40.Specs\XmlElementAssertionSpecs.cs">
+      <Link>XmlElementAssertionSpecs.cs</Link>
+    </Compile>
     <Compile Include="..\FluentAssertions.Net40.Specs\XmlNodeAssertionSpecs.cs">
       <Link>XmlNodeAssertionSpecs.cs</Link>
     </Compile>

@@ -65,7 +65,7 @@ namespace FluentAssertions.Numeric
             Execute.Assertion
                 .ForCondition(ReferenceEquals(Subject, expected) || ((!ReferenceEquals(Subject, null) && Subject.CompareTo(expected) == 0)))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {0}{reason}, but found {1}.", expected, Subject);
+                .FailWith("Expected {context:value} to be {0}{reason}, but found {1}.", expected, Subject);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
@@ -301,6 +301,54 @@ namespace FluentAssertions.Numeric
                 .ForCondition(validValues.Contains((T)Subject))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected value to be one of {0}{reason}, but found {1}.", validValues, Subject);
+
+            return new AndConstraint<NumericAssertions<T>>(this);
+        }
+        
+        /// <summary>
+        /// Asserts that the object is of the specified type <paramref name="expectedType"/>.
+        /// </summary>
+        /// <param name="expectedType">
+        /// The type that the subject is supposed to be of.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<NumericAssertions<T>> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+        {
+            Type subjectType = Subject.GetType();
+            if (expectedType.IsGenericTypeDefinition() && subjectType.IsGenericType())
+            {
+                subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
+            }
+            else
+            {
+                subjectType.Should().Be(expectedType, because, becauseArgs);
+            }
+
+            return new AndConstraint<NumericAssertions<T>>(this);
+        }
+        
+        /// <summary>
+        /// Asserts that the object is not of the specified type <paramref name="expectedType"/>.
+        /// </summary>
+        /// <param name="expectedType">
+        /// The type that the subject is not supposed to be of.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<NumericAssertions<T>> NotBeOfType(Type expectedType, string because = "", params object[] becauseArgs)
+        {
+            Subject.GetType().Should().NotBe(expectedType, because, becauseArgs);
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }

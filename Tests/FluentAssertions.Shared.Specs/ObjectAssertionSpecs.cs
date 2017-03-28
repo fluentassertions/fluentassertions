@@ -241,7 +241,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region BeOfType
+        #region BeOfType / NotBeOfType
 
         [TestMethod]
         public void When_object_type_is_exactly_equal_to_the_specified_type_it_should_not_fail()
@@ -261,7 +261,85 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
+        [TestMethod]
+        public void When_object_type_is_value_type_and_matches_received_type_should_not_fail_and_assert_correctly()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            int valueTypeObject = 42;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => valueTypeObject.Should().BeOfType(typeof(int));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_object_type_is_value_type_and_doesnt_match_received_type_as_expected_should_not_fail_and_assert_correctly()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            int valueTypeObject = 42;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => valueTypeObject.Should().NotBeOfType(typeof(double));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_object_type_is_value_type_and_matches_received_type_not_as_expected_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            int valueTypeObject = 42;
+            var expectedType = typeof(int);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => valueTypeObject.Should().NotBeOfType(expectedType);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage($"Expected type not to be [{expectedType.AssemblyQualifiedName}], but it is."); 
+        }
+
+        [TestMethod]
+        public void When_object_type_is_value_type_and_doesnt_match_received_type_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            int valueTypeObject = 42;
+            var doubleType = typeof(double);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => valueTypeObject.Should().BeOfType(doubleType);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>().WithMessage($"Expected type to be {doubleType}, but found {valueTypeObject.GetType()}.");
+        }
+
         [TestMethod]
         public void When_object_is_of_the_expected_type_it_should_cast_the_returned_object_for_chaining()
         {
@@ -375,7 +453,7 @@ namespace FluentAssertions.Specs
         #region BeAssignableTo
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_its_own_type_it_should_succeed()
+        public void When_its_own_type_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -389,7 +467,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_its_base_type_it_should_succeed()
+        public void When_its_base_type_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -403,7 +481,7 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_an_implemented_interface_type_it_should_succeed()
+        public void When_an_implemented_interface_type_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -417,26 +495,23 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
-        public void When_asserting_an_object_is_assignable_to_an_unrelated_type_it_should_fail_with_a_descriptive_message()
+        public void When_an_unrelated_type_it_should_fail_with_a_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var someObject = new DummyImplementingClass();
+            Action act = () => someObject.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            someObject.Invoking(
-                x => x.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
-                .WithMessage(string.Format(
-                    "Expected object to be assignable to {1} because we want to test the failure message, but {0} is not",
-                    typeof(DummyImplementingClass), typeof(DateTime)));
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage($"*assignable to {typeof(DateTime)}*failure message*{typeof(DummyImplementingClass)} is not*");
         }
 
         [TestMethod]
-        public void When_object_is_assignable_to_the_expected_type_it_should_cast_the_returned_object_for_chaining()
+        public void When_to_the_expected_type_it_should_cast_the_returned_object_for_chaining()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -452,6 +527,64 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<AssertFailedException>().WithMessage("*Expected*Other*Actual*");
+        }
+
+        [TestMethod]
+        public void When_its_own_type_instance_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new DummyImplementingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Should().BeAssignableTo(typeof(DummyImplementingClass));
+        }
+
+        [TestMethod]
+        public void When_its_base_type_instance_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new DummyImplementingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Should().BeAssignableTo(typeof(DummyBaseClass));
+        }
+
+        [TestMethod]
+        public void When_an_implemented_interface_type_instance_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new DummyImplementingClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            someObject.Should().BeAssignableTo(typeof(IDisposable));
+        }
+
+        [TestMethod]
+        public void When_an_unrelated_type_instance_it_should_fail_with_a_descriptive_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var someObject = new DummyImplementingClass();
+            Action act = () => someObject.Should().BeAssignableTo(typeof(DateTime), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage($"*assignable to {typeof(DateTime)}*failure message*{typeof(DummyImplementingClass)} is not*");
         }
 
         #endregion
@@ -726,6 +859,25 @@ namespace FluentAssertions.Specs
                     ex.Message.Contains("member Name to be"));
         }
 
+        [TestMethod]
+        public void When_a_system_exception_is_asserted_to_be_serializable_it_should_compare_its_fields_and_properties()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new Exception("some error");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeBinarySerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
         internal class UnserializableClass
         {
             public string Name { get; set; }
@@ -897,6 +1049,109 @@ namespace FluentAssertions.Specs
             {
                 writer.WriteString(BirthDay.ToString());
             }
+        }
+
+        #endregion
+
+        #region BeDataContractSerializable
+
+        [TestMethod]
+        public void When_an_object_is_data_contract_serializable_it_should_succeed()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new DataContractSerializableClass
+            {
+                Name = "John",
+                Id = 1
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeDataContractSerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [TestMethod]
+        public void When_an_object_is_not_data_contract_serializable_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new NonDataContractSerializableClass();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeDataContractSerializable("we need to store it on {0}", "disk");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .Where(ex =>
+                    ex.Message.Contains("Ensure that the necessary enum values are present and are marked with EnumMemberAttribute attribute if the type has DataContractAttribute attribute"));
+        }
+
+        [TestMethod]
+        public void When_an_object_is_data_contract_serializable_but_doesnt_restore_all_properties_it_should_fail()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var subject = new DataContractSerializableClassNotRestoringAllProperties
+            {
+                Name = "John",
+                BirthDay = 20.September(1973)
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeDataContractSerializable();
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act
+                .ShouldThrow<AssertFailedException>()
+                .Where(ex =>
+                    ex.Message.Contains("to be serializable, but serialization failed with:") &&
+                    ex.Message.Contains("member Name to be"));
+        }
+
+        public enum Color
+        {
+            Red = 1,
+            Yellow = 2
+        }
+
+        public class NonDataContractSerializableClass
+        {
+            public Color Color { get; set; }    
+        }
+
+        public class DataContractSerializableClass
+        {
+            public string Name { get; set; }
+
+            public int Id;
+        }
+
+        [DataContract]
+        public class DataContractSerializableClassNotRestoringAllProperties
+        {
+            public string Name { get; set; }
+
+            [DataMember]
+            public DateTime BirthDay { get; set; }
         }
 
         #endregion
