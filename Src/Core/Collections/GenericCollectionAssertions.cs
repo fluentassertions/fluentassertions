@@ -57,7 +57,7 @@ namespace FluentAssertions.Collections
             return BeOrderedBy(propertyExpression, SortDirection.Descending, because, args);
         }
 
-        public AndConstraint<GenericCollectionAssertions<TFirst>> BeEquivalentTo<TFirst, TSecond>(IEnumerable<TSecond> expected, Action<TFirst, TSecond> byAssertion, string because = "", params object[] becauseArgs)
+        public AndConstraint<GenericCollectionAssertions<T>> BeEquivalentTo<TSecond>(IEnumerable<TSecond> expected, Action<T, TSecond> byAssertion, string because = "", params object[] becauseArgs)
         {
             if (expected == null)
             {
@@ -70,7 +70,7 @@ namespace FluentAssertions.Collections
                 .FailWith("Expected {context:collection} to be equivalent to {0}{reason}, but found <null>.", expected);
 
             List<TSecond> expectedItems = expected.ToList();
-            List<TFirst> actualItems = Subject.ToList();
+            List<T> actualItems = Subject.ToList();
 
             bool subjectDoesntHaveMoreItems = Execute.Assertion
                 .ForCondition(actualItems.Count <= expectedItems.Count)
@@ -89,15 +89,15 @@ namespace FluentAssertions.Collections
                 if (expectedDoesntHaveMoreItems)
                     AssertSubjectEquality(actualItems, expectedItems, byAssertion, because, becauseArgs);
             }
-            return new AndConstraint<GenericCollectionAssertions<TFirst>>(assertions);
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
         }
 
-        private void AssertSubjectEquality<TFirst, TSecond>(List<TFirst> first, List<TSecond> second, Action<TFirst, TSecond> assertEqualityComparison, string because = "", params object[] becauseArgs)
+        private void AssertSubjectEquality<TSecond>(List<T> first, List<TSecond> second, Action<T, TSecond> assertEqualityComparison, string because = "", params object[] becauseArgs)
         {
             using (var outerScope = new AssertionScope())
             {
-                List<TFirst> missingItems = new List<TFirst>();
-                foreach (TFirst itemFirst in first)
+                List<T> missingItems = new List<T>();
+                foreach (T itemFirst in first)
                 {
                     using (var innerScope = new AssertionScope())
                     {
