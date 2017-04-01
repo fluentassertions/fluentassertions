@@ -1,8 +1,11 @@
-theme: minima
 title: Fluent Assertions
 repository: fluentassertions/fluentassertions
 description: "\"With Fluent Assertions, the assertions look beautiful, natural and most importantly, extremely readable.\""
+email:
+twitter_username: ddoomen
+github_username:  fluentassertions
 
+theme: minima
 gems:
   - jekyll-optional-front-matter
   - jekyll-readme-index
