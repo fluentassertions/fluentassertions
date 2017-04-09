@@ -1,19 +1,14 @@
 ﻿using System;
 
 using FluentAssertions.Formatting;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class DateTimeOffsetValueFormatterSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_time_is_not_relevant_it_should_not_be_included_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -32,7 +27,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("<1973-09-20>");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_offset_is_not_relevant_it_should_not_be_included_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -51,7 +46,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("<1973-09-20 12:59:59>");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_offset_is_negative_it_should_include_it_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -70,7 +65,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("<1973-09-20 12:59:59 -3h>");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_offset_is_positive_it_should_include_it_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -89,7 +84,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("<1973-09-20 12:59:59 +3h>");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_date_is_not_relevant_it_should_not_be_included_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -110,7 +105,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("<08:20:01>");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_full_date_and_time_is_specified_all_parts_should_be_included_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -130,7 +125,7 @@ namespace FluentAssertions.Specs
             result.Should().Be(dateTime.ToString("<yyyy-MM-dd HH:mm:ss.fff>"));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_milliseconds_are_not_relevant_they_should_not_be_included_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -150,7 +145,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("<2012-05-01 20:15:30>");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_DateTime_is_used_it_should_format_the_same_as_a_DateTimeOffset()
         {

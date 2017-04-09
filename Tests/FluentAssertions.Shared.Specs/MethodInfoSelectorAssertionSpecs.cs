@@ -1,18 +1,14 @@
 ﻿using System;
 using FluentAssertions.Types;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class MethodInfoSelectorAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_asserting_methods_are_virtual_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -32,7 +28,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_methods_are_virtual_but_non_virtual_methods_are_found_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -49,10 +45,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_methods_are_virtual_but_non_virtual_methods_are_found_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -69,7 +65,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected all selected methods" +
                              " to be virtual because we want to test the error message," +
                              " but the following methods are not virtual:\r\n" +
@@ -78,7 +74,7 @@ namespace FluentAssertions.Specs
                              "Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.ProtectedDoNothing");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_methods_are_decorated_with_attribute_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -98,7 +94,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_methods_are_decorated_with_attribute_but_they_are_not_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -117,10 +113,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_methods_are_decorated_with_attribute_but_they_are_not_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -137,7 +133,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected all selected methods to be decorated with" +
                              " FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
                              " but the following methods are not:\r\n" +

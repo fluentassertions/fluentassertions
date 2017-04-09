@@ -2,22 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
-
 using System.Linq;
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class GenericDictionaryAssertionSpecs
     {
         #region Be Null
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_is_expected_to_be_null_and_it_is_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -31,7 +27,7 @@ namespace FluentAssertions.Specs
             someDictionary.Should().BeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_custom_dictionary_implementation_is_expected_not_to_be_null_and_it_is_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -45,7 +41,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_is_expected_to_be_null_and_it_isnt_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -61,11 +57,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to be <null> because null is valid, but found {empty}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_is_not_expected_to_be_null_and_it_isnt_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -79,7 +75,7 @@ namespace FluentAssertions.Specs
             someDictionary.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_is_not_expected_to_be_null_and_it_is_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -95,7 +91,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary not to be <null> because someDictionary should not.");
         }
 
@@ -103,7 +99,7 @@ namespace FluentAssertions.Specs
 
         #region Have Count
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_has_a_count_that_equals_the_number_of_items()
         {
             var dictionary = new Dictionary<int, string>
@@ -115,7 +111,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().HaveCount(3);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_dictionary_has_a_count_that_is_different_from_the_number_of_items()
         {
             var dictionary = new Dictionary<int, string>
@@ -126,11 +122,11 @@ namespace FluentAssertions.Specs
             };
 
             Action act = () => dictionary.Should().HaveCount(4);
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_dictionary_has_a_count_that_is_different_from_the_number_of_items_it_should_fail_with_descriptive_message_()
         {
@@ -152,11 +148,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected dictionary {[1, One], [2, Two], [3, Three]} to have 4 item(s) because we want to test the failure message, but found 3.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_has_a_count_larger_than_the_minimum_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -175,7 +171,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().HaveCount(c => c >= 3);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_has_a_count_that_not_matches_the_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -196,11 +192,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two], [3, Three]} to have a count (c >= 4) because a minimum of 4 is required, but count is 3.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_count_is_matched_against_a_null_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -225,7 +221,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare dictionary count against a <null> predicate.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_count_is_matched_and_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -241,11 +237,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected 1 item(s) because we want to test the behaviour with a null subject, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_count_is_matched_against_a_predicate_and_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -261,7 +257,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to have (c < 3) items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -269,14 +265,14 @@ namespace FluentAssertions.Specs
 
         #region Be Empty
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_without_items_is_empty()
         {
             var dictionary = new Dictionary<int, string>();
             dictionary.Should().BeEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_dictionary_with_items_is_empty()
         {
             var dictionary = new Dictionary<int, string>
@@ -285,11 +281,11 @@ namespace FluentAssertions.Specs
             };
 
             Action act = () => dictionary.Should().BeEmpty();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_dictionary_with_items_is_empty()
         {
             var dictionary = new Dictionary<int, string>
@@ -298,11 +294,11 @@ namespace FluentAssertions.Specs
             };
             var assertions = dictionary.Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected dictionary to not have any items because we want to test the failure message, but found 1.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_with_items_is_not_empty_it_should_succeed()
         {
             var dictionary = new Dictionary<int, string>
@@ -312,7 +308,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotBeEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_with_items_is_not_empty_it_should_enumerate_the_dictionary_only_once()
         {
             var trackingDictionary = new TrackingTestDictionary(new KeyValuePair<int, string>(1, "One"));
@@ -321,27 +317,27 @@ namespace FluentAssertions.Specs
             trackingDictionary.Enumerator.LoopCount.Should().Be(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_without_items_is_not_empty_it_should_fail()
         {
             var dictionary = new Dictionary<int, string>();
 
             Action act = () => dictionary.Should().NotBeEmpty();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_without_items_is_not_empty_it_should_fail_with_descriptive_message_()
         {
             var dictionary = new Dictionary<int, string>();
             var assertions = dictionary.Should();
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected one or more items because we want to test the failure message, but found none.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_to_be_empty_but_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -357,11 +353,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_to_be_not_empty_but_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -377,7 +373,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary not to be empty because we want to test the behaviour with a null subject, but found <null>.");
         }
 
@@ -385,7 +381,7 @@ namespace FluentAssertions.Specs
 
         #region Equal
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_is_equal_to_the_same_dictionary()
         {
             var dictionary1 = new Dictionary<int, string>
@@ -401,7 +397,7 @@ namespace FluentAssertions.Specs
             dictionary1.Should().Equal(dictionary2);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_with_null_value_is_equal_to_the_same_dictionary()
         {
             var dictionary1 = new Dictionary<int, string>
@@ -417,7 +413,7 @@ namespace FluentAssertions.Specs
             dictionary1.Should().Equal(dictionary2);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionaries_to_be_equal_but_subject_dictionary_misses_a_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -442,11 +438,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [22, Two]} because we want to test the failure message, but could not find keys {22}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionaries_to_be_equal_but_subject_dictionary_has_extra_key_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -472,11 +468,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [2, Two]} because we want to test the failure message, but found additional keys {3}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_dictionaries_are_not_equal_by_values_it_should_throw_using_the_reason()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -501,11 +497,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [2, Three]} because we want to test the failure message, but {[1, One], [2, Two]} differs at key 2.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionaries_to_be_equal_but_subject_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -526,11 +522,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [2, Two]} because we want to test the behaviour with a null subject, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionaries_to_be_equal_but_expected_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -555,7 +551,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare dictionary with <null>.\r\nParameter name: expected");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_empty_dictionary_is_compared_for_equality_to_a_non_empty_dictionary_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -576,11 +572,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to be equal to {[1, One], [2, Two]}, but could not find keys {1, 2}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_is_not_equal_to_a_dictionary_with_different_key()
         {
             var dictionary1 = new Dictionary<int, string>
@@ -597,7 +593,7 @@ namespace FluentAssertions.Specs
             dictionary1.Should().NotEqual(dictionary2);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_is_not_equal_to_a_dictionary_with_different_value()
         {
             var dictionary1 = new Dictionary<int, string>
@@ -614,7 +610,7 @@ namespace FluentAssertions.Specs
             dictionary1.Should().NotEqual(dictionary2);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_equal_dictionaries_are_not_expected_to_be_equal_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -639,11 +635,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Did not expect dictionaries {[1, One], [2, Two]} and {[1, One], [2, Two]} to be equal.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_equal_dictionaries_are_not_expected_to_be_equal_it_should_report_a_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -668,12 +664,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Did not expect dictionaries {[1, One], [2, Two]} and {[1, One], [2, Two]} to be equal because we want to test the failure message.");
         }
 
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionaries_not_to_be_equal_subject_but_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -695,11 +691,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionaries not to be equal because we want to test the behaviour with a null subject, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionaries_not_to_be_equal_but_expected_dictionary_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -729,7 +725,7 @@ namespace FluentAssertions.Specs
 
         #region ContainKey
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_contains_a_key_from_the_dictionary()
         {
             var dictionary = new Dictionary<int, string>
@@ -740,7 +736,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().ContainKey(1);
         }
         
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_has_custom_equality_comparer_the_contains_key_assertion_should_work_accordingly()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -765,7 +761,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().ContainKey("one");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_contains_multiple_keys_from_the_dictionary()
         {
             var dictionary = new Dictionary<int, string>
@@ -776,7 +772,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().ContainKeys(2, 1);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_not_contain_single_key_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -796,11 +792,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain key 3 because we do.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_requested_key_exists_it_should_allow_continuation_with_the_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -819,7 +815,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*4*3*.");
+            act.ShouldThrow<XunitException>().WithMessage("Expected*4*3*.");
         }
 
         public class MyClass
@@ -857,7 +853,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_not_contain_a_list_of_keys_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -877,11 +873,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain key {2, 3} because we do, but could not find {3}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -905,7 +901,7 @@ namespace FluentAssertions.Specs
                 "Cannot verify key containment against an empty sequence");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_a_key_that_is_not_in_the_dictionary_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -925,10 +921,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<AssertFailedException>();
+            act.ShouldNotThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_multiple_keys_from_the_dictionary_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -948,10 +944,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<AssertFailedException>();
+            act.ShouldNotThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_an_unexpected_key_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -971,11 +967,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Dictionary {[1, One], [2, Two]} should not contain key 1 because we don't like it, but found it anyhow.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_does_not_contain_key_against_null_dictionary_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -992,11 +988,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary not to contain key 1 because we want to test the behaviour with a null subject, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_contains_a_list_of_keys_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1016,11 +1012,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to not contain key {2, 3} because we do, but found {2}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_keys_it_should_throw_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1048,7 +1044,7 @@ namespace FluentAssertions.Specs
 
         #region ContainValue
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_expected_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1071,7 +1067,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_expected_null_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1093,7 +1089,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_specified_value_exists_it_should_allow_continuation_using_that_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1117,10 +1113,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected*greater*0*0*");
+            act.ShouldThrow<XunitException>().WithMessage("Expected*greater*0*0*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_multiple_matches_for_the_specified_value_exist_continuation_using_the_matched_value_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1147,10 +1143,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_multiple_values_from_the_dictionary_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1170,10 +1166,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<AssertFailedException>();
+            act.ShouldNotThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_not_contain_single_value_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1193,11 +1189,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain value \"Three\" because we do.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_not_contain_a_number_of_values_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1217,11 +1213,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain value {\"Two\", \"Three\"} because we do, but could not find {\"Three\"}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_contents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1245,7 +1241,7 @@ namespace FluentAssertions.Specs
                 "Cannot verify value containment with an empty sequence");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_a_value_that_is_not_in_the_dictionary_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1265,10 +1261,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<AssertFailedException>();
+            act.ShouldNotThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_an_unexpected_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1288,11 +1284,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Dictionary {[1, One], [2, Two]} should not contain value \"One\" because we don't like it, but found it anyhow.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_does_not_contain_value_against_null_dictionary_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1309,11 +1305,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" because we want to test the behaviour with a null subject, but found <null>.");
         }
         
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_multiple_values_that_is_not_in_the_dictionary_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1333,10 +1329,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<AssertFailedException>();
+            act.ShouldNotThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_contains_a_number_of_values_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1356,11 +1352,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to not contain value {\"Two\", \"Three\"} because we do, but found {\"Two\"}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_noncontents_of_a_dictionary_are_checked_against_an_empty_list_of_values_it_should_throw_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1388,7 +1384,7 @@ namespace FluentAssertions.Specs
 
         #region Contain
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_contains_single_key_value_pair()
         {
             var dictionary = new Dictionary<int, string>
@@ -1405,7 +1401,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().Contain(keyValuePairs);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair()
         {
             var dictionary = new Dictionary<int, string>
@@ -1422,7 +1418,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotContain(keyValuePairs);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_does_not_contain_single_key_value_pair_with_existing_key_but_different_value()
         {
             var dictionary = new Dictionary<int, string>
@@ -1439,7 +1435,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotContain(keyValuePairs);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_contains_multiple_key_value_pairs()
         {
             var dictionary = new Dictionary<int, string>
@@ -1457,7 +1453,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().Contain(keyValuePairs);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs()
         {
             var dictionary = new Dictionary<int, string>
@@ -1475,7 +1471,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotContain(keyValuePairs);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_dictionary_does_not_contain_multiple_key_value_pairs_with_existing_keys_but_different_values()
         {
             var dictionary = new Dictionary<int, string>
@@ -1493,7 +1489,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotContain(keyValuePairs);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_not_contain_single_value_for_key_value_pairs_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1519,11 +1515,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Three\" at key 2 because we do, but found \"Two\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_not_contain_multiple_values_for_key_value_pairs_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1549,11 +1545,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to contain {[1, Two], [2, Three]} because we do, but dictionary differs at keys {1, 2}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_not_contain_single_key_for_key_value_pairs_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1578,11 +1574,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain key 3 because we do.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_not_contain_multiple_keys_for_key_value_pairs_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1609,11 +1605,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary {[1, One], [2, Two]} to contain key(s) {1, 3, 4} because we do, but could not find keys {3, 4}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_contain_single_key_value_pair_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1638,11 +1634,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to not contain value \"One\" at key 1 because we do, but found it anyhow.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_contain_multiple_key_value_pairs_it_should_throw_with_clear_explanation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1668,11 +1664,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we do, but found them anyhow.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_contains_key_value_pairs_against_null_dictionary_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1694,11 +1690,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_contains_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1723,7 +1719,7 @@ namespace FluentAssertions.Specs
                 "Cannot verify key containment against an empty collection of key/value pairs");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_contains_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1748,7 +1744,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare dictionary with <null>.\r\nParameter name: expected");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_does_not_contain_key_value_pairs_against_null_dictionary_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1770,11 +1766,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to not contain key/value pairs {[1, One], [1, Two]} because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1799,7 +1795,7 @@ namespace FluentAssertions.Specs
                 "Cannot verify key containment against an empty collection of key/value pairs");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_does_not_contain_key_value_pairs_but_expected_key_value_pairs_are_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1824,7 +1820,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare dictionary with <null>.\r\nParameter name: items");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_expected_value_at_specific_key_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1842,7 +1838,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().Contain(1, "One");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_expected_null_at_specific_key_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1859,7 +1855,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().Contain(1, null);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_expected_key_value_pairs_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1882,7 +1878,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().Contain(items);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_expected_key_value_pair_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1901,7 +1897,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().Contain(item);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_the_expected_value_at_specific_key_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1922,11 +1918,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_the_key_value_pairs_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1952,11 +1948,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to contain {[1, Two], [2, Three]} because we put them there, but dictionary differs at keys {1, 2}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_the_key_value_pair_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1976,11 +1972,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 1 because we put it there, but found \"One\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_an_value_at_the_specific_key_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2000,11 +1996,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"Two\" at key 3 because we put it there, but the key was not found.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_contains_value_at_specific_key_against_null_dictionary_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2021,11 +2017,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_unexpected_value_or_key_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2043,7 +2039,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotContain(3, "Three");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_unexpected_value_at_existing_key_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2061,7 +2057,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotContain(2, "Three");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_have_the_unexpected_value_but_null_at_existing_key_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2083,7 +2079,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_unexpected_key_value_pairs_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2106,7 +2102,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotContain(items);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_does_not_contain_unexpected_key_value_pair_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2125,7 +2121,7 @@ namespace FluentAssertions.Specs
             dictionary.Should().NotContain(item);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_the_unexpected_value_at_specific_key_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2146,11 +2142,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we put it there, but found it anyhow.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_the_key_value_pairs_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2175,11 +2171,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary to not contain key/value pairs {[1, One], [2, Two]} because we did not put them there, but found them anyhow.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_dictionary_contains_the_key_value_pair_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2199,11 +2195,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we did not put it there, but found it anyhow.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_dictionary_does_not_contain_value_at_specific_key_against_null_dictionary_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2220,7 +2216,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" at key 1 because we want to test the behaviour with a null subject, but dictionary is <null>.");
         }
 
@@ -2228,7 +2224,7 @@ namespace FluentAssertions.Specs
 
         #region Miscellaneous
 
-        [TestMethod]
+        [Fact]
         public void Should_support_chaining_constraints_with_and()
         {
             var dictionary = new Dictionary<int, string>

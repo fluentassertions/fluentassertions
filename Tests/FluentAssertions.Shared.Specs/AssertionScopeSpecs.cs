@@ -2,18 +2,15 @@ using System;
 using System.Text.RegularExpressions;
 
 using FluentAssertions.Execution;
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class  AssertionScopeSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_disposed_it_should_throw_any_failures()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -37,11 +34,11 @@ namespace FluentAssertions.Specs
             }
             catch (Exception exception)
             {
-                Assert.IsTrue(exception.Message.StartsWith("Failure1"));
+                exception.Message.Should().StartWith("Failure1");
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_multiple_scopes_are_nested_it_should_throw_all_failures_from_the_outer_scope()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -75,13 +72,13 @@ namespace FluentAssertions.Specs
             }
             catch (Exception exception)
             {
-                Assert.IsTrue(exception.Message.Contains("Failure1"));
-                Assert.IsTrue(exception.Message.Contains("Failure2"));
-                Assert.IsTrue(exception.Message.Contains("Failure3"));
+                exception.Message.Should().Contain("Failure1");
+                exception.Message.Should().Contain("Failure2");
+                exception.Message.Should().Contain("Failure3");
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_nested_scope_is_discarded_its_failures_should_also_be_discarded()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -116,13 +113,13 @@ namespace FluentAssertions.Specs
             }
             catch (Exception exception)
             {
-                Assert.IsTrue(exception.Message.Contains("Failure1"));
-                Assert.IsTrue(exception.Message.Contains("Failure2"));
-                Assert.IsFalse(exception.Message.Contains("Failure3"));
+                exception.Message.Should().Contain("Failure1");
+                exception.Message.Should().Contain("Failure2");
+                exception.Message.Should().NotContain("Failure3");
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_same_failure_is_handled_twice_or_more_it_should_still_report_it_once()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -155,11 +152,11 @@ namespace FluentAssertions.Specs
             {
                 int matches = new Regex(".*Failure.*").Matches(exception.Message).Count;
 
-                Assert.AreEqual(4, matches);
+                matches.Should().Be(4);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_assertion_fails_in_a_named_scope_it_should_use_the_name_as_the_assertion_context()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -176,11 +173,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected foo to be equal to*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_parentheses_are_used_in_the_because_arguments_it_should_render_them_correctly()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -191,11 +188,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*because can't use these in becauseArgs: { }*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_parentheses_are_used_in_literal_values_it_should_render_them_correctly()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -206,7 +203,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected string to be \"{bar}\", but \"{foo}\" differs near*");
         }
     }

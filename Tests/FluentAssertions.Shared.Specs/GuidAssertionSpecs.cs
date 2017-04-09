@@ -1,25 +1,21 @@
 ﻿using System;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class GuidAssertionSpecs
     {
         #region BeEmpty / NotBeEmpty
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_empty_guid_is_empty()
         {
             Guid.Empty.Should().BeEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_non_empty_guid_is_empty()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -35,11 +31,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected empty Guid because we want to test the failure message, but found {12345678-1234-1234-1234-123456789012}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_non_empty_guid_is_not_empty()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -58,7 +54,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_empty_guid_is_not_empty()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -69,7 +65,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Did not expect empty Guid because we want to test the failure message.");
         }
 
@@ -77,7 +73,7 @@ namespace FluentAssertions.Specs
 
         #region Be / NotBe
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_guid_equals_the_same_guid()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -97,7 +93,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_guid_equals_the_same_guid_in_string_format()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -116,7 +112,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_guid_equals_a_different_guid()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -133,11 +129,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected Guid to be {55555555-ffff-eeee-dddd-444444444444} because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_guid_does_not_equal_a_different_guid()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -158,7 +154,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_guid_does_not_equal_the_same_guid()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -175,13 +171,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Did not expect Guid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message.");
         }
 
         #endregion
 
-        [TestMethod]
+        [Fact]
         public void Should_support_chaining_constraints_with_and()
         {
             Guid guid = Guid.NewGuid();

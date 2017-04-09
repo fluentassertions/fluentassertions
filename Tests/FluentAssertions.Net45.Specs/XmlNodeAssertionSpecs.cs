@@ -1,34 +1,32 @@
 ﻿using System;
-using System.Reflection;
-using FluentAssertions.Common;
-using FluentAssertions.Types;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 using Xunit;
 using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
     
-    public class PropertyInfoAssertionSpecs
+    public class XmlNodeAssertionSpecs
     {
-        #region BeVirtual
+        #region BeSameAs / NotBeSameAs
 
         [Fact]
-        public void When_asserting_that_a_property_is_virtual_and_it_is_then_it_succeeds()
+        public void When_asserting_an_xml_node_is_the_same_as_the_same_xml_node_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetRuntimeProperty("PublicVirtualProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetProperty("PublicVirtualProperty");
-#endif
+            var doc = new XmlDocument();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeVirtual();
+                doc.Should().BeSameAs(doc);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -37,102 +35,112 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_that_a_property_is_virtual_and_it_is_not_then_it_fails_with_useful_message()
+        public void When_asserting_an_xml_node_is_same_as_a_different_xml_node_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetRuntimeProperty("PublicNonVirtualProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetProperty("PublicNonVirtualProperty");
-#endif
+            var doc = new XmlDocument();
+            doc.LoadXml("<doc/>");
+            var otherNode = new XmlDocument();
+            otherNode.LoadXml("<otherDoc/>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeVirtual("we want to test the error {0}", "message");
+                doc.Should().BeSameAs(otherNode, "we want to test the failure {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-               .WithMessage(
-                   "Expected property String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.PublicNonVirtualProperty" +
-                       " to be virtual because we want to test the error message," +
-                       " but it is not.");
+                .WithMessage("Expected Xml Node to refer to <otherDoc /> because we want to test the failure message, but found <doc />.");
         }
 
-        #endregion
-
-        #region BeDecortatedWithOfT
-
         [Fact]
-        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_it_succeeds()
+        public void When_asserting_an_xml_node_is_same_as_a_different_xml_node_it_should_fail_with_descriptive_message_and_truncate_xml()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+            var doc = new XmlDocument();
+            doc.LoadXml("<doc>Some very long text that should be truncated.</doc>");
+            var otherNode = new XmlDocument();
+            otherNode.LoadXml("<otherDoc/>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>();
+                doc.Should().BeSameAs(otherNode, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected Xml Node to refer to <otherDoc /> because we want to test the failure message, but found <doc>Some very long....");
+        }
+
+        [Fact]
+        public void When_asserting_the_equality_of_an_xml_node_but_is_null_it_should_throw_appropriately()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            XmlDocument actual = null;
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => actual.Should().BeSameAs(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected XML Node to refer to *xml*, but found <null>.");
+        }
+        #endregion
+
+        #region BeNull / NotBeNull
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_null_and_it_is_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            XmlNode node = null;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                node.Should().BeNull();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }        
-        
-        [Fact]
-        public void When_a_property_is_decorated_with_an_attribute_it_allow_chaining_assertions()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>().Which.Value.Should().Be("OtherValue");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected*OtherValue*Value*");
         }
-        
+
         [Fact]
-        public void When_a_property_is_decorated_with_an_attribute_and_multiple_attributes_match_continuation_using_the_matched_value_fail()
+        public void When_asserting_an_xml_node_is_null_but_it_is_not_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicPropertyWithSameAttributeTwice");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicPropertyWithSameAttributeTwice");
-#endif
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<xml/>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>().Which.Value.Should().Be("OtherValue");
+                xmlDoc.Should().BeNull();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -141,80 +149,42 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_property_is_decorated_with_attribute_and_it_is_not_it_throw_with_useful_message()
+        public void When_asserting_an_xml_node_is_null_but_it_is_not_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo =
-                typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<xml/>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>("because we want to test the error message");
+                xmlDoc.Should().BeNull("because we want to test the failure {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-               .WithMessage("Expected property String " +
-                   "FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                   "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message, but that attribute was not found.");
+                .WithMessage("Expected XML Node to be <null> because we want to test the failure message," +
+                    " but found <xml />.");
         }
 
         [Fact]
-        public void When_asserting_a_property_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_throw_with_useful_message()
+        public void When_asserting_a_non_null_xml_node_is_not_null_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo =
-                typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>(d => d.Value == "NotARealValue", "because we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>()
-                .WithMessage(
-                    "Expected property String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.PublicProperty to be decorated with " +
-                        "FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
-                        " but that attribute was not found.");
-        }
-
-        [Fact]
-        public void When_asserting_a_property_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_succeeds()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo =
-                typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<xml/>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                propertyInfo.Should().BeDecoratedWith<DummyPropertyAttribute>(d => d.Value == "Value");
-
+                xmlDoc.Should().NotBeNull();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -222,505 +192,540 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        #endregion
-
-        #region BeWritable
-
         [Fact]
-        public void When_asserting_a_readonly_property_is_writable_it_fails_with_useful_message()
+        public void When_asserting_a_null_xml_node_is_not_null_it_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadOnlyProperty");
-#endif
+            XmlDocument xmlDoc = null;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable("we want to test the error {0}", "message");
+            Action act = () =>
+                xmlDoc.Should().NotBeNull();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action
-                .ShouldThrow<XunitException>()
-                .WithMessage("Expected property ReadOnlyProperty to have a setter because we want to test the error message.");
-        }
-        
-        [Fact]
-        public void When_asserting_a_readwrite_property_is_writable_it_succeeds()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadWriteProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable("that's required");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            act.ShouldThrow<XunitException>();
         }
 
         [Fact]
-        public void When_asserting_a_writeonly_property_is_writable_it_succeeds()
+        public void When_asserting_a_null_xml_node_is_not_null_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
-#endif
+            XmlDocument xmlDoc = null;
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable("that's required");
+            Action act = () =>
+                xmlDoc.Should().NotBeNull("because we want to test the failure {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected XML Node not to be <null> because we want to test the failure message.");
         }
 
         #endregion
 
-        #region BeReadable
+        #region BeEquivalentTo / NotBeEquivalentTo
 
         [Fact]
-        public void When_asserting_a_readonly_property_is_readable_it_succeeds()
+        public void When_asserting_an_xml_node_is_equivalent_to_the_same_xml_node_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadOnlyProperty");
-#endif
+            var doc = new XmlDocument();
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeReadable("that's required");
+            Action act = () =>
+                doc.Should().BeEquivalentTo(doc);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            act.ShouldNotThrow();
         }
 
         [Fact]
-        public void When_asserting_a_readwrite_property_is_readable_it_succeeds()
+        public void When_asserting_an_xml_node_is_not_equivalent_to_som_other_xml_node_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
-#endif
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml>a</xml>");
+            var unexpected = new XmlDocument();
+            unexpected.LoadXml("<xml>b</xml>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeReadable("that's required");
+            Action act = () =>
+                subject.Should().NotBeEquivalentTo(unexpected);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
+            act.ShouldNotThrow();
         }
 
         [Fact]
-        public void When_asserting_a_writeonly_property_is_readable_it_fails_with_useful_message()
+        public void When_asserting_an_xml_node_is_not_equivalent_to_same_xml_node_it_should_fail_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
-#endif
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml>a</xml>");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeReadable("we want to test the error {0}", "message");
+            Action act = () =>
+                subject.Should().NotBeEquivalentTo(subject, "we want to test the failure {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            action
-                .ShouldThrow<XunitException>()
-                .WithMessage("Expected property WriteOnlyProperty to have a getter because we want to test the error message, but it does not.");
+            act.ShouldThrow<XunitException>().
+                WithMessage("Did not expect Xml to be equivalent because we want to test the failure message, but it is.");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_with_other_contents_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<subject/>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<expected/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Expected local name of element at \"/\" to be \"expected\" because we want to test the failure message, but found \"subject\".");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_with_same_contents_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var xml = "<root><a xmlns=\"urn:a\"><data>data</data></a><ns:b xmlns:ns=\"urn:b\"><data>data</data></ns:b></root>";
+
+            var subject = new XmlDocument();
+            subject.LoadXml(xml);
+            var expected = new XmlDocument();
+            expected.LoadXml(xml);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_assertion_an_xml_node_is_equivalent_to_a_different_xml_node_with_different_namespace_prefix_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml xmlns=\"urn:a\"/>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<a:xml xmlns:a=\"urn:a\"/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_which_differs_only_on_unused_namespace_declaration_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml xmlns:a=\"urn:a\"/>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_XmlDcoument_which_differs_on_a_child_element_name_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><child><subject/></child></xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><child><expected/></child></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Expected local name of element at \"/xml/child\" to be \"expected\" because we want to test the failure message, but found \"subject\".");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_a_different_xml_node_which_differs_on_a_child_element_namespace_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<a:xml xmlns:a=\"urn:a\"><a:child><a:data/></a:child></a:xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml xmlns=\"urn:a\"><child><data xmlns=\"urn:b\"/></child></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Expected namespace of element \"data\" at \"/xml/child\" to be \"urn:b\" because we want to test the failure message, but found \"urn:a\".");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_contains_an_unexpected_node_type_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml>data</xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><data/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Expected node of type Element at \"/xml\" because we want to test the failure message, but found Text.");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_contains_extra_elements_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><data/></xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml/>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Expected end of document because we want to test the failure message, but found \"data\".");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_lacks_elements_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml/>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><data/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Expected \"data\" because we want to test the failure message, but found end of document.");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_lacks_attributes_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><element b=\"1\"/></xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><element a=\"b\" b=\"1\"/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Expected attribute \"a\" at \"/xml/element\" because we want to test the failure message, but found none.");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_extra_attributes_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><element a=\"b\"/></xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><element/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Didn't expect to find attribute \"a\" at \"/xml/element\" because we want to test the failure message.");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_different_attribute_values_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><element a=\"b\"/></xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><element a=\"c\"/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Expected attribute \"a\" at \"/xml/element\" to have value \"c\" because we want to test the failure message, but found \"b\".");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_attribute_with_different_namespace_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><element xmlns:ns=\"urn:a\" ns:a=\"b\"/></xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><element a=\"b\"/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Didn't expect to find attribute \"ns:a\" at \"/xml/element\" because we want to test the failure message.");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_which_has_different_text_contents_it_should_fail_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml>a</xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml>b</xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                subject.Should().BeEquivalentTo(expected, "we want to test the failure {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().
+                WithMessage("Expected content to be \"b\" at \"/xml\" because we want to test the failure message, but found \"a\".");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_with_different_comments_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><!--Comment--><a/></xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><a/><!--Comment--></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_to_different_xml_node_with_different_insignificant_whitespace_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument() { PreserveWhitespace = true };
+            subject.LoadXml("<xml><a><b/></a></xml>");
+            var expected = new XmlDocument() { PreserveWhitespace = true };
+            expected.LoadXml("<xml>\n<a>   \n   <b/></a>\r\n</xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_that_contains_an_unsupported_node_it_should_throw_a_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><![CDATA[Text]]></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(subject);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<NotSupportedException>()
+                .WithMessage("CDATA found at /xml is not supported for equivalency comparison.");
+        }
+
+        [Fact]
+        public void When_asserting_an_xml_node_is_equivalent_that_isnt_it_should_include_the_right_location_in_the_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var subject = new XmlDocument();
+            subject.LoadXml("<xml><a/><b c=\"d\"/></xml>");
+            var expected = new XmlDocument();
+            expected.LoadXml("<xml><a/><b c=\"e\"/></xml>");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () => subject.Should().BeEquivalentTo(expected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected attribute \"c\" at \"/xml/b\" to have value \"e\", but found \"d\".");
         }
 
         #endregion
 
-        #region NotBeWritable
-
-        [Fact]
-        public void When_asserting_a_readonly_property_is_not_writable_it_succeeds()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadOnlyProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().NotBeWritable("that's required");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        [Fact]
-        public void When_asserting_a_readwrite_property_is_not_writable_it_fails_with_useful_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().NotBeWritable("we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action
-                .ShouldThrow<XunitException>()
-                .WithMessage("Expected property ReadWriteProperty not to have a setter because we want to test the error message.");
-        }
-
-        [Fact]
-        public void When_asserting_a_writeonly_property_is_not_writeable_it_fails_with_useful_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().NotBeWritable("we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action
-                .ShouldThrow<XunitException>()
-                .WithMessage("Expected property WriteOnlyProperty not to have a setter because we want to test the error message.");
-        }
-
-        #endregion
-
-        #region NotBeReadable
-
-        [Fact]
-        public void When_asserting_a_readonly_property_is_not_readable_it_fails_with_useful_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadOnlyProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().NotBeReadable("we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action
-                .ShouldThrow<XunitException>()
-                .WithMessage("Expected property ReadOnlyProperty not to have a getter because we want to test the error message.");
-        }
-
-        [Fact]
-        public void When_asserting_a_readwrite_property_is_not_readable_it_fails_with_useful_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().NotBeReadable("we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action
-                .ShouldThrow<XunitException>()
-                .WithMessage("Expected property ReadWriteProperty not to have a getter because we want to test the error message.");
-        }
-
-        [Fact]
-        public void When_asserting_a_writeonly_property_is_not_readable_it_succeeds()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().NotBeReadable("that's required");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        #endregion
-
-        #region BeReadableAccessModifier
-
-        [Fact]
-        public void When_asserting_a_public_read_private_write_property_is_public_readable_it_succeeds()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadPrivateWriteProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifier.Public, "that's required");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        [Fact]
-        public void When_asserting_a_private_read_public_write_property_is_public_readable_it_fails_with_useful_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WritePrivateReadProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WritePrivateReadProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeReadable(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
-                .WithMessage("Expected method get_WritePrivateReadProperty to be Public because we want to test the error message, but it is Private.");
-        }
-
-        #endregion
-
-        #region BeWritableAccessModifier
-
-        [Fact]
-        public void When_asserting_a_public_write_private_read_property_is_public_writeable_it_succeeds()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WritePrivateReadProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WritePrivateReadProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifier.Public, "that's required");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        [Fact]
-        public void When_asserting_a_private_write_public_read_property_is_public_writeable_it_fails_with_useful_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadPrivateWriteProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().BeWritable(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
-                .WithMessage("Expected method set_ReadPrivateWriteProperty to be Public because we want to test the error message, but it is Private.");
-        }
-
-        #endregion
-
-        #region Return
-
-        [Fact]
-        public void When_asserting_a_String_property_returns_a_String_it_succeeds()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("StringProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().Return(typeof (String));
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        [Fact]
-        public void When_asserting_a_String_property_returns_an_Int32_it_throw_with_a_useful_message()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("StringProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().Return(typeof(Int32), "we want to test the error {0}", "message");
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>()
-                .WithMessage("Expected Type of property StringProperty to be System.Int32 because we want to test the error " +
-                             "message, but it is System.String.");
-        }
-
-        #endregion
-
-        #region Return
-
-        [Fact]
-        public void When_asserting_a_String_property_returnsOfT_a_String_it_succeeds()
-        {
-            //-------------------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("StringProperty");
-#endif
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Act
-            //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().Return<string>();
-
-            //-------------------------------------------------------------------------------------------------------------------
-            // Assert
-            //-------------------------------------------------------------------------------------------------------------------
-            action.ShouldNotThrow();
-        }
-
-        #endregion
-
-        #region Internal classes used in unit tests
-
-        private class ClassWithProperties
-        {
-            public string ReadOnlyProperty { get { return ""; } }
-            public string ReadPrivateWriteProperty { get; private set; }
-            public string ReadWriteProperty { get; set; }
-            public string WritePrivateReadProperty { private get; set; }
-            public string WriteOnlyProperty { set{} }
-            public string StringProperty { get; set; }
-        }
-
-        #endregion
     }
 }

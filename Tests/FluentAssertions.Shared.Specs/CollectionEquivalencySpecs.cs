@@ -5,21 +5,17 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Equivalency;
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class CollectionEquivalencySpecs
     {
         #region Null (Collection)
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_null_and_expectation_is_enumerable_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -35,11 +31,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected subject to be*, but found <null>*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_expectation_is_null_enumerable_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -55,11 +51,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected subject to be <null>, but found*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_and_expectation_are_null_enumerable_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -82,7 +78,7 @@ namespace FluentAssertions.Specs
 
         #region Null (Single Object)
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_null_and_expectation_is_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -98,11 +94,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected subject to be*, but found <null>*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_elements_are_null_and_expectation_is_null_object_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -121,7 +117,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_null_and_expectation_is_null_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -137,7 +133,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected subject to be*, but found <null>*");
         }
 
@@ -145,7 +141,7 @@ namespace FluentAssertions.Specs
 
         #region Include & Exclude
 
-        [TestMethod]
+        [Fact]
         public void When_a_deeply_nested_property_of_a_collection_with_an_invalid_value_is_excluded_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -200,7 +196,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_specific_property_is_included_it_should_ignore_the_rest_of_the_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -232,7 +228,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_only_a_deeply_nested_property_is_included_it_should_exclude_the_other_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -340,7 +336,7 @@ namespace FluentAssertions.Specs
 
         #region Non-Generic Collections
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_non_generic_collections_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -357,11 +353,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*Wheels*not have*VehicleId*not have*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_asserting_equivalence_of_collections_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type
             ()
@@ -383,7 +379,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>("the types have different properties");
+            act.ShouldThrow<XunitException>("the types have different properties");
         }
 
         private class NonGenericCollection : ICollection
@@ -428,7 +424,7 @@ namespace FluentAssertions.Specs
 
         #region Generics
 
-        [TestMethod]
+        [Fact]
         public void When_a_type_implements_multiple_IEnumerable_interfaces_it_should_fail_descriptively()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -445,11 +441,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*System.String*System.Object*cannot determine*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_generic_collections_it_should_respect_the_declared_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -469,7 +465,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow("the objects are equivalent according to the members on the declared type");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_asserting_equivalence_of_generic_collections_and_configured_to_use_runtime_type_information_it_should_respect_the_runtime_type
             ()
@@ -491,10 +487,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>("the runtime types have different properties");
+            act.ShouldThrow<XunitException>("the runtime types have different properties");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_is_should_respect_the_runtype_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -511,11 +507,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*Wheels*not have*VehicleId*not have*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_strongly_typed_collection_is_declared_as_an_untyped_collection_and_runtime_checking_is_configured_is_should_use_the_runtime_type
             ()
@@ -535,10 +531,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>("the items have different runtime types");
+            act.ShouldThrow<XunitException>("the items have different runtime types");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_an_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_it_should_respect_the_declared_type
             ()
@@ -560,7 +556,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow("the declared type is assignable to only one IEnumerable interface");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_object_implements_multiple_IEnumerable_interfaces_but_the_declared_type_is_assignable_to_only_one_and_runtime_checking_is_configured_it_should_fail
             ()
@@ -580,7 +576,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>("the runtime type is assignable to two IEnumerable interfaces")
+            act.ShouldThrow<XunitException>("the runtime type is assignable to two IEnumerable interfaces")
                 .WithMessage("*cannot determine which one*");
         }
 
@@ -606,7 +602,7 @@ namespace FluentAssertions.Specs
 
         #region Collection Equivalence
 
-        [TestMethod]
+        [Fact]
         public void When_two_unordered_lists_are_structurally_equivalent_and_order_is_strict_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -652,12 +648,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected item[0].Name*Jane*John*item[1].Name*John*Jane*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_unordered_collection_must_be_strict_using_an_expression_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -704,12 +700,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "*Expected item[0].UnorderedCollection*5 item(s)*0*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_unordered_collection_must_be_strict_using_a_predicate_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -752,11 +748,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("*Expected item[0].UnorderedCollection*5 item(s)*0*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_unordered_collection_must_not_be_strict_using_a_predicate_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -803,7 +799,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_lists_only_differ_in_excluded_properties_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -878,7 +874,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nested_objects_are_excluded_from_collections_it_should_use_simple_equality_semantics()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -918,7 +914,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_collections_have_properties_of_the_contained_items_excluded_but_still_differ_it_should_throw()
         {
@@ -936,10 +932,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Expected item[0].Value to be 321, but found 123.*");
+            act.ShouldThrow<XunitException>().WithMessage("Expected item[0].Value to be 321, but found 123.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_selection_rules_are_configured_they_should_be_evaluated_from_right_to_left()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -962,7 +958,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("*to be 2, but found 3*");
+            act.ShouldThrow<XunitException>().WithMessage("*to be 2, but found 3*");
         }
 
         private class SelectPropertiesSelectionRule : IMemberSelectionRule
@@ -1003,7 +999,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_collections_have_nested_members_of_the_contained_equivalent_but_not_equal_it_should_not_throw()
         {
@@ -1043,7 +1039,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod] public void When_custom_assertion_rules_are_utilized_the_rules_should_be_respected()
+        [Fact] public void When_custom_assertion_rules_are_utilized_the_rules_should_be_respected()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1113,11 +1109,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(String.Format("*to be a {0}, but found a {1}*", typeof (CustomerDto), typeof (Customer)));
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_ordered_lists_are_structurally_equivalent_it_should_succeed
             ()
@@ -1169,7 +1165,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_unordered_lists_are_structurally_equivalent_it_should_succeed
             ()
@@ -1221,7 +1217,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_lists_dont_contain_the_same_structural_equal_objects_it_should_throw
             ()
@@ -1270,11 +1266,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected*item[1].Age*30*24*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_byte_array_does_not_match_strictly_it_should_throw()
         {
@@ -1293,11 +1289,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected*item[0]*6*1*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_no_collection_item_matches_it_should_report_the_closest_match
             ()
@@ -1346,11 +1342,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected*item[1].Age*28*27*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_the_subject_contains_same_number_of_items_but_subject_contains_duplicates_it_should_throw
             ()
@@ -1399,12 +1395,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected item[1].Name to be \"Jane\", but \"John\" differs near*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_the_subject_contains_more_items_than_expected_it_should_throw
             ()
@@ -1447,12 +1443,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected subject to be a collection with 1 item(s), but found 2*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_the_subject_contains_less_items_than_expected_it_should_throw
             ()
@@ -1495,12 +1491,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "*subject to be a collection with 2 item(s), but found 1*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_the_subject_contains_same_number_of_items_but_expectation_contains_duplicates_it_should_throw
             ()
@@ -1549,12 +1545,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected item[1].Name to be \"John\", but \"Jane\" differs near*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_the_subject_contains_same_number_of_items_and_both_contain_duplicates_it_should_succeed
             ()
@@ -1618,7 +1614,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_collection_is_compared_to_a_non_collection_it_should_throw
             ()
         {
@@ -1635,11 +1631,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>().WithMessage(
+            action.ShouldThrow<XunitException>().WithMessage(
                 "Expected subject to be \"hello\", but found {empty}*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_all_subject_items_are_equivalent_to_expectation_object_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1663,7 +1659,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_all_subject_items_are_not_equivalent_to_expectation_object_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1679,11 +1675,11 @@ namespace FluentAssertions.Specs
             ////-----------------------------------------------------------------------------------------------------------
             //// Assert
             ////-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>().WithMessage(
+            action.ShouldThrow<XunitException>().WithMessage(
                 "Expected item[1] to be 1, but found 2.\r\nExpected item[2] to be 1, but found 3*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_subject_is_empty_and_expectation_is_object_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1706,7 +1702,7 @@ namespace FluentAssertions.Specs
 
         #region Cyclic References
 
-        [TestMethod]
+        [Fact]
         public void
             When_the_root_object_is_referenced_from_an_object_in_a_nested_collection_it_should_treat_it_as_a_cyclic_reference
             ()
@@ -1737,7 +1733,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_collection_contains_a_reference_to_an_object_that_is_also_in_its_parent_it_should_not_be_treated_as_a_cyclic_reference
             ()
@@ -1788,7 +1784,7 @@ namespace FluentAssertions.Specs
 
         #region Nested Enumerables
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_collection_property_contains_objects_with_matching_properties_in_any_order_it_should_not_throw
             ()
@@ -1845,7 +1841,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_collection_property_contains_objects_with_mismatching_properties_it_should_throw
             ()
@@ -1887,11 +1883,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*Customers[0].Name*John*Jane*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_collection_property_was_expected_but_the_property_is_not_a_collection_it_should_throw
             ()
@@ -1925,12 +1921,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "*member Customers to be*Customer[]*, but*System.String*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_collection_contains_more_items_than_expected_it_should_throw
             ()
@@ -1978,12 +1974,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "*member Customers to be a collection with 1 item(s), but found 2*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_collection_contains_less_items_than_expected_it_should_throw
             ()
@@ -2031,12 +2027,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "*member Customers to be a collection with 2 item(s), but found 1*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_complex_object_graph_with_collections_matches_expectations_it_should_not_throw
             ()
@@ -2085,7 +2081,7 @@ namespace FluentAssertions.Specs
 
         #region (Nested) Dictionaries
 
-        [TestMethod]
+        [Fact]
         public void
             When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
             ()
@@ -2122,7 +2118,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_the_other_property_is_not_a_dictionary_it_should_throw()
         {
@@ -2151,11 +2147,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Member*Customers*dictionary*non-dictionary*");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
             ()
@@ -2188,11 +2184,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_equivalent_dictionaries_are_compared_directly_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2221,7 +2217,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_two_equivalent_dictionaries_are_compared_directly_as_if_it_is_a_collection_it_should_succeed()
         {
@@ -2251,7 +2247,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_nested_dictionaries_do_not_match_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2281,11 +2277,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2318,7 +2314,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash2()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2340,7 +2336,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*Roles[*][1]*Other*Special*");
         }
 
@@ -2363,7 +2359,7 @@ namespace FluentAssertions.Specs
 
         #region Multi-dimensional Arrays
 
-        [TestMethod]
+        [Fact]
         public void When_two_multi_dimensional_arrays_are_equivalent_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2392,7 +2388,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_multi_dimensional_arrays_are_not_equivalent_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2418,11 +2414,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*item[0,2]*4*3*item[1,1]*-5*5*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_number_of_dimensions_of_the_arrays_are_not_the_same_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2447,11 +2443,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*1 dimension(s), but*2*");
         }
         
-        [TestMethod]
+        [Fact]
         public void When_the_expectation_is_not_a_multi_dimensional_array_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2471,11 +2467,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Can't compare a multi-dimensional array to something else.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_expectation_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2495,11 +2491,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Can't compare a multi-dimensional array to <null>*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_length_of_the_first_dimension_differs_between_the_arrays_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2525,11 +2521,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected dimension 1 to contain 2 item(s), but found 3*");
         }
         
-        [TestMethod]
+        [Fact]
         public void When_the_length_of_the_2nd_dimension_differs_between_the_arrays_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2554,7 +2550,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected dimension 0 to contain 1 item(s), but found 2*");
         }
         

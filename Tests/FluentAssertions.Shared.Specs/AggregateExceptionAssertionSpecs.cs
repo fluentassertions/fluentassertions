@@ -1,17 +1,13 @@
 ﻿using System;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Net40.Specs
 {
-    [TestClass]
+    
     public class AggregateExceptionAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_the_expected_exception_is_wrapped_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -19,7 +15,7 @@ namespace FluentAssertions.Net40.Specs
             //-----------------------------------------------------------------------------------------------------------
             var exception = new AggregateException(
                 new InvalidOperationException("Ignored"),
-                new AssertFailedException("Background"));
+                new XunitException("Background"));
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -29,10 +25,10 @@ namespace FluentAssertions.Net40.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Background");
+            act.ShouldThrow<XunitException>().WithMessage("Background");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_expected_exception_was_not_thrown_it_should_report_the_actual_exceptions()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -55,12 +51,12 @@ namespace FluentAssertions.Net40.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*InvalidOperation*You can't do this*")
                 .WithMessage("*NullReferenceException*Found a null*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_no_exception_was_expected_it_should_report_the_actual_exceptions()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -81,7 +77,7 @@ namespace FluentAssertions.Net40.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*InvalidOperation*You can't do this*")
                 .WithMessage("*NullReferenceException*Found a null*");
         }

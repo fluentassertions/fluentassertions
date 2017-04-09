@@ -2,20 +2,17 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions.Common;
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class MethodInfoAssertionSpecs
     {
         #region BeVirtual
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_virtual_and_it_is_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -35,7 +32,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_virtual_but_it_is_not_then_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -52,7 +49,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected method Void FluentAssertions.Specs.ClassWithNonVirtualPublicMethods.PublicDoNothing" +
                     " to be virtual because we want to test the error message," +
                     " but it is not virtual.");
@@ -62,7 +59,7 @@ namespace FluentAssertions.Specs
 
         #region BeDecoratedWithOfT
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_decorated_with_attribute_and_it_is_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -82,7 +79,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_method_is_decorated_with_an_attribute_it_should_allow_chaining_assertions_on_it()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -98,10 +95,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_decorated_with_an_attribute_but_it_is_not_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -118,14 +115,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing to be decorated with " +
                         "FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
                         " but that attribute was not found.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_decorated_with_attribute_matching_a_predicate_and_it_is_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -145,7 +142,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_decorated_with_an_attribute_matching_a_predeicate_but_it_is_not_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -162,14 +159,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PublicDoNothing to be decorated with " +
                         "FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
                         " but that attribute was not found.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_decorated_with_an_attribute_and_multiple_attributes_match_continuation_using_the_matched_value_should_fail()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -190,7 +187,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
         #endregion
@@ -198,7 +195,7 @@ namespace FluentAssertions.Specs
 
         #region NotBeDecoratedWithOfT
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_not_decorated_with_attribute_and_it_is_not_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -218,7 +215,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_not_decorated_with_an_attribute_but_it_is_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -235,14 +232,14 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing to not be decorated with " +
                         "FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
                         " but that attribute was found.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_not_decorated_with_attribute_matching_a_predicate_and_it_is_not_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -262,7 +259,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_not_decorated_with_an_attribute_matching_a_predeicate_but_it_is_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -279,7 +276,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected method Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing to not be decorated with " +
                         "FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
@@ -290,7 +287,7 @@ namespace FluentAssertions.Specs
 
         #region BeAsync
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_async_and_it_is_then_it_succeeds()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -310,7 +307,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_a_method_is_async_but_it_is_not_then_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -327,7 +324,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected subject Task FluentAssertions.Specs.ClassWithNonAsyncMethods.PublicDoNothing" +
                     " to be async because we want to test the error message," +
                     " but it is not.");

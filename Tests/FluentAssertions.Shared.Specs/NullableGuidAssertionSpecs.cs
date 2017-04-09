@@ -1,31 +1,27 @@
 ﻿using System;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class NullableGuidAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_guid_value_with_a_value_to_have_a_value()
         {
             Guid? nullableGuid = Guid.NewGuid();
             nullableGuid.Should().HaveValue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_guid_value_with_a_value_to_not_be_null()
         {
             Guid? nullableGuid = Guid.NewGuid();
             nullableGuid.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_guid_value_without_a_value_to_have_a_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -41,10 +37,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_guid_value_without_a_value_to_not_be_null()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -60,10 +56,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_guid_value_without_a_value_to_have_a_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -79,11 +75,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_guid_value_without_a_value_to_not_be_null()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -99,41 +95,41 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_guid_value_without_a_value_to_not_have_a_value()
         {
             Guid? nullableGuid = null;
             nullableGuid.Should().NotHaveValue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_guid_value_without_a_value_to_be_null()
         {
             Guid? nullableGuid = null;
             nullableGuid.Should().BeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_guid_value_with_a_value_to_not_have_a_value()
         {
             Guid? nullableGuid = Guid.NewGuid();
             Action act = () => nullableGuid.Should().NotHaveValue();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_guid_value_with_a_value_to_be_null()
         {
             Guid? nullableGuid = Guid.NewGuid();
             Action act = () => nullableGuid.Should().BeNull();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_guid_is_null_while_asserting_guid_equals_another_guid()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -151,11 +147,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected Guid to be {55555555-ffff-eeee-dddd-444444444444} because we want to test the failure message, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_guid_null_equals_null()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -176,7 +172,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_guid_value_with_a_value_to_not_have_a_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -192,11 +188,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_guid_value_with_a_value_to_be_null()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -212,11 +208,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found {11111111-aaaa-bbbb-cccc-999999999999}.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_null_equals_some_guid()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -234,11 +230,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected Guid to be {11111111-aaaa-bbbb-cccc-999999999999} because we want to test the failure message, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_support_chaining_constraints_with_and()
         {
             Guid? nullableGuid = Guid.NewGuid();

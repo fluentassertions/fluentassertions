@@ -1,19 +1,14 @@
 ﻿using System.Xml.Linq;
 
 using FluentAssertions.Formatting;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class XDocumentFormatterSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_element_has_root_element_it_should_include_it_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -38,7 +33,7 @@ namespace FluentAssertions.Specs
             result.Should().Be(@"<configuration>...</configuration>");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_element_has_no_root_element_it_should_include_it_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------

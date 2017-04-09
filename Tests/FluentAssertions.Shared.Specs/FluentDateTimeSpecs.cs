@@ -1,17 +1,12 @@
 ﻿using System;
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-#endif
+using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class FluentDateTimeSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_january_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -25,7 +20,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 1, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_february_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -39,7 +34,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 2, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_march_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -53,7 +48,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 3, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_april_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -67,7 +62,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 4, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_may_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -81,7 +76,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 5, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_june_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -95,7 +90,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 6, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_july_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -109,7 +104,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 7, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_august_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -123,7 +118,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 8, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_september_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -137,7 +132,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 9, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_october_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -151,7 +146,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 10, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_november_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -165,7 +160,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 11, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_in_december_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -179,7 +174,7 @@ namespace FluentAssertions.Specs
             date.Should().Be(new DateTime(2011, 12, 10));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_and_time_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -194,7 +189,7 @@ namespace FluentAssertions.Specs
             dateTime.Should().BeIn(DateTimeKind.Unspecified);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_and_time_as_utc_it_should_return_the_date_time_value_with_utc_kind()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -209,7 +204,7 @@ namespace FluentAssertions.Specs
             dateTime.Should().BeIn(DateTimeKind.Utc);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_and_time_as_local_it_should_return_the_date_time_value_with_local_kind()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -224,7 +219,7 @@ namespace FluentAssertions.Specs
             dateTime.Should().BeIn(DateTimeKind.Local);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_fluently_specifying_a_date_and_timespan_it_should_return_the_correct_date_time_value()
         {
             //-----------------------------------------------------------------------------------------------------------

@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions.Common;
 using FluentAssertions.Formatting;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class FormatterSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_value_contains_cyclic_reference_it_should_create_descriptive_error_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -36,7 +32,7 @@ namespace FluentAssertions.Specs
             result.Should().ContainEquivalentOf("cyclic reference");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_subject_or_expectation_contains_reserved_symbols_it_should_escape_then()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -54,10 +50,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("*near*index 37*");
+            act.ShouldThrow<XunitException>().WithMessage("*near*index 37*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_datetime_is_very_close_to_the_edges_of_a_datetimeoffset_it_should_not_crash()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -76,7 +72,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("<00:01:00>");
         }
         
-        [TestMethod]
+        [Fact]
         public void When_the_minimum_value_of_a_datetime_is_provided_it_should_return_a_clear_representation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -95,7 +91,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("<0001-01-01 00:00:00.000>");
         }
         
-        [TestMethod]
+        [Fact]
         public void When_the_maximum_value_of_a_datetime_is_provided_it_should_return_a_clear_representation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -114,7 +110,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("<9999-12-31 23:59:59.999>");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_property_throws_an_exception_it_should_ignore_that_and_still_create_a_descriptive_error_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -133,7 +129,7 @@ namespace FluentAssertions.Specs
             result.Should().Contain("Member 'ThrowingProperty' threw an exception");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_object_is_a_generic_type_without_custom_string_representation_it_should_show_the_properties()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -180,13 +176,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*Childs =*")
                 .WithMessage("*Description =*")
                 .WithMessage("*StuffId =*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_to_string_override_throws_it_should_use_the_default_behavior()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -205,7 +201,7 @@ namespace FluentAssertions.Specs
             result.Should().Contain("SomeProperty");
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_the_maximum_recursion_depth_is_met_it_should_give_a_descriptive_message()
         {
@@ -232,7 +228,7 @@ namespace FluentAssertions.Specs
             result.Should().ContainEquivalentOf("maximum recursion depth");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_a_byte_array_it_should_limit_the_items()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -252,7 +248,7 @@ namespace FluentAssertions.Specs
             result.Should().Match("{0x*, ...968 more...}");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_with_default_behavior_it_should_include_non_private_fields()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -272,7 +268,7 @@ namespace FluentAssertions.Specs
             result.Should().NotContain("privateField");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_unsigned_integer_it_should_have_c_sharp_postfix()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -291,7 +287,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("12u");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_long_integer_it_should_have_c_sharp_postfix()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -310,7 +306,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("12L");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_unsigned_long_integer_it_should_have_c_sharp_postfix()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -329,7 +325,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("12UL");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_short_integer_it_should_have_f_sharp_postfix()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -348,7 +344,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("12s");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_unsigned_short_integer_it_should_have_f_sharp_postfix()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -367,7 +363,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("12us");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_byte_it_should_use_hexadecimal_notation()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -386,7 +382,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("0x0C");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_signed_byte_it_should_have_f_sharp_postfix()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -405,7 +401,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("12y");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_single_it_should_have_c_sharp_postfix()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -424,7 +420,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("12F");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_single_positive_infinity_it_should_be_property_reference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -443,7 +439,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("Single.PositiveInfinity");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_single_negative_infinity_it_should_be_property_reference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -462,7 +458,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("Single.NegativeInfinity");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_single_it_should_have_max_precision()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -481,7 +477,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("0.333333343F");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_single_not_a_number_it_should_just_say_nan()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -501,7 +497,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("NaN");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_double_integer_it_should_have_decimal_point()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -520,7 +516,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("12.0");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_double_with_big_exponent_it_should_have_exponent()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -539,7 +535,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("1E+30");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_double_positive_infinity_it_should_be_property_reference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -558,7 +554,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("Double.PositiveInfinity");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_double_negative_infinity_it_should_be_property_reference()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -577,7 +573,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("Double.NegativeInfinity");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_double_not_a_number_it_should_just_say_nan()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -597,7 +593,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("NaN");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_double_it_should_have_max_precision()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -616,7 +612,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("0.33333333333333331");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_formatting_decimal_it_should_have_c_sharp_postfix()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -658,7 +654,7 @@ namespace FluentAssertions.Specs
 
 #if !WINRT && !WINDOWS_PHONE && !WINDOWS_PHONE_APP && !CORE_CLR && !PORTABLE
 
-        [TestMethod]
+        [Fact]
         public void When_a_custom_formatter_exists_in_any_loaded_assembly_it_should_override_the_default_formatters()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -682,7 +678,7 @@ namespace FluentAssertions.Specs
             result.Should().Be("Property = SomeValue");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_no_custom_formatter_exists_in_the_specified_assembly_it_should_use_the_default()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -706,7 +702,7 @@ namespace FluentAssertions.Specs
             result.Should().Be(subject.ToString());
         }
         
-        [TestMethod]
+        [Fact]
         public void When_formatter_scanning_is_disabled_it_should_use_the_default_formatters()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -730,7 +726,7 @@ namespace FluentAssertions.Specs
             result.Should().Be(subject.ToString());
         }
         
-        [TestMethod]
+        [Fact]
         public void When_no_formatter_scanning_is_configured_it_should_use_the_default_formatters()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -785,8 +781,7 @@ namespace FluentAssertions.Specs
             [ValueFormatter]
             public static string Foo(SomeOtherClassWithCustomFormatter value)
             {
-                Assert.Fail("Should never be called");
-                return "";
+                throw new XunitException("Should never be called");
             }
         }
 

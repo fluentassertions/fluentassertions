@@ -25,6 +25,7 @@
     <DefineConstants>TRACE;DEBUG;CORE_CLR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>1591; 1572; 1573; 1574; 618;1684</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\Artifacts\Lib\netstandard1.3\FluentAssertions.xml</DocumentationFile>
+    <NoWarn>1591; 1572; 1573; 1574; 618;1684</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -70,15 +72,9 @@
     <Compile Include="..\FluentAssertions.Net45\Execution\XUnit2TestFramework.cs">
       <Link>Execution\XUnit2TestFramework.cs</Link>
     </Compile>
-    <Compile Include="..\FluentAssertions.WinRT\Common\ProvidePlatformServices.cs">
-      <Link>Common\ProvidePlatformServices.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.WinRT\Execution\MSTestFrameworkRT.cs">
-      <Link>Execution\MSTestFrameworkRT.cs</Link>
-    </Compile>
-    <Compile Include="..\FluentAssertions.WinRT\Execution\NUnitPclTestFramework.cs">
-      <Link>Execution\NUnitPclTestFramework.cs</Link>
-    </Compile>
+    <Compile Include="Common\ProvidePlatformServices.cs" />
+    <Compile Include="Execution\MSTestFrameworkRT.cs" />
+    <Compile Include="Execution\NUnitPclTestFramework.cs" />
     <Compile Include="Execution\TestFrameworkProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,19 +1,15 @@
 ﻿using System;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class StringAssertionSpecs
     {
         #region Be
 
-        [TestMethod]
+        [Fact]
         public void When_both_values_are_the_same_it_should_not_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -22,7 +18,7 @@ namespace FluentAssertions.Specs
             "ABC".Should().Be("ABC");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_both_subject_and_expected_are_null_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -42,7 +38,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_strings_differ_unexpectingly_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -53,11 +49,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be \"ABC\" because we do, but \"ADC\" differs near \"DC\" (index 1).");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_expected_string_is_shorter_than_the_actual_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -68,11 +64,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be \"AB\" with a length of 2, but \"ABC\" has a length of 3.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_expected_string_is_longer_than_the_actual_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -83,11 +79,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be \"ABC\" with a length of 3, but \"AB\" has a length of 2.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_is_expected_to_equal_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -98,11 +94,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be <null>, but found \"AB\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_is_expected_to_be_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -113,11 +109,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be <null> because we like null, but found \"AB\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_expected_string_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -129,11 +125,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be \"ABC\", but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_expected_string_is_the_same_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -144,11 +140,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be \"ABC \" because I say so, but it misses some extra whitespace at the end.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_actual_string_is_the_same_as_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -159,11 +155,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be \"ABC\" because I say so, but it has unexpected whitespace at the end.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_strings_differ_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -174,11 +170,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be \r\n\"0987654321\", but \r\n\"1234567890\" differs near \"123\" (index 0).");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_strings_differ_and_one_of_them_is_multiline_it_should_display_both_strings_on_separate_line()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -189,7 +185,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be \r\n\"A\\r\\nC\", but \r\n\"A\\r\\nB\" differs near \"B\" (index 3).");
         }
 
@@ -197,13 +193,13 @@ namespace FluentAssertions.Specs
 
         #region Not Be
 
-        [TestMethod]
+        [Fact]
         public void When_different_strings_are_expected_to_differ_it_should_not_throw()
         {
             "ABC".Should().NotBe("DEF");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_equal_strings_are_expected_to_differ_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -214,11 +210,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string not to be \"ABC\" because we don't like ABC.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_non_empty_string_is_not_equal_to_empty_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -227,7 +223,7 @@ namespace FluentAssertions.Specs
             "ABC".Should().NotBe("");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_empty_string_is_not_supposed_to_be_equal_to_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -238,11 +234,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string not to be \"\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_valid_string_is_not_supposed_to_be_null_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -251,7 +247,7 @@ namespace FluentAssertions.Specs
             "ABC".Should().NotBe(null);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_null_string_is_not_supposed_to_be_equal_to_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -263,11 +259,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string not to be <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_null_string_is_not_supposed_to_be_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -279,7 +275,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string not to be <null> because we don't like null.");
         }
 
@@ -287,7 +283,7 @@ namespace FluentAssertions.Specs
 
         #region Be One Of
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_not_one_of_the_specified_values_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -303,11 +299,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected value to be one of {\"def\", \"xyz\"}, but found \"abc\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_not_one_of_the_specified_values_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -323,11 +319,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>()
+            action.ShouldThrow<XunitException>()
                 .WithMessage("Expected value to be one of {\"def\", \"xyz\"} because those are the valid values, but found \"abc\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_value_is_one_of_the_specified_values_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -350,7 +346,7 @@ namespace FluentAssertions.Specs
 
         #region Match
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_not_match_a_wildcard_pattern_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -366,11 +362,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected string to match \r\n\"h*earth!\" because that's the universal greeting, but \r\n\"hello world!\" does not.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_match_a_wildcard_pattern_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -389,7 +385,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_not_match_a_wildcard_pattern_with_escaped_markers_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -405,11 +401,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected string to match \r\n\"What\\? Are you deaf\\?\", but \r\n\"What! Are you deaf!\" does not.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_match_a_wildcard_pattern_but_differs_in_casing_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -425,7 +421,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected string to match \r\n\"*World*\", but \r\n\"hello world\" does not.");
         }
 
@@ -433,7 +429,7 @@ namespace FluentAssertions.Specs
 
         #region Not Match
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_not_match_a_pattern_and_it_shouldnt_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -452,7 +448,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_match_a_pattern_but_it_shouldnt_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -469,7 +465,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect string to match \r\n\"*world*\" because that's illegal, " +
                 "but \r\n\"hello world\" matches.");
         }
@@ -478,7 +474,7 @@ namespace FluentAssertions.Specs
 
         #region Match Equivalent Of
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_not_match_the_equivalent_of_a_wildcard_pattern_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -494,12 +490,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to match the equivalent of \r\n\"h*earth!\" " +
                 "because that's the universal greeting, but \r\n\"hello world!\" does not.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_match_the_equivalent_of_a_wildcard_pattern_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -522,7 +518,7 @@ namespace FluentAssertions.Specs
 
         #region Not Match Equivalent Of
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_is_not_equivalent_to_a_pattern_and_thats_expected_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -541,7 +537,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_match_the_equivalent_of_a_pattern_but_it_shouldnt_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -558,7 +554,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect string to match the equivalent of \r\n\"*world*\" because that's illegal, " +
                 "but \r\n\"hello WORLD\" matches.");
         }
@@ -567,7 +563,7 @@ namespace FluentAssertions.Specs
 
         #region Match Regex
         
-        [TestMethod]
+        [Fact]
         public void When_a_string_matches_a_regular_expression_it_should_not_throw()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -586,7 +582,7 @@ namespace FluentAssertions.Specs
           act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_not_match_a_regular_expression_it_should_throw()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -602,11 +598,11 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<AssertFailedException>()
+          act.ShouldThrow<XunitException>()
               .WithMessage("Expected string to match regex \r\n\"h.*\\sworld?$\" because that's the universal greeting, but \r\n\"hello world!\" does not match.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_null_string_is_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -622,11 +618,11 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<AssertFailedException>()
+          act.ShouldThrow<XunitException>()
              .WithMessage("Expected string to match regex \r\n\".*\" because it should be a string, but it was <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_is_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -646,7 +642,7 @@ namespace FluentAssertions.Specs
              .WithMessage("Cannot match string against <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_is_matched_against_an_invalid_regex_it_should_throw_with_a_clear_explanation()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -671,7 +667,7 @@ namespace FluentAssertions.Specs
 
         #region Not Match Regex
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_does_not_match_a_regular_expression_and_it_shouldnt_it_should_not_throw()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -690,7 +686,7 @@ namespace FluentAssertions.Specs
           act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_matches_a_regular_expression_but_it_shouldnt_it_should_throw()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -706,11 +702,11 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<AssertFailedException>()
+          act.ShouldThrow<XunitException>()
               .WithMessage("Did not expect string to match regex \r\n\".*world.*\" because that's illegal, but \r\n\"hello world!\" matches.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_null_string_is_negatively_matched_against_a_regex_it_should_throw_with_a_clear_explanation()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -726,11 +722,11 @@ namespace FluentAssertions.Specs
           //-----------------------------------------------------------------------------------------------------------
           // Assert
           //-----------------------------------------------------------------------------------------------------------
-          act.ShouldThrow<AssertFailedException>()
+          act.ShouldThrow<XunitException>()
              .WithMessage("Expected string to not match regex \r\n\".*\" because it should not be a string, but it was <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_is_negatively_matched_against_a_null_regex_it_should_throw_with_a_clear_explanation()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -750,7 +746,7 @@ namespace FluentAssertions.Specs
              .WithMessage("Cannot match string against <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_string_is_negatively_matched_against_an_invalid_regex_it_should_throw_with_a_clear_explanation()
         {
           //-----------------------------------------------------------------------------------------------------------
@@ -775,7 +771,7 @@ namespace FluentAssertions.Specs
 
         #region Start With
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_starts_with_the_same_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -795,7 +791,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_does_not_start_with_expected_phrase_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -806,12 +802,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to start with \"ABB\" because it should start," +
                     " but \"ABC\" differs near \"C\" (index 2).");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_does_not_start_with_expected_phrase_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -822,13 +818,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to start with " +
                     "\r\n\"ABCDDFGHI\" because it should start, but " +
                         "\r\n\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_start_is_compared_with_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -843,7 +839,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare start of string with <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_start_is_compared_with_empty_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -858,7 +854,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare start of string with empty string.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_start_is_compared_with_string_that_is_longer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -869,11 +865,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to start with \"ABCDEF\", but \"ABC\" is too short.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_start_is_compared_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -885,7 +881,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to start with \"ABC\", but found <null>.");
         }
 
@@ -893,7 +889,7 @@ namespace FluentAssertions.Specs
 
         #region Not Start With
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_a_value_and_it_does_not_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -913,7 +909,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -930,11 +926,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>().WithMessage(
+            action.ShouldThrow<XunitException>().WithMessage(
                 "Expected string that does not start with \"AB\" because of some reason, but found \"ABC\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_a_value_that_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -955,7 +951,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare start of string with <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_a_value_that_is_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -976,7 +972,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare start of string with empty string.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_a_value_and_actual_value_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -988,7 +984,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string that does not start with \"ABC\", but found <null>.");
         }
 
@@ -996,13 +992,13 @@ namespace FluentAssertions.Specs
 
         #region End With
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_ends_with_the_same_value_it_should_not_throw()
         {
             "ABC".Should().EndWith("BC");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_does_not_end_with_expected_phrase_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1013,11 +1009,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string \"ABC\" to end with \"AB\" because it should.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_ending_is_compared_with_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1032,7 +1028,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare string end with <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_ending_is_compared_with_empty_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1047,7 +1043,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare string end with empty string.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_ending_is_compared_with_string_that_is_longer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1058,13 +1054,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to end with " +
                     "\"00ABC\", but " +
                         "\"ABC\" is too short.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_ending_is_compared_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1076,7 +1072,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string <null> to end with \"ABC\".");
         }
 
@@ -1084,7 +1080,7 @@ namespace FluentAssertions.Specs
 
         #region Not End With
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_a_value_and_it_does_not_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1104,7 +1100,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1121,11 +1117,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>().WithMessage(
+            action.ShouldThrow<XunitException>().WithMessage(
                 "Expected string \"ABC\" not to end with \"BC\" because of some reason.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_a_value_that_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1146,7 +1142,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare end of string with <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_a_value_that_is_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1167,7 +1163,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare end of string with empty string.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_a_value_and_actual_value_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1179,7 +1175,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string that does not end with \"ABC\", but found <null>.");
         }
 
@@ -1187,13 +1183,13 @@ namespace FluentAssertions.Specs
 
         #region Start With Equivalent
 
-        [TestMethod]
+        [Fact]
         public void When_start_of_string_differs_by_case_only_it_should_not_throw()
         {
             "ABC".Should().StartWithEquivalent("Ab");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_start_of_string_does_not_meet_equivalent_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1204,11 +1200,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to start with equivalent of \"bc\" because it should start, but \"ABC\" differs near \"ABC\" (index 0).");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_start_of_string_does_not_meet_equivalent_and_one_of_them_is_long_it_should_display_both_strings_on_separate_line()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1219,13 +1215,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to start with equivalent of " +
                     "\r\n\"abcddfghi\" because it should start, but " +
                         "\r\n\"ABCDEFGHI\" differs near \"EFG\" (index 4).");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_start_of_string_is_compared_with_equivalent_of_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1240,7 +1236,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare string start equivalence with <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_start_of_string_is_compared_with_equivalent_of_empty_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1255,7 +1251,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare string start equivalence with empty string.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_start_of_string_is_compared_with_equivalent_of_string_that_is_longer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1266,13 +1262,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to start with equivalent of " +
                     "\"abcdef\", but " +
                         "\"ABC\" is too short.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_start_is_compared_with_equivalent_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1284,7 +1280,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to start with equivalent of \"AbC\", but found <null>.");
         }
 
@@ -1292,7 +1288,7 @@ namespace FluentAssertions.Specs
 
         #region Not Start With Equivalent
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_equivalent_of_a_value_and_it_does_not_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1312,7 +1308,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_equivalent_of_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1329,11 +1325,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>().WithMessage(
+            action.ShouldThrow<XunitException>().WithMessage(
                 "Expected string that does not start with equivalent of \"aB\" because of some reason, but found \"ABC\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_equivalent_of_a_value_that_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1354,7 +1350,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare start of string with <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_equivalent_of_a_value_that_is_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1375,7 +1371,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare start of string with empty string.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_start_with_equivalent_of_a_value_and_actual_value_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1391,7 +1387,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string that does not start with equivalent of \"ABC\", but found <null>.");
         }
 
@@ -1399,13 +1395,13 @@ namespace FluentAssertions.Specs
 
         #region End With Equivalent
 
-        [TestMethod]
+        [Fact]
         public void When_end_of_string_differs_by_case_only_it_should_not_throw()
         {
             "ABC".Should().EndWithEquivalent("bC");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_end_of_string_does_not_meet_equivalent_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1416,11 +1412,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string that ends with equivalent of \"ab\" because it should end, but found \"ABC\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_end_of_string_is_compared_with_equivalent_of_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1435,7 +1431,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare string end equivalence with <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_end_of_string_is_compared_with_equivalent_of_empty_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1450,7 +1446,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare string end equivalence with empty string.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_ending_is_compared_with_equivalent_of_string_that_is_longer_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1461,13 +1457,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to end with equivalent of " +
                     "\"00abc\", but " +
                         "\"ABC\" is too short.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_ending_is_compared_with_equivalent_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1479,7 +1475,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string that ends with equivalent of \"abC\", but found <null>.");
         }
 
@@ -1487,7 +1483,7 @@ namespace FluentAssertions.Specs
 
         #region Not End With Equivalent
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_equivalent_of_a_value_and_it_does_not_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1507,7 +1503,7 @@ namespace FluentAssertions.Specs
             action.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_equivalent_of_a_value_but_it_does_it_should_fail_with_a_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1524,11 +1520,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<AssertFailedException>().WithMessage(
+            action.ShouldThrow<XunitException>().WithMessage(
                 "Expected string that does not end with equivalent of \"Bc\" because of some reason, but found \"ABC\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_equivalent_of_a_value_that_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1549,7 +1545,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare end of string with <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_equivalent_of_a_value_that_is_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1570,7 +1566,7 @@ namespace FluentAssertions.Specs
                 "Cannot compare end of string with empty string.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_string_does_not_end_with_equivalent_of_a_value_and_actual_value_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1582,7 +1578,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string that does not end with equivalent of \"Abc\", but found <null>.");
         }
 
@@ -1590,13 +1586,13 @@ namespace FluentAssertions.Specs
 
         #region Contain
 
-        [TestMethod]
+        [Fact]
         public void When_string_contains_the_expected_string_it_should_not_throw()
         {
             "ABCDEF".Should().Contain("BCD");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_does_not_contain_an_expected_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1607,11 +1603,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string \"ABCDEF\" to contain \"XYZ\" because that is required.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_containment_is_asserted_against_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1627,7 +1623,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Cannot assert string containment against <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_containment_is_asserted_against_an_empty_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1643,7 +1639,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Cannot assert string containment against an empty string.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_containment_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1655,7 +1651,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                  "Expected string <null> to contain \"XYZ\" because that is required.");
         }
 
@@ -1663,13 +1659,13 @@ namespace FluentAssertions.Specs
 
         #region Be Equivalent To
 
-        [TestMethod]
+        [Fact]
         public void When_strings_are_the_same_while_ignoring_case_it_should_not_throw()
         {
             "ABC".Should().BeEquivalentTo("abc");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_strings_differ_other_than_by_case_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1680,11 +1676,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but \"ADC\" differs near \"DC\" (index 1).");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_non_null_string_is_expected_to_be_equivalent_to_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1695,11 +1691,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be equivalent to <null>, but found \"ABCDEF\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_non_empty_string_is_expected_to_be_equivalent_to_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1710,11 +1706,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"\" with a length of 0, but \"ABC\" has a length of 3.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_is_equivalent_but_too_short_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1725,11 +1721,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"ABCD\" with a length of 4, but \"AB\" has a length of 2*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_equivalence_is_asserted_and_actual_value_is_null_then_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1741,11 +1737,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                   "Expected string to be equivalent to \"abc\" because we will test 1 + 2, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_expected_string_is_equivalent_to_the_actual_string_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1756,11 +1752,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc \" because I say so, but it misses some extra whitespace at the end.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_actual_string_equivalent_to_the_expected_but_with_trailing_spaces_it_should_throw_with_clear_error_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1771,7 +1767,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be equivalent to \"abc\" because I say so, but it has unexpected whitespace at the end.");
         }
 
@@ -1779,7 +1775,7 @@ namespace FluentAssertions.Specs
 
         #region Not Contain
 
-        [TestMethod]
+        [Fact]
         public void When_string_does_not_contain_the_unexpected_string_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1793,7 +1789,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_string_contains_unexpected_fragment_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1804,11 +1800,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect string \"abcd\" to contain \"bc\" because it was not expected today.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_exclusion_is_asserted_against_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1824,7 +1820,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Cannot assert string containment against <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_exclusion_is_asserted_against_an_empty_string_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1844,7 +1840,7 @@ namespace FluentAssertions.Specs
 
         #region Not Contain Equivalent Of
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_null()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1856,11 +1852,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect string to contain equivalent of <null> but found \"a\"");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_empty()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1872,11 +1868,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect string to contain equivalent of \"\" but found \"a\"");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_string_does_not_contain_equivalent_of_another_string_but_it_does()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1888,11 +1884,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect string to contain equivalent of \", worLD!\" but found \"Hello, world!\"");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_string_does_not_contain_equivalent_of_another_string()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1911,14 +1907,14 @@ namespace FluentAssertions.Specs
 
         #region Contain Equivalent Of
 
-        [TestMethod]
+        [Fact]
         public void Should_pass_when_contans_equivalent_of()
         {
             "aa".Should().ContainEquivalentOf("A");
             "aCCa".Should().ContainEquivalentOf("acca");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_contain_equivalent_of_when_not_contains()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1930,11 +1926,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected string to contain equivalent of \"aa\" but found \"a\"");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_throw_when_null_equivalent_is_expected()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1950,7 +1946,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Cannot assert string containment against <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_throw_when_empty_equivalent_is_expected()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -1970,30 +1966,30 @@ namespace FluentAssertions.Specs
 
         #region (Not) Empty
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_empty_string_to_be_empty()
         {
             "".Should().BeEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_non_empty_string_to_be_empty()
         {
             Action act = () => "ABC".Should().BeEmpty();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_non_empty_string_to_be_empty()
         {
             var assertions = "ABC".Should();
             assertions.Invoking(x => x.BeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected empty string because we want to test the failure message, but found \"ABC\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_checking_for_an_empty_string_and_it_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2009,30 +2005,30 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected empty string because strings should never be null, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_non_empty_string_to_be_filled()
         {
             "ABC".Should().NotBeEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_empty_string_to_be_filled()
         {
             Action act = () => "".Should().NotBeEmpty();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_empty_string_to_be_filled()
         {
             var assertions = "".Should();
             assertions.Invoking(x => x.NotBeEmpty("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect empty string because we want to test the failure message.");
         }
 
@@ -2040,33 +2036,33 @@ namespace FluentAssertions.Specs
 
         #region Length
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_string_length_to_be_equal_to_the_same_value()
         {
             "ABC".Should().HaveLength(3);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_string_length_to_be_equal_to_different_value()
         {
             Action act = () => "ABC".Should().HaveLength(1);
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_string_length_to_be_equal_to_different_value()
         {
             var assertions = "ABC".Should();
             assertions.Invoking(x => x.HaveLength(1, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                 "Expected string with length 1 because we want to test the failure message, but found string \"ABC\" with length 3.");
         }
 
         #endregion
 
-        [TestMethod]
+        [Fact]
         public void When_chaining_multiple_assertions_it_should_assert_all_conditions()
         {
             "ABCDEFGHI".Should()
@@ -2078,7 +2074,7 @@ namespace FluentAssertions.Specs
 
         #region (Not) Null Or Empty
 
-        [TestMethod]
+        [Fact]
         public void When_a_valid_string_is_expected_to_be_not_null_or_empty_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2092,7 +2088,7 @@ namespace FluentAssertions.Specs
             str.Should().NotBeNullOrEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_empty_string_is_not_expected_to_be_null_or_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2108,11 +2104,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string not to be <null> or empty because a valid string is expected for str, but found \"\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_null_string_is_not_expected_to_be_null_or_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2128,11 +2124,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string not to be <null> or empty because a valid string is expected for str, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_null_string_is_expected_to_be_null_or_empty_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2146,7 +2142,7 @@ namespace FluentAssertions.Specs
             str.Should().BeNullOrEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_empty_string_is_expected_to_be_null_or_empty_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2160,7 +2156,7 @@ namespace FluentAssertions.Specs
             str.Should().BeNullOrEmpty();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_valid_string_is_expected_to_be_null_or_empty_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2176,7 +2172,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected string to be <null> or empty because it was not initialized yet, but found \"hello\".");
         }
 
@@ -2184,7 +2180,7 @@ namespace FluentAssertions.Specs
 
         #region (Not) Null Or Whitespace
 
-        [TestMethod]
+        [Fact]
         public void When_correctly_asserting_null_or_whitespace_it_should_not_throw()
         {
             ((string)null).Should().BeNullOrWhiteSpace();
@@ -2196,7 +2192,7 @@ namespace FluentAssertions.Specs
             " a ".Should().NotBeNullOrWhiteSpace();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_valid_string_is_expected_to_be_null_or_whitespace_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2208,11 +2204,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected string to be <null> or whitespace, but found \" abc  \".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_null_string_is_expected_to_not_be_null_or_whitespace_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2229,11 +2225,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found <null>.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_an_empty_string_is_expected_to_not_be_null_or_whitespace_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2245,11 +2241,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found \"\".");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_whitespace_string_is_expected_to_not_be_null_or_whitespace_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -2261,7 +2257,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected string not to be <null> or whitespace, but found \"   \".");
         }
 

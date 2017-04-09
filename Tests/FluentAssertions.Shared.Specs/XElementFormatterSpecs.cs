@@ -1,18 +1,14 @@
 using System.Xml.Linq;
 
 using FluentAssertions.Formatting;
+using Xunit;
 
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class XElementFormatterSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_element_has_attributes_it_should_include_them_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -32,7 +28,7 @@ namespace FluentAssertions.Specs
             result.Should().Be(@"<person name=\""Martin\"" age=\""36\"" />");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_element_has_child_element_it_should_not_include_them_in_the_output()
         {
             //-----------------------------------------------------------------------------------------------------------

@@ -1,20 +1,15 @@
 ﻿using System;
 
 using FluentAssertions.Types;
-
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class PropertyInfoSelectorAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_asserting_properties_are_virtual_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -34,7 +29,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -51,10 +46,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_asserting_properties_are_virtual_but_non_virtual_properties_are_found_it_should_throw_with_descriptive_message()
         {
@@ -72,7 +67,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                .WithMessage("Expected all selected properties" +
                    " to be virtual because we want to test the error message," +
                    " but the following properties are not virtual:\r\n" +
@@ -81,7 +76,7 @@ namespace FluentAssertions.Specs
                    "String FluentAssertions.Specs.ClassWithNonVirtualPublicProperties.ProtectedNonVirtualProperty");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_properties_are_decorated_with_attribute_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -101,7 +96,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -119,10 +114,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void
             When_asserting_properties_are_decorated_with_attribute_and_they_are_not_it_should_throw_with_descriptive_message()
         {
@@ -141,7 +136,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected all selected properties to be decorated with" +
                    " FluentAssertions.Specs.DummyPropertyAttribute because we want to test the error message," +
                    " but the following properties are not:\r\n" +
@@ -150,7 +145,7 @@ namespace FluentAssertions.Specs
                    "String FluentAssertions.Specs.ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute.ProtectedProperty");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_read_only_property_is_expected_to_be_writable_it_should_throw_with_descriptive_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -167,7 +162,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected all selected properties to have a setter because we want to test the error message, " +
                     "but the following properties do not:\r\n" +
@@ -175,7 +170,7 @@ namespace FluentAssertions.Specs
                     "String FluentAssertions.Specs.ClassWithReadOnlyProperties.ReadOnlyProperty2");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_writeable_properties_are_expected_to_be_writable_it_should_not_throw()
         {
             //-------------------------------------------------------------------------------------------------------------------

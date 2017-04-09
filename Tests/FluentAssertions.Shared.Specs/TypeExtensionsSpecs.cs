@@ -1,18 +1,14 @@
 using System.Xml.Linq;
 
 using FluentAssertions.Common;
+using Xunit;
 
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class TypeExtensionsSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_comparing_types_and_types_are_same_it_should_return_true()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -32,7 +28,7 @@ namespace FluentAssertions.Specs
             result.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_comparing_types_and_first_type_inherits_second_it_should_return_true()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -52,7 +48,7 @@ namespace FluentAssertions.Specs
             result.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_comparing_types_and_second_type_inherits_first_it_should_return_false()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -72,7 +68,7 @@ namespace FluentAssertions.Specs
             result.Should().BeFalse();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_comparing_types_and_types_are_different_it_should_return_false()
         {
             //-----------------------------------------------------------------------------------------------------------

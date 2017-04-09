@@ -1,102 +1,98 @@
 using System;
 using FluentAssertions.Primitives;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class NullableNumericAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_numeric_value_with_value_to_have_a_value()
         {
             int? nullableInteger = 1;
             nullableInteger.Should().HaveValue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_numeric_value_with_value_to_not_be_null()
         {
             int? nullableInteger = 1;
             nullableInteger.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_have_a_value()
         {
             int? nullableInteger = null;
             Action act = () => nullableInteger.Should().HaveValue();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_numeric_value_without_a_value_to_not_be_null()
         {
             int? nullableInteger = null;
             Action act = () => nullableInteger.Should().NotBeNull();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_without_a_value_to_have_a_value()
         {
             int? nullableInteger = null;
             var assertions = nullableInteger.Should();
             assertions.Invoking(x => x.HaveValue("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_without_a_value_to_not_be_null()
         {
             int? nullableInteger = null;
             var assertions = nullableInteger.Should();
             assertions.Invoking(x => x.NotBeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected a value because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_numeric_value_without_a_value_to_not_have_a_value()
         {
             int? nullableInteger = null;
             nullableInteger.Should().NotHaveValue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_numeric_value_without_a_value_to_be_null()
         {
             int? nullableInteger = null;
             nullableInteger.Should().BeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_not_have_a_value()
         {
             int? nullableInteger = 1;
             
             Action act = () => nullableInteger.Should().NotHaveValue();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
         {
             int? nullableInteger = 1;
 
             Action act = () => nullableInteger.Should().BeNull();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nullable_value_with_unexpected_value_is_found_it_should_throw_with_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -113,21 +109,21 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             action
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect a value because it was not expected, but found 1.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_with_a_value_to_be_null()
         {
             int? nullableInteger = 1;
             var assertions = nullableInteger.Should();
             assertions.Invoking(x => x.BeNull("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found 1.");
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_numeric_value_equals_an_equal_value()
         {
             int? nullableIntegerA = 1;
@@ -135,7 +131,7 @@ namespace FluentAssertions.Specs
             nullableIntegerA.Should().Be(nullableIntegerB);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_succeed_when_asserting_nullable_numeric_null_value_equals_null()
         {
             int? nullableIntegerA = null;
@@ -143,31 +139,31 @@ namespace FluentAssertions.Specs
             nullableIntegerA.Should().Be(nullableIntegerB);
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_when_asserting_nullable_numeric_value_equals_a_different_value()
         {
             int? nullableIntegerA = 1;
             int? nullableIntegerB = 2;
 
             Action act = () => nullableIntegerA.Should().Be(nullableIntegerB);
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void Should_fail_with_descriptive_message_when_asserting_nullable_numeric_value_equals_a_different_value()
         {
             int? nullableIntegerA = 1;
             int? nullableIntegerB = 2;
             var assertions = nullableIntegerA.Should();
             assertions.Invoking(x => x.Be(nullableIntegerB, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected*2 because we want to test the failure message, but found 1.");
         }
 
         #region Be Approximately
 
-        [TestMethod]
+        [Fact]
         public void When_nullable_double_is_indeed_approximating_a_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -186,7 +182,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nullable_double_has_no_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -202,11 +198,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
+            act.ShouldThrow<XunitException>().WithMessage(string.Format(
                 "Expected value to approximate {0} +/- {1}, but it was <null>.", 3.14, 0.001));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nullable_double_is_not_approximating_a_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -223,12 +219,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format(
                     "Expected value*to approximate 1.0 +/- {0}, but it differed by*", 0.1));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nullable_float_is_indeed_approximating_a_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -247,7 +243,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nullable_float_is_not_approximating_a_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -264,12 +260,12 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format(
                 "Expected value*to approximate *{0}* +/- *{1}* but it differed by*", 1, 0.1));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nullable_decimal_is_indeed_approximating_a_value_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -288,7 +284,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nullable_decimal_has_no_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -304,11 +300,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(string.Format(
+            act.ShouldThrow<XunitException>().WithMessage(string.Format(
                 "Expected value to approximate*{0}* +/-*{1}*, but it was <null>.", 3.14m, 0.001m));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_nullable_decimal_is_not_approximating_a_value_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -325,14 +321,14 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(string.Format(
                     "Expected value*to approximate*{0}* +/-*{1}*, but it differed by*", 1.0m, 0.1m));
         }
 
         #endregion
 
-        [TestMethod]
+        [Fact]
         public void Should_support_chaining_constraints_with_and()
         {
             int? nullableInteger = 1;

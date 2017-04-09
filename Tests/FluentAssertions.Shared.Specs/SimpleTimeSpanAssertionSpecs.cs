@@ -4,239 +4,235 @@ using System.Linq;
 using System.Text;
 
 using FluentAssertions.Common;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    [TestClass]
+    
     public class SimpleTimeSpanAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_asserting_positive_value_to_be_positive_it_should_succeed()
         {
             1.Seconds().Should().BePositive();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_negative_value_to_be_positive_it_should_fail()
         {
             Action act = () => 1.Seconds().Negate().Should().BePositive();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_negative_value_to_be_positive_it_should_fail_with_descriptive_message()
         {
             var assertions = 1.Seconds().Negate().Should();
             assertions.Invoking(x => x.BePositive("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected positive value because we want to test the failure message, but found -1s");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_negative_value_to_be_negative_it_should_succeed()
         {
             1.Seconds().Negate().Should().BeNegative();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_positive_value_to_be_negative_it_should_fail()
         {
             Action act = () => 1.Seconds().Should().BeNegative();
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_positive_value_to_be_negative_it_should_fail_with_descriptive_message()
         {
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.BeNegative("because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage("Expected negative value because we want to test the failure message, but found 1s");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_equal_to_same_value_it_should_succeed()
         {
             1.Seconds().Should().Be(TimeSpan.FromSeconds(1));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_equal_to_different_value_it_should_fail()
         {
             Action act = () => 1.Seconds().Should().Be(2.Seconds());
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_equal_to_different_value_it_should_fail_with_descriptive_message()
         {
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.Be(2.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(@"Expected 2s because we want to test the failure message, but found 1s.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_not_equal_to_different_value_it_should_succeed()
         {
             1.Seconds().Should().NotBe(2.Seconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_not_equal_to_the_same_value_it_should_fail()
         {
             var oneSecond = 1.Seconds();
             Action act = () => oneSecond.Should().NotBe(oneSecond);
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_not_equal_to_the_same_value_it_should_fail_with_descriptive_message()
         {
             var oneSecond = 1.Seconds();
             var assertions = oneSecond.Should();
             assertions.Invoking(x => x.NotBe(oneSecond, "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(@"Did not expect 1s because we want to test the failure message.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_greater_than_smaller_value_it_should_succeed()
         {
             2.Seconds().Should().BeGreaterThan(1.Seconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_greater_than_greater_value_it_should_fail()
         {
             Action act = () => 1.Seconds().Should().BeGreaterThan(2.Seconds());
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_greater_than_same_value_it_should_fail()
         {
             var twoSeconds = 2.Seconds();
             Action act = () => twoSeconds.Should().BeGreaterThan(twoSeconds);
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_greater_than_greater_value_it_should_fail_with_descriptive_message()
         {
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.BeGreaterThan(2.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(@"Expected a value greater than 2s because we want to test the failure message, but found 1s.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_greater_or_equal_to_smaller_value_it_should_succeed()
         {
             2.Seconds().Should().BeGreaterOrEqualTo(1.Seconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_greater_or_equal_to_same_value_it_should_succeed()
         {
             var twoSeconds = 2.Seconds();
             twoSeconds.Should().BeGreaterOrEqualTo(twoSeconds);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_greater_or_equal_to_greater_value_it_should_fail()
         {
             Action act = () => 1.Seconds().Should().BeGreaterOrEqualTo(2.Seconds());
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_greater_or_equal_to_greater_value_it_should_fail_with_descriptive_message()
         {
             var assertions = 1.Seconds().Should();
             assertions.Invoking(x => x.BeGreaterOrEqualTo(2.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(@"Expected a value greater or equal to 2s because we want to test the failure message, but found 1s.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_less_than_greater_value_it_should_succeed()
         {
             1.Seconds().Should().BeLessThan(2.Seconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_less_than_smaller_value_it_should_fail()
         {
             Action act = () => 2.Seconds().Should().BeLessThan(1.Seconds());
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_less_than_same_value_it_should_fail()
         {
             var twoSeconds = 2.Seconds();
             Action act = () => twoSeconds.Should().BeLessThan(twoSeconds);
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_less_than_smaller_value_it_should_fail_with_descriptive_message()
         {
             var assertions = 2.Seconds().Should();
             assertions.Invoking(x => x.BeLessThan(1.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(@"Expected a value less than 1s because we want to test the failure message, but found 2s.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_less_or_equal_to_greater_value_it_should_succeed()
         {
             1.Seconds().Should().BeLessOrEqualTo(2.Seconds());
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_less_or_equal_to_same_value_it_should_succeed()
         {
             var twoSeconds = 2.Seconds();
             twoSeconds.Should().BeLessOrEqualTo(twoSeconds);
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_less_or_equal_to_smaller_value_it_should_fail()
         {
             Action act = () => 2.Seconds().Should().BeLessOrEqualTo(1.Seconds());
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
 
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_value_to_be_less_or_equal_to_smaller_value_it_should_fail_with_descriptive_message()
         {
             var assertions = 2.Seconds().Should();
             assertions.Invoking(x => x.BeLessOrEqualTo(1.Seconds(), "because we want to test the failure {0}", "message"))
-                .ShouldThrow<AssertFailedException>()
+                .ShouldThrow<XunitException>()
                 .WithMessage(@"Expected a value less or equal to 1s because we want to test the failure message, but found 2s.");
         }
 
         #region Be Close To
 
-        [TestMethod]
+        [Fact]
         public void When_time_is_less_then_but_close_to_another_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -256,7 +252,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_time_is_greater_then_but_close_to_another_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -276,7 +272,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_time_is_less_then_and_not_close_to_another_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -293,12 +289,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected time to be within 20 ms from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m and 30.979s.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_time_is_greater_then_and_not_close_to_another_value_it_should_throw_with_descriptive_message()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -315,12 +311,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected time to be within 20 ms from 1d, 12h, 15m and 31s because we want to test the error message, but found 1d, 12h, 15m and 31.021s.");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_time_is_within_specified_number_of_milliseconds_from_another_value_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -340,7 +336,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_null_time_is_asserted_to_be_close_to_another_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -357,7 +353,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*, but found <null>.");
         }
 

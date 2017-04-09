@@ -3,22 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
    
-    [TestClass]
+    
     public class DictionaryEquivalencySpecs
     {
         #region Non-Generic Dictionaries
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_dictionaries_it_should_respect_the_declared_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -35,11 +31,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*Wheels*not have*VehicleId*not have*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_dictionaries_and_configured_to_respect_runtime_type_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -59,10 +55,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>("the types have different properties");
+            act.ShouldThrow<XunitException>("the types have different properties");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_non_generic_dictionary_is_typed_as_object_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -82,7 +78,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_non_generic_dictionary_is_typed_as_object_and_runtime_typing_is_specified_the_runtime_type_should_be_respected()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -102,7 +98,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_non_generic_dictionaries_the_lack_of_type_information_should_be_preserved_for_other_equivalency_steps()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -121,7 +117,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*Other*Special*");
         }
 
@@ -235,7 +231,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        [TestMethod]
+        [Fact]
         public void When_an_object_implements_two_IDictionary_interfaces_it_should_fail_descriptively()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -252,13 +248,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Subject implements multiple dictionary types.  "
                     + "It is not known which type should be use for equivalence.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_dictionaries_asserted_to_be_equivalent_have_different_lengths_it_should_fail_descriptively()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -277,11 +273,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act1.ShouldThrow<AssertFailedException>().WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s)*");
-            act2.ShouldThrow<AssertFailedException>().WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s)*");
+            act1.ShouldThrow<XunitException>().WithMessage("Expected subject to be a dictionary with 2 item(s), but found 1 item(s)*");
+            act2.ShouldThrow<XunitException>().WithMessage("Expected subject to be a dictionary with 1 item(s), but found 2 item(s)*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_dictionary_does_not_implement_IDictionary_it_should_still_be_treated_as_a_dictionary()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -298,11 +294,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*is a dictionary and cannot be compared with a non-dictionary type.*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_generic_dictionaries_and_the_expectation_key_type_is_assignable_from_the_subjects_it_should_pass_if_compatible()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -322,7 +318,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow("the keys are still strings");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_generic_dictionaries_and_the_expectation_key_type_is_assignable_from_the_subjects_it_should_fail_if_incompatible()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -339,10 +335,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage("Subject contains unexpected key \"greeting\"*");
+            act.ShouldThrow<XunitException>().WithMessage("Subject contains unexpected key \"greeting\"*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_generic_dictionaries_and_the_expectation_key_type_is_not_assignable_from_the_subjects_it_should_fail()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -359,14 +355,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage(
                     String.Format(
                         "*The subject dictionary has keys of type System.String; however, the expected dictionary is not keyed with any compatible types.*{0}*",
                         typeof(IDictionary<int, string>)));
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_generic_dictionary_is_typed_as_object_it_should_respect_the_runtime_typed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -386,7 +382,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_a_generic_dictionary_is_typed_as_object_and_runtime_typing_has_is_specified_it_should_use_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -406,7 +402,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow("the runtime type is a dictionary and the dictionaries are equivalent");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_the_equivalence_of_generic_dictionaries_it_should_respect_the_declared_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -426,7 +422,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow("the objects are equivalent according to the members on the declared type");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_generic_dictionaries_and_configured_to_use_runtime_properties_it_should_respect_the_runtime_type()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -446,10 +442,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>("the runtime types have different properties");
+            act.ShouldThrow<XunitException>("the runtime types have different properties");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_asserting_equivalence_of_generic_dictionaries_the_type_information_should_be_preserved_for_other_equivalency_steps()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -468,7 +464,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
         private class GenericDictionaryNotImplementingIDictionary<TKey, TValue> : IDictionary<TKey, TValue>
@@ -682,7 +678,7 @@ namespace FluentAssertions.Specs
 
         #region (Nested) Dictionaries
 
-        [TestMethodAttribute]
+        [Fact]
         public void
             When_a_dictionary_property_is_detected_it_should_ignore_the_order_of_the_pairs
             ()
@@ -719,7 +715,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethodAttribute]
+        [Fact]
         public void
             When_the_other_property_is_not_a_dictionary_it_should_throw()
         {
@@ -748,11 +744,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Member*Customers*dictionary*non-dictionary*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_other_property_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -780,11 +776,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("*member*Dictionary to be <null>, but found *{*}*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_both_properties_are_null_it_should_not_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -808,10 +804,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow<AssertFailedException>();
+            act.ShouldNotThrow<XunitException>();
         }
 
-        [TestMethodAttribute]
+        [Fact]
         public void
             When_the_other_dictionary_does_not_contain_enough_items_it_should_throw
             ()
@@ -844,11 +840,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected*Customers*dictionary*2 item(s)*but*1 item(s)*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_equivalent_dictionaries_are_compared_directly_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -877,7 +873,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_equivalent_dictionaries_are_compared_directly_as_if_it_is_a_collection_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -906,7 +902,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_nested_dictionaries_do_not_match_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -936,11 +932,11 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>().WithMessage(
+            act.ShouldThrow<XunitException>().WithMessage(
                 "Expected*ReferencedEquipment[1]*Bla1*Bla2*2*index 3*");
         }
 
-        [TestMethod]
+        [Fact]
         public void When_two_nested_dictionaries_contain_null_values_it_should_not_crash()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -973,7 +969,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_the_dictionary_values_are_handled_by_the_enumerable_equivalency_step_the_type_information_should_be_preserved()
         {
             //-----------------------------------------------------------------------------------------------------------
@@ -995,7 +991,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<AssertFailedException>()
+            act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*Roles[*][1]*Other*Special*");
         }
 

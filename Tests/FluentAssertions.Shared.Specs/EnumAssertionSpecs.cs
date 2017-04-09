@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-#if !OLD_MSTEST
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Reflection.Emit;
 using System.Reflection;
-
-#else
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
+using Xunit;
+using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
@@ -26,10 +22,10 @@ namespace FluentAssertions.Specs
     }
 
     
-    [TestClass]
+    
     public class EnumAssertionSpecs
     {
-        [TestMethod]
+        [Fact]
         public void When_both_enums_are_equal_and_greater_than_max_long_it_should_not_throw()
         {
             // Arrange
@@ -43,7 +39,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_both_enums_are_equal_and_of_different_underlying_types_it_should_not_throw()
         {     
             // Arrange
@@ -57,7 +53,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [TestMethod]
+        [Fact]
         public void When_both_enums_are_large_and_not_equal_it_should_throw()
         {   
             // Arrange
@@ -68,7 +64,7 @@ namespace FluentAssertions.Specs
             Action act = () => enumOne.ShouldBeEquivalentTo(enumTwo);
 
             // Assert
-            act.ShouldThrow<AssertFailedException>();
+            act.ShouldThrow<XunitException>();
         }
 
     }

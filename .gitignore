@@ -163,3 +163,11 @@ $RECYCLE.BIN/
 Package/Lib
 *.nupkg
 *.zip
+
+
+# Cake related
+Build/**
+!Build/packages.config
+Tools/**
+
+.idea/**
