@@ -489,7 +489,7 @@ act.ShouldThrow<InvalidOperationException>()
 Notice that the example also verifies that the exception has a particular inner exception with a specific message. in fact, you can even check the individual properties of the exception instance using the And property.
 
 ```csharp
-Action act = () => subject.Foo(null));
+Action act = () => subject.Foo(null);
 
 act.ShouldThrow<ArgumentNullException>()
  .And.ParamName.Should().Equal("message");
@@ -498,14 +498,14 @@ act.ShouldThrow<ArgumentNullException>()
 An alternative syntax for doing the same is by chaining one or more calls to the `Where()` method:
 
 ```csharp
-Action act = () => subject.Foo(null)); 
+Action act = () => subject.Foo(null);
 act.ShouldThrow<ArgumentNullException>().Where(e => e.Message.StartsWith("did"));
 ```
 
 However, we discovered that testing the exception message for a substring is so common, that we changed the default behavior of `WithMessage` to support wildcard expressions and match in a case-insensitive way.
 
 ```csharp
-Action act = () => subject.Foo(null)); 
+Action act = () => subject.Foo(null);
 act
   .ShouldThrow<ArgumentNullException>()
   .WithMessage("?did*");
@@ -514,7 +514,7 @@ act
 On the other hand, you may want to verify that no exceptions were thrown.
 
 ```csharp
-Action act = () => subject.Foo("Hello"));
+Action act = () => subject.Foo("Hello");
 act.ShouldNotThrow();
 ```
 
@@ -523,7 +523,7 @@ I know that a unit test will fail anyhow if an exception was thrown, but this sy
 If you want to verify that a specific exception is not thrown, and want to ignore others, you can do that using an overload:
 
 ```csharp
-Action act = () => subject.Foo("Hello"));
+Action act = () => subject.Foo("Hello");
 act.ShouldNotThrow<InvalidOperationException>();
 ```
 
@@ -982,6 +982,3 @@ public static class CustomFormatter
 ```
 
 Since scanning for value formatters incurs a significant performance hit, you need to explicitly enable that using the `<appSetting>`  with key `valueFormatters`. Valid values include `Disabled` (the default), `Scan` and `Specific`, where `Scan` will scan all assemblies in the `AppDomain`. Option `Specific` also requires you to set the `valueFormattersAssembly` setting key with the (partial) name of an assembly FA should scan. Since Silverlight and Windows Phone apps do not support an `app.config` file, you'll need to set those settings through the `ValueFormatterDetectionMode` and `ValueFormatterAssembly` properties of the static `Configuration.Current` object.
-
-## Assertion Scope
-See [Assertion Scope](/AssertionScope.html)
