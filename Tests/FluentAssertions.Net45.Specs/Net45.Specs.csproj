@@ -120,6 +120,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj">
+      <Project>{34e3713d-c02f-4868-bbe7-47dad2c7f03d}</Project>
+      <Name>FluentAssertions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AssemblyA\AssemblyA.csproj">
       <Project>{7144bd9d-2a5f-45b6-ac5b-e35578d03350}</Project>
       <Name>AssemblyA</Name>
@@ -127,14 +131,6 @@
     <ProjectReference Include="..\AssemblyB\AssemblyB.csproj">
       <Project>{d9cccaf6-ff9e-4688-9d96-645e27616ac4}</Project>
       <Name>AssemblyB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Src\FluentAssertions.Core\Core.pcl.csproj">
-      <Project>{8931c5ef-3bac-473a-a343-57791d0917b1}</Project>
-      <Name>Core.pcl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Src\FluentAssertions.Net45\Net45.csproj">
-      <Project>{81d1792f-3c87-49cf-a502-9f232ff3719c}</Project>
-      <Name>Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\FluentAssertions.Shared.Specs\Shared.Specs.projitems" Label="Shared" Condition="Exists('..\FluentAssertions.Shared.Specs\Shared.Specs.projitems')" />
