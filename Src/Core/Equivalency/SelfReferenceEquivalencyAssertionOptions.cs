@@ -442,7 +442,7 @@ namespace FluentAssertions.Equivalency
         }
 
         /// <summary>
-        /// Causes the collection identified by the provided <paramref name="predicate"/> to be compared in the order 
+        /// Causes the collection identified by the provided <paramref name="predicate"/> to be compared ignoring the order 
         /// in which the items appear in the expectation.
         /// </summary>
         public TSelf WithoutStrictOrderingFor(Expression<Func<ISubjectInfo, bool>> predicate)
