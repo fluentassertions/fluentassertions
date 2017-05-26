@@ -4,6 +4,7 @@ description: "\"With Fluent Assertions, the assertions look beautiful, natural a
 email:
 twitter_username: ddoomen
 github_username:  fluentassertions
+google_analytics: UA-99995670-1
 
 theme: minima
 gems:
