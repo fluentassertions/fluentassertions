@@ -12,3 +12,26 @@
 $content-width:    60% !default;
 
 @import "jekyll-theme-slate";
+
+$header-line-height: 120px;
+
+.site-title, .site-title:visited, .site-title:hover {
+  background: url(../images/logo_white.png) center left no-repeat;
+  background-size: contain;
+  line-height: $header-line-height;
+  width: 206px;
+  text-shadow: none;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.site-nav {
+  line-height: $header-line-height;
+  font-weight: bold;
+}
+
+.site-header{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
