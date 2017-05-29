@@ -43,7 +43,7 @@ We are a bunch of developers working for Aviva Solutions who highly value softwa
 
 Notable contributors include
 
-* [Adam Voss](https://github.com/vossad01)
+* [Adam Voss](https://github.com/adamvoss)
 
 The [Xamarin](https://github.com/onovotny/fluentassertions) version has been built by
 
