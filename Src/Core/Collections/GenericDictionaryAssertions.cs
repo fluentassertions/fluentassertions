@@ -678,6 +678,37 @@ namespace FluentAssertions.Collections
 
         #endregion
 
+        #region ContainKeyWithValue
+
+        /// <summary>
+        /// Asserts that the dictionary contains a key with the specified value. Values are compared using
+        /// their <see cref="object.Equals(object)" /> implementation.
+        /// </summary>
+        /// <param name="key">The expected key</param>
+        /// <param name="value">The expected value</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> ContainKeyWithValue(TKey key, TValue value, string because = "", params object[] becauseArgs)
+        {
+            ContainKey(key, because, becauseArgs);
+            Execute.Assertion
+                .BecauseOf(because, becauseArgs)
+                .Given(() => Subject)
+                .ForCondition(subject => subject[key].IsSameOrEqualTo(value))
+                .FailWith("Expected {context:dictionary} {0} to contain {1}{reason}, but found {2}.", 
+                                                                                            Subject, 
+                                                                                            new KeyValuePair<TKey, TValue>(key, value), 
+                                                                                            new KeyValuePair<TKey, TValue>(key, Subject[key]));
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        #endregion
+
         #region Contain
 
         /// <summary>
