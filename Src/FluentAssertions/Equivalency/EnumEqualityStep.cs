@@ -1,7 +1,7 @@
 #region
 
 using System;
-using System.Globalization;
+using System.Reflection;
 
 #endregion
 
@@ -16,8 +16,8 @@ namespace FluentAssertions.Equivalency
         {
             Type subjectType = config.GetSubjectType(context);
 
-            return ((subjectType != null) && subjectType.IsEnum()) ||
-                   ((context.Expectation != null) && context.Expectation.GetType().IsEnum());
+            return ((subjectType != null) && subjectType.GetTypeInfo().IsEnum) ||
+                   ((context.Expectation != null) && context.Expectation.GetType().GetTypeInfo().IsEnum);
         }
 
         /// <summary>

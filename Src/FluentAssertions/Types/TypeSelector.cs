@@ -31,7 +31,7 @@ namespace FluentAssertions.Types
         /// </summary>
         public TypeSelector ThatDeriveFrom<TBase>()
         {
-            types = types.Where(type => type.IsSubclassOf(typeof(TBase))).ToList();
+            types = types.Where(type => type.GetTypeInfo().IsSubclassOf(typeof(TBase))).ToList();
             return this;
         }
 
@@ -53,7 +53,7 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreDecoratedWith<TAttribute>()
         {
             types = types
-#if NEW_REFLECTION
+#if !NET45
                 .Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
 #else
                 .Where(t => t.GetCustomAttributes(typeof(TAttribute), true).Length > 0)

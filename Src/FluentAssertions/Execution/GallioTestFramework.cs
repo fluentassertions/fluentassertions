@@ -29,45 +29,26 @@ namespace FluentAssertions.Execution
             }
 
             object testContext = testContextType
-#if !WINRT
-                .GetProperty("CurrentContext")
-#else
                 .GetRuntimeProperty("CurrentContext")
-#endif
                 .GetValue(null, null);
 
             if (testContext != null)
             {
-#if !WINRT && !CORE_CLR
-                testContextType.InvokeMember("IncrementAssertCount", BindingFlags.InvokeMethod, null, testContext, null);
-#else
                 var method = testContextType.GetRuntimeMethod("IncrementAssertCount", new Type[0]);
                 method.Invoke(testContext, null);
-#endif
             }
 
             object assertionFailureBuilder = Activator.CreateInstance(assertionFailureBuilderType, message);
             object assertionFailure;
-#if !WINRT && !CORE_CLR
-            assertionFailureBuilderType.InvokeMember("SetMessage", BindingFlags.InvokeMethod, null,
-                assertionFailureBuilder, new object[] {message});
-            assertionFailure = assertionFailureBuilderType.InvokeMember("ToAssertionFailure",
-                BindingFlags.InvokeMethod, null, assertionFailureBuilder, null);
-#else
             var setMessageMethod = assertionFailureBuilderType.GetRuntimeMethod("SetMessage", new [] {typeof(string)});
             setMessageMethod.Invoke(assertionFailureBuilder, new object[] {message});
 
             var toAssertionFailureMethod = assertionFailureBuilderType.GetRuntimeMethod("ToAssertionFailure", new Type[0]);
             assertionFailure = toAssertionFailureMethod.Invoke(assertionFailureBuilder, null);
-#endif
             try
             {
-#if !WINRT && !CORE_CLR
-                assertionHelperType.InvokeMember("Fail", BindingFlags.InvokeMethod, null, null, new[] {assertionFailure});
-#else
                 var failMethod = assertionHelperType.GetRuntimeMethods().First(m => m.Name == "Fail");
                 failMethod.Invoke(null, new[] {assertionFailure});
-#endif
             }
             catch (TargetInvocationException ex)
             {
@@ -82,7 +63,7 @@ namespace FluentAssertions.Execution
         {
             get
             {
-#if CORE_CLR
+#if !NET45 // TODO :: AppDomains on netcore
                 // For CoreCLR, we need to attempt to load the assembly
                 try
                 {

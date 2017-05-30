@@ -18,7 +18,7 @@ namespace FluentAssertions.Common
     {
         #region Private Definitions
 
-#if NEW_REFLECTION
+#if !NET45
         private readonly Func<AssemblyName, Assembly> assemblyLoader;
 #else
         private readonly Func<string, Assembly> assemblyLoader;
@@ -33,7 +33,7 @@ namespace FluentAssertions.Common
         {            
         }
 
-#if NEW_REFLECTION
+#if !NET45
         public ProbingAdapterResolver(Func<AssemblyName, Assembly> assemblyLoader)
         {
             this.assemblyLoader = assemblyLoader;
@@ -65,7 +65,7 @@ namespace FluentAssertions.Common
         {
             string typeName = MakeAdapterTypeName(interfaceType);
 
-#if NEW_REFLECTION
+#if !NET45
             Type type = assembly.GetType(typeName, throwOnError: false, ignoreCase: false);
 #else
             Type type = assembly.GetType(typeName, throwOnError: false);
@@ -101,7 +101,7 @@ namespace FluentAssertions.Common
 
         private Assembly ProbeForPlatformSpecificAssembly()
         {
-#if NEW_REFLECTION
+#if !NET45
             var assemblyName = new AssemblyName(GetType().GetTypeInfo().Assembly.FullName) { Name = "FluentAssertions" };
 #else
             var assemblyName = new AssemblyName(GetType().Assembly.FullName) { Name = "FluentAssertions" };
@@ -109,7 +109,7 @@ namespace FluentAssertions.Common
 
             try
             {
-#if NEW_REFLECTION
+#if !NET45
                 return assemblyLoader(assemblyName);
 #else
                 return assemblyLoader(assemblyName.FullName);

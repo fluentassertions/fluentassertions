@@ -27,6 +27,7 @@ namespace FluentAssertions.Events
                 returnType,
                 AppendParameterListThisReference(parameters),
                 recorder.GetType()
+                .GetTypeInfo()
                 .Module);
 #else
             var eventHandler = new DynamicMethod(
@@ -60,7 +61,7 @@ namespace FluentAssertions.Events
                 ilGen.Emit(OpCodes.Ldarg, index + 1);
                 
                 // Box value-type parameters
-                if (parameters[index]
+                if (parameters[index].GetTypeInfo()
                     .IsValueType)
                 {
                     ilGen.Emit(OpCodes.Box, parameters[index]);
@@ -133,7 +134,7 @@ namespace FluentAssertions.Events
         /// </summary>
         private static bool TypeIsDelegate(Type d)
         {
-            if (d
+            if (d.GetTypeInfo()
                 .BaseType != typeof (MulticastDelegate))
             {
                 return false;

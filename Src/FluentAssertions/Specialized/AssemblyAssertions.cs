@@ -19,7 +19,7 @@ namespace FluentAssertions.Reflection
             Subject = assembly;
         }
 
-#if !PORTABLE && !SILVERLIGHT && !WINRT && !CORE_CLR
+#if NET45 // TODO :: Should be able to remove based on: https://github.com/dotnet/corefx/issues/1784#issuecomment-218803619
 
         /// <summary>
         /// Asserts that an assembly does not reference the specified assembly.

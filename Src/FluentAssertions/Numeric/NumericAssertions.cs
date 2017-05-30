@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 
 using FluentAssertions.Execution;
-
+using System.Reflection;
 
 namespace FluentAssertions.Numeric
 {
@@ -321,7 +321,7 @@ namespace FluentAssertions.Numeric
         public AndConstraint<NumericAssertions<T>> BeOfType(Type expectedType, string because = "", params object[] becauseArgs)
         {
             Type subjectType = Subject.GetType();
-            if (expectedType.IsGenericTypeDefinition() && subjectType.IsGenericType())
+            if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
             }

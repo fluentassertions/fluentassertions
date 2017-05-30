@@ -291,7 +291,7 @@ namespace FluentAssertions.Types
                 throw new ArgumentException("Must not be an interface Type.", "baseType");
             }
 
-            Execute.Assertion.ForCondition(Subject.IsSubclassOf(baseType))
+            Execute.Assertion.ForCondition(Subject.GetTypeInfo().IsSubclassOf(baseType))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type {0} to be derived from {1}{reason}, but it is not.", Subject, baseType);
 

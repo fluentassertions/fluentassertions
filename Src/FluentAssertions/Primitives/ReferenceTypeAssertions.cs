@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 
 using FluentAssertions.Execution;
+using System.Reflection;
 
 namespace FluentAssertions.Primitives
 {
@@ -141,7 +142,7 @@ namespace FluentAssertions.Primitives
                 .FailWith("Expected {context:type} to be {0}{reason}, but found <null>.", expectedType);
 
             Type subjectType = Subject.GetType(); 
-            if (expectedType.IsGenericTypeDefinition() && subjectType.IsGenericType())
+            if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
             } 

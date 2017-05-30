@@ -49,7 +49,7 @@ namespace FluentAssertions.Execution
 #else
                 string prefix = AssemblyName + ",";
 
-#if !PORTABLE
+#if NET45 // TODO :: AppDomains on netcore
                 assembly = AppDomain.CurrentDomain
                     .GetAssemblies()
                     .FirstOrDefault(a => a.FullName.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase));
