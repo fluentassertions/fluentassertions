@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -28,15 +27,15 @@ namespace FluentAssertions.Common
             return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
         }
 
-        public static bool HasAttribute<TAttribute>(this Type method) where TAttribute : Attribute
+        public static bool HasAttribute<TAttribute>(this Type type) where TAttribute : Attribute
         {
-#if NEW_REFLECTION
-            return (method.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any());
-#else
-            return (method.GetCustomAttributes(typeof(TAttribute), true).Any());
-#endif
+            return HasAttribute<TAttribute>(type.GetTypeInfo());
         }
 
+        public static bool HasAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
+        {
+            return typeInfo.GetCustomAttributes(typeof(TAttribute), true).Any();
+        }
 
         public static bool HasMatchingAttribute<TAttribute>(this MemberInfo type, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
             where TAttribute : Attribute
@@ -54,6 +53,14 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type).Any(isMatchingAttribute);
         }
 
+        public static bool HasMatchingAttribute<TAttribute>(this TypeInfo typeInfo, Expression<Func<TAttribute, bool>> isMatchingAttributePredicate)
+            where TAttribute : Attribute
+        {
+            Func<TAttribute, bool> isMatchingAttribute = isMatchingAttributePredicate.Compile();
+
+            return GetCustomAttributes<TAttribute>(typeInfo).Any(isMatchingAttribute);
+        }
+
         public static bool IsDecoratedWith<TAttribute>(this MemberInfo type)
             where TAttribute : Attribute
         {
@@ -67,18 +74,22 @@ namespace FluentAssertions.Common
         }
 
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type)
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type) 
+            where TAttribute : Attribute
         {
             return type.GetCustomAttributes(false).OfType<TAttribute>();
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type)
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type) 
+            where TAttribute : Attribute
         {
-#if NEW_REFLECTION
-            return type.GetTypeInfo().GetCustomAttributes(false).OfType<TAttribute>();
-#else
-            return type.GetCustomAttributes(false).OfType<TAttribute>();
-#endif
+            return GetCustomAttributes<TAttribute>(type.GetTypeInfo());
+        }
+
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo) 
+            where TAttribute : Attribute
+        {
+            return typeInfo.GetCustomAttributes(false).OfType<TAttribute>();
         }
 
         /// <summary>
@@ -114,7 +125,7 @@ namespace FluentAssertions.Common
 
         internal static Type[] GetClosedGenericInterfaces(Type type, Type openGenericType)
         {
-            if (type.IsGenericType() && type.GetGenericTypeDefinition() == openGenericType)
+            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == openGenericType)
             {
                 return new[] { type };
             }
@@ -122,7 +133,7 @@ namespace FluentAssertions.Common
             Type[] interfaces = type.GetInterfaces();
             return
                 interfaces
-                    .Where(t => (t.IsGenericType() && (t.GetGenericTypeDefinition() == openGenericType)))
+                    .Where(t => (t.GetTypeInfo().IsGenericType && (t.GetGenericTypeDefinition() == openGenericType)))
                     .ToArray();
         }
 
@@ -270,7 +281,7 @@ namespace FluentAssertions.Common
 
         private static bool IsInterface(Type typeToReflect)
         {
-            return typeToReflect.IsInterface();
+            return typeToReflect.GetTypeInfo().IsInterface;
         }
 
         private static IEnumerable<Type> GetInterfaces(Type type)
