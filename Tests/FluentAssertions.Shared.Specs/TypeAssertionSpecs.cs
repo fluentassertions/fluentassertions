@@ -1907,6 +1907,56 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
+        [Fact]
+        public void When_asserting_a_type_has_a_default_constructor_which_it_does_not_and_a_cctor_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithCctor);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            type.Should()
+                    .HaveDefaultConstructor("because the compiler generates one even if not explicitly defined.")
+                    .Which.Should()
+                        .HaveAccessModifier(CSharpAccessModifier.Public);
+            Action act = () =>
+                type.Should()
+                    .HaveDefaultConstructor()
+                    .Which.Should()
+                        .HaveAccessModifier(CSharpAccessModifier.Public);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_a_default_constructor_which_it_does_not_and_a_cctor_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(ClassWithCctorAndNonDefaultConstructor);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveDefaultConstructor("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected constructor FluentAssertions.Specs.ClassWithCctorAndNonDefaultConstructor() to exist because we " +
+                    "want to test the error message, but it does not.");
+        }
+        
         #endregion
 
         #region HaveMethod

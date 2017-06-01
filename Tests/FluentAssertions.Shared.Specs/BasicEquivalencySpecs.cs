@@ -3570,6 +3570,17 @@ With configuration:*");
         public string Property3 { get; set; }
     }
 
+    internal class ClassWithCctor
+    {
+        static ClassWithCctor() { }
+    }
+
+    internal class ClassWithCctorAndNonDefaultConstructor
+    {
+        static ClassWithCctorAndNonDefaultConstructor() { }
+        public ClassWithCctorAndNonDefaultConstructor(int i) { }
+    }
+
     internal class MyCompanyLogo
     {
         public string Url { get; set; }
