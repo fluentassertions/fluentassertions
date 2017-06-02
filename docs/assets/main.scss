@@ -16,14 +16,14 @@ $content-width:    60% !default;
 $header-line-height: 120px;
 
 .site-title, .site-title:visited, .site-title:hover {
-  background: url(../images/logo_white.png) center left no-repeat;
+  background: url(../logo/fluent_assertions_large_horizontal.svg) center left no-repeat;
   background-size: contain;
   line-height: $header-line-height;
   width: 206px;
   text-shadow: none;
-    text-indent: 100%;
-    white-space: nowrap;
-    overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .site-nav {
@@ -31,7 +31,12 @@ $header-line-height: 120px;
   font-weight: bold;
 }
 
-.site-header{
+.site-header {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.footer-heading {
+  background: url(../logo/fluent_assertions_large_icon_only.svg) left no-repeat;
+  padding: 7px 0px 7px 35px ;
 }

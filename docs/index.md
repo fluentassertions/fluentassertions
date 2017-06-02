@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<img src="./images/logo.png" width="250" style="float:right">
+<img src="./logo/fluent_assertions.svg" width="250" style="float:right;margin-right:50px;margin-top:-1em;box-shadow:unset" >
 
 ## Installation
 
