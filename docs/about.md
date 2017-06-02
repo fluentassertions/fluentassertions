@@ -49,6 +49,10 @@ The [Xamarin](https://github.com/onovotny/fluentassertions) version has been bui
 
 * [Oren Novotny](https://twitter.com/onovotny)
 
+The [Fluent Assertions logo](./logo/fluent_assertions.svg) was created by
+
+* [IUsername](https://github.com/IUsername)
+
 If you have any comments or suggestions, please let us know via [twitter](https://twitter.com/search?q=fluentassertions&src=typd), through the [issues](https://github.com/dennisdoomen/FluentAssertions/issues) page, or through [StackOverflow](http://stackoverflow.com/questions/tagged/fluent-assertions).
 
 ## Versioning
