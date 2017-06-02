@@ -14,16 +14,18 @@ $content-width:    60% !default;
 @import "jekyll-theme-slate";
 
 $header-line-height: 120px;
+$fluent-assertions-red: #ed1c24;
+$fluent-assertions-blue: #00a9ee;
 
 .site-title, .site-title:visited, .site-title:hover {
-  background: url(../images/logo_white.png) center left no-repeat;
+  background: url(../logo/fluent_assertions_large_horizontal.svg) center left no-repeat;
   background-size: contain;
   line-height: $header-line-height;
   width: 206px;
   text-shadow: none;
-    text-indent: 100%;
-    white-space: nowrap;
-    overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .site-nav {
@@ -31,7 +33,15 @@ $header-line-height: 120px;
   font-weight: bold;
 }
 
-.site-header{
+.site-header {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.footer-heading {
+  background: url(../logo/fluent_assertions_large_icon_only.svg) left no-repeat;
+  padding: 7px 0px 7px 35px ;
+}
+
+h1 { color: $fluent-assertions-red }
+h2, h3, h4, h5, h6 { color: $fluent-assertions-blue }
