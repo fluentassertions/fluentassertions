@@ -345,6 +345,38 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_subject_throws_exception_with_message_with_braces_but_a_different_message_is_expected_it_should_report_that()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IFoo subjectThatThrows = A.Fake<IFoo>();
+            A.CallTo(() => subjectThatThrows.Do(A<string>.Ignored))
+                .Throws(new Exception("message with {}"));
+
+            try
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Act
+                //-----------------------------------------------------------------------------------------------------------
+                subjectThatThrows
+                    .Invoking(x => x.Do("something"))
+                    .ShouldThrow<Exception>()
+                    .WithMessage("message without");
+
+                Assert.Fail("This point should not be reached");
+            }
+            catch (AssertFailedException ex)
+            {
+                //-----------------------------------------------------------------------------------------------------------
+                // Assert
+                //-----------------------------------------------------------------------------------------------------------
+                ex.Message.Should().Match(
+                    "Expected exception message to match the equivalent of \r\n\"message without\"*, but \r\n\"message with {}*");
+            }
+        }
+
+        [TestMethod]
         public void When_asserting_with_an_aggregate_exception_type_the_asserts_should_occur_against_the_aggregate_exception()
         {
             //-----------------------------------------------------------------------------------------------------------
