@@ -24,7 +24,7 @@
     <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
     <TargetFrameworkVersion />
     <AppxBundle>Never</AppxBundle>
-    <PackageCertificateThumbprint>5470D98E21EAD530EEC332E6051B78C5B2F54863</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>F2E2BFC55C37B5BD45DC294F24C85B58AF791F03</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>WinRT81.Specs_TemporaryKey.pfx</PackageCertificateKeyFile>
     <DefaultLanguage>en-us</DefaultLanguage>
   </PropertyGroup>
