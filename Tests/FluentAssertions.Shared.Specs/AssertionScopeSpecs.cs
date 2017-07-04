@@ -181,6 +181,27 @@ namespace FluentAssertions.Specs
         }
 
         [TestMethod]
+        public void When_an_assertion_fails_in_a_scope_with_braces_it_should_use_the_name_as_the_assertion_context()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () =>
+            {
+                using (new AssertionScope("{}"))
+                {
+                    default(Array).Should().Equal(3, 2, 1);
+                }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<AssertFailedException>()
+                .WithMessage("Expected {} to be equal to*");
+        }
+
+        [TestMethod]
         public void When_parentheses_are_used_in_the_because_arguments_it_should_render_them_correctly()
         {
             //-----------------------------------------------------------------------------------------------------------
