@@ -1,0 +1,42 @@
+### {{ include.caption }}
+
+{% for example in include.examples %}
+<table class="code-table">
+<thead>
+<tr>
+	<th>
+		{{ include.header1 }}
+	</th>
+	<th>
+		{{ include.header2 }}
+	</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td markdown="1">
+```c#
+{{ example.old }}
+```
+</td>
+<td markdown="1">
+```c#
+{{ example.new }}
+```
+</td>
+</tr>
+<tr>
+<td markdown="1">
+```text
+{{ example.old-message }}
+```
+</td>
+<td markdown="1">
+```text
+{{ example.new-message }}
+```
+</td>
+</tr>
+</tbody>
+</table>
+{% endfor %}
