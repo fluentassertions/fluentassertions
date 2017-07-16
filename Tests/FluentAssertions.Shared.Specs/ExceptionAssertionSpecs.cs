@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
-#if FAKES
+
 
 using FakeItEasy;
 
@@ -1091,4 +1091,4 @@ namespace FluentAssertions.Specs
 }
 
 
-#endif
+

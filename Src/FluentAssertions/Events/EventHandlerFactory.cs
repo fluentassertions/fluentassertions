@@ -1,5 +1,5 @@
 
-#if !WINRT && !PORTABLE && !CORE_CLR
+
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -21,7 +21,6 @@ namespace FluentAssertions.Events
             Type returnType = GetDelegateReturnType(eventSignature);
             Type[] parameters = GetDelegateParameterTypes(eventSignature);
 
-#if !SILVERLIGHT
             var eventHandler = new DynamicMethod(
                 eventSignature.Name + "DynamicHandler",
                 returnType,
@@ -29,12 +28,6 @@ namespace FluentAssertions.Events
                 recorder.GetType()
                 .GetTypeInfo()
                 .Module);
-#else
-            var eventHandler = new DynamicMethod(
-                eventSignature.Name + "DynamicHandler",
-                returnType,
-                AppendParameterListThisReference(parameters));
-#endif
 
             MethodInfo methodToCall = typeof (IEventRecorder).GetMethod("RecordEvent",
                 BindingFlags.Instance | BindingFlags.Public);
@@ -158,4 +151,4 @@ namespace FluentAssertions.Events
         }
     }
 }
-#endif
+

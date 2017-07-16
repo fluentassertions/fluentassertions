@@ -1,4 +1,4 @@
-#if !WINRT && !SILVERLIGHT && !WINDOWS_PHONE_APP && !CORE_CLR
+
 using System.Linq;
 
 using FluentAssertions.Events;
@@ -106,4 +106,4 @@ namespace FluentAssertions
         }
     }
 }
-#endif
+

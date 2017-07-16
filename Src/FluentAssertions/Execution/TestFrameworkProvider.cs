@@ -18,10 +18,10 @@
 //            { "mbunit", new MbUnitTestFramework() },
 //            { "gallio", new GallioTestFramework() },
 //            { "mstest", new MSTestFramework() },
-//#if NET45
+//
 //            { "xunit2", new XUnit2TestFramework()},
 //            { "mstestv2", new MSTestFrameworkV2() },
-//#endif
+//
 //            { "fallback", new FallbackTestFramework() }
 //        };
 

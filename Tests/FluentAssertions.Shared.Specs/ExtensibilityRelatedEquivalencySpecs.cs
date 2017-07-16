@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Chill;
 using FluentAssertions.Equivalency;
 using Xunit;
 using Xunit.Sdk;
@@ -172,12 +171,7 @@ namespace FluentAssertions.Specs
                     name = name.Replace("Id", "");
                 }
 
-#if !WINRT && !WINDOWS_PHONE_APP
-                return SelectedMemberInfo.Create(expectation.GetType().GetProperty(name));
-#else
-                return SelectedMemberInfo.Create(expectation.GetType()
-                                  .GetRuntimeProperty(name));
-#endif
+                return SelectedMemberInfo.Create(expectation.GetType().GetRuntimeProperty(name));
             }
         }
 

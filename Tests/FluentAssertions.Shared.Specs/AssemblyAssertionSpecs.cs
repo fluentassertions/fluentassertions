@@ -1,18 +1,17 @@
-﻿using System;
+﻿#if NET45
+
+using System;
 using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
-#if !PORTABLE && !SILVERLIGHT && !NETFX_CORE && !WINRT
 using AssemblyA;
 using AssemblyB;
-#endif
 
 namespace FluentAssertions.Specs
 {
     
     public class AssemblyAssertionSpecs
     {
-#if !PORTABLE && !SILVERLIGHT && !NETFX_CORE && !WINRT
         [Fact]
         public void When_an_assembly_is_not_referenced_and_should_not_reference_is_asserted_it_should_succeed()
         {
@@ -92,7 +91,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>();
         }
-#endif
 
         [Fact]
         public void When_an_assembly_defines_a_type_and_Should_DefineType_is_asserted_it_should_succeed()
@@ -100,11 +98,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-#if !NETFX_CORE && !WINRT
             var thisAssembly = GetType().Assembly;
-#else
-            var thisAssembly = GetType().GetTypeInfo().Assembly;
-#endif
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -125,11 +119,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-#if !NETFX_CORE && !WINRT
             var thisAssembly = GetType().Assembly;
-#else
-            var thisAssembly = GetType().GetTypeInfo().Assembly;
-#endif
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -165,9 +155,10 @@ namespace FluentAssertions.Specs
         }
     }
 
-    [Serializable]
     public class WellKnownClassWithAttribute
     {
         
     }
 }
+
+#endif

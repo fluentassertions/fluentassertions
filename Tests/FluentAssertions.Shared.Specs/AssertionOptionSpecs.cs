@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if NET45
+
+using System;
 using System.Linq;
 using System.Net;
 using Chill;
@@ -9,8 +11,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-#if !SILVERLIGHT
-
     namespace AssertionOptionsSpecs
     {
         public class Given_temporary_global_assertion_options : GivenWhenThen
@@ -117,8 +117,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-#if !WINRT && !NETFX_CORE && !WINDOWS_PHONE_APP && !SILVERLIGHT
-
         [Collection("AssertionOptions")]
         public class When_marking_a_specific_type_as_a_value_type_globally : Given_temporary_global_assertion_options
         {
@@ -154,7 +152,6 @@ namespace FluentAssertions.Specs
                 act.ShouldNotThrow();
             }
         }
-#endif
 
         [Collection("AssertionOptions")]
         public class Given_temporary_equivalency_steps : GivenWhenThen
@@ -316,5 +313,6 @@ namespace FluentAssertions.Specs
             }
         }
     }
-#endif
 }
+
+#endif

@@ -136,13 +136,9 @@ namespace FluentAssertions.Specs
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
             Type typeFromThisAssembly = typeof (ObjectAssertions);
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
+
             Type typeFromOtherAssembly =
-                typeof (TypeAssertions).Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
-#else
-            Type typeFromOtherAssembly =
-                Type.GetType("FluentAssertions.Primitives.ObjectAssertions,FluentAssertions.Core");
-#endif
+                typeof (TypeAssertions).GetTypeInfo().Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 
 #pragma warning restore 436
 
@@ -2195,11 +2191,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP
+
             Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
-#else
-            Type type = typeof(Nested).GetTypeInfo().DeclaredNestedTypes.First(t => t.Name == "PrivateClass").AsType();
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2219,11 +2213,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP
+
             Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
-#else
-            Type type = typeof(Nested).GetTypeInfo().DeclaredNestedTypes.First(t => t.Name == "PrivateClass").AsType();
-#endif
+
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2245,11 +2238,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP
+
             Type type = typeof(Nested).GetNestedType("ProtectedEnum", BindingFlags.NonPublic | BindingFlags.Instance);
-#else
-            Type type = typeof(Nested).GetTypeInfo().DeclaredNestedTypes.First(t => t.Name == "ProtectedEnum").AsType();
-#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2269,11 +2259,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP
+
             Type type = typeof(Nested).GetNestedType("ProtectedEnum", BindingFlags.NonPublic | BindingFlags.Instance);
-#else
-            Type type = typeof(Nested).GetTypeInfo().DeclaredNestedTypes.First(t => t.Name == "ProtectedEnum").AsType();
-#endif
+
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------

@@ -9,6 +9,7 @@ using FluentAssertions.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
+
 namespace FluentAssertions.Specs
 {
     
@@ -147,7 +148,6 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-#if !WINRT && !NETFX_CORE && !WINDOWS_PHONE_APP && !SILVERLIGHT
         [Fact]
         public void When_treating_a_complex_type_in_a_collection_as_a_value_type_it_should_compare_them_by_value()
         {
@@ -235,7 +235,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*UriBuilder to be https://localhost:9002/bapi, but found http://localhost:9001/api*");
         }
-#endif
+
 
         [Fact]
         public void When_asserting_equivilence_on_a_string_it_should_use_string_specific_failure_messages()
@@ -2262,8 +2262,6 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-#if !NETFX_CORE && !WINRT
-
         [Fact]
         public void When_declaring_equivalent_a_convertable_object_that_is_equivalent_once_conveterted_it_should_pass()
         {
@@ -2284,7 +2282,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-#endif
+
 
         #endregion
 
@@ -2978,6 +2976,7 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
+#if NET45
         [Fact]
         public void When_asserting_types_with_infinite_oject_graphs_are_equivilent_it_should_not_overflow_the_stack()
         {
@@ -2996,12 +2995,10 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
             act.ShouldNotThrow<StackOverflowException>();
-#endif
-            act.ShouldThrow<XunitException>();
         }
-
+        
+#endif
         [Fact]
         public void
             When_asserting_equivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
@@ -3690,7 +3687,6 @@ With configuration:*");
         }
     }
 
-#if !NETFX_CORE && !WINRT
 
     public class CustomConvertible : IConvertible
     {
@@ -3787,7 +3783,7 @@ With configuration:*");
         }
     }
 
-#endif
+
 
     #endregion
 

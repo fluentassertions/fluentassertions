@@ -3,7 +3,7 @@ using System.Threading;
 using Xunit;
 using Xunit.Sdk;
 
-#if !PORTABLE && !SILVERLIGHT
+
 
 namespace FluentAssertions.Specs
 {
@@ -57,11 +57,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
+
             Action someAction = () => Thread.Sleep(510);
-#else
-            Action someAction = () => System.Threading.Tasks.Task.Delay(510).Wait();
-#endif
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
@@ -82,11 +80,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
+
             Action someAction = () => Thread.Sleep(100);
-#else
-            Action someAction = async () => await System.Threading.Tasks.Task.Delay(100);
-#endif
+
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -103,13 +99,10 @@ namespace FluentAssertions.Specs
         {
             public void Sleep(int milliseconds)
             {
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
+
                 Thread.Sleep(milliseconds);
-#else
-                System.Threading.Tasks.Task.Delay(milliseconds).Wait();
-#endif
+
             }
         }
     }
 }
-#endif

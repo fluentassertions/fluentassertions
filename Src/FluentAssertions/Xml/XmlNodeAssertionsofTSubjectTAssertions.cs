@@ -1,4 +1,6 @@
-﻿using FluentAssertions.Execution;
+﻿#if NET45
+
+using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Xml;
 
-#if NET45
+
 
 namespace FluentAssertions.Xml
 {

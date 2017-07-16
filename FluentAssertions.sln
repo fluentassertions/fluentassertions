@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
@@ -33,7 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{31891850-3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSTestV2.Specs", "Tests\TestFrameworks\MSTestV2.Specs\MSTestV2.Specs.csproj", "{A4E37052-5581-4E70-A9C3-FF8364B2F332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentAssertions", "Src\FluentAssertions\FluentAssertions.csproj", "{34E3713D-C02F-4868-BBE7-47DAD2C7F03D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentAssertions", "Src\FluentAssertions\FluentAssertions.csproj", "{34E3713D-C02F-4868-BBE7-47DAD2C7F03D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore.Specs", "Tests\NetCore.Specs\NetCore.Specs.csproj", "{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -149,6 +151,26 @@ Global
 		{34E3713D-C02F-4868-BBE7-47DAD2C7F03D}.Release|x64.Build.0 = Release|Any CPU
 		{34E3713D-C02F-4868-BBE7-47DAD2C7F03D}.Release|x86.ActiveCfg = Release|Any CPU
 		{34E3713D-C02F-4868-BBE7-47DAD2C7F03D}.Release|x86.Build.0 = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|ARM.Build.0 = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|x64.Build.0 = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Debug|x86.Build.0 = Debug|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|ARM.ActiveCfg = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|ARM.Build.0 = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|x64.ActiveCfg = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|x64.Build.0 = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|x86.ActiveCfg = Release|Any CPU
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -161,6 +183,7 @@ Global
 		{F50C8F77-3778-4432-84EC-B9B2B502E708} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 		{A4E37052-5581-4E70-A9C3-FF8364B2F332} = {4D8FA213-8724-4C43-B68A-F018148D238C}
 		{34E3713D-C02F-4868-BBE7-47DAD2C7F03D} = {31891850-3EDC-480A-9B6C-F60540E9C90F}
+		{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625} = {963262D0-9FD5-4741-8C0E-E2F34F110EF3}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = FluentAssertions.Silverlight\Silverlight.csproj

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-#if !NETFX_CORE && !WINRT
+
 
 namespace FluentAssertions
 {
@@ -8,9 +8,9 @@ namespace FluentAssertions
     {
         public static Assembly Containing<T>()
         {
-            return typeof(T).Assembly;
+            return typeof(T).GetTypeInfo().Assembly;
         }
     }
 }
 
-#endif
+

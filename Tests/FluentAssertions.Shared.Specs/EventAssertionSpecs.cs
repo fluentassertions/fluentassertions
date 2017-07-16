@@ -1,9 +1,6 @@
-﻿#if NET40 || NET45
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.IO;
 using System.Reflection.Emit;
 using System.Reflection;
-#endif
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -13,14 +10,14 @@ using Xunit;
 using Xunit.Sdk;
 using Formatter = FluentAssertions.Formatting.Formatter;
 
+#if NET45
+using System.Runtime.Serialization.Formatters.Binary;
+#endif
+
 namespace FluentAssertions.Specs
 {
     public class EventAssertionSpecs
     {
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
-
-        #region Should(Not)Raise
-
         [Fact]
         public void When_asserting_an_event_raise_and_the_object_is_not_monitored_it_should_throw()
         {
@@ -260,6 +257,7 @@ namespace FluentAssertions.Specs
                     "Expected at least one event with arguments matching (args.PropertyName == \"SomeProperty\"), but found none.");
         }
 
+#if NET45
         [Fact]
         public void When_the_event_parameter_is_of_a_different_type_it_should_throw()
         {
@@ -284,6 +282,8 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<ArgumentException>()
                 .WithMessage("No argument of event PropertyChanged is of type <System.UnhandledExceptionEventArgs>.");
         }
+
+#endif
 
         [Fact]
         public void When_the_event_parameters_do_match_it_should_not_throw()
@@ -356,11 +356,6 @@ namespace FluentAssertions.Specs
             subject.ShouldNotRaise("PropertyChanged");
         }
 
-        #endregion
-
-#else
-
-#if !WINRT && !CORE_CLR
         [Fact]
         public void When_a_non_conventional_event_with_a_specific_argument_was_raised_it_should_not_throw()
         {
@@ -457,7 +452,7 @@ namespace FluentAssertions.Specs
                 "Expected at least one event with arguments matching \"(args == \\\"" + wrongArgument + "\\\")\", but found none.");
         }
 
-#endif
+
 
         [Fact]
         public void When_trying_to_attach_to_notify_property_changed_should_not_throw()
@@ -499,9 +494,9 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<NotSupportedException>()
                 .WithMessage("Cannot monitor events of type \"EventRaisingClass\".");
         }
-#endif
 
-        #region Should(Not)RaisePropertyChanged events
+
+#region Should(Not)RaisePropertyChanged events
 
         [Fact]
         public void When_a_property_changed_event_was_raised_for_the_expected_property_it_should_not_throw()
@@ -655,9 +650,9 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        #endregion
+#endregion
 
-        #region General Checks
+#region General Checks
 
         [Fact]
         public void When_monitoring_a_null_object_it_should_throw()
@@ -790,7 +785,8 @@ namespace FluentAssertions.Specs
             referenceToSubject.IsAlive.Should().BeFalse();
         }
 
-#if NET40 || NET45
+#if NET45
+
         private object CreateProxyObject()
         {
             Type baseType = typeof(EventRaisingClass);
@@ -892,7 +888,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Fact]
         public void When_monitoring_interface_of_a_class_it_should_be_possible_to_obtain_a_recorder()
         {
@@ -977,6 +972,7 @@ namespace FluentAssertions.Specs
             action.ShouldThrow<TargetException>()
                 .WithMessage("*not match target type*");
         }
+#endif
 
         [Fact]
         public void When_monitoring_more_than_one_event_on_a_class_it_should_be_possible_to_reset_just_one()
@@ -1034,9 +1030,9 @@ namespace FluentAssertions.Specs
                 Interface2Event?.Invoke(this, new EventArgs());
             }
         }
-#endif
 
-        #endregion
+
+#endregion
 
         public interface IEventRaisingInterface
         {

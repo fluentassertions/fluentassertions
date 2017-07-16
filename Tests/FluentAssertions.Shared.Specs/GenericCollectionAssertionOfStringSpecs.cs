@@ -1833,15 +1833,11 @@ namespace FluentAssertions.Specs
         public void
             When_using_StringCollectionAssertions_the_AndConstraint_should_have_the_correct_type()
         {
-#if WINRT || WINDOWS_PHONE_APP
-            var methodInfo =
-                typeof(StringCollectionAssertions).GetRuntimeMethods()
-                    .Where(_ => _.IsPublic && !_.IsStatic);
-#else
+
             var methodInfo =
                 typeof(StringCollectionAssertions).GetMethods(
                     BindingFlags.Public | BindingFlags.Instance);
-#endif
+
 
             var methods =
                 from method in methodInfo
@@ -1849,20 +1845,14 @@ namespace FluentAssertions.Specs
                 where method.DeclaringType != typeof (object)
                 select new {method.Name, method.ReturnType};
 
-#if WINRT || WINDOWS_PHONE_APP
+
             methods.Should()
                 .OnlyContain(
                     method =>
                         typeof(AndConstraint<StringCollectionAssertions>)
                             .GetTypeInfo()
                             .IsAssignableFrom(method.ReturnType.GetTypeInfo()));
-#else
-            methods.Should()
-                .OnlyContain(
-                    method =>
-                        typeof(AndConstraint<StringCollectionAssertions>)
-                            .IsAssignableFrom(method.ReturnType));
-#endif
+
         }
 
         [Fact]

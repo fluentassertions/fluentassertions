@@ -18,11 +18,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetRuntimeProperty("PublicVirtualProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetProperty("PublicVirtualProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -42,11 +40,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetRuntimeProperty("PublicNonVirtualProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetProperty("PublicNonVirtualProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -74,11 +70,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -98,11 +92,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -122,11 +114,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicPropertyWithSameAttributeTwice");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicPropertyWithSameAttributeTwice");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -146,12 +136,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo =
-                typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -174,12 +161,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo =
-                typeof(ClassWithPropertiesThatAreNotDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -202,12 +186,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetRuntimeProperty("PublicProperty");
-#else
-            PropertyInfo propertyInfo =
-                typeof(ClassWithAllPropertiesDecoratedWithDummyAttribute).GetProperty("PublicProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -232,11 +213,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadOnlyProperty");
-#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -257,11 +235,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadWriteProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -280,11 +256,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -307,11 +281,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadOnlyProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -330,11 +302,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -353,11 +323,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -382,11 +350,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadOnlyProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -405,11 +371,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -430,11 +394,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
-#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -459,11 +420,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadOnlyProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -484,11 +443,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetRuntimeProperty("ReadWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithReadOnlyProperties).GetProperty("ReadWriteProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -509,11 +466,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WriteOnlyProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WriteOnlyProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -536,11 +491,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadPrivateWriteProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -559,11 +512,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WritePrivateReadProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WritePrivateReadProperty");
-#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -587,11 +537,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("WritePrivateReadProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("WritePrivateReadProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -610,11 +558,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("ReadPrivateWriteProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("ReadPrivateWriteProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -638,11 +584,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("StringProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -661,11 +605,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("StringProperty");
-#endif
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -690,11 +631,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if WINRT || WINDOWS_PHONE_APP
+
             PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
-#else
-            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetProperty("StringProperty");
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

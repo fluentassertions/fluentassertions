@@ -1152,6 +1152,7 @@ namespace FluentAssertions.Specs
         #endregion
 
 #endif
+
     }
 
 

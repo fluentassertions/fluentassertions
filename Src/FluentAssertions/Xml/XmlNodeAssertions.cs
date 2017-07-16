@@ -1,11 +1,13 @@
-﻿using System;
+﻿#if NET45
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml;
 
-#if NET45
+
 
 namespace FluentAssertions.Xml
 {
@@ -20,5 +22,6 @@ namespace FluentAssertions.Xml
         { }
     }
 }
+
 
 #endif

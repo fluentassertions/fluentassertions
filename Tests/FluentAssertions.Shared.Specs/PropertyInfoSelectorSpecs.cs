@@ -16,11 +16,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
-            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
-#else
+
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

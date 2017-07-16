@@ -732,7 +732,7 @@ namespace FluentAssertions
             new EquivalencyValidator(options).AssertEquality(context);
         }
 
-#if NET45
+
         /// <summary>
         ///   Starts monitoring <paramref name="eventSource"/> for its events.
         /// </summary>
@@ -763,7 +763,7 @@ namespace FluentAssertions
 
             return EventMonitor.Attach( eventSource, typeof(T));
         }
-#endif
+
 
         /// <summary>
         ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.

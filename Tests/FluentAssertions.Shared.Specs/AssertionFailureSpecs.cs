@@ -1,7 +1,4 @@
 ﻿using System;
-
-using System.Reflection;
-
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using Xunit;
@@ -12,11 +9,7 @@ namespace FluentAssertions.Specs
     
     public class AssertionFailureSpecs
     {
-#if !WINRT
         private static readonly string AssertionsTestSubClassName = typeof (AssertionsTestSubClass).Name;
-#else
-        private static readonly string AssertionsTestSubClassName = typeof(AssertionsTestSubClass).GetTypeInfo().Name;
-#endif
 
         [Fact]
         public void When_reason_starts_with_because_it_should_not_do_anything()

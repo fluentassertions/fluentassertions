@@ -2,10 +2,6 @@
 using System.Linq;
 using System.Reflection;
 
-#if WINRT 
-using System.Reflection.RuntimeExtensions;
-#endif
-
 namespace FluentAssertions.Execution
 {
     internal class GallioTestFramework : ITestFramework
@@ -63,7 +59,8 @@ namespace FluentAssertions.Execution
         {
             get
             {
-#if !NET45 // TODO :: AppDomains on netcore
+
+#if !NET45
                 // For CoreCLR, we need to attempt to load the assembly
                 try
                 {

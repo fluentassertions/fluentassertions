@@ -53,11 +53,8 @@ namespace FluentAssertions.Types
         public TypeSelector ThatAreDecoratedWith<TAttribute>()
         {
             types = types
-#if !NET45
+
                 .Where(t => t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
-#else
-                .Where(t => t.GetCustomAttributes(typeof(TAttribute), true).Length > 0)
-#endif
                 .ToList();
 
             return this;

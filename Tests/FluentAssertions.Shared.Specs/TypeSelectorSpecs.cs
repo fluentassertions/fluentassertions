@@ -20,11 +20,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------            
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
-            Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).Assembly;
-#else
+
             Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).GetTypeInfo().Assembly;
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -45,11 +43,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
-            Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).Assembly;
-#else
+
             Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).GetTypeInfo().Assembly;
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -70,11 +66,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
-            Assembly assembly = typeof(ClassImplementingSomeInterface).Assembly;
-#else
+
             Assembly assembly = typeof(ClassImplementingSomeInterface).GetTypeInfo().Assembly;
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -96,11 +90,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
-            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
-#else
+
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -122,11 +114,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
-            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
-#else
+
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -147,11 +137,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
-            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
-#else
+
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -173,11 +161,9 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-#if !WINRT && !WINDOWS_PHONE_APP && !CORE_CLR
-            Assembly assembly = typeof(ClassWithSomeAttribute).Assembly;
-#else
+
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

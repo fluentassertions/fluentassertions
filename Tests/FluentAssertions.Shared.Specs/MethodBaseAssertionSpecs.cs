@@ -202,11 +202,9 @@ namespace FluentAssertions.Specs
 
             MethodInfo setMethod;
 
-#if NETFX_CORE || WINRT
+
             setMethod = propertyInfo.SetMethod;
-#else
-            setMethod = propertyInfo.GetSetMethod(true);
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -230,11 +228,9 @@ namespace FluentAssertions.Specs
 
             MethodInfo setMethod;
 
-#if NETFX_CORE || WINRT
+
             setMethod = propertyInfo.SetMethod;
-#else
-            setMethod = propertyInfo.GetSetMethod(true);
-#endif
+
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
@@ -261,11 +257,9 @@ namespace FluentAssertions.Specs
 
             MethodInfo getMethod;
 
-#if NETFX_CORE || WINRT
+
             getMethod = propertyInfo.GetMethod;
-#else
-            getMethod = propertyInfo.GetGetMethod(true);
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -289,11 +283,9 @@ namespace FluentAssertions.Specs
 
             MethodInfo getMethod;
 
-#if NETFX_CORE || WINRT
+
             getMethod = propertyInfo.GetMethod;
-#else
-            getMethod = propertyInfo.GetGetMethod(true);
-#endif
+
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

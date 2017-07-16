@@ -19,11 +19,7 @@ namespace FluentAssertions.Events
             }
         }
 
-#if NET45
         public static IEventMonitor Attach(object eventSource, Type type)
-#else
-        public static IEventMonitor Attach(System.ComponentModel.INotifyPropertyChanged eventSource, Type type)
-#endif
         {
             if (eventSource == null)
             {
@@ -46,8 +42,6 @@ namespace FluentAssertions.Events
             return Map[eventSource];
         }
     }
-
-#if NET45
     internal partial class EventMonitor
     {
         private readonly WeakReference eventSource;
@@ -110,41 +104,4 @@ namespace FluentAssertions.Events
             }
         }
     }
-#else
-    internal partial class EventMonitor
-    {
-        private readonly EventRecorder eventRecorder;
-
-        public EventMonitor(System.ComponentModel.INotifyPropertyChanged eventSource)
-        {
-            eventRecorder = new EventRecorder(eventSource, "PropertyChanged");
-            eventSource.PropertyChanged += (sender, args) => eventRecorder.RecordEvent(sender, args);
-        }
-        
-        public void Reset()
-        {
-            eventRecorder.Reset();
-        }
-
-        public void Attach(Type typeDefiningEventsToMonitor)
-        {
-            if (typeDefiningEventsToMonitor != typeof(System.ComponentModel.INotifyPropertyChanged))
-            {
-                throw new NotSupportedException($"Cannot monitor events of type \"{typeDefiningEventsToMonitor.Name}\".");
-            }
-        }
-
-        public IEventRecorder GetEventRecorder(string eventName)
-        {
-            switch (eventName)
-            {
-            case "PropertyChanged":
-                return eventRecorder;
-            
-            default:
-                throw new InvalidOperationException($"Not monitoring any events named \"{eventName}\".");
-            }
-        }
-    }
-#endif
 }
