@@ -1,5 +1,5 @@
 ﻿using System;
-
+using FluentAssertions.Execution;
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
@@ -9,45 +9,22 @@ namespace FluentAssertions.Common
     /// </summary>
     public static class Services
     {
-        #region Private Definitions
-
-        private static bool initialized = false;
         private static readonly object lockable = new object();
         private static Configuration configuration;
         private static Action<string> throwException;
+
         private static IReflector reflector;
         private static IConfigurationStore configurationStore;
 
-        #endregion
-
-        public static void Initialize()
+        static Services()
         {
-            if (!initialized)
-            {
-                lock (lockable)
-                {
-                    if (!initialized)
-                    {
-                        var platform = PlatformAdapter.Resolve<IProvidePlatformServices>();
-
-                        ConfigurationStore = platform.ConfigurationStore ?? new NullConfigurationStore();
-                        Reflector = platform.Reflector ?? new NullReflector();
-                        ThrowException = throwException ?? platform.Throw;
-                        
-                        Formatter.AddPlatformFormatters(platform.Formatters);
-
-                        initialized = true;
-                    }
-                }
-            }
+            ResetToDefaults();
         }
 
         public static IConfigurationStore ConfigurationStore
         {
             get
             {
-                Initialize();
-
                 return configurationStore;
             }
             set { configurationStore = value; }
@@ -57,14 +34,15 @@ namespace FluentAssertions.Common
         {
             get
             {
-                Initialize();
-
-                if (configuration == null)
+                lock (lockable)
                 {
-                    configuration = new Configuration(ConfigurationStore);                    
-                }
+                    if (configuration == null)
+                    {
+                        configuration = new Configuration(ConfigurationStore);
+                    }
 
-                return configuration;
+                    return configuration;
+                }
             }
         }
 
@@ -72,15 +50,11 @@ namespace FluentAssertions.Common
         {
             get
             {
-                Initialize();
                 return throwException;
             }
             set
             {
-                if (throwException == null)
-                {
                     throwException = value;
-                }
             }
         }
 
@@ -88,7 +62,6 @@ namespace FluentAssertions.Common
         {
             get
             {
-                Initialize();
                 return reflector;
             }
             set { reflector = value; }
@@ -96,8 +69,21 @@ namespace FluentAssertions.Common
 
         public static void ResetToDefaults()
         {
-            initialized = false;
-            Initialize();
+#if NET45
+            reflector = new FullFrameworkReflector();
+            configurationStore = new AppSettingsConfigurationStore();
+            throwException = msg =>
+            {
+                throw new AssertionFailedException(msg);
+            };
+#else
+            reflector = new NullReflector();
+            configurationStore = new NullConfigurationStore();
+            throwException = msg =>
+            {
+                throw new AssertionFailedException(msg);
+            };
+#endif
         }
     }
 }

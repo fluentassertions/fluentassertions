@@ -10,14 +10,6 @@ namespace FluentAssertions.Execution
         /// <summary>
         /// Gets an object that wraps and executes a conditional or unconditional assertion.
         /// </summary>
-        public static AssertionScope Assertion
-        {
-            get
-            {
-                Services.Initialize();
-
-                return AssertionScope.Current;
-            }
-        }
+        public static AssertionScope Assertion => AssertionScope.Current;
     }
 }

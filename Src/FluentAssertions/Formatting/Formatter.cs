@@ -66,8 +66,6 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public static string ToString(object value, bool useLineBreaks = false, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            Services.Initialize();
-
             if (processedObjects == null)
             {
                 processedObjects = new List<object>();
