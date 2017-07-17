@@ -107,7 +107,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="AsyncFunctionExceptionAssertionSpecs.cs" />
     <Compile Include="Chill\AutofacChillContainer.cs" />
     <Compile Include="Chill\DefaultChillContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

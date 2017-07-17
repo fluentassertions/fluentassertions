@@ -5,7 +5,6 @@ VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5A0B454-22D4-4694-99FF-D6A8B7DE7DA3}"
 	ProjectSection(SolutionItems) = preProject
-		Build.Package.bat = Build.Package.bat
 		Tests\Default.testsettings = Tests\Default.testsettings
 		Src\FluentAssertions.nuspec = Src\FluentAssertions.nuspec
 		Src\JetBrainsAnnotations.cs = Src\JetBrainsAnnotations.cs
@@ -35,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSTestV2.Specs", "Tests\Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentAssertions", "Src\FluentAssertions\FluentAssertions.csproj", "{34E3713D-C02F-4868-BBE7-47DAD2C7F03D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCore.Specs", "Tests\NetCore.Specs\NetCore.Specs.csproj", "{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCore.Specs", "Tests\NetCore.Specs\NetCore.Specs.csproj", "{63D10B08-A8F3-4DF7-9CC7-893ECF1C5625}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

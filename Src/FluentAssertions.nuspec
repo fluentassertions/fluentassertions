@@ -7,35 +7,40 @@
     <owners>Dennis Doomen</owners>
     <authors>Dennis Doomen</authors>
     <summary>
-      Fluent methods for asserting the result of TDD/BDD specs for .NET 4.0/4.5 (Desktop and Windows Store), CoreCLR, SL5, WP8, WP8.1 and WPA8.1. Supports the unit test frameworks MSTest, MSTest2, NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.
+      Fluent API for asserting the results of unit tests for .NET 4.5 (Desktop), .NET Standard 1.4 (.NET 4.6.1, Mono, Xamarin, UWP) and 1.6 (.NET Core). 
+      Supports the unit test frameworks MSTest, MSTest2, NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.
     </summary>
     <description>
-      A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or 
-      BDD-style unit test. Runs on 4.0 and 4.5 (Desktop and Windows Store), CoreCLR, Silverlight 5 and Windows Phone 8, 8.1 and 8.1 for Silverlight. Supports the unit test frameworks MSTest, MSTest2, NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.
+      A very extensive set of extension methods that allow you to more naturally specify the expected outcome of a TDD or
+      BDD-style unit tests. Runs on .NET 4.5.1 (Desktop), .NET Standard 1.4 (.NET 4.6.1, Mono, Xamarin, UWP) and 1.6 (.NET Core). 
+      Supports the unit test frameworks MSTest, MSTest2, NUnit, XUnit, XUnit2, MBUnit, Gallio, MSpec, and NSpec.
     </description>
     <language>en-US</language>
-    <licenseUrl>https://github.com/dennisdoomen/FluentAssertions/blob/master/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/fluentassertions/fluentassertions/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://www.fluentassertions.com</projectUrl>
-    <tags>MSTest MSTest2 xUnit xUnit2 NUnit MSpec NSpec Gallio MbUnit TDD BDD Fluent Silverlight WinRT WP8 WP8.1 WPA8.1 CoreCLR</tags>
-    <copyright>Copyright Dennis Doomen 2010-2016</copyright>
+    <tags>MSTest MSTest2 xUnit xUnit2 NUnit MSpec NSpec Gallio MbUnit TDD BDD Fluent netcore netstandard uwp</tags>
+    <copyright>Copyright Dennis Doomen 2010-2017</copyright>
     <releaseNotes>
-      See https://github.com/dennisdoomen/fluentassertions/releases/
+      See https://github.com/fluentassertions/fluentassertions/releases/
     </releaseNotes>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Xml" targetFramework="net45" />
-      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework="net451" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="net451" />
     </frameworkAssemblies>
     <dependencies>
-      <group targetFramework="net4" />
-      <group targetFramework="portable-net40+sl5+win8+wp8+wpa81" />
-      <group targetFramework="netstandard1.3">
+      <group targetFramework="netstandard1.4">
+        <dependency id="NETStandard.Library" version="1.6.0" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.1.0" />
+      </group>
+      <group targetFramework="netstandard1.6">
         <dependency id="NETStandard.Library" version="1.6.0" />
         <dependency id="System.Reflection.TypeExtensions" version="4.1.0" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="..\Artifacts\lib\**\*.*" target="lib" exclude="**\windows8\microsoft*.dll" />
-    <file src="..\Artifacts\lib\netstandard1.3\*.*" target="lib\uap10.0" exclude="**\windows8\microsoft*.dll" />
+    <file src=".\FluentAssertions\bin\Release\net451\*.*"  target="lib\net451" />
+    <file src=".\FluentAssertions\bin\Release\netstandard1.4\FluentAssertions.*" exclude="**\*.json" target="lib\netstandard1.4" />
+    <file src=".\FluentAssertions\bin\Release\netstandard1.6\FluentAssertions*.*" exclude="**\*.json" target="lib\netstandard1.6" />
   </files>
 </package>

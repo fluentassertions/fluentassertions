@@ -11,8 +11,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Src\FluentAssertions\FluentAssertions.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Private.CoreLib" />
-  </ItemGroup>
   <Import Project="..\FluentAssertions.Shared.Specs\Shared.Specs.projitems" Label="Shared" />
 </Project>
