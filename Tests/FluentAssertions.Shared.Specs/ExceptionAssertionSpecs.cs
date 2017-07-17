@@ -360,7 +360,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------            
             act.ShouldThrow<AggregateException>()
-                .WithMessage("Outer Message")
+                .WithMessage("Outer Message*")
                 .WithInnerException<Exception>()
                 .WithInnerMessage("Inner Message");
         }

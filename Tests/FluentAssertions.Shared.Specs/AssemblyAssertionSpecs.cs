@@ -105,7 +105,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act = () => thisAssembly
                 .Should().DefineType(GetType().Namespace, typeof(WellKnownClassWithAttribute).Name)
-                .Which.Should().BeDecoratedWith<SerializableAttribute>();
+                .Which.Should().BeDecoratedWith<DummyClassAttribute>();
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -155,6 +155,7 @@ namespace FluentAssertions.Specs
         }
     }
 
+    [DummyClass("name", true)]
     public class WellKnownClassWithAttribute
     {
         

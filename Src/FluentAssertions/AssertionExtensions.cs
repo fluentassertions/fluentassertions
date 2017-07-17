@@ -764,21 +764,6 @@ namespace FluentAssertions
             return EventMonitor.Attach( eventSource, typeof(T));
         }
 
-
-        /// <summary>
-        ///   Starts monitoring an object for its <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
-        /// </summary>
-        /// <exception cref = "ArgumentNullException">Thrown if eventSource is Null.</exception>
-        public static IEventMonitor MonitorEvents(this INotifyPropertyChanged eventSource)
-        {
-            if (eventSource == null)
-            {
-                throw new NullReferenceException("Cannot monitor the events of a <null> object.");
-            }
-
-            return EventMonitor.Attach( eventSource, typeof(INotifyPropertyChanged) );
-        }
-
         /// <summary>
         /// Safely casts the specified object to the type specified through <typeparamref name="TTo"/>.
         /// </summary>

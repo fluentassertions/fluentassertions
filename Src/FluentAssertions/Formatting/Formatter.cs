@@ -2,6 +2,7 @@
 using System.Linq;
 
 using FluentAssertions.Common;
+using FluentAssertions.Xml;
 
 namespace FluentAssertions.Formatting
 {
@@ -16,7 +17,14 @@ namespace FluentAssertions.Formatting
 
         private static readonly List<IValueFormatter> defaultFormatters = new List<IValueFormatter>
         {
+#if NET45
+            new XmlNodeFormatter(),
+#endif
             new AttributeBasedFormatter(),
+            new AggregateExceptionValueFormatter(),
+            new XDocumentValueFormatter(),
+            new XElementValueFormatter(),
+            new XAttributeValueFormatter(),
             new PropertyInfoFormatter(),
             new NullValueFormatter(),
             new GuidValueFormatter(),
@@ -40,7 +48,7 @@ namespace FluentAssertions.Formatting
             new DefaultValueFormatter(),
         };
 
-        #endregion
+#endregion
 
         /// <summary>
         /// A list of objects responsible for formatting the objects represented by placeholders.

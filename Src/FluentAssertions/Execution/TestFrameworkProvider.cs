@@ -1,96 +1,78 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions.Common;
 
-//namespace FluentAssertions.Execution
-//{
-//    internal static class TestFrameworkProvider
-//    {
-//        #region Private Definitions
+namespace FluentAssertions.Execution
+{
+    internal static class TestFrameworkProvider
+    {
+        #region Private Definitions
 
-//        private const string AppSettingKey = "FluentAssertions.TestFramework";
+        private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>
+        {
+            { "nunit", new NUnitTestFramework() },
+            { "xunit", new XUnitTestFramework() },
+            { "mspec", new MSpecFramework() },
+            { "mbunit", new MbUnitTestFramework() },
+            { "gallio", new GallioTestFramework() },
+            { "mstest", new MSTestFramework() },
 
-//        private static readonly Dictionary<string, ITestFramework> frameworks = new Dictionary<string, ITestFramework>
-//        {
-//            { "nunit", new NUnitTestFramework() },
-//            { "xunit", new XUnitTestFramework() },
-//            { "mspec", new MSpecFramework() },
-//            { "mbunit", new MbUnitTestFramework() },
-//            { "gallio", new GallioTestFramework() },
-//            { "mstest", new MSTestFramework() },
-//
-//            { "xunit2", new XUnit2TestFramework()},
-//            { "mstestv2", new MSTestFrameworkV2() },
-//
-//            { "fallback", new FallbackTestFramework() }
-//        };
+            { "xunit2", new XUnit2TestFramework()},
+            { "mstestv2", new MSTestFrameworkV2() },
 
-//        private static ITestFramework testFramework;
+            { "fallback", new FallbackTestFramework() }
+        };
 
-//        #endregion
+        private static ITestFramework testFramework;
 
-//        public static void Throw(string message)
-//        {
-//            if (testFramework == null)
-//            {
-//                testFramework = DetectFramework();
-//            }
+        #endregion
 
-//            testFramework.Throw(message);
-//        }
+        public static void Throw(string message)
+        {
+            if (testFramework == null)
+            {
+                testFramework = DetectFramework();
+            }
 
-//        private static ITestFramework DetectFramework()
-//        {
-//            ITestFramework detectedFramework = null;
+            testFramework.Throw(message);
+        }
 
-//            detectedFramework = AttemptToDetectUsingAppSetting();
-//            if (detectedFramework == null)
-//            {
-//                detectedFramework = AttemptToDetectUsingAssemblyScanning();
-//            }
+        private static ITestFramework DetectFramework()
+        {
+            ITestFramework detectedFramework = null;
 
-//            if (detectedFramework == null)
-//            {
-//                FailWithIncorrectConfiguration();
-//            }
+            detectedFramework = AttemptToDetectUsingAppSetting();
+            if (detectedFramework == null)
+            {
+                detectedFramework = AttemptToDetectUsingDynamicScanning();
+            }
 
-//            return detectedFramework;
-//        }
+            return detectedFramework;
+        }
 
-//        private static void FailWithIncorrectConfiguration()
-//        {
-//            string errorMessage =
-//                "Failed to detect the test framework. Make sure that the framework assembly is copied into the test run directory"
-//                + ", or configure it explicitly in the <appSettings> section using key \"" + AppSettingKey +
-//                "\" and one of the supported " +
-//                " frameworks: " + string.Join(", ", frameworks.Keys.ToArray());
+        private static ITestFramework AttemptToDetectUsingAppSetting()
+        {
+            string frameworkName = Services.Configuration.TestFrameworkName;
+            if (!string.IsNullOrEmpty(frameworkName) && frameworks.ContainsKey(frameworkName.ToLower()))
+            {
+                ITestFramework framework = frameworks[frameworkName.ToLower()];
+                if (!framework.IsAvailable)
+                {
+                    throw new Exception(
+                        "FluentAssertions was configured to use " + frameworkName +
+                        " but the required test framework assembly could not be found");
+                }
 
-//            throw new ConfigurationErrorsException(errorMessage);
-//        }
+                return framework;
+            }
 
-//        private static ITestFramework AttemptToDetectUsingAppSetting()
-//        {
-//            string frameworkName = ConfigurationManager.AppSettings[AppSettingKey];
+            return null;
+        }
 
-//            if (!string.IsNullOrEmpty(frameworkName) && frameworks.ContainsKey(frameworkName.ToLower()))
-//            {
-//                ITestFramework framework = frameworks[frameworkName.ToLower()];
-//                if (!framework.IsAvailable)
-//                {
-//                    throw new Exception(
-//                        "FluentAssertions was configured to use " + frameworkName +
-//                        " but the required test framework assembly could not be found");
-//                }
-
-//                return framework;
-//            }
-
-//            return null;
-//        }
-
-//        private static ITestFramework AttemptToDetectUsingAssemblyScanning()
-//        {
-//            return frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
-//        }
-//    }
-//}
+        private static ITestFramework AttemptToDetectUsingDynamicScanning()
+        {
+            return frameworks.Values.FirstOrDefault(framework => framework.IsAvailable);
+        }
+    }
+}

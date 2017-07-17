@@ -71,7 +71,7 @@ namespace FluentAssertions.Specs
             act
                 .ShouldThrow<XunitException>()
                 .And.Message.Should().StartWith(
-                    "Execution of the action should not exceed 0.100s, but it required 0.5");
+                    "Execution of the action should not exceed 0.100s, but it required");
         }
 
         [Fact]

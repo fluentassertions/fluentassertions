@@ -95,5 +95,7 @@ namespace FluentAssertions.Common
                 valueFormatterDetectionMode = null;
             }
         }
+
+        public string TestFrameworkName => store.GetSetting("FluentAssertions.TestFramework");
     }
 }

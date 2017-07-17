@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>FluentAssertions.NetCore.Specs</AssemblyName>
+    <RootNamespace>FluentAssertions.NetCore.Specs</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FakeItEasy" Version="3.4.2" />

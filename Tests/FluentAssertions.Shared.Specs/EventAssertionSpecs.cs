@@ -474,28 +474,6 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [Fact]
-        public void When_trying_to_attach_to_something_other_than_notify_property_changed_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //----------------------------------------------------------------------------------------------------------
-            var subject = new EventRaisingClass();
-            var eventMonitor = subject.MonitorEvents();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => eventMonitor.Attach(typeof(EventRaisingClass));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NotSupportedException>()
-                .WithMessage("Cannot monitor events of type \"EventRaisingClass\".");
-        }
-
-
 #region Should(Not)RaisePropertyChanged events
 
         [Fact]

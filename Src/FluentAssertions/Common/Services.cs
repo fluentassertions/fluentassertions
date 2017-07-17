@@ -72,18 +72,13 @@ namespace FluentAssertions.Common
 #if NET45
             reflector = new FullFrameworkReflector();
             configurationStore = new AppSettingsConfigurationStore();
-            throwException = msg =>
-            {
-                throw new AssertionFailedException(msg);
-            };
 #else
             reflector = new NullReflector();
             configurationStore = new NullConfigurationStore();
-            throwException = msg =>
-            {
-                throw new AssertionFailedException(msg);
-            };
 #endif
+
+
+            throwException = TestFrameworkProvider.Throw;
         }
     }
 }
