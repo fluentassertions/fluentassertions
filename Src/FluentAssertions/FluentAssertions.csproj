@@ -1,9 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;net451</TargetFrameworks>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net451'">
+    <DefineConstants>NET45</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,8 +21,8 @@
     <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
   </ItemGroup>
-
-  <ItemGroup>
+  
+    <ItemGroup>
     <PackageReference Include="System.Reflection" Version="4.3.0" />
   </ItemGroup>
   
