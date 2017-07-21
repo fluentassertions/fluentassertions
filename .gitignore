@@ -170,4 +170,4 @@ Build/**
 !Build/packages.config
 Tools/**
 
-.idea/**
+.idea*
