@@ -66,7 +66,7 @@ namespace FluentAssertions.Equivalency
         {
             var query =
                 from rule in config.MatchingRules
-                let match = rule.Match(selectedMemberInfo, context.Expectation, context.SelectedMemberDescription, config)
+                let match = rule.Match(selectedMemberInfo, context.Subject, context.SelectedMemberDescription, config)
                 where match != null
                 select match;
 

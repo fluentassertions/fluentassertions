@@ -16,9 +16,9 @@ namespace FluentAssertions.Equivalency
     {
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetSubjectType(context);
+            Type expectationType = config.GetExpectationType(context);
 
-            return ((context.Subject != null) && GetIDictionaryInterfaces(subjectType).Any());
+            return ((context.Expectation != null) && GetIDictionaryInterfaces(expectationType).Any());
         }
 
         private static Type[] GetIDictionaryInterfaces(Type type)
@@ -40,12 +40,12 @@ namespace FluentAssertions.Equivalency
 
         private static bool PreconditionsAreMet(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetSubjectType(context);
+            Type expectationType = config.GetExpectationType(context);
 
-            return (AssertImplementsOnlyOneDictionaryInterface(context.Subject)
+            return (AssertImplementsOnlyOneDictionaryInterface(context.Expectation)
                     && AssertExpectationIsNotNull(context.Subject, context.Expectation)
-                    && AssertIsCompatiblyTypedDictionary(subjectType, context.Expectation)
-                    && AssertSameLength(context.Subject, subjectType, context.Expectation));
+                    && AssertIsCompatiblyTypedDictionary(expectationType, context.Subject)
+                    && AssertSameLength(context.Expectation, expectationType, context.Subject));
         }
 
         private static bool AssertExpectationIsNotNull(object subject, object expectation)
@@ -55,16 +55,16 @@ namespace FluentAssertions.Equivalency
                 .FailWith("Expected {context:Subject} to be {0}, but found {1}.", null, subject);
         }
 
-        private static bool AssertImplementsOnlyOneDictionaryInterface(object subject)
+        private static bool AssertImplementsOnlyOneDictionaryInterface(object expectation)
         {
-            Type[] interfaces = GetIDictionaryInterfaces(subject.GetType());
+            Type[] interfaces = GetIDictionaryInterfaces(expectation.GetType());
             bool multipleInterfaces = (interfaces.Count() > 1);
 
             if (multipleInterfaces)
             {
                 AssertionScope.Current.FailWith(
                     string.Format(
-                        "{{context:Subject}} implements multiple dictionary types.  "
+                        "{{context:Expectation}} implements multiple dictionary types.  "
                         + "It is not known which type should be use for equivalence.{0}"
                         + "The following IDictionary interfaces are implemented: {1}",
                         Environment.NewLine,
@@ -75,31 +75,29 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool AssertIsCompatiblyTypedDictionary(Type subjectType, object expectation)
+        private static bool AssertIsCompatiblyTypedDictionary(Type expectedType, object subject)
         {
-            Type subjectDictionaryType = GetIDictionaryInterface(subjectType);
-            Type subjectKeyType = GetDictionaryKeyType(subjectDictionaryType);
+            Type expectedDictionaryType = GetIDictionaryInterface(expectedType);
+            Type subjectKeyType = GetDictionaryKeyType(expectedDictionaryType);
 
-            Type[] expectationDictionaryInterfaces = GetIDictionaryInterfaces(expectation.GetType());
-
-            if (!expectationDictionaryInterfaces.Any())
+            Type[] subjectDictionaryInterfaces = GetIDictionaryInterfaces(subject.GetType());
+            if (!subjectDictionaryInterfaces.Any())
             {
                 AssertionScope.Current.FailWith(
                     "{context:subject} is a dictionary and cannot be compared with a non-dictionary type.");
                 return false;
             }
 
-            Type[] suitableDictionaryInterfaces = expectationDictionaryInterfaces.Where(
+            Type[] suitableDictionaryInterfaces = subjectDictionaryInterfaces.Where(
                 @interface => GetDictionaryKeyType(@interface).IsAssignableFrom(subjectKeyType)).ToArray();
 
             if (suitableDictionaryInterfaces.Count() > 1)
             {
                 // Code could be written to handle this better, but is it really worth the effort?
                 AssertionScope.Current.FailWith(
-                    "The expected object implements multiple IDictionary interfaces.  "
-                    + "If you need to use ShouldBeEquivalentTo in this case please file "
-                    + "a bug with the FluentAssertions devlopment team");
-                return false;
+                    "The subject implements multiple IDictionary interfaces. ");
+
+                    return false;
             }
 
             if (!suitableDictionaryInterfaces.Any())
@@ -107,20 +105,20 @@ namespace FluentAssertions.Equivalency
                 AssertionScope.Current.FailWith(
                     string.Format(
                         "The {{context:subject}} dictionary has keys of type {0}; "
-                        + "however, the expected dictionary is not keyed with any compatible types.{1}"
-                        + "The expected dictionary implements: {2}",
+                        + "however, the expectation is not keyed with any compatible types.{1}"
+                        + "The subject implements: {2}",
                         subjectKeyType,
                         Environment.NewLine,
-                        string.Join(",", (IEnumerable<Type>)expectationDictionaryInterfaces)));
+                        string.Join(",", (IEnumerable<Type>)subjectDictionaryInterfaces)));
                 return false;
             }
 
             return true;
         }
 
-        private static Type GetDictionaryKeyType(Type subjectType)
+        private static Type GetDictionaryKeyType(Type expectedType)
         {
-            return subjectType.GetGenericArguments()[0];
+            return expectedType.GetGenericArguments()[0];
         }
 
         private static bool AssertSameLength(object subject, Type subjectType, object expectation)
@@ -147,9 +145,9 @@ namespace FluentAssertions.Equivalency
             return dictionaryType.GetGenericArguments();
         }
 
-        private static Type GetIDictionaryInterface(Type subjectType)
+        private static Type GetIDictionaryInterface(Type expectedType)
         {
-            return GetIDictionaryInterfaces(subjectType).Single();
+            return GetIDictionaryInterfaces(expectedType).Single();
         }
 
         private static bool AssertSameLength<TSubjectKey, TSubjectValue, TExpectKey, TExpectedValue>(
@@ -169,7 +167,7 @@ namespace FluentAssertions.Equivalency
             IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetSubjectType(context);
+            Type subjectType = config.GetExpectationType(context);
 
             string methodName =
                 ExpressionExtensions.GetMethodName(
@@ -190,18 +188,18 @@ namespace FluentAssertions.Equivalency
             Expression.Lambda(assertDictionaryEquivalence).Compile().DynamicInvoke();
         }
 
-        private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectKey, TExpectedValue>(
+        private static void AssertDictionaryEquivalence<TSubjectKey, TSubjectValue, TExpectedKey, TExpectedValue>(
             EquivalencyValidationContext context,
             IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config,
             IDictionary<TSubjectKey, TSubjectValue> subject,
-            IDictionary<TExpectKey, TExpectedValue> expectation) where TSubjectKey : TExpectKey
+            IDictionary<TExpectedKey, TExpectedValue> expectation) where TExpectedKey : TSubjectKey
         {
-            foreach (TSubjectKey key in subject.Keys)
+            foreach (TExpectedKey key in expectation.Keys)
             {
-                TExpectedValue expectedValue;
+                TSubjectValue subjectValue;
 
-                if (expectation.TryGetValue(key, out expectedValue))
+                if (subject.TryGetValue(key, out subjectValue))
                 {
                     if (config.IsRecursive)
                     {
@@ -215,7 +213,7 @@ namespace FluentAssertions.Equivalency
                 }
                 else
                 {
-                    AssertionScope.Current.FailWith("{context:subject} contains unexpected key {0}", key);
+                    AssertionScope.Current.FailWith("{context:expectation} contains key {0} that subject doesn't have", key);
                 }
             }
         }

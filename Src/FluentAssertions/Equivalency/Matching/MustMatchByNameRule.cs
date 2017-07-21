@@ -9,25 +9,25 @@ namespace FluentAssertions.Equivalency.Matching
     /// </summary>
     internal class MustMatchByNameRule : IMemberMatchingRule
     {
-        public SelectedMemberInfo Match(SelectedMemberInfo subjectMember, object expectation, string memberPath, IEquivalencyAssertionOptions config)
+        public SelectedMemberInfo Match(SelectedMemberInfo expectedMember, object subject, string memberPath, IEquivalencyAssertionOptions config)
         {
             SelectedMemberInfo compareeSelectedMemberInfoInfo = null;
 
             if (config.IncludeProperties)
             {
-                compareeSelectedMemberInfoInfo = SelectedMemberInfo.Create(expectation.GetType()
-                    .FindProperty(subjectMember.Name, subjectMember.MemberType));
+                compareeSelectedMemberInfoInfo = SelectedMemberInfo.Create(subject.GetType()
+                    .FindProperty(expectedMember.Name, expectedMember.MemberType));
             }
 
             if ((compareeSelectedMemberInfoInfo == null) && config.IncludeFields)
             {
-                compareeSelectedMemberInfoInfo = SelectedMemberInfo.Create(expectation.GetType()
-                    .FindField(subjectMember.Name, subjectMember.MemberType));
+                compareeSelectedMemberInfoInfo = SelectedMemberInfo.Create(subject.GetType()
+                    .FindField(expectedMember.Name, expectedMember.MemberType));
             }
 
-            if ((compareeSelectedMemberInfoInfo == null) && ExpectationImplementsMemberExplicitly(expectation, subjectMember))
+            if ((compareeSelectedMemberInfoInfo == null) && ExpectationImplementsMemberExplicitly(subject, expectedMember))
             {
-                compareeSelectedMemberInfoInfo = subjectMember;
+                compareeSelectedMemberInfoInfo = expectedMember;
             }
             
             if (compareeSelectedMemberInfoInfo == null)
@@ -35,7 +35,7 @@ namespace FluentAssertions.Equivalency.Matching
                 string path = (memberPath.Length > 0) ? memberPath + "." : "member ";
 
                 Execute.Assertion.FailWith(
-                    "Subject has " + path + subjectMember.Name + " that the other object does not have.");
+                    "Expectation has " + path + expectedMember.Name + " that the other object does not have.");
             }
 
             return compareeSelectedMemberInfoInfo;

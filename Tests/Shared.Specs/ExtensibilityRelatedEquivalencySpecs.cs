@@ -9,7 +9,7 @@ using Xunit.Sdk;
 namespace FluentAssertions.Specs
 {
     /// <summary>
-    /// Test Class containing specs over the extensibility points of ShouldBeEquivalentTo
+    /// Test Class containing specs over the extensibility points of Should().BeEquivalentTo
     /// </summary>
     [Collection("Equivalency")]
 
@@ -37,7 +37,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(
+            Action act = () => subject.Should().BeEquivalentTo(
                 expected,
                 options => options.Using(new ExcludeForeignKeysSelectionRule()));
 
@@ -66,7 +66,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(
+            Action act = () => subject.Should().BeEquivalentTo(
                 expected,
                 options => options.Using(new ExcludeForeignKeysSelectionRule()));
 
@@ -120,7 +120,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(
+            Action act = () => subject.Should().BeEquivalentTo(
                 expected,
                 options => options.Using(new ForeignKeyMatchingRule()));
 
@@ -151,7 +151,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(
+            Action act = () => subject.Should().BeEquivalentTo(
                 expected,
                 options => options.Using(new ForeignKeyMatchingRule()));
 
@@ -199,7 +199,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other,
+            Action act = () => subject.Should().BeEquivalentTo(other,
                 o => o
                     .Using<object>(c => ((Type)c.Subject).AssemblyQualifiedName.Should().Be((string)c.Expectation))
                     .When(si => si.SelectedMemberPath == "Type"));
@@ -229,7 +229,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, options => options
+            Action act = () => subject.Should().BeEquivalentTo(expectation, options => options
                 .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
                 .When(info => info.SelectedMemberPath.EndsWith("Date")));
 
@@ -266,7 +266,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, options =>
+            Action act = () => subject.Should().BeEquivalentTo(expectation, options =>
                 options
                     .Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1000))
                     .WhenTypeIs<DateTime>());
@@ -291,7 +291,7 @@ namespace FluentAssertions.Specs
                 strProperty = "I haz a string!"
             };
 
-            actual.ShouldBeEquivalentTo(expected,
+            actual.Should().BeEquivalentTo(expected,
                 opt => opt.Using<Int64>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<Int64>());
         }
 
@@ -321,7 +321,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(
+            Action act = () => subject.Should().BeEquivalentTo(
                 expected,
                 options => options.Using(new RelaxingDateTimeAssertionRule()));
 
@@ -337,14 +337,20 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = 8.July(2012).At(22, 9);
+            var subject = new
+            {
+                Property = 8.July(2012).At(22, 9)
+            };
 
-            var expected = 8.July(2012).At(22, 10);
+            var expected = new
+            {
+                Property = 8.July(2012).At(22, 10)
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(
+            Action act = () => subject.Should().BeEquivalentTo(
                 expected,
                 options => options.Using(new RelaxingDateTimeAssertionRule()));
 
@@ -352,7 +358,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage(string.Format("*{0}*", typeof(RelaxingDateTimeAssertionRule).Name));
+                .WithMessage($"*{typeof(RelaxingDateTimeAssertionRule).Name}*");
         }
 
         [Fact]
@@ -361,14 +367,20 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = 8.July(2012).At(22, 9);
+            var subject = new
+            {
+                Property = 8.July(2012).At(22, 9)
+            };
 
-            var expected = 8.July(2012).At(22, 10);
+            var expected = new
+            {
+                Property = 8.July(2012).At(22, 10)
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(
+            Action act = () => subject.Should().BeEquivalentTo(
                 expected,
                 options => options.Using(new RelaxingDateTimeAssertionRule()));
 
@@ -399,7 +411,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    subject.ShouldBeEquivalentTo(expected,
+                    subject.Should().BeEquivalentTo(expected,
                         opts => opts.Using(new AlwaysFailAssertionRule()).Using(new RelaxingDateTimeAssertionRule()));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -415,16 +427,22 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = 8.July(2012).At(22, 9);
+            var subject = new
+            {
+                Property = 8.July(2012).At(22, 9)
+            };
 
-            var expected = 8.July(2012).At(22, 10);
+            var expected = new
+            {
+                Property = 8.July(2012).At(22, 10)
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                subject.ShouldBeEquivalentTo(
+                subject.Should().BeEquivalentTo(
                     expected,
                     options =>
                     options.Using<DateTime>(
@@ -472,7 +490,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    subject.ShouldBeEquivalentTo(expected,
+                    subject.Should().BeEquivalentTo(expected,
                         opts =>
                             opts.Using<object>(context => { throw new Exception(); })
                                 .When(s => true)
@@ -504,7 +522,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    subject.ShouldBeEquivalentTo(expected,
+                    subject.Should().BeEquivalentTo(expected,
                         opts =>
                             opts.Using(new AlwayHandleEquivalencyStep())
                                 .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
@@ -534,7 +552,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expected, options => options
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options
                 .Using(new EqualityEquivalencyStep()));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -559,7 +577,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    subject.ShouldBeEquivalentTo(expected,
+                    subject.Should().BeEquivalentTo(expected,
                         opts =>
                             opts.Using(new NeverHandleEquivalencyStep())
                                 .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));
@@ -584,7 +602,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    subject.ShouldBeEquivalentTo(expected,
+                    subject.Should().BeEquivalentTo(expected,
                         opts =>
                             opts.Using(new ThrowExceptionEquivalencyStep<NotSupportedException>())
                                 .Using(new ThrowExceptionEquivalencyStep<InvalidOperationException>()));

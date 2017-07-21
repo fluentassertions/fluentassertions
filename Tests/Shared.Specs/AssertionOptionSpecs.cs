@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs
                     Value = 0.33D
                 };
 
-                Action act = () => actual.ShouldBeEquivalentTo(expected);
+                Action act = () => actual.Should().BeEquivalentTo(expected);
 
                 act.ShouldNotThrow();
             }
@@ -91,7 +91,7 @@ namespace FluentAssertions.Specs
                     Value = 0.33D
                 };
 
-                Action act = () => actual.ShouldBeEquivalentTo(expected, options => options
+                Action act = () => actual.Should().BeEquivalentTo(expected, options => options
                     .Using<double>(ctx => ctx.Subject.Should().Be(ctx.Expectation))
                     .WhenTypeIs<double>());
 
@@ -111,7 +111,7 @@ namespace FluentAssertions.Specs
                     Value = 0.33D
                 };
 
-                Action act = () => actual.ShouldBeEquivalentTo(expected);
+                Action act = () => actual.Should().BeEquivalentTo(expected);
 
                 act.ShouldNotThrow();
             }
@@ -146,7 +146,7 @@ namespace FluentAssertions.Specs
                     Word = "a"
                 };
 
-                Action act = () => subject.ShouldBeEquivalentTo(expected,
+                Action act = () => subject.Should().BeEquivalentTo(expected,
                     options => options.ComparingByValue<IPAddress>());
 
                 act.ShouldNotThrow();

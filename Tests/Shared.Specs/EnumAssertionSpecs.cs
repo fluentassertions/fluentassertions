@@ -33,7 +33,7 @@ namespace FluentAssertions.Specs
             var enumTwo = EnumULong.UInt64Max;
 
             // Act
-            Action act = () => enumOne.ShouldBeEquivalentTo(enumTwo);
+            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
 
             // Assert
             act.ShouldNotThrow();
@@ -47,7 +47,7 @@ namespace FluentAssertions.Specs
             var enumTwo = EnumULong.Int64Max;
 
             // Act
-            Action act = () => enumOne.ShouldBeEquivalentTo(enumTwo);
+            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
 
             // Assert
             act.ShouldNotThrow();
@@ -61,7 +61,7 @@ namespace FluentAssertions.Specs
             var enumTwo = EnumULong.UInt64Max;
 
             // Act
-            Action act = () => enumOne.ShouldBeEquivalentTo(enumTwo);
+            Action act = () => enumOne.Should().BeEquivalentTo(enumTwo);
 
             // Assert
             act.ShouldThrow<XunitException>();

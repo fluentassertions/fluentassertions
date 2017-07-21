@@ -15,9 +15,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var subjectType = config.GetSubjectType(context);
+            var expectationType = config.GetExpectationType(context);
 
-            return (context.Subject != null) && IsGenericCollection(subjectType);
+            return (context.Expectation != null) && IsGenericCollection(expectationType);
         }
 
         /// <summary>
@@ -33,15 +33,15 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetSubjectType(context);
+            Type expectedType = config.GetExpectationType(context);
 
-            var interfaceTypes = GetIEnumerableInterfaces(subjectType)
+            var interfaceTypes = GetIEnumerableInterfaces(expectedType)
                 .Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")
                 .ToList();
 
             AssertionScope.Current
                 .ForCondition(interfaceTypes.Count() == 1)
-                .FailWith("{context:Subject} implements {0}, so cannot determine which one " +
+                .FailWith("{context:Expectation} implements {0}, so cannot determine which one " +
                           "to use for asserting the equivalency of the collection. ", interfaceTypes);
 
             if (AssertExpectationIsCollection(context.Expectation, context.Subject))
@@ -52,18 +52,18 @@ namespace FluentAssertions.Equivalency
                     OrderingRules = config.OrderingRules
                 };
 
-                Type typeOfEnumeration = GetTypeOfEnumeration(subjectType);
+                Type typeOfEnumeration = GetTypeOfEnumeration(expectedType);
 
-                Expression subjectToArray = ToArray(context.Subject, typeOfEnumeration);
-                Expression expectationToArray =
-                    Expression.Constant(EnumerableEquivalencyStep.ToArray(context.Expectation));
+                Expression expectationAsArray = ToArray(context.Expectation, typeOfEnumeration);
+                Expression subjectAsArray =
+                    Expression.Constant(EnumerableEquivalencyStep.ToArray(context.Subject));
 
                 MethodCallExpression executeExpression = Expression.Call(
                     Expression.Constant(validator),
                     ExpressionExtensions.GetMethodName(() => validator.Execute<object>(null, null)),
                     new[] {typeOfEnumeration},
-                    subjectToArray,
-                    expectationToArray);
+                    subjectAsArray,
+                    expectationAsArray);
 
                 Expression.Lambda(executeExpression).Compile().DynamicInvoke();
             }

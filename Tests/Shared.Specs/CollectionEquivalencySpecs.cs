@@ -27,7 +27,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldAllBeEquivalentTo(Enumerable.Empty<object>());
+            Action act = () => subject.Should().BeEquivalentTo(Enumerable.Empty<object>());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -47,7 +47,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldAllBeEquivalentTo(null);
+            Action act = () => subject.Should().BeEquivalentTo<object>(null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -67,75 +67,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldAllBeEquivalentTo(null);
+            Action act = () => subject.Should().BeEquivalentTo<object>(null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }
-
-        #endregion
-
-        #region Null (Single Object)
-
-        [Fact]
-        public void When_subject_is_null_and_expectation_is_object_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<DateTime> subject = null;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldAllBeEquivalentTo(DateTime.Now);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "Expected subject to be*, but found <null>*");
-        }
-
-        [Fact]
-        public void When_subject_elements_are_null_and_expectation_is_null_object_it_should_succeed()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new SomeDto[] { null, null };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldAllBeEquivalentTo((SomeDto)null);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldNotThrow();
-        }
-
-        [Fact]
-        public void When_subject_is_null_and_expectation_is_null_object_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<object> subject = null;
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldAllBeEquivalentTo((object)null);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "Expected subject to be*, but found <null>*");
         }
 
         #endregion
@@ -187,7 +124,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected, options => options.
+            Action act = () => subject.Should().BeEquivalentTo(expected, options => options.
                 Excluding(x => x.Level.Collection[1].Number).
                 Excluding(x => x.Level.Collection[1].Text));
 
@@ -221,7 +158,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => result.ShouldAllBeEquivalentTo(new[] {expected}, options => options.Including(x => x.A));
+            Action act = () => result.Should().BeEquivalentTo(new[] {expected}, options => options.Including(x => x.A));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -278,7 +215,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actualObjects.ShouldAllBeEquivalentTo(expectedObjects, options =>
+            Action act = () => actualObjects.Should().BeEquivalentTo(expectedObjects, options =>
                 options.Including(order => order.SubObject.Property1));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -349,7 +286,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection1.ShouldBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().BeEquivalentTo(collection2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -374,7 +311,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    collection1.ShouldBeEquivalentTo(collection2,
+                    collection1.Should().BeEquivalentTo(collection2,
                         opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
@@ -437,7 +374,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => enumerable1.ShouldBeEquivalentTo(enumerable2);
+            Action act = () => enumerable1.Should().BeEquivalentTo(enumerable2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -458,7 +395,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection1.ShouldBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().BeEquivalentTo(collection2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -482,7 +419,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    collection1.ShouldBeEquivalentTo(collection2,
+                    collection1.Should().BeEquivalentTo(collection2,
                         opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
@@ -503,7 +440,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection1.ShouldBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().BeEquivalentTo(collection2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -527,7 +464,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
+                () => collection1.Should().BeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -549,7 +486,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection1.ShouldBeEquivalentTo(collection2);
+            Action act = () => collection1.Should().BeEquivalentTo(collection2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -572,7 +509,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => collection1.ShouldBeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
+                () => collection1.Should().BeEquivalentTo(collection2, opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -644,7 +581,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options.WithStrictOrdering());
+            Action action = () => subject.Should().BeEquivalentTo(expectation, options => options.WithStrictOrdering());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -693,7 +630,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action =
                 () =>
-                    subject.ShouldAllBeEquivalentTo(expectation,
+                    subject.Should().BeEquivalentTo(expectation,
                         options => options
                             .WithStrictOrderingFor(
                                 s => s.UnorderedCollection));
@@ -743,7 +680,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => 
+            Action action = () => subject.Should().BeEquivalentTo(expectation, options => 
                 options.WithStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection")));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -790,7 +727,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => options
+            Action action = () => subject.Should().BeEquivalentTo(expectation, options => options
                 .WithStrictOrdering()
                 .WithoutStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection")));
 
@@ -841,7 +778,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action action =
                 () =>
-                    subject.ShouldAllBeEquivalentTo(expectation,
+                    subject.Should().BeEquivalentTo(expectation,
                         options => options
                             .ExcludingMissingMembers()
                             .Excluding(c => c.Age));
@@ -907,7 +844,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actualList.ShouldAllBeEquivalentTo(expectationList, opt => opt.ExcludingNestedObjects());
+            Action act = () => actualList.Should().BeEquivalentTo(expectationList, opt => opt.ExcludingNestedObjects());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -928,7 +865,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => list1.ShouldAllBeEquivalentTo(list2, config => config.Excluding(ctx => ctx.Key));
+            Action act = () => list1.Should().BeEquivalentTo(list2, config => config.Excluding(ctx => ctx.Key));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -948,7 +885,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => list1.ShouldAllBeEquivalentTo(list2, config =>
+            Action act = () => list1.Should().BeEquivalentTo(list2, config =>
             {
                 config.WithoutSelectionRules();
                 config.Using(new SelectNoMembersSelectionRule());
@@ -1032,7 +969,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => list1.ShouldAllBeEquivalentTo(list2, opts => opts);
+            Action act = () => list1.Should().BeEquivalentTo(list2, opts => opts);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1096,7 +1033,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    subject.ShouldAllBeEquivalentTo(
+                    subject.Should().BeEquivalentTo(
                         expectation,
                         opts =>
                             opts.Using<Customer>(
@@ -1158,7 +1095,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => subject.ShouldAllBeEquivalentTo(expectation);
+                () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1210,7 +1147,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => subject.ShouldAllBeEquivalentTo(expectation);
+                () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1262,7 +1199,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => subject.ShouldAllBeEquivalentTo(expectation);
+                () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1285,7 +1222,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldBeEquivalentTo(expectation);
+            Action action = () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1338,7 +1275,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => subject.ShouldAllBeEquivalentTo(expectation);
+                () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1391,7 +1328,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => subject.ShouldAllBeEquivalentTo(expectation);
+                () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1439,7 +1376,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => subject.ShouldAllBeEquivalentTo(expectation);
+                () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1487,7 +1424,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => subject.ShouldAllBeEquivalentTo(expectation);
+                () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1541,7 +1478,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => subject.ShouldAllBeEquivalentTo(expectation);
+                () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1607,7 +1544,7 @@ namespace FluentAssertions.Specs
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action action =
-                () => subject.ShouldAllBeEquivalentTo(expectation);
+                () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1627,7 +1564,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo("hello");
+            Action action = () => subject.Should().BeEquivalentTo("hello");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1652,7 +1589,12 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(new { Name = "someDto", Age = 1, Birthdate = new DateTime() });
+            Action action = () => subject.Should().AllBeEquivalentTo(new
+            {
+                Name = "someDto", 
+                Age = 1, 
+                Birthdate = new DateTime()
+            });
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1671,7 +1613,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(1);
+            Action action = () => subject.Should().AllBeEquivalentTo(1);
 
             ////-----------------------------------------------------------------------------------------------------------
             //// Assert
@@ -1691,7 +1633,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo('g');
+            Action action = () => subject.Should().AllBeEquivalentTo('g');
 
             ////-----------------------------------------------------------------------------------------------------------
             //// Assert
@@ -1726,7 +1668,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => company1.ShouldBeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
+            Action action = () => company1.Should().BeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1773,7 +1715,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    logbookEntry.ShouldBeEquivalentTo(equivalentLogbookEntry);
+                    logbookEntry.Should().BeEquivalentTo(equivalentLogbookEntry);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1834,7 +1776,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1879,7 +1821,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1917,7 +1859,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1970,7 +1912,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2023,7 +1965,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2070,7 +2012,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2111,7 +2053,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2143,7 +2085,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2180,7 +2122,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2205,7 +2147,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => result.ShouldBeEquivalentTo(new Dictionary<string, int>
+            Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int>
             {
                 {"A", 0},
                 {"B", 0},
@@ -2235,7 +2177,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => result.ShouldAllBeEquivalentTo(new Dictionary<string, int?>
+            Action act = () => result.Should().BeEquivalentTo(new Dictionary<string, int?>
             {
                 {"A", 0},
                 {"B", 0},
@@ -2273,7 +2215,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => persistedProjection.ShouldBeEquivalentTo(projection);
+            Action act = () => persistedProjection.Should().BeEquivalentTo(projection);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2307,7 +2249,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => persistedProjection.ShouldBeEquivalentTo(projection);
+            Action act = () => persistedProjection.Should().BeEquivalentTo(projection);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2332,7 +2274,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expected);
+            Action act = () => actual.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2381,7 +2323,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation);
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2410,7 +2352,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2439,7 +2381,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2463,7 +2405,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo("not-a-multi-dimensional-array");
+            Action act = () => actual.Should().BeEquivalentTo("not-a-multi-dimensional-array");
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2487,7 +2429,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(null);
+            Action act = () => actual.Should().BeEquivalentTo<object>(null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2517,7 +2459,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2546,7 +2488,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Act

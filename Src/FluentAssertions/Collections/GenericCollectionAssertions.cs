@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 
 namespace FluentAssertions.Collections
@@ -277,6 +279,84 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, args)
                 .FailWith("Expected collection to be ordered by {0}{reason} but found <null>.",
                     propertyExpression.GetMemberPath());
+        }
+
+        /// <summary>
+        /// Asserts that all elements in a collection of objects are equivalent to a given object. 
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same 
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
+        /// and the result is equal. 
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public void AllBeEquivalentTo<TExpectation>(TExpectation expectation,
+            string because = "", params object[] becauseArgs)
+        {
+            AllBeEquivalentTo(expectation, options => options, because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that all elements in a collection of objects are equivalent to a given object. 
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collection are equivalent to given object when both object graphs have equally named properties with the same 
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
+        /// and the result is equal. 
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
+        /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TExpectation}"/> configuration object that can be used 
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public void AllBeEquivalentTo<TExpectation>(TExpectation expectation,
+            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
+            params object[] becauseArgs)
+        {
+            TExpectation[] repeatedExpectation = RepeatAsManyAs(expectation, Subject).ToArray();
+
+            BeEquivalentTo(repeatedExpectation, config, because, becauseArgs);
+        }
+
+        private static IEnumerable<TExpectation> RepeatAsManyAs<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
+        {
+            if (enumerable == null)
+            {
+                return Enumerable.Empty<TExpectation>();
+            }
+
+            return RepeatAsManyAsIterator(value, enumerable);
+        }
+
+        private static IEnumerable<TExpectation> RepeatAsManyAsIterator<TExpectation>(TExpectation value, IEnumerable<T> enumerable)
+        {
+            using (IEnumerator<T> enumerator = enumerable.GetEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    yield return value;
+                }
+            }
         }
     }
 }

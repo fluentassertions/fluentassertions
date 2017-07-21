@@ -9,10 +9,10 @@ namespace FluentAssertions.Equivalency.Matching
             this.matchingRule = matchingRule;
         }
 
-        public SelectedMemberInfo Match(SelectedMemberInfo subjectMember, object expectation, string memberPath,
+        public SelectedMemberInfo Match(SelectedMemberInfo expectedMember, object subject, string memberPath,
             IEquivalencyAssertionOptions config)
         {
-            return matchingRule.Match(subjectMember, expectation, memberPath, config);
+            return matchingRule.Match(expectedMember, subject, memberPath, config);
         }
 
         public override string ToString()
