@@ -23,11 +23,8 @@ namespace FluentAssertions.Common
 
         public static IConfigurationStore ConfigurationStore
         {
-            get
-            {
-                return configurationStore;
-            }
-            set { configurationStore = value; }
+            get => configurationStore;
+            set => configurationStore = value;
         }
 
         public static Configuration Configuration
@@ -72,7 +69,10 @@ namespace FluentAssertions.Common
 #if NET45
             reflector = new FullFrameworkReflector();
             configurationStore = new AppSettingsConfigurationStore();
-#else
+#elif NETSTANDARD1_6
+            reflector = new NetStandardReflector();
+            configurationStore = new NullConfigurationStore();
+#else 
             reflector = new NullReflector();
             configurationStore = new NullConfigurationStore();
 #endif

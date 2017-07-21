@@ -675,7 +675,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            result.Should().Be("Property = SomeValue");
+            result.Should().Be("Property = SomeValue", because: "it should use my custom formatter");
         }
 
         [Fact]

@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using FluentAssertions.Common;
-using FluentAssertions.Xml;
-
 namespace FluentAssertions.Formatting
 {
     /// <summary>
@@ -18,7 +15,7 @@ namespace FluentAssertions.Formatting
         private static readonly List<IValueFormatter> defaultFormatters = new List<IValueFormatter>
         {
 #if NET45
-            new XmlNodeFormatter(),
+            new Xml.XmlNodeFormatter(),
 #endif
             new AttributeBasedFormatter(),
             new AggregateExceptionValueFormatter(),
@@ -108,21 +105,6 @@ namespace FluentAssertions.Formatting
             if (!customFormatters.Contains(formatter))
             {
                 customFormatters.Insert(0, formatter);
-            }
-        }
-
-        /// <summary>
-        /// Allows a platform-specific assembly to add formatters without affecting the ones added by callers of <see cref="AddFormatter"/>.
-        /// </summary>
-        /// <param name="formatters"></param>
-        internal static void AddPlatformFormatters(IValueFormatter[] formatters)
-        {
-            foreach (var formatter in formatters)
-            {
-                if (!defaultFormatters.Contains(formatter))
-                {
-                    defaultFormatters.Insert(0, formatter);
-                }
             }
         }
     }

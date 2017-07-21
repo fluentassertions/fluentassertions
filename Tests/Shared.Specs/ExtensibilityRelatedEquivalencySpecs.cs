@@ -11,7 +11,8 @@ namespace FluentAssertions.Specs
     /// <summary>
     /// Test Class containing specs over the extensibility points of ShouldBeEquivalentTo
     /// </summary>
-    
+    [Collection("Equivalency")]
+
     public class ExtensibilityRelatedEquivalencySpecs
     {
         #region Selection Rules

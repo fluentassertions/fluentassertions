@@ -15,9 +15,22 @@ namespace FluentAssertions.Common
         {
             return AppDomain.CurrentDomain
                 .GetAssemblies()
-                .Where(a => predicate(a) && !IsDynamic(a))
+                .Where(a => !IsDynamic(a) && IsRelevant(a) && predicate(a))
                 .SelectMany(GetExportedTypes).ToArray();
         }
+
+        private bool IsRelevant(Assembly ass)
+        {
+            string assemblyName = ass.GetName().Name.ToLower();
+
+            return !assemblyName.StartsWith("microsoft.") &&
+                   !assemblyName.StartsWith("xunit") &&
+                   !assemblyName.StartsWith("jetbrains.") &&
+                   !assemblyName.StartsWith("system") &&
+                   !assemblyName.StartsWith("mscorlib") &&
+                   !assemblyName.StartsWith("newtonsoft");
+        }
+
 
         private static bool IsDynamic(Assembly assembly)
         {

@@ -6,6 +6,7 @@
     <AssemblyOriginatorKeyFile>FluentAssertions.snk</AssemblyOriginatorKeyFile>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\FluentAssertions.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591;1574;1572;1573;419</NoWarn>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
 
@@ -30,11 +31,7 @@
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.2" />    
   </ItemGroup>
-  
-    <ItemGroup>
-    <PackageReference Include="System.Reflection" Version="4.3.0" />
-  </ItemGroup>
-  
+    
     <ItemGroup>
       <Reference Include="System.Configuration">
         <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\System.Configuration.dll</HintPath>

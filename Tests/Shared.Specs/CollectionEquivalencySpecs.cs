@@ -10,7 +10,8 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+    [Collection("Equivalency")]
+
     public class CollectionEquivalencySpecs
     {
         #region Null (Collection)

@@ -13,11 +13,11 @@ namespace FluentAssertions.Specs
 {
     namespace AssertionOptionsSpecs
     {
-        public class Given_temporary_global_assertion_options : GivenWhenThen
+        public abstract class Given_temporary_global_assertion_options : GivenWhenThen
         {
             private readonly Func<Type, bool> defaultValueTypePredicate;
 
-            public Given_temporary_global_assertion_options()
+            protected Given_temporary_global_assertion_options()
             {
                 defaultValueTypePredicate = AssertionOptions.IsValueType;
             }
@@ -31,8 +31,8 @@ namespace FluentAssertions.Specs
             }
         }
 
-        
-        [Collection("AssertionOptions")]
+
+        [Collection("Equivalency")]
         public class When_assertion_doubles_should_always_allow_small_deviations :
             Given_temporary_global_assertion_options
         {
@@ -65,7 +65,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class When_local_similar_options_are_used : Given_temporary_global_assertion_options
         {
             public When_local_similar_options_are_used()
@@ -117,7 +117,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class When_marking_a_specific_type_as_a_value_type_globally : Given_temporary_global_assertion_options
         {
             public When_marking_a_specific_type_as_a_value_type_globally()
@@ -153,7 +153,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class Given_temporary_equivalency_steps : GivenWhenThen
         {
             protected override void Dispose(bool disposing)
@@ -169,7 +169,7 @@ namespace FluentAssertions.Specs
         }
 
 
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class When_inserting_a_step : Given_temporary_equivalency_steps
         {
             public When_inserting_a_step()
@@ -187,7 +187,7 @@ namespace FluentAssertions.Specs
         }
 
 
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class When_inserting_a_step_before_another : Given_temporary_equivalency_steps
         {
             public When_inserting_a_step_before_another()
@@ -206,7 +206,7 @@ namespace FluentAssertions.Specs
         }
 
 
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class When_appending_a_step : Given_temporary_equivalency_steps
         {
             public When_appending_a_step()
@@ -225,7 +225,7 @@ namespace FluentAssertions.Specs
         }
 
 
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class When_appending_a_step_after_another : Given_temporary_equivalency_steps
         {
             public When_appending_a_step_after_another()
@@ -244,7 +244,7 @@ namespace FluentAssertions.Specs
         }
 
 
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class When_appending_a_step_and_no_builtin_steps_are_there : Given_temporary_equivalency_steps
         {
             public When_appending_a_step_and_no_builtin_steps_are_there()
@@ -266,7 +266,7 @@ namespace FluentAssertions.Specs
         }
 
 
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class When_removing_a_specific_step : Given_temporary_equivalency_steps
         {
             public When_removing_a_specific_step()
@@ -281,8 +281,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-
-        [Collection("AssertionOptions")]
+        [Collection("Equivalency")]
         public class When_removing_a_specific_step_that_doesnt_exist : Given_temporary_equivalency_steps
         {
             public When_removing_a_specific_step_that_doesnt_exist()

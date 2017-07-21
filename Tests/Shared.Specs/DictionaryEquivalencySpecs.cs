@@ -8,8 +8,9 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-   
-    
+
+
+    [Collection("Equivalency")]
     public class DictionaryEquivalencySpecs
     {
         #region Non-Generic Dictionaries

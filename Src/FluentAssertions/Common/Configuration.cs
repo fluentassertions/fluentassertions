@@ -1,5 +1,4 @@
 ﻿using System;
-
 using FluentAssertions.Formatting;
 
 namespace FluentAssertions.Common
@@ -11,6 +10,7 @@ namespace FluentAssertions.Common
         private readonly IConfigurationStore store;
         private string valueFormatterAssembly;
         private ValueFormatterDetectionMode? valueFormatterDetectionMode;
+        private string testFrameworkName;
 
         #endregion
 
@@ -96,6 +96,26 @@ namespace FluentAssertions.Common
             }
         }
 
-        public string TestFrameworkName => store.GetSetting("FluentAssertions.TestFramework");
+        /// <summary>
+        /// Gets or sets the name of the test framework to use. 
+        /// </summary>
+        /// <remarks>
+        /// If no name is provided, Fluent Assertions
+        /// will try to detect it by scanning the currently loaded assemblies. If it can't find a suitable provider,
+        /// and the run-time platform supports it, it'll try to get it from the <see cref="IConfigurationStore"/>.
+        /// </remarks>
+        public string TestFrameworkName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(testFrameworkName))
+                {
+                    testFrameworkName = store.GetSetting("FluentAssertions.TestFramework");
+                }
+
+                return testFrameworkName;
+            }
+            set => testFrameworkName = value;
+        }
     }
 }

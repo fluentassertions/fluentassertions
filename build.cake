@@ -1,4 +1,4 @@
-#tool "nuget:?package=xunit.runner.console"
+#tool "nuget:?package=xunit.runner.console&version=2.3.0-beta3-build3705"
 #tool "nuget:?package=GitVersion.CommandLine"
 
 //////////////////////////////////////////////////////////////////////
@@ -37,6 +37,8 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
+	DotNetCoreRestore();
+
     NuGetRestore("./FluentAssertions.sln", new NuGetRestoreSettings 
 	{ 
 		NoCache = true,
@@ -70,8 +72,11 @@ Task("Build")
 Task("Run-Unit-Tests")
     .Does(() =>
 {
-    XUnit2("./Tests/FluentAssertions.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings {
-        });
+    XUnit2("./Tests/Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
+
+	DotNetCoreTool("./Tests/NetCore.Specs/NetCore.Specs.csproj", "xunit", "-configuration " + configuration);
+	    
+	XUnit2("./Tests/TestFrameworks/XUnit2.Net45.Specs/**/bin/" + configuration + "/*.Specs.dll", new XUnit2Settings { });
 });
 
 Task("Pack")

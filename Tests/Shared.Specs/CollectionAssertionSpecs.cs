@@ -615,6 +615,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>();
         }
 
+        [Fact]
         public void
             When_asserting_empty_collection_to_not_be_null_or_empty_it_should_throw()
         {
