@@ -324,10 +324,12 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
+        public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
             string because = "", params object[] becauseArgs)
         {
             BeEquivalentTo(expectation, config => config, because, becauseArgs);
+            
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         /// <summary>
@@ -353,7 +355,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
+        public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
@@ -371,6 +373,8 @@ namespace FluentAssertions.Collections
             };
 
             new EquivalencyValidator(options).AssertEquality(context);
+            
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
 
@@ -389,6 +393,13 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> NotBeEquivalentTo(IEnumerable unexpected, string because = "",
             params object[] becauseArgs)
         {
+            if (unexpected == null)
+            {
+                throw new NullReferenceException("Cannot verify inequivalence against a <null> collection.");
+            }
+
+            if (ReferenceEquals(Subject, null))
+            {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} not to be equivalent{reason}, but found <null>.");
@@ -415,6 +426,21 @@ namespace FluentAssertions.Collections
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Expected {context:collection} {0} not be equivalent with collection {1}{reason}.", Subject,
                         unexpected);
+            }
+
+            string[] failures;
+            
+            using (var scope = new AssertionScope())
+            {
+                Subject.Should().BeEquivalentTo(unexpected);
+                
+                failures = scope.Discard();
+            }
+            
+            Execute.Assertion
+                .ForCondition(failures.Length > 0)
+                .FailWith("Expected {context:collection} {0} not to be equivalent to collection {1}{reason}.", Subject,
+                    unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

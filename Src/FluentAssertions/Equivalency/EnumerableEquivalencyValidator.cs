@@ -30,7 +30,7 @@ namespace FluentAssertions.Equivalency
 
         public void Execute<T>(object[] subject, T[] expectation)
         {
-            if (AssertIsNotNull(subject) && AssertLengthEquality(subject.Length, expectation.Length))
+            if (AssertIsNotNull(expectation, subject) && AssertLengthEquality(subject.Length, expectation.Length))
             {
                 if (Recursive)
                 {
@@ -49,11 +49,11 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private bool AssertIsNotNull(object subject)
+        private bool AssertIsNotNull(object expectation, object[] subject)
         {
             return AssertionScope.Current
-                .ForCondition(!ReferenceEquals(subject, null))
-                .FailWith("Expected {context:subject} to be a collection, but found <null>.");
+                .ForCondition(!ReferenceEquals(expectation, null))
+                .FailWith("Expected {context:subject} to be <null>, but found {0}.", new object[]{ subject});
         }
 
         private bool AssertLengthEquality(int subjectLength, int expectationLength)

@@ -14,8 +14,8 @@ namespace FluentAssertions.Equivalency
             return new EquivalencyValidationContext
             {
                 SelectedMemberInfo = nestedMember,
-                Subject = nestedMember.GetValue(context.Subject, null),
-                Expectation = matchingProperty.GetValue(context.Expectation, null),
+                Subject = matchingProperty.GetValue(context.Subject, null),
+                Expectation = nestedMember.GetValue(context.Expectation, null),
                 SelectedMemberPath = context.SelectedMemberPath.Combine(memberDescription, "."),
                 SelectedMemberDescription = propertyPath + memberDescription,
                 Because = context.Because,

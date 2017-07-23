@@ -11,7 +11,7 @@ namespace FluentAssertions.Equivalency.Ordering
     {
         public OrderStrictness Evaluate(ISubjectInfo subjectInfo)
         {
-            return subjectInfo.CompileTimeType.Implements<IEnumerable<byte>>() ? OrderStrictness.Strict : OrderStrictness.Irrelevant;
+            return subjectInfo.CompileTimeType.IsSameOrInherits(typeof(IEnumerable<byte>)) ? OrderStrictness.Strict : OrderStrictness.Irrelevant;
         }
 
         public override string ToString()

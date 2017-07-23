@@ -74,8 +74,8 @@ namespace FluentAssertions.Equivalency
 
             for (int dimension = 0; dimension < expectation.Rank; dimension++)
             {
-                int expectedLength = ((Array) subject).GetLength(dimension);
-                int actualLength = expectation.GetLength(dimension);
+                int actualLength = ((Array) subject).GetLength(dimension);
+                int expectedLength = expectation.GetLength(dimension);
 
                 sameDimensions = sameDimensions & AssertionScope.Current
                     .ForCondition(expectedLength == actualLength)

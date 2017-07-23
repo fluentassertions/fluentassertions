@@ -34,15 +34,23 @@ namespace FluentAssertions.Collections
         }
         
         /// <summary>
+        /// Asserts that a collection of string is equivalent to another collection of strings. 
+        /// </summary>
+        /// <remarks>
+        /// The two collections are equivalent when they both contain the same strings in any order.
+        /// </remarks>
+        public AndConstraint<StringCollectionAssertions> BeEquivalentTo(params string[] expectation)
+        {
+            BeEquivalentTo(expectation, config => config);
+            
+            return new AndConstraint<StringCollectionAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that a collection of objects is equivalent to another collection of objects. 
         /// </summary>
         /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
-        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// The two collections are equivalent when they both contain the same strings in any order.
         /// </remarks>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
@@ -51,25 +59,23 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo(IEnumerable<string> expectation, string because = "", params object[] becauseArgs)
+        public AndConstraint<StringCollectionAssertions> BeEquivalentTo(IEnumerable<string> expectation, string because = "", params object[] becauseArgs)
         {
             BeEquivalentTo(expectation, config => config, because, becauseArgs);
+            
+            return new AndConstraint<StringCollectionAssertions>(this);
         }
-
+     
         /// <summary>
         /// Asserts that a collection of objects is equivalent to another collection of objects. 
         /// </summary>
         /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value,  irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
-        /// and the result is equal. 
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
+        /// The two collections are equivalent when they both contain the same strings in any order.
         /// </remarks>
         /// <param name="config">
-        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
+        /// A reference to the <see cref="EquivalencyAssertionOptions{String}"/> configuration object that can be used 
         /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
-        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// <see cref="EquivalencyAssertionOptions{String}"/> class. The global defaults are determined by the 
         /// <see cref="AssertionOptions"/> class.
         /// </param>
         /// <param name="because">
@@ -79,7 +85,7 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo(IEnumerable<string> expectation,
+        public AndConstraint<StringCollectionAssertions> BeEquivalentTo(IEnumerable<string> expectation,
             Func<EquivalencyAssertionOptions<string>, EquivalencyAssertionOptions<string>> config, string because = "",
             params object[] becauseArgs)
         {
@@ -97,6 +103,8 @@ namespace FluentAssertions.Collections
             };
 
             new EquivalencyValidator(options).AssertEquality(context);
+            
+            return new AndConstraint<StringCollectionAssertions>(this);
         }
 
 

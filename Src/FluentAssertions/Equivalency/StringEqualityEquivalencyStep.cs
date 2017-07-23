@@ -12,9 +12,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetExpectationType(context);
+            Type expectationType = config.GetExpectationType(context);
 
-            return (subjectType != null) && (subjectType == typeof (string));
+            return (expectationType != null) && (expectationType == typeof (string));
         }
 
         /// <summary>
@@ -34,14 +34,11 @@ namespace FluentAssertions.Equivalency
                 return true;
             }
 
-            bool expectationIsString = ValidateAgainstType<string>(context);
-
-            if (expectationIsString)
+            bool subjectIsString = ValidateAgainstType<string>(context);
+            if (subjectIsString)
             {
                 string subject = (string) context.Subject;
-                string expectation = (context.Expectation == null)
-                    ? null
-                    : (string) context.Expectation;
+                string expectation = (string)context.Expectation;
 
                 subject.Should()
                     .Be(expectation, context.Because, context.BecauseArgs);
@@ -54,16 +51,17 @@ namespace FluentAssertions.Equivalency
         {
             object expected = context.Expectation;
             object subject = context.Subject;
-            string subjectDescription = GetSubjectDescription(context);
 
             bool onlyOneNull = ((expected == null) && (subject != null)) ||
                                ((expected != null) && (subject == null));
 
             if (onlyOneNull)
             {
+                string subjectDescription = GetSubjectDescription(context);
+
                 AssertionScope.Current.FailWith(
-                    "Expected " + subjectDescription +
-                    " to be {0}{reason}, but found {1}.", expected, subject);
+                    $"Expected {subjectDescription} to be {{0}}{{reason}}, but found {{1}}.", expected, subject);
+                
                 return false;
             }
 
@@ -72,9 +70,8 @@ namespace FluentAssertions.Equivalency
 
         private static bool ValidateAgainstType<T>(IEquivalencyValidationContext context)
         {
-            bool expectationisNull = ReferenceEquals(context.Expectation, null);
-
-            if (expectationisNull)
+            bool subjectIsNull = ReferenceEquals(context.Subject, null);
+            if (subjectIsNull)
             {
                 // Do not know the declared type of the expectation.
                 return true;
@@ -82,12 +79,9 @@ namespace FluentAssertions.Equivalency
 
             return 
                 AssertionScope.Current
-                    .ForCondition(context.Expectation.GetType()
-                        .IsSameOrInherits(typeof (T)))
-                    .FailWith(
-                        "Expected " + GetSubjectDescription(context) +
-                        " to be {0}, but found {1}",
-                        context.Expectation.GetType(),
+                    .ForCondition(context.Subject.GetType().IsSameOrInherits(typeof (T)))
+                    .FailWith($"Expected {GetSubjectDescription(context)} to be {{0}}, but found {{1}}",
+                        context.Subject.GetType(),
                         context.RuntimeType);
 
         }

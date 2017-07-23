@@ -277,15 +277,15 @@ namespace FluentAssertions.Collections
         #endregion
 
         /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// Asserts that two dictionaries are equivalent. 
         /// </summary>
         /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
+        /// The values within the dictionaries are equivalent when both object graphs have equally named properties with the same 
         /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
         /// and the result is equal. 
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
-        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// The type of the values in the dictionaries are ignored as long as both dictionaries contain the same keys and
+        /// the values for each key are structurally equivalent. Notice that actual behavior is determined by the global 
+        /// defaults managed by the <see cref="AssertionOptions"/> class.
         /// </remarks>
         /// <param name="because">
         /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
@@ -294,34 +294,22 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
+        public void BeEquivalentTo<TExpectation>(TExpectation expectation,
             string because = "", params object[] becauseArgs)
         {
-            EquivalencyAssertionOptions<IEnumerable<TExpectation>> options = AssertionOptions.CloneDefaults<TExpectation>().AsCollection();
-
-            var context = new EquivalencyValidationContext
-            {
-                Subject = Subject,
-                Expectation = expectation,
-                RootIsCollection = true,
-                CompileTimeType = typeof(IEnumerable<TExpectation>),
-                Because = because,
-                BecauseArgs = becauseArgs,
-                Tracer = options.TraceWriter
-            };
-
-            new EquivalencyValidator(options).AssertEquality(context);
+            BeEquivalentTo(expectation, options => options, because, becauseArgs);
         }
 
         /// <summary>
-        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// Asserts that two dictionaries are equivalent. 
         /// </summary>
         /// <remarks>
-        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
-        /// value,  irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
+        /// The values within the dictionaries are equivalent when both object graphs have equally named properties with the same 
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
         /// and the result is equal. 
-        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
-        /// items in the collection are structurally equal. 
+        /// The type of the values in the dictionaries are ignored as long as both dictionaries contain the same keys and
+        /// the values for each key are structurally equivalent. Notice that actual behavior is determined by the global 
+        /// defaults managed by the <see cref="AssertionOptions"/> class.
         /// </remarks>
         /// <param name="config">
         /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
@@ -336,18 +324,18 @@ namespace FluentAssertions.Collections
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public void BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
+        public void BeEquivalentTo<TExpectation>(TExpectation expectation,
             Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
             params object[] becauseArgs)
         {
-            EquivalencyAssertionOptions<IEnumerable<TExpectation>> options = config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
+            EquivalencyAssertionOptions<TExpectation> options = config(AssertionOptions.CloneDefaults<TExpectation>());
 
             var context = new EquivalencyValidationContext
             {
                 Subject = Subject,
                 Expectation = expectation,
                 RootIsCollection = true,
-                CompileTimeType = typeof(IEnumerable<TExpectation>),
+                CompileTimeType = typeof(TExpectation),
                 Because = because,
                 BecauseArgs = becauseArgs,
                 Tracer = options.TraceWriter

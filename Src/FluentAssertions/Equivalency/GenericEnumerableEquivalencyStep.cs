@@ -44,7 +44,7 @@ namespace FluentAssertions.Equivalency
                 .FailWith("{context:Expectation} implements {0}, so cannot determine which one " +
                           "to use for asserting the equivalency of the collection. ", interfaceTypes);
 
-            if (AssertExpectationIsCollection(context.Expectation, context.Subject))
+            if (AssertSubjectIsCollection(context.Expectation, context.Subject))
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
@@ -71,13 +71,13 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool AssertExpectationIsCollection(object expectation, object subject)
+        private static bool AssertSubjectIsCollection(object expectation, object subject)
         {
             return AssertionScope.Current
-                .ForCondition(!ReferenceEquals(expectation, null))
-                .FailWith("Expected {context:Subject} to be {0}, but found {1}.", null, subject)
+                .ForCondition(!ReferenceEquals(subject, null))
+                .FailWith("Expected {context:Subject} not to be {0}.", new object[]{null})
                 .Then
-                .ForCondition(IsGenericCollection(expectation.GetType()))
+                .ForCondition(IsGenericCollection(subject.GetType()))
                 .FailWith("Expected {context:Subject} to be {0}, but found {1}.", expectation, subject);
         }
 

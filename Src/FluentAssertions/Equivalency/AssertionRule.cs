@@ -11,8 +11,7 @@ namespace FluentAssertions.Equivalency
     /// this rule applies to a particular property and executes an action to assert equality.
     /// </summary>
     /// <typeparam name="TSubject">The type of the subject.</typeparam>
-    [Obsolete("This class will be removed in a future version.  Use `EquivalencyAssertionOptions.Using(Action<IAssertionContext<TProperty>>)` from the Fluent API instead.")]
-    public class AssertionRule<TSubject> : IAssertionRule
+    internal class AssertionRule<TSubject> : IAssertionRule
     {
         private readonly Func<ISubjectInfo, bool> predicate;
         private readonly Action<IAssertionContext<TSubject>> action;
@@ -20,16 +19,6 @@ namespace FluentAssertions.Equivalency
 
         public AssertionRule(Expression<Func<ISubjectInfo, bool>> predicate, Action<IAssertionContext<TSubject>> action)
         {
-            this.predicate = predicate.Compile();
-            this.action = action;
-            description = "Invoke Action<" + typeof(TSubject).Name + "> when " + predicate.Body;
-        }
-
-        public AssertionRule(Action<IAssertionContext<TSubject>> action)
-        {
-            Expression<Func<ISubjectInfo, bool>> predicate =
-                info => info.RuntimeType.IsSameOrInherits(typeof (string));
-
             this.predicate = predicate.Compile();
             this.action = action;
             description = "Invoke Action<" + typeof(TSubject).Name + "> when " + predicate.Body;

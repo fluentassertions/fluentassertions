@@ -617,10 +617,8 @@ namespace FluentAssertions.Equivalency
             /// </param>
             public TSelf When(Expression<Func<ISubjectInfo, bool>> predicate)
             {
-#pragma warning disable 618 
                 options.Using(new AssertionRule<TMember>(predicate, action));
                 return options;
-#pragma warning restore 618
             }
         }
     }

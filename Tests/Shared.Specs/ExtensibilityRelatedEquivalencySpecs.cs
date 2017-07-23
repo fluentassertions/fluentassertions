@@ -107,13 +107,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                NameId = "123",
+                Name = "123",
                 SomeValue = "hello"
             };
 
             var expected = new
             {
-                Name = "123",
+                NameId = "123",
                 SomeValue = "hello"
             };
 
@@ -292,12 +292,12 @@ namespace FluentAssertions.Specs
             };
 
             actual.Should().BeEquivalentTo(expected,
-                opt => opt.Using<Int64>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<Int64>());
+                opt => opt.Using<long>(c => c.Subject.Should().BeInRange(0, 10)).WhenTypeIs<long?>());
         }
 
         internal class SimpleWithNullable
         {
-            public Int64? nullableIntegerProperty { get; set; }
+            public long? nullableIntegerProperty { get; set; }
 
             public string strProperty { get; set; }
         }
@@ -344,7 +344,7 @@ namespace FluentAssertions.Specs
 
             var expected = new
             {
-                Property = 8.July(2012).At(22, 10)
+                Property = 8.July(2012).At(22, 11)
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -362,36 +362,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_an_assertion_rule_matches_the_root_object_the_assertion_rule_should_not_apply_to_the_root_object()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new
-            {
-                Property = 8.July(2012).At(22, 9)
-            };
-
-            var expected = new
-            {
-                Property = 8.July(2012).At(22, 10)
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.Should().BeEquivalentTo(
-                expected,
-                options => options.Using(new RelaxingDateTimeAssertionRule()));
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
-        }
-
-        [Fact]
-        public void When_multiple_asertion_rules_are_added__they_should_be_executed_from_right_to_left()
+        public void When_multiple_asertion_rules_are_added_they_should_be_evaluated_last_to_first()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -409,50 +380,15 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act =
-                () =>
-                    subject.Should().BeEquivalentTo(expected,
-                        opts => opts.Using(new AlwaysFailAssertionRule()).Using(new RelaxingDateTimeAssertionRule()));
+            Action act = () => subject.Should().BeEquivalentTo(expected, opts => opts
+                .Using(new AlwaysFailAssertionRule())
+                .Using(new RelaxingDateTimeAssertionRule()));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow(
                 "a different assertion rule should handle the comparision before the exception throwing assertion rule is hit");
-        }
-
-        [Fact]
-        public void When_an_assertion_rule_added_with_the_fluent_api_matches_the_root_object_the_assertion_rule_should_not_apply_to_the_root_object()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var subject = new
-            {
-                Property = 8.July(2012).At(22, 9)
-            };
-
-            var expected = new
-            {
-                Property = 8.July(2012).At(22, 10)
-            };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act =
-                () =>
-                subject.Should().BeEquivalentTo(
-                    expected,
-                    options =>
-                    options.Using<DateTime>(
-                        context => context.Subject.Should().BeCloseTo(context.Expectation, 1000 * 60))
-                        .WhenTypeIs<DateTime>());
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>();
         }
 
         internal class AlwaysFailAssertionRule : IAssertionRule
@@ -467,7 +403,7 @@ namespace FluentAssertions.Specs
         {
             public bool AssertEquality(IEquivalencyValidationContext context)
             {
-                if (context.Subject is DateTime)
+                if (context.Expectation is DateTime)
                 {
                     ((DateTime)context.Subject).Should().BeCloseTo((DateTime)context.Expectation, 1000 * 60);
                     return true;

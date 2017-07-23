@@ -263,7 +263,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("*to be \"good-bye\" with a length of 8, but \"hello\" has a length of 5*");
+                .WithMessage("*to be*\"good-bye\" with a length of 8, but \"hello\" has a length of 5*");
         }
 
         [Fact]
@@ -380,13 +380,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty, opts => opts.ExcludingProperties());
+            Action act = () => onlyAProperty.Should().BeEquivalentTo(onlyAField, opts => opts.ExcludingProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Subject has member Value that the other object does not have.*");
+                .WithMessage("Expectation has member Value that the other object does not have.*");
         }
 
         [Fact]
@@ -401,13 +401,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => onlyAProperty.Should().BeEquivalentTo(onlyAField, opts => opts.IncludingAllDeclaredProperties());
+            Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty, opts => opts.IncludingAllDeclaredProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Subject has member Value that the other object does not have.*");
+                .WithMessage("Expectation has member Value that the other object does not have.*");
         }
 
         [Fact]
@@ -729,7 +729,9 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dto.Should().BeEquivalentTo(customer, options => options.Excluding(d => d.Name));
+            dto.Should().BeEquivalentTo(customer, options => options
+                .Excluding(d => d.Name)
+                .Excluding(d => d.Id));
         }
 
         [Fact]
@@ -1267,18 +1269,19 @@ With configuration:*");
         }
 
         [Fact]
-        public void When_subject_has_a_property_not_available_on_expected_object_it_should_throw()
+        public void When_the_expected_object_has_a_property_not_available_on_the_subject_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                City = "Rijswijk"
+                
             };
 
             var other = new
             {
+                City = "Rijswijk"
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1290,7 +1293,7 @@ With configuration:*");
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Subject has member City that the other object does not have*");
+                "Expectation has member City that the other object does not have*");
         }
 
         [Fact]
@@ -1319,7 +1322,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<XunitException>()
-                .WithMessage("Expected member Type to be*Int32*, but found*String*");
+                .WithMessage("Expected member Type to be*36*, but found*\"A\"*");
         }
 
         [Fact]
@@ -2126,12 +2129,12 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Type = new CustomerType("123")
+                Type = new DerivedCustomerType("123")
             };
 
             var other = new
             {
-                Type = new DerivedCustomerType("123")
+                Type = new CustomerType("123")
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2611,7 +2614,6 @@ With configuration:*");
                 Level = new
                 {
                     Text = "Level1",
-                    OtherProperty = "OtherProperty"
                 }
             };
 
@@ -2619,7 +2621,8 @@ With configuration:*");
             {
                 Level = new
                 {
-                    Text = "Level1"
+                    Text = "Level1",
+                    OtherProperty = "OtherProperty"
                 }
             };
 
@@ -2633,7 +2636,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<XunitException>()
-                .WithMessage("Subject has member Level.OtherProperty that the other object does not have*");
+                .WithMessage("Expectation has member Level.OtherProperty that the other object does not have*");
         }
 
         [Fact]

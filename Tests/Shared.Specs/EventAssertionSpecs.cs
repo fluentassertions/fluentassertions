@@ -16,6 +16,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FluentAssertions.Specs
 {
+    [Collection("EventMonitoring")]
+
     public class EventAssertionSpecs
     {
         [Fact]

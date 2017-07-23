@@ -1203,7 +1203,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "*collection {1, 2, 3} to be equivalent to {1, 2}*too many*");
+                "Expected*collection*2 item(s)*we treat all alike, but found 3*");
         }
 
         [Fact]
@@ -1224,7 +1224,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3, 1} to be equivalent to {1, 2, 3, 3}, but it misses {3}.");
+                "Expected item[3] to be 3, but found 1*");
         }
 
         [Fact]
@@ -1245,7 +1245,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "*collection {1, 2, 3} to be equivalent to {empty}, but*");
+                "Expected subject to be a collection with 0 item(s), but found 3*");
         }
 
         [Fact]
@@ -1285,8 +1285,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
-                "Cannot verify equivalence against a <null> collection.");
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected*<null>*but found {1, 2, 3}*");
         }
 
         [Fact]
@@ -1308,7 +1308,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection to be equivalent to {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
+                "Expected a collection, but subject is <null>*");
         }
 
         [Fact]
@@ -1359,7 +1359,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection {1, 2, 3} not be equivalent with collection {3, 1, 2}.");
+                "Expected collection {1, 2, 3} not*equivalent*{3, 1, 2}.");
         }
 
         [Fact]
@@ -1368,21 +1368,20 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable collection = null;
-            IEnumerable collection1 = new [] { 1, 2, 3 };
+            IEnumerable actual = null;
+            IEnumerable expectation = new [] { 1, 2, 3 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act =
-                () =>
-                    collection.Should().NotBeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
+            Action act = () =>
+                    actual.Should().NotBeEquivalentTo(expectation, "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection not to be equivalent because we want to test the behaviour with a null subject, but found <null>.");
+                "*be equivalent because we want to test the behaviour with a null subject, but found <null>*");
         }
 
         [Fact]
@@ -1422,8 +1421,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
-                "Cannot verify inequivalence against a <null> collection.");
+            act.ShouldThrow<NullReferenceException>()
+                .WithMessage("Cannot verify inequivalence against a <null> collection.");
         }
 
         [Fact]
