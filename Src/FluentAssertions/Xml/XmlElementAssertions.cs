@@ -9,8 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-
-
 namespace FluentAssertions.Xml
 {
     /// <summary>
@@ -136,7 +134,7 @@ namespace FluentAssertions.Xml
                 .ForCondition(attribute != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected XML element to have attribute {0}" 
+                    "Expected XML element to have attribute {0}"
                     + " with value {1}{reason}, but found no such attribute in {2}",
                     expectedFormattedName, expectedValue, Subject);
 
@@ -220,7 +218,7 @@ namespace FluentAssertions.Xml
             Execute.Assertion
                 .ForCondition(element != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected XML element {0} to have child element \"" + 
+                .FailWith("Expected XML element {0} to have child element \"" +
                     expectedFormattedName.ToString().Escape(escapePlaceholders: true) + "\"{reason}" +
                         ", but no such child element was found.", Subject);
 

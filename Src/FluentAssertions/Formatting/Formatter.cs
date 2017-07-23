@@ -45,7 +45,7 @@ namespace FluentAssertions.Formatting
             new DefaultValueFormatter(),
         };
 
-#endregion
+        #endregion
 
         /// <summary>
         /// A list of objects responsible for formatting the objects represented by placeholders.
@@ -96,7 +96,7 @@ namespace FluentAssertions.Formatting
                 customFormatters.Remove(formatter);
             }
         }
-        
+
         /// <summary>
         /// Ensures a custom formatter is included in the chain, just before the default formatter is executed.
         /// </summary>

@@ -4,7 +4,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class GuidAssertionSpecs
     {
         #region BeEmpty / NotBeEmpty

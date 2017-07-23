@@ -73,7 +73,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> HaveFlag(Enum expectedFlag, string because = "", 
+        public AndConstraint<ObjectAssertions> HaveFlag(Enum expectedFlag, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion
@@ -87,7 +87,7 @@ namespace FluentAssertions.Primitives
                 .Given(() => Subject as Enum)
                 .ForCondition(@enum => @enum.HasFlag(expectedFlag))
                 .FailWith("The enum was expected to have flag {0} but found {1}{reason}.", _ => expectedFlag, @enum => @enum);
-           
+
             return new AndConstraint<ObjectAssertions>(this);
         }
 
@@ -102,7 +102,7 @@ namespace FluentAssertions.Primitives
         /// <param name="becauseArgs">
         /// Zero or more values to use for filling in any <see cref="string.Format(string,object[])" /> compatible placeholders.
         /// </param>
-        public AndConstraint<ObjectAssertions> NotHaveFlag(Enum unexpectedFlag, string because = "", 
+        public AndConstraint<ObjectAssertions> NotHaveFlag(Enum unexpectedFlag, string because = "",
             params object[] becauseArgs)
         {
             Execute.Assertion

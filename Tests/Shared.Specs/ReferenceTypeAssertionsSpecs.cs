@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class ReferenceTypeAssertionsSpecs
     {
         [Fact]
@@ -507,5 +506,4 @@ namespace FluentAssertions.Specs
             return string.Format("ClassWithCustomEqualMethod({0})", Key);
         }
     }
-
 }

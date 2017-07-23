@@ -29,7 +29,7 @@ namespace FluentAssertions.Equivalency.Matching
             {
                 compareeSelectedMemberInfoInfo = subjectMember;
             }
-            
+
             if (compareeSelectedMemberInfoInfo == null)
             {
                 string path = (memberPath.Length > 0) ? memberPath + "." : "member ";

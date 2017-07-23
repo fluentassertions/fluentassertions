@@ -74,7 +74,7 @@ namespace FluentAssertions.Primitives
         }
 
         protected abstract void ValidateAgainstMismatch();
-        
+
         protected abstract string ExpectationDescription { get; }
     }
 }

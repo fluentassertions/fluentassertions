@@ -5,7 +5,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class XAttributeAssertionSpecs
     {
         #region Be / NotBe

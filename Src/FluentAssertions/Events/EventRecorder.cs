@@ -66,7 +66,7 @@ namespace FluentAssertions.Events
         /// <summary>
         ///   Called by the auto-generated IL, to record information about a raised event.
         /// </summary>
-        public void RecordEvent(params object [] parameters)
+        public void RecordEvent(params object[] parameters)
         {
             lock (lockable)
             {
@@ -79,7 +79,7 @@ namespace FluentAssertions.Events
         /// </summary>
         public void Reset()
         {
-            lock ( lockable )
+            lock (lockable)
             {
                 raisedEvents.Clear();
             }

@@ -28,7 +28,7 @@ namespace FluentAssertions.Equivalency
         public AssertionRule(Action<IAssertionContext<TSubject>> action)
         {
             Expression<Func<ISubjectInfo, bool>> predicate =
-                info => info.RuntimeType.IsSameOrInherits(typeof (string));
+                info => info.RuntimeType.IsSameOrInherits(typeof(string));
 
             this.predicate = predicate.Compile();
             this.action = action;

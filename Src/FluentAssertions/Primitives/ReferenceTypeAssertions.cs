@@ -141,11 +141,11 @@ namespace FluentAssertions.Primitives
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:type} to be {0}{reason}, but found <null>.", expectedType);
 
-            Type subjectType = Subject.GetType(); 
+            Type subjectType = Subject.GetType();
             if (expectedType.GetTypeInfo().IsGenericTypeDefinition && subjectType.GetTypeInfo().IsGenericType)
             {
                 subjectType.GetGenericTypeDefinition().Should().Be(expectedType, because, becauseArgs);
-            } 
+            }
             else
             {
                 subjectType.Should().Be(expectedType, because, becauseArgs);

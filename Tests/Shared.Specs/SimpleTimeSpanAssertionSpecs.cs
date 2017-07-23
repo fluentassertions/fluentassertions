@@ -9,7 +9,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class SimpleTimeSpanAssertionSpecs
     {
         [Fact]
@@ -23,7 +22,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Negate().Should().BePositive();
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -46,7 +44,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Should().BeNegative();
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -69,7 +66,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Should().Be(2.Seconds());
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -93,7 +89,6 @@ namespace FluentAssertions.Specs
             var oneSecond = 1.Seconds();
             Action act = () => oneSecond.Should().NotBe(oneSecond);
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -117,7 +112,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Should().BeGreaterThan(2.Seconds());
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -126,7 +120,6 @@ namespace FluentAssertions.Specs
             var twoSeconds = 2.Seconds();
             Action act = () => twoSeconds.Should().BeGreaterThan(twoSeconds);
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -156,7 +149,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 1.Seconds().Should().BeGreaterOrEqualTo(2.Seconds());
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -179,7 +171,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 2.Seconds().Should().BeLessThan(1.Seconds());
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -188,7 +179,6 @@ namespace FluentAssertions.Specs
             var twoSeconds = 2.Seconds();
             Action act = () => twoSeconds.Should().BeLessThan(twoSeconds);
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -218,7 +208,6 @@ namespace FluentAssertions.Specs
         {
             Action act = () => 2.Seconds().Should().BeLessOrEqualTo(1.Seconds());
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]

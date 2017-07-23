@@ -113,7 +113,7 @@ namespace FluentAssertions.Execution
         {
             reason = string.Format(because ?? "", becauseArgs ?? new object[0]);
             return this;
-        } 
+        }
 
         /// <summary>
         /// Sets the expectation part of the failure message when the assertion is not met. 

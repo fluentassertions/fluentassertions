@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class GenericCollectionAssertionsSpecs
     {
         [Fact]
@@ -130,7 +129,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => strings.Should().Contain(strings, new object[] {"string3"});
+            Action act = () => strings.Should().Contain(strings, new object[] { "string3" });
 
             //-----------------------------------------------------------------------------------------------------------
             // Act

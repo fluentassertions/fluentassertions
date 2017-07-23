@@ -118,14 +118,14 @@ namespace FluentAssertions.Collections
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
         public AndConstraint<NonGenericCollectionAssertions> Contain(object expected, string because = "",
-            params object [] becauseArgs)
+            params object[] becauseArgs)
         {
             if (expected is IEnumerable)
             {
-                return base.Contain((IEnumerable) expected, because, becauseArgs);
+                return base.Contain((IEnumerable)expected, because, becauseArgs);
             }
 
-            return base.Contain(new [] { expected }, because, becauseArgs);
+            return base.Contain(new[] { expected }, because, becauseArgs);
         }
 
         /// <summary>

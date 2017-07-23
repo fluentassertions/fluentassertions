@@ -5,7 +5,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class XElementFormatterSpecs
     {
         [Fact]

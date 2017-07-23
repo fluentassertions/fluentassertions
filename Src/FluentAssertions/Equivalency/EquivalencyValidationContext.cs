@@ -113,7 +113,7 @@ namespace FluentAssertions.Equivalency
             }
             else
             {
-                return new Disposable(() => {});
+                return new Disposable(() => { });
             }
         }
 

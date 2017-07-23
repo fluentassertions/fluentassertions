@@ -10,13 +10,13 @@
         /// Detection is disabled.
         /// </summary>
         Disabled,
-        
+
         /// <summary>
         /// Only custom value formatters exposed through the assembly set in <see cref="Configuration.ValueFormatterAssembly"/>
         /// are detected.
         /// </summary>
         Specific,
-        
+
         /// <summary>
         /// All custom value formatters in any assembly loaded in the current <see cref="AppDomain"/> will be detected.
         /// </summary>

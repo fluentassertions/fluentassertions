@@ -4,7 +4,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Net40.Specs
 {
-    
     public class AggregateExceptionAssertionSpecs
     {
         [Fact]

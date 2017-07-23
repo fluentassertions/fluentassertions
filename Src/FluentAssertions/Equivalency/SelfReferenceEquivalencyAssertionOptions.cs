@@ -95,7 +95,7 @@ namespace FluentAssertions.Equivalency
             get
             {
                 bool hasConflictingRules = selectionRules.Any(rule => rule.IncludesMembers);
-                
+
                 if (includeProperties && !hasConflictingRules)
                 {
                     yield return new AllPublicPropertiesSelectionRule();
@@ -362,7 +362,6 @@ namespace FluentAssertions.Equivalency
             return (TSelf)this;
         }
 
-
         /// <summary>
         /// Disables limitations on recursion depth when the structural equality check is configured to include nested objects
         /// </summary>
@@ -411,7 +410,7 @@ namespace FluentAssertions.Equivalency
         public TSelf Using(IAssertionRule assertionRule)
         {
             userEquivalencySteps.Insert(0, new AssertionRuleEquivalencyStepAdapter(assertionRule));
-            return (TSelf) this;
+            return (TSelf)this;
         }
 
         /// <summary>
@@ -464,7 +463,7 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingEnumsByName()
         {
             enumEquivalencyHandling = EnumEquivalencyHandling.ByName;
-            return (TSelf) this;
+            return (TSelf)this;
         }
 
         /// <summary>
@@ -476,7 +475,7 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingEnumsByValue()
         {
             enumEquivalencyHandling = EnumEquivalencyHandling.ByValue;
-            return (TSelf) this;
+            return (TSelf)this;
         }
 
         /// <summary>
@@ -486,7 +485,7 @@ namespace FluentAssertions.Equivalency
         public TSelf ComparingByValue<T>()
         {
             valueTypes.Add(typeof(T));
-            return (TSelf) this;
+            return (TSelf)this;
         }
 
         /// <summary>
@@ -516,19 +515,19 @@ namespace FluentAssertions.Equivalency
         protected TSelf AddSelectionRule(IMemberSelectionRule selectionRule)
         {
             selectionRules.Add(selectionRule);
-            return (TSelf) this;
+            return (TSelf)this;
         }
 
         private TSelf AddMatchingRule(IMemberMatchingRule matchingRule)
         {
             matchingRules.Insert(0, matchingRule);
-            return (TSelf) this;
+            return (TSelf)this;
         }
 
         private TSelf AddEquivalencyStep(IEquivalencyStep equivalencyStep)
         {
             userEquivalencySteps.Add(equivalencyStep);
-            return (TSelf) this;
+            return (TSelf)this;
         }
 
         #endregion

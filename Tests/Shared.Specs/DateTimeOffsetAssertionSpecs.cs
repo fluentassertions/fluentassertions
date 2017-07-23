@@ -6,7 +6,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class DateTimeOffsetAssertionSpecs
     {
         #region (Not) Have Value
@@ -980,7 +979,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage("Expected a date and time on or before <2016-06-03>, but found <2016-06-04>.");
-
         }
 
         [Fact]
@@ -1001,7 +999,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-
         }
         #endregion
 
@@ -2588,7 +2585,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             DateTimeOffset? value = null;
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------

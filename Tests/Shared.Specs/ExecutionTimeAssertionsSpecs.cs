@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class ExecutionTimeAssertionsSpecs
     {
         [Fact]
@@ -99,9 +98,7 @@ namespace FluentAssertions.Specs
         {
             public void Sleep(int milliseconds)
             {
-
                 Thread.Sleep(milliseconds);
-
             }
         }
     }

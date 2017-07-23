@@ -9,7 +9,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class TypeAssertionSpecs
     {
         #region Be
@@ -20,8 +19,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type sameType = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type sameType = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -41,8 +40,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type differentType = typeof (ClassWithoutAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type differentType = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -62,8 +61,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type differentType = typeof (ClassWithoutAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type differentType = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -87,7 +86,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
             Type nullType = null;
-            Type someType = typeof (ClassWithAttribute);
+            Type someType = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -109,7 +108,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type someType = typeof (ClassWithAttribute);
+            Type someType = typeof(ClassWithAttribute);
             Type nullType = null;
 
             //-------------------------------------------------------------------------------------------------------------------
@@ -135,10 +134,10 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 #pragma warning disable 436 // disable the warning on conflicting types, as this is the intention for the spec
 
-            Type typeFromThisAssembly = typeof (ObjectAssertions);
+            Type typeFromThisAssembly = typeof(ObjectAssertions);
 
             Type typeFromOtherAssembly =
-                typeof (TypeAssertions).GetTypeInfo().Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
+                typeof(TypeAssertions).GetTypeInfo().Assembly.GetType("FluentAssertions.Primitives.ObjectAssertions");
 
 #pragma warning restore 436
 
@@ -166,7 +165,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -186,7 +185,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -206,7 +205,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -233,8 +232,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type otherType = typeof (ClassWithoutAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type otherType = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -254,8 +253,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type sameType = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type sameType = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -275,8 +274,8 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
-            Type sameType = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
+            Type sameType = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -298,7 +297,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -318,7 +317,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -338,7 +337,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type type = typeof (ClassWithAttribute);
+            Type type = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -365,7 +364,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            typeof (DummyImplementingClass).Should().BeAssignableTo<DummyImplementingClass>();
+            typeof(DummyImplementingClass).Should().BeAssignableTo<DummyImplementingClass>();
         }
 
         [Fact]
@@ -374,7 +373,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            typeof (DummyImplementingClass).Should().BeAssignableTo<DummyBaseClass>();
+            typeof(DummyImplementingClass).Should().BeAssignableTo<DummyBaseClass>();
         }
 
         [Fact]
@@ -383,7 +382,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            typeof (DummyImplementingClass).Should().BeAssignableTo<IDisposable>();
+            typeof(DummyImplementingClass).Should().BeAssignableTo<IDisposable>();
         }
 
         [Fact]
@@ -392,14 +391,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Type someType = typeof (DummyImplementingClass);
+            Type someType = typeof(DummyImplementingClass);
             Action act = () => someType.Should().BeAssignableTo<DateTime>("because we want to test the failure {0}", "message");
-            
+
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage($"*{typeof (DummyImplementingClass)} to be assignable to {typeof (DateTime)}*failure message*");
+                .WithMessage($"*{typeof(DummyImplementingClass)} to be assignable to {typeof(DateTime)}*failure message*");
         }
 
         [Fact]
@@ -546,7 +545,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithAttribute = typeof (ClassWithAttribute);
+            Type typeWithAttribute = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -566,7 +565,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithoutAttribute = typeof (ClassWithoutAttribute);
+            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -586,7 +585,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithoutAttribute = typeof (ClassWithoutAttribute);
+            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -611,7 +610,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithAttribute = typeof (ClassWithAttribute);
+            Type typeWithAttribute = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -632,7 +631,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            Type typeWithAttribute = typeof (ClassWithAttribute);
+            Type typeWithAttribute = typeof(ClassWithAttribute);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -702,7 +701,6 @@ namespace FluentAssertions.Specs
                     "FluentAssertions.Specs.OtherClassWithoutAttribute");
         }
 
-
         [Fact]
         public void When_asserting_a_selection_of_types_with_unexpected_attribute_property_it_fails()
         {
@@ -744,13 +742,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var type = typeof (ClassThatImplementsInterface);
+            var type = typeof(ClassThatImplementsInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().Implement(typeof (IDummyInterface));
+                type.Should().Implement(typeof(IDummyInterface));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -764,13 +762,13 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var type = typeof (ClassThatDoesNotImplementInterface);
+            var type = typeof(ClassThatDoesNotImplementInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().Implement(typeof (IDummyInterface), "because we want to test the error {0}", "message");
+                type.Should().Implement(typeof(IDummyInterface), "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -870,7 +868,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>()
                 .WithMessage("Expected type FluentAssertions.Specs.ClassThatImplementsInterface to not implement interface " +
                              "FluentAssertions.Specs.IDummyInterface because we want to test the error message, but it does.");
-    }
+        }
 
         [Fact]
         public void When_asserting_a_type_does_not_implement_a_NonInterface_type_it_fails_with_a_useful_message()
@@ -1028,7 +1026,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var type = typeof (ClassWithoutMembers);
+            var type = typeof(ClassWithoutMembers);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1048,7 +1046,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            var type = typeof (ClassWithMembers);
+            var type = typeof(ClassWithMembers);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1077,7 +1075,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             var type = typeof(ClassExplicitlyImplementingInterface);
 
-            var interfaceType = typeof (IExplicitInterface);
+            var interfaceType = typeof(IExplicitInterface);
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -1217,7 +1215,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
         }
-        
+
         #endregion
 
         #region NotHaveExplicitProperty
@@ -1271,7 +1269,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>()
                 .WithMessage(
                     "Expected FluentAssertions.Specs.ClassExplicitlyImplementingInterface to not explicitly implement " +
-                    "FluentAssertions.Specs.IExplicitInterface.ExplicitImplicitStringProperty, but it does."); 
+                    "FluentAssertions.Specs.IExplicitInterface.ExplicitImplicitStringProperty, but it does.");
         }
 
         [Fact]
@@ -1374,7 +1372,7 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-        
+
         #region HaveExplicitMethod
 
         [Fact]
@@ -1670,7 +1668,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
                 type.Should()
-                    .NotHaveExplicitMethod< IExplicitInterface>("ExplicitMethod", Enumerable.Empty<Type>());
+                    .NotHaveExplicitMethod<IExplicitInterface>("ExplicitMethod", Enumerable.Empty<Type>());
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1682,7 +1680,7 @@ namespace FluentAssertions.Specs
         }
 
         #endregion
-        
+
         #region HaveIndexer
 
         [Fact]
@@ -1721,7 +1719,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().HaveIndexer(typeof(string), new [] {typeof(int), typeof(Type)}, "because we want to test the error {0}", "message");
+                type.Should().HaveIndexer(typeof(string), new[] { typeof(int), typeof(Type) }, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1771,7 +1769,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveIndexer(new [] {typeof(string)});
+                type.Should().NotHaveIndexer(new[] { typeof(string) });
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1791,7 +1789,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveIndexer(new [] {typeof(string)}, "because we want to test the error {0}", "message");
+                type.Should().NotHaveIndexer(new[] { typeof(string) }, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -1896,7 +1894,6 @@ namespace FluentAssertions.Specs
                     .Which.Should()
                         .HaveAccessModifier(CSharpAccessModifier.Public);
 
-
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
@@ -1952,7 +1949,7 @@ namespace FluentAssertions.Specs
                     "Expected constructor FluentAssertions.Specs.ClassWithCctorAndNonDefaultConstructor() to exist because we " +
                     "want to test the error message, but it does not.");
         }
-        
+
         #endregion
 
         #region HaveMethod
@@ -2043,7 +2040,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveMethod("NonExistantMethod", new Type[] {});
+                type.Should().NotHaveMethod("NonExistantMethod", new Type[] { });
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -2063,7 +2060,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveMethod("VoidMethod", new [] { typeof(int) });
+                type.Should().NotHaveMethod("VoidMethod", new[] { typeof(int) });
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -2083,7 +2080,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () =>
-                type.Should().NotHaveMethod("VoidMethod", new Type[] {}, "because we want to test the error {0}", "message");
+                type.Should().NotHaveMethod("VoidMethod", new Type[] { }, "because we want to test the error {0}", "message");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -2097,7 +2094,7 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region HaveAccessModifier
-        
+
         [Fact]
         public void When_asserting_a_public_type_is_public_it_succeeds()
         {
@@ -2184,7 +2181,7 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected type InternalClass to be ProtectedInternal because we want to test the error message, " +
                              "but it is Internal.");
         }
-        
+
         [Fact]
         public void When_asserting_a_nested_private_type_is_private_it_succeeds()
         {
@@ -2193,7 +2190,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2215,8 +2211,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             Type type = typeof(Nested).GetNestedType("PrivateClass", BindingFlags.NonPublic | BindingFlags.Instance);
-
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -2404,7 +2398,7 @@ namespace FluentAssertions.Specs
                              "message, but it is ProtectedInternal.");
         }
 
-#endregion
+        #endregion
     }
 
     #region Internal classes used in unit tests
@@ -2465,7 +2459,7 @@ namespace FluentAssertions.Specs
         public string ExplicitImplicitStringProperty { get; set; }
         string IExplicitInterface.ExplicitImplicitStringProperty { get; set; }
         public void ImplicitMethod() { }
-        public void ImplicitMethod(string overload) { } 
+        public void ImplicitMethod(string overload) { }
         void IExplicitInterface.ExplicitMethod() { }
         void IExplicitInterface.ExplicitMethod(string overload) { }
         public void ExplicitImplicitMethod() { }

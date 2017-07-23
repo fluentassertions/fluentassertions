@@ -47,7 +47,7 @@ namespace FluentAssertions.Formatting
         public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null,
             int nestedPropertyLevel = 0)
         {
-            if (value.GetType() == typeof (object))
+            if (value.GetType() == typeof(object))
             {
                 return string.Format("System.Object (HashCode={0})", value.GetHashCode());
             }
@@ -122,7 +122,7 @@ namespace FluentAssertions.Formatting
 
         private static string CreateWhitespaceForLevel(int level)
         {
-            return new string(' ', level*SpacesPerIndentionLevel);
+            return new string(' ', level * SpacesPerIndentionLevel);
         }
     }
 }

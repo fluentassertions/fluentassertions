@@ -8,7 +8,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class TimeSpanFormatterSpecs
     {
         [Fact]

@@ -9,8 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-
-
 namespace FluentAssertions.Xml
 {
     public class XmlNodeFormatter : IValueFormatter
@@ -35,6 +33,5 @@ namespace FluentAssertions.Xml
         }
     }
 }
-
 
 #endif

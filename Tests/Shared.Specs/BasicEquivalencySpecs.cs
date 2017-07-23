@@ -9,7 +9,6 @@ using FluentAssertions.Equivalency;
 using Xunit;
 using Xunit.Sdk;
 
-
 namespace FluentAssertions.Specs
 {
     [Collection("Equivalency")]
@@ -237,7 +236,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected*UriBuilder to be https://localhost:9002/bapi, but found http://localhost:9001/api*");
         }
 
-
         [Fact]
         public void When_asserting_equivilence_on_a_string_it_should_use_string_specific_failure_messages()
         {
@@ -307,8 +305,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAField {Value = 1};
-            var object2 = new ClassWithOnlyAField {Value = 1};
+            var object1 = new ClassWithOnlyAField { Value = 1 };
+            var object2 = new ClassWithOnlyAField { Value = 1 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -327,8 +325,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAField {Value = 1};
-            var object2 = new ClassWithOnlyAField {Value = 101};
+            var object1 = new ClassWithOnlyAField { Value = 1 };
+            var object2 = new ClassWithOnlyAField { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -347,8 +345,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var onlyAField = new ClassWithOnlyAField {Value = 1};
-            var onlyAProperty = new ClassWithOnlyAProperty {Value = 101};
+            var onlyAField = new ClassWithOnlyAField { Value = 1 };
+            var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -367,8 +365,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var onlyAField = new ClassWithOnlyAField {Value = 1};
-            object onlyAProperty = new ClassWithOnlyAProperty {Value = 101};
+            var onlyAField = new ClassWithOnlyAField { Value = 1 };
+            object onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -388,8 +386,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var onlyAField = new ClassWithOnlyAField {Value = 1};
-            var onlyAProperty = new ClassWithOnlyAProperty {Value = 101};
+            var onlyAField = new ClassWithOnlyAField { Value = 1 };
+            var onlyAProperty = new ClassWithOnlyAProperty { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -413,12 +411,12 @@ namespace FluentAssertions.Specs
             var record = new
             {
                 Member1 = "",
-                Member2 = new[] {"", ""}
+                Member2 = new[] { "", "" }
             };
             var record2 = new
             {
                 Member1 = "different",
-                Member2 = new[] {"", ""}
+                Member2 = new[] { "", "" }
             };
 
             //-----------------------------------------------------------------------------------------------------------
@@ -652,7 +650,7 @@ With configuration:*");
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -683,7 +681,7 @@ With configuration:*");
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -739,7 +737,7 @@ With configuration:*");
                 Property1 = "sit"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -769,7 +767,7 @@ With configuration:*");
                 Property1 = "sit"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -882,9 +880,9 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithAPrivateField(1234) {Value = 1};
+            var subject = new ClassWithAPrivateField(1234) { Value = 1 };
 
-            var other = new ClassWithAPrivateField(54321) {Value = 1};
+            var other = new ClassWithAPrivateField(54321) { Value = 1 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -938,8 +936,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new SubclassA<string> {Foo = "test"};
-            var expectation = new SubclassB<string> {Foo = "test"};
+            var subject = new SubclassA<string> { Foo = "test" };
+            var expectation = new SubclassB<string> { Foo = "test" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -958,8 +956,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var expected = new ClassWithIndexer {Foo = "test"};
-            var result = new ClassWithIndexer {Foo = "test"};
+            var expected = new ClassWithIndexer { Foo = "test" };
+            var result = new ClassWithIndexer { Foo = "test" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1374,7 +1372,7 @@ With configuration:*");
                 Property3 = "consectetur"
             };
 
-            var class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum", Field3 = "color"};
+            var class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "color" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1488,7 +1486,7 @@ With configuration:*");
                 Property3 = "consectetur"
             };
 
-            object class2 = new ClassWithSomeFieldsAndProperties {Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor"};
+            object class2 = new ClassWithSomeFieldsAndProperties { Field1 = "Lorem", Field2 = "ipsum", Field3 = "dolor" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2283,8 +2281,6 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-
-
         #endregion
 
         #region Nested Properties
@@ -2520,7 +2516,7 @@ With configuration:*");
                 SubValues = new[]
                 {
                     new StringSubContainer
-                    {   
+                    {
                         SubValue = subValue
                     }
                 };
@@ -2850,7 +2846,6 @@ With configuration:*");
             act.ShouldNotThrow();
         }
 
-
         [Fact]
         public void When_two_cyclic_graphs_are_equivalent_when_ignoring_cycle_references_it_should_succeed()
         {
@@ -2894,10 +2889,7 @@ With configuration:*");
 
             public Parent Parent { get; set; }
             public int Stuff { get; set; }
-
         }
-
-
 
         [Fact]
         public void When_validating_nested_properties_that_are_null_it_should_not_throw_on_cyclic_references()
@@ -2998,7 +2990,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow<StackOverflowException>();
         }
-        
+
 #endif
         [Fact]
         public void
@@ -3051,14 +3043,14 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var company1 = new MyCompany {Name = "Company"};
-            var user1 = new MyUser {Name = "User", Company = company1};
-            var logo1 = new MyCompanyLogo {Url = "blank", Company = company1, CreatedBy = user1};
+            var company1 = new MyCompany { Name = "Company" };
+            var user1 = new MyUser { Name = "User", Company = company1 };
+            var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
             company1.Logo = logo1;
 
-            var company2 = new MyCompany {Name = "Company"};
-            var user2 = new MyUser {Name = "User", Company = company2};
-            var logo2 = new MyCompanyLogo {Url = "blank", Company = company2, CreatedBy = user2};
+            var company2 = new MyCompany { Name = "Company" };
+            var user2 = new MyUser { Name = "User", Company = company2 };
+            var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
             company2.Logo = logo2;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -3187,8 +3179,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithEnumOne {Enum = EnumOne.One};
-            var expectation = new ClassWithEnumThree {Enum = EnumeThree.ValueZero};
+            var subject = new ClassWithEnumOne { Enum = EnumOne.One };
+            var expectation = new ClassWithEnumThree { Enum = EnumeThree.ValueZero };
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -3207,8 +3199,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithEnumOne {Enum = EnumOne.Two};
-            var expectation = new ClassWithEnumThree {Enum = EnumeThree.Two};
+            var subject = new ClassWithEnumOne { Enum = EnumOne.Two };
+            var expectation = new ClassWithEnumThree { Enum = EnumeThree.Two };
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -3227,8 +3219,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new ClassWithEnumCharOne {Enum = EnumCharOne.B};
-            var expectation = new ClassWithEnumCharTwo {Enum = EnumCharTwo.ValueB};
+            var subject = new ClassWithEnumCharOne { Enum = EnumCharOne.B };
+            var expectation = new ClassWithEnumCharTwo { Enum = EnumCharTwo.ValueB };
 
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
@@ -3303,7 +3295,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new {}.ShouldBeEquivalentTo(new {});
+            Action act = () => new { }.ShouldBeEquivalentTo(new { });
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3359,8 +3351,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAField {Value = 1};
-            var object2 = new ClassWithOnlyAField {Value = 101};
+            var object1 = new ClassWithOnlyAField { Value = 1 };
+            var object2 = new ClassWithOnlyAField { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -3379,8 +3371,8 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var object1 = new ClassWithOnlyAProperty {Value = 1};
-            var object2 = new ClassWithOnlyAProperty {Value = 101};
+            var object1 = new ClassWithOnlyAProperty { Value = 1 };
+            var object2 = new ClassWithOnlyAProperty { Value = 101 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -3688,7 +3680,6 @@ With configuration:*");
         }
     }
 
-
     public class CustomConvertible : IConvertible
     {
         private readonly string convertedStringValue;
@@ -3783,8 +3774,6 @@ With configuration:*");
             throw new InvalidCastException();
         }
     }
-
-
 
     #endregion
 

@@ -3,8 +3,6 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using FluentAssertions.Execution;
 
-
-
 namespace FluentAssertions.Specialized
 {
     /// <summary>

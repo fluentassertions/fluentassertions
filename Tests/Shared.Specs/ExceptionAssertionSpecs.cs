@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using Xunit;
 using Xunit.Sdk;
 
-
 using FakeItEasy;
 
 using FluentAssertions.Primitives;
 
 namespace FluentAssertions.Specs
 {
-    
     public class ExceptionAssertionSpecs
     {
         [Fact]
@@ -583,7 +581,7 @@ namespace FluentAssertions.Specs
             action.ShouldThrow<Exception>()
                 .WithInnerMessage("*xpected messag*");
         }
-        
+
         [Fact]
         public void When_subject_throws_inner_exception_with_message_starting_with_expected_message_it_should_not_throw()
         {
@@ -604,7 +602,7 @@ namespace FluentAssertions.Specs
             action.ShouldThrow<Exception>()
                 .WithInnerMessage("expected mes*");
         }
-        
+
         [Fact]
         public void When_subject_throws_inner_exception_with_message_that_does_not_start_with_expected_message_it_should_throw()
         {
@@ -902,7 +900,6 @@ namespace FluentAssertions.Specs
             {
                 exc.Message.Should().StartWith(
                     "Expected exception where (e.Message == \"Error\"), but the condition was not met");
-
             }
         }
 
@@ -966,7 +963,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>()
                 .WithMessage(
                     string.Format("*System.NullReferenceException*{0}*",
-                        typeof (ExceptionWithEmptyToString)));
+                        typeof(ExceptionWithEmptyToString)));
         }
 
         #endregion

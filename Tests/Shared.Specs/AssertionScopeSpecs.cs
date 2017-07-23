@@ -7,8 +7,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
-    public class  AssertionScopeSpecs
+    public class AssertionScopeSpecs
     {
         [Fact]
         public void When_disposed_it_should_throw_any_failures()
@@ -166,7 +165,7 @@ namespace FluentAssertions.Specs
             {
                 using (new AssertionScope("foo"))
                 {
-                    new[] {1, 2, 3}.Should().Equal(3, 2, 1);
+                    new[] { 1, 2, 3 }.Should().Equal(3, 2, 1);
                 }
             };
 

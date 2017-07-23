@@ -5,7 +5,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class MethodInfoSelectorAssertionSpecs
     {
         [Fact]

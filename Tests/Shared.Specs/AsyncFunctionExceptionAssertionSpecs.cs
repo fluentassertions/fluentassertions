@@ -5,7 +5,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Net45.Specs
 {
-    
     public class AsyncFunctionExceptionAssertionSpecs
     {
         [Fact]
@@ -224,7 +223,8 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> task = async () => {
+            Func<Task> task = async () =>
+            {
                 await Task.Delay(100);
                 throw new InvalidOperationException();
             };
@@ -248,7 +248,8 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> task = async () => {
+            Func<Task> task = async () =>
+            {
                 await Task.Delay(100);
                 throw new InvalidOperationException();
             };
@@ -271,7 +272,8 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> task = async () => {
+            Func<Task> task = async () =>
+            {
                 await Task.Delay(100);
                 throw new ArgumentException();
             };
@@ -295,7 +297,8 @@ namespace FluentAssertions.Net45.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            Func<Task> task = async () => {
+            Func<Task> task = async () =>
+            {
                 await Task.Delay(100);
                 throw new ArgumentException();
             };

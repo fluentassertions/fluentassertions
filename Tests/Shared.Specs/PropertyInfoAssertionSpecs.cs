@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class PropertyInfoAssertionSpecs
     {
         #region BeVirtual
@@ -84,8 +83,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-        }        
-        
+        }
+
         [Fact]
         public void When_a_property_is_decorated_with_an_attribute_it_allow_chaining_assertions()
         {
@@ -107,7 +106,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage("Expected*OtherValue*Value*");
         }
-        
+
         [Fact]
         public void When_a_property_is_decorated_with_an_attribute_and_multiple_attributes_match_continuation_using_the_matched_value_fail()
         {
@@ -228,7 +227,7 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<XunitException>()
                 .WithMessage("Expected property ReadOnlyProperty to have a setter because we want to test the error message.");
         }
-        
+
         [Fact]
         public void When_asserting_a_readwrite_property_is_writable_it_succeeds()
         {
@@ -591,7 +590,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Act
             //-------------------------------------------------------------------------------------------------------------------
-            Action action = () => propertyInfo.Should().Return(typeof (String));
+            Action action = () => propertyInfo.Should().Return(typeof(String));
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
@@ -656,7 +655,7 @@ namespace FluentAssertions.Specs
             public string ReadPrivateWriteProperty { get; private set; }
             public string ReadWriteProperty { get; set; }
             public string WritePrivateReadProperty { private get; set; }
-            public string WriteOnlyProperty { set{} }
+            public string WriteOnlyProperty { set { } }
             public string StringProperty { get; set; }
         }
 

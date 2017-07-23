@@ -8,7 +8,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class XDocumentAssertionSpecs
     {
         #region Be / NotBe
@@ -884,7 +883,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<ArgumentNullException>().WithMessage(
                 "Cannot assert the document has a root element if the document itself is <null>*");
         }
-        
+
         [Fact]
         public void When_asserting_a_document_has_a_null_root_element_it_should_fail()
         {

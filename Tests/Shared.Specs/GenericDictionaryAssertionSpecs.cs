@@ -8,7 +8,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class GenericDictionaryAssertionSpecs
     {
         #region Be Null
@@ -123,7 +122,6 @@ namespace FluentAssertions.Specs
 
             Action act = () => dictionary.Should().HaveCount(4);
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -282,7 +280,6 @@ namespace FluentAssertions.Specs
 
             Action act = () => dictionary.Should().BeEmpty();
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -324,7 +321,6 @@ namespace FluentAssertions.Specs
 
             Action act = () => dictionary.Should().NotBeEmpty();
             act.ShouldThrow<XunitException>();
-
         }
 
         [Fact]
@@ -735,7 +731,7 @@ namespace FluentAssertions.Specs
             };
             dictionary.Should().ContainKey(1);
         }
-        
+
         [Fact]
         public void When_a_dictionary_has_custom_equality_comparer_the_contains_key_assertion_should_work_accordingly()
         {
@@ -844,7 +840,7 @@ namespace FluentAssertions.Specs
                     return false;
                 }
 
-                return Equals((MyClass) obj);
+                return Equals((MyClass)obj);
             }
 
             public override int GetHashCode()
@@ -1099,7 +1095,7 @@ namespace FluentAssertions.Specs
             {
                 SomeProperty = 0
             };
-            
+
             var dictionary = new Dictionary<int, MyClass>
             {
                 { 1, myClass }
@@ -1122,7 +1118,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var myClass = new MyClass {SomeProperty = 0};
+            var myClass = new MyClass { SomeProperty = 0 };
 
             var dictionary = new Dictionary<int, MyClass>
             {
@@ -1136,7 +1132,7 @@ namespace FluentAssertions.Specs
             Action act =
                 () =>
                     dictionary.Should()
-                        .ContainValue(new MyClass {SomeProperty = 0})
+                        .ContainValue(new MyClass { SomeProperty = 0 })
                         .Which.Should()
                         .BeSameAs(myClass);
 
@@ -1308,7 +1304,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>().WithMessage(
                 "Expected dictionary not to contain value \"One\" because we want to test the behaviour with a null subject, but found <null>.");
         }
-        
+
         [Fact]
         public void When_dictionary_does_not_contain_multiple_values_that_is_not_in_the_dictionary_it_should_not_throw()
         {

@@ -208,7 +208,6 @@ namespace FluentAssertions.Collections
         protected void AssertSubjectEquality<TActual, TExpected>(IEnumerable expectation, Func<TActual, TExpected, bool> equalityComparison,
             string because = "", params object[] becauseArgs)
         {
-
             bool subjectIsNull = ReferenceEquals(Subject, null);
             bool expectationIsNull = ReferenceEquals(expectation, null);
             if (subjectIsNull && expectationIsNull)
@@ -1184,7 +1183,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> StartWith(object element, string because = "", params object[] becauseArgs)
         {
             AssertCollectionStartsWith(Subject?.Cast<object>(), new[] { element }, ObjectExtensions.IsSameOrEqualTo, because, becauseArgs);
-            return new AndConstraint<TAssertions>((TAssertions) this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         protected void AssertCollectionStartsWith<TActual, TExpected>(IEnumerable<TActual> actualItems, TExpected[] expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)
@@ -1217,7 +1216,7 @@ namespace FluentAssertions.Collections
         public AndConstraint<TAssertions> EndWith(object element, string because = "", params object[] becauseArgs)
         {
             AssertCollectionEndsWith(Subject?.Cast<object>(), new[] { element }, ObjectExtensions.IsSameOrEqualTo, because, becauseArgs);
-            return new AndConstraint<TAssertions>((TAssertions) this);
+            return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
         protected void AssertCollectionEndsWith<TActual, TExpected>(IEnumerable<TActual> actual, TExpected[] expected, Func<TActual, TExpected, bool> equalityComparison, string because = "", params object[] becauseArgs)

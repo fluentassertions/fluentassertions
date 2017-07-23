@@ -28,14 +28,14 @@ namespace FluentAssertions
         /// </param>
         public static AndConstraint<NullableNumericAssertions<float>> BeApproximately(this NullableNumericAssertions<float> parent,
             float expectedValue, float precision, string because = "",
-            params object [] becauseArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected value to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<float>((float) parent.Subject);
+            var nonNullableAssertions = new NumericAssertions<float>((float)parent.Subject);
             nonNullableAssertions.BeApproximately(expectedValue, precision, because, becauseArgs);
 
             return new AndConstraint<NullableNumericAssertions<float>>(parent);
@@ -60,10 +60,10 @@ namespace FluentAssertions
         /// </param>
         public static AndConstraint<NumericAssertions<float>> BeApproximately(this NumericAssertions<float> parent,
             float expectedValue, float precision, string because = "",
-            params object [] becauseArgs)
+            params object[] becauseArgs)
         {
             float actualDifference = Math.Abs(expectedValue - (float)parent.Subject);
-            
+
             Execute.Assertion
                 .ForCondition(actualDifference <= precision)
                 .BecauseOf(because, becauseArgs)
@@ -92,14 +92,14 @@ namespace FluentAssertions
         /// </param>
         public static AndConstraint<NullableNumericAssertions<double>> BeApproximately(this NullableNumericAssertions<double> parent,
             double expectedValue, double precision, string because = "",
-            params object [] becauseArgs)
+            params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(parent.Subject != null)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected value to approximate {0} +/- {1}{reason}, but it was <null>.", expectedValue, precision);
 
-            var nonNullableAssertions = new NumericAssertions<double>((double) parent.Subject);
+            var nonNullableAssertions = new NumericAssertions<double>((double)parent.Subject);
             BeApproximately(nonNullableAssertions, expectedValue, precision, because, becauseArgs);
 
             return new AndConstraint<NullableNumericAssertions<double>>(parent);
@@ -124,9 +124,9 @@ namespace FluentAssertions
         /// </param>
         public static AndConstraint<NumericAssertions<double>> BeApproximately(this NumericAssertions<double> parent,
             double expectedValue, double precision, string because = "",
-            params object [] becauseArgs)
+            params object[] becauseArgs)
         {
-            double actualDifference = Math.Abs(expectedValue - (double) parent.Subject);
+            double actualDifference = Math.Abs(expectedValue - (double)parent.Subject);
 
             Execute.Assertion
                 .ForCondition(actualDifference <= precision)

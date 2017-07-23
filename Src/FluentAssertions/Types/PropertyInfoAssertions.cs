@@ -189,7 +189,6 @@ namespace FluentAssertions.Types
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected Type of property " + Subject.Name + " to be {0}{reason}, but it is {1}.", propertyType, Subject.PropertyType);
 
-
             return new AndConstraint<PropertyInfoAssertions>(this);
         }
 

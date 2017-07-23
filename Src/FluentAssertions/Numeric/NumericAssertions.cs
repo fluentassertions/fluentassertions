@@ -90,7 +90,7 @@ namespace FluentAssertions.Numeric
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
-        
+
         /// <summary>
         /// Asserts that the integral number value is not the same as the <paramref name="unexpected"/> value.
         /// </summary>
@@ -128,7 +128,7 @@ namespace FluentAssertions.Numeric
                 .ForCondition(Subject.CompareTo(default(T)) > 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected positive value{reason}, but found {0}", Subject);
-            
+
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
@@ -235,7 +235,7 @@ namespace FluentAssertions.Numeric
                 .ForCondition(Subject.CompareTo(expected) >= 0)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected a value greater or equal to {0}{reason}, but found {1}.", expected, Subject);
-            
+
             return new AndConstraint<NumericAssertions<T>>(this);
         }
 
@@ -335,7 +335,7 @@ namespace FluentAssertions.Numeric
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
-        
+
         /// <summary>
         /// Asserts that the object is of the specified type <paramref name="expectedType"/>.
         /// </summary>
@@ -363,7 +363,7 @@ namespace FluentAssertions.Numeric
 
             return new AndConstraint<NumericAssertions<T>>(this);
         }
-        
+
         /// <summary>
         /// Asserts that the object is not of the specified type <paramref name="expectedType"/>.
         /// </summary>

@@ -18,7 +18,7 @@ namespace FluentAssertions.Types
         /// </summary>
         /// <param name="type">The type from which to select methods.</param>
         public MethodInfoSelector(Type type)
-            : this(new[]{type})
+            : this(new[] { type })
         {
         }
 
@@ -52,7 +52,7 @@ namespace FluentAssertions.Types
         {
             get
             {
-                selectedMethods = selectedMethods.Where(method => method.ReturnType == typeof (void));
+                selectedMethods = selectedMethods.Where(method => method.ReturnType == typeof(void));
                 return this;
             }
         }

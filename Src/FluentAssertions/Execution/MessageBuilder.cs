@@ -20,7 +20,7 @@ namespace FluentAssertions.Execution
 
         private readonly bool useLineBreaks;
 
-        private readonly char[] blanks = {'\r', '\n', ' ', '\t'};
+        private readonly char[] blanks = { '\r', '\n', ' ', '\t' };
 
         /// <summary>
         /// Represents the phrase that can be used in <see cref="AssertionScope.FailWith"/> as a placeholder for the reason of an assertion.

@@ -6,10 +6,9 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class AssertionFailureSpecs
     {
-        private static readonly string AssertionsTestSubClassName = typeof (AssertionsTestSubClass).Name;
+        private static readonly string AssertionsTestSubClassName = typeof(AssertionsTestSubClass).Name;
 
         [Fact]
         public void When_reason_starts_with_because_it_should_not_do_anything()
@@ -97,7 +96,7 @@ namespace FluentAssertions.Specs
 
         internal class AssertionsTestSubClass : ReferenceTypeAssertions<object, AssertionsTestSubClass>
         {
-            public void AssertFail(string because, params object [] becauseArgs)
+            public void AssertFail(string because, params object[] becauseArgs)
             {
                 Execute.Assertion
                     .BecauseOf(because, becauseArgs)

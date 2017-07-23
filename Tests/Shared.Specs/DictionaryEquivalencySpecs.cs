@@ -8,8 +8,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
-
     [Collection("Equivalency")]
     public class DictionaryEquivalencySpecs
     {
@@ -262,8 +260,8 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var dictionary1 = new Dictionary<string, string> { { "greeting", "hello" } };
-            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, {"farewell", "goodbye"} };
-                
+            var dictionary2 = new Dictionary<string, string> { { "greeting", "hello" }, { "farewell", "goodbye" } };
+
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -285,7 +283,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             IDictionary<string, int> dictionary = new GenericDictionaryNotImplementingIDictionary<string, int> { { "hi", 1 } };
-            ICollection<KeyValuePair<string, int>> collection = new List<KeyValuePair<string, int>> { new KeyValuePair<string, int>( "hi", 1 ) };
+            ICollection<KeyValuePair<string, int>> collection = new List<KeyValuePair<string, int>> { new KeyValuePair<string, int>("hi", 1) };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act

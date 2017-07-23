@@ -14,11 +14,11 @@ namespace FluentAssertions.Events
     {
         private readonly Dictionary<WeakReference, IEventMonitor> map = new Dictionary<WeakReference, IEventMonitor>();
 
-        public void Add(object eventSource, IEventMonitor recorder )
+        public void Add(object eventSource, IEventMonitor recorder)
         {
             ForEach(eventSource, keyValuePair => map.Remove(keyValuePair.Key));
 
-            map.Add(new WeakReference(eventSource), recorder );
+            map.Add(new WeakReference(eventSource), recorder);
         }
 
         public IEventMonitor this[object eventSource]
@@ -26,7 +26,7 @@ namespace FluentAssertions.Events
             get
             {
                 IEventMonitor result = null;
-                TryGetMonitor( eventSource, out result );
+                TryGetMonitor(eventSource, out result);
 
                 if (result == null)
                 {
@@ -42,7 +42,7 @@ namespace FluentAssertions.Events
         public bool TryGetMonitor(object eventSource, out IEventMonitor eventMonitor)
         {
             IEventMonitor result = null;
-            ForEach( eventSource, pair => result = pair.Value );
+            ForEach(eventSource, pair => result = pair.Value);
             eventMonitor = result;
             return eventMonitor != null;
         }

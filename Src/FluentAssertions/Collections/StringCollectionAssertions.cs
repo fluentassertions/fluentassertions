@@ -113,7 +113,7 @@ namespace FluentAssertions.Collections
             object becauseArg = null,
             params object[] becauseArgs)
         {
-            var args = new List<object> {becauseArg};
+            var args = new List<object> { becauseArg };
             args.AddRange(becauseArgs);
             return base.Contain(expected, because, args.ToArray());
         }

@@ -9,7 +9,7 @@ using Xunit;
 using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
-{ 
+{
     public class ObjectAssertionSpecs
     {
         #region Be / NotBe
@@ -312,7 +312,7 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage($"Expected type not to be [{expectedType.AssemblyQualifiedName}], but it is."); 
+            act.ShouldThrow<XunitException>().WithMessage($"Expected type not to be [{expectedType.AssemblyQualifiedName}], but it is.");
         }
 
         [Fact]
@@ -1130,7 +1130,7 @@ namespace FluentAssertions.Specs
 
         public class NonDataContractSerializableClass
         {
-            public Color Color { get; set; }    
+            public Color Color { get; set; }
         }
 
         public class DataContractSerializableClass
@@ -1154,7 +1154,6 @@ namespace FluentAssertions.Specs
 #endif
 
     }
-
 
     internal class DummyBaseClass
     {
