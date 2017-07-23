@@ -129,7 +129,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage(String.Format("Expected assembly \"{0}\" " +
+                .WithMessage(string.Format("Expected assembly \"{0}\" " +
                              "to define type \"FakeNamespace\".\"FakeName\", but it does not.", thisAssembly.FullName));
         }
 
@@ -157,7 +157,6 @@ namespace FluentAssertions.Specs
     [DummyClass("name", true)]
     public class WellKnownClassWithAttribute
     {
-
     }
 }
 

@@ -31,7 +31,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_assertion_doubles_should_always_allow_small_deviations :
             Given_temporary_global_assertion_options
@@ -168,7 +167,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_inserting_a_step : Given_temporary_equivalency_steps
         {
@@ -185,7 +183,6 @@ namespace FluentAssertions.Specs
                 Steps.Should().StartWith(addedStep);
             }
         }
-
 
         [Collection("Equivalency")]
         public class When_inserting_a_step_before_another : Given_temporary_equivalency_steps
@@ -205,7 +202,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_appending_a_step : Given_temporary_equivalency_steps
         {
@@ -224,7 +220,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         [Collection("Equivalency")]
         public class When_appending_a_step_after_another : Given_temporary_equivalency_steps
         {
@@ -242,7 +237,6 @@ namespace FluentAssertions.Specs
                 Steps.Should().HaveElementSucceeding(predecessor, addedStep);
             }
         }
-
 
         [Collection("Equivalency")]
         public class When_appending_a_step_and_no_builtin_steps_are_there : Given_temporary_equivalency_steps
@@ -264,7 +258,6 @@ namespace FluentAssertions.Specs
                 Steps.Should().EndWith(subjectStep);
             }
         }
-
 
         [Collection("Equivalency")]
         public class When_removing_a_specific_step : Given_temporary_equivalency_steps

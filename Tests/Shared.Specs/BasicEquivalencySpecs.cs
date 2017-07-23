@@ -59,7 +59,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             var subject = new[]
             {
-                new MyClass {Items = new[] {"a"}}
+                new MyClass { Items = new[] { "a" } }
             };
 
             var expectation = new[]
@@ -588,14 +588,14 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var list1 = new List<CustomType>
             {
-                new CustomType {Name = "A"},
-                new CustomType {Name = "B"}
+                new CustomType { Name = "A" },
+                new CustomType { Name = "B" }
             };
 
             var list2 = new List<CustomType>
             {
-                new CustomType {Name = "C"},
-                new CustomType {Name = "D"}
+                new CustomType { Name = "C" },
+                new CustomType { Name = "D" }
             };
 
             var objectA = new ClassA { ListOfCustomTypes = list1 };
@@ -1469,9 +1469,7 @@ With configuration:*");
         }
 
         [Fact]
-        public void
-            When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored
-            ()
+        public void When_configured_for_runtime_typing_and_properties_are_excluded_the_runtime_type_should_be_used_and_properties_should_be_ignored()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1597,9 +1595,7 @@ With configuration:*");
         }
 
         [Fact]
-        public void
-            When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included
-            ()
+        public void When_respecting_the_runtime_type_is_configured_the_runtime_type_should_be_used_and_both_properties_and_fields_included()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1775,9 +1771,7 @@ With configuration:*");
         }
 
         [Fact]
-        public void
-            When_two_properties_are_datetime_and_both_are_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference
-            ()
+        public void When_two_properties_are_datetime_and_both_are_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1867,24 +1861,20 @@ With configuration:*");
         }
 
         [Fact]
-        public void
-            When_two_properties_are_datetime_and_expectation_is_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference
-            ()
+        public void When_two_properties_are_datetime_and_expectation_is_nullable_and_expectation_is_null_it_should_throw_and_state_the_difference()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject =
-                new
-                {
-                    Time = new DateTime(2013, 12, 9, 15, 58, 0)
-                };
+            var subject = new
+            {
+                Time = new DateTime(2013, 12, 9, 15, 58, 0)
+            };
 
-            var other =
-                new
-                {
-                    Time = (DateTime?)null
-                };
+            var other = new
+            {
+                Time = (DateTime?)null
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -2160,9 +2150,7 @@ With configuration:*");
         }
 
         [Fact]
-        public void
-            When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivilent_according_to_the_declared_type_it_should_succeed
-            ()
+        public void When_two_properties_have_the_same_declared_type_but_different_runtime_types_and_are_equivilent_according_to_the_declared_type_it_should_succeed()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -2993,9 +2981,7 @@ With configuration:*");
 
 #endif
         [Fact]
-        public void
-            When_asserting_equivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion
-            ()
+        public void When_asserting_equivilence_on_objects_needing_high_recursion_depth_and_disabling_recursion_depth_limit_it_should_recurse_to_completion()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -3803,7 +3789,6 @@ With configuration:*");
             InternalField = internalValue;
             ProtectedInternalField = protectedInternalValue;
             PrivateField = privateValue;
-
             PublicProperty = publicValue;
             ReadOnlyProperty = privateValue;
             WriteOnlyProperty = privateValue;
@@ -3830,14 +3815,17 @@ With configuration:*");
             {
                 return false;
             }
+
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
+
             if (obj.GetType() != GetType())
             {
                 return false;
             }
+
             return Equals((ClassWithValueSemanticsOnSingleProperty)obj);
         }
 
