@@ -98,6 +98,38 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts than an instance of the subject type is not assignable variable of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type to which instances of the type should not be assignable.</typeparam>
+        /// <param name="because">The reason why instances of the type should not be assignable to the type.</param>
+        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because"/>.</param>
+        /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
+        public new AndConstraint<TypeAssertions> NotBeAssignableTo<T>(string because = "", params object[] becauseArgs)
+        {
+            return NotBeAssignableTo(typeof(T), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts than an instance of the subject type is not assignable variable of given <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The type to which instances of the type should not be assignable.</param>
+        /// <param name="because">The reason why instances of the type should not be assignable to the type.</param>
+        /// <param name="becauseArgs"></param>
+        /// <returns>An <see cref="AndConstraint{T}"/> which can be used to chain assertions.</returns>
+        public new AndConstraint<TypeAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!type.IsAssignableFrom(Subject))
+                .BecauseOf(because, becauseArgs)
+                .FailWith(
+                    "Expected {context:" + Context + "} {0} to not be assignable to {1}{reason}, but it is",
+                    Subject,
+                    type);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Creates an error message in case the specified <paramref name="actual"/> type differs from the 
         /// <paramref name="expected"/> type.
         /// </summary>
