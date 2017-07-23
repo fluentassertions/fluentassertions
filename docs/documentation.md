@@ -321,6 +321,7 @@ collection.Should().NotBeEquivalentTo(8, 2, 3, 5);
 
 collection.Should().HaveCount(c => c > 3).And.OnlyHaveUniqueItems();
 collection.Should().HaveSameCount(new[] {6, 2, 0, 5});
+collection.Should().NotHaveSameCount(new[] {6, 2, 0});
 
 collection.Should().StartWith(element);
 collection.Should().EndWith(element);

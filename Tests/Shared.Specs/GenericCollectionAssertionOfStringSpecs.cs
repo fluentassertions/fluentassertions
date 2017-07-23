@@ -1829,6 +1829,110 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Not Have Same Count
+
+        [Fact]
+        public void When_asserting_not_same_count_and_collections_have_different_number_elements_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<string> firstCollection = new[] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new[] { "four", "six" };
+
+            var extensions = firstCollection.Should();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            extensions.NotHaveSameCount(secondCollection);
+        }
+
+        [Fact]
+        public void When_asserting_not_same_count_and_both_collections_have_the_same_number_elements_it_should_fail()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<string> firstCollection = new[] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new[] { "four", "five", "six" };
+
+            var extensions = firstCollection.Should();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            extensions
+                .Invoking(e => e.NotHaveSameCount(secondCollection))
+                .ShouldThrow<XunitException>()
+                .WithMessage("Expected collection to not have 3 item(s), but found 3.");
+        }
+
+        [Fact]
+        public void When_comparing_not_same_item_counts_and_a_reason_is_specified_it_should_it_in_the_exception()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<string> firstCollection = new[] { "one", "two", "three" };
+            IEnumerable<string> secondCollection = new[] { "four", "five", "six" };
+
+            var extensions = firstCollection.Should();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            extensions
+                .Invoking(e => e.NotHaveSameCount(secondCollection, "we want to test the {0}", "reason"))
+                .ShouldThrow<XunitException>()
+                .WithMessage("Expected collection to not have 3 item(s) because we want to test the reason, but found 3.");
+        }
+
+        [Fact]
+        public void When_asserting_collections_to_not_have_same_count_against_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection = null;
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotHaveSameCount(collection1,
+                "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collection to not have the same count as {\"one\", \"two\", \"three\"} because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_collections_to_not_have_same_count_against_an_other_null_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection = new[] { "one", "two", "three" };
+            IEnumerable<string> otherCollection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotHaveSameCount(otherCollection);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<NullReferenceException>().WithMessage(
+                "Cannot verify count against a <null> collection.");
+        }
+
+        #endregion
+
         [Fact]
         public void
             When_using_StringCollectionAssertions_the_AndConstraint_should_have_the_correct_type()

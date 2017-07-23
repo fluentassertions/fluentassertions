@@ -932,6 +932,47 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Assert that the current collection does not have the same number of elements as <paramref name="otherCollection" />.
+        /// </summary>
+        /// <param name="otherCollection">The other collection with the unexpected number of elements</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotHaveSameCount(IEnumerable otherCollection, string because = "",
+            params object[] becauseArgs)
+        {
+            if (otherCollection == null)
+            {
+                throw new NullReferenceException("Cannot verify count against a <null> collection.");
+            }
+
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to not have the same count as {0}{reason}, but found {1}.",
+                        otherCollection,
+                        Subject);
+            }
+
+            IEnumerable<object> enumerable = Subject.Cast<object>();
+
+            int actualCount = enumerable.Count();
+            int expectedCount = otherCollection.Cast<object>().Count();
+
+            Execute.Assertion
+                .ForCondition(actualCount != expectedCount)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:collection} to not have {0} item(s){reason}, but found {1}.", expectedCount, actualCount);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Asserts that the current collection has the supplied <paramref name="element" /> at the
         /// supplied <paramref name="index" />.
         /// </summary>
