@@ -188,6 +188,37 @@ namespace FluentAssertions.Numeric
         }
 
         /// <summary>
+        /// Asserts that a value is not within a range.
+        /// </summary>
+        /// <remarks>
+        /// Where the range is continuous or incremental depends on the actual type of the value.
+        /// </remarks>
+        /// <param name="minimumValue">
+        /// The minimum valid value of the range.
+        /// </param>
+        /// <param name="maximumValue">
+        /// The maximum valid value of the range.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])"/> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because"/>.
+        /// </param>
+        public AndConstraint<ComparableTypeAssertions<T>> NotBeInRange(T minimumValue, T maximumValue, string because = "",
+            params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!((Subject.CompareTo(minimumValue) >= Equal) && (Subject.CompareTo(maximumValue) <= Equal)))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected object to not be between {0} and {1}{reason}, but found {2}.",
+                    minimumValue, maximumValue, Subject);
+
+            return new AndConstraint<ComparableTypeAssertions<T>>(this);
+        }
+
+        /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected override string Context
