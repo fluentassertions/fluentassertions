@@ -660,7 +660,7 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             Action act = () => someObject.Should().NotBeAssignableTo<DummyImplementingClass>()
-                .Which.Should().BeOfType<Exception>()
+                .And.Subject.Should().BeOfType<Exception>()
                 .Which.Message.Should().Be("Other Message");
 
             //-------------------------------------------------------------------------------------------------------------------
