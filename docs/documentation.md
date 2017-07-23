@@ -232,6 +232,15 @@ value.Should().BeApproximately(3.14F, 0.01F);
 
 This will verify that the value of the float is between 3.139 and 3.141.
 
+Conversely, to assert that the value differs by an amount, you can do this.
+
+```csharp
+float value = 3.5F;
+value.Should().NotBeApproximately(2.5F, 0.5F);
+```
+
+This will verify that the value of the float is not between 2.0 and 3.0.
+
 To assert that a value matches one of the provided values, you can do this.
 
 ```csharp
