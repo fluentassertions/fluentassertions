@@ -222,7 +222,7 @@ namespace FluentAssertions.Primitives
         /// <param name="type">The type to which the object should be assignable.</param>
         /// <param name="because">The parameters used when formatting the <paramref name="because"/>.</param>
         /// <param name="becauseArgs"></param>
-        /// <returns>An <see cref="AndWhichConstraint{TAssertions, T}"/> which can be used to chain assertions.</returns>
+        /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
         public AndConstraint<TAssertions> BeAssignableTo(Type type, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
