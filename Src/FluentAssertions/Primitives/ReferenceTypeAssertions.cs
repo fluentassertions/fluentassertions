@@ -241,6 +241,42 @@ namespace FluentAssertions.Primitives
         }
 
         /// <summary>
+        /// Asserts that the object is not assignable to a variable of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type to which the object should not be assignable.</typeparam>
+        /// <param name="because">The reason why the object should not be assignable to the type.</param>
+        /// <param name="becauseArgs">The parameters used when formatting the <paramref name="because"/>.</param>
+        /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
+        public AndConstraint<TAssertions> NotBeAssignableTo<T>(string because = "", params object[] becauseArgs)
+        {
+            return NotBeAssignableTo(typeof(T), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the object is not assignable to a variable of given <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The type to which the object should not be assignable.</param>
+        /// <param name="because">The parameters used when formatting the <paramref name="because"/>.</param>
+        /// <param name="becauseArgs"></param>
+        /// <returns>An <see cref="AndConstraint{TAssertions}"/> which can be used to chain assertions.</returns>
+        public AndConstraint<TAssertions> NotBeAssignableTo(Type type, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion
+                .ForCondition(!ReferenceEquals(Subject, null))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:type} not to be {0}{reason}, but found <null>.", type);
+
+            Execute.Assertion
+                .ForCondition(!type.IsAssignableFrom(Subject.GetType()))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:" + Context + "} to not be assignable to {0}{reason}, but {1} is",
+                    type,
+                    Subject.GetType());
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
+        /// <summary>
         /// Asserts that the <paramref name="predicate" /> is satisfied.
         /// </summary>
         /// <param name="predicate">The predicate which must be satisfied by the <typeparamref name="TSubject" />.</param>

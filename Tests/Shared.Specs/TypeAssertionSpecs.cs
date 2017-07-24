@@ -447,6 +447,118 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region NotBeAssignableTo
+
+        [Fact]
+        public void When_its_own_type_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo<DummyImplementingClass>("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage($"*{typeof(DummyImplementingClass)} to not be assignable to {typeof(DummyImplementingClass)}*failure message*");
+        }
+
+        [Fact]
+        public void When_its_base_type_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo<DummyBaseClass>("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage($"*{typeof(DummyImplementingClass)} to not be assignable to {typeof(DummyBaseClass)}*failure message*");
+        }
+
+        [Fact]
+        public void When_implemented_interface_type_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo<IDisposable>("because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage($"*{typeof(DummyImplementingClass)} to not be assignable to {typeof(IDisposable)}*failure message*");
+        }
+
+        [Fact]
+        public void When_an_unrelated_type_and_asserting_not_assignable_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().NotBeAssignableTo<DateTime>();
+        }
+
+        [Fact]
+        public void When_its_own_type_instance_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo(typeof(DummyImplementingClass), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage($"*{typeof(DummyImplementingClass)} to not be assignable to {typeof(DummyImplementingClass)}*failure message*");
+        }
+
+        [Fact]
+        public void When_its_base_type_instance_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo(typeof(DummyBaseClass), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage($"*{typeof(DummyImplementingClass)} to not be assignable to {typeof(DummyBaseClass)}*failure message*");
+        }
+
+        [Fact]
+        public void When_an_implemented_interface_type_instance_and_asserting_not_assignable_it_fails_with_a_useful_message()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => typeof(DummyImplementingClass).Should().NotBeAssignableTo(typeof(IDisposable), "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage($"*{typeof(DummyImplementingClass)} to not be assignable to {typeof(IDisposable)}*failure message*");
+        }
+
+        [Fact]
+        public void When_an_unrelated_type_instance_and_asserting_not_assignable_it_succeeds()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange / Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            typeof(DummyImplementingClass).Should().NotBeAssignableTo(typeof(DateTime));
+        }
+
+        #endregion
+
         #region BeDerivedFrom
 
         [Fact]

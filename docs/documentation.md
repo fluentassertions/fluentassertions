@@ -68,6 +68,7 @@ Other examples of some general purpose assertions include
 ```csharp
 var ex = new ArgumentException();
 ex.Should().BeAssignableTo<Exception>("because it is an exception");
+ex.Should().NotBeAssignableTo<DateTime>("because it is an exception");
 
 var dummy = new Object();
 dummy.Should().Match(d => (d.ToString() == "System.Object"));
