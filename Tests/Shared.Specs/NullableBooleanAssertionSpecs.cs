@@ -6,7 +6,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class NullableBooleanAssertionSpecs
     {
         [Fact]
@@ -98,7 +97,7 @@ namespace FluentAssertions.Specs
                 .ShouldThrow<XunitException>()
                 .WithMessage("Did not expect a value because we want to test the failure message, but found True.");
         }
-        
+
         [Fact]
         public void When_asserting_nullable_boolean_value_with_a_value_to_be_null_it_should_fail_with_descriptive_message()
         {

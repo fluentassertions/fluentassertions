@@ -27,7 +27,7 @@ namespace FluentAssertions.Equivalency
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            var other = (ObjectReference) obj;
+            var other = (ObjectReference)obj;
 
             return ReferenceEquals(@object, other.@object) && IsParentOf(other);
         }
@@ -48,7 +48,7 @@ namespace FluentAssertions.Equivalency
         {
             unchecked
             {
-                return (@object.GetHashCode()*397) ^ path.GetHashCode();
+                return (@object.GetHashCode() * 397) ^ path.GetHashCode();
             }
         }
 

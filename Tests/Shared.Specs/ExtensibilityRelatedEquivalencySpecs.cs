@@ -179,7 +179,7 @@ namespace FluentAssertions.Specs
         #endregion
 
         #region Assertion Rules
-        
+
         [Fact]
         public void When_equally_named_properties_are_type_incompatible_and_assertion_rule_exists_it_should_not_throw()
         {
@@ -544,7 +544,6 @@ namespace FluentAssertions.Specs
                 .WithMessage("Expected*123*123*");
         }
 
-
         [Fact]
         public void When_an_equivalency_does_not_handle_the_comparison_later_equivalency_steps_should_stil_be_ran()
         {
@@ -594,7 +593,6 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<NotSupportedException>();
         }
-
 
         internal class ThrowExceptionEquivalencyStep<TException> : CanHandleAnythingEquivalencyStep where TException : Exception, new()
         {

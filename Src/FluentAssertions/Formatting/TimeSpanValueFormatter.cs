@@ -35,7 +35,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            var timeSpan = (TimeSpan) value;
+            var timeSpan = (TimeSpan)value;
 
             if (timeSpan == TimeSpan.MinValue)
             {

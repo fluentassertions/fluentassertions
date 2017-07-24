@@ -17,12 +17,12 @@ namespace FluentAssertions.Execution
     {
         public AssertionFailedException(string message) : base(message)
         {
-            
+
         }
 
 #if NET45
 
-        protected AssertionFailedException(SerializationInfo info, StreamingContext context) 
+        protected AssertionFailedException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
 

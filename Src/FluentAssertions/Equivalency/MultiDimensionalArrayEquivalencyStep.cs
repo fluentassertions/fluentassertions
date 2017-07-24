@@ -20,7 +20,7 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            Array subjectAsArray = (Array) context.Subject;
+            Array subjectAsArray = (Array)context.Subject;
 
             if (AreComparable(context, subjectAsArray))
             {
@@ -28,7 +28,7 @@ namespace FluentAssertions.Equivalency
 
                 do
                 {
-                    var expectation = ((Array) context.Expectation).GetValue(digit.Indices);
+                    var expectation = ((Array)context.Expectation).GetValue(digit.Indices);
                     IEquivalencyValidationContext itemContext = context.CreateForCollectionItem(
                         string.Join(",", digit.Indices),
                         subjectAsArray.GetValue(digit.Indices),
@@ -47,7 +47,7 @@ namespace FluentAssertions.Equivalency
             return Enumerable
                 .Range(0, subjectAsArray.Rank)
                 .Reverse()
-                .Aggregate((Digit) null, (next, rank) => new Digit(subjectAsArray.GetLength(rank), next));
+                .Aggregate((Digit)null, (next, rank) => new Digit(subjectAsArray.GetLength(rank), next));
         }
 
         private static bool AreComparable(IEquivalencyValidationContext context, Array subjectAsArray)
@@ -62,7 +62,7 @@ namespace FluentAssertions.Equivalency
         {
             return AssertionScope.Current
                 .ForCondition(!ReferenceEquals(expectation, null))
-                .FailWith("Can't compare a multi-dimensional array to {0}.", new object[] {null})
+                .FailWith("Can't compare a multi-dimensional array to {0}.", new object[] { null })
                 .Then
                 .ForCondition(expectation is Array)
                 .FailWith("Can't compare a multi-dimensional array to something else.");
@@ -74,7 +74,7 @@ namespace FluentAssertions.Equivalency
 
             for (int dimension = 0; dimension < actual.Rank; dimension++)
             {
-                int expectedLength = ((Array) expectation).GetLength(dimension);
+                int expectedLength = ((Array)expectation).GetLength(dimension);
                 int actualLength = actual.GetLength(dimension);
 
                 sameDimensions = sameDimensions & AssertionScope.Current
@@ -88,7 +88,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool HaveSameRank(object expectation, Array actual)
         {
-            var expectationAsArray = (Array) expectation;
+            var expectationAsArray = (Array)expectation;
 
             return AssertionScope.Current
                 .ForCondition(actual.Rank == expectationAsArray.Rank)

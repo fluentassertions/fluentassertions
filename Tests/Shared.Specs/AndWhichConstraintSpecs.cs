@@ -6,7 +6,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class AndWhichConstraintSpecs
     {
         [Fact]
@@ -15,7 +14,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var continuation = new AndWhichConstraint<StringCollectionAssertions, string>(null, new[] {"hello", "world"});
+            var continuation = new AndWhichConstraint<StringCollectionAssertions, string>(null, new[] { "hello", "world" });
 
             //-----------------------------------------------------------------------------------------------------------
             // Act

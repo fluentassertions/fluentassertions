@@ -45,7 +45,7 @@ namespace FluentAssertions.Formatting
             }
             else
             {
-                dateTime = (DateTimeOffset) value;
+                dateTime = (DateTimeOffset)value;
             }
 
             var fragments = new List<string>();

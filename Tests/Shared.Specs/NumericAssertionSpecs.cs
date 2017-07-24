@@ -7,7 +7,7 @@ namespace FluentAssertions.Specs
     /// <summary>
     /// Summary description for CustomAssertionSpecs
     /// </summary>
-    
+
     public class NumericAssertionSpecs
     {
         #region Positive / Negative
@@ -288,7 +288,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => ((int?) null).Should().Be(value);
+            Action action = () => ((int?)null).Should().Be(value);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -825,7 +825,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => value.Should().BeOneOf(new[] {4, 5}, "because those are the valid values");
+            Action act = () => value.Should().BeOneOf(new[] { 4, 5 }, "because those are the valid values");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

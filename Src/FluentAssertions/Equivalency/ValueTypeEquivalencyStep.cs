@@ -15,9 +15,9 @@ namespace FluentAssertions.Equivalency
             Type type = config.GetSubjectType(context);
 
             bool canHandle =
-                (type != null) && 
-                (type != typeof (object)) && 
-                config.IsValueType(type) && 
+                (type != null) &&
+                (type != typeof(object)) &&
+                config.IsValueType(type) &&
                 !type.IsArray;
 
             if (canHandle)

@@ -42,11 +42,11 @@ namespace FluentAssertions.Events
             return Map[eventSource];
         }
     }
+
     internal partial class EventMonitor
     {
         private readonly WeakReference eventSource;
         private readonly IDictionary<string, IEventRecorder> registeredRecorders = new Dictionary<string, IEventRecorder>();
-
 
         private EventMonitor(object eventSource)
         {

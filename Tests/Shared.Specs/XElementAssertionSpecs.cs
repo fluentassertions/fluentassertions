@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class XElementAssertionSpecs
     {
         #region Be / NotBe
@@ -1124,7 +1123,6 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-
         [Fact]
         public void When_asserting_element_has_child_element_with_ns_and_it_does_it_should_succeed()
         {
@@ -1248,7 +1246,6 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>().WithMessage(expectedMessage);
         }
 
-
         [Fact]
         public void When_asserting_element_has_child_element_it_should_return_the_matched_element_in_the_which_property()
         {
@@ -1264,7 +1261,6 @@ namespace FluentAssertions.Specs
             // Act
             //-------------------------------------------------------------------------------------------------------------------
             var matchedElement = element.Should().HaveElement("child").Subject;
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Assert

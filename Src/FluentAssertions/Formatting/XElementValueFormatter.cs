@@ -39,7 +39,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            var element = (XElement) value;
+            var element = (XElement)value;
 
             return element.HasElements
                 ? FormatElementWithChildren(element)
@@ -53,7 +53,7 @@ namespace FluentAssertions.Formatting
 
         private static string FormatElementWithChildren(XElement element)
         {
-            string [] lines = SplitIntoSeparateLines(element);
+            string[] lines = SplitIntoSeparateLines(element);
 
             // Can't use env.newline because the input doc may have unix or windows style
             // line-breaks
@@ -64,10 +64,10 @@ namespace FluentAssertions.Formatting
             return formattedElement.Escape(escapePlaceholders: true);
         }
 
-        private static string [] SplitIntoSeparateLines(XElement element)
+        private static string[] SplitIntoSeparateLines(XElement element)
         {
             string formattedXml = element.ToString();
-            return formattedXml.Split(new [] { Environment.NewLine }, StringSplitOptions.None);
+            return formattedXml.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
         }
     }
 }

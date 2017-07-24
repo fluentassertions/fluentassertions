@@ -38,10 +38,10 @@ namespace FluentAssertions.Common
                     if (!equalityComparison(firstEnumerator.Current, secondEnumerator.Current))
                     {
                         return index;
-                    }     
-                                   
+                    }
+
                     index++;
-                }   
+                }
             }
         }
     }

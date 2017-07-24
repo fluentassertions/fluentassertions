@@ -39,7 +39,7 @@ namespace FluentAssertions.Equivalency
         /// ordering is irrelevant.
         /// </summary>
         OrderingRuleCollection OrderingRules { get; }
-        
+
         /// <summary>
         /// Gets value indicating how the enums should be compared.
         /// </summary>

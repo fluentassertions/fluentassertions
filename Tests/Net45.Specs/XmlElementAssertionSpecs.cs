@@ -6,7 +6,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class XmlElementAssertionSpecs
     {
         #region BeEquivalent
@@ -38,7 +37,6 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
-
         }
         #endregion
 

@@ -264,18 +264,18 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} {0} to contain {1}{reason}.", Subject, expected);
             }
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions) this,
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this,
                 Subject.Where(
                     item => EqualityComparer<T>.Default.Equals(item, expected)));
         }
-        
+
         /// <summary>
         /// Asserts that the collection contains some extra items in addition to the original items.
         /// </summary>
         /// <param name="expectedItemsList">An <see cref="IEnumerable{T}"/> of expectation items.</param>
         /// <param name="additionalExpectedItems">Additional items that are expectation to be contained by the collection.</param>
         public AndConstraint<TAssertions> Contain(IEnumerable<T> expectedItemsList,
-            params T [] additionalExpectedItems)
+            params T[] additionalExpectedItems)
         {
             var list = new List<T>(expectedItemsList);
             list.AddRange(additionalExpectedItems);
@@ -334,7 +334,7 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected {context:collection} to contain only items matching {0}{reason}, but the collection is empty.",
                     predicate.Body);
-            
+
             IEnumerable<T> mismatchingItems = Subject.Where(item => !compiledPredicate(item));
             if (mismatchingItems.Any())
             {
@@ -390,7 +390,7 @@ namespace FluentAssertions.Collections
             list.AddRange(additionalUnexpectedItems);
             return NotContain((IEnumerable)list);
         }
-        
+
         /// <summary>
         /// Asserts that the collection does not contain any items that match the predicate.
         /// </summary>
@@ -443,13 +443,13 @@ namespace FluentAssertions.Collections
             switch (Subject.Count())
             {
                 case 0: //Fail, Collection is empty
-                  Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
-                  break;
+                    Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but the collection is empty.");
+                    break;
                 case 1: //Success Condition
-                  break;
+                    break;
                 default: // Fail, Collection contains more than a single item
-                  Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", Subject);
-                  break;
+                    Execute.Assertion.BecauseOf(because, becauseArgs).FailWith("Expected {context:collection} to contain a single item{reason}, but found {0}.", Subject);
+                    break;
             }
 
             return new AndWhichConstraint<TAssertions, T>((TAssertions)this, Subject.Single());
@@ -504,7 +504,7 @@ namespace FluentAssertions.Collections
                 // Exactly 1 item was expected
             }
 
-            return new AndWhichConstraint<TAssertions, T>((TAssertions) this, matchingElements);
+            return new AndWhichConstraint<TAssertions, T>((TAssertions)this, matchingElements);
         }
     }
 }

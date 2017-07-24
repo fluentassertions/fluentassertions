@@ -34,7 +34,7 @@ namespace FluentAssertions.Formatting
         /// </returns>
         public string ToString(object value, bool useLineBreaks, IList<object> processedObjects = null, int nestedPropertyLevel = 0)
         {
-            var attribute = (XAttribute) value;
+            var attribute = (XAttribute)value;
             return attribute.ToString();
         }
     }

@@ -7,7 +7,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class PropertyInfoSelectorSpecs
     {
         [Fact]
@@ -18,7 +17,6 @@ namespace FluentAssertions.Specs
             //-------------------------------------------------------------------------------------------------------------------
 
             Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
-
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act

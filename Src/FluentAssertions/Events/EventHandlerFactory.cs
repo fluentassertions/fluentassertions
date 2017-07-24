@@ -1,12 +1,10 @@
 
-
 using System;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace FluentAssertions.Events
 {
-
     /// <summary>
     ///   Static methods that aid in generic event subscription
     /// </summary>
@@ -29,37 +27,37 @@ namespace FluentAssertions.Events
                 .GetTypeInfo()
                 .Module);
 
-            MethodInfo methodToCall = typeof (IEventRecorder).GetMethod("RecordEvent",
+            MethodInfo methodToCall = typeof(IEventRecorder).GetMethod("RecordEvent",
                 BindingFlags.Instance | BindingFlags.Public);
 
             ILGenerator ilGen = eventHandler.GetILGenerator();
 
             // Make room for the one and only local variable in our function
-            ilGen.DeclareLocal(typeof (object[]));
+            ilGen.DeclareLocal(typeof(object[]));
 
             // Create the object array for the parameters and store in local var index 0
             ilGen.Emit(OpCodes.Ldc_I4, parameters.Length);
-            ilGen.Emit(OpCodes.Newarr, typeof (Object));
+            ilGen.Emit(OpCodes.Newarr, typeof(Object));
             ilGen.Emit(OpCodes.Stloc_0);
 
             for (var index = 0; index < parameters.Length; index++)
             {
                 // Push the object array onto the evaluation stack
                 ilGen.Emit(OpCodes.Ldloc_0);
-                
+
                 // Push the array index to store our parameter in onto the evaluation stack
                 ilGen.Emit(OpCodes.Ldc_I4, index);
-                
+
                 // Load the parameter
                 ilGen.Emit(OpCodes.Ldarg, index + 1);
-                
+
                 // Box value-type parameters
                 if (parameters[index].GetTypeInfo()
                     .IsValueType)
                 {
                     ilGen.Emit(OpCodes.Box, parameters[index]);
                 }
-                
+
                 // Store the parameter in the object array
                 ilGen.Emit(OpCodes.Stelem_Ref);
             }
@@ -112,7 +110,7 @@ namespace FluentAssertions.Events
         {
             var newList = new Type[parameters.Length + 1];
 
-            newList[0] = typeof (IEventRecorder);
+            newList[0] = typeof(IEventRecorder);
 
             for (var index = 0; index < parameters.Length; index++)
             {
@@ -128,7 +126,7 @@ namespace FluentAssertions.Events
         private static bool TypeIsDelegate(Type d)
         {
             if (d.GetTypeInfo()
-                .BaseType != typeof (MulticastDelegate))
+                .BaseType != typeof(MulticastDelegate))
             {
                 return false;
             }

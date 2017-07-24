@@ -81,12 +81,12 @@ namespace FluentAssertions.Common
             {
                 return CSharpAccessModifier.Internal;
             }
-            
+
             if (type.GetTypeInfo().IsPublic || type.GetTypeInfo().IsNestedPublic)
             {
                 return CSharpAccessModifier.Public;
             }
-            
+
             if (type.GetTypeInfo().IsNestedFamORAssem)
             {
                 return CSharpAccessModifier.ProtectedInternal;

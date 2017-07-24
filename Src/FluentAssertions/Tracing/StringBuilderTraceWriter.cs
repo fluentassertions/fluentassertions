@@ -28,7 +28,7 @@ namespace FluentAssertions.Equivalency
 
         private void WriteLine(string trace)
         {
-            foreach (string traceLine in trace.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
+            foreach (string traceLine in trace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             {
                 builder.AppendLine(new string(' ', depth * 2) + traceLine);
             }

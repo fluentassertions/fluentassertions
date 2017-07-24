@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class MethodInfoAssertionSpecs
     {
         #region BeVirtual

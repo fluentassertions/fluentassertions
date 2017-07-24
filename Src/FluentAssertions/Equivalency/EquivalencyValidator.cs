@@ -84,7 +84,7 @@ namespace FluentAssertions.Equivalency
             {
                 return true;
             }
-            
+
             AssertionScope.Current.FailWith(
                 "The maximum recursion depth was reached.  " +
                 "The maximum recursion depth limitation prevents stack overflow from " +

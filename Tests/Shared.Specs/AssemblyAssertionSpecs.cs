@@ -9,7 +9,6 @@ using AssemblyB;
 
 namespace FluentAssertions.Specs
 {
-    
     public class AssemblyAssertionSpecs
     {
         [Fact]
@@ -130,10 +129,10 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage(String.Format("Expected assembly \"{0}\" " +
+                .WithMessage(string.Format("Expected assembly \"{0}\" " +
                              "to define type \"FakeNamespace\".\"FakeName\", but it does not.", thisAssembly.FullName));
         }
-        
+
         [Fact]
         public void When_an_assembly_is_null_and_Should_BeNull_is_asserted_it_should_succeed()
         {
@@ -158,7 +157,6 @@ namespace FluentAssertions.Specs
     [DummyClass("name", true)]
     public class WellKnownClassWithAttribute
     {
-        
     }
 }
 

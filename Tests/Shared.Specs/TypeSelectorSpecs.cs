@@ -11,7 +11,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class TypeSelectorSpecs
     {
         [Fact]

@@ -51,7 +51,7 @@ namespace FluentAssertions.Common
             }
             set
             {
-                    throwException = value;
+                throwException = value;
             }
         }
 
@@ -76,7 +76,6 @@ namespace FluentAssertions.Common
             reflector = new NullReflector();
             configurationStore = new NullConfigurationStore();
 #endif
-
 
             throwException = TestFrameworkProvider.Throw;
         }

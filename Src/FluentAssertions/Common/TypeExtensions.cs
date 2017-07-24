@@ -73,20 +73,19 @@ namespace FluentAssertions.Common
             return GetCustomAttributes<TAttribute>(type).Any();
         }
 
-
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type) 
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(MemberInfo type)
             where TAttribute : Attribute
         {
             return type.GetCustomAttributes(false).OfType<TAttribute>();
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type) 
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(Type type)
             where TAttribute : Attribute
         {
             return GetCustomAttributes<TAttribute>(type.GetTypeInfo());
         }
 
-        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo) 
+        private static IEnumerable<TAttribute> GetCustomAttributes<TAttribute>(TypeInfo typeInfo)
             where TAttribute : Attribute
         {
             return typeInfo.GetCustomAttributes(false).OfType<TAttribute>();
@@ -110,7 +109,7 @@ namespace FluentAssertions.Common
 
         public static bool Implements<TInterface>(this Type type)
         {
-            return Implements(type, typeof (TInterface));
+            return Implements(type, typeof(TInterface));
         }
 
         /// <summary>
@@ -171,7 +170,7 @@ namespace FluentAssertions.Common
                 type.GetProperties(PublicMembersFlag)
                     .Where(pi => pi.Name == propertyName)
                     .ToList();
-            
+
             return (properties.Count() > 1)
                 ? properties.SingleOrDefault(p => p.PropertyType == preferredType)
                 : properties.SingleOrDefault();

@@ -39,7 +39,7 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XAttributeAssertions> Be(XAttribute expected, string because, params object [] becauseArgs)
+        public AndConstraint<XAttributeAssertions> Be(XAttribute expected, string because, params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(Subject.Name.Equals(expected.Name) && Subject.Value.Equals(expected.Value))
@@ -71,7 +71,7 @@ namespace FluentAssertions.Xml
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected, string because, params object [] becauseArgs)
+        public AndConstraint<XAttributeAssertions> NotBe(XAttribute unexpected, string because, params object[] becauseArgs)
         {
             Execute.Assertion
                 .ForCondition(!Subject.Name.Equals(unexpected.Name) || !Subject.Value.Equals(unexpected.Value))
@@ -80,7 +80,6 @@ namespace FluentAssertions.Xml
 
             return new AndConstraint<XAttributeAssertions>(this);
         }
-
 
         /// <summary>
         /// Asserts that the current <see cref="XAttribute"/> has the specified <paramref name="expected"/> value.

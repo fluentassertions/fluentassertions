@@ -48,11 +48,11 @@ namespace FluentAssertions.Specialized
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
                     "Expected a <{0}> to be thrown{reason}, but found a <{1}>: {3}.",
-                    typeof (TException), actualException.GetType(),
+                    typeof(TException), actualException.GetType(),
                     Environment.NewLine,
                     actualException);
 
-            return new ExceptionAssertions<TException>(expectedExceptions);            
+            return new ExceptionAssertions<TException>(expectedExceptions);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace FluentAssertions.Specialized
                 Execute.Assertion
                     .ForCondition(!expectedExceptions.Any())
                     .BecauseOf(because, becauseArgs)
-                    .FailWith("Did not expect {0}{reason}, but found {1}.", typeof (TException), actualException);
+                    .FailWith("Did not expect {0}{reason}, but found {1}.", typeof(TException), actualException);
             }
         }
 

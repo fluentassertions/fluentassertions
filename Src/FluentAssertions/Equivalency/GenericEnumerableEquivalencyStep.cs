@@ -61,7 +61,7 @@ namespace FluentAssertions.Equivalency
                 MethodCallExpression executeExpression = Expression.Call(
                     Expression.Constant(validator),
                     ExpressionExtensions.GetMethodName(() => validator.Execute<object>(null, null)),
-                    new[] {typeOfEnumeration},
+                    new[] { typeOfEnumeration },
                     subjectToArray,
                     expectationToArray);
 
@@ -85,12 +85,12 @@ namespace FluentAssertions.Equivalency
         {
             var enumerableInterfaces = GetIEnumerableInterfaces(type);
 
-            return (!typeof (string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
+            return (!typeof(string).IsAssignableFrom(type)) && enumerableInterfaces.Any();
         }
 
         private static Type[] GetIEnumerableInterfaces(Type type)
         {
-            Type soughtType = typeof (IEnumerable<>);
+            Type soughtType = typeof(IEnumerable<>);
 
             return Common.TypeExtensions.GetClosedGenericInterfaces(type, soughtType);
         }
@@ -105,10 +105,10 @@ namespace FluentAssertions.Equivalency
         private static MethodCallExpression ToArray(object value, Type typeOfEnumeration)
         {
             return Expression.Call(
-                typeof (Enumerable),
+                typeof(Enumerable),
                 "ToArray",
-                new[] {typeOfEnumeration},
-                Expression.Constant(value, typeof (IEnumerable<>).MakeGenericType(typeOfEnumeration)));
+                new[] { typeOfEnumeration },
+                Expression.Constant(value, typeof(IEnumerable<>).MakeGenericType(typeOfEnumeration)));
         }
     }
 }

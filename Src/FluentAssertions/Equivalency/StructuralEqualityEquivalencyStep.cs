@@ -73,7 +73,7 @@ namespace FluentAssertions.Equivalency
             return query.FirstOrDefault();
         }
 
-        internal IEnumerable<SelectedMemberInfo> GetSelectedMembers(IEquivalencyValidationContext context, 
+        internal IEnumerable<SelectedMemberInfo> GetSelectedMembers(IEquivalencyValidationContext context,
             IEquivalencyAssertionOptions config)
         {
             IEnumerable<SelectedMemberInfo> members = Enumerable.Empty<SelectedMemberInfo>();

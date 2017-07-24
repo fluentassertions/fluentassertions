@@ -33,7 +33,6 @@ namespace FluentAssertions.Primitives
                     ExpectationDescription + "{0} with a length of {1}{reason}, but {2} has a length of {3}.",
                     expected, expected.Length, subject, subject.Length)
                 .SourceSucceeded;
-            
         }
 
         protected override void ValidateAgainstMismatch()

@@ -66,7 +66,6 @@ namespace Chill.Autofac
                 Container.ComponentRegistry
                     .Register(RegistrationBuilder.ForDelegate((c, p) => valueToSet)
                         .InstancePerLifetimeScope().CreateRegistration());
-
             }
             else
             {

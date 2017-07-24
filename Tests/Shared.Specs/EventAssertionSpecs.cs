@@ -452,8 +452,6 @@ namespace FluentAssertions.Specs
                 "Expected at least one event with arguments matching \"(args == \\\"" + wrongArgument + "\\\")\", but found none.");
         }
 
-
-
         [Fact]
         public void When_trying_to_attach_to_notify_property_changed_should_not_throw()
         {
@@ -474,7 +472,7 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-#region Should(Not)RaisePropertyChanged events
+        #region Should(Not)RaisePropertyChanged events
 
         [Fact]
         public void When_a_property_changed_event_was_raised_for_the_expected_property_it_should_not_throw()
@@ -628,9 +626,9 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-#endregion
+        #endregion
 
-#region General Checks
+        #region General Checks
 
         [Fact]
         public void When_monitoring_a_null_object_it_should_throw()
@@ -769,12 +767,12 @@ namespace FluentAssertions.Specs
         {
             Type baseType = typeof(EventRaisingClass);
             Type interfaceType = typeof(IEventRaisingInterface);
-            AssemblyName assemblyName = new AssemblyName {Name = baseType.Assembly.FullName + ".GeneratedForTest"};
+            AssemblyName assemblyName = new AssemblyName { Name = baseType.Assembly.FullName + ".GeneratedForTest" };
             AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
                 AssemblyBuilderAccess.Run);
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, false);
             string typeName = baseType.Name + "_GeneratedForTest";
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] {interfaceType});
+            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Public, baseType, new[] { interfaceType });
 
             Func<string, MethodBuilder> emitAddRemoveEventHandler = methodName =>
             {
@@ -1009,8 +1007,7 @@ namespace FluentAssertions.Specs
             }
         }
 
-
-#endregion
+        #endregion
 
         public interface IEventRaisingInterface
         {

@@ -26,7 +26,7 @@ namespace FluentAssertions.Execution
                 {
                     return Formatter.ToString(item.Value);
                 }
-                
+
                 return item.Value.ToString();
             }
 

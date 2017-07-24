@@ -5,7 +5,6 @@ using Xunit;
 
 namespace FluentAssertions.Specs
 {
-    
     public class DateTimeOffsetValueFormatterSpecs
     {
         [Fact]
@@ -162,10 +161,10 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            formatter.ToString(dateOnly, false).Should().Be(formatter.ToString((DateTimeOffset) dateOnly, false));
-            formatter.ToString(timeOnly, false).Should().Be(formatter.ToString((DateTimeOffset) timeOnly, false));
-            formatter.ToString(witoutMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset) witoutMilliseconds, false));
-            formatter.ToString(withMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset) withMilliseconds, false));
+            formatter.ToString(dateOnly, false).Should().Be(formatter.ToString((DateTimeOffset)dateOnly, false));
+            formatter.ToString(timeOnly, false).Should().Be(formatter.ToString((DateTimeOffset)timeOnly, false));
+            formatter.ToString(witoutMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset)witoutMilliseconds, false));
+            formatter.ToString(withMilliseconds, false).Should().Be(formatter.ToString((DateTimeOffset)withMilliseconds, false));
         }
 
         private static DateTime ToUtcWithoutChangingTime(DateTime date)

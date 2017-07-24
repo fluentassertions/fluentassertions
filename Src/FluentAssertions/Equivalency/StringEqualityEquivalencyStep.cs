@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
         {
             Type subjectType = config.GetSubjectType(context);
 
-            return (subjectType != null) && (subjectType == typeof (string));
+            return (subjectType != null) && (subjectType == typeof(string));
         }
 
         /// <summary>
@@ -38,10 +38,10 @@ namespace FluentAssertions.Equivalency
 
             if (expectationIsString)
             {
-                string subject = (string) context.Subject;
+                string subject = (string)context.Subject;
                 string expectation = (context.Expectation == null)
                     ? null
-                    : (string) context.Expectation;
+                    : (string)context.Expectation;
 
                 subject.Should()
                     .Be(expectation, context.Because, context.BecauseArgs);
@@ -80,16 +80,15 @@ namespace FluentAssertions.Equivalency
                 return true;
             }
 
-            return 
+            return
                 AssertionScope.Current
                     .ForCondition(context.Expectation.GetType()
-                        .IsSameOrInherits(typeof (T)))
+                        .IsSameOrInherits(typeof(T)))
                     .FailWith(
                         "Expected " + GetSubjectDescription(context) +
                         " to be {0}, but found {1}",
                         context.Expectation.GetType(),
                         context.RuntimeType);
-
         }
 
         private static string GetSubjectDescription(IEquivalencyValidationContext context)

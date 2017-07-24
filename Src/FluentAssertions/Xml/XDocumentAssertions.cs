@@ -215,7 +215,7 @@ namespace FluentAssertions.Xml
 
             if (expected == null)
             {
-                throw new ArgumentNullException("expected", 
+                throw new ArgumentNullException("expected",
                     "Cannot assert the document has a root element if the element name is <null>*");
             }
 

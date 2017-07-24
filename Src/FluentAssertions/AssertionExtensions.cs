@@ -659,7 +659,7 @@ namespace FluentAssertions
                 Subject = subject,
                 Expectation = expectation,
                 RootIsCollection = true,
-                CompileTimeType = typeof (IEnumerable<T>),
+                CompileTimeType = typeof(IEnumerable<T>),
                 Because = because,
                 BecauseArgs = becauseArgs,
                 Tracer = options.TraceWriter
@@ -723,7 +723,7 @@ namespace FluentAssertions
             {
                 Subject = subject,
                 Expectation = expectation,
-                CompileTimeType = typeof (T),
+                CompileTimeType = typeof(T),
                 Because = because,
                 BecauseArgs = becauseArgs,
                 Tracer = options.TraceWriter
@@ -761,7 +761,7 @@ namespace FluentAssertions
                 throw new NullReferenceException("Cannot monitor the events of a <null> object.");
             }
 
-            return EventMonitor.Attach( eventSource, typeof(T));
+            return EventMonitor.Attach(eventSource, typeof(T));
         }
 
         /// <summary>
@@ -774,7 +774,7 @@ namespace FluentAssertions
         [Pure]
         public static TTo As<TTo>(this object subject)
         {
-            return subject is TTo ? (TTo) subject : default(TTo);
+            return subject is TTo ? (TTo)subject : default(TTo);
         }
     }
 }

@@ -7,7 +7,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class MethodBaseAssertionSpecs
     {
         #region Return
@@ -399,7 +398,7 @@ namespace FluentAssertions.Specs
 
         public int IntMethod() { return 0; }
 
-        private void PrivateMethod() {}
+        private void PrivateMethod() { }
 
         public string PublicGetProperty { get; private set; }
 

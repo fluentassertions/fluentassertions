@@ -29,7 +29,7 @@ namespace FluentAssertions
         {
             return TimeSpan.FromTicks(ticks);
         }
-        
+
         /// <summary>
         /// Returns a <see cref="TimeSpan" /> based on a number of milliseconds.
         /// </summary>

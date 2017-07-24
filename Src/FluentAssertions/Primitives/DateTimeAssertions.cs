@@ -93,10 +93,10 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> BeCloseTo(DateTime nearbyTime, int precision = 20, string because = "",
             params object[] becauseArgs)
         {
-            long distanceToMinInMs = (long) (nearbyTime - DateTime.MinValue).TotalMilliseconds;
+            long distanceToMinInMs = (long)(nearbyTime - DateTime.MinValue).TotalMilliseconds;
             DateTime minimumValue = nearbyTime.AddMilliseconds(-Math.Min(precision, distanceToMinInMs));
 
-            long distanceToMaxInMs = (long) (DateTime.MaxValue - nearbyTime).TotalMilliseconds;
+            long distanceToMaxInMs = (long)(DateTime.MaxValue - nearbyTime).TotalMilliseconds;
             DateTime maximumValue = nearbyTime.AddMilliseconds(Math.Min(precision, distanceToMaxInMs));
 
             Execute.Assertion

@@ -207,7 +207,7 @@ namespace FluentAssertions.Specs
             {
                 new
                 {
-                    A = "aaa", 
+                    A = "aaa",
                     B = "bbb"
                 }
             };
@@ -221,7 +221,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => result.ShouldAllBeEquivalentTo(new[] {expected}, options => options.Including(x => x.A));
+            Action act = () => result.ShouldAllBeEquivalentTo(new[] { expected }, options => options.Including(x => x.A));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -332,7 +332,6 @@ namespace FluentAssertions.Specs
             }
         }
 
-
         #endregion
 
         #region Non-Generic Collections
@@ -343,8 +342,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            ICollection collection1 = new NonGenericCollection(new[] {new Car()});
-            ICollection collection2 = new NonGenericCollection(new[] {new Customer()});
+            ICollection collection1 = new NonGenericCollection(new[] { new Car() });
+            ICollection collection2 = new NonGenericCollection(new[] { new Customer() });
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -366,8 +365,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            ICollection collection1 = new NonGenericCollection(new[] {new Car()});
-            ICollection collection2 = new NonGenericCollection(new[] {new Customer()});
+            ICollection collection1 = new NonGenericCollection(new[] { new Car() });
+            ICollection collection2 = new NonGenericCollection(new[] { new Customer() });
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -402,7 +401,7 @@ namespace FluentAssertions.Specs
 
             public void CopyTo(Array array, int index)
             {
-                ((ICollection) inner).CopyTo(array, index);
+                ((ICollection)inner).CopyTo(array, index);
             }
 
             public int Count
@@ -412,12 +411,12 @@ namespace FluentAssertions.Specs
 
             public object SyncRoot
             {
-                get { return ((ICollection) inner).SyncRoot; }
+                get { return ((ICollection)inner).SyncRoot; }
             }
 
             public bool IsSynchronized
             {
-                get { return ((ICollection) inner).IsSynchronized; }
+                get { return ((ICollection)inner).IsSynchronized; }
             }
         }
 
@@ -452,8 +451,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection1 = new Collection<CustomerType> {new DerivedCustomerType("123")};
-            var collection2 = new Collection<CustomerType> {new CustomerType("123")};
+            var collection1 = new Collection<CustomerType> { new DerivedCustomerType("123") };
+            var collection2 = new Collection<CustomerType> { new CustomerType("123") };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -474,8 +473,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var collection1 = new Collection<CustomerType> {new DerivedCustomerType("123")};
-            var collection2 = new Collection<CustomerType> {new CustomerType("123")};
+            var collection1 = new Collection<CustomerType> { new DerivedCustomerType("123") };
+            var collection2 = new Collection<CustomerType> { new CustomerType("123") };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -497,8 +496,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            ICollection collection1 = new List<Car> {new Car()};
-            ICollection collection2 = new List<Customer> {new Customer()};
+            ICollection collection1 = new List<Car> { new Car() };
+            ICollection collection2 = new List<Customer> { new Customer() };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -520,8 +519,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            ICollection collection1 = new List<Car> {new Car()};
-            ICollection collection2 = new List<Customer> {new Customer()};
+            ICollection collection1 = new List<Car> { new Car() };
+            ICollection collection2 = new List<Customer> { new Customer() };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -743,7 +742,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options => 
+            Action action = () => subject.ShouldAllBeEquivalentTo(expectation, options =>
                 options.WithStrictOrderingFor(s => s.SelectedMemberPath.Contains("UnorderedCollection")));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -866,7 +865,7 @@ namespace FluentAssertions.Specs
 
             public override bool Equals(object obj)
             {
-                return (obj is MyChildObject) && (((MyChildObject) obj).Id == Id);
+                return (obj is MyChildObject) && (((MyChildObject)obj).Id == Id);
             }
 
             public override int GetHashCode()
@@ -901,8 +900,8 @@ namespace FluentAssertions.Specs
                 }
             };
 
-            IList<MyObject> actualList = new List<MyObject> {actual};
-            IList<MyObject> expectationList = new List<MyObject> {expectation};
+            IList<MyObject> actualList = new List<MyObject> { actual };
+            IList<MyObject> expectationList = new List<MyObject> { expectation };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -922,8 +921,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var list1 = new[] {new KeyValuePair<int, int>(1, 123)};
-            var list2 = new[] {new KeyValuePair<int, int>(2, 321)};
+            var list1 = new[] { new KeyValuePair<int, int>(1, 123) };
+            var list2 = new[] { new KeyValuePair<int, int>(2, 321) };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -942,8 +941,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var list1 = new[] {new {Value = 3}};
-            var list2 = new[] {new {Value = 2}};
+            var list1 = new[] { new { Value = 3 } };
+            var list2 = new[] { new { Value = 2 } };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1040,7 +1039,8 @@ namespace FluentAssertions.Specs
             act.ShouldNotThrow();
         }
 
-        [Fact] public void When_custom_assertion_rules_are_utilized_the_rules_should_be_respected()
+        [Fact]
+        public void When_custom_assertion_rules_are_utilized_the_rules_should_be_respected()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
@@ -1111,7 +1111,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage(String.Format("*to be a {0}, but found a {1}*", typeof (CustomerDto), typeof (Customer)));
+                .WithMessage(String.Format("*to be a {0}, but found a {1}*", typeof(CustomerDto), typeof(Customer)));
         }
 
         [Fact]
@@ -1278,9 +1278,9 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var subject = new byte[] {1, 2, 3, 4, 5, 6};
+            var subject = new byte[] { 1, 2, 3, 4, 5, 6 };
 
-            var expectation = new byte[] {6, 5, 4, 3, 2, 1};
+            var expectation = new byte[] { 6, 5, 4, 3, 2, 1 };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -1711,16 +1711,16 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var company1 = new MyCompany {Name = "Company"};
-            var user1 = new MyUser {Name = "User", Company = company1};
-            company1.Users = new List<MyUser> {user1};
-            var logo1 = new MyCompanyLogo {Url = "blank", Company = company1, CreatedBy = user1};
+            var company1 = new MyCompany { Name = "Company" };
+            var user1 = new MyUser { Name = "User", Company = company1 };
+            company1.Users = new List<MyUser> { user1 };
+            var logo1 = new MyCompanyLogo { Url = "blank", Company = company1, CreatedBy = user1 };
             company1.Logo = logo1;
 
-            var company2 = new MyCompany {Name = "Company"};
-            var user2 = new MyUser {Name = "User", Company = company2};
-            company2.Users = new List<MyUser> {user2};
-            var logo2 = new MyCompanyLogo {Url = "blank", Company = company2, CreatedBy = user2};
+            var company2 = new MyCompany { Name = "Company" };
+            var user2 = new MyUser { Name = "User", Company = company2 };
+            company2.Users = new List<MyUser> { user2 };
+            var logo2 = new MyCompanyLogo { Url = "blank", Company = company2, CreatedBy = user2 };
             company2.Logo = logo2;
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2447,7 +2447,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>()
                 .WithMessage("Expected*1 dimension(s), but*2*");
         }
-        
+
         [Fact]
         public void When_the_expectation_is_not_a_multi_dimensional_array_it_should_throw()
         {
@@ -2525,7 +2525,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>()
                 .WithMessage("Expected dimension 1 to contain 2 item(s), but found 3*");
         }
-        
+
         [Fact]
         public void When_the_length_of_the_2nd_dimension_differs_between_the_arrays_it_should_throw()
         {
@@ -2554,7 +2554,7 @@ namespace FluentAssertions.Specs
             act.ShouldThrow<XunitException>()
                 .WithMessage("Expected dimension 0 to contain 1 item(s), but found 2*");
         }
-        
+
         #endregion
     }
 }

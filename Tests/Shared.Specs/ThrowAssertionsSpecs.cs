@@ -7,10 +7,8 @@ using FakeItEasy;
 
 namespace FluentAssertions.Specs
 {
-    
     public class ThrowAssertionsSpecs
     {
-
         [Fact]
         public void When_subject_throws_expected_exception_it_should_not_do_anything()
         {

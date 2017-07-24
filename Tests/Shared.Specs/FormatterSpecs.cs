@@ -8,7 +8,6 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
     public class FormatterSpecs
     {
         [Fact]
@@ -71,7 +70,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             result.Should().Be("<00:01:00>");
         }
-        
+
         [Fact]
         public void When_the_minimum_value_of_a_datetime_is_provided_it_should_return_a_clear_representation()
         {
@@ -90,7 +89,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             result.Should().Be("<0001-01-01 00:00:00.000>");
         }
-        
+
         [Fact]
         public void When_the_maximum_value_of_a_datetime_is_provided_it_should_return_a_clear_representation()
         {
@@ -254,7 +253,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            var stuffWithAField = new StuffWithAField {Field = "Some Text"};
+            var stuffWithAField = new StuffWithAField { Field = "Some Text" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
@@ -661,7 +660,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Scan;
-            
+
             var subject = new SomeClassWithCustomFormatter
             {
                 Property = "SomeValue"
@@ -684,7 +683,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-             Configuration.Current.ValueFormatterAssembly = "FluentAssertions";
+            Configuration.Current.ValueFormatterAssembly = "FluentAssertions";
 
             var subject = new SomeClassWithCustomFormatter
             {
@@ -701,7 +700,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             result.Should().Be(subject.ToString());
         }
-        
+
         [Fact]
         public void When_formatter_scanning_is_disabled_it_should_use_the_default_formatters()
         {
@@ -709,7 +708,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             Configuration.Current.ValueFormatterDetectionMode = ValueFormatterDetectionMode.Disabled;
-            
+
             var subject = new SomeClassWithCustomFormatter
             {
                 Property = "SomeValue"
@@ -725,7 +724,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             result.Should().Be(subject.ToString());
         }
-        
+
         [Fact]
         public void When_no_formatter_scanning_is_configured_it_should_use_the_default_formatters()
         {
@@ -733,7 +732,7 @@ namespace FluentAssertions.Specs
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             Services.ResetToDefaults();
-            
+
             var subject = new SomeClassWithCustomFormatter
             {
                 Property = "SomeValue"
@@ -784,8 +783,6 @@ namespace FluentAssertions.Specs
                 throw new XunitException("Should never be called");
             }
         }
-
-
     }
 
     internal class ExceptionThrowingClass
