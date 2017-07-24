@@ -631,7 +631,7 @@ You can also take a different approach and explicitly tell Fluent Assertions whi
 ```csharp
 orderDto.ShouldBeEquivalentTo(order, options => options
     .Including(o => o.OrderNumber)
-	.Including(pi => pi.PropertyPath.EndsWidth("Date")); 
+	.Including(pi => pi.PropertyPath.EndsWith("Date")); 
 ```
 
 ### Including properties and/or fields ###
