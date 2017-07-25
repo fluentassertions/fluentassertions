@@ -1,4 +1,7 @@
 using System.Xml.Linq;
+using System.Reflection;
+using System;
+using System.Linq;
 
 using FluentAssertions.Common;
 using Xunit;
@@ -88,8 +91,115 @@ namespace FluentAssertions.Specs
             result.Should().BeFalse();
         }
 
+        [Fact]
+        public void When_getting_explicit_conversion_operator_from_a_type_with_fake_conversion_operators_it_should_not_return_any()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var type1 = typeof(TypeWithFakeConversionOperators);
+            var type2 = typeof(byte);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            MethodInfo result = type1.GetExplicitConversionOperator(type1, type2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public void When_getting_implicit_conversion_operator_from_a_type_with_fake_conversion_operators_it_should_not_return_any()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var type1 = typeof(TypeWithFakeConversionOperators);
+            var type2 = typeof(int);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            MethodInfo result = type1.GetImplicitConversionOperator(type1, type2);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public void When_getting_fake_explicit_conversion_operator_from_a_type_with_fake_conversion_operators_it_should_return_one()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithFakeConversionOperators);
+            string name = "op_Explicit";
+            var bindingAttr = BindingFlags.Public | BindingFlags.Static;
+            var returnType = typeof(byte);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            MethodInfo result = GetFakeConversionOperator(type, name, bindingAttr, returnType);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void When_getting_fake_implicit_conversion_operator_from_a_type_with_fake_conversion_operators_it_should_return_one()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithFakeConversionOperators);
+            string name = "op_Implicit";
+            var bindingAttr = BindingFlags.Public | BindingFlags.Static;
+            var returnType = typeof(int);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            MethodInfo result = GetFakeConversionOperator(type, name, bindingAttr, returnType);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            result.Should().NotBeNull();
+        }
+
+        private static MethodInfo GetFakeConversionOperator(Type type, string name, BindingFlags bindingAttr, Type returnType)
+        {
+            MethodInfo[] methods = type.GetMethods(bindingAttr);
+            return methods.SingleOrDefault(m =>
+                m.Name == name
+                && m.ReturnType == returnType
+                && m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { type })
+                );
+        }
+
         class InheritedType { }
 
         class InheritingType : InheritedType { }
+
+        struct TypeWithFakeConversionOperators
+        {
+            private readonly int value;
+
+            private TypeWithFakeConversionOperators(int value)
+            {
+                this.value = value;
+            }
+
+            public static int op_Implicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) => typeWithFakeConversionOperators.value;
+            public static byte op_Explicit(TypeWithFakeConversionOperators typeWithFakeConversionOperators) => (byte)typeWithFakeConversionOperators.value;
+        }
     }
 }

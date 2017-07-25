@@ -2516,7 +2516,415 @@ namespace FluentAssertions.Specs
                              "message, but it is ProtectedInternal.");
         }
 
-#endregion
+        #endregion
+
+        #region HaveExplictConversionOperator
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_conversion_operator_which_it_does_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+            var sourceType = typeof(TypeWithConversionOperators);
+            var targetType = typeof(byte);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveExplictConversionOperator(sourceType, targetType)
+                    .Which.Should()
+                        .NotBeNull();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_conversion_operator_which_it_does_not_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+            var sourceType = typeof(TypeWithConversionOperators);
+            var targetType = typeof(string);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveExplictConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected public static explicit System.String(FluentAssertions.Specs.TypeWithConversionOperators) to exist " +
+                    "because we want to test the error message, but it does not.");
+        }
+
+        #endregion
+
+        #region HaveExplictConversionOperatorOfT
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_conversion_operatorOfT_which_it_does_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveExplictConversionOperator<TypeWithConversionOperators, byte>()
+                    .Which.Should()
+                        .NotBeNull();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_explicit_conversion_operatorOfT_which_it_does_not_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveExplictConversionOperator<TypeWithConversionOperators, string>("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected public static explicit System.String(FluentAssertions.Specs.TypeWithConversionOperators) to exist " +
+                    "because we want to test the error message, but it does not.");
+        }
+
+        #endregion
+
+        #region NotHaveExplictConversionOperator
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operator_which_it_does_not_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+            var sourceType = typeof(TypeWithConversionOperators);
+            var targetType = typeof(string);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveExplictConversionOperator(sourceType, targetType);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operator_which_it_does_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+            var sourceType = typeof(TypeWithConversionOperators);
+            var targetType = typeof(byte);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveExplictConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected public static explicit System.Byte(FluentAssertions.Specs.TypeWithConversionOperators) to not exist " +
+                    "because we want to test the error message, but it does.");
+        }
+
+        #endregion
+
+        #region NotHaveExplictConversionOperatorOfT
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operatorOfT_which_it_does_not_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveExplictConversionOperator<TypeWithConversionOperators, string>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_explicit_conversion_operatorOfT_which_it_does_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveExplictConversionOperator<TypeWithConversionOperators, byte>("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected public static explicit System.Byte(FluentAssertions.Specs.TypeWithConversionOperators) to not exist " +
+                    "because we want to test the error message, but it does.");
+        }
+
+        #endregion
+
+        #region HaveImplictConversionOperator
+
+        [Fact]
+        public void When_asserting_a_type_has_an_implicit_conversion_operator_which_it_does_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+            var sourceType = typeof(TypeWithConversionOperators);
+            var targetType = typeof(int);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveImplictConversionOperator(sourceType, targetType)
+                    .Which.Should()
+                        .NotBeNull();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_implicit_conversion_operator_which_it_does_not_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+            var sourceType = typeof(TypeWithConversionOperators);
+            var targetType = typeof(string);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveImplictConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected public static implicit System.String(FluentAssertions.Specs.TypeWithConversionOperators) to exist " +
+                    "because we want to test the error message, but it does not.");
+        }
+
+        #endregion
+
+        #region HaveImplictConversionOperatorOfT
+
+        [Fact]
+        public void When_asserting_a_type_has_an_implicit_conversion_operatorOfT_which_it_does_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .HaveImplictConversionOperator<TypeWithConversionOperators, int>()
+                    .Which.Should()
+                        .NotBeNull();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_has_an_implicit_conversion_operatorOfT_which_it_does_not_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().HaveImplictConversionOperator<TypeWithConversionOperators, string>("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected public static implicit System.String(FluentAssertions.Specs.TypeWithConversionOperators) to exist " +
+                    "because we want to test the error message, but it does not.");
+        }
+
+        #endregion
+
+        #region NotHaveImplictConversionOperator
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operator_which_it_does_not_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+            var sourceType = typeof(TypeWithConversionOperators);
+            var targetType = typeof(string);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveImplictConversionOperator(sourceType, targetType);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operator_which_it_does_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+            var sourceType = typeof(TypeWithConversionOperators);
+            var targetType = typeof(int);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveImplictConversionOperator(sourceType, targetType, "because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected public static implicit System.Int32(FluentAssertions.Specs.TypeWithConversionOperators) to not exist " +
+                    "because we want to test the error message, but it does.");
+        }
+
+        #endregion
+
+        #region NotHaveImplictConversionOperatorOfT
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operatorOfT_which_it_does_not_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should()
+                    .NotHaveImplictConversionOperator<TypeWithConversionOperators, string>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_type_does_not_have_an_implicit_conversion_operatorOfT_which_it_does_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var type = typeof(TypeWithConversionOperators);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                type.Should().NotHaveImplictConversionOperator<TypeWithConversionOperators, int>("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected public static implicit System.Int32(FluentAssertions.Specs.TypeWithConversionOperators) to not exist " +
+                    "because we want to test the error message, but it does.");
+        }
+
+        #endregion
     }
 
     #region Internal classes used in unit tests
@@ -2616,6 +3024,19 @@ namespace FluentAssertions.Specs
         internal class InternalClass { }
 
         protected internal interface IProtectedInternalInterface { }
+    }
+
+    struct TypeWithConversionOperators
+    {
+        private readonly int value;
+
+        private TypeWithConversionOperators(int value)
+        {
+            this.value = value;
+        }
+
+        public static implicit operator int(TypeWithConversionOperators typeWithConversionOperators) => typeWithConversionOperators.value;
+        public static explicit operator byte(TypeWithConversionOperators typeWithConversionOperators) => (byte)typeWithConversionOperators.value;
     }
 
     #endregion

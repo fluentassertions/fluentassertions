@@ -731,6 +731,138 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the current type has an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type to convert from.</typeparam>
+        /// <typeparam name="TTarget">The type to convert to.</typeparam>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
+        {
+            return HaveImplictConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// </summary>
+        /// <param name="sourceType">The type to convert from.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveImplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
+        {
+            MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
+
+            Execute.Assertion.ForCondition(methodInfo != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(String.Format("Expected public static implicit {0}({1}) to exist{{reason}}, but it does not.",
+                    targetType.FullName, sourceType.FullName));
+
+            return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not have an implicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type to convert from.</typeparam>
+        /// <typeparam name="TTarget">The type to convert to.</typeparam>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<TypeAssertions> NotHaveImplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
+        {
+            return NotHaveImplictConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not have an implicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// </summary>
+        /// <param name="sourceType">The type to convert from.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<TypeAssertions> NotHaveImplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
+        {
+            MethodInfo methodInfo = Subject.GetImplicitConversionOperator(sourceType, targetType);
+
+            Execute.Assertion.ForCondition(methodInfo == null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(String.Format("Expected public static implicit {0}({1}) to not exist{{reason}}, but it does.",
+                    targetType.FullName, sourceType.FullName));
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type to convert from.</typeparam>
+        /// <typeparam name="TTarget">The type to convert to.</typeparam>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
+        {
+            return HaveExplictConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type has an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// </summary>
+        /// <param name="sourceType">The type to convert from.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndWhichConstraint<TypeAssertions, MethodInfo> HaveExplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
+        {
+            MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
+
+            Execute.Assertion.ForCondition(methodInfo != null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(String.Format("Expected public static explicit {0}({1}) to exist{{reason}}, but it does not.",
+                    targetType.FullName, sourceType.FullName));
+
+            return new AndWhichConstraint<TypeAssertions, MethodInfo>(this, methodInfo);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not have an explicit conversion operator that converts <typeparamref name="TSource"/> into <typeparamref name="TTarget"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type to convert from.</typeparam>
+        /// <typeparam name="TTarget">The type to convert to.</typeparam>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<TypeAssertions> NotHaveExplictConversionOperator<TSource, TTarget>(string because = "", params object[] becauseArgs)
+        {
+            return NotHaveExplictConversionOperator(typeof(TSource), typeof(TTarget), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not have an explicit conversion operator that converts <paramref name="sourceType"/> into <paramref name="targetType"/>.
+        /// </summary>
+        /// <param name="sourceType">The type to convert from.</param>
+        /// <param name="targetType">The type to convert to.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<TypeAssertions> NotHaveExplictConversionOperator(Type sourceType, Type targetType, string because = "", params object[] becauseArgs)
+        {
+            MethodInfo methodInfo = Subject.GetExplicitConversionOperator(sourceType, targetType);
+
+            Execute.Assertion.ForCondition(methodInfo == null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(String.Format("Expected public static explicit {0}({1}) to not exist{{reason}}, but it does.",
+                    targetType.FullName, sourceType.FullName));
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
         /// Returns the type of the subject the assertion applies on.
         /// </summary>
         protected override string Context
