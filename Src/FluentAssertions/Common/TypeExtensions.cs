@@ -357,5 +357,34 @@ namespace FluentAssertions.Common
                 .GetConstructors(PublicMembersFlag)
                 .SingleOrDefault(m => m.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameterTypes));
         }
+
+        public static MethodInfo GetImplicitConversionOperator(this Type type, Type sourceType, Type targetType)
+        {
+            return type
+                .GetConversionOperators(sourceType, targetType, name => name == "op_Implicit")
+                .SingleOrDefault();
+        }
+
+        public static MethodInfo GetExplicitConversionOperator(this Type type, Type sourceType, Type targetType)
+        {
+            return type
+                .GetConversionOperators(sourceType, targetType, name => name == "op_Explicit")
+                .SingleOrDefault();
+        }
+
+        private static IEnumerable<MethodInfo> GetConversionOperators(this Type type, Type sourceType, Type targetType, Func<string, bool> predicate)
+        {
+            return type
+                .GetMethods()
+                .Where(m =>
+                  m.IsPublic
+                  && m.IsStatic
+                  && m.IsSpecialName
+                  && m.ReturnType == targetType
+                  && predicate(m.Name)
+                  && m.GetParameters().Length == 1
+                  && m.GetParameters()[0].ParameterType == sourceType
+                );
+        }
     }
 }
