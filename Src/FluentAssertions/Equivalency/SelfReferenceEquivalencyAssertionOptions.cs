@@ -66,7 +66,6 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         protected SelfReferenceEquivalencyAssertionOptions(IEquivalencyAssertionOptions defaults)
         {
-            allowInfiniteRecursion = defaults.AllowInfiniteRecursion;
             isRecursive = defaults.IsRecursive;
             cyclicReferenceHandling = defaults.CyclicReferenceHandling;
             allowInfiniteRecursion = defaults.AllowInfiniteRecursion;
