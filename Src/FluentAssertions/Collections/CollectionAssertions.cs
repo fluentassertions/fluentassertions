@@ -263,6 +263,13 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException("unexpected", "Cannot compare collection with <null>.");
             }
 
+            if(ReferenceEquals(Subject, unexpected))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected collections not to be equal{reason}, but they both reference the same object.");
+            }
+
             List<object> actualitems = Subject.Cast<object>().ToList();
 
             if (actualitems.SequenceEqual(unexpected.Cast<object>()))

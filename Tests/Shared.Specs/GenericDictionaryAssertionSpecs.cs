@@ -721,6 +721,32 @@ namespace FluentAssertions.Specs
                 "Cannot compare dictionary with <null>.\r\nParameter name: unexpected");
         }
 
+        [Fact]
+        public void When_asserting_dictionaries_not_to_be_equal_subject_but_both_dictionaries_reference_the_same_object_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary1 = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" }
+            };
+            var dictionary2 = dictionary1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => dictionary1.Should().NotEqual(dictionary2, "because we want to test the behaviour with same objects");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected dictionaries not to be equal because we want to test the behaviour with same objects, but they both reference the same object.");
+        }
+
         #endregion
 
         #region ContainKey

@@ -655,6 +655,25 @@ namespace FluentAssertions.Specs
                 "Cannot compare collection with <null>.\r\nParameter name: unexpected");
         }
 
+        [Fact]
+        public void When_asserting_collections_not_to_be_equal_but_both_collections_reference_the_same_object_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> collection2 = collection1;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection1.Should().NotEqual(collection2, "because we want to test the behaviour with same objects");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collections not to be equal because we want to test the behaviour with same objects, but they both reference the same object.");
+        }
+
         #endregion
 
         #region Be Equivalent To
