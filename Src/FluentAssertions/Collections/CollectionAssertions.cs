@@ -128,16 +128,27 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to only have unique items{reason}, but found {0}.", Subject);
             }
 
-            IGrouping<object, object> groupWithMultipleItems = Subject.Cast<object>()
+            IEnumerable<object> groupWithMultipleItems = Subject.Cast<object>()
                 .GroupBy(o => o)
-                .FirstOrDefault(g => g.Count() > 1);
+                .Where(g => g.Count() > 1)
+                .Select(g => g.Key);
 
-            if (groupWithMultipleItems != null)
+            if (groupWithMultipleItems.Any())
             {
-                Execute.Assertion
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} to only have unique items{reason}, but item {0} is not unique.",
-                        groupWithMultipleItems.Key);
+                if(groupWithMultipleItems.Count() > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} to only have unique items{reason}, but items {0} are not unique.",
+                            groupWithMultipleItems);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} to only have unique items{reason}, but item {0} is not unique.",
+                            groupWithMultipleItems.First());
+                }
             }
 
             return new AndConstraint<TAssertions>((TAssertions)this);
