@@ -202,13 +202,11 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected all selected methods to not be decorated with" +
-                             " FluentAssertions.Specs.DummyMethodAttribute because we want to test the error message," +
-                             " but the following methods are:\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothingWithSameAttributeTwice\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
-                             "Void FluentAssertions.Specs.ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing");
+                .WithMessage("Expected all selected methods to not be decorated*DummyMethodAttribute*because we want to test the error message" +
+                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing*" +
+                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothingWithSameAttributeTwice*" +
+                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.ProtectedDoNothing*" +
+                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing");
         }
     }
 }

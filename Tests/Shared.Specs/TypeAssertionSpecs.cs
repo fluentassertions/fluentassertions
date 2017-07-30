@@ -910,9 +910,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to not be decorated with " +
-                    "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
-                        "was found.");
+                .WithMessage("Expected type*ClassWithAttribute to not be decorated with" +
+                    "*DummyClassAttribute*because we want to test the error message*attribute was found.");
         }
 
         [Fact]
@@ -955,9 +954,9 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to not be decorated with " +
-                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Expected\")*a.IsEnabled), " +
-                        "but a matching attribute was found.");
+                .WithMessage("Expected type*ClassWithAttribute to not be decorated with" +
+                    "*DummyClassAttribute that matches ((a.Name == \"Expected\")*a.IsEnabled)" +
+                        "*matching attribute was found.");
         }
 
         [Fact]
@@ -1006,9 +1005,8 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected all types to not be decorated with FluentAssertions.Specs.DummyClassAttribute" +
-                    " because we do, but the attribute was found on the following types:\r\n" +
-                    "FluentAssertions.Specs.ClassWithAttribute");
+                .WithMessage("Expected all types to not be decorated*DummyClassAttribute" +
+                    "*because we do*attribute was found*ClassWithAttribute");
         }
 
 
@@ -1035,10 +1033,9 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected all types to not be decorated with FluentAssertions.Specs.DummyClassAttribute" +
-                    " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
-                    " but a matching attribute was found on the following types:\r\n" +
-                    "FluentAssertions.Specs.ClassWithAttribute");
+                .WithMessage("Expected all types to not be decorated*DummyClassAttribute" +
+                    "*((a.Name == \"Expected\")*a.IsEnabled) because we do" +
+                    "*matching attribute was found*FluentAssertions.Specs.ClassWithAttribute");
         }
 
         #endregion
