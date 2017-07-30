@@ -248,6 +248,13 @@ namespace FluentAssertions.Collections
                 throw new ArgumentNullException("unexpected", "Cannot compare dictionary with <null>.");
             }
 
+            if (ReferenceEquals(Subject, unexpected))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected dictionaries not to be equal{reason}, but they both reference the same object.");
+            }
+
             IEnumerable<TKey> missingKeys = unexpected.Keys.Except(Subject.Keys);
             IEnumerable<TKey> additionalKeys = Subject.Keys.Except(unexpected.Keys);
 
