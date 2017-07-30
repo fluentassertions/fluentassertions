@@ -2496,6 +2496,26 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_a_collection_contains_multiple_duplicate_items_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 2, 3, 3 };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().OnlyHaveUniqueItems("{0} don't like {1}", "we", "duplicates");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collection to only have unique items because we don't like duplicates, but items {2, 3} are not unique.");
+        }
+
+        [Fact]
         public void When_asserting_collection_to_only_have_unique_items_but_collection_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
