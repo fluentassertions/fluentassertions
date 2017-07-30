@@ -1554,7 +1554,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection not to contain nulls because they are evil, but found one at index 1.");
+                "Expected collection not to contain <null>s because they are evil, but found one at index 1.");
         }
 
         [Fact]
@@ -1574,7 +1574,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection not to contain nulls because they are evil, but found several at indices {1, 3}.");
+                "Expected collection not to contain <null>s*because they are evil*{1, 3}*");
         }
 
         [Fact]
@@ -1594,7 +1594,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection not to contain nulls because we want to test the behaviour with a null subject, but collection is <null>.");
+                "Expected collection not to contain <null>s because we want to test the behaviour with a null subject, but collection is <null>.");
         }
 
         #endregion
