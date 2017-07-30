@@ -77,6 +77,28 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_selecting_methods_not_decorated_with_specific_attribute_it_should_return_only_the_applicable_methods()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForMethodSelector);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<MethodInfo> methods = type.Methods().ThatAreNotDecoratedWith<DummyMethodAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            methods.Should()
+                .NotBeEmpty()
+                .And.NotContain(m => m.Name == "PublicVirtualVoidMethodWithAttribute")
+                .And.NotContain(m => m.Name == "ProtectedVirtualVoidMethodWithAttribute");
+        }
+
+        [Fact]
         public void When_selecting_methods_that_return_a_specific_type_it_should_return_only_the_applicable_methods()
         {
             //-------------------------------------------------------------------------------------------------------------------

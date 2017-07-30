@@ -61,6 +61,19 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Determines whether a type is not decorated with a particular attribute.
+        /// </summary>
+        public TypeSelector ThatAreNotDecoratedWith<TAttribute>()
+        {
+            types = types
+
+                .Where(t => !t.GetTypeInfo().GetCustomAttributes(typeof(TAttribute), true).Any())
+                .ToList();
+
+            return this;
+        }
+
+        /// <summary>
         /// Determines whether the namespace of type is exactly <paramref name="namespace"/>.
         /// </summary>
         public TypeSelector ThatAreInNamespace(string @namespace)

@@ -848,6 +848,201 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region NotBeDecoratedWith
+
+        [Fact]
+        public void When_type_is_not_decorated_with_unexpected_attribute_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithoutAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithoutAttribute.Should().NotBeDecoratedWith<DummyClassAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_type_is_decorated_with_unexpected_attribute_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should().NotBeDecoratedWith<DummyClassAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_type_is_decorated_with_unexpected_attribute_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithAttribute = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithAttribute.Should().NotBeDecoratedWith<DummyClassAttribute>(
+                    "because we want to test the error {0}",
+                    "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to not be decorated with " +
+                    "FluentAssertions.Specs.DummyClassAttribute because we want to test the error message, but the attribute " +
+                        "was found.");
+        }
+
+        [Fact]
+        public void When_type_is_not_decorated_with_unexpected_attribute_with_the_expected_properties_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithoutAttribute.Should()
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Unexpected") && a.IsEnabled));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_type_is_not_decorated_with_expected_attribute_that_has_an_unexpected_property_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type typeWithoutAttribute = typeof(ClassWithAttribute);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                typeWithoutAttribute.Should()
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected type FluentAssertions.Specs.ClassWithAttribute to not be decorated with " +
+                    "FluentAssertions.Specs.DummyClassAttribute that matches ((a.Name == \"Expected\")*a.IsEnabled), " +
+                        "but a matching attribute was found.");
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_non_decorated_types_is_not_decorated_with_an_attribute_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(new[]
+            {
+                typeof (ClassWithoutAttribute),
+                typeof (OtherClassWithoutAttribute)
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                types.Should().NotBeDecoratedWith<DummyClassAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_selection_of_decorated_types_is_not_decorated_with_an_attribute_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(new[]
+            {
+                typeof (ClassWithoutAttribute),
+                typeof (ClassWithAttribute)
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                types.Should().NotBeDecoratedWith<DummyClassAttribute>("because we do");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected all types to not be decorated with FluentAssertions.Specs.DummyClassAttribute" +
+                    " because we do, but the attribute was found on the following types:\r\n" +
+                    "FluentAssertions.Specs.ClassWithAttribute");
+        }
+
+
+        [Fact]
+        public void When_asserting_a_selection_of_types_with_unexpected_attribute_and_unexpected_attribute_property_it_fails()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var types = new TypeSelector(new[]
+            {
+                typeof (ClassWithoutAttribute),
+                typeof (ClassWithAttribute)
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                types.Should()
+                    .NotBeDecoratedWith<DummyClassAttribute>(a => ((a.Name == "Expected") && a.IsEnabled), "because we do");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected all types to not be decorated with FluentAssertions.Specs.DummyClassAttribute" +
+                    " that matches ((a.Name == \"Expected\")*a.IsEnabled) because we do," +
+                    " but a matching attribute was found on the following types:\r\n" +
+                    "FluentAssertions.Specs.ClassWithAttribute");
+        }
+
+        #endregion
+
         #region Implement
 
         [Fact]

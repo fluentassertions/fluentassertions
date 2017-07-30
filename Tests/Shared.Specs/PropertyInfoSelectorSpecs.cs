@@ -77,6 +77,28 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_selecting_properties_not_decorated_with_specific_attribute_it_should_return_only_the_applicable_properties()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Type type = typeof(TestClassForPropertySelector);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<PropertyInfo> properties = type.Properties().ThatAreNotDecoratedWith<DummyPropertyAttribute>().ToArray();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            properties.Should()
+                .NotBeEmpty()
+                .And.NotContain(p => p.Name == "PublicVirtualStringPropertyWithAttribute")
+                .And.NotContain(p => p.Name == "ProtectedVirtualIntPropertyWithAttribute");
+        }
+
+        [Fact]
         public void When_selecting_methods_that_return_a_specific_type_it_should_return_only_the_applicable_methods()
         {
             //-------------------------------------------------------------------------------------------------------------------

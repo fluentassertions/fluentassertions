@@ -19,6 +19,14 @@ namespace FluentAssertions
         }
 
         /// <summary>
+        /// Filters to only include types not decorated with a particular attribute.
+        /// </summary>
+        public static IEnumerable<Type> ThatAreNotDecoratedWith<TAttribute>(this IEnumerable<Type> types)
+        {
+            return new TypeSelector(types).ThatAreNotDecoratedWith<TAttribute>();
+        }
+
+        /// <summary>
         /// Filters to only include types where the namespace of type is exactly <paramref name="namespace"/>.
         /// </summary>
         public static IEnumerable<Type> ThatAreInNamespace(this IEnumerable<Type> types, string @namespace)
