@@ -162,14 +162,25 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} not to contain nulls{reason}, but collection is <null>.");
             }
 
-            object[] values = Subject.Cast<object>().ToArray();
-            for (int index = 0; index < values.Length; index++)
+            IEnumerable<int> indices = Subject
+                .Cast<object>()
+                .Select((item, index) => new { Item = item, Index = index })
+                .Where(e => ReferenceEquals(e.Item, null))
+                .Select(e => e.Index);
+
+            if (indices.Any())
             {
-                if (ReferenceEquals(values[index], null))
+                if (indices.Count() > 1)
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} not to contain nulls{reason}, but found one at index {0}.", index);
+                        .FailWith("Expected {context:collection} not to contain nulls{reason}, but found several at indices {0}.", indices);
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} not to contain nulls{reason}, but found one at index {0}.", indices.First());
                 }
             }
 

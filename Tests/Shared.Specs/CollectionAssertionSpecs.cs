@@ -2329,6 +2329,26 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_collection_contains_multiple_nulls_that_are_unexpected_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { new object(), null, new object(), null };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContainNulls("because they are {0}", "evil");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collection not to contain nulls because they are evil, but found several at indices {1, 3}.");
+        }
+
+        [Fact]
         public void When_asserting_collection_to_not_contain_nulls_but_collection_is_null_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
