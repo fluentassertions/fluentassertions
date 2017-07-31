@@ -422,6 +422,15 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} not to be equivalent{reason}, but found <null>.");
             }
 
+            if (ReferenceEquals(Subject, unexpected))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} {0} not to be equivalent with collection {1}{reason}, but they both reference the same object.",
+                        Subject,
+                        unexpected);
+            }
+
             IEnumerable<object> actualItems = Subject.Cast<object>();
             IEnumerable<object> unexpectedItems = unexpected.Cast<object>();
 
@@ -907,6 +916,15 @@ namespace FluentAssertions.Collections
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Cannot assert a <null> collection against a subset.");
 
+            if(ReferenceEquals(Subject, unexpectedSuperset))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect {context:collection} {0} to be a subset of {1}{reason}, but they both reference the same object.",
+                        Subject,
+                        unexpectedSuperset);
+            }
+
             IEnumerable<object> expectedItems = unexpectedSuperset.Cast<object>();
             object[] actualItems = Subject.Cast<object>().ToArray();
 
@@ -987,6 +1005,15 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} to not have the same count as {0}{reason}, but found {1}.",
                         otherCollection,
                         Subject);
+            }
+
+            if (ReferenceEquals(Subject, otherCollection))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} {0} to not have the same count as {1}{reason}, but they both reference the same object.",
+                        Subject,
+                        otherCollection);
             }
 
             IEnumerable<object> enumerable = Subject.Cast<object>();
@@ -1180,6 +1207,15 @@ namespace FluentAssertions.Collections
                     .BecauseOf(because, becauseArgs)
                     .FailWith("Did not expect {context:collection} to intersect with {0}{reason}, but found {1}.", otherCollection,
                         Subject);
+            }
+
+            if (ReferenceEquals(Subject, otherCollection))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Did not expect {context:collection} {0} to intersect with {1}{reason}, but they both reference the same object.",
+                        Subject,
+                        otherCollection);
             }
 
             IEnumerable<object> otherItems = otherCollection.Cast<object>();

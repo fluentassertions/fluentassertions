@@ -1426,6 +1426,28 @@ namespace FluentAssertions.Specs
                 "Cannot verify inequivalence against a <null> collection.");
         }
 
+        [Fact]
+        public void When_testing_collections_not_to_be_equivalent_against_same_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable collection1 = collection;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotBeEquivalentTo(collection1,
+                "because we want to test the behaviour with same objects");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "*not to be equivalent*because we want to test the behaviour with same objects*but they both reference the same object.");
+        }
+
         #endregion
 
         #region Be Subset Of
@@ -1585,6 +1607,28 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
                 "Expected collection to be a subset of {1, 2, 3} because we want to test the behaviour with a null subject, but found <null>.");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_be_subset_against_same_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable collection1 = collection;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotBeSubsetOf(collection1,
+                "because we want to test the behaviour with same objects");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Did not expect*to be a subset of*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
 
         #endregion
@@ -2307,6 +2351,28 @@ namespace FluentAssertions.Specs
             action.ShouldThrow<XunitException>()
                 .WithMessage("Did not expect collection to intersect with {2, 3, 4} because they should not share items," +
                     " but found the following shared items {2, 3}.");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_intersect_with_same_collection_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable otherCollection = collection;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotIntersectWith(otherCollection,
+                "because we want to test the behaviour with same objects");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Did not expect*to intersect with*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
 
         #endregion
@@ -3641,6 +3707,28 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<NullReferenceException>().WithMessage(
                 "Cannot verify count against a <null> collection.");
+        }
+
+        [Fact]
+        public void When_asserting_collections_to_not_have_same_count_but_both_collections_references_the_same_object_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable collection = new[] { 1, 2, 3 };
+            IEnumerable collection1 = collection;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotHaveSameCount(collection1,
+                "because we want to test the behaviour with same objects");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "*not have the same count*because we want to test the behaviour with same objects*but they both reference the same object.");
         }
 
         #endregion
