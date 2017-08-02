@@ -7,7 +7,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-    
+
     public class GenericCollectionAssertionsSpecs
     {
         [Fact]
@@ -1028,6 +1028,186 @@ namespace FluentAssertions.Specs
         private class SomeClass
         {
             public string Text { get; set; }
+        }
+
+        #endregion
+
+        #region Not Contain Nulls (Predicate)
+
+        [Fact]
+        public void When_collection_does_not_contain_nulls_it_should_not_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<SomeClass> collection = new[]
+            {
+                new SomeClass { Text = "one" },
+                new SomeClass { Text = "two" },
+                new SomeClass { Text = "three" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act / Assert
+            //-----------------------------------------------------------------------------------------------------------
+            collection.Should().NotContainNulls(e => e.Text);
+        }
+
+        [Fact]
+        public void When_collection_contains_nulls_that_are_unexpected_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<SomeClass> collection = new[]
+            {
+                new SomeClass { Text = "" },
+                new SomeClass { Text = null }
+            };
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContainNulls(e => e.Text, "because they are {0}", "evil");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collection not to contain <null>s*on e.Text*because they are evil*Text = <null>*");
+        }
+
+        [Fact]
+        public void When_collection_contains_multiple_nulls_that_are_unexpected_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<SomeClass> collection = new[]
+            {
+                new SomeClass { Text = "" },
+                new SomeClass { Text = null },
+                new SomeClass { Text = "" },
+                new SomeClass { Text = null }
+            };
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContainNulls(e => e.Text, "because they are {0}", "evil");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collection not to contain <null>s*because they are evil*Text = <null>*Text = <null>*");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_not_contain_nulls_but_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<SomeClass> collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().NotContainNulls(e => e.Text, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collection not to contain <null>s because we want to test the behaviour with a null subject, but collection is <null>.");
+        }
+
+        #endregion
+
+        #region Only Have Unique Items (Predicate)
+
+        [Fact]
+        public void Should_succeed_when_asserting_collection_with_unique_items_contains_only_unique_items()
+        {
+            IEnumerable<SomeClass> collection = new[]
+            {
+                new SomeClass { Text = "one" },
+                new SomeClass { Text = "two" },
+                new SomeClass { Text = "three" },
+                new SomeClass { Text = "four" }
+            };
+            collection.Should().OnlyHaveUniqueItems(e => e.Text);
+        }
+
+        [Fact]
+        public void When_a_collection_contains_duplicate_items_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<SomeClass> collection = new[]
+            {
+                new SomeClass { Text = "one" },
+                new SomeClass { Text = "two" },
+                new SomeClass { Text = "three" },
+                new SomeClass { Text = "three" }
+            };
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "{0} don't like {1}", "we", "duplicates");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collection to only have unique items because we don't like duplicates, but item*three*is not unique.");
+        }
+
+        [Fact]
+        public void When_a_collection_contains_multiple_duplicate_items_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<SomeClass> collection = new[]
+            {
+                new SomeClass { Text = "one" },
+                new SomeClass { Text = "two" },
+                new SomeClass { Text = "two" },
+                new SomeClass { Text = "three" },
+                new SomeClass { Text = "three" }
+            };
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "{0} don't like {1}", "we", "duplicates");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collection to only have unique items*on e.Text*because we don't like duplicates, but items*two*two*three*three*are not unique.");
+        }
+
+        [Fact]
+        public void When_asserting_collection_to_only_have_unique_items_but_collection_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            IEnumerable<SomeClass> collection = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act =
+                () => collection.Should().OnlyHaveUniqueItems(e => e.Text, "because we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected collection to only have unique items because we want to test the behaviour with a null subject, but found <null>.");
         }
 
         #endregion

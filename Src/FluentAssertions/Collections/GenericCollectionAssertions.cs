@@ -18,6 +18,94 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that the collection does not contain any <c>null</c> items.
+        /// </summary>
+        /// <param name="predicate">The predicate when evaluated should not be null.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericCollectionAssertions<T>> NotContainNulls<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
+            where TKey : class
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} not to contain <null>s{reason}, but collection is <null>.");
+            }
+
+            Func<T, TKey> compiledPredicate = predicate.Compile();
+
+            var values = Subject
+                .Where(e => ReferenceEquals(compiledPredicate(e), null))
+                .ToArray();
+
+            if (values.Length > 0)
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} not to contain <null>s on {0}{reason}, but found {1}.",
+                        predicate.Body,
+                        values);
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the collection does not contain any duplicate items.
+        /// </summary>
+        /// <param name="predicate">The predicate to group the items by.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericCollectionAssertions<T>> OnlyHaveUniqueItems<TKey>(Expression<Func<T, TKey>> predicate, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:collection} to only have unique items{reason}, but found {0}.", Subject);
+            }
+
+            Func<T, TKey> compiledPredicate = predicate.Compile();
+
+            IGrouping<TKey, T>[] groupWithMultipleItems = Subject
+                .GroupBy(compiledPredicate)
+                .Where(g => g.Count() > 1)
+                .ToArray();
+
+            if (groupWithMultipleItems.Length > 0)
+            {
+                if (groupWithMultipleItems.Length > 1)
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but items {1} are not unique.",
+                            predicate.Body,
+                            groupWithMultipleItems.SelectMany(g => g));
+                }
+                else
+                {
+                    Execute.Assertion
+                        .BecauseOf(because, becauseArgs)
+                        .FailWith("Expected {context:collection} to only have unique items{reason}, but item {0} is not unique.",
+                            groupWithMultipleItems[0].First());
+                }
+            }
+
+            return new AndConstraint<GenericCollectionAssertions<T>>(this);
+        }
+
+        /// <summary>
         /// Asserts that a collection is ordered in ascending order according to the value of the specified
         /// <paramref name="propertyExpression"/>.
         /// </summary>
