@@ -97,7 +97,8 @@ namespace FluentAssertions.Collections
                 {
                     Execute.Assertion
                         .BecauseOf(because, becauseArgs)
-                        .FailWith("Expected {context:collection} to only have unique items{reason}, but item {0} is not unique.",
+                        .FailWith("Expected {context:collection} to only have unique items on {0}{reason}, but item {1} is not unique.",
+                            predicate.Body,
                             groupWithMultipleItems[0].First());
                 }
             }

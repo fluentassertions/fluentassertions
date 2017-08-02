@@ -1098,7 +1098,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection not to contain <null>s*because they are evil*Text = <null>*Text = <null>*");
+                "Expected collection not to contain <null>s*on e.Text*because they are evil*Text = <null>*Text = <null>*");
         }
 
         [Fact]
@@ -1160,7 +1160,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection to only have unique items because we don't like duplicates, but item*three*is not unique.");
+                "Expected collection to only have unique items*on e.Text*because we don't like duplicates, but item*three*is not unique.");
         }
 
         [Fact]
