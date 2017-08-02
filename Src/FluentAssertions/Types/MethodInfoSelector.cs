@@ -76,6 +76,15 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Only select the methods that are not decorated with an attribute of the specified type.
+        /// </summary>
+        public MethodInfoSelector ThatAreNotDecoratedWith<TAttribute>()
+        {
+            selectedMethods = selectedMethods.Where(method => !method.GetCustomAttributes(false).OfType<TAttribute>().Any());
+            return this;
+        }
+
+        /// <summary>
         /// The resulting <see cref="MethodInfo"/> objects.
         /// </summary>
         public MethodInfo[] ToArray()

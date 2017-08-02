@@ -109,6 +109,30 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_selecting_types_that_are_not_decorated_with_a_specific_attribute_it_should_return_the_correct_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+
+            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = AllTypes.From(assembly).ThatAreNotDecoratedWith<SomeAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should()
+                .NotBeEmpty()
+                .And.NotContain(typeof(ClassWithSomeAttribute))
+                .And.NotContain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
+        }
+
+        [Fact]
         public void When_selecting_types_from_specific_namespace_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------

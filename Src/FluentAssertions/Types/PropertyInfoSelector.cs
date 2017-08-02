@@ -59,6 +59,15 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Only select the properties that are not decorated with an attribute of the specified type.
+        /// </summary>
+        public PropertyInfoSelector ThatAreNotDecoratedWith<TAttribute>()
+        {
+            selectedProperties = selectedProperties.Where(property => !property.GetCustomAttributes(false).OfType<TAttribute>().Any());
+            return this;
+        }
+
+        /// <summary>
         /// Only select the properties that return the specified type 
         /// </summary>
         public PropertyInfoSelector OfType<TReturn>()

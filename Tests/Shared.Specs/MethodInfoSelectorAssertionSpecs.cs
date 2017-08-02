@@ -141,5 +141,72 @@ namespace FluentAssertions.Specs
                              "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.ProtectedDoNothing\r\n" +
                              "Void FluentAssertions.Specs.ClassWithMethodsThatAreNotDecoratedWithDummyAttribute.PrivateDoNothing");
         }
+
+        [Fact]
+        public void When_asserting_methods_are_not_decorated_with_attribute_and_they_are_not_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithMethodsThatAreNotDecoratedWithDummyAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodSelector.Should().NotBeDecoratedWith<DummyMethodAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_methods_are_not_decorated_with_attribute_but_they_are_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfoSelector methodSelector =
+                new MethodInfoSelector(typeof(ClassWithAllMethodsDecoratedWithDummyAttribute))
+                    .ThatArePublicOrInternal;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodSelector.Should().NotBeDecoratedWith<DummyMethodAttribute>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_methods_are_not_decorated_with_attribute_but_they_are_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsDecoratedWithDummyAttribute));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodSelector.Should().NotBeDecoratedWith<DummyMethodAttribute>("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected all selected methods to not be decorated*DummyMethodAttribute*because we want to test the error message" +
+                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothing*" +
+                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.PublicDoNothingWithSameAttributeTwice*" +
+                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.ProtectedDoNothing*" +
+                             "*ClassWithAllMethodsDecoratedWithDummyAttribute.PrivateDoNothing");
+        }
     }
 }
