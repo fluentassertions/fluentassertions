@@ -7,7 +7,7 @@ using Xunit.Sdk;
 
 namespace FluentAssertions.Specs
 {
-
+    
     public class GenericCollectionAssertionsSpecs
     {
         [Fact]
