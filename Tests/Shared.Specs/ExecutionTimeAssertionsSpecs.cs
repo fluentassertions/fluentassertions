@@ -28,8 +28,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<XunitException>()
-                .And.Message.Should().StartWith(
-                    "Execution of (s.Sleep(610)) should not exceed 0.500s because we like speed, but it required 0.6");
+                .And.Message.Should().Match(
+                    "Execution of (s.Sleep(610)) should not exceed 0.500s because we like speed, but it required*");
         }
 
         [Fact]

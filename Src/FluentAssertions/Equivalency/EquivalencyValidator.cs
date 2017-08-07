@@ -52,7 +52,7 @@ namespace FluentAssertions.Equivalency
 
                 var objectTracker = scope.Get<ObjectTracker>("objects");
 
-                if (!objectTracker.IsCyclicReference(new ObjectReference(context.Subject, context.SelectedMemberPath)))
+                if (!objectTracker.IsCyclicReference(new ObjectReference(context.Expectation, context.SelectedMemberPath)))
                 {
                     bool wasHandled = false;
 
@@ -100,7 +100,7 @@ namespace FluentAssertions.Equivalency
 
         private static bool HasReachedMaximumRecursionDepth(string propertyPath)
         {
-            int depth = propertyPath.Cast<char>().Count(chr => chr == '.');
+            int depth = propertyPath.Count(chr => chr == '.');
 
             return (depth >= MaxDepth);
         }

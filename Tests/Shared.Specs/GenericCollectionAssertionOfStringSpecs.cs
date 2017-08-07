@@ -692,42 +692,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             collection1.Should().BeEquivalentTo(collection2);
         }
-
-        [Fact]
-        public void When_a_collection_contains_same_elements_it_should_treat_it_as_equivalent()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = new[] { "one", "two", "three" };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act / Assert
-            //-----------------------------------------------------------------------------------------------------------
-            collection.Should().BeEquivalentTo("three", "two", "one");
-        }
-
-        [Fact]
-        public void When_collections_are_not_equivalent_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
-            IEnumerable<string> collection2 = new[] { "one", "two" };
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action act = () => collection1.Should().BeEquivalentTo(collection2, "we treat {0} alike", "all");
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "*collection {\"one\", \"two\", \"three\"} to be equivalent to {\"one\", \"two\"}*too many*");
-        }
-        
+       
         [Fact]
         public void When_collections_with_duplicates_are_not_equivalent_it_should_throw()
         {
@@ -746,7 +711,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection {\"one\", \"two\", \"three\", \"one\"} to be equivalent to {\"one\", \"two\", \"three\", \"three\"}, but it misses {\"three\"}.");
+                "Expected item[3] to be \"three\" with a length of 5, but \"one\" has a length of 3*");
         }
 
         [Fact]
@@ -767,7 +732,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "*collection {\"one\", \"two\", \"three\"} to be equivalent to {empty}, but*");
+                "Expected subject to be a collection with 0 item(s), but found 3*");
         }
         
         [Fact]
@@ -807,8 +772,8 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<NullReferenceException>().WithMessage(
-                "Cannot verify equivalence against a <null> collection.");
+            act.ShouldThrow<XunitException>().WithMessage(
+                "Expected subject to be <null>, but found {\"one\", \"two\", \"three\"}*");
         }
 
         [Fact]
@@ -829,8 +794,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection to be equivalent to {\"one\", \"two\", \"three\"} because we want to test the behaviour with a null subject, but found <null>.");
+            act.ShouldThrow<XunitException>().WithMessage("Expected subject not to be <null>*");
         }
 
         [Fact]
@@ -866,7 +830,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Expected collection {\"one\", \"two\", \"three\"} not be equivalent with collection {\"three\", \"one\", \"two\"}.");
+                "Expected collection {\"one\", \"two\", \"three\"} not*equivalent*{\"three\", \"one\", \"two\"}.");
         }
 
         [Fact]
@@ -875,15 +839,14 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            IEnumerable<string> collection = null;
-            IEnumerable<string> collection1 = new[] { "one", "two", "three" };
+            IEnumerable<string> actual = null;
+            IEnumerable<string> expectation = new[] { "one", "two", "three" };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act =
-                () =>
-                    collection.Should().NotBeEquivalentTo(collection1, "because we want to test the behaviour with a null subject");
+            Action act = () => actual.Should().NotBeEquivalentTo(expectation, 
+                "because we want to test the behaviour with a null subject");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2081,14 +2044,11 @@ namespace FluentAssertions.Specs
         #endregion
 
         [Fact]
-        public void
-            When_using_StringCollectionAssertions_the_AndConstraint_should_have_the_correct_type()
+        public void When_using_StringCollectionAssertions_the_AndConstraint_should_have_the_correct_type()
         {
-
             var methodInfo =
                 typeof(StringCollectionAssertions).GetMethods(
                     BindingFlags.Public | BindingFlags.Instance);
-
 
             var methods =
                 from method in methodInfo
@@ -2097,9 +2057,7 @@ namespace FluentAssertions.Specs
                 select new {method.Name, method.ReturnType};
 
 
-            methods.Should()
-                .OnlyContain(
-                    method =>
+            methods.Should().OnlyContain(method =>
                         typeof(AndConstraint<StringCollectionAssertions>)
                             .GetTypeInfo()
                             .IsAssignableFrom(method.ReturnType.GetTypeInfo()));

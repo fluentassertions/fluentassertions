@@ -12,7 +12,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type type = config.GetSubjectType(context);
+            Type type = config.GetExpectationType(context);
 
             bool canHandle =
                 (type != null) && 

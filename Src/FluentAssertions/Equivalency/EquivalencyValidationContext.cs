@@ -61,9 +61,9 @@ namespace FluentAssertions.Equivalency
         {
             get
             {
-                return ((compileTimeType != typeof(object)) || ReferenceEquals(Subject, null)) ? compileTimeType : RuntimeType;
+                return ((compileTimeType != typeof(object)) || ReferenceEquals(Expectation, null)) ? compileTimeType : RuntimeType;
             }
-            set { compileTimeType = value; }
+            set => compileTimeType = value;
         }
 
         /// <summary>
@@ -73,9 +73,9 @@ namespace FluentAssertions.Equivalency
         {
             get
             {
-                if (Subject != null)
+                if (Expectation != null)
                 {
-                    return Subject.GetType();
+                    return Expectation.GetType();
                 }
 
                 if (SelectedMemberInfo != null)

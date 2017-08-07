@@ -43,7 +43,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(null);
+            Action act = () => subject.Should().BeEquivalentTo<object>(null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -71,7 +71,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldAllBeEquivalentTo(expectation);
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -96,7 +96,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(new
+            Action act = () => subject.Should().BeEquivalentTo(new
             {
             });
 
@@ -118,7 +118,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(null);
+            Action act = () => subject.Should().BeEquivalentTo<object>(null);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -135,13 +135,20 @@ namespace FluentAssertions.Specs
 
             // DateTime is used as an example because the current implemention
             // would hit the recursion-depth limit if structural equivalence were attempted.
-            DateTime date1 = DateTime.Parse("2011-01-01");
-            DateTime date2 = DateTime.Parse("2011-01-01");
+            var date1 = new
+            {
+                Property = DateTime.Parse("2011-01-01")
+            };
+
+            var date2 = new
+            {
+                Property = DateTime.Parse("2011-01-01")
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => date1.ShouldBeEquivalentTo(date2);
+            Action act = () => date1.Should().BeEquivalentTo(date2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -170,7 +177,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldAllBeEquivalentTo(expected,
+            Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.ComparingByValue<IPAddress>());
 
             //-----------------------------------------------------------------------------------------------------------
@@ -200,7 +207,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected,
+            Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.ComparingByValue<IPAddress>());
 
             //-----------------------------------------------------------------------------------------------------------
@@ -228,7 +235,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -250,13 +257,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => s1.ShouldBeEquivalentTo(s2);
+            Action act = () => s1.Should().BeEquivalentTo(s2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("*to be \"good-bye\" with a length of 8, but \"hello\" has a length of 5*");
+                .WithMessage("*to be*\"good-bye\" with a length of 8, but \"hello\" has a length of 5*");
         }
 
         [Fact]
@@ -273,7 +280,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => s1.ShouldBeEquivalentTo(s2);
+            Action act = () => s1.Should().BeEquivalentTo(s2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -293,7 +300,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => s1.ShouldBeEquivalentTo(s2);
+            Action act = () => s1.Should().BeEquivalentTo(s2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -313,7 +320,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => object1.ShouldBeEquivalentTo(object2);
+            Action act = () => object1.Should().BeEquivalentTo(object2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -333,7 +340,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => object1.ShouldBeEquivalentTo(object2);
+            Action act = () => object1.Should().BeEquivalentTo(object2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -353,7 +360,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => onlyAField.ShouldBeEquivalentTo(onlyAProperty);
+            Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -373,13 +380,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => onlyAField.ShouldBeEquivalentTo(onlyAProperty, opts => opts.ExcludingProperties());
+            Action act = () => onlyAProperty.Should().BeEquivalentTo(onlyAField, opts => opts.ExcludingProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Subject has member Value that the other object does not have.*");
+                .WithMessage("Expectation has member Value that the other object does not have.*");
         }
 
         [Fact]
@@ -394,13 +401,13 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => onlyAProperty.ShouldBeEquivalentTo(onlyAField, opts => opts.IncludingAllDeclaredProperties());
+            Action act = () => onlyAField.Should().BeEquivalentTo(onlyAProperty, opts => opts.IncludingAllDeclaredProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Subject has member Value that the other object does not have.*");
+                .WithMessage("Expectation has member Value that the other object does not have.*");
         }
 
         [Fact]
@@ -424,7 +431,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => record.ShouldBeEquivalentTo(record2);
+            Action act = () => record.Should().BeEquivalentTo(record2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -445,7 +452,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => ((object)null).ShouldBeEquivalentTo("foo");
+            Action act = () => ((object)null).Should().BeEquivalentTo("foo");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -480,7 +487,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act 
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(customer, options => options
+            Action act = () => subject.Should().BeEquivalentTo(customer, options => options
                 .Including(d => d.Age)
                 .Including(d => d.Birthdate));
 
@@ -513,7 +520,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act 
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(customer, options => options
+            Action act = () => subject.Should().BeEquivalentTo(customer, options => options
                 .Including(info => info.SelectedMemberPath.EndsWith("Age"))
                 .Including(info => info.SelectedMemberPath.EndsWith("Birthdate")));
 
@@ -534,7 +541,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dto.ShouldBeEquivalentTo(dto, options => options.Including(d => d.GetType()));
+            Action act = () => dto.Should().BeEquivalentTo(dto, options => options.Including(d => d.GetType()));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -563,7 +570,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expectation,
+            Action act = () => actual.Should().BeEquivalentTo(expectation,
                 config => config.Including(o => o.DeclaredType));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -606,7 +613,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => objectA.ShouldBeEquivalentTo(objectB, options => options.Including(x => x.ListOfCustomTypes));
+            Action act = () => objectA.Should().BeEquivalentTo(objectB, options => options.Including(x => x.ListOfCustomTypes));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -627,7 +634,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => dto.ShouldBeEquivalentTo(dto, options => options.Including((Expression<Func<CustomerDto, object>>)null));
+                () => dto.Should().BeEquivalentTo(dto, options => options.Including((Expression<Func<CustomerDto, object>>)null));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -659,7 +666,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    class1.ShouldBeEquivalentTo(class2, opts => opts.Including(_ => _.Field1).Including(_ => _.Field2));
+                    class1.Should().BeEquivalentTo(class2, opts => opts.Including(_ => _.Field1).Including(_ => _.Field2));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -690,7 +697,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    class1.ShouldBeEquivalentTo(class2,
+                    class1.Should().BeEquivalentTo(class2,
                         opts => opts.Including(_ => _.Field1).Including(_ => _.Field2).Including(_ => _.Field3));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -722,7 +729,9 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            dto.ShouldBeEquivalentTo(customer, options => options.Excluding(d => d.Name));
+            dto.Should().BeEquivalentTo(customer, options => options
+                .Excluding(d => d.Name)
+                .Excluding(d => d.Id));
         }
 
         [Fact]
@@ -746,7 +755,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             Action act =
                 () =>
-                    class1.ShouldBeEquivalentTo(class2,
+                    class1.Should().BeEquivalentTo(class2,
                         opts => opts.Excluding(_ => _.Field3).Excluding(_ => _.Property1));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -775,7 +784,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.Excluding(_ => _.Property1));
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.Excluding(_ => _.Property1));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -809,7 +818,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => dto.ShouldBeEquivalentTo(customer, options => options.ExcludingMissingMembers());
+            Action act = () => dto.Should().BeEquivalentTo(customer, options => options.ExcludingMissingMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -837,7 +846,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldBeEquivalentTo(expected);
+            Action action = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -868,7 +877,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -889,7 +898,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -924,7 +933,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -944,7 +953,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldBeEquivalentTo(expectation);
+            Action action = () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -964,7 +973,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => result.ShouldBeEquivalentTo(expected);
+            Action act = () => result.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1038,7 +1047,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldBeEquivalentTo(expected);
+            Action action = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1069,7 +1078,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldBeEquivalentTo(expected);
+            Action action = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1096,7 +1105,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => subject.ShouldBeEquivalentTo(expected);
+            Action action = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1139,7 +1148,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected,
+            Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.Excluding(r => r.Level.Level.Text));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1183,7 +1192,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected, config =>
+            Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.SelectedMemberPath == "Level.Level.Text"));
 
             //-----------------------------------------------------------------------------------------------------------
@@ -1215,7 +1224,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected, config =>
+            Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.WhichGetterHas(CSharpAccessModifier.Internal) ||
                                         ctx.WhichGetterHas(CSharpAccessModifier.ProtectedInternal)));
 
@@ -1248,7 +1257,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected, config =>
+            Action act = () => subject.Should().BeEquivalentTo(expected, config =>
                 config.Excluding(ctx => ctx.WhichSetterHas(CSharpAccessModifier.Internal) ||
                                         ctx.WhichSetterHas(CSharpAccessModifier.ProtectedInternal) ||
                                         ctx.WhichSetterHas(CSharpAccessModifier.Private)));
@@ -1260,30 +1269,31 @@ With configuration:*");
         }
 
         [Fact]
-        public void When_subject_has_a_property_not_available_on_expected_object_it_should_throw()
+        public void When_the_expected_object_has_a_property_not_available_on_the_subject_it_should_throw()
         {
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                City = "Rijswijk"
+                
             };
 
             var other = new
             {
+                City = "Rijswijk"
             };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>().WithMessage(
-                "Subject has member City that the other object does not have*");
+                "Expectation has member City that the other object does not have*");
         }
 
         [Fact]
@@ -1305,14 +1315,14 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<XunitException>()
-                .WithMessage("Expected member Type to be*Int32*, but found*String*");
+                .WithMessage("Expected member Type to be*36*, but found*\"A\"*");
         }
 
         [Fact]
@@ -1346,7 +1356,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1380,7 +1390,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.ExcludingProperties());
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.ExcludingProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1418,7 +1428,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                subject.ShouldBeEquivalentTo(expected,
+                subject.Should().BeEquivalentTo(expected,
                     options => options
                         .Excluding(x => x.List[1].Foo)
                         .Excluding(x => x.Dictionary["Bar"].Value));
@@ -1459,7 +1469,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                subject.ShouldBeEquivalentTo(expected,
+                subject.Should().BeEquivalentTo(expected,
                     options => options
                         .Excluding(x => x.List[1].Foo)
                         .Excluding(x => x.Dictionary["Bar"].Value));
@@ -1494,7 +1504,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.ExcludingProperties().RespectingRuntimeTypes());
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.ExcludingProperties().RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1529,7 +1539,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllDeclaredProperties());
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.IncludingAllDeclaredProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1564,7 +1574,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingAllRuntimeProperties());
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.IncludingAllRuntimeProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1590,7 +1600,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.IncludingFields().IncludingProperties());
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.IncludingFields().IncludingProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1618,7 +1628,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.RespectingRuntimeTypes());
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.RespectingRuntimeTypes());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1655,7 +1665,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => class1.ShouldBeEquivalentTo(class2, opts => opts.ExcludingMissingMembers());
+                () => class1.Should().BeEquivalentTo(class2, opts => opts.ExcludingMissingMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1682,35 +1692,12 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other, options => options.ExcludingMissingMembers());
+            Action act = () => subject.Should().BeEquivalentTo(other, options => options.ExcludingMissingMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>();
-        }
-
-        #endregion
-
-        #region Collection Equivalence
-
-        [Fact]
-        public void When_a_non_collection_is_compared_to_a_collection_it_should_throw()
-        {
-            //-----------------------------------------------------------------------------------------------------------
-            // Arrange
-            //-----------------------------------------------------------------------------------------------------------
-            var expectation = new List<Customer>();
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Act
-            //-----------------------------------------------------------------------------------------------------------
-            Action action = () => 123.ShouldBeEquivalentTo(expectation);
-
-            //-----------------------------------------------------------------------------------------------------------
-            // Assert
-            //-----------------------------------------------------------------------------------------------------------
-            action.ShouldThrow<XunitException>();
         }
 
         #endregion
@@ -1739,7 +1726,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                subject.ShouldBeEquivalentTo(other);
+                subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1768,7 +1755,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1799,7 +1786,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1830,7 +1817,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1860,7 +1847,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1891,7 +1878,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1921,7 +1908,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1951,7 +1938,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -1987,7 +1974,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            subject.ShouldBeEquivalentTo(other);
+            subject.Should().BeEquivalentTo(other);
         }
 
         [Fact]
@@ -2013,7 +2000,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act / Assert
             //-----------------------------------------------------------------------------------------------------------
-            subject.ShouldBeEquivalentTo(other);
+            subject.Should().BeEquivalentTo(other);
         }
 
         [Fact]
@@ -2035,7 +2022,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, "because {0} are the same", "they");
+            Action act = () => subject.Should().BeEquivalentTo(expectation, "because {0} are the same", "they");
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2063,7 +2050,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2097,7 +2084,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2125,7 +2112,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other, options => options.Including(d => d.Name));
+            Action act = () => subject.Should().BeEquivalentTo(other, options => options.Including(d => d.Name));
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2142,18 +2129,18 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             var subject = new
             {
-                Type = new CustomerType("123")
+                Type = new DerivedCustomerType("123")
             };
 
             var other = new
             {
-                Type = new DerivedCustomerType("123")
+                Type = new CustomerType("123")
             };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2182,7 +2169,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2215,7 +2202,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(other);
+            Action act = () => subject.Should().BeEquivalentTo(other);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2229,13 +2216,20 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            string s = "32";
-            int i = 32;
+            var actual = new
+            {
+                Property = "32"
+            };
+            
+            var expectation = new
+            {
+                Property = 32
+            };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => s.ShouldBeEquivalentTo(i);
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2249,13 +2243,13 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange
             //-----------------------------------------------------------------------------------------------------------
-            int i = 32;
-            string s = "32";
+            var subject = new { Property = 32 };
+            var expectation = new { Property = "32"};
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => i.ShouldBeEquivalentTo(s);
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2275,7 +2269,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => o.ShouldBeEquivalentTo(s);
+            Action act = () => o.Should().BeEquivalentTo(s);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2324,7 +2318,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2361,7 +2355,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2397,7 +2391,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected,
+            Action act = () => subject.Should().BeEquivalentTo(expected,
                 options => options.ExcludingNestedObjects());
 
             //-----------------------------------------------------------------------------------------------------------
@@ -2420,7 +2414,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => item.ShouldBeEquivalentTo(new Item(), options => options.ExcludingNestedObjects());
+            Action act = () => item.Should().BeEquivalentTo(new Item(), options => options.ExcludingNestedObjects());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2462,7 +2456,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                subject.ShouldBeEquivalentTo(expected);
+                subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2497,7 +2491,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2565,7 +2559,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldAllBeEquivalentTo(expected);
+            Action act = () => actual.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2599,7 +2593,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act = () =>
-                subject.ShouldBeEquivalentTo(expected);
+                subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2620,7 +2614,6 @@ With configuration:*");
                 Level = new
                 {
                     Text = "Level1",
-                    OtherProperty = "OtherProperty"
                 }
             };
 
@@ -2628,21 +2621,22 @@ With configuration:*");
             {
                 Level = new
                 {
-                    Text = "Level1"
+                    Text = "Level1",
+                    OtherProperty = "OtherProperty"
                 }
             };
 
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected);
+            Action act = () => subject.Should().BeEquivalentTo(expected);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act
                 .ShouldThrow<XunitException>()
-                .WithMessage("Subject has member Level.OtherProperty that the other object does not have*");
+                .WithMessage("Expectation has member Level.OtherProperty that the other object does not have*");
         }
 
         [Fact]
@@ -2672,7 +2666,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expected, options => options.ExcludingMissingMembers());
+            Action act = () => subject.Should().BeEquivalentTo(expected, options => options.ExcludingMissingMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2715,7 +2709,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => root.ShouldBeEquivalentTo(rootDto);
+            Action act = () => root.Should().BeEquivalentTo(rootDto);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2738,7 +2732,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => c1.ShouldBeEquivalentTo(c2);
+            Action act = () => c1.Should().BeEquivalentTo(c2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2759,7 +2753,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => c1.ShouldBeEquivalentTo(c2);
+            Action act = () => c1.Should().BeEquivalentTo(c2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2803,7 +2797,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => cyclicRoot.ShouldBeEquivalentTo(cyclicRootDto);
+            Action act = () => cyclicRoot.Should().BeEquivalentTo(cyclicRootDto);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2842,7 +2836,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => cyclicRoot.ShouldBeEquivalentTo(cyclicRootDto, options => options.IgnoringCyclicReferences());
+            Action act = () => cyclicRoot.Should().BeEquivalentTo(cyclicRootDto, options => options.IgnoringCyclicReferences());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2868,7 +2862,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => a.ShouldBeEquivalentTo(b, x => x
+            Action act = () => a.Should().BeEquivalentTo(b, x => x
                 .Excluding(y => y.Child1)
                 .IgnoringCyclicReferences());
 
@@ -2930,7 +2924,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2969,7 +2963,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -2991,7 +2985,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => recursiveClass1.ShouldBeEquivalentTo(recursiveClass2);
+                () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3015,7 +3009,7 @@ With configuration:*");
             // Act
             //-----------------------------------------------------------------------------------------------------------
             Action act =
-                () => recursiveClass1.ShouldBeEquivalentTo(recursiveClass2,
+                () => recursiveClass1.Should().BeEquivalentTo(recursiveClass2,
                     options => options.AllowingInfiniteRecursion());
 
             //-----------------------------------------------------------------------------------------------------------
@@ -3064,7 +3058,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action action = () => company1.ShouldBeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
+            Action action = () => company1.Should().BeEquivalentTo(company2, o => o.IgnoringCyclicReferences());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3082,7 +3076,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => EnumOne.One.ShouldBeEquivalentTo(EnumOne.One);
+            Action act = () => EnumOne.One.Should().BeEquivalentTo(EnumOne.One);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3109,7 +3103,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation);
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3137,7 +3131,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, o => o.ComparingEnumsByValue());
+            Action act = () => subject.Should().BeEquivalentTo(expectation, o => o.ComparingEnumsByValue());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3152,7 +3146,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => EnumOne.One.ShouldBeEquivalentTo(EnumOne.Two);
+            Action act = () => EnumOne.One.Should().BeEquivalentTo(EnumOne.Two);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3173,7 +3167,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation);
+            Action act = () => subject.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3193,7 +3187,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
+            Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3213,7 +3207,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.ComparingEnumsByName());
+            Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByName());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3233,7 +3227,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => subject.ShouldBeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
+            Action act = () => subject.Should().BeEquivalentTo(expectation, config => config.ComparingEnumsByValue());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3253,7 +3247,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => e1.ShouldBeEquivalentTo(e2);
+            Action act = () => e1.Should().BeEquivalentTo(e2);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3280,7 +3274,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expected, options => options.ComparingEnumsByValue());
+            Action act = () => actual.Should().BeEquivalentTo(expected, options => options.ComparingEnumsByValue());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3303,7 +3297,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new {}.ShouldBeEquivalentTo(new {});
+            Action act = () => new {}.Should().BeEquivalentTo(new {});
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3317,7 +3311,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new ClassWithNoMembers().ShouldBeEquivalentTo(new ClassWithNoMembers());
+            Action act = () => new ClassWithNoMembers().Should().BeEquivalentTo(new ClassWithNoMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3331,7 +3325,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new StructWithNoMembers().ShouldBeEquivalentTo(new StructWithNoMembers());
+            Action act = () => new StructWithNoMembers().Should().BeEquivalentTo(new StructWithNoMembers());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3345,7 +3339,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Arrange / Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => new object().ShouldBeEquivalentTo(new object());
+            Action act = () => new object().Should().BeEquivalentTo(new object());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3365,7 +3359,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.IncludingAllDeclaredProperties());
+            Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.IncludingAllDeclaredProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3385,7 +3379,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => object1.ShouldBeEquivalentTo(object2, opts => opts.ExcludingProperties());
+            Action act = () => object1.Should().BeEquivalentTo(object2, opts => opts.ExcludingProperties());
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert
@@ -3405,7 +3399,7 @@ With configuration:*");
             //-----------------------------------------------------------------------------------------------------------
             // Act
             //-----------------------------------------------------------------------------------------------------------
-            Action act = () => actual.ShouldBeEquivalentTo(expectation);
+            Action act = () => actual.Should().BeEquivalentTo(expectation);
 
             //-----------------------------------------------------------------------------------------------------------
             // Assert

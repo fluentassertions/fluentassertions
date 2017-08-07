@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions.Common;
+using FluentAssertions.Equivalency;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 
@@ -306,94 +307,76 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
-        /// Expects the current collection to contain all elements of the collection identified by <paramref name="elements" />,
-        /// regardless of the order. Elements are compared using their <see cref="object.Equals(object)" />.
+        /// Asserts that a collection of objects is equivalent to another collection of objects. 
         /// </summary>
-        /// <param name="elements">A params array with the expected elements.</param>
-        public AndConstraint<TAssertions> BeEquivalentTo(params object[] elements)
-        {
-            return BeEquivalentTo(elements, String.Empty);
-        }
-
-        /// <summary>
-        /// Expects the current collection to contain all elements of the collection identified by <paramref name="expected" />,
-        /// regardless of the order. Elements are compared using their <see cref="object.Equals(object)" />.
-        /// </summary>
-        /// <param name="expected">An <see cref="IEnumerable"/> with the expected elements.</param>
+        /// <remarks>
+        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
+        /// value, irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
+        /// and the result is equal. 
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// Notice that actual behavior is determined by the global defaults managed by <see cref="AssertionOptions"/>.
+        /// </remarks>
         /// <param name="because">
-        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
         /// </param>
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> BeEquivalentTo(IEnumerable expected, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
+            string because = "", params object[] becauseArgs)
         {
-            if (expected == null)
-            {
-                throw new NullReferenceException("Cannot verify equivalence against a <null> collection.");
-            }
-
-            Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to be equivalent to {0}{reason}, but found <null>.", expected);
-
-            List<object> expectedItems = expected.Cast<object>().ToList();
-            List<object> actualItems = Subject.Cast<object>().ToList();
-
-            bool haveSameLength = Execute.Assertion
-                .ForCondition(actualItems.Count <= expectedItems.Count)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but it contains too many items.",
-                    actualItems, expectedItems);
-
-            if (haveSameLength)
-            {
-                object[] missingItems = GetMissingItems(expectedItems, actualItems);
-
-                Execute.Assertion
-                    .ForCondition(missingItems.Length == 0)
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but it misses {2}.",
-                        actualItems, expectedItems, missingItems);
-            }
+            BeEquivalentTo(expectation, config => config, because, becauseArgs);
+            
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
-        public AndConstraint<TAssertions> BeEquivalentTo<T>(IEnumerable<T> expected, string because = "", params object[] becauseArgs)
+        /// <summary>
+        /// Asserts that a collection of objects is equivalent to another collection of objects. 
+        /// </summary>
+        /// <remarks>
+        /// Objects within the collections are equivalent when both object graphs have equally named properties with the same 
+        /// value,  irrespective of the type of those objects. Two properties are also equal if one type can be converted to another 
+        /// and the result is equal. 
+        /// The type of a collection property is ignored as long as the collection implements <see cref="IEnumerable"/> and all
+        /// items in the collection are structurally equal. 
+        /// </remarks>
+        /// <param name="config">
+        /// A reference to the <see cref="EquivalencyAssertionOptions{TSubject}"/> configuration object that can be used 
+        /// to influence the way the object graphs are compared. You can also provide an alternative instance of the 
+        /// <see cref="EquivalencyAssertionOptions{TSubject}"/> class. The global defaults are determined by the 
+        /// <see cref="AssertionOptions"/> class.
+        /// </param>
+        /// <param name="because">
+        /// An optional formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the 
+        /// assertion is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> BeEquivalentTo<TExpectation>(IEnumerable<TExpectation> expectation,
+            Func<EquivalencyAssertionOptions<TExpectation>, EquivalencyAssertionOptions<TExpectation>> config, string because = "",
+            params object[] becauseArgs)
         {
-            if (expected == null)
+            EquivalencyAssertionOptions<IEnumerable<TExpectation>> options = config(AssertionOptions.CloneDefaults<TExpectation>()).AsCollection();
+
+            var context = new EquivalencyValidationContext
             {
-                throw new NullReferenceException("Cannot verify equivalence against a <null> collection.");
-            }
+                Subject = Subject,
+                Expectation = expectation,
+                RootIsCollection = true,
+                CompileTimeType = typeof(IEnumerable<TExpectation>),
+                Because = because,
+                BecauseArgs = becauseArgs,
+                Tracer = options.TraceWriter
+            };
 
-            Execute.Assertion
-                .ForCondition(!ReferenceEquals(Subject, null))
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} to be equivalent to {0}{reason}, but found <null>.", expected);
-
-            List<T> expectedItems = expected.ToList();
-            List<T> actualItems = Subject.Cast<T>().ToList();
-
-            bool haveSameLength = Execute.Assertion
-                .ForCondition(actualItems.Count <= expectedItems.Count)
-                .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but it contains too many items.",
-                    actualItems, expectedItems);
-
-            if (haveSameLength)
-            {
-                T[] missingItems = GetMissingItems(expectedItems, actualItems);
-
-                Execute.Assertion
-                    .ForCondition(missingItems.Length == 0)
-                    .BecauseOf(because, becauseArgs)
-                    .FailWith("Expected {context:collection} {0} to be equivalent to {1}{reason}, but it misses {2}.",
-                        actualItems, expectedItems, missingItems);
-            }
+            new EquivalencyValidator(options).AssertEquality(context);
+            
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
+
 
         /// <summary>
         /// Expects the current collection not to contain all elements of the collection identified by <paramref name="unexpected" />,
@@ -444,6 +427,20 @@ namespace FluentAssertions.Collections
                     .FailWith("Expected {context:collection} {0} not be equivalent with collection {1}{reason}.", Subject,
                         unexpected);
             }
+
+            string[] failures;
+            
+            using (var scope = new AssertionScope())
+            {
+                Subject.Should().BeEquivalentTo(unexpected);
+                
+                failures = scope.Discard();
+            }
+            
+            Execute.Assertion
+                .ForCondition(failures.Length > 0)
+                .FailWith("Expected {context:collection} {0} not to be equivalent to collection {1}{reason}.", Subject,
+                    unexpected);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

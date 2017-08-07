@@ -28,9 +28,9 @@ namespace FluentAssertions.Equivalency
 
         public OrderingRuleCollection OrderingRules { get; set; }
 
-        public void Execute<T>(T[] subject, object[] expectation)
+        public void Execute<T>(object[] subject, T[] expectation)
         {
-            if (AssertIsNotNull(subject) && AssertLengthEquality(subject.Length, expectation.Length))
+            if (AssertIsNotNull(expectation, subject) && AssertLengthEquality(subject.Length, expectation.Length))
             {
                 if (Recursive)
                 {
@@ -49,11 +49,11 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private bool AssertIsNotNull(object subject)
+        private bool AssertIsNotNull(object expectation, object[] subject)
         {
             return AssertionScope.Current
-                .ForCondition(!ReferenceEquals(subject, null))
-                .FailWith("Expected {context:subject} to be a collection, but found <null>.");
+                .ForCondition(!ReferenceEquals(expectation, null))
+                .FailWith("Expected {context:subject} to be <null>, but found {0}.", new object[]{ subject});
         }
 
         private bool AssertLengthEquality(int subjectLength, int expectationLength)
@@ -64,13 +64,13 @@ namespace FluentAssertions.Equivalency
                     expectationLength, subjectLength);
         }
 
-        private void AssertElementGraphEquivalency<T>(T[] subjects, object[] expectations)
+        private void AssertElementGraphEquivalency<T>(object[] subjects, T[] expectations)
         {
             matchedSubjectIndexes = new HashSet<int>();
 
             foreach (int index in Enumerable.Range(0, expectations.Length))
             {
-                object expectation = expectations[index];
+                T expectation = expectations[index];
 
                 if (!OrderingRules.IsOrderingStrictFor(context))
                 {
@@ -91,7 +91,7 @@ namespace FluentAssertions.Equivalency
 
         private HashSet<int> matchedSubjectIndexes;
 
-        private void LooselyMatchAgainst<T>(IList<T> subjects, object expectation, int expectationIndex)
+        private void LooselyMatchAgainst<T>(IList<object> subjects, T expectation, int expectationIndex)
         {
             var results = new AssertionResultSet();
 
@@ -99,7 +99,7 @@ namespace FluentAssertions.Equivalency
             {
                 if (!matchedSubjectIndexes.Contains(index))
                 {
-                    T subject = subjects[index];
+                    object subject = subjects[index];
 
                     using (context.TraceBlock(path => $"Comparing subject at {path}[{index}] with the expectation at {path}[{expectationIndex}]"))
                     {
@@ -126,7 +126,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private string[] TryToMatch<T>(T subject, object expectation, int expectationIndex)
+        private string[] TryToMatch<T>(object subject, T expectation, int expectationIndex)
         {
             using (var scope = new AssertionScope())
             {
@@ -136,7 +136,7 @@ namespace FluentAssertions.Equivalency
             }
         }
 
-        private void StrictlyMatchAgainst<T>(T[] subjects, object expectation, int expectationIndex)
+        private void StrictlyMatchAgainst<T>(object[] subjects, T expectation, int expectationIndex)
         {
             parent.AssertEqualityUsing(context.CreateForCollectionItem(expectationIndex.ToString(), subjects[expectationIndex], expectation));
         }

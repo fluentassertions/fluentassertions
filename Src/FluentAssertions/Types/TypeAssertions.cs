@@ -412,8 +412,7 @@ namespace FluentAssertions.Types
 
             Execute.Assertion.ForCondition(propertyInfo != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith(String.Format("Expected {0} {1}.{2} to exist{{reason}}, but it does not.",
-                    propertyType.Name, Subject.FullName, name));
+                .FailWith($"Expected {propertyType.Name} {Subject.FullName}.{name} to exist{{reason}}, but it does not.");
 
             Execute.Assertion.ForCondition(propertyInfo.PropertyType == propertyType)
                 .BecauseOf(because, becauseArgs)

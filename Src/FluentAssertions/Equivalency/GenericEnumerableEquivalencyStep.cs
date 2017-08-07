@@ -15,9 +15,9 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            var subjectType = config.GetSubjectType(context);
+            var expectationType = config.GetExpectationType(context);
 
-            return (context.Subject != null) && IsGenericCollection(subjectType);
+            return (context.Expectation != null) && IsGenericCollection(expectationType);
         }
 
         /// <summary>
@@ -33,18 +33,18 @@ namespace FluentAssertions.Equivalency
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent,
             IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetSubjectType(context);
+            Type expectedType = config.GetExpectationType(context);
 
-            var interfaceTypes = GetIEnumerableInterfaces(subjectType)
+            var interfaceTypes = GetIEnumerableInterfaces(expectedType)
                 .Select(type => "IEnumerable<" + type.GetGenericArguments().Single() + ">")
                 .ToList();
 
             AssertionScope.Current
                 .ForCondition(interfaceTypes.Count() == 1)
-                .FailWith("{context:Subject} implements {0}, so cannot determine which one " +
+                .FailWith("{context:Expectation} implements {0}, so cannot determine which one " +
                           "to use for asserting the equivalency of the collection. ", interfaceTypes);
 
-            if (AssertExpectationIsCollection(context.Expectation, context.Subject))
+            if (AssertSubjectIsCollection(context.Expectation, context.Subject))
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
@@ -52,18 +52,18 @@ namespace FluentAssertions.Equivalency
                     OrderingRules = config.OrderingRules
                 };
 
-                Type typeOfEnumeration = GetTypeOfEnumeration(subjectType);
+                Type typeOfEnumeration = GetTypeOfEnumeration(expectedType);
 
-                Expression subjectToArray = ToArray(context.Subject, typeOfEnumeration);
-                Expression expectationToArray =
-                    Expression.Constant(EnumerableEquivalencyStep.ToArray(context.Expectation));
+                Expression expectationAsArray = ToArray(context.Expectation, typeOfEnumeration);
+                Expression subjectAsArray =
+                    Expression.Constant(EnumerableEquivalencyStep.ToArray(context.Subject));
 
                 MethodCallExpression executeExpression = Expression.Call(
                     Expression.Constant(validator),
                     ExpressionExtensions.GetMethodName(() => validator.Execute<object>(null, null)),
                     new[] {typeOfEnumeration},
-                    subjectToArray,
-                    expectationToArray);
+                    subjectAsArray,
+                    expectationAsArray);
 
                 Expression.Lambda(executeExpression).Compile().DynamicInvoke();
             }
@@ -71,13 +71,13 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool AssertExpectationIsCollection(object expectation, object subject)
+        private static bool AssertSubjectIsCollection(object expectation, object subject)
         {
             return AssertionScope.Current
-                .ForCondition(!ReferenceEquals(expectation, null))
-                .FailWith("Expected {context:Subject} to be {0}, but found {1}.", null, subject)
+                .ForCondition(!ReferenceEquals(subject, null))
+                .FailWith("Expected {context:Subject} not to be {0}.", new object[]{null})
                 .Then
-                .ForCondition(IsGenericCollection(expectation.GetType()))
+                .ForCondition(IsGenericCollection(subject.GetType()))
                 .FailWith("Expected {context:Subject} to be {0}, but found {1}.", expectation, subject);
         }
 

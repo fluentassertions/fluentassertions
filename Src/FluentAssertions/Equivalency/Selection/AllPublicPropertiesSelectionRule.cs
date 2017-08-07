@@ -18,7 +18,7 @@ namespace FluentAssertions.Equivalency.Selection
         {
             return
                 selectedMembers.Union(
-                    config.GetSubjectType(context).GetNonPrivateProperties().Select(SelectedMemberInfo.Create));
+                    config.GetExpectationType(context).GetNonPrivateProperties().Select(SelectedMemberInfo.Create));
         }
 
         /// <summary>

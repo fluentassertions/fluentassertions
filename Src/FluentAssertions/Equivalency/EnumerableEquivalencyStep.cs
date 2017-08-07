@@ -14,7 +14,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetSubjectType(context);
+            Type subjectType = config.GetExpectationType(context);
 
             return IsCollection(subjectType);
         }
@@ -31,7 +31,7 @@ namespace FluentAssertions.Equivalency
         /// </remarks>
         public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            if (AssertExpectationIsCollection(context.Expectation))
+            if (AssertSubjectIsCollection(context.Subject))
             {
                 var validator = new EnumerableEquivalencyValidator(parent, context)
                 {
@@ -45,17 +45,17 @@ namespace FluentAssertions.Equivalency
             return true;
         }
 
-        private static bool AssertExpectationIsCollection(object expectation)
+        private static bool AssertSubjectIsCollection(object subject)
         {
             bool conditionMet = AssertionScope.Current
-                .ForCondition(!ReferenceEquals(expectation, null))
-                .FailWith("{context:Subject} is a collection and cannot be compared to <null>.");
+                .ForCondition(!ReferenceEquals(subject, null))
+                .FailWith("Expected a collection, but {context:Subject} is <null>.");
 
             if (conditionMet)
             {
                 conditionMet = AssertionScope.Current
-                .ForCondition(IsCollection(expectation.GetType()))
-                .FailWith("{context:Subject} is a collection and cannot be compared with a non-collection type.");
+                .ForCondition(IsCollection(subject.GetType()))
+                .FailWith("Expected a collection, but {context:Subject} is of a non-collection type.");
             }
 
             return conditionMet;

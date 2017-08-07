@@ -13,9 +13,7 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            Type subjectType = config.GetSubjectType(context);
-
-            return typeof(IDictionary).IsAssignableFrom(subjectType);
+            return typeof(IDictionary).IsAssignableFrom(config.GetExpectationType(context));
         }
 
         /// <summary>
@@ -31,47 +29,60 @@ namespace FluentAssertions.Equivalency
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         public virtual bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator parent, IEquivalencyAssertionOptions config)
         {
-            var subject = (IDictionary)context.Subject;
+            var subject = context.Subject as IDictionary;
             var expectation = context.Expectation as IDictionary;
 
-            if (PreconditionsAreMet(context, expectation, subject))
+            if (PreconditionsAreMet(expectation, subject))
             {
-                foreach (object key in subject.Keys)
+                if (expectation != null)
                 {
-                    if (config.IsRecursive)
+                    foreach (object key in expectation.Keys)
                     {
-                        context.TraceSingle(path => $"Recursing into dictionary item {key} at {path}");
-                        parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
-                    }
-                    else
-                    {
-                        context.TraceSingle(path => $"Comparing dictionary item {key} at {path} between subject and expectation");
-                        subject[key].Should().Be(expectation[key], context.Because, context.BecauseArgs);
+                        if (config.IsRecursive)
+                        {
+                            context.TraceSingle(path => $"Recursing into dictionary item {key} at {path}");
+                            parent.AssertEqualityUsing(context.CreateForDictionaryItem(key, subject[key], expectation[key]));
+                        }
+                        else
+                        {
+                            context.TraceSingle(path => $"Comparing dictionary item {key} at {path} between subject and expectation");
+                            subject[key].Should().Be(expectation[key], context.Because, context.BecauseArgs);
+                        }
                     }
                 }
+                
             }
 
             return true;
         }
 
-        private static bool PreconditionsAreMet(IEquivalencyValidationContext context, IDictionary expectation, IDictionary subject)
+        private static bool PreconditionsAreMet(IDictionary expectation, IDictionary subject)
         {
-            return (AssertIsDictionary(expectation) && AssertSameLength(expectation, subject));
+            return AssertIsDictionary(subject) 
+                   && AssertEitherIsNotNull(expectation, subject) 
+                   && AssertSameLength(expectation, subject);
         }
 
-        private static bool AssertIsDictionary(IDictionary expectation)
+        private static bool AssertEitherIsNotNull(IDictionary expectation, IDictionary subject)
         {
             return AssertionScope.Current
-                .ForCondition(expectation != null)
-                .FailWith("{context:subject} is a dictionary and cannot be compared with a non-dictionary type.");
+                .ForCondition((expectation == null) && (subject == null) || (expectation != null))
+                .FailWith("Expected {context:subject} to be {0}, but found {1}.", null, subject);
+        }
+
+        private static bool AssertIsDictionary(IDictionary subject)
+        {
+            return AssertionScope.Current
+                .ForCondition(subject != null)
+                .FailWith("Expected {context:subject} to be a dictionary, but it isn't");
         }
 
         private static bool AssertSameLength(IDictionary expectation, IDictionary subject)
         {
             return AssertionScope.Current
-                .ForCondition(subject.Keys.Count == expectation.Keys.Count)
+                .ForCondition((expectation == null) || (subject.Keys.Count == expectation.Keys.Count))
                 .FailWith("Expected {context:subject} to be a dictionary with {0} item(s), but it only contains {1} item(s).",
-                    expectation.Keys.Count, subject.Keys.Count);
+                    expectation?.Keys.Count, subject?.Keys.Count);
         }
     }
 }
