@@ -6,6 +6,7 @@ namespace FluentAssertions.Equivalency
     /// <summary>
     /// Provides details about the subject's root or nested member.
     /// </summary>
+    // REFACTOR: rename to IMemberInfo since it no longer represents the subject
     public interface ISubjectInfo
     {
         /// <summary>

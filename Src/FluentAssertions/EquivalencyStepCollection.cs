@@ -106,7 +106,6 @@ namespace FluentAssertions
         private static IEnumerable<IEquivalencyStep> GetDefaultSteps()
         {
             yield return new RunAllUserStepsEquivalencyStep();
-            yield return new TryConversionEquivalencyStep();
             yield return new ReferenceEqualityEquivalencyStep();
             yield return new GenericDictionaryEquivalencyStep();
             yield return new DictionaryEquivalencyStep();

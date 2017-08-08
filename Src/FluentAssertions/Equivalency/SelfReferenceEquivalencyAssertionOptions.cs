@@ -51,6 +51,8 @@ namespace FluentAssertions.Equivalency
 
         private readonly Func<Type, bool> isValueType = _ => false;
         private ITraceWriter traceWriter;
+        
+        private readonly ConversionSelector conversionSelector = new ConversionSelector();
 
         #endregion
 
@@ -126,7 +128,10 @@ namespace FluentAssertions.Equivalency
         /// </summary>
         IEnumerable<IEquivalencyStep> IEquivalencyAssertionOptions.UserEquivalencySteps
         {
-            get { return userEquivalencySteps; }
+            get
+            {
+                return userEquivalencySteps.Concat(new[] { new TryConversionStep(conversionSelector), });
+            }
         }
 
         /// <summary>
@@ -405,7 +410,6 @@ namespace FluentAssertions.Equivalency
 
         /// <summary>
         /// Adds an assertion rule to the ones already added by default, and which is evaluated before all existing rules.
-        /// NOTE: These assertion rules do not apply to the root object.
         /// </summary>
         public TSelf Using(IAssertionRule assertionRule)
         {
@@ -497,6 +501,36 @@ namespace FluentAssertions.Equivalency
             return (TSelf)this;
         }
 
+        /// <summary>
+        /// Instructs the equivalency comparison to try to convert the values of 
+        /// matching properties before running any of the other steps. 
+        /// </summary>
+        public TSelf WithAutoConversion()
+        {
+            conversionSelector.IncludeAll();
+            return (TSelf)this;
+        }
+        
+        /// <summary>
+        /// Instructs the equivalency comparison to try to convert the value of 
+        /// a specific property on the expectation object before running any of the other steps. 
+        /// </summary>
+        public TSelf WithAutoConversionFor(Expression<Func<ISubjectInfo, bool>> predicate)
+        {
+            conversionSelector.Include(predicate);
+            return (TSelf)this;
+        }
+
+        /// <summary>
+        /// Instructs the equivalency comparison to prevent trying to convert the value of 
+        /// a specific property on the expectation object before running any of the other steps. 
+        /// </summary>
+        public TSelf WithoutAutoConversionFor(Expression<Func<ISubjectInfo, bool>> predicate)
+        {
+            conversionSelector.Exclude(predicate);
+            return (TSelf)this;
+        }
+        
         #region Non-fluent API
 
         protected void RemoveSelectionRule<T>() where T : IMemberSelectionRule
