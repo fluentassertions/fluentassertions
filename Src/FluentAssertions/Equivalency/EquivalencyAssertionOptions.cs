@@ -11,6 +11,8 @@ using FluentAssertions.Equivalency.Selection;
 
 namespace FluentAssertions.Equivalency
 {
+    // REFACTOR rename to EquivalencyOptions
+    
     /// <summary>
     /// Represents the run-time type-specific behavior of a structural equivalency assertion.
     /// </summary>

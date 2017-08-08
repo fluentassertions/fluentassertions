@@ -1,18 +1,32 @@
 using System;
 using System.Globalization;
-
 using FluentAssertions.Common;
 
 namespace FluentAssertions.Equivalency
 {
-    public class TryConversionEquivalencyStep : IEquivalencyStep
+    /// <summary>
+    /// Attempts to convert the subject's property value to the expected type. 
+    /// </summary>
+    /// <remarks>
+    /// Whether or not the conversion is attempted depends on the <see cref="ConversionSelector"/>.
+    /// </remarks>
+    public class TryConversionStep : IEquivalencyStep
     {
+        private readonly ConversionSelector selector;
+        private readonly string description;
+
+        public TryConversionStep(ConversionSelector selector)
+        {
+            this.selector = selector;
+            description = selector.ToString();
+        }
+
         /// <summary>
         /// Gets a value indicating whether this step can handle the current subject and/or expectation.
         /// </summary>
         public bool CanHandle(IEquivalencyValidationContext context, IEquivalencyAssertionOptions config)
         {
-            return true;
+            return selector.RequiresConversion(context);
         }
 
         /// <summary>
@@ -25,7 +39,8 @@ namespace FluentAssertions.Equivalency
         /// <remarks>
         /// May throw when preconditions are not met or if it detects mismatching data.
         /// </remarks>
-        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator, IEquivalencyAssertionOptions config)
+        public bool Handle(IEquivalencyValidationContext context, IEquivalencyValidator structuralEqualityValidator,
+            IEquivalencyAssertionOptions config)
         {
             if (!ReferenceEquals(context.Expectation, null) && !ReferenceEquals(context.Subject, null)
                 && !context.Subject.GetType().IsSameOrInherits(context.Expectation.GetType()))
@@ -65,6 +80,11 @@ namespace FluentAssertions.Equivalency
             }
 
             return false;
+        }
+
+        public override string ToString()
+        {
+            return description;
         }
     }
 }

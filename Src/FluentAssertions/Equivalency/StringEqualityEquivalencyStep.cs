@@ -81,8 +81,7 @@ namespace FluentAssertions.Equivalency
                 AssertionScope.Current
                     .ForCondition(context.Subject.GetType().IsSameOrInherits(typeof (T)))
                     .FailWith($"Expected {GetSubjectDescription(context)} to be {{0}}, but found {{1}}",
-                        context.Subject.GetType(),
-                        context.RuntimeType);
+                        context.RuntimeType, context.Subject.GetType());
 
         }
 

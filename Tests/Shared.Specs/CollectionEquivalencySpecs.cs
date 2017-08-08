@@ -1511,7 +1511,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("*member*Customers*dictionary*found*string*");
+                .WithMessage("*member*Customers*String*found*Dictionary*");
         }
 
         [Fact]
