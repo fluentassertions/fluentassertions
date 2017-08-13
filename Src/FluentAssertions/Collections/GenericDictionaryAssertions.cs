@@ -60,6 +60,156 @@ namespace FluentAssertions.Collections
         }
 
         /// <summary>
+        /// Asserts that the number of items in the dictionary does not match the supplied <paramref name="unexpected" /> amount.
+        /// </summary>
+        /// <param name="unexpected">The unexpected number of items.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> NotHaveCount(int unexpected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to not have {0} item(s){reason}, but found <null>.", unexpected);
+            }
+
+            int actualCount = Subject.Count;
+
+            Execute.Assertion
+                .ForCondition(actualCount != unexpected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} {0} to not have {1} item(s){reason}, but found {2}.", Subject, unexpected, actualCount);
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the number of items in the dictionary is greater than the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">The number to which the actual number items in the dictionary will be compared.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountGreaterThan(int expected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to contain more than {0} item(s){reason}, but found <null>.", expected);
+            }
+
+            int actualCount = Subject.Count;
+
+            Execute.Assertion
+                .ForCondition(actualCount > expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} {0} to contain more than {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the number of items in the dictionary is greater or equal to the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">The number to which the actual number items in the dictionary will be compared.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountGreaterOrEqualTo(int expected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to contain at least {0} item(s){reason}, but found <null>.", expected);
+            }
+
+            int actualCount = Subject.Count;
+
+            Execute.Assertion
+                .ForCondition(actualCount >= expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} {0} to contain at least {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the number of items in the dictionary is less than the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">The number to which the actual number items in the dictionary will be compared.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountLessThan(int expected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to contain fewer than {0} item(s){reason}, but found <null>.", expected);
+            }
+
+            int actualCount = Subject.Count;
+
+            Execute.Assertion
+                .ForCondition(actualCount < expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} {0} to contain fewer than {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the number of items in the dictionary is less or equal to the supplied <paramref name="expected" /> amount.
+        /// </summary>
+        /// <param name="expected">The number to which the actual number items in the dictionary will be compared.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<GenericDictionaryAssertions<TKey, TValue>> HaveCountLessOrEqualTo(int expected, string because = "", params object[] becauseArgs)
+        {
+            if (ReferenceEquals(Subject, null))
+            {
+                Execute.Assertion
+                    .BecauseOf(because, becauseArgs)
+                    .FailWith("Expected {context:dictionary} to contain at most {0} item(s){reason}, but found <null>.", expected);
+            }
+
+            int actualCount = Subject.Count;
+
+            Execute.Assertion
+                .ForCondition(actualCount <= expected)
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected {context:dictionary} {0} to contain at most {1} item(s){reason}, but found {2}.", Subject, expected, actualCount);
+
+            return new AndConstraint<GenericDictionaryAssertions<TKey, TValue>>(this);
+        }
+
+        /// <summary>
         /// Asserts that the number of items in the dictionary matches a condition stated by a predicate.
         /// </summary>
         /// <param name="countPredicate">The predicate which must be satisfied by the amount of items.</param>

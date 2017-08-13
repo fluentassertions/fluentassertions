@@ -263,6 +263,376 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region Not Have Count
+
+        [Fact]
+        public void Should_succeed_when_asserting_dictionary_has_a_count_different_from_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            dictionary.Should().NotHaveCount(2);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_dictionary_has_a_count_that_equals_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            Action act = () => dictionary.Should().NotHaveCount(3);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_dictionary_has_a_count_that_equals_than_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary.Should().NotHaveCount(3, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*not have*3*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_dictionary_count_is_same_than_and_dictionary_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Dictionary<int, string> dictionary = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().NotHaveCount(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*not have*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
+        #region Have Count Greater Than
+
+        [Fact]
+        public void Should_succeed_when_asserting_dictionary_has_a_count_greater_than_less_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            dictionary.Should().HaveCountGreaterThan(2);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_dictionary_has_a_count_greater_than_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            Action act = () => dictionary.Should().HaveCountGreaterThan(3);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_dictionary_has_a_count_greater_than_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary.Should().HaveCountGreaterThan(3, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*more than*3*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_dictionary_count_is_greater_than_and_dictionary_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Dictionary<int, string> dictionary = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().HaveCountGreaterThan(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*more than*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
+        #region Have Count Greater Or Equal To
+
+        [Fact]
+        public void Should_succeed_when_asserting_dictionary_has_a_count_greater_or_equal_to_less_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            dictionary.Should().HaveCountGreaterOrEqualTo(3);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_dictionary_has_a_count_greater_or_equal_to_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            Action act = () => dictionary.Should().HaveCountGreaterOrEqualTo(4);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_dictionary_has_a_count_greater_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary.Should().HaveCountGreaterOrEqualTo(4, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*at least*4*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_dictionary_count_is_greater_or_equal_to_and_dictionary_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Dictionary<int, string> dictionary = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().HaveCountGreaterOrEqualTo(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*at least*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
+        #region Have Count Less Than
+
+        [Fact]
+        public void Should_succeed_when_asserting_dictionary_has_a_count_less_than_less_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            dictionary.Should().HaveCountLessThan(4);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_dictionary_has_a_count_less_than_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            Action act = () => dictionary.Should().HaveCountLessThan(3);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_dictionary_has_a_count_less_than_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary.Should().HaveCountLessThan(3, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*fewer than*3*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_dictionary_count_is_less_than_and_dictionary_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Dictionary<int, string> dictionary = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().HaveCountLessThan(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*fewer than*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
+        #region Have Count Less Or Equal To
+
+        [Fact]
+        public void Should_succeed_when_asserting_dictionary_has_a_count_less_or_equal_to_less_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            dictionary.Should().HaveCountLessOrEqualTo(3);
+        }
+
+        [Fact]
+        public void Should_fail_when_asserting_dictionary_has_a_count_less_or_equal_to_the_number_of_items()
+        {
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+            Action act = () => dictionary.Should().HaveCountLessOrEqualTo(2);
+
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_dictionary_has_a_count_less_or_equal_to_the_number_of_items_it_should_fail_with_descriptive_message_()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            var dictionary = new Dictionary<int, string>
+            {
+                { 1, "One" },
+                { 2, "Two" },
+                { 3, "Three" }
+            };
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action action = () => dictionary.Should().HaveCountLessOrEqualTo(2, "because we want to test the failure {0}", "message");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("*at most*2*because we want to test the failure message*3*");
+        }
+
+        [Fact]
+        public void When_dictionary_count_is_less_or_equal_to_and_dictionary_is_null_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            Dictionary<int, string> dictionary = null;
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => dictionary.Should().HaveCountLessOrEqualTo(1, "we want to test the behaviour with a null subject");
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("*at most*1*we want to test the behaviour with a null subject*found <null>*");
+        }
+
+        #endregion
+
         #region Be Empty
 
         [Fact]
