@@ -55,6 +55,32 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the selected properties are not virtual.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
+        {
+            IEnumerable<PropertyInfo> virtualProperties = GetAllVirtualPropertiesFromSelection();
+
+            string failureMessage =
+                "Expected all selected properties to not be virtual{reason}, but the following properties are virtual:\r\n" +
+                GetDescriptionsFor(virtualProperties);
+
+            Execute.Assertion
+                .ForCondition(!virtualProperties.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(failureMessage);
+
+            return new AndConstraint<PropertyInfoSelectorAssertions>(this);
+        }
+
+        /// <summary>
         /// Asserts that the selected properties have a setter.
         /// </summary>
         /// <param name="because">
@@ -95,6 +121,16 @@ namespace FluentAssertions.Types
             return query.ToArray();
         }
 
+        private PropertyInfo[] GetAllVirtualPropertiesFromSelection()
+        {
+            var query =
+                from property in SubjectProperties
+                where property.IsVirtual()
+                select property;
+
+            return query.ToArray();
+        }
+
         /// <summary>
         /// Asserts that the selected properties are decorated with the specified <typeparamref name="TAttribute"/>.
         /// </summary>
@@ -122,10 +158,43 @@ namespace FluentAssertions.Types
             return new AndConstraint<PropertyInfoSelectorAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the selected properties are not decorated with the specified <typeparamref name="TAttribute"/>.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<PropertyInfoSelectorAssertions> NotBeDecoratedWith<TAttribute>(string because = "", params object[] becauseArgs)
+            where TAttribute : Attribute
+        {
+            IEnumerable<PropertyInfo> propertiesWithAttribute = GetPropertiesWith<TAttribute>();
+
+            string failureMessage =
+                "Expected all selected properties to not be decorated with {0}{reason}, but the following properties are:\r\n" +
+                GetDescriptionsFor(propertiesWithAttribute);
+
+            Execute.Assertion
+                .ForCondition(!propertiesWithAttribute.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(failureMessage, typeof(TAttribute));
+
+            return new AndConstraint<PropertyInfoSelectorAssertions>(this);
+        }
+
         private PropertyInfo[] GetPropertiesWithout<TAttribute>()
             where TAttribute : Attribute
         {
             return SubjectProperties.Where(property => !property.IsDecoratedWith<TAttribute>()).ToArray();
+        }
+
+        private PropertyInfo[] GetPropertiesWith<TAttribute>()
+            where TAttribute : Attribute
+        {
+            return SubjectProperties.Where(property => property.IsDecoratedWith<TAttribute>()).ToArray();
         }
 
         private static string GetDescriptionsFor(IEnumerable<PropertyInfo> properties)

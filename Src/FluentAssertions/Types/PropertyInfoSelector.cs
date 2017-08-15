@@ -77,6 +77,15 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Only select the properties that do not return the specified type 
+        /// </summary>
+        public PropertyInfoSelector NotOfType<TReturn>()
+        {
+            selectedProperties = selectedProperties.Where(property => property.PropertyType != typeof(TReturn));
+            return this;
+        }
+
+        /// <summary>
         /// The resulting <see cref="PropertyInfo"/> objects.
         /// </summary>
         public PropertyInfo[] ToArray()

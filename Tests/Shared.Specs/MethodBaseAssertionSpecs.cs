@@ -50,7 +50,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected the return type of method IntMethod to be System.String  because we want to test the " +
+                .WithMessage("Expected the return type of method IntMethod to be System.String because we want to test the " +
                              "error message, but it is \"System.Int32\".");
         }
 
@@ -72,8 +72,54 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected the return type of method VoidMethod to be System.String  because we want to test the " +
+                .WithMessage("Expected the return type of method VoidMethod to be System.String because we want to test the " +
                              "error message, but it is \"System.Void\".");
+        }
+
+        #endregion
+
+        #region NotReturn
+
+        [Fact]
+        public void When_asserting_an_int_method_does_not_return_string_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotReturn(typeof(string));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_int_method_does_not_return_int_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotReturn(typeof(int), "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected the return type of*IntMethod*to not be System.Int32*because we want to test the " +
+                             "error message, but it is.");
         }
 
         #endregion
@@ -98,6 +144,74 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_int_method_returnsOfT_string_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().Return<string>("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected the return type of method IntMethod to be System.String because we want to test the " +
+                             "error message, but it is \"System.Int32\".");
+        }
+
+        #endregion
+
+        #region NotReturnOfT
+
+        [Fact]
+        public void When_asserting_an_int_method_does_not_returnsOfT_string_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotReturn<string>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_int_method_does_not_returnsOfT_int_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotReturn<int>("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected the return type of*IntMethod*to not be System.Int32*because we want to test the " +
+                             "error message, but it is.");
         }
 
         #endregion
@@ -142,8 +256,53 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected the return type of method IntMethod to be void  because we want to test the error message " +
+                .WithMessage("Expected the return type of method IntMethod to be void because we want to test the error message " +
                              "message, but it is \"System.Int32\".");
+        }
+
+        #endregion
+
+        #region NotReturnVoid
+
+        [Fact]
+        public void When_asserting_an_int_method_does_not_return_void_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("IntMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotReturnVoid();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_void_method_does_not_return_void_it_fails_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("VoidMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotReturnVoid("because we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected the return type of*VoidMethod*to not be void*because we want to test the error message*");
         }
 
         #endregion
@@ -171,7 +330,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_private_member_is_not_private_it_throws_with_a_useful_message()
+        public void When_asserting_a_private_member_is_protected_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -219,7 +378,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_protected_member_is_not_protected_it_throws_with_a_useful_message()
+        public void When_asserting_a_protected_member_is_public_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -274,7 +433,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_public_member_is_not_public_it_throws_with_a_useful_message()
+        public void When_asserting_a_public_member_is_internal_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -324,7 +483,7 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_an_internal_member_is_not_internal_it_throws_with_a_useful_message()
+        public void When_asserting_an_internal_member_is_protectedInternal_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
@@ -367,12 +526,12 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
-        public void When_asserting_a_protected_internal_member_is_not_protected_internal_it_throws_with_a_useful_message()
+        public void When_asserting_a_protected_internal_member_is_private_it_throws_with_a_useful_message()
         {
             //-------------------------------------------------------------------------------------------------------------------
             // Arrange
             //-------------------------------------------------------------------------------------------------------------------
-            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("InternalMethod");
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("ProtectedInternalMethod");
 
             //-------------------------------------------------------------------------------------------------------------------
             // Act
@@ -384,8 +543,226 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected method InternalMethod to be Private because we want to test the error message, but it is " +
-                             "Internal.");
+                .WithMessage("Expected method ProtectedInternalMethod to be Private because we want to test the error message, but it is " +
+                             "ProtectedInternal.");
+        }
+
+        #endregion
+
+        #region NotHaveAccessModifier
+
+        [Fact]
+        public void When_asserting_a_private_member_is_not_protected_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("PrivateMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.Protected);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_private_member_is_not_private_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("PrivateMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.Private, "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected method PrivateMethod to not be Private*because we want to test the error message*");
+        }
+
+        [Fact]
+        public void When_asserting_a_protected_member_is_not_internal_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
+            MethodInfo setMethod = propertyInfo.SetMethod;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                setMethod.Should().NotHaveAccessModifier(CSharpAccessModifier.Internal);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_protected_member_is_not_protected_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("ProtectedSetProperty");
+            MethodInfo setMethod = propertyInfo.SetMethod;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                setMethod
+                    .Should()
+                    .NotHaveAccessModifier(CSharpAccessModifier.Protected, "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected method set_ProtectedSetProperty to not be Protected*because we want to test the error message*");
+        }
+
+        [Fact]
+        public void When_asserting_a_public_member_is_not_private_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
+            MethodInfo getMethod = propertyInfo.GetMethod;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                getMethod.Should().NotHaveAccessModifier(CSharpAccessModifier.Private);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_public_member_is_not_public_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            PropertyInfo propertyInfo = typeof(TestClass).GetPropertyByName("PublicGetProperty");
+            MethodInfo getMethod = propertyInfo.GetMethod;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                getMethod
+                    .Should()
+                    .NotHaveAccessModifier(CSharpAccessModifier.Public, "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected method get_PublicGetProperty to not be Public*because we want to test the error message*");
+        }
+
+        [Fact]
+        public void When_asserting_an_internal_member_is_not_protectedInternal_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("InternalMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.ProtectedInternal);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_an_internal_member_is_not_internal_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("InternalMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.Internal, "because we want to test the" +
+                                                                                                " error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected method InternalMethod to not be Internal*because we want to test the error message*");
+        }
+
+        [Fact]
+        public void When_asserting_a_protected_internal_member_is_not_public_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("ProtectedInternalMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.Public);
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_protected_internal_member_is_not_protected_internal_it_throws_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            MethodInfo methodInfo = typeof(TestClass).GetParameterlessMethod("ProtectedInternalMethod");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodInfo.Should().NotHaveAccessModifier(CSharpAccessModifier.ProtectedInternal, "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected method ProtectedInternalMethod to not be ProtectedInternal*because we want to test the error message*");
         }
 
         #endregion

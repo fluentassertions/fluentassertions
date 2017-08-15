@@ -62,6 +62,56 @@ namespace FluentAssertions.Specs
 
         #endregion
 
+        #region NotBeVirtual
+
+        [Fact]
+        public void When_asserting_that_a_property_is_not_virtual_and_it_is_not_then_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+
+            PropertyInfo propertyInfo = typeof(ClassWithNonVirtualPublicProperties).GetRuntimeProperty("PublicNonVirtualProperty");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfo.Should().NotBeVirtual();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_that_a_property_is_not_virtual_and_it_is_then_it_fails_with_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+
+            PropertyInfo propertyInfo = typeof(ClassWithAllPropertiesVirtual).GetRuntimeProperty("PublicVirtualProperty");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                propertyInfo.Should().NotBeVirtual("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+               .WithMessage(
+                   "Expected property *ClassWithAllPropertiesVirtual.PublicVirtualProperty" +
+                       " to not be virtual because we want to test the error message," +
+                       " but it is.");
+        }
+
+        #endregion
+
         #region BeDecortatedWithOfT
 
         [Fact]
@@ -623,7 +673,7 @@ namespace FluentAssertions.Specs
 
         #endregion
 
-        #region Return
+        #region ReturnOfT
 
         [Fact]
         public void When_asserting_a_String_property_returnsOfT_a_String_it_succeeds()
@@ -644,6 +694,117 @@ namespace FluentAssertions.Specs
             // Assert
             //-------------------------------------------------------------------------------------------------------------------
             action.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_String_property_returnsOfT_an_Int32_it_throw_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().Return<Int32>("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("Expected Type of property StringProperty to be System.Int32 because we want to test the error " +
+                             "message, but it is System.String.");
+        }
+
+        #endregion
+
+        #region NotReturn
+
+        [Fact]
+        public void When_asserting_a_String_property_does_not_returns_an_Int32_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().NotReturn(typeof(Int32));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_String_property_does_not_return_a_String_it_throw_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().NotReturn(typeof(String), "we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("Expected Type of property StringProperty to not be*String*because we want to test the error " +
+                             "message, but it is.");
+        }
+
+        #endregion
+
+        #region NotReturnOfT
+
+        [Fact]
+        public void When_asserting_a_String_property_does_not_returnOfT_an_Int32_it_succeeds()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().NotReturn<Int32>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_a_String_property_does_not_returnsOfT_a_String_it_throw_with_a_useful_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+
+            PropertyInfo propertyInfo = typeof(ClassWithProperties).GetRuntimeProperty("StringProperty");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action action = () => propertyInfo.Should().NotReturn<String>("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            action.ShouldThrow<XunitException>()
+                .WithMessage("Expected Type of property StringProperty to not be*String*because we want to test the error " +
+                             "message, but it is.");
         }
 
         #endregion

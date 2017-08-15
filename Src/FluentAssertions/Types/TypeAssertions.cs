@@ -392,6 +392,39 @@ namespace FluentAssertions.Types
         }
 
         /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is not derived from <see cref="System.Type"/> <paramref name="baseType"/>.
+        /// </summary>
+        /// <param name="baseType">The Type that should notbe derived from.</param>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<TypeAssertions> NotBeDerivedFrom(Type baseType, string because = "", params object[] becauseArgs)
+        {
+            if (baseType.GetTypeInfo().IsInterface)
+            {
+                throw new ArgumentException("Must not be an interface Type.", "baseType");
+            }
+
+            Execute.Assertion.ForCondition(!Subject.GetTypeInfo().IsSubclassOf(baseType))
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type {0} to not be derived from {1}{reason}, but it is.", Subject, baseType);
+
+            return new AndConstraint<TypeAssertions>(this);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="System.Type"/> is not derived from <typeparamref name="TBaseClass"/>.
+        /// </summary>
+        /// <typeparam name="TBaseClass">The Type that should not be derived from.</typeparam>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndConstraint<TypeAssertions> NotBeDerivedFrom<TBaseClass>(string because = "", params object[] becauseArgs) where TBaseClass : class
+        {
+            return NotBeDerivedFrom(typeof(TBaseClass), because, becauseArgs);
+        }
+
+        /// <summary>
         /// Asserts that the current type has a property of type <paramref name="propertyType"/> named <paramref name="name"/>.
         /// </summary>
         /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
@@ -746,6 +779,37 @@ namespace FluentAssertions.Types
             return HaveConstructor(new Type[] {}, because, becauseArgs);
         }
 
+        /// <summary>
+        /// Asserts that the current type does not have a constructor with parameter types <paramref name="parameterTypes"/>.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        /// <param name="parameterTypes">The parameter types for the indexer.</param>
+        public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveConstructor(IEnumerable<Type> parameterTypes, string because = "", params object[] becauseArgs)
+        {
+            ConstructorInfo constructorInfo = Subject.GetConstructor(parameterTypes);
+
+            Execute.Assertion.ForCondition(constructorInfo == null)
+                .BecauseOf(because, becauseArgs)
+                .FailWith(String.Format("Expected constructor {0}({1}) to not exist{{reason}}, but it does.",
+                    Subject.FullName,
+                    GetParameterString(parameterTypes)));
+
+            return new AndWhichConstraint<TypeAssertions, ConstructorInfo>(this, constructorInfo);
+        }
+
+        /// <summary>
+        /// Asserts that the current type does not have a default constructor.
+        /// </summary>
+        /// <param name="because">A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion
+        ///             is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
+        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
+        public AndWhichConstraint<TypeAssertions, ConstructorInfo> NotHaveDefaultConstructor(string because = "", params object[] becauseArgs)
+        {
+            return NotHaveConstructor(new Type[] { }, because, becauseArgs);
+        }
+
         private string GetParameterString(IEnumerable<Type> parameterTypes)
         {
             if (!parameterTypes.Any())
@@ -774,6 +838,28 @@ namespace FluentAssertions.Types
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected type " + Subject.Name + " to be {0}{reason}, but it is {1}.",
                     accessModifier, Subject.GetCSharpAccessModifier());
+
+            return new AndConstraint<Type>(Subject);
+        }
+
+        /// <summary>
+        /// Asserts that the selected type does not have the specified C# <paramref name="accessModifier"/>.
+        /// </summary>
+        /// <param name="accessModifier">The unexpected C# access modifier.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<Type> NotHaveAccessModifier(
+            CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion.ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected type " + Subject.Name + " to not be {0}{reason}, but it is.",
+                    accessModifier);
 
             return new AndConstraint<Type>(Subject);
         }

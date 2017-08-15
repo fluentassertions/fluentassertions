@@ -37,6 +37,28 @@ namespace FluentAssertions.Types
             return new AndConstraint<TAssertions>((TAssertions)this);
         }
 
+        /// <summary>
+        /// Asserts that the selected member does not have the specified C# <paramref name="accessModifier"/>.
+        /// </summary>
+        /// <param name="accessModifier">The unexpected C# access modifier.</param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<TAssertions> NotHaveAccessModifier(
+            CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+        {
+            Execute.Assertion.ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
+                .BecauseOf(because, becauseArgs)
+                .FailWith("Expected method " + Subject.Name + " to not be {0}{reason}, but it is.",
+                    accessModifier);
+
+            return new AndConstraint<TAssertions>((TAssertions)this);
+        }
+
         protected override string Context
         {
             get { return "methodBase"; }

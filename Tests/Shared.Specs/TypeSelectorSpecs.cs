@@ -61,6 +61,50 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_selecting_types_that_do_not_derive_from_a_specific_class_it_should_return_the_correct_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassDerivedFromSomeBaseClass).GetTypeInfo().Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.Main.Test")
+                .ThatDoNotDeriveFrom<SomeBaseClass>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should()
+                .HaveCount(8);
+        }
+
+        [Fact]
+        public void When_selecting_types_that_do_not_derive_from_a_specific_generic_class_it_should_return_the_correct_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassDerivedFromSomeGenericBaseClass).GetTypeInfo().Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            TypeSelector types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.Main.Test")
+                .ThatDoNotDeriveFrom<SomeGenericBaseClass<int>>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.ToArray().Should()
+                .HaveCount(8);
+        }
+
+        [Fact]
         public void When_selecting_types_that_implement_a_specific_interface_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -82,6 +126,28 @@ namespace FluentAssertions.Specs
                 .HaveCount(2)
                 .And.Contain(typeof(ClassImplementingSomeInterface))
                 .And.Contain(typeof(ClassWithSomeAttributeThatImplementsSomeInterface));
+        }
+
+        [Fact]
+        public void When_selecting_types_that_do_not_implement_a_specific_interface_it_should_return_the_correct_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassImplementingSomeInterface).GetTypeInfo().Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreInNamespace("Internal.Main.Test")
+                .ThatDoNotImplement<ISomeInterface>();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should()
+                .HaveCount(6);
         }
 
         [Fact]
@@ -156,6 +222,29 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_selecting_types_other_than_from_specific_namespace_it_should_return_the_correct_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreUnderNamespace("Internal.Other")
+                .ThatAreNotInNamespace("Internal.Other.Test");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should()
+                .ContainSingle()
+                .Which.Should().Be(typeof(SomeCommonClass));
+        }
+
+        [Fact]
         public void When_selecting_types_from_specific_namespace_or_sub_namespaces_it_should_return_the_correct_types()
         {
             //-------------------------------------------------------------------------------------------------------------------
@@ -177,6 +266,32 @@ namespace FluentAssertions.Specs
                 .HaveCount(2)
                 .And.Contain(typeof(SomeOtherClass))
                 .And.Contain(typeof(SomeCommonClass));
+        }
+
+        [Fact]
+        public void When_selecting_types_other_than_from_specific_namespace_or_sub_namespaces_it_should_return_the_correct_types()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            Assembly assembly = typeof(ClassWithSomeAttribute).GetTypeInfo().Assembly;
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            IEnumerable<Type> types = AllTypes.From(assembly)
+                .ThatAreUnderNamespace("Internal.Other")
+                .ThatAreNotUnderNamespace("Internal.Other.Test");
+
+            var lol = AllTypes.From(assembly)
+                .ThatAreUnderNamespace("Internal.Other")
+                .ThatAreNotUnderNamespace("Internal.Other.Test")
+                .ToArray();
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            types.Should()
+                .BeEmpty();
         }
 
         [Fact]

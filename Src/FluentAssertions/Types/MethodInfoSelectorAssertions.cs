@@ -55,11 +55,47 @@ namespace FluentAssertions.Types
             return new AndConstraint<MethodInfoSelectorAssertions>(this);
         }
 
+        /// <summary>
+        /// Asserts that the selected methods are not virtual.
+        /// </summary>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<MethodInfoSelectorAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
+        {
+            IEnumerable<MethodInfo> virtualMethods = GetAllVirtualMethodsFromSelection();
+
+            string failureMessage =
+                "Expected all selected methods to not be virtual{reason}, but the following methods are virtual:\r\n" +
+                GetDescriptionsFor(virtualMethods);
+
+            Execute.Assertion
+                .ForCondition(!virtualMethods.Any())
+                .BecauseOf(because, becauseArgs)
+                .FailWith(failureMessage);
+
+            return new AndConstraint<MethodInfoSelectorAssertions>(this);
+        }
+
         private MethodInfo[] GetAllNonVirtualMethodsFromSelection()
         {
             var query =
                 from method in SubjectMethods
                 where method.IsNonVirtual()
+                select method;
+
+            return query.ToArray();
+        }
+
+        private MethodInfo[] GetAllVirtualMethodsFromSelection()
+        {
+            var query =
+                from method in SubjectMethods
+                where !method.IsNonVirtual()
                 select method;
 
             return query.ToArray();

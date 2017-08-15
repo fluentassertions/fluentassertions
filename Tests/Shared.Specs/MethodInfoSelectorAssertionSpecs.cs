@@ -75,6 +75,72 @@ namespace FluentAssertions.Specs
         }
 
         [Fact]
+        public void When_asserting_methods_are_not_virtual_and_they_are_not_it_should_succeed()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithNonVirtualPublicMethods));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodSelector.Should().NotBeVirtual();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void When_asserting_methods_are_not_virtual_but_virtual_methods_are_found_it_should_throw()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsVirtual));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodSelector.Should().NotBeVirtual();
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>();
+        }
+
+        [Fact]
+        public void When_asserting_methods_are_not_virtual_but_virtual_methods_are_found_it_should_throw_with_descriptive_message()
+        {
+            //-------------------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-------------------------------------------------------------------------------------------------------------------
+            var methodSelector = new MethodInfoSelector(typeof(ClassWithAllMethodsVirtual));
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Act
+            //-------------------------------------------------------------------------------------------------------------------
+            Action act = () =>
+                methodSelector.Should().NotBeVirtual("we want to test the error {0}", "message");
+
+            //-------------------------------------------------------------------------------------------------------------------
+            // Assert
+            //-------------------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected all selected methods" +
+                             " to not be virtual because we want to test the error message," +
+                             " but the following methods are virtual" +
+                             "*ClassWithAllMethodsVirtual.PublicVirtualDoNothing" +
+                             "*ClassWithAllMethodsVirtual.InternalVirtualDoNothing" +
+                             "*ClassWithAllMethodsVirtual.ProtectedVirtualDoNothing*");
+        }
+
+        [Fact]
         public void When_asserting_methods_are_decorated_with_attribute_and_they_are_it_should_succeed()
         {
             //-------------------------------------------------------------------------------------------------------------------
