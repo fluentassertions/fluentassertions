@@ -463,7 +463,27 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 20 ms from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
+            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_datetimeoffset_is_not_close_to_a_later_datetimeoffset_by_a_20ms_timespan_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTimeOffset time = new DateTimeOffset(2016, 06, 04, 12, 15, 30, 980, TimeSpan.Zero);
+            DateTimeOffset nearbyTime = new DateTimeOffset(2016, 06, 04, 12, 15, 31, 0, TimeSpan.Zero);
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().NotBeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(20));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:30.980>.");
         }
 
         [Fact]
@@ -503,7 +523,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 20 ms from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.020>.");
+            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 0.020s from <2016-06-04 12:15:31>, but found <2016-06-04 12:15:31.020>.");
         }
 
         [Fact]
@@ -525,7 +545,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
                 .WithMessage(
-                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31 +1H>, but found <2012-03-13 12:15:30.979 +1H>.");
+                    "Expected date and time to be within 0.020s from <2012-03-13 12:15:31 +1H>, but found <2012-03-13 12:15:30.979 +1H>.");
         }
 
         [Fact]
@@ -567,7 +587,29 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
                 .WithMessage(
-                    "Expected date and time to be within 20 ms from <2012-03-13 12:15:31 +1h>, but found <2012-03-13 12:15:31.021 +1h>.");
+                    "Expected date and time to be within 0.020s from <2012-03-13 12:15:31 +1h>, but found <2012-03-13 12:15:31.021 +1h>.");
+        }
+
+        [Fact]
+        public void When_asserting_subject_datetimeoffset_is_close_to_another_value_that_is_earlier_by_more_than_a_35ms_timespan_it_should_throw()
+        {
+            //-----------------------------------------------------------------------------------------------------------
+            // Arrange
+            //-----------------------------------------------------------------------------------------------------------
+            DateTimeOffset time = 13.March(2012).At(12, 15, 31, 036).ToDateTimeOffset(1.Hours());
+            DateTimeOffset nearbyTime = 13.March(2012).At(12, 15, 31).ToDateTimeOffset(1.Hours());
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Act
+            //-----------------------------------------------------------------------------------------------------------
+            Action act = () => time.Should().BeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(35));
+
+            //-----------------------------------------------------------------------------------------------------------
+            // Assert
+            //-----------------------------------------------------------------------------------------------------------
+            act.ShouldThrow<XunitException>()
+                .WithMessage(
+                    "Expected date and time to be within 0.035s from <2012-03-13 12:15:31 +1h>, but found <2012-03-13 12:15:31.036 +1h>.");
         }
 
         [Fact]
@@ -627,7 +669,7 @@ namespace FluentAssertions.Specs
             //-----------------------------------------------------------------------------------------------------------
             // Assert
             //-----------------------------------------------------------------------------------------------------------
-            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 35 ms from <2012-03-13 12:15:31 +1h>, but found <2012-03-13 12:15:31.035 +1h>.");
+            act.ShouldThrow<XunitException>().WithMessage("Expected date and time to not be within 0.035s from <2012-03-13 12:15:31 +1h>, but found <2012-03-13 12:15:31.035 +1h>.");
         }
 
         [Fact]
@@ -710,7 +752,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected date and time to not be within 100 ms from <0001-01-01 00:00:00.000>, but found <0001-01-01 00:00:00.050>.");
+                .WithMessage("Expected date and time to not be within 0.100s from <0001-01-01 00:00:00.000>, but found <0001-01-01 00:00:00.050>.");
         }
 
         [Fact]
@@ -751,7 +793,7 @@ namespace FluentAssertions.Specs
             // Assert
             //-----------------------------------------------------------------------------------------------------------
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected date and time to not be within 100 ms from <9999-12-31 23:59:59.999>, but found <9999-12-31 23:59:59.949>.");
+                .WithMessage("Expected date and time to not be within 0.100s from <9999-12-31 23:59:59.999>, but found <9999-12-31 23:59:59.949>.");
         }
         #endregion
 

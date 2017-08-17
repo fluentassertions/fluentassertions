@@ -93,16 +93,43 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> BeCloseTo(DateTime nearbyTime, int precision = 20, string because = "",
             params object[] becauseArgs)
         {
-            long distanceToMinInMs = (long) (nearbyTime - DateTime.MinValue).TotalMilliseconds;
-            DateTime minimumValue = nearbyTime.AddMilliseconds(-Math.Min(precision, distanceToMinInMs));
+            return BeCloseTo(nearbyTime, TimeSpan.FromMilliseconds(precision), because, becauseArgs);
+        }
 
-            long distanceToMaxInMs = (long) (DateTime.MaxValue - nearbyTime).TotalMilliseconds;
-            DateTime maximumValue = nearbyTime.AddMilliseconds(Math.Min(precision, distanceToMaxInMs));
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/>  is within the specified time
+        /// from the specified <paramref name="nearbyTime"/> value.
+        /// </summary>
+        /// <remarks>
+        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
+        /// use <see cref="Be(DateTime, string, object[])"/>.
+        /// </remarks>
+        /// <param name="nearbyTime">
+        /// The expected time to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The maximum amount of time which the two values may differ.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> BeCloseTo(DateTime nearbyTime, TimeSpan precision, string because = "",
+            params object[] becauseArgs)
+        {
+            long distanceToMinInMs = (long)(nearbyTime - DateTime.MinValue).TotalMilliseconds;
+            DateTime minimumValue = nearbyTime.AddMilliseconds(-Math.Min(precision.TotalMilliseconds, distanceToMinInMs));
+
+            long distanceToMaxInMs = (long)(DateTime.MaxValue - nearbyTime).TotalMilliseconds;
+            DateTime maximumValue = nearbyTime.AddMilliseconds(Math.Min(precision.TotalMilliseconds, distanceToMaxInMs));
 
             Execute.Assertion
                 .ForCondition(Subject.HasValue && (Subject.Value >= minimumValue) && (Subject.Value <= maximumValue))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected {context:date and time} to be within {0} ms from {1}{reason}, but found {2}.",
+                .FailWith("Expected {context:date and time} to be within {0} from {1}{reason}, but found {2}.",
                     precision,
                     nearbyTime, Subject.HasValue ? Subject.Value : default(DateTime?));
 
@@ -133,17 +160,44 @@ namespace FluentAssertions.Primitives
         public AndConstraint<DateTimeAssertions> NotBeCloseTo(DateTime distantTime, int precision = 20, string because = "",
             params object[] becauseArgs)
         {
+            return NotBeCloseTo(distantTime, TimeSpan.FromMilliseconds(precision), because, becauseArgs);
+        }
+
+        /// <summary>
+        /// Asserts that the current <see cref="DateTime"/>  is not within the specified time
+        /// from the specified <paramref name="distantTime"/> value.
+        /// </summary>
+        /// <remarks>
+        /// Use this assertion when, for example the database truncates datetimes to nearest 20ms. If you want to assert to the exact datetime,
+        /// use <see cref="NotBe(DateTime, string, object[])"/>.
+        /// </remarks>
+        /// <param name="distantTime">
+        /// The time to compare the actual value with.
+        /// </param>
+        /// <param name="precision">
+        /// The maximum amount of time which the two values must differ.
+        /// </param>
+        /// <param name="because">
+        /// A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
+        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name="becauseArgs">
+        /// Zero or more objects to format using the placeholders in <see cref="because" />.
+        /// </param>
+        public AndConstraint<DateTimeAssertions> NotBeCloseTo(DateTime distantTime, TimeSpan precision, string because = "",
+            params object[] becauseArgs)
+        {
             long distanceToMinInMs = (long)(distantTime - DateTime.MinValue).TotalMilliseconds;
-            DateTime minimumValue = distantTime.AddMilliseconds(-Math.Min(precision, distanceToMinInMs));
+            DateTime minimumValue = distantTime.AddMilliseconds(-Math.Min(precision.TotalMilliseconds, distanceToMinInMs));
 
             long distanceToMaxInMs = (long)(DateTime.MaxValue - distantTime).TotalMilliseconds;
-            DateTime maximumValue = distantTime.AddMilliseconds(Math.Min(precision, distanceToMaxInMs));
+            DateTime maximumValue = distantTime.AddMilliseconds(Math.Min(precision.TotalMilliseconds, distanceToMaxInMs));
 
             Execute.Assertion
                 .ForCondition(Subject.HasValue && ((Subject.Value < minimumValue) || (Subject.Value > maximumValue)))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(
-                    "Expected {context:date and time} to not be within {0} ms from {1}{reason}, but found {2}.",
+                    "Expected {context:date and time} to not be within {0} from {1}{reason}, but found {2}.",
                     precision,
                     distantTime, Subject.HasValue ? Subject.Value : default(DateTime?));
 
