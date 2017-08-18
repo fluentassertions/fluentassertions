@@ -48,13 +48,12 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<TAssertions> NotHaveAccessModifier(
-            CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
+        public AndConstraint<TAssertions> NotHaveAccessModifier(CSharpAccessModifier accessModifier, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion.ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
+            Execute.Assertion
+                .ForCondition(accessModifier != Subject.GetCSharpAccessModifier())
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected method " + Subject.Name + " to not be {0}{reason}, but it is.",
-                    accessModifier);
+                .FailWith("Expected method " + Subject.Name + " to not be {0}{reason}, but it is.", accessModifier);
 
             return new AndConstraint<TAssertions>((TAssertions)this);
         }

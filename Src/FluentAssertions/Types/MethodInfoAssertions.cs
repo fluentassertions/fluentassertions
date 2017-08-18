@@ -53,12 +53,9 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<MethodInfoAssertions> NotBeVirtual(
-            string because = "", params object[] becauseArgs)
+        public AndConstraint<MethodInfoAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected method " +
-                                    SubjectDescription +
-                                    " to not be virtual{reason}, but it is.";
+            string failureMessage = "Expected method " + SubjectDescription + " to not be virtual{reason}, but it is.";
 
             Execute.Assertion
                 .ForCondition(Subject.IsNonVirtual())
@@ -76,7 +73,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndConstraint<MethodInfoAssertions> BeAsync(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected subject " +
+            string failureMessage = "Expected method " +
                         SubjectDescription +
                         " to be async{reason}, but it is not.";
 
@@ -96,9 +93,7 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see cref="!:because"/>.</param>
         public AndConstraint<MethodInfoAssertions> NotBeAsync(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected subject " +
-                        SubjectDescription +
-                        " to not be async{reason}, but it is.";
+            string failureMessage = "Expected method " + SubjectDescription + " to not be async{reason}, but it is.";
 
             Execute.Assertion
                 .ForCondition(!Subject.IsAsync())
@@ -177,7 +172,8 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturnVoid(string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion.ForCondition(typeof(void) != Subject.ReturnType)
+            Execute.Assertion
+                .ForCondition(typeof(void) != Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected the return type of method " + Subject.Name + " to not be void{reason}, but it is.");
 
@@ -197,10 +193,10 @@ namespace FluentAssertions.Types
         /// </param>
         public AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>> NotReturn(Type returnType, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion.ForCondition(returnType != Subject.ReturnType)
+            Execute.Assertion
+                .ForCondition(returnType != Subject.ReturnType)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected the return type of method " + Subject.Name + " to not be {0}{reason}, but it is.",
-                    returnType);
+                .FailWith("Expected the return type of method " + Subject.Name + " to not be {0}{reason}, but it is.", returnType);
 
             return new AndConstraint<MethodBaseAssertions<MethodInfo, MethodInfoAssertions>>(this);
         }

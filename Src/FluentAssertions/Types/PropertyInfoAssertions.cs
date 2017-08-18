@@ -53,12 +53,9 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> NotBeVirtual(
-            string because = "", params object[] becauseArgs)
+        public AndConstraint<PropertyInfoAssertions> NotBeVirtual(string because = "", params object[] becauseArgs)
         {
-            string failureMessage = "Expected property " +
-                                    GetDescriptionFor(Subject) +
-                                    " to not be virtual{reason}, but it is.";
+            string failureMessage = "Expected property " + GetDescriptionFor(Subject) + " to not be virtual{reason}, but it is.";
 
             Execute.Assertion
                 .ForCondition(!Subject.IsVirtual())
@@ -245,10 +242,10 @@ namespace FluentAssertions.Types
         /// <param name="becauseArgs">
         /// Zero or more objects to format using the placeholders in <see cref="because" />.
         /// </param>
-        public AndConstraint<PropertyInfoAssertions> NotReturn(Type propertyType,
-            string because = "", params object[] becauseArgs)
+        public AndConstraint<PropertyInfoAssertions> NotReturn(Type propertyType, string because = "", params object[] becauseArgs)
         {
-            Execute.Assertion.ForCondition(Subject.PropertyType != propertyType)
+            Execute.Assertion
+                .ForCondition(Subject.PropertyType != propertyType)
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected Type of property " + Subject.Name + " to not be {0}{reason}, but it is.", propertyType);
 
